@@ -1,10 +1,16 @@
 package simkit;
+
+import java.util.*;
+import java.lang.reflect.*;
+import java.beans.*;
+import simkit.util.IndexedPropertyChangeEvent;
+
 /**
  *  An abstract basic implementation of <CODE>SimEntity</CODE> that does not use
  *  reflection but rather
  *  relies on the user subclassing and implementing the <CODE>SimEventListener</CODE> method
  *  <CODE>processSimEvent(SimEvent)</CODE>.  The easiest way is for the user to directly dispatch the
- *  event based on the <CODE>SimEvent</CODE> name and paramters. For eexample, if there is an
+ *  event based on the <CODE>SimEvent</CODE> name and paramters. For example, if there is an
  *  Event method called "<CODE>doThis()</CODE>", then a simple implementation of
  *  <CODE>processSimEvent(SimEvent)</CODE> is:
  * <PRE>
@@ -30,12 +36,6 @@ package simkit;
  *  @author Arnold Buss
  *  @version 0.5
  **/
-
-import java.util.*;
-import java.lang.reflect.*;
-import java.beans.*;
-import simkit.util.IndexedPropertyChangeEvent;
-
 public abstract class BasicSimEntity extends BasicSimEventSource implements SimEntity {
     
     private static int nextSerial;
@@ -50,10 +50,20 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     protected PropertyChangeDispatcher property;
     private int warnLevel;
     
+   /**
+   * Construct a new BasicSimEntity with the given name and a default priority.
+   * @param name The name of the BasicSimEntity.
+   **/
     public BasicSimEntity(String name) {
         this(name, DEFAULT_PRIORITY);
     }
     
+   /**
+   * Construct a new BasicSimEntity with the given name and priority.
+   * @param name The name of the BasicSimEntity.
+   * @param priority The priority assigned this BasicSimEntity. 
+   * @see #setPriority(double)
+   **/
     public BasicSimEntity(String name, double priority) {
         super();
         serial = ++nextSerial;
@@ -64,11 +74,20 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         Schedule.addRerun(this);
     }
     
+   /**
+   * Construct a new BasicSimEntity with a default name and the given priority.
+   * @param priority The priority assigned this BasicSimEntity. 
+   * @see #setPriority(double)
+   **/
     public BasicSimEntity(double priority) {
         this(DEFAULT_ENTITY_NAME, priority);
         setName(getClass().getName() + '.' + getSerial());
     }
     
+   /**
+   * Construct a new BasicSimEntity with a default name and priority.
+   * The name will be the class name plus a unique serial number.
+   **/
     public BasicSimEntity() {
         this(DEFAULT_ENTITY_NAME, DEFAULT_PRIORITY);
         setName(getClass().getName() + '.' + getSerial());
@@ -78,6 +97,10 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     
     public int getWarnLevel() { return warnLevel; }
     
+   /**
+   * A BasicSimEntity is "ReRunnable" if it has a doRun method.
+   * @return True if this BasicSimEntity has a doRun method, false otherwise.
+   **/
     public boolean isReRunnable() {
         boolean reRunnable = false;
         try {
@@ -88,12 +111,24 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         return reRunnable;
     }
     
+   /**
+   * Resets this BasicSimEntity by cancelling all of its pending SimEvents.
+   **/
     public void reset() {
         interruptAll();
     }
 /*
   Four-parameter methods
  */
+   /**
+   * Schedules a SimEvent for an event that has mulitple parameters.
+   * @param methodName The name of the event to be scheduled. (The "do" is optional.
+   * "doArrive" and "Arrive" are equivelent.
+   * @param delay The amount of time between now and when the event will occur.
+   * @param parameters The parameters for the event. Primatives must be wrapped in an Object.
+   * @param eventPriority If two events occur at the same time, the one with the highest number
+   * will be executed first.
+   **/
     public SimEvent waitDelay(
     String      methodName,
     double      delay,

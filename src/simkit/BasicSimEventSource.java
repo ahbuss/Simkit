@@ -1,4 +1,7 @@
 package simkit;
+
+import java.util.*;
+
 /**
  *  A basic implementation of a SimEventSource that is potentially useful for
  *  either subclassing or as a delegate.  A basic implementation of the Listener
@@ -6,17 +9,23 @@ package simkit;
  *  @author Arnold Buss
  *  @version 0.5
  **/
-
-import java.util.*;
 public class BasicSimEventSource implements SimEventSource {
     
+   /**
+   * The SimEventListeners who have registered.
+   **/
     private ArrayList listeners;
     
+   /**
+   * Construct a new BasicSimEventSource. 
+   **/
     public BasicSimEventSource() {
         listeners = new ArrayList();
     }
     
     /**
+     * Registers the given SimEventListener to be notified of all SimEvents from 
+     * this source.
      *  Note that the listener is added only if it is not already a listener.
      *  @param listener The SimEventListener that is the new listener.
      **/
@@ -29,6 +38,8 @@ public class BasicSimEventSource implements SimEventSource {
     }
     
     /**
+     * Unregisters the given SimEventListener. Does nothing if the SimEventListener
+     * wasn't registered.
      *  @param listener The SimEventListener to be removed as a listener.
      **/
     public void removeSimEventListener(SimEventListener listener) {
@@ -38,6 +49,7 @@ public class BasicSimEventSource implements SimEventSource {
     }
     
     /**
+     * Causes all registered SimEventListeners to be notified of the given SimEvent.
      * @param event The SimEvent that all SimEventListeners are notified has occured.
      **/
     public void notifyListeners(SimEvent event) {
@@ -50,7 +62,9 @@ public class BasicSimEventSource implements SimEventSource {
         }
     }
     
-    /**  @return Array of SimEventListeners
+    /**  
+     * Returns a copy of the currently registered SimEventListeners.
+     * @return Array of SimEventListeners
      */
     public SimEventListener[] getSimEventListeners() {
         SimEventListener[] listenerArray = new SimEventListener[0];
