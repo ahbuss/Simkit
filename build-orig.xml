@@ -9,7 +9,9 @@
          using Ant version 1.5.1 on the Mac OSX 10.3 platform, where it works from the
          command line as well as within the NetBeans IDE from Sun Microsystems. Suggestions
          and comments are welcome.
-    </description>
+         
+         It has also been tested on Linux with NetBeans 3.5.1 and JDK_1.4.2
+        </description>
 	
 <!-- magic properties, do not change or delete -->
 
@@ -52,6 +54,22 @@
 	<property name="dir.build.doc"
 	          location="${dir.build}/doc"
 	          description="Root of the javadoc tree for Simkit." />
+                  
+        <property name="dir.src.simtran"
+                  location="${dir.src}/simkit/xsd/bindings"
+                  description="Generated JAXB bindings for Simtran" />
+                  
+        <property name="dir.src.simasm"
+                  location="${dir.src}/simkit/xsd/bindings/assembly"
+                  description="Generated JAXB bindings for Simasm" />
+                  
+        <property name="dir.src.simasm.util"
+                  location="${dir.src}/simkit/xsd/assembly"
+                  description="Simasm utility" />
+                  
+        <property name="dir.src.simtran.util"
+                  location="${dir.src}/simkit/xsd/translator"
+                  description="Simtran utility" />             
 
 <!--  === TARGET: help === -->
 	<target name="help">
@@ -76,13 +94,17 @@
 		<mkdir dir="${dir.build}" />
 		<mkdir dir="${dir.build.lib}" />
 		<mkdir dir="${dir.build.classes}" />
-        <mkdir dir="${dir.build.doc}"/>
+                <mkdir dir="${dir.build.doc}" />
+                <mkdir dir="${dir.src.simtran}" />
+                <mkdir dir="${dir.src.simasm}" />
 	</target>
 	
 <!--  === TARGET: clean === -->
     <target name="clean"
             depends="init"
             description="Deletes build directory, javadoc directory and dist directory" >
+        <delete dir="${dir.src.simtran}" />
+        <delete dir="${dir.src.simasm}" />
         <delete dir="${dir.build}" />
         <delete dir="${dir.dist}" />
     </target>
@@ -128,7 +150,7 @@
     </target>
 
 	<target name="compile"
-	        depends="compile.noextensions, dep.NPSActions">
+               depends="compile.noextensions, dep.NPSActions, compile.simxml.util">
         <javac destdir="${dir.build.classes}"
                excludes="xsd/**">
         	<classpath>
@@ -241,5 +263,85 @@
 	
 	<target name="NPSAgentKit">
 	</target>
+        
+        <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask" >
+             <classpath>
+                 <fileset dir="${dir.lib.xml}" includes="*.jar" />
+             </classpath>
+        </taskdef>
+        
+        <taskdef name="trang" classname="net.amadan.trang.ant.TrangTask" >
+             <classpath>
+                 <fileset dir="${dir.lib}" includes="trang*.jar" />
+             </classpath>
+        </taskdef>       
+        <target name="bindings.simkit"
+                depends="build.schema"
+                description="Create bindings to the simkit XML Schema" >
+            
+            <xjc target="${dir.src}"
+                package="simkit.xsd.bindings"
+                schema="${dir.src.simtran.util}/simkit.xsd" />
+              
+            <xjc target="${dir.src}"
+                extension="true"
+                package="simkit.xsd.bindings.assembly"
+                schema="${dir.src.simasm.util}/assembly.xsd" />
+        </target>
+        
+        <target name="build.schema"
+                depends="build.init"
+                description="Create xsd Schemas from dtd" >
 
+            <trang
+                failonerror="true"
+                input="${dir.src.simtran.util}/simkit.dtd"
+                output="${dir.src.simtran.util}/simkit.xsd"
+                schemaIn="dtd"
+                schemaOut="xsd" />
+                
+            <trang
+                failonerror="true"
+                input="${dir.src.simasm.util}/assembly.dtd"
+                output="${dir.src.simasm.util}/assembly.xsd"
+                schemaIn="dtd"
+                schemaOut="xsd" />
+        </target>
+        
+        <target name="compile.bindings"
+                depends="bindings.simkit"
+                description="Build bindings to Schemas" >
+            <javac destdir="${dir.build.classes}" >
+        	<classpath>
+        		<fileset dir="${dir.lib.xml}" includes="*.jar" />
+        	</classpath>
+                <src path="${dir.src.simtran}"/>
+            </javac>
+            <javac destdir="${dir.build.classes}" >
+        	<classpath>
+        		<fileset dir="${dir.lib.xml}" includes="*.jar" />
+        	</classpath>
+        	<src path="${dir.src.simasm}"/>
+            </javac>
+        </target>
+        
+        <target name="compile.simxml.util"
+                depends="compile.bindings"
+                description="Build xml2java utils" >
+            <javac destdir="${dir.build.classes}" >
+                <classpath>
+                    <fileset dir="${dir.build.classes}" />
+                </classpath>
+                <src path="${dir.src.simtran.util}" />
+            </javac>    
+            <javac destdir="${dir.build.classes}" >
+                <classpath>
+                    <fileset dir="${dir.build.classes}" />
+                </classpath>
+                <src path="${dir.src.simasm.util}" />
+                <!-- remove include and exclude, bug in output from simasm tbd -->
+                <include name="SimkitAssemblyXML2Java.java"/>
+                <exclude name="Server*.java"/>
+            </javac>
+        </target>   
 </project>
