@@ -12,31 +12,42 @@ package simkit.random;
  * may choose to generate an int or some other thing.
  *
  * @author Arnold Buss
-**/
+ **/
 
 public interface RandomVariate extends java.io.Serializable, Cloneable {
-
-/**
- *  Generate a random variate having this class's distribution.
-**/
+    
+    /**
+     * Generate a random variate having this class's distribution.
+     * @return The generated random variate
+     */
     public double generate();
-
-/**
- *  Sets the random variate's parameters.
- *  Alternatively, the parameters could be set in the constructor or
- *  in additional methods provided by the programmer.
- * @param params the array of parameters, wrapped in objects.
-**/
+    
+    /**
+     *  Sets the random variate's parameters.
+     *  Alternatively, the parameters could be set in the constructor or
+     *  in additional methods provided by the programmer.
+     * @param params the array of parameters, wrapped in objects.
+     **/
     public void setParameters(Object[] params);
-
-/**
- *  Returns the array of parameters as an Object[].
-**/
+    
+    /**
+     * Returns the array of parameters as an Object[].
+     * @return the array of parameters as an Object[].
+     */
     public Object[] getParameters();
-
+    
+    /** Sets the supporting RandomNumber object
+     * @param rng The RandomNumber instance supporting the generating algorithm
+     */
     public void setRandomNumber(RandomNumber rng);
-
+    
+    /**
+     * @return The underlying RandomNumber instance (should be a copy)
+     */
     public RandomNumber getRandomNumber();
-
+    
+    /** Note: copy should be typically shallow in that the same RandomNumber instance is supporting the copy.
+     * @return Copy of this RandomVariate instance.
+     */
     public Object clone();
 }
