@@ -59,12 +59,11 @@ public class CookieCutterMediator extends SimEntityBase implements SensorTargetM
     
     public void doExitRange(Sensor sensor, Mover target) {
         Object contact = contacts.get(target);
-        int count = ((int[]) sensorCount.get(sensor))[0]--;
-        if (count == 0) {
+        if ( --((int[]) sensorCount.get(sensor))[0] == 0) {
             sensor.removePropertyChangeListener(this);
         }
-        count = ((int[]) targetCount.get(target))[0]--;
-        if (count == 0) {
+        
+        if ( ((int[]) targetCount.get(target))[0] == 0) {
             target.removePropertyChangeListener(this);
         }
         sensor.waitDelay("UnDetection", 0.0, new Object[] { contact });

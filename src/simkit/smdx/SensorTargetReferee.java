@@ -66,7 +66,11 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
     public void doStartMove(Mover target) {
-        
+        Object[] param = new Object[2];
+        param[1] = target;
+//        Interrupts here
+        for (Iterator i = sensors.keySet(); i.hasNext(); ) {
+        }
     }
     
     public void doStartMove(Sensor sensor) {

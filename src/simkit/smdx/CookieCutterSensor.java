@@ -16,6 +16,8 @@ import java.util.*;
  * @version 
  */
 public class CookieCutterSensor extends SimEntityBase implements Sensor {
+    
+    final static Point2D ZERO = new Point2D.Double();
 
     protected Mover mover;
     protected Ellipse2D footprint;
@@ -46,7 +48,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     public Point2D getVelocity() {
-        return mover != null ? mover.getVelocity() : null;
+        return mover != null ? mover.getVelocity() : (Point2D) ZERO.clone();
     }
     
     public double getMaxRange() {
@@ -72,7 +74,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     public Point2D getLocation() {
-        return mover != null ? mover.getLocation() : null;
+        return mover != null ? mover.getLocation() : (Point2D) ZERO.clone();
     }
     
     public Mover getMover() {
