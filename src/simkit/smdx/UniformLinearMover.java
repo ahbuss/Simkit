@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 public class UniformLinearMover extends SimEntityBase implements Mover {
     
     protected static final Point2D ORIGIN = new Point2D.Double();
-    protected static final DecimalFormat df = new DecimalFormat("0.000");
+    protected static final DecimalFormat df = new DecimalFormat("0.000;-0.000");
     
     protected double maxSpeed;
     protected Point2D originalLocation;
@@ -78,8 +78,10 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     public void doEndMove(Moveable mover) {
-        stopHere();
-        setMovementState(MovementState.PAUSED);
+        if (mover == this) {
+            stopHere();
+            setMovementState(MovementState.PAUSED);
+        }
     }
     
     public Point2D getAcceleration() {
@@ -87,10 +89,12 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     public void doStartMove(Moveable mover) {
-        if (destination != null) {
+        if (mover == this) {
+            if (destination != null) {
             waitDelay("EndMove", moveTime, param, 1.0);
+            }
+            setMovementState(MovementState.CRUISING);
         }
-        setMovementState(MovementState.CRUISING);
     }
     
     public void moveTo(Point2D destination) {
@@ -190,5 +194,19 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     public double getMaxSpeed() { return maxSpeed; }
+    
+    public static String formatPoint(Point2D point, DecimalFormat form) {
+        StringBuffer buf = new StringBuffer('[');
+        buf.append(form.format(point.getX()));
+        buf.append(',');
+        buf.append(' ');
+        buf.append(form.format(point.getY()));
+        buf.append(']');
+        return buf.toString();
+    }
+    
+    public static String formatPoint(Point2D point) {
+        return formatPoint(point, df);
+    }
     
 }
