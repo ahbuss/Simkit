@@ -55,7 +55,7 @@ public class Bean2XML {
                 if (reader == null) { continue; }
                 Element propertyElement = document.createElement("property");
                 propertyElement.setAttribute("name", pd[i].getName());
-                propertyElement.setAttribute("value", reader.invoke(bean, null).toString());
+                propertyElement.setAttribute("value", reader.invoke(bean, (Object[]) null).toString());
                 propertyElement.setAttribute("type", pd[i].getPropertyType().getName());
                 beanElement.appendChild(propertyElement);
             }

@@ -50,8 +50,8 @@ public class ListExamples {
             try {
                 description =
                     Thread.currentThread().getContextClassLoader().loadClass(
-                        EXAMPLES_PACKAGE + '.' + EXAMPLES[i]).getMethod("description", null);
-                buf.append(description.invoke(null, null) );
+                        EXAMPLES_PACKAGE + '.' + EXAMPLES[i]).getMethod("description", (Class[]) null);
+                buf.append(description.invoke(null, (Object[]) null) );
             }
             catch (ClassNotFoundException e) {
                 System.err.println(e);
@@ -66,9 +66,9 @@ public class ListExamples {
             buf.append(EOL);
             try {
                 usage =
-                    Thread.currentThread().getContextClassLoader().loadClass(EXAMPLES_PACKAGE + '.' + EXAMPLES[i]).getMethod("usage", null);
+                    Thread.currentThread().getContextClassLoader().loadClass(EXAMPLES_PACKAGE + '.' + EXAMPLES[i]).getMethod("usage", (Class[]) null);
                 buf.append('\t');
-                buf.append( usage.invoke(null, null) );
+                buf.append( usage.invoke(null, (Object[])null) );
             }
             catch (NoSuchMethodException e) {
                 buf.append('\t');

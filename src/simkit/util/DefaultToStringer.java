@@ -25,7 +25,7 @@ public class DefaultToStringer {
                     buf.append('\t');
                     buf.append( descriptors[i].getName() );
                     buf.append(" = ");
-                    buf.append( readMethod.invoke(obj, null));
+                    buf.append( readMethod.invoke(obj, (Object[]) null));
                 }
             }
         } 

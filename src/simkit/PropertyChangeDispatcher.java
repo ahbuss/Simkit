@@ -106,7 +106,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
         if (getter == null) { return null; }
         Object result = null;
         try {
-             result = getter.invoke(source, null);
+             result = getter.invoke(source, (Object[]) null);
              firePropertyChange(propertyName, null, result);
         }
         catch (InvocationTargetException e) {

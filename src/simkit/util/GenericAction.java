@@ -40,7 +40,7 @@ public class GenericAction extends AbstractAction {
       super(methodName);
       target = theTarget;
       try {
-         method = target.getClass().getMethod(methodName, null );
+         method = target.getClass().getMethod(methodName, (Class[]) null );
       } catch(NoSuchMethodException e) {
            System.err.println(e); e.printStackTrace(System.err);
       }
@@ -55,7 +55,7 @@ public class GenericAction extends AbstractAction {
       super(methodName);
       target = null;
       try {
-         method = theTargetClass.getMethod(methodName, null );
+         method = theTargetClass.getMethod(methodName, (Class[]) null );
       } catch(NoSuchMethodException e) {
            System.err.println(e); e.printStackTrace(System.err);
       }
@@ -67,7 +67,7 @@ public class GenericAction extends AbstractAction {
 **/
    public void actionPerformed(ActionEvent event) {
       try {
-         method.invoke(target,null);
+         method.invoke(target, (Object[])null);
       } 
       catch( IllegalAccessException e ) {
          System.err.println(e); e.printStackTrace(System.err);

@@ -143,7 +143,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     public boolean isReRunnable() {
         boolean reRunnable = false;
         try {
-            this.getClass().getMethod("doRun", null);
+            this.getClass().getMethod("doRun", (Class[])null);
             reRunnable = true;
         }
         catch (NoSuchMethodException e) {}
@@ -669,7 +669,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
                     buf.append('\t');
                     buf.append( descriptors[i].getName() );
                     buf.append(" = ");
-                    buf.append( readMethod.invoke(this, null));
+                    buf.append( readMethod.invoke(this, (Object[])null));
                 }
             }
         } 

@@ -28,7 +28,7 @@ public class RandomVariateType {
             throw new IllegalArgumentException("Class not found: " + className);
         }
         try {
-            typeClass.getConstructor(null);
+            typeClass.getConstructor((Class[])null);
         }
         catch (NoSuchMethodException e) {
             throw new IllegalArgumentException("No zero-parameter constructor for " +

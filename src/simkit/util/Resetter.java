@@ -37,7 +37,7 @@ public class Resetter extends BasicSimEntity {
             Object resetter = i.next();
             Method resetMethod = (Method) resetters.get(resetter);
             try {
-                resetMethod.invoke(resetter, null);
+                resetMethod.invoke(resetter, (Object[]) null);
             }
             catch (InvocationTargetException e) {
                 throw new RuntimeException(e.getTargetException().toString());
@@ -65,7 +65,7 @@ public class Resetter extends BasicSimEntity {
     public void addResetter(Object resetter, String resetMethodName) {
         try {
             Method resetMethod = resetter.getClass().getMethod(
-                resetMethodName, null
+                resetMethodName, (Class[]) null
             );
             
             resetters.put(resetter, resetMethod);
