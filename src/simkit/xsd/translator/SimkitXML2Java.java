@@ -365,7 +365,7 @@ public class SimkitXML2Java {
 	    pw.println(sp8 + "if" + sp + lp + s.getCondition() + rp + sp + ob);
 	}	
 
-	pw.print(sp8 + condent + "waitDelay" + lp + qu + e.getName() + qu + cm);
+	pw.print(sp8 + condent + "waitDelay" + lp + qu + ((EventType)s.getEvent()).getName() + qu + cm);
 	pw.print(s.getDelay() + cm + "new Object[]" + ob);
 	
 	while ( ei.hasNext() ) {
@@ -416,7 +416,7 @@ public class SimkitXML2Java {
 	    pw.println(sp8 + "if" + sp + lp + c.getCondition() + rp + sp + ob);
 	}	
 
-	pw.print(sp8 + condent + "interrupt" + lp + qu + e.getName() + qu + cm);
+	pw.print(sp8 + condent + "interrupt" + lp + qu + ((EventType)c.getEvent()).getName() + qu + cm);
 	pw.print("new Object[]" + ob);
 
 	while ( ei.hasNext() ) {
