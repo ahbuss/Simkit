@@ -36,6 +36,7 @@ public class ArrivalProcess2 extends BasicSimEntity {
     }
     
     public void doRun() {
+        firePropertyChange("numberArrivals", numberArrivals);
         waitDelay("Arrival", interarrivalTime.generate());
     }
     
