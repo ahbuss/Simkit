@@ -33,7 +33,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     public PathMoverManager(Mover m) {
-        setMover(mover);
+        setMover(m);
         mover.addSimEventListener(this);
         wayPoints = new ArrayList();
     }
