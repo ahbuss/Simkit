@@ -15,12 +15,11 @@ import java.util.*;
  *  @author John Ruck, R&A
  *
  **/
-
 public abstract class SimEntityBaseProtected extends BasicSimEntity {
     
     private static Hashtable2 allDoMethods;
     private static Hashtable2 allNamesAndSignatures;
-    private static Map allImpossibleEvents;
+    private static Map allImpossibleEvents;// appears unused.
 
     /**
      * True if the entity has a doRun method.
@@ -46,7 +45,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
  
     /**
      * Contruct a new SimEntityBaseProtected with the given name and
-     * default event priority.
+     * event priority.
      * @param name The name of the entity.
      * @param priority The default priority for processing this entity's events.
      **/
@@ -100,7 +99,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 * Construct a new SimEntityBaseProtected with a default name and 
 * the given priority.
 * The name is the class name plus a unique serial number.
-* @param priority The default priority for processing this entity's events.
+* @param priority The priority for processing this entity's events.
 **/
     public SimEntityBaseProtected(double priority) {
         this(DEFAULT_ENTITY_NAME, priority);
@@ -113,7 +112,6 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 */
     protected Map getDoMethods() {
         Map doMethods = new HashMap();
- 
         // I really wanted to handle this with recursion, but couldn't.
         // Walk up the inheritance adding any method+signatures we haven't added yet.
         // When getClass() is called on Object we get a null and stop.
@@ -122,10 +120,9 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
             if (debug) System.out.println("+++ Checking class: " + clazz.getName() + " for do methods");
             Method[] methods = clazz.getDeclaredMethods(); //Get methods declared in this class.
             for (int i = 0; i < methods.length; i++) {
-                String fullName = getFullMethodNameWrapped(methods[i]); //name + signature.
+                String fullName = getFullMethodName(methods[i], true); //name + wrapped signature.
                 if (debug) System.out.print("\tFound: " + fullName + "...");
-
-// If it is a do method and has not been added then add it.
+            // If it is a do method and has not been added then add it.
                 if (fullName.startsWith(EVENT_METHOD_PREFIX) && !doMethods.containsKey(fullName)) {
                     doMethods.put(fullName,methods[i]);
                     if (methods[i].getName().equals("doRun")) { 
@@ -145,6 +142,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 /**
 * Process the given SimEvent. If the Method signature does not match any for
 * this entity, the event is ignored. Also other entity's doRun events are ignored.
+* Just calls processSimEvent.
 */   
     public synchronized void handleSimEvent(SimEvent event) {
         processSimEvent(event);
@@ -189,16 +187,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
                 m.invoke(this, event.getParameters());
                 //                updateEventCounts(event);
             } // if
-            else { //Theoretically this else should no longer be needed since all do methods
-                // are preloaded in the constructor. If this code is somehow executed with
-                // a protected do method with a matching signature, then it will throw a method not found exception.
-               // This code will execute in the case of the method whose name matchs, but the 
-               // signature doesn't.
-                System.out.println("******************************************************");
-                System.out.println("??? Warning in SimEntityBaseProtected.processSimEvent" +
-                " Only an attempt to process an event whose name exists, but signature doesn't match" +
-                " should end up here.");
-                System.out.println("*******************************************************");
+            else { 
                 
                 if (isVerbose()) {
                     System.out.println(
@@ -265,23 +254,24 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
                             } // if
                         } // for
                         if (match) {
-                            try {
-                                if (debug) {
-                                    System.out.println("Match found: " + event.getFullMethodName());
-                                }
-                           // The following line will fail to find a protected method.
-                                m = getClass().getMethod(methodName, signature);
+                            if (debug) {
+                                System.out.println("Match found: " + event.getFullMethodName());
+                            }
+                            String key = getFullMethodName(methodName,  signature, false);
+                            m = (Method) doMethods.get(key);
+                            if (m != null) {
                                 m.setAccessible(true);
                                 m.invoke(this, params);
-                                //                                updateEventCounts(event);
                                 doMethods.put(event.getFullMethodName(), m);
+                            } else { // m is null
+                                System.out.println("*** Error in SimEntityBaseProtected.ProcessSimEvent " +
+                                "was unable to find " + key + " in the doMethods even though it was found earlier.");
                             }
-                            catch (NoSuchMethodException f) {f.printStackTrace(System.err);}
                         }  else {//no match
                             if (isVerbose()) {
                                 System.out.println(" No match found\n");
                             }
-                        }//if
+                        }//endif match
                     } else { //param not same length
                         if (isVerbose()) {
                             System.out.println("Different number of parameters");
@@ -291,11 +281,12 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
             }
         }
         catch (NullPointerException e) {
+            System.out.println("\n*** In SimEntityBaseProtected.processSimEvent " + e);
             System.out.println("Attempted method: " + event.getFullMethodName());
             e.printStackTrace();
         }
         catch(IllegalAccessException e) {
-            System.out.println("\nIn processSimEvent " + e);
+            System.out.println("\n*** In SimEntityBaseProtected.processSimEvent " + e);
             System.out.println("Attempted method: " + m );
             System.out.println("  [key = " + event.getFullMethodName() +"]");
             System.out.println("  [name = " + event.getMethodName() + "]");
@@ -327,6 +318,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     }
     
     /**
+     * Gets a String representation of this entity's event methods.
      * <P>This method is added by TRAC-WSMR, Authot Lt Col Olson, USMC.
      * <code>dumpDoMethodsStr</code> returns a String containing the same information as
      * <code>dumpDoMethods</code>.  This method allows a developer to place the information
@@ -364,6 +356,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     }
     
     /**
+     * Produces a String containing the names and signatures of this entity's "do" methods.
      * <P> This method is added by TRAC-WSMR, Authot Lt Col Olson, USMC.
      * <code>dumpNamesAndSignaturesStr()</code> returns a String containing the same information as
      * <code>dumpNamesAndSignatures()</code>.  This method allows a developer to place the information
@@ -443,35 +436,20 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
         String name = m.toString();
         return m.getName() + getSignatureString(m);
     }
-    
-    /**
-     *  Gets the signature of the Method as a String, primative arguments are
-     *  displayed with the primative name (e.g, int)
-     *  @see #getSignatureAsString(Method)
-     *  @param m The method for which to get the signature as a String (unfortunately
-     *  the jdk does not appear to provide this particular String either...to my knowledge).
-     *  @return The signature m as a String.
-     **/
-    public static String getSignatureString(Method m) {
-        String name = m.toString();
-        return name.substring(name.indexOf('('));
-    }
-    
-    /**
-     * Gets a String containing the Method name plus the signature with any
-     * primative parameters wrapped in an Object. (e.g., "int" is replaced by
-     * "java.lang.Integer"
-     */
-    public static String getFullMethodNameWrapped(Method m) {
-        Class[] parameters = m.getParameterTypes();
+/**
+* Gets the method name plus signature as a String.
+* @param name The name of the method.
+* @param parameters An array of Class objects that are the signature of the method.
+* @param wrap If true, primatives will be converted into Objects.
+**/
+   public static String getFullMethodName(String name, Class[] parameters, boolean wrap) {
         StringBuffer buf = new StringBuffer();
-        buf.append(m.getName()); 
-        
+        buf.append(name); 
         buf.append('(');
         if (parameters != null) {
             for (int i = 0; i < parameters.length; i++) {
                 if (parameters[i] != null) {
-                    if (parameters[i].isPrimitive()) {
+                    if (parameters[i].isPrimitive() && wrap) {
                         if (parameters[i].equals(Integer.TYPE)) {
                             buf.append("java.lang.Integer");
                         } else if (parameters[i].equals(Float.TYPE)) {
@@ -504,6 +482,34 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
         }//null
         buf.append(')');
         return buf.toString();
+   }
+    /**
+     *  Gets the signature of the Method as a String, primative arguments are
+     *  displayed with the primative name (e.g, int)
+     *  @see #getSignatureAsString(Method)
+     *  @param m The method for which to get the signature as a String (unfortunately
+     *  the jdk does not appear to provide this particular String either...to my knowledge).
+     *  @return The signature m as a String.
+     **/
+    public static String getSignatureString(Method m) {
+        String name = m.toString();
+        return name.substring(name.indexOf('('));
+    }
+    
+    /**
+     * Gets a String containing the Method name plus the signature, with any
+     * primative parameters optionally wrapped in an Object.
+     * @param m Get the name of this Method
+     * @param wrap If true wrap primitives in an Object. (e.g., "int" is replaced by
+     * "java.lang.Integer"
+     */
+    public static String getFullMethodName(Method m, boolean wrap) {
+        if (wrap) {
+            Class[] parameters = m.getParameterTypes();
+            String name = m.getName();
+            return getFullMethodName(name, parameters, true);
+        } 
+        return getFullMethodName(m); //un-wrapped
     }
 
 /**
