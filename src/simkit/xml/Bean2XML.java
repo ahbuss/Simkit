@@ -6,8 +6,9 @@ import java.lang.reflect.*;
 import java.beans.*;
 import java.util.*;
 /**
- *
+ * Serializes an Object to xml using javabean Introspection.
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class Bean2XML {
     

@@ -5,11 +5,15 @@ import org.w3c.dom.*;
 import javax.xml.parsers.*;
 import java.io.*;
 /**
- *
+ * Runs a simKit simulation as controled by a xml control file.
  * @author  ahbuss
+ * @version $Id$
  */
 public class SimRunner implements Runnable {
     
+/**
+* Creates a SimRunner from the information contained in the given root Element.
+**/
     public static SimRunner getSimRunner(Element element) {
         if (element.getNodeType() == Node.DOCUMENT_NODE) {
             element = ((Document) element).getDocumentElement();
@@ -92,6 +96,9 @@ public class SimRunner implements Runnable {
     protected SimRunner() {
     }
     
+/**
+* Starts the simulation.
+**/
     public void run() {
         if (stopType == StopType.STOP_AT_TIME) {
             Schedule.stopAtTime(stopTime);
@@ -140,6 +147,9 @@ public class SimRunner implements Runnable {
         return buf.toString();
     }
     
+/**
+* A test method. 
+**/
     public static void main(String[] args) throws Throwable {
         
         simkit.examples.ArrivalProcess arrival =

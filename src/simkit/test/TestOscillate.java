@@ -47,12 +47,12 @@ public class TestOscillate extends SimEntityBase {
     * @param args the command line arguments
     */
     public static void main (String args[]) throws Throwable {
-        String name = "simkitx.random.OscillatingExponentialVariate";
+        String name = "simkit.random.OscillatingExponentialVariate";
         Object[] params = new Object[] {
-            new Double(1.0),
-            new Double(1.0),
-            new Double(1.0),
-            new Double(0.0)
+            new Double(0.0), //mean
+            new Double(1.0), //amplitude
+            new Double(1.0), //frequency
+            new Double(0.5) //phase
         };
         
         RandomVariate rv = RandomVariateFactory.getInstance(

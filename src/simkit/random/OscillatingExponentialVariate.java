@@ -26,7 +26,7 @@ public class OscillatingExponentialVariate implements simkit.random.RandomVariat
     private static final double TWO_PI = 2.0 * Math.PI;
     
 /**
-* The supportingRandomNumber.
+* The supporting RandomNumber.
 **/
     private RandomNumber rng;
     
@@ -122,12 +122,12 @@ public class OscillatingExponentialVariate implements simkit.random.RandomVariat
     public double getMean() { return mean; }
     
 /**
-* The aomplitude of the sinusoid.
+* The amplitude of the sinusoid.
 **/
     public void setAmplitude(double amplitude) { this.amplitude = amplitude; }
     
 /**
-* The aomplitude of the sinusoid.
+* The amplitude of the sinusoid.
 **/
     public double getAmplitude() {  return amplitude; }
     

@@ -10,11 +10,16 @@ import org.jdom.*;
 import java.util.*;
 import java.lang.reflect.*;
 /**
- *
+ * Creates instances of RandomVariates from xml Elements.
  * @author  ahbuss
+ * @version $Id$
  */
 public class RandomVariateBuilder {
     
+/**
+* Builds a RandomVariate based on the contents of the given Element.
+* @throws IllegalArgumentException If the name of the Element is not "RandomVariate"
+**/
     public static RandomVariate buildRandomVariate(Element element) {
         if (!element.getName().equals("RandomVariate")) {
             throw new IllegalArgumentException("Element must be named RandomVariate: " +
@@ -52,6 +57,10 @@ public class RandomVariateBuilder {
         return variate;
     }
     
+/**
+* Builds RandomVariates based on the contents of the child Elements named
+* "RandomVariate".
+**/
     public static RandomVariate[] buildRandomVariates(Element element) {
         List rvElements = element.getChildren("RandomVariate");
         RandomVariate[] rv = new RandomVariate[rvElements.size()];

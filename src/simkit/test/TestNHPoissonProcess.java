@@ -25,6 +25,12 @@ public class TestNHPoissonProcess {
         return mean * t;
     }
     
+    public double inv2(double t) {
+        if (t < 10.0) return t*1000.0;
+        else if (t < 20.0) return t - 9.99;
+        else return (t - 9.99)/1000.0;
+    }
+    
     public void setMean(double m) { mean = m; }
     
     public double getMean() { return mean; }
@@ -35,6 +41,8 @@ public class TestNHPoissonProcess {
     * @param args the command line arguments
     */
     public static void main (String args[]) throws Throwable {
+         double inter;
+         double lastArr = 0.0;
          TestNHPoissonProcess test = new TestNHPoissonProcess();
          test.setMean(2.0);
          Method m = TestNHPoissonProcess.class.getMethod("lambdaInverse",
@@ -46,7 +54,9 @@ public class TestNHPoissonProcess {
          RandomVariate rv = RandomVariateFactory.getInstance(dist, params, 12345L);
          
          for (int i = 1; i < 10; i++) {
-             System.out.println(rv.generate());
+             inter = rv.generate();
+             lastArr += inter;
+             System.out.println("Arrival Time: " + lastArr + "\tInterarrival Time: " + inter);
          }
          
         
