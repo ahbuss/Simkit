@@ -13,7 +13,7 @@ import java.net.*;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class TestOscillate extends SimEntityBase {
 

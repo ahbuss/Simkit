@@ -1,15 +1,21 @@
 package simkit.random;
 
 /** 
- * Resamples from given data array.  A generated value is
+ * Generates random variates by resampling from a given data array.  A generated value is
  * equally likely to be from any value in the data array.
  * @author Arnold Buss
+ * @version $Id$
  */
 public class ResampleVariate extends RandomVariateBase {
     
+/**
+* The array of data from which to sample.
+**/
     private double[] data;
     
     /**
+     * Generates the next value by sampling with equal likelyhood from the
+     * data array. 
      * @return resampled value, equally likely from data array
      */    
     public double generate() {
@@ -17,15 +23,19 @@ public class ResampleVariate extends RandomVariateBase {
     }
     
     /**
-     * @return copy of data array as firts (and only) element
+     * Returns a single element array that contains a copy of the data array.
+     * @return copy of data array as first (and only) element
      */    
     public Object[] getParameters() {
         return new Object[] { getData() };
     }
     
     /**
+     * Sets the contents of the array from which to sample.
      * @param obj  array with one element containing the double[]
      * data values to be resampled.
+     * @throws IllegalArgumentException If the array does not have exactly 1
+     * element or if the element is not an array of <code>doubles</code>.
      */    
     public void setParameters(Object[] obj) {
         if (obj.length != 1) {
@@ -37,17 +47,23 @@ public class ResampleVariate extends RandomVariateBase {
         setData( (double[]) obj[0] );
     }
     
+/**
+* Sets the array from which to sample.
+**/
     public void setData(double[] data) {
         this.data = (double[]) data.clone();
     }
     
     /**
-     * @return copy of data array
+     * Returns a copy of the data array.
      */    
     public double[] getData() {
         return (double[]) data.clone();
     }
     
+/**
+* Returns a String containing the contents of the data array.
+**/
     public String toString() {
         StringBuffer buf = new StringBuffer("Resample Variate\n[");
         int count = 0;

@@ -52,7 +52,7 @@ public class BasicMover extends SimEntityBase implements Mover {
  *  the last is the maximum speed.  Ignored tokens are whitespace (space, tabs),
  *  commas, and parantheses.  Typical Strings might be "Hawk 3.0 4.0 5.0",
  *  "(3.0, 4.0) 5.0", etc.
- *  @params params The String form of the parameters.
+ *  @param params The String form of the parameters.
 **/
   public BasicMover(String params) {
     StringTokenizer tokens = new StringTokenizer(params, " \t(),");

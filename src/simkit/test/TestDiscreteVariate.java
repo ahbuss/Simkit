@@ -15,7 +15,7 @@ import simkit.stat.Histogram;
 /**
  *
  * @author  Arnold Buss
- * @version
+ * @version $Id$
  */
 public class TestDiscreteVariate {
     

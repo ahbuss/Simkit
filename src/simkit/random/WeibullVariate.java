@@ -10,16 +10,23 @@ public class WeibullVariate extends RandomVariateBase{
     private double alphaInverse;
     private double beta;
     
+/**
+* Constructs a new WeibullVariate. Parameters must be set prior to use.
+**/
     public WeibullVariate() {
     }
     
+//javadoc inherited
     public double generate() {
         return beta * Math.pow(- Math.log(rng.draw()), alphaInverse);
     }
     
-    /**
-     * @param params (&alpha;, &beta;)
-     */    
+/**
+* Sets the values of &alpha; and &beta;.
+* @param params A two element array containing the values of alpha and beta as Numbers.
+* @throws IllegalArgumentException If the array does not contain exactly 2 elements,
+* if either element is not a Number, or if either element is not positive.
+**/
     public void setParameters(Object[] params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Must bave two parameters for Weibull, "
@@ -35,13 +42,28 @@ public class WeibullVariate extends RandomVariateBase{
             params[1].getClass().getName() + ") given" );
         }
     }
+
+/**
+* Returns a 2 element array containing alpha and beta as Numbers.
+**/
     public Object[] getParameters() {
         return new Object[] {new Double(alpha),  new Double(beta)};
     }
     
+/**
+* Returns the current value of alpha.
+**/
     public double getAlpha() {return alpha; }
+    
+/**
+* Returns the current value of alpha.
+**/
     public double getBeta() { return beta; }
     
+/**
+* Sets the value of alpha.
+* @throws IllegalArgumentException If alpha is not positive.
+**/
     public void setAlpha(double a) {
         if ( a > 0.0) {
             alpha = a;
@@ -52,6 +74,10 @@ public class WeibullVariate extends RandomVariateBase{
         }
     }
     
+/**
+* Sets the value of beta.
+* @throws IllegalArgumentException If beta is not positive.
+**/
     public void setBeta(double b) {
         if ( b > 0.0) {
             beta = b;
@@ -61,6 +87,9 @@ public class WeibullVariate extends RandomVariateBase{
         }
     }
     
-    
+/**
+* Returns a String containing the name of this Distribution and the values of
+* alpha and beta.
+**/    
     public String toString() { return "Weibull (" + alpha + ", " +  beta+ ")"; }
 }

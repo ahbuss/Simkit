@@ -2,10 +2,24 @@ package simkit.random;
 
 import java.lang.reflect.Constructor;
 
+/**
+* Holds the Class of a RandomVariate. Can be used to find the Class of a RandomVariate
+* from its Class name.
+* 
+* @version  $Id$
+*/
 public class RandomVariateType {
 
+/**
+* The Class of the RandomVariate.
+**/
     private Class typeClass;
 
+/** 
+* Creates a new RandomVariateType for the given class name.
+* @throws IllegalArgumentException If a Class with the given class name is not found,
+* or if the Class does not have a default constructor.
+**/
     protected RandomVariateType(String className) {
 
         try {
@@ -24,9 +38,15 @@ public class RandomVariateType {
 
     }
 
+/**
+* Creates a new RandomVariateType for the given Class.
+**/
     protected RandomVariateType(Class typeClass) {
         this.typeClass = typeClass;
     }
 
+/**
+* Returns the Class of the RandomVariate that is of this RandomVariateType.
+**/
     public Class getTypeClass() { return typeClass; }
 } 

@@ -1,8 +1,11 @@
 package simkit.random;
 
 /**
- *
+ * Implements a Tausworthe random number generator.
+ * <p>The next seed is ((current seed) xor (current seed shifted 13 bits to the right) xor
+ * (current seed shifted 18 bits to the left)) and 0x7FFFFFFF [31 bits]</p>
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class Tausworthe implements RandomNumber {
     
@@ -12,14 +15,26 @@ public class Tausworthe implements RandomNumber {
     
     public static final double MULTIPLICATIVE_FACTOR = 1.0 / (1 << 31);
 
+/**
+* The current value of the seed.
+**/
     private long seed;
+
+/**
+* The seed specified by the last setSeed.
+**/
     private long originalSeed;
     
-    /** Creates a new instance of Tausworthe */
+/** 
+* Creates a new instance of Tausworthe with the default seed (42)
+ */
     public Tausworthe() {
         setSeed(42L);
     }
     
+/**
+* Generates the next value.
+**/
     public long drawLong() {
         seed ^= seed >> SHIFT_RIGHT;
         seed ^= seed << SHIFT_LEFT;
@@ -27,19 +42,23 @@ public class Tausworthe implements RandomNumber {
         return seed;
     }
     
-    /** @return  The next Uniform(0, 1) random number
+    /** 
+      * Generates the next value scaled to be U(0,1)
+      * @return  The next Uniform(0, 1) random number
      */
     public double draw() {
         return drawLong() * MULTIPLICATIVE_FACTOR;
     }
     
-    /** @return  The current random number seed
+    /**
+      * Returns the current value of the seed.
      */
     public long getSeed() {
         return seed;
     }
     
-    /** @return  The current array of random number seed s
+    /** 
+      * Returns the a single element array containing the current value of the seed.
      */
     public long[] getSeeds() {
         return new long[] { seed };
@@ -51,14 +70,18 @@ public class Tausworthe implements RandomNumber {
         seed = originalSeed;
     }
     
-    /** @param seed The new random number seed
+    /** 
+      * Sets the seed to the given value.
      */
     public void setSeed(long seed) {
         originalSeed = seed;
         resetSeed();
     }
     
-    /** @param seed The new array of seeds
+    /**
+      * Sets the seed to the value of the first element in the array.
+      * @param seed An array with at least one element containing the new seed.
+      * @throws IllegalArgumentException If the array does not have at least one element. 
      */
     public void setSeeds(long[] seed) {
         if (seed.length < 1) {
@@ -75,10 +98,16 @@ public class Tausworthe implements RandomNumber {
         return copy;
     }
     
+/**
+* Returns a String containing the name of this RandomNumber with the current seed.
+**/
     public String toString() {
         return "Tausworthe Generator (" + getSeed() + ")";
     }
     
+/**
+* The number to multiply the seed by to scale it to a U(0,1)
+**/
     public double getMultiplier() {
         return MULTIPLICATIVE_FACTOR;
     }

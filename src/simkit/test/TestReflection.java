@@ -11,7 +11,7 @@ import simkit.util.*;
 /**
  *
  * @author  ahbuss
- * @version 
+ * @version $Id$
  */
 public class TestReflection {
 

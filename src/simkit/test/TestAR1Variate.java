@@ -11,7 +11,7 @@ import simkit.random.*;
 /**
  *
  * @author  ahbuss
- * @version
+ * @version $Id$
  */
 public class TestAR1Variate {
     

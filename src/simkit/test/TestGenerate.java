@@ -19,7 +19,7 @@ import simkit.stat.GraphStat;
 /**
  *
  * @author  ahbuss
- * @version
+ * @version $Id$
  */
 public class TestGenerate {
     

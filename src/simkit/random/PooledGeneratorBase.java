@@ -2,7 +2,9 @@ package simkit.random;
 
 /** Base class for pooled generators.  A subclass need only
  * implement the <code>drawLong()</code> method.
+ * This base class supports pooling 2 RandomNumbers.
  * @author Arnold Buss
+ * @version $Id$
  */
 public abstract class PooledGeneratorBase implements Pooled {
     
@@ -10,14 +12,25 @@ public abstract class PooledGeneratorBase implements Pooled {
     public static final double MULTIPLICATIVE_FACTOR_31BIT = 1.0 / (1 << 31);
     public static final long MASK_31BIT = 0x7FFFFFFFL;
 
+/**
+* The instance of the first RandomNumber.
+**/
     protected RandomNumber first;
+
+/**
+* The instance of the second RandomNumber.
+**/
     protected RandomNumber second;
     
-    /** Creates a new instance of PooledGeneratorBase */
+    /** 
+      * Creates a new instance of PooledGeneratorBase with no RandomNumbers
+      * specified. The two RandomNumbers must be set prior to use.
+      */
     public PooledGeneratorBase() {
     }
     
     /**
+     * Returns the instance of the first RandomNumber.
      * @return First <code>RandomNumber</code> instance from pool
      */    
     public RandomNumber getFirst() {
@@ -25,19 +38,24 @@ public abstract class PooledGeneratorBase implements Pooled {
     }
     
     /**
+     * Returns the instance of the second RandomNumber.
      * @return Second <code>RandomNumber</code> instance from pool
      */    
     public RandomNumber getSecond() {
         return second;
     }
     
-    /** @return  The current random number seed
+    /** 
+      * Do not use, use, get the seeds from the first of second RandomNumber.
+      * @throws IllegalArgumentException In all cases.
      */
     public long getSeed() {
         throw new IllegalArgumentException("Get Seeds from first or second RandomNumber");
     }
     
-    /** @return  The current array of random number seed s
+    /** 
+      * Do not use, use, get the seeds from the first of second RandomNumber.
+      * @throws IllegalArgumentException In all cases.
      */
     public long[] getSeeds() {
         throw new IllegalArgumentException("Get Seeds from first or second RandomNumber");
@@ -51,6 +69,7 @@ public abstract class PooledGeneratorBase implements Pooled {
     }
     
     /**
+     * Sets the instance of the first RandomNumber to be pooled.
      * @param first <code>RandomNumber</code> instance to be pooled with <code>second</code>
      */    
     public void setFirst(RandomNumber first) {
@@ -58,20 +77,25 @@ public abstract class PooledGeneratorBase implements Pooled {
     }
     
     /**
+     * Sets the instance of the second RandomNumber to be pooled.
      * @param second <code>RandomNumber</code> instance to be pooled with <code>first</code>
      */    
     public void setSecond(RandomNumber second) {
         this.second = second;
     }
     
-    /** @param seed The new random number seed
-     */
+/**
+* Do not use, set the seeds of the first or second RandomNumber directly.
+* @throws IllegalArgumentException In all cases.
+**/
     public void setSeed(long seed) {
         throw new IllegalArgumentException("Set Seeds in first or second RandomNumber");
     }
     
-    /** @param seed The new array of seeds
-     */
+/**
+* Do not use, set the seeds of the first or second RandomNumber directly.
+* @throws IllegalArgumentException In all cases.
+**/
     public void setSeeds(long[] seed) {
         throw new IllegalArgumentException("Set Seeds in first or second RandomNumber");
     }
@@ -88,6 +112,10 @@ public abstract class PooledGeneratorBase implements Pooled {
         return copy;
     }
     
+/**
+* Returns a String that contains the name of this pooled generator with information
+* about the two pooled RandomNumbers.
+**/
     public String toString() {
         return getClass().getName() + " [" + first + ", " + second + "]";
     }

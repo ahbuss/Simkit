@@ -15,7 +15,7 @@ import simkit.random.RandomNumberFactory;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class TestBooleanSimpleStats extends SimEntityBase {
 

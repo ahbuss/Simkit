@@ -486,7 +486,6 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     /**
      *  Gets the signature of the Method as a String, primative arguments are
      *  displayed with the primative name (e.g, int)
-     *  @see #getSignatureAsString(Method)
      *  @param m The method for which to get the signature as a String (unfortunately
      *  the jdk does not appear to provide this particular String either...to my knowledge).
      *  @return The signature m as a String.

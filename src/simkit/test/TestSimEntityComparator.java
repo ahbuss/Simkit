@@ -11,7 +11,7 @@ import java.util.*;
 /**
  *
  * @author  ahbuss
- * @version 
+ * @version $Id$
  */
 public class TestSimEntityComparator extends SimEntityBase {
 

@@ -10,7 +10,7 @@ import simkit.random.*;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class TestAntithetic {
 

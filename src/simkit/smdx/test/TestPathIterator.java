@@ -13,7 +13,7 @@ import java.awt.geom.*;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class TestPathIterator extends JComponent {
 

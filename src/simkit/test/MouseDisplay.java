@@ -11,7 +11,7 @@ import javax.swing.*;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class MouseDisplay extends JTextArea implements MouseMotionListener {
 

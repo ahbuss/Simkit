@@ -15,7 +15,7 @@ import simkit.smdx.*;
 /**
  *
  * @author  Arnold Buss
- * @version
+ * @version $Id$
  */
 public class TestArcIntersection extends JPanel {
     

@@ -9,7 +9,7 @@ import simkit.smdx.Side;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class NewSide extends simkit.smdx.Side {
 

@@ -16,7 +16,7 @@ import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  ahbuss
- * @version
+ * @version $Id$
  */
 public class Resetter extends SimEntityBase {
     

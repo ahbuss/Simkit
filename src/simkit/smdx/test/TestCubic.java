@@ -12,7 +12,7 @@ import java.util.*;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class TestCubic {
 

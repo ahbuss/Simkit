@@ -13,7 +13,7 @@ import simkit.util.*;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class TestBasicSimEntity {
 

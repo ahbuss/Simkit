@@ -7,22 +7,35 @@
 package simkit.random;
 
 /**
- *
+ * Generates arrival times for a renewal process. The distribution of the 
+ * interarrival times is determined by the instance of the supporting RandomVariate.
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class RenewalProcessVariate implements RandomVariate {
     
+/**
+* The supporting RandomVariate used to generate the interarrival times.
+**/
     protected RandomVariate interarrivalTime;
+
+/**
+* Holds the value of the last arrival time.
+**/
     protected double lastTime;
 
-    /** Creates new RenewalProcessVariate */
+/** 
+* Creates new RenewalProcessVariate with no supporting RandomVariate specified.
+* The RandomVariate must be set prior to use.
+ */
+
     public RenewalProcessVariate() {
         lastTime = 0.0;
     }
 
     /**
-     * @return The underlying RandomNumber instance (should be a copy)
+     * Returns the instance of the supporting RandomNumber.
+     * @return The underlying RandomNumber instance
      */
     public RandomNumber getRandomNumber() {
         return interarrivalTime.getRandomNumber();
@@ -36,18 +49,18 @@ public class RenewalProcessVariate implements RandomVariate {
     }
     
     /**
-     * Returns the array of parameters as an Object[].
-     * @return the array of parameters as an Object[].
+      * Returns a single element array containing the instance of the 
+      * interarrival time RandomVariate.
      */
     public Object[] getParameters() {
         return new Object[] { interarrivalTime };
     }
     
     /**
-     * Sets the random variate's parameters.
-     * Alternatively, the parameters could be set in the constructor or
-     * in additional methods provided by the programmer.
-     * @param params the array of parameters, wrapped in objects.
+      * Sets the RandomVariate used to generate the interarrival times.
+      * @param params A single element array containing an instance of a RandomVariate.
+      * @throws IllegalArgumentException If the array does not contain exactly 1
+      * element or if the element is not a RandomVariate.
      */
     public void setParameters(Object[] params) {
         if (params == null) {
@@ -71,11 +84,17 @@ public class RenewalProcessVariate implements RandomVariate {
         return lastTime;
     }
     
+/**
+* Sets the RandomVariate used to generate the interarrival times.
+**/
     public void setInterarrivalTime(RandomVariate rv) {
         interarrivalTime = (RandomVariate) rv.clone();
         interarrivalTime.setRandomNumber(rv.getRandomNumber());
     }
     
+/**
+* Returns the RandomVariate used to generate the interarrival times.
+**/
     public RandomVariate getInterarrivalTime() { return interarrivalTime; }
     
     public Object clone() {

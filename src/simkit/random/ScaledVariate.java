@@ -9,14 +9,29 @@ package simkit.random;
 /**
  * Given a RandomVariate, this will scale and (optionally) shift it.  
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class ScaledVariate implements RandomVariate {
     
+/**
+* The instance of the underlying RandomVariate.
+**/
     private RandomVariate rv;
+
+/**
+* The amount to shift the underlying RandomVariate by.
+**/
     private double shift;
+
+/**
+* The amount to shift the underlying RandomVariate by.
+**/
     private double scale;
     
-    /** Creates a new instance of ScaledVariate */
+    /** 
+      * Creates a new instance of ScaledVariate with zero shift and 1.0 scale. Does
+      * not set the underlying RandomVariate.
+    */
     public ScaledVariate() {
         setShift(0.0);
         setScale(1.0);
@@ -29,21 +44,26 @@ public class ScaledVariate implements RandomVariate {
         return shift + scale * rv.generate();
     }
     
-    /** Returns the array of parameters as an Object[].
-     * @return the array of parameters as an Object[].
-     */
+/**
+* Returns a 2 element array with the shift and the scale as Doubles.
+**/
     public Object[] getParameters() {
         return new Object[] { new Double(getShift()), new Double(getScale())};
     }
     
-    /**  Sets the random variate's parameters.
-     *  Alternatively, the parameters could be set in the constructor or
-     *  in additional methods provided by the programmer.
-     * @param params the array of parameters, wrapped in objects.
-     */
+/**
+* Sets the underlying RandomVariate, the scale, and the shift. If the shift
+* is not specified, it is left unchanged.
+* @param params A 2 or 3 element array containing: The instance of the 
+* underlying RandomVariate, the scale as a Number, and (optionally) the shift
+* as a Number.
+* @throws IllegalArgumentExcpetion If the array does not have 2 or 3 elements,
+* if the first element is not a RandomVariate, if either the 2nd or 3rd (if 
+* specified) is not a Number, or if the scale is not positive.
+**/
     public void setParameters(Object[] params) {
         if (params.length != 2 || params.length != 3) {
-            throw new IllegalArgumentException("Needs 1 or 2 parameters");
+            throw new IllegalArgumentException("Needs 2 or 3 parameters");
         }
         if (params[0] instanceof RandomVariate) {
             setRandomVariate((RandomVariate) params[0]);
@@ -70,7 +90,9 @@ public class ScaledVariate implements RandomVariate {
         }
     }
     
-    /** @return The underlying RandomNumber instance (should be a copy)
+    /** 
+      * Returns the instance of the supporting RandomNumber.
+      * @return The underlying RandomNumber instance
      */
     public RandomNumber getRandomNumber() {
         return rv.getRandomNumber();
@@ -83,10 +105,20 @@ public class ScaledVariate implements RandomVariate {
         rv.setRandomNumber(rng);
     }
     
+/**
+* Sets the amount to shift the RandomVariate.
+**/
     public void setShift(double s) { shift = s; }
     
+/**
+* Returns the current value of the shift.
+**/
     public double getShift() { return shift; }
     
+/**
+* Sets the amount to scale the RandomVaraite by.
+* @throws IllegalArgumentException If the scale is not positive.
+**/
     public void setScale(double s) {
         if (s > 0.0) {
             scale = s;
@@ -96,6 +128,9 @@ public class ScaledVariate implements RandomVariate {
         }
     }
     
+/**
+* Returns the current value of the scale.
+**/
     public double getScale() { return scale; }
     
     public Object clone() {
@@ -105,10 +140,20 @@ public class ScaledVariate implements RandomVariate {
         return null;
     }
     
+/**
+* Sets the underlying RandomVariate.
+**/
     public void setRandomVariate(RandomVariate r) { rv = r; }
     
+/**
+* Gets the instance of the underlying RandomVariate.
+**/
     public RandomVariate getRandomVariate() { return rv; }
     
+/**
+* Returns a String with the scale, the shift, and information about the
+* underlying RandomVariate.
+**/
     public String toString() {
         return "Scaled [" + getScale() + ", " + getShift() + "] " + rv;
     }

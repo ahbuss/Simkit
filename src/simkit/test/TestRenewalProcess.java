@@ -11,7 +11,7 @@ import simkit.*;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class TestRenewalProcess extends SimEntityBase {
 

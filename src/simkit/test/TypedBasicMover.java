@@ -13,7 +13,7 @@ import simkit.Schedule;
 /**
  *
  * @author  ahbuss
- * @version 
+ * @version $Id$
  */
 public class TypedBasicMover extends BasicMover{
     

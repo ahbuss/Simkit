@@ -10,7 +10,7 @@ import simkit.*;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class OscillatingExponentialVariate implements simkit.random.RandomVariate {
     

@@ -7,37 +7,53 @@
 package simkit.random;
 
 /**
- *
+ * Generates Triangle random variates.
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class TriangleVariate extends RandomVariateBase implements RandomVariate {
 
+/**
+* The left most or smallest value. (a)
+**/
     protected double left;
+
+/**
+* The right most or largest value. (b)
+**/
     protected double right;
+
+/**
+* The peak of the triagle. (c)
+**/
     protected double center;
     
     protected double centerMinusLeft;
     protected double rightMinusCenter;
     protected double centerMinusLeftOverRightMinusLeft;
     
-    /** Creates new TriangleVariate */
+    /** 
+      * Creates a new TriangleVariate. The parameters must be set prior to use.
+    */
+
     public TriangleVariate() {
     }
 
     /**
-     * Returns the array of parameters as an Object[].
-     * @return the array of parameters as an Object[].
+      * Returns a 3 element array containing the left, right, and center values
+      * as Doubles.
      */
     public Object[] getParameters() {
         return new Object[] {new Double(left), new Double(right), new Double(center)};
     }
     
     /**
-     * Sets the random variate's parameters.
-     * Alternatively, the parameters could be set in the constructor or
-     * in additional methods provided by the programmer.
-     * @param params the array of parameters, wrapped in objects.
+      * Sets the left, right, and center points of this RandomVariate.
+      * @param params A three element array containing the left, right, and center
+      * values as Numbers.
+      * @throws IllegalArgumentException If the array does not contain exactly 3
+      * elements, if all three are not Numbers, or if the following relationship
+      * is not true: a &60; c &60; b.
      */
     public void setParameters(Object[] params) {
         if (params == null) { throw new NullPointerException(); }
@@ -65,18 +81,43 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
         }
     }
     
+/**
+* Parameters should only be set with setParameters.
+* Sets the lowest value.
+**/
     public void setLeft(double a) { left = a; }
     
+/**
+* Gets the lowest value.
+**/
     public double getLeft() { return left; }
     
+/**
+* Parameters should only be set with setParameters.
+* Sets the highest value.
+**/
     public void setRight(double b) { right = b; }
     
+/**
+* Returns the highest value.
+**/
     public double getRight() { return right; }
     
+/**
+* Parameters should only be set with setParameters.
+* Sets the location of the peak of the triangle.
+**/
     public void setCenter(double c) { center = c;  }
     
+/**
+* Returns the location of the peak of the triangle.
+**/
     public double getCenter() { return center; }
     
+/**
+* Verifies the the 3 parameters are consistant and does some 
+* precalculations. Must be called after changing any parameter prior to generating.
+**/
     protected boolean validate() {
         boolean valid = left <= center && center <= right;
         if (valid) {
@@ -104,6 +145,10 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
         }
     }
     
+/**
+* Returns a String with the name of this RandomVariate and the 
+* current value of its 3 paramters.
+**/
     public String toString() {
         return "Triangle (" + left + ", " + right + ", " + center + ")";
     }

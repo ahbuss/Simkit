@@ -11,7 +11,7 @@ import java.lang.reflect.*;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class TestNHPoissonProcess {
     

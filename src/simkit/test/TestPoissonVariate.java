@@ -12,7 +12,7 @@ import simkit.stat.*;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class TestPoissonVariate {
 

@@ -15,7 +15,7 @@ import simkit.util.*;
 /**
  *
  * @author  Arnold Buss
- * @version
+ * @version $Id$
  */
 public class TestJava2D extends JPanel{
     
