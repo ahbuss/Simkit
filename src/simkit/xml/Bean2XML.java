@@ -116,7 +116,7 @@ public class Bean2XML {
         Document doc = new Document(root);
         XMLOutputter outputter = new XMLOutputter();
         outputter.setNewlines(true);
-        outputter.setIndent(2);
+        outputter.setIndent("  ");
         outputter.output(doc, System.out);
         
     }
