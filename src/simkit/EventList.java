@@ -193,8 +193,14 @@ public class EventList {
      */    
     public boolean isReallyVerbose() { return reallyVerbose; }
     
+    /**
+     * @param b Whether the event source is printed on a dump()
+     */    
     public void setPrintEventSources(boolean b) { printEventSources = b; }
     
+    /**
+     * @return true if event sources are printed on a dump()
+     */    
     public boolean isPrintEventSources() { return printEventSources; }
     
     /**
@@ -430,6 +436,8 @@ public class EventList {
         stopAtTime = false;
         stopTime = Double.NaN;
         stopOnEvent = false;
+        stopEventName = null;
+        numberStopEvents = 0;
     }
     
     /** Place an event on the event list.
@@ -723,7 +731,24 @@ public class EventList {
         return new HashSet(ignoreOnDump);
     }
 
-//TODO: add event source if set.    
+    /** Resets instance to pristine condition, as if it were
+     * freshly instantiated.  All containers are emptied,
+     * and various booleans are set to their default
+     * values (typically <CODE>false</CODE>).
+     */    
+    public void coldReset() {
+        stopSimulation();
+        clearRerun();
+        simTime = 0.0;
+        ignoreOnDump.clear();
+        setDumpEventSources(false);
+        setUserDefinedStop();
+        setVerbose(false);
+        setReallyVerbose(false);
+        setSingleStep(false);
+        setPauseAfterEachEvent(false);
+    }
+    
     /** For debugging purposes - returns a String depicting the
      * current event and state of the event list.
      * @param reason User message to be appended to event list
