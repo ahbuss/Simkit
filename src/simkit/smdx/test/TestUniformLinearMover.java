@@ -16,6 +16,11 @@ import java.awt.geom.*;
  */
 public class TestUniformLinearMover {
     
+    static {
+        SensorTargetMediatorFactory.addMediator(simkit.smdx.CookieCutterSensor.class,
+            simkit.smdx.UniformLinearMover.class, simkit.smdx.CookieCutterMediator.class);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -47,10 +52,25 @@ public class TestUniformLinearMover {
         for (int i = 0; i < pmm.length; i++) {
             pmm[i] = new PathMoverManager(mover[i], destination[i]);
         }
+
+        Sensor[] sensor = new Sensor[2];
+        sensor[0] = new CookieCutterSensor(10.0, mover[0]);
+        sensor[1] = new CookieCutterSensor(20.0, mover[1]);
+        
+        SensorTargetReferee ref = new SensorTargetReferee();
+        
+        for (int i = 0; i < sensor.length; i++) {
+            ref.register(sensor[i]);
+            ref.register(sensor[i].getMover());
+        }
+        
+        System.out.println(ref.paramString());
+        System.out.println();
         
         PropertyChangeFrame pcf = new PropertyChangeFrame();
         for (int i = 0; i < mover.length; i++ ){
             mover[i].addPropertyChangeListener("movementState", pcf);
+            sensor[i].addPropertyChangeListener("movementState", pcf);
         }
         pcf.setVisible(true);
         

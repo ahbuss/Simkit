@@ -9,6 +9,7 @@ import simkit.*;
 import java.util.*;
 import java.beans.*;
 import java.awt.geom.*;
+import java.awt.*;
 
 /**
  *
@@ -49,10 +50,10 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             for (Iterator i = targets.keySet().iterator(); i.hasNext(); ) {
                 Object target = i.next();
                 Mediator mediator = sensorTargetMediatorFactory.getMediatorFor(
-                    entity.getClass(), target.getClass());
+                entity.getClass(), target.getClass());
                 if (mediator == null) {
                     throw new NoMediatorDefinedException("No mediator defined for (" +
-                        entity.getClass().getName() + "," + target.getClass().getName() +")");
+                    entity.getClass().getName() + "," + target.getClass().getName() +")");
                 }
                 else {
                     this.addSimEventListener(mediator);
@@ -69,10 +70,10 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
                 Object sensor = i.next();
                 Mediator mediator = sensorTargetMediatorFactory.getMediatorFor(
-                    sensor.getClass(), entity.getClass() );
+                sensor.getClass(), entity.getClass() );
                 if (mediator == null) {
                     throw new NoMediatorDefinedException("No mediator defined for (" +
-                        sensor.getClass().getName() + "," + entity.getClass().getName() +")");
+                    sensor.getClass().getName() + "," + entity.getClass().getName() +")");
                 }
                 else {
                     this.addSimEventListener(mediator);
@@ -91,12 +92,12 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     public void unregister(SimEntity entity) {
         if (entity instanceof simkit.smdx.Sensor) {
             sensors.remove(entity);
-            entity.removeSimEventListener(this);
         }
         else if (entity instanceof Mover) {
             targets.remove(entity);
-            entity.removeSimEventListener(this);
         }
+        entity.removeSimEventListener(this);
+        entity.removePropertyChangeListener(this);
     }
     
     public void propertyChange(PropertyChangeEvent e) {
@@ -109,6 +110,9 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
                 processSensor((Sensor) e.getSource());
             }
         }
+        else if (e.getNewValue() == MovementState.ACCELERATING) {
+            throw new RuntimeException("Acceleration not supported (yet)");
+        }
     }
     
     protected void processTarget(Mover target) {
@@ -116,14 +120,9 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         Point2D targetVelocity = target.getVelocity();
         for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
             Sensor sensor = (Sensor) i.next();
+            if (target == sensor.getMover()) { continue; }
             Object[] pair = new Object[] { sensor, target };
-            double time = Math2D.smallestPositive(
-            Math2D.findIntersectionTime(
-            Math2D.subtract(sensor.getLocation(), targetLocation),
-            Math2D.subtract(sensor.getVelocity(), targetVelocity),
-            sensor.getFootprint()
-            )
-            );
+            double time = findIntersectionTime(sensor, target);
             if (sensor.getFootprint().contains(targetLocation)) {
                 interrupt("ExitRange", pair);
                 if (time < Double.POSITIVE_INFINITY) {
@@ -139,8 +138,46 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         }
     }
     
-    protected void processSensor(Sensor target) {
-        System.out.println("Ssensors not implemented yet...");
+    protected void processSensor(Sensor sensor) {
+        Point2D sensorLocation = sensor.getLocation();
+        Point2D sensorVelocity = sensor.getVelocity();
+        for (Iterator i = targets.keySet().iterator(); i.hasNext(); ) {
+            Mover target = (Mover) i.next();
+            if (target == sensor.getMover()) { continue; }
+            Object[] pair = new Object[] { sensor, target };
+            double time = findIntersectionTime(sensor, target);
+            if (sensor.getFootprint().contains(target.getLocation())) {
+                interrupt("ExitRange", pair);
+                if (time < Double.POSITIVE_INFINITY) {
+                    waitDelay("ExitRange", time, pair);
+                }
+            }
+            else {
+                interrupt("EnterRange", pair);
+                if (time < Double.POSITIVE_INFINITY) {
+                    waitDelay("EnterRange", time, pair);
+                }
+            }
+        }
+    }
+    
+    public double findIntersectionTime(Sensor sensor, Mover target) {
+        /*
+        double time = Math2D.smallestPositive(
+        Math2D.findIntersectionTime(
+        target.getLocation(),
+        Math2D.subtract(target.getVelocity(), sensor.getVelocity()),
+        sensor.getFootprint()
+        )
+        );
+        return time;
+         */
+        Point2D targetLocation = target.getLocation();
+        Point2D relativeVelocity = Math2D.subtract(target.getVelocity(), sensor.getVelocity());
+        Shape footPrint = sensor.getFootprint();
+        double[] times = Math2D.findIntersectionTime(targetLocation, relativeVelocity, footPrint);
+        double time = Math2D.smallestPositive(times);
+        return time;
     }
     
     public void doStartMove(Mover target) {
@@ -155,23 +192,9 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     public void doEndMove(Sensor sensor) {
     }
     
-    protected void scheduleEntries(Mover target) {
-        Object[] params = new Object[] { null, target};
-        for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
-            Sensor sensor= (Sensor) i.next();
-            params[1] = sensor;
-            interrupt("EnterRange", params);
-            interrupt("ExitRange", params);
-            if (sensor.isInRangeOf(target.getLocation())) {
-                waitDelay("ManueverInRange", 0.0, params);
-            }
-            else {
-            }
-        }
-    }
-    
     public void doEnterRange(Sensor sensor, Mover target) {
-        
+        double exitTime = findIntersectionTime(sensor, target);
+        waitDelay("ExitRange", exitTime, new Object[] { sensor, target} );
     }
     
     public void doExitRange(Sensor sensor, Mover target) {

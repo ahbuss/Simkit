@@ -67,7 +67,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     public void doEndMove(Mover mover) {
-        waitDelay("EndMove", 0.0, new Object[] { this });
+        waitDelay("EndMove", 0.0, new Object[] { this }, 1.0);
     }
     
     public void doStartMove(Mover mover) {
@@ -85,10 +85,12 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     public void setMover(Mover mover) {
         if (this.mover != null) {
             mover.removeSimEventListener(this);
+            mover.removePropertyChangeListener(this);
         }
         this.mover = mover;
         if (mover != null) {
             mover.addSimEventListener(this);
+            mover.addPropertyChangeListener(this);
         }
     }    
     

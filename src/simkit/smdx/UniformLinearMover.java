@@ -76,7 +76,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     
     public void doStartMove(Moveable mover) {
         if (destination != null) {
-            waitDelay("EndMove", moveTime, param);
+            waitDelay("EndMove", moveTime, param, 1.0);
         }
         setMovementState(MovementState.CRUISING);
     }
