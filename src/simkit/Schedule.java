@@ -363,7 +363,9 @@ public class Schedule  {
         for (Iterator i = agenda.iterator(); i.hasNext();) {
             event = (SimEvent) i.next();
             if (event.getSource() == se && event.isPending()) {
-                event.interrupt();
+//                event.interrupt();
+                i.remove();
+                SimEventFactory.returnSimEventToPool(event);
                 break;
             }
         }
@@ -376,7 +378,9 @@ public class Schedule  {
             event = (SimEvent) i.next();
             if ((event.getSource() == se) && event.getEventName().equals(eventName) &&
                 event.isPending()) {
-                event.interrupt();
+//                event.interrupt();
+                i.remove();
+                SimEventFactory.returnSimEventToPool(event);
                 break;
             }
         }
@@ -389,7 +393,9 @@ public class Schedule  {
             event = (SimEvent) i.next();
             if ((event.getSource() == se) && event.getEventName().equals(eventName) &&
             (event.interruptParametersMatch(parameters)) && event.isPending()) {
-                event.interrupt();
+//                event.interrupt();
+                i.remove();
+                SimEventFactory.returnSimEventToPool(event);                
                 break;
             }
         }
@@ -401,7 +407,9 @@ public class Schedule  {
         for (Iterator i = agenda.iterator(); i.hasNext();) {
             event = (SimEvent) i.next();
             if (event.getSource() == se) {
-                event.interrupt();
+//                event.interrupt();
+                i.remove();
+                SimEventFactory.returnSimEventToPool(event);
             }
         }
     }
@@ -419,7 +427,9 @@ public class Schedule  {
         for (Iterator i = agenda.iterator(); i.hasNext();) {
             event = (SimEvent) i.next();
             if ((event.getSource() == se) && event.getEventName().equals(eventName)) {
-                event.interrupt();
+//                event.interrupt();
+                i.remove();
+                SimEventFactory.returnSimEventToPool(event);
             }
         }
     }
@@ -432,14 +442,19 @@ public class Schedule  {
             event = (SimEvent) i.next();
             if ((event.getSource() == se) && event.getEventName().equals(eventName) &&
             (event.interruptParametersMatch(parameters)) ) {
-                event.interrupt();
+//                event.interrupt();
+                i.remove();
+                SimEventFactory.returnSimEventToPool(event);
             }
         }
     }
     
     public static void interrupt(){
         clearDeadEvents();
-        ((SimEvent)agenda.first()).interrupt();
+//        ((SimEvent)agenda.first()).interrupt();
+        SimEvent event = (SimEvent)agenda.first();
+        agenda.remove(event);
+        SimEventFactory.returnSimEventToPool(event);
     }
     
     public static void interrupt(String eventName) {
@@ -449,7 +464,9 @@ public class Schedule  {
             event = (SimEvent) i.next();
             if ( (event.getWaitState() == SimEventState.WAITING) &&
             event.getEventName().equals(eventName)) {
-                event.interrupt();
+//                event.interrupt();
+                i.remove();
+                SimEventFactory.returnSimEventToPool(event);
                 break;
             }
         }
@@ -462,7 +479,9 @@ public class Schedule  {
             event = (SimEvent) i.next();
             if ( (event.getWaitState() == SimEventState.WAITING) &&
             event.getEventName().equals(eventName) && event.interruptParametersMatch(parameters)) {
-                event.interrupt();
+//                event.interrupt();
+                i.remove();
+                SimEventFactory.returnSimEventToPool(event);
                 break;
             }
         }
