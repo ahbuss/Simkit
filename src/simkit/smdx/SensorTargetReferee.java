@@ -90,9 +90,9 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             Sensor sensor= (Sensor) i.next();
             params[1] = sensor;
             interrupt("EnterRange", params);
-            interrups("ExitRange", params);
-            if (sensor.isInRangeOf(target.getCurrentLocation())) {
-                waitDelay("ManueverInRange", params);
+            interrupt("ExitRange", params);
+            if (sensor.isInRangeOf(target.getLocation())) {
+                waitDelay("ManueverInRange", 0.0, params);
             }
             else {
             }

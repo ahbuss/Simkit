@@ -24,6 +24,10 @@ public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
     
     public void moveTo(Point2D destination, double cruisingSpeed);
     
+    public void move(Point2D velocity);
+    
+    public void magicMove(Point2D location) throws MagicMoveException;
+    
     public void stop();
     
     public void pause();

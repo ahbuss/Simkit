@@ -72,7 +72,9 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     
     public void doStartMove(Moveable mover) {
         firePropertyChange("start", getLocation(), getVelocity());
-        waitDelay("EndMove", moveTime, new Object[] { this });
+        if (destination != null) {
+            waitDelay("EndMove", moveTime, new Object[] { this });
+        }
     }
     
     public void moveTo(Point2D destination) {
@@ -105,6 +107,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         if (isMoving()){
             pause();
         }
+        cruisingSpeed = Math.min(cruisingSpeed, maxSpeed);
         this.destination = destination;
         double distance = destination.distance(this.getLocation());
         moveTime = distance / cruisingSpeed;
@@ -123,6 +126,29 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         }
         startMoveTime = Schedule.getSimTime();
         interrupt("EndMove", new Object[] { this });
+    }
+    
+    public void move(Point2D desiredVelocity) {
+        double desiredSpeed = desiredVelocity.distance(ORIGIN);
+        if (desiredSpeed <= 0.0) { return; }
+        if ( desiredSpeed > maxSpeed) {
+            desiredVelocity = Math2D.scalarMultiply(maxSpeed / desiredSpeed, desiredVelocity);
+        }
+        destination = null;
+        lastStopLocation = getLocation();
+        startMoveTime = Schedule.getSimTime();
+        velocity = desiredVelocity;       
+        waitDelay("StartMove", 0.0, new Object[] { this });
+    }
+    
+    public void magicMove(Point2D location) throws MagicMoveException {
+        if (MoverMaster.allowsMagicMove()) {
+            this.originalLocation = (Point2D) location.clone();
+            reset();
+        }
+        else {
+            throw new MagicMoveException("Attempted illegal magic move: " + this);
+        }
     }
     
 }

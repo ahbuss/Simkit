@@ -59,7 +59,7 @@ public class AcceleratedMover extends SimEntityBase implements Mover {
         }
     }
     
-    public Point2D getAcceleration() {  return acceleration; }
+    public Point2D getAcceleration() {  return (Point2D) acceleration.clone(); }
     
     public void moveTo(Point2D destination, double cruisingSpeed) {
         if (!isMoving()) {  }        
@@ -69,6 +69,9 @@ public class AcceleratedMover extends SimEntityBase implements Mover {
         
     }
     
+    public void move(Point2D velocity) {
+    }
+
     public boolean isMoving() { return !Double.isNaN(startMoveTime); }
     
     public void doEndMove(Moveable mover) {
@@ -102,6 +105,12 @@ public class AcceleratedMover extends SimEntityBase implements Mover {
         acceleration = (Point2D) ORIGIN.clone();
         paused = false;
         cruising = false;
+    }
+    
+    public void magicMove(Point2D location) throws MagicMoveException {
+        if (MoverMaster.allowsMagicMove()) {
+            throw new MagicMoveException();
+        }
     }
     
 }
