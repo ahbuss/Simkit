@@ -3,13 +3,21 @@ package simkit.viskit.jgraph;
 import org.jgraph.plaf.basic.BasicGraphUI;
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellView;
+import org.jgraph.graph.GraphCellEditor;
+import org.jgraph.graph.GraphConstants;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.util.Map;
+import java.util.Hashtable;
 
 import simkit.viskit.*;
+import simkit.viskit.model.EventNode;
+import simkit.viskit.model.Edge;
+import simkit.viskit.model.CancellingEdge;
+import simkit.viskit.model.SchedulingEdge;
 
 /**
  * OPNAV N81 - NPS World Class Modeling (WCM) 2004 Projects
@@ -23,6 +31,8 @@ import simkit.viskit.*;
 
 /**
  * BasicGraphUI must be overridden to allow in node and edge editting.
+ * This code is a copy of the appropriate part of EditorGraph.java, which is
+ * part of JGraph examples.
  */
 public class vGraphUI extends BasicGraphUI
 {
@@ -121,17 +131,50 @@ public class vGraphUI extends BasicGraphUI
     });
   }
 
-  /*
-  public void startEditingAtCell(JGraph graph, Object cell)
+  /**
+   * Stops the editing session. If messageStop is true the editor
+   * is messaged with stopEditing, if messageCancel is true the
+   * editor is messaged with cancelEditing. If messageGraph is true
+   * the graphModel is messaged with valueForCellChanged.
+   */
+  protected void completeEditing(boolean messageStop,
+                                 boolean messageCancel,
+                                 boolean messageGraph)
   {
-    System.out.println("startEditingAtCell");
-    super.startEditingAtCell(graph, cell);    //Call superclass
+    if (stopEditingInCompleteEditing
+        && editingComponent != null
+        && editDialog != null) {
+      Component oldComponent = editingComponent;
+      Object oldCell = editingCell;
+      GraphCellEditor oldEditor = cellEditor;
+      Object newValue = oldEditor.getCellEditorValue();
+      Rectangle editingBounds = graph.getCellBounds(editingCell);
+      boolean requestFocus =
+          (graph != null
+          && (graph.hasFocus() || editingComponent.hasFocus()));
+      editingCell = null;
+      editingComponent = null;
+      if (messageStop)
+        oldEditor.stopCellEditing();
+      else if (messageCancel)
+        oldEditor.cancelCellEditing();
+      editDialog.dispose();
+      if (requestFocus)
+        graph.requestFocus();
+      if (messageGraph) {
+        Map map = GraphConstants.createMap();
+        GraphConstants.setValue(map, newValue);
+        Map nested = new Hashtable();
+        nested.put(oldCell, map);
+        graphLayoutCache.edit(nested, null, null, null);
+      }
+      updateSize();
+      // Remove Editor Listener
+      if (oldEditor != null && cellEditorListener != null)
+        oldEditor.removeCellEditorListener(cellEditorListener);
+      cellEditor = null;
+      editDialog = null;
+    }
   }
-  */
 
-  public boolean stopEditing(JGraph graph)
-  {
-    System.out.println("stopEditing");
-    return super.stopEditing(graph);    //Call superclass
-  }
 }

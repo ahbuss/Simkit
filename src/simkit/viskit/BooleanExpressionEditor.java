@@ -1,5 +1,7 @@
 package simkit.viskit;
 
+import simkit.viskit.model.EventNode;
+
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
@@ -55,7 +57,7 @@ public class BooleanExpressionEditor extends JDialog
                               Component locationComp,
                               EventNode node)
   {
-    super(frame, "Event -- "+node.name, true);
+    super(frame, "Event -- "+node.getName(), true);
     this.node = node;
     this.locationComp = locationComp;
     this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -144,8 +146,8 @@ public class BooleanExpressionEditor extends JDialog
 
   private void fillWidgets()
   {
-    setTitle("Event -- "+node.name);
-    name.setText(node.name);
+    setTitle("Event -- "+node.getName());
+    name.setText(node.getName());
     transitions.setListData(new String[]{"a>b", "b>c", "c>a","fill from Event"});
 
     modified = false;
@@ -154,7 +156,7 @@ public class BooleanExpressionEditor extends JDialog
   }
   private void unloadWidgets()
   {
-    node.name = name.getText();
+    node.setName(name.getText());
     // todo the rest
   }
   class cancelButtonListener implements ActionListener

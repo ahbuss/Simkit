@@ -1,7 +1,5 @@
 
-package simkit.viskit;
-
-import java.util.*;
+package simkit.viskit.model;
 
 /**
  * Represents the information about one state variable. This
@@ -9,7 +7,7 @@ import java.util.*;
  *
  * @author DMcG
  */
-public class StateVariable extends Object
+public class vStateVariable extends ViskitElement
 {
   /** Name of the state variable */
   private String variableName;
@@ -17,32 +15,36 @@ public class StateVariable extends Object
   /** The variable type. This can be a primitive or a class name. */
   private String variableType;
   
-  /** Object that represents its initial value. */
-  private Object initialValue;
-  
   /** Object that represents its current value */
   private Object currentValue;
-  
-  
+
+  private String comment = "";
+  public String toString()
+  {
+    return "("+variableType+") "+variableName;
+  }
   /**
    * Constructor
    */
-  public StateVariable(String pVariableName,
-                       String pVariableType,
-                       Object pInitialValue)
- {
+  vStateVariable(String pVariableName,         // package-accessible
+                       String pVariableType)
+  {
    variableName = pVariableName;
    variableType = pVariableType;
-   initialValue = pInitialValue;
    currentValue = null;
- }
+  }
 
+  public vStateVariable (String nm, String typ, String comment)
+  {
+    this(nm,typ);
+    this.comment = comment;
+  }
   /**
    * Returns the name of the state variable.
    *
    * @return name of state variable
    */
-  public String getVariableName()
+  public String getName()
   { return variableName;
   }
   
@@ -51,7 +53,7 @@ public class StateVariable extends Object
    *
    * @param pVariableName what the state variable name will become
    */
-  public void setVariableName(String pVariableName)
+  public void setName(String pVariableName)
   { variableName = pVariableName;
   }
   
@@ -62,7 +64,7 @@ public class StateVariable extends Object
    *
    * @return string represenatation of the type of the variable
    */
-  public String getVariableType()
+  public String getType()
   { return variableType;
   }
   
@@ -71,31 +73,10 @@ public class StateVariable extends Object
    * type is valid; this will happily accept a class name string that
    * does not exist.
    *
-   * @param string represenation of the type of the state variable
+   * @param pVariableType represenation of the type of the state variable
    */
-  public void setVariableType(String pVariableType)
+  public void setType(String pVariableType)
   { variableType = pVariableType;
-  }
-  
-  /**
-   * Returns an object that represents the initial value of the state
-   * variable. If this is a primitive type, you should retrieve the
-   * primitive value from the object yourself.
-   *
-   * @return Object representing the intial state variable value
-   */
-  public Object getInitialValue()
-  { return initialValue;
-  }
-  
-  /**
-   * Set the inital value via an object. If the type is a primitive
-   * other code must retrieve the primitive value from the object.
-   *
-   * @param pInitialValue the object representatation of the initial value
-   */
-  public void setInitialValue(Object pInitialValue)
-  { initialValue = pInitialValue;
   }
   
   /**
@@ -111,5 +92,13 @@ public class StateVariable extends Object
   public void setCurrentValue(Object pCurrentValue)
   { currentValue = pCurrentValue;
   }
-  
+
+  public String getComment()
+  {
+    return comment;
+  }
+  public void setComment(String comment)
+  {
+    this.comment=comment;
+  }
  }

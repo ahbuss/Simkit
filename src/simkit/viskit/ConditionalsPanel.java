@@ -4,10 +4,18 @@ import bsh.Interpreter;
 import bsh.EvalError;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.CaretListener;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
+
+import simkit.viskit.model.Edge;
+import simkit.viskit.model.vParameter;
+import simkit.xsd.bindings.EdgeParameter;
 
 /**
  * OPNAV N81 - NPS World Class Modeling (WCM) 2004 Projects
@@ -21,12 +29,13 @@ import java.util.Iterator;
 
 public class ConditionalsPanel extends JPanel implements ActionListener
 {
-  JTextArea jta;
+  JTextArea jta,jtaComments;
   Edge edge;
   public ConditionalsPanel(Edge edge)
   {
     this.edge = edge;
     setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+    setBorder(BorderFactory.createTitledBorder("Conditional Expression"));
     //setBorder(BorderFactory.createTitledBorder("Boolean expression"));
     JPanel tp = new JPanel();
     tp.setLayout(new BoxLayout(tp,BoxLayout.X_AXIS));
@@ -38,11 +47,13 @@ public class ConditionalsPanel extends JPanel implements ActionListener
     tp.add(Box.createHorizontalGlue());
     add(tp);
 
-    jta = new JTextArea(8,25);
+    jta = new JTextArea(3,25);
     jta.setText(edge.conditional);
     jta.setEditable(true);
     JScrollPane jsp = new JScrollPane(jta);
     add(jsp);
+    Dimension d = jsp.getPreferredSize();
+    jsp.setMinimumSize(d);
 
     JPanel bp = new JPanel();
     bp.setLayout(new BoxLayout(bp,BoxLayout.X_AXIS));
@@ -56,6 +67,7 @@ public class ConditionalsPanel extends JPanel implements ActionListener
 
     add(Box.createVerticalStrut(5));
 
+/*
     JPanel buttPan = new JPanel();
     buttPan.setLayout(new BoxLayout(buttPan,BoxLayout.X_AXIS));
     buttPan.add(Box.createHorizontalGlue());
@@ -64,13 +76,43 @@ public class ConditionalsPanel extends JPanel implements ActionListener
     buttPan.add(Box.createHorizontalGlue());
     add(buttPan);
     add(Box.createVerticalStrut(5));
+*/
 
-    JTextArea jtaComments = new JTextArea(2,25);
+    jtaComments = new JTextArea(2,25);
     jsp = new JScrollPane(jtaComments);
-    jsp.setBorder(BorderFactory.createTitledBorder("Source comments"));
+    jsp.setBorder(BorderFactory.createTitledBorder("Comments"));
     add(jsp);
+    d = jsp.getPreferredSize();
+    jsp.setMinimumSize(d);
 
-    testButt.addActionListener(this);
+    add(Box.createVerticalStrut(5));
+
+    // This whole panel expands horizontally, but not vertically
+    d = getPreferredSize();
+    d.width = Integer.MAX_VALUE;
+    setMinimumSize(d);
+    setMaximumSize(d);
+    //testButt.addActionListener(this);
+
+
+    jtaComments.addCaretListener(new CaretListener()
+    {
+      public void caretUpdate(CaretEvent e)
+      {
+        if(lis != null) {
+          lis.stateChanged(new ChangeEvent(jtaComments));
+        }
+      }
+    });
+    jta.addCaretListener(new CaretListener()
+    {
+      public void caretUpdate(CaretEvent e)
+      {
+        if(lis != null) {
+          lis.stateChanged(new ChangeEvent(jta));
+        }
+      }
+    });
   }
 
   public void actionPerformed(ActionEvent event)
@@ -82,8 +124,8 @@ public class ConditionalsPanel extends JPanel implements ActionListener
 
       // set globals;
       for (Iterator itr = edge.parameters.iterator(); itr.hasNext();) {
-        EdgeParameter ep = (EdgeParameter) itr.next();
-        interpreter.set(ep.name, ep.type);
+        vParameter ep = (vParameter) itr.next();
+        interpreter.set(ep.getName(), ep.getType());
       }
  System.out.println(jta.getText());
       String noCRs = jta.getText().replace('\n',' ');
@@ -101,4 +143,17 @@ public class ConditionalsPanel extends JPanel implements ActionListener
     }
   }
 
+  public void setText(String s)
+  {
+    jta.setText(s);
+  }
+  public String getText()
+  {
+    return jta.getText();
+  }
+  private ChangeListener lis;
+  public void addChangeListener(ChangeListener lis)
+  {
+    this.lis = lis;
+  }
 }

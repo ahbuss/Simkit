@@ -1,8 +1,14 @@
 package simkit.viskit;
 
+import simkit.viskit.model.vParameter;
+import simkit.viskit.model.vStateVariable;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.CaretListener;
+import javax.swing.event.CaretEvent;
+import javax.swing.border.EtchedBorder;
 import java.util.regex.*;
 
 /**
@@ -17,137 +23,228 @@ import java.util.regex.*;
  
 public class StateVariableDialog extends JDialog
 {
-  /** User picked the "Cancel" button on dialog */
-  public static final int CANCEL_CHOSEN = 0;
-  
-  /** The user picked the "OK" button */
-  public static final int OK_CHOSEN     = 1;
-  
-  /** Frame from which we are a dialog */
-  private JFrame parentFrame;
-  
-  /** Text field that holds the parameter name */
-  private JTextField nameField;
-  
-  /** Editable combo box that lets us select a type */
-  private JComboBox  typeCombo;
-  
-  /** Text field that holds initial value */
-  private JTextField initialValueField;
+  private JTextField parameterNameField;    // Text field that holds the parameter name
+  private JTextField commentField;          // Text field that holds the comment
+  private JComboBox  parameterTypeCombo;    // Editable combo box that lets us select a type
 
-  /** Text field for comment */
-  private JTextField commentField;
+  private static StateVariableDialog dialog;
+  private static boolean modified = false;
+  private vStateVariable stVar;
+  private Component locationComp;
+  private JButton okButt, canButt;
 
-  /** The button the user picked */
-  private int buttonChosen = CANCEL_CHOSEN;
-  
-  /** Array of state variable and parameter names. Any new parameter names must not exist in this list. */
-  private java.util.List existingNames;
-  
-  /**
-   * constructor for the parameter dialog. We pass in the parent frame and
-   * run in modal mode.<p>
-   *
-   * @param parentFrame frame that called this as a modal dialog
-   * @param pExistingNames list of existing parameter and state variable names (in string format)
-   * @param isParameter whether we're adding a state variable or parameter
-   */
-  public StateVariableDialog(JFrame parentFrame, java.util.List pExistingNames)
+  public static String newName, newType, newComment;
+
+  public static boolean showDialog(JFrame f, Component comp, vStateVariable var)
   {
-    super(parentFrame, "New State Variable", true);  // modal dialog with "new parameter" as title and tied to our parent frame
-    
-    JPanel buttonPanel;
-    JPanel fieldsPanel;
-    JButton okButton     = new JButton("OK");
-    JButton cancelButton = new JButton("Cancel");
-    
-    existingNames = pExistingNames;
-    
-    this.parentFrame = parentFrame;
-    
-    this.setSize(300, 200);
-    this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    
-    JPanel topPanel = new JPanel();
-    topPanel.setLayout(new BorderLayout());
-    
-    buttonPanel = new JPanel();
-    buttonPanel.setLayout(new FlowLayout());
-    buttonPanel.add(okButton);
-    buttonPanel.add(cancelButton);
-    
-    okButton.addActionListener(new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        // Check to make sure the data is valid. Alert panels are thrown
-        // up by preflightData if not, and the user is prohibited from
-        // selecting "OK".
-        if(StateVariableDialog.this.preflightData() == false)
-        {
-          return;
-        }
-        StateVariableDialog.this.buttonChosen = OK_CHOSEN;
-        StateVariableDialog.this.dispose();
-      }
-    });
-    
-    // User hit the cancel button. Bail, no preflight of data (since
-    // the user may be wedged and not know how to enter correct
-    // data, and by saying cancel we're bailing on all the data anyway).
-    
-    cancelButton.addActionListener(new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        StateVariableDialog.this.buttonChosen = CANCEL_CHOSEN;
-        StateVariableDialog.this.dispose();
-      }
-    });
-    
-    
-    topPanel.add(buttonPanel, BorderLayout.SOUTH);
-    
-    // Variable name
-    fieldsPanel = new JPanel();
-    fieldsPanel.setLayout(new BoxLayout(fieldsPanel,BoxLayout.Y_AXIS));
-    fieldsPanel.add(new JLabel("Parameter Name"));
-    nameField = new JTextField(15);
-    fieldsPanel.add(nameField);
-    
-    // Variable type
-    fieldsPanel.add(new JLabel("Type"));
-    typeCombo = new JComboBox();
-    typeCombo.setEditable(true);
-    typeCombo.addItem("int");
-    typeCombo.addItem("float");
-    typeCombo.addItem("double");
-    typeCombo.addItem("short");
-    typeCombo.addItem("java.lang.String");
-    fieldsPanel.add(typeCombo);
-    
-    // initial value
-    fieldsPanel.add(new JLabel("Initial Value"));
-    initialValueField = new JTextField(15);
-    fieldsPanel.add(initialValueField);
+    if(dialog == null)
+      dialog = new StateVariableDialog(f,comp,var);
+    else
+      dialog.setParams(comp,var);
 
-    fieldsPanel.add(new JCheckBox("Array"));
-
-    fieldsPanel.add(new JLabel("Comment"));
-    commentField = new JTextField(25);
-    fieldsPanel.add(commentField);
-
-    topPanel.add(fieldsPanel, BorderLayout.CENTER);
-    
-    this.setContentPane(topPanel);
-    pack();
-    this.setLocationRelativeTo(parentFrame);
+    dialog.setVisible(true);
+      // above call blocks
+    return modified;
   }
-  
+
+  private StateVariableDialog(JFrame parent, Component comp, vStateVariable param)
+  {
+    super(parent, "State Variable Inspector", true);
+    this.stVar = param;
+    this.locationComp = comp;
+    this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+    Container cont = getContentPane();
+    cont.setLayout(new BoxLayout(cont,BoxLayout.Y_AXIS));
+
+     JPanel con = new JPanel();
+     con.setLayout(new BoxLayout(con,BoxLayout.Y_AXIS));
+     con.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+
+      con.add(Box.createVerticalStrut(5));
+      JPanel fieldsPanel = new JPanel();
+        fieldsPanel.setLayout(new BoxLayout(fieldsPanel,BoxLayout.Y_AXIS));
+
+        JLabel nameLab = new JLabel("name");
+        JLabel initLab = new JLabel("initial value");
+        JLabel typeLab = new JLabel("type");
+        JLabel commLab = new JLabel("comment");
+        int w = maxWidth(new JComponent[]{nameLab,initLab,typeLab,commLab});
+
+        parameterNameField = new JTextField(15);   setMaxHeight(parameterNameField);
+        commentField       = new JTextField(25);   setMaxHeight(commentField);
+        parameterTypeCombo = new JComboBox(VGlobals.instance().getTypeCBModel());
+                                                   setMaxHeight(parameterTypeCombo);
+
+        parameterTypeCombo.setEditable(true);
+
+        fieldsPanel.add(new OneLinePanel(nameLab,w,parameterNameField));
+        // no init val...fieldsPanel.add(new OneLinePanel(initLab,w,expressionField));
+        fieldsPanel.add(new OneLinePanel(typeLab,w,parameterTypeCombo));
+        fieldsPanel.add(new OneLinePanel(commLab,w,commentField));
+       con.add(fieldsPanel);
+       con.add(Box.createVerticalStrut(5));
+
+       JPanel buttPan = new JPanel();
+        buttPan.setLayout(new BoxLayout(buttPan,BoxLayout.X_AXIS));
+        canButt = new JButton("Cancel");
+        okButt = new JButton("Apply changes");
+        buttPan.add(Box.createHorizontalGlue());     // takes up space when dialog is expanded horizontally
+        buttPan.add(canButt);
+        buttPan.add(okButt);
+       con.add(buttPan);
+       con.add(Box.createVerticalGlue());    // takes up space when dialog is expanded vertically
+      cont.add(con);
+
+    fillWidgets();     // put the data into the widgets
+
+    modified        = (param==null?true:false);     // if it's a new stVar, they can always accept defaults with no typing
+    okButt.setEnabled((param==null?true:false));
+
+    getRootPane().setDefaultButton(canButt);
+
+    pack();     // do this prior to next
+    this.setLocationRelativeTo(locationComp);
+
+    // attach listeners
+    canButt.addActionListener(new cancelButtonListener());
+    okButt .addActionListener(new applyButtonListener());
+
+    enableApplyButtonListener lis = new enableApplyButtonListener();
+    this.parameterNameField.addCaretListener(lis);
+    this.commentField.      addCaretListener(lis);
+    this.parameterTypeCombo.addActionListener(lis);
+  }
+
+  private int maxWidth(JComponent[] c)
+  {
+    int tmpw=0,maxw=0;
+    for(int j=0; j<c.length; j++) {
+      tmpw = c[j].getPreferredSize().width;
+      if(tmpw > maxw)
+        maxw = tmpw;
+    }
+    return maxw;
+  }
+  private void setMaxHeight(JComponent c)
+  {
+    Dimension d = c.getPreferredSize();
+    d.width = Integer.MAX_VALUE;
+    c.setMaximumSize(d);
+  }
+  public void setParams(Component c, vStateVariable p)
+  {
+    stVar = p;
+    locationComp = c;
+
+    fillWidgets();
+
+    modified        = (p==null?true:false);
+    okButt.setEnabled((p==null?true:false));
+
+    getRootPane().setDefaultButton(canButt);
+
+    this.setLocationRelativeTo(c);
+  }
+
+  private void fillWidgets()
+  {
+    if(stVar != null) {
+      parameterNameField.setText(stVar.getName());
+      setType(stVar);
+      commentField.setText(stVar.getComment());
+    }
+    else {
+      parameterNameField.setText("stVar name");
+      //expressionField.setText("type");
+      commentField.setText("comments here");
+    }
+  }
+  private void setType(vStateVariable sv)
+  {
+    String nm = sv.getType();
+    ComboBoxModel mod = parameterTypeCombo.getModel();
+    for(int i=0;i<mod.getSize(); i++) {
+      if(nm.equals(mod.getElementAt(0))) {
+        parameterTypeCombo.setSelectedIndex(i);
+        return;
+      }
+    }
+    VGlobals.instance().addType(nm);
+    mod = VGlobals.instance().getTypeCBModel();
+    parameterTypeCombo.setModel(mod);
+    parameterTypeCombo.setSelectedIndex(mod.getSize()-1);
+  }
+  private void unloadWidgets()
+  {
+    if(stVar != null) {
+      stVar.setName(this.parameterNameField.getText().trim());
+      stVar.setType(((String)(this.parameterTypeCombo.getSelectedItem())).trim());
+      stVar.setComment(this.commentField.getText().trim());
+    }
+    else {
+      newName = parameterNameField.getText().trim();
+      newType = ((String)(this.parameterTypeCombo.getSelectedItem())).trim();
+      newComment = commentField.getText().trim();
+    }
+  }
+
+  class cancelButtonListener implements ActionListener
+  {
+    public void actionPerformed(ActionEvent event)
+    {
+      modified = false;    // for the caller
+      setVisible(false);
+    }
+  }
+
+  class applyButtonListener implements ActionListener
+  {
+    public void actionPerformed(ActionEvent event)
+    {
+      if(modified)
+        unloadWidgets();
+      setVisible(false);
+    }
+  }
+
+  class enableApplyButtonListener implements CaretListener,ActionListener
+  {
+    public void caretUpdate(CaretEvent event)
+    {
+      System.out.println("caretUpdate");
+      modified = true;
+      okButt.setEnabled(true);
+      getRootPane().setDefaultButton(okButt);
+    }
+
+    public void actionPerformed(ActionEvent event)
+    {
+      caretUpdate(null);
+    }
+  }
+
+  class OneLinePanel extends JPanel
+  {
+    OneLinePanel(JLabel lab, int w, JComponent comp)
+    {
+      setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
+      add(Box.createHorizontalStrut(5));
+      add(Box.createHorizontalStrut(w-lab.getPreferredSize().width));
+      add(lab);
+      add(Box.createHorizontalStrut(5));
+      add(comp);
+
+      Dimension d = getPreferredSize();
+      d.width = Integer.MAX_VALUE;
+      setMaximumSize(d);
+    }
+  }
   /**
    * Returns true if the data is valid, eg we have a valid parameter name
    * and a valid type.
    */
+/*
   private boolean preflightData()
   {
     String parameterName =  nameField.getText();
@@ -200,36 +297,8 @@ public class StateVariableDialog extends JDialog
 
     return true;
   }
-  
-  /**
-   * Used by the caller after the modal dialog has finished. The caller runs
-   * the dialog, the dialog has an "ok" or "cancel" button hit, and then we
-   * can get the parameter name by querying this method.
-   */
-  public String getStateVariableName()
-  {
-    return nameField.getText();
-  }
-  
-  /**
-   * Returns the parameter type specified by the user. You should first check that
-   * the user has hit the "OK" button before retrieving this; that ensures the
-   * data has been correctly preflighted to ensure the class or type really exists.
-   */
-  public String getType()
-  {
-    return typeCombo.getSelectedItem().toString();
-  }
-  
-  public String getInitialValue()
-  {
-    return initialValueField.getText();
-  }
-  
-  public int getButtonChosen()
-  { return buttonChosen;
-  }
-  
+*/
+
 }
 
 

@@ -1,7 +1,11 @@
 package simkit.viskit.jgraph;
 
 import simkit.viskit.*;
-import simkit.viskit.Edge;
+import simkit.viskit.model.Edge;
+import simkit.viskit.model.EventNode;
+import simkit.viskit.model.CancellingEdge;
+import simkit.viskit.model.SchedulingEdge;
+import simkit.xsd.bindings.*;
 import org.jgraph.JGraph;
 import org.jgraph.event.GraphSelectionListener;
 import org.jgraph.event.GraphSelectionEvent;
@@ -17,6 +21,8 @@ import java.awt.*;
 import java.util.Map;
 import java.util.Hashtable;
 import java.util.Vector;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * OPNAV N81-NPS World-Class-Modeling (WCM) 2004 Projects
@@ -40,6 +46,7 @@ public class vGraphComponent extends JGraph
     this.model = model;
     this.setModel(model);
     this.setBendable(true);
+    this.setSizeable(false);
     this.setGridVisible(true);
     //this.setGridMode(JGraph.CROSS_GRID_MODE);
     //this.setGridMode(JGraph.DOT_GRID_MODE);
@@ -57,10 +64,14 @@ public class vGraphComponent extends JGraph
     invalidate();
   }
 
+
   public void viskitModelChanged(ModelEvent ev)
   {
     //System.out.println("in vGraphComponent.viskitModelChanged() with ModelEvent "+ev);
     switch (ev.getID()) {
+      case ModelEvent.NEWMODEL:
+        model.removeAll();
+        break;
       case ModelEvent.EVENTADDED:
         Object[] oa = (Object[])ev.getSource();
         model.addEventNode((EventNode)oa[0],(Point)oa[1]);
@@ -94,16 +105,69 @@ public class vGraphComponent extends JGraph
         ;
     }
   }
-
+  private String getEdgePs(List edgLis)
+  {
+    String params = "";
+    for(Iterator itr = edgLis.iterator(); itr.hasNext();) {
+      EdgeParameter edPar = (EdgeParameter)itr.next();
+      params+="<LI>"+edPar.getValue()+" ("+edPar.getType()+")</LI>";
+    }
+    if(params.length()<=0)
+      return null;
+    return params;
+  }
   public String getToolTipText(MouseEvent event)
   {
+    String tt = "";
+    int count = 0;
     if(event != null) {
       Object c = this.getFirstCellForLocation(event.getX(),event.getY());
       if(c != null) {
         String s = this.convertValueToString(c);
         if(c instanceof vEdgeCell) {
           //return "edge: "+s;
-          return "<html>t<sub>a</sub></html>";
+          vEdgeCell vc = (vEdgeCell)c;
+          if(vc.getUserObject() instanceof SchedulingEdge) {
+            SchedulingEdge se = (SchedulingEdge)vc.getUserObject();
+            Schedule sch =  (Schedule)se.opaqueModelObject;
+            String cond = "";
+            if(sch.getCondition() != null && sch.getCondition().length()>0) {
+              cond += sch.getCondition();
+              count++;
+            }
+            if(cond.length() > 0)
+              tt += "if( " + cond + " )";
+
+            String params = getEdgePs((List)sch.getEdgeParameter());
+            if(params != null) {
+              tt += "<OL>"+params+"</OL>";
+              count++;
+            }
+          }
+          else {
+            CancellingEdge ce = (CancellingEdge)vc.getUserObject();
+            Cancel can = (Cancel)ce.opaqueModelObject;
+            String cond = "";
+            if(can.getCondition() != null && can.getCondition().length()>0) {
+              cond += can.getCondition();
+              count++;
+            }
+            if(cond.length() >0)
+              tt += "if( " + cond + " )";
+
+            String params = getEdgePs((List)can.getEdgeParameter());
+            if(params != null) {
+              tt += "<OL>"+params+"</OL>";
+              count++;
+            }
+          }
+
+          if(count <= 0)
+
+            return "true";
+          //else
+            return "<HTML>" + tt + "</HTML>";
+
         }
         else if (c instanceof CircleCell) {
           CircleCell cc = (CircleCell)c;
@@ -116,8 +180,42 @@ public class vGraphComponent extends JGraph
                   "<tr><td><i>param 2</i></td><td>yyy</td></tr>"+
             "</table></font></html>";
         */
-          String ttt = ((EventNode)cc.getUserObject()).stateTrans;
-          return ttt==null?"{no state transitions}":"<HTML><center>{"+ttt+"}</center></HTML>";
+          EventNode en = (EventNode)cc.getUserObject();
+          tt += "<center>"+en.getName()+"</center>";
+          simkit.xsd.bindings.Event ev = (simkit.xsd.bindings.Event)en.opaqueModelObject;
+          List st = ev.getStateTransition();
+          String sttrans = "";
+          for(Iterator itr = st.iterator();itr.hasNext();) {
+            StateTransition str = (StateTransition)itr.next();
+            Assignment assg = (Assignment)str.getAssignment();
+            Operation opr   = (Operation)str.getOperation();
+            StateVariable stt = (StateVariable)str.getState();
+            if(assg != null)
+              sttrans += "&nbsp;" + stt.getName() + "=" +assg.getValue();
+            else
+              sttrans += "&nbsp;" + stt.getName() + "." + opr.getMethod();
+            sttrans += "<br>";
+            count++;
+          }
+          if(sttrans.length()>0) {
+            sttrans = sttrans.substring(0,sttrans.length()-4);
+            tt += "<u>state transitions</u><br>"+sttrans;
+          }
+
+          List argLis = ev.getArgument();
+          String args = "";
+          int n = 1;
+          for(Iterator itr = argLis.iterator(); itr.hasNext();) {
+            Argument arg = (Argument)itr.next();
+            String as = arg.getName() + " ("+arg.getType()+")";
+            args += "&nbsp;"+n + " " +as + "<br>";
+          }
+          if(args.length() > 0) {
+            args = args.substring(0,args.length()-4);
+            tt += "<br><u>arguments</u><br>"+args;
+          }
+
+          return "<HTML>"+tt +"</HTML>";
         }
       }
     }
@@ -130,7 +228,7 @@ public class vGraphComponent extends JGraph
       CircleCell cc = (CircleCell)((CellView)value).getCell();
       Object en = cc.getUserObject();
       if(en instanceof EventNode)  // should always be, except for our prototype examples
-        return ((EventNode)en).name;
+        return ((EventNode)en).getName();
     }
     else if(value instanceof vEdgeView) {
       vEdgeCell cc = (vEdgeCell)((CellView)value).getCell();
@@ -147,8 +245,9 @@ public class vGraphComponent extends JGraph
       else if (e instanceof CancellingEdge)
         return null;
       else if (e instanceof EventNode)
-        return ((EventNode)e).name;
+        return ((EventNode)e).getName();
     }
+
     return super.convertValueToString(value);
   }
 
@@ -520,7 +619,6 @@ class vEdgeView extends EdgeView
  */
 class CircleCell extends DefaultGraphCell
 {
-  public Object opaqueModelObject;
 
   CircleCell()
   {

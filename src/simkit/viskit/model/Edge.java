@@ -1,4 +1,4 @@
-package simkit.viskit;
+package simkit.viskit.model;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,6 @@ abstract public class Edge extends ViskitElement
   public EventNode from;
   public ArrayList parameters;
   public String    conditional;
-  public int       delay;
+  public String    delay;
   abstract Object  copyShallow();
 }

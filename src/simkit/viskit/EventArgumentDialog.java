@@ -2,6 +2,7 @@ package simkit.viskit;
 
 import simkit.viskit.model.Edge;
 import simkit.viskit.model.vParameter;
+import simkit.viskit.model.EventArgument;
 import simkit.viskit.model.vStateVariable;
 
 import java.awt.*;
@@ -24,25 +25,24 @@ import java.util.regex.*;
  * @author DMcG
  */
 
-public class ParameterDialog extends JDialog
+public class EventArgumentDialog extends JDialog
 {
-  private JTextField parameterNameField;    // Text field that holds the parameter name
-  private JTextField expressionField;       // Text field that holds the expression
+  private JTextField nameField;    // Text field that holds the parameter name
   private JTextField commentField;          // Text field that holds the comment
   private JComboBox  parameterTypeCombo;    // Editable combo box that lets us select a type
 
-  private static ParameterDialog dialog;
+  private static EventArgumentDialog dialog;
   private static boolean modified = false;
-  private vParameter param;
+  private EventArgument param;
   private Component locationComp;
   private JButton okButt, canButt;
 
   public static String newName, newType, newComment;
 
-  public static boolean showDialog(JFrame f, Component comp, vParameter parm)
+  public static boolean showDialog(JFrame f, Component comp, EventArgument parm)
   {
     if(dialog == null)
-      dialog = new ParameterDialog(f,comp,parm);
+      dialog = new EventArgumentDialog(f,comp,parm);
     else
       dialog.setParams(comp,parm);
 
@@ -51,9 +51,9 @@ public class ParameterDialog extends JDialog
     return modified;
   }
 
-  private ParameterDialog(JFrame parent, Component comp, vParameter param)
+  private EventArgumentDialog(JFrame parent, Component comp, EventArgument param)
   {
-    super(parent, "Parameter Inspector", true);
+    super(parent, "Event Argument", true);
     this.param = param;
     this.locationComp = comp;
     this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -75,15 +75,13 @@ public class ParameterDialog extends JDialog
         JLabel commLab = new JLabel("comment");
         int w = maxWidth(new JComponent[]{nameLab,initLab,typeLab,commLab});
 
-        parameterNameField = new JTextField(15);   setMaxHeight(parameterNameField);
-        expressionField    = new JTextField(25);   setMaxHeight(expressionField);
+        nameField = new JTextField(15);   setMaxHeight(nameField);
         commentField       = new JTextField(25);   setMaxHeight(commentField);
         parameterTypeCombo = new JComboBox(VGlobals.instance().getTypeCBModel());
                                                setMaxHeight(parameterTypeCombo);
-
-        parameterTypeCombo.setEditable(true);
-
-        fieldsPanel.add(new OneLinePanel(nameLab,w,parameterNameField));
+        parameterTypeCombo.setBackground(Color.white);
+    
+        fieldsPanel.add(new OneLinePanel(nameLab,w,nameField));
         fieldsPanel.add(new OneLinePanel(typeLab,w,parameterTypeCombo));
         fieldsPanel.add(new OneLinePanel(commLab,w,commentField));
        con.add(fieldsPanel);
@@ -115,9 +113,8 @@ public class ParameterDialog extends JDialog
     okButt .addActionListener(new applyButtonListener());
 
     enableApplyButtonListener lis = new enableApplyButtonListener();
-    this.parameterNameField.addCaretListener(lis);
+    this.nameField.addCaretListener(lis);
     this.commentField.      addCaretListener(lis);
-    this.expressionField.   addCaretListener(lis);
     this.parameterTypeCombo.addActionListener(lis);
   }
 
@@ -137,7 +134,7 @@ public class ParameterDialog extends JDialog
     d.width = Integer.MAX_VALUE;
     c.setMaximumSize(d);
   }
-  public void setParams(Component c, vParameter p)
+  public void setParams(Component c, EventArgument p)
   {
     param = p;
     locationComp = c;
@@ -151,9 +148,25 @@ public class ParameterDialog extends JDialog
 
     this.setLocationRelativeTo(c);
   }
-  private void setType(vParameter p)
+
+  private void fillWidgets()
   {
-    String nm = p.getType();
+    if(param != null) {
+      nameField.setText(param.getName());
+      if(param.getComments().size() > 0)
+        commentField.setText((String)param.getComments().get(0));
+      setType(param);
+      parameterTypeCombo.insertItemAt(param.getType(),0);
+      parameterTypeCombo.setSelectedIndex(0);
+    }
+    else {
+      nameField.setText("param name");
+      commentField.setText("comments here");
+    }
+  }
+  private void setType(EventArgument ea)
+  {
+    String nm = ea.getType();
     ComboBoxModel mod = parameterTypeCombo.getModel();
     for(int i=0;i<mod.getSize(); i++) {
       if(nm.equals(mod.getElementAt(0))) {
@@ -167,30 +180,17 @@ public class ParameterDialog extends JDialog
     parameterTypeCombo.setSelectedIndex(mod.getSize()-1);
   }
 
-  private void fillWidgets()
-  {
-    if(param != null) {
-      parameterNameField.setText(param.getName());
-      setType(param);
-      this.commentField.setText(param.getComment());
-    }
-    else {
-      parameterNameField.setText("param name");
-      //expressionField.setText("type");
-      commentField.setText("comments here");
-    }
-  }
-
   private void unloadWidgets()
   {
     if(param != null) {
-      param.setName(this.parameterNameField.getText());
-      param.setType(((String)(this.parameterTypeCombo.getSelectedItem())).trim());
-      param.setComment(this.commentField.getText());
+      param.setName(this.nameField.getText());
+      param.getComments().clear();
+      String cs = commentField.getText().trim();
+      if(cs.length() > 0)
+        param.getComments().add(0,cs);
     }
     else {
-      newName = parameterNameField.getText().trim();
-      newType = ((String)(this.parameterTypeCombo.getSelectedItem())).trim();
+      newName    = nameField.getText().trim();
       newComment = commentField.getText().trim();
     }
   }
@@ -254,7 +254,7 @@ public class ParameterDialog extends JDialog
 jmb..this is good regex checking.  put in a single utility class
   private boolean preflightData()
   {
-    String parameterName =  parameterNameField.getText();
+    String parameterName =  nameField.getText();
     String javaVariableNameRegExp;
 
     // Do a REGEXP to confirm that the variable name fits the criteria for

@@ -1,17 +1,15 @@
 package simkit.viskit.jgraph;
 
-import org.jgraph.graph.*;
 import org.jgraph.JGraph;
+import org.jgraph.graph.*;
+import simkit.viskit.model.CancellingEdge;
+import simkit.viskit.model.EventNode;
+import simkit.viskit.model.SchedulingEdge;
 
 import javax.swing.*;
-import java.util.Map;
-import java.util.Hashtable;
 import java.awt.*;
-
-import simkit.viskit.jgraph.vEdgeCell;
-import simkit.viskit.EventNode;
-import simkit.viskit.SchedulingEdge;
-import simkit.viskit.CancellingEdge;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * OPNAV N81-NPS World-Class-Modeling (WCM) 2004 Projects
@@ -26,7 +24,7 @@ public class vGraphModel extends DefaultGraphModel
   public JGraph graph; // fix this
   public vGraphModel()
   {
-    addSampleData(this);
+    initViskitStyle();
   }
  /*
  Make 3 styles: implement, extend, aggregate
@@ -34,7 +32,7 @@ public class vGraphModel extends DefaultGraphModel
  */
   Map viskitEdgeStyle, viskitCancelEdgeStyle;
 
-  public void addSampleData(GraphModel model) {
+  public void initViskitStyle() {
     ConnectionSet cs = new ConnectionSet();
     Map attributes = new Hashtable();
     // Styles For Implement/Extend/Aggregation
@@ -113,16 +111,19 @@ public class vGraphModel extends DefaultGraphModel
     GraphConstants.setForeground (viskitCancelEdgeStyle, Color.black);
     GraphConstants.setDashPattern(viskitCancelEdgeStyle, new float[] { 3, 3 });
    //GraphConstants.setRouting    (viskitEdgeStyle, GraphConstants.ROUTING_SIMPLE);
-
+  }
+ /*
+  private void bogus(GraphModel model, Map attributes, ConnectionSet cs) // bogus
+  {
     DefaultGraphCell run = new CircleCell("Run");
-    EventNode run_en = new EventNode("Run");
+    EventNode run_en = simkit.viskit.model.Model.bogusNewEvent("Run");
     run.setUserObject(run_en);
     run_en.opaqueViewObject = run;
     attributes.put(run,createBounds(20,50,Color.black));
     run.add(new DefaultPort("Run/Center"));
 
     DefaultGraphCell arrival = new CircleCell("Arrival");
-    EventNode arr_en = new EventNode("Arrival");
+    EventNode arr_en = simkit.viskit.model.Model.bogusNewEvent("Arrival");
     arr_en.stateTrans = "Q++";
     arrival.setUserObject(arr_en);
     arr_en.opaqueViewObject = arrival;
@@ -130,7 +131,7 @@ public class vGraphModel extends DefaultGraphModel
     arrival.add(new DefaultPort("Arrival/Center"));
 
     DefaultEdge runToArrE = new vEdgeCell(null);
-    SchedulingEdge sEdge = new SchedulingEdge();
+    SchedulingEdge sEdge = simkit.viskit.model.Model.bogusNewSchedulingEdge();
     runToArrE.setUserObject(sEdge);
     tempAddToFroms(runToArrE,(DefaultPort)arrival.getChildAt(0),(DefaultPort)run.getChildAt(0));
     sEdge.opaqueViewObject = runToArrE;
@@ -142,7 +143,7 @@ public class vGraphModel extends DefaultGraphModel
 
 
     DefaultGraphCell stSvc = new CircleCell("Start\nService");
-    EventNode st_en = new EventNode("Start\nService");
+    EventNode st_en = simkit.viskit.model.Model.bogusNewEvent("Start\nService");
     st_en.stateTrans = "Q--, S--";
     stSvc.setUserObject(st_en);
     st_en.opaqueViewObject = stSvc;
@@ -150,7 +151,7 @@ public class vGraphModel extends DefaultGraphModel
     stSvc.add(new DefaultPort("StartService/Center"));
 
     DefaultEdge arrToSvcE = new vEdgeCell("(S > 0)");
-    sEdge = new SchedulingEdge();
+    sEdge = simkit.viskit.model.Model.bogusNewSchedulingEdge();
     arrToSvcE.setUserObject(sEdge);
     tempAddToFroms(arrToSvcE,(DefaultPort)stSvc.getChildAt(0),(DefaultPort)arrival.getChildAt(0));
     sEdge.opaqueViewObject = arrToSvcE;
@@ -161,7 +162,7 @@ public class vGraphModel extends DefaultGraphModel
     st_en.connections.add(sEdge);
 
     DefaultGraphCell endSvc = new CircleCell("End\nService");
-    EventNode endSvc_en = new EventNode("End\nService");
+    EventNode endSvc_en = simkit.viskit.model.Model.bogusNewEvent("End\nService");
     endSvc_en.stateTrans = "S++";
     endSvc.setUserObject(endSvc_en);
     endSvc_en.opaqueViewObject = endSvc;
@@ -169,7 +170,7 @@ public class vGraphModel extends DefaultGraphModel
     endSvc.add(new DefaultPort("EndService/Center"));
 
     DefaultEdge stToEndE = new vEdgeCell(null);
-    sEdge = new SchedulingEdge();
+    sEdge = simkit.viskit.model.Model.bogusNewSchedulingEdge();
     stToEndE.setUserObject(sEdge);
     tempAddToFroms(stToEndE,(DefaultPort)endSvc.getChildAt(0),(DefaultPort)stSvc.getChildAt(0));
     sEdge.opaqueViewObject = stToEndE;
@@ -180,7 +181,7 @@ public class vGraphModel extends DefaultGraphModel
     st_en.connections.add(sEdge);
 
     DefaultEdge endToStE = new vEdgeCell(null);
-    sEdge = new SchedulingEdge();
+    sEdge = simkit.viskit.model.Model.bogusNewSchedulingEdge();
     endToStE.setUserObject(sEdge);
     tempAddToFroms(endToStE,(DefaultPort)stSvc.getChildAt(0),(DefaultPort)endSvc.getChildAt(0));
     sEdge.opaqueViewObject = endToStE;
@@ -191,7 +192,7 @@ public class vGraphModel extends DefaultGraphModel
     endSvc_en.connections.add(sEdge);
 
     DefaultGraphCell endRpr = new CircleCell("End\nRepair");
-    EventNode endR_en = new EventNode("End\nRepair");
+    EventNode endR_en = simkit.viskit.model.Model.bogusNewEvent("End\nRepair");
     endR_en.stateTrans = "F--";
     endRpr.setUserObject(endR_en);
     endR_en.opaqueViewObject = endRpr;
@@ -199,7 +200,7 @@ public class vGraphModel extends DefaultGraphModel
     endRpr.add(new DefaultPort("EndRepair/Center"));
 
     DefaultEdge endRprToStSvcE = new vEdgeCell("(Q > 0)");
-    sEdge = new SchedulingEdge();
+    sEdge = simkit.viskit.model.Model.bogusNewSchedulingEdge();
     endRprToStSvcE.setUserObject(sEdge);
     tempAddToFroms(endRprToStSvcE,(DefaultPort)stSvc.getChildAt(0),(DefaultPort)endRpr.getChildAt(0));
     sEdge.opaqueViewObject = endRprToStSvcE;
@@ -210,7 +211,7 @@ public class vGraphModel extends DefaultGraphModel
     st_en.connections.add(sEdge);
 
     DefaultGraphCell fail = new CircleCell("Failure");
-    EventNode fail_en = new EventNode("Failure");
+    EventNode fail_en = simkit.viskit.model.Model.bogusNewEvent("Failure");
     fail_en.stateTrans = "F++,<br>Q += 1-S,<br>S = 0";
 
     fail.setUserObject(fail_en);
@@ -219,7 +220,7 @@ public class vGraphModel extends DefaultGraphModel
     fail.add(new DefaultPort("Failure/Center"));
 
     DefaultEdge failToEndSvcE = new vEdgeCell(null);
-    CancellingEdge cEdge = new CancellingEdge();
+    CancellingEdge cEdge = simkit.viskit.model.Model.bogusNewCancellingEdge();
     failToEndSvcE.setUserObject(cEdge);
     tempAddToFroms(failToEndSvcE,(DefaultPort)endSvc.getChildAt(0),(DefaultPort)fail.getChildAt(0));
     cEdge.opaqueViewObject = failToEndSvcE;
@@ -230,7 +231,7 @@ public class vGraphModel extends DefaultGraphModel
     endSvc_en.connections.add(cEdge);
 
     DefaultEdge endRprToFail = new vEdgeCell(null);
-    sEdge = new SchedulingEdge();
+    sEdge = simkit.viskit.model.Model.bogusNewSchedulingEdge();
     endRprToFail.setUserObject(sEdge);
     sEdge.opaqueViewObject = endRprToFail;
     cs.connect(endRprToFail,fail.getChildAt(0),endRpr.getChildAt(0));
@@ -240,7 +241,7 @@ public class vGraphModel extends DefaultGraphModel
     fail_en.connections.add(sEdge);
 
     DefaultEdge failToEndRpt = new vEdgeCell(null);
-    sEdge = new SchedulingEdge();
+    sEdge = simkit.viskit.model.Model.bogusNewSchedulingEdge();
     failToEndRpt.setUserObject(sEdge);
  tempAddToFroms(failToEndRpt,(DefaultPort)endRpr.getChildAt(0),(DefaultPort)fail.getChildAt(0));
     sEdge.opaqueViewObject = failToEndRpt;
@@ -338,7 +339,6 @@ public class vGraphModel extends DefaultGraphModel
         jgExtendsJc,
         //uiGroup
       };
-    */
 
    Object[] cells = new Object[] {
      run,
@@ -376,13 +376,16 @@ public class vGraphModel extends DefaultGraphModel
 
     model.insert(cells, attributes, cs, null, null);
   }
+ */
 
+  /*
   private void tempAddToFroms(DefaultEdge edge, DefaultPort to, DefaultPort from)
   {
-    simkit.viskit.Edge e = (simkit.viskit.Edge)edge.getUserObject();
+    simkit.viskit.model.Edge e = (simkit.viskit.model.Edge)edge.getUserObject();
     e.to = (EventNode)((CircleCell)to.getParent()).getUserObject();
     e.from = (EventNode)((CircleCell)from.getParent()).getUserObject();
   }
+  */
 
   public void changeEvent(EventNode en)
   {
@@ -421,6 +424,10 @@ public class vGraphModel extends DefaultGraphModel
     graph.graphDidChange();
 */
   }
+  public void removeAll()
+  {
+    graph.removeAll();
+  }
   public void changeCancellingEdge(CancellingEdge ed)
   {
 
@@ -430,6 +437,7 @@ public class vGraphModel extends DefaultGraphModel
     DefaultEdge e = (DefaultEdge)edge.opaqueViewObject;
     this.remove(new Object[]{e});
   }
+  
   public void deleteCancellingEdge(CancellingEdge edge)
   {
     DefaultEdge e = (DefaultEdge)edge.opaqueViewObject;
@@ -443,13 +451,13 @@ public class vGraphModel extends DefaultGraphModel
   }
   public void addEventNode(EventNode en, Point p)
   {
-    DefaultGraphCell c = new CircleCell(en.name);
+    DefaultGraphCell c = new CircleCell(en.getName());
     en.opaqueViewObject = c;
     c.setUserObject(en);
 
     Map attributes = new Hashtable();
     attributes.put(c,createBounds(p.x,p.y,Color.black)); // color a nop?
-    c.add(new DefaultPort(en.name+"/Center"));
+    c.add(new DefaultPort(en.getName()+"/Center"));
     this.insert(new Object[]{c},attributes,null,null,null);
   }
   public void addEdge(SchedulingEdge se)
@@ -460,7 +468,7 @@ public class vGraphModel extends DefaultGraphModel
   {
     _addEdgeCommon(se,viskitCancelEdgeStyle);
   }
-  private void _addEdgeCommon(simkit.viskit.Edge se, Map edgeStyle)
+  private void _addEdgeCommon(simkit.viskit.model.Edge se, Map edgeStyle)
   {
     EventNode enfrom = se.from;
     EventNode ento   = se.to;

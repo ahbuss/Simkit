@@ -1,5 +1,6 @@
 package simkit.viskit;
 
+import simkit.viskit.model.*;
 import java.io.File;
 
 /**
@@ -7,7 +8,6 @@ import java.io.File;
  * User: mike
  * Date: Mar 18, 2004
  * Time: 12:06:11 PM
- * To change this template use File | Settings | File Templates.
  */
 
 /**
@@ -17,21 +17,24 @@ import java.io.File;
 
 public interface ViskitView
 {
-  public boolean doEditCancelEdge( CancellingEdge edge );
-  public boolean doEditEdge( SchedulingEdge edge );
-  public boolean doEditNode( EventNode node );
+  // permit user to edit existing entities
+  public boolean doEditCancelEdge   ( CancellingEdge edge );
+  public boolean doEditEdge         ( SchedulingEdge edge );
+  public boolean doEditNode         ( EventNode node );
+  public boolean doEditParameter    ( vParameter param );
+  public boolean doEditStateVariable( vStateVariable var);
 
-  public int     genericAsk             ( String title, String prompt );      //JOptionPane constants
+  public int     genericAsk             ( String title, String prompt );      // returns JOptionPane constants
   public void    genericErrorReport     ( String title, String message );
   public String  promptForStringOrCancel( String title, String message, String initval);
 
   public File    openFileAsk();
   public File    saveFileAsk();
 
-  public void    fileName(String s);
+  public void    fileName(String s);    // informative, tells view what we're working on
   
   // The following 2 may be implemented by the view in someother way that an official GUI Dialog
-  public Parameter     addParameterDialog();
-  public StateVariable addStateVariableDialog();
+  public void addParameterDialog();
+  public void addStateVariableDialog();
 
 }

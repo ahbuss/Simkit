@@ -1,7 +1,6 @@
 package simkit.viskit;
 
-import simkit.viskit.model.EventArgument;
-import java.util.ArrayList;
+import simkit.viskit.model.EventLocalVariable;
 
 /**
  * OPNAV N81 - NPS World Class Modeling (WCM) 2004 Projects
@@ -13,11 +12,11 @@ import java.util.ArrayList;
  * Time: 8:49:21 AM
  */
 
-public class ArgumentsPanel extends ViskitTablePanel
+public class LocalVariablesPanel extends ViskitTablePanel
 {
-  private String[] mytitles = {"name","type","comment"};
+  private String[] mytitles = {"name","type","value"};
 
-  ArgumentsPanel(int wid)
+  LocalVariablesPanel(int wid)
   {
     super(wid);            // separate constructor from initialization
     init();
@@ -31,22 +30,15 @@ public class ArgumentsPanel extends ViskitTablePanel
   public String[] getFields(Object o)
   {
     String[] sa = new String[3];
-    sa[0] = ((EventArgument)o).getName();
-    sa[1] = ((EventArgument)o).getType();
-    ArrayList  ar = ((EventArgument)o).getComments();
-    if(ar.size() > 0)
-      sa[2] = (String)((EventArgument)o).getComments().get(0);
-    else
-      sa[2] = "comment";
+    sa[0] = ((EventLocalVariable)o).getName();
+    sa[1] = ((EventLocalVariable)o).getType();
+    sa[2] = ((EventLocalVariable)o).getValue();
     return sa;
   }
 
   public Object newRowObject()
   {
-    EventArgument ea = new EventArgument();
-    ea.setName("name");
-    ea.setType("int");
-    return ea;
+    return new EventLocalVariable("locvar name","int","0");
   }
 
   public int getNumVisibleRows()

@@ -4,8 +4,12 @@ import simkit.viskit.jgraph.vGraphComponent;
 import simkit.viskit.jgraph.vGraphModel;
 import simkit.viskit.mvc.mvcAbstractJFrameView;
 import simkit.viskit.mvc.mvcModelEvent;
+import simkit.viskit.model.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
@@ -80,16 +84,6 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
   private JToolBar toolBar;
 
   /**
-   * Model for the state variables table
-   */
-  private StateVariableTableModel stateVariableTableModel;
-
-  /**
-   * Parameters table model
-   */
-  private ParameterTableModel parameterTableModel;
-
-  /**
    * Button group that holds the mode buttons.
    */
   private ButtonGroup modeButtonGroup;
@@ -100,11 +94,26 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
   private JToggleButton arcMode;
   private JToggleButton cancelArcMode;
 
-
   /**
    * Whether or not we can edit this event graph
    */
   private boolean isEditable;
+
+  /**
+   * StateVariables panel
+   */
+  private JButton varMinusButt;
+  private JButton varPlusButt;
+  private JButton varEdButt;
+
+  /**
+   * SimParameters panel
+   */
+  private JButton parmMinusButt;
+  private JButton parmPlusButt;
+  private JButton parmEdButt;
+  private ParametersPanel pp;
+  private VariablesPanel vp;
 
   /**
    * Constructor; lays out initial GUI objects
@@ -117,8 +126,8 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
     this.initMVC(mod,ctrl);   // set up mvc linkages
     this.initUI();            // build widgets
 
-    parameterTableModel = new ParameterTableModel();
-    stateVariableTableModel = new StateVariableTableModel();
+   // parameterTableModel = new ParameterTableModel();
+   // stateVariableTableModel = new StateVariableTableModel();
 
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     this.setLocation((d.width - 800) / 2, (d.height - 600) / 2);
@@ -165,25 +174,6 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
   }
 
   /**
-   * Returns an array of strings that contain all the existing parameter and
-   * state variable names. This can be used to make sure we don't create
-   * duplicate names.
-   */
-  private java.util.List getExistingNames()
-  {
-    java.util.List parameterNames, stateVariableNames, allNames;
-
-    parameterNames = parameterTableModel.getNames();
-    stateVariableNames = stateVariableTableModel.getNames();
-    allNames = new Vector();
-
-    allNames.addAll(parameterNames);
-    allNames.addAll(stateVariableNames);
-
-    return allNames;
-  }
-
-  /**
    * Initialize the MCV connections
    */
   private void initMVC(Model mod, Controller ctrl)
@@ -197,6 +187,7 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
    */
   private void initUI()
   {
+    this.setFont(new Font("Courier",Font.PLAIN,12));
     // Layout menus
     this.setupMenus();
 
@@ -226,58 +217,62 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
       System.err.println("assert false : \"Drop target init. error\"");
     }
 
-    // Set up JTable to hold state variable data
-    stateVariableTableModel = new StateVariableTableModel();
-
-    // combo box of types
-    JComboBox types = new JComboBox();
-    types.addItem("Integer");
-    types.addItem("Float");
-    types.addItem("Double");
-    types.addItem("String");
-    types.setEditable(true);  // Make this editable so they can add new, arbitrary types
-
-/*
-    JTable stateVariableTable = new JTable(stateVariableTableModel);
-    TableColumn column = stateVariableTable.getColumnModel().getColumn(1);
-    column.setCellEditor(new DefaultCellEditor(types));
-    JScrollPane stateVariablesScrollPane = new JScrollPane(stateVariableTable);
-*/
-
+    // State variables area:
     stateVariablesPanel = new JPanel();
-    stateVariablesPanel.setLayout(new BorderLayout());
-    stateVariablesPanel.add(new JLabel("State Variables"), BorderLayout.NORTH);
+    stateVariablesPanel.setLayout(new BoxLayout(stateVariablesPanel,BoxLayout.Y_AXIS)); //new BorderLayout());
+    stateVariablesPanel.add(Box.createVerticalStrut(5));
 
-    VariablesPanel vp = new VariablesPanel();
-    JScrollPane stateVariablesScrollPane = new JScrollPane(vp);
-    stateVariablesPanel.add(stateVariablesScrollPane, BorderLayout.CENTER);
+     JPanel p = new JPanel();
+     p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
+     p.add(Box.createHorizontalGlue());
+      p.add(new JLabel("State Variables"));
+     p.add(Box.createHorizontalGlue());
+    stateVariablesPanel.add(p);
 
-    // Set up editor for the Name column. We check input so that we don't have
-    // to variables each named the same thing, etc.
+     vp = new VariablesPanel(300,85);
+    stateVariablesPanel.add(vp);
+    stateVariablesPanel.add(Box.createVerticalStrut(5));
 
-    //stateVariableTable.getModel().getColumn(0).setCellEditor(new VariableNameEditor());
+    // Wire handlers for stateVariable adds, deletes and edits
+    vp.addMinusListener(ActionIntrospector.getAction((ViskitController)getController(),"deleteStateVariable"));
+    vp.addPlusListener (ActionIntrospector.getAction((ViskitController)getController(),"newStateVariable"));
 
+    // Introspector can't handle a param to the method....?
+    vp.addDoubleClickedListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent event)
+      {
+        ((ViskitController)getController()).stateVariableEdit((vStateVariable)event.getSource());
+      }
+    });
 
-
-    // Set up parameter table; the panel as a whole has a label at the top
-    // and a scrollpane underneath.
+    // Simulation parameters area
     parametersPanel = new JPanel();
-    parametersPanel.setLayout(new BorderLayout());
-    parametersPanel.add(new JLabel("Simulation Parameters"), BorderLayout.NORTH);
+    parametersPanel.setLayout(new BoxLayout(parametersPanel,BoxLayout.Y_AXIS)); //BorderLayout());
+    parametersPanel.add(Box.createVerticalStrut(5));
+     p = new JPanel();
+     p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
+     p.add(Box.createHorizontalGlue());
+     p.add(new JLabel("Simulation parameters"));
+     p.add(Box.createHorizontalGlue());
+    parametersPanel.add(p);
 
-/*
-    parameterTableModel = new ParameterTableModel();
-    JTable parametersTable = new JTable(parameterTableModel);
+      pp = new ParametersPanel(300);
+    parametersPanel.add(pp);
+    parametersPanel.add(Box.createVerticalStrut(5));
 
-    column = parametersTable.getColumnModel().getColumn(1);
-    column.setCellEditor(new DefaultCellEditor(types));
+    // Wire handlers for parameter adds, deletes and edits
+    pp.addMinusListener(ActionIntrospector.getAction((ViskitController)getController(),"deleteSimParameter"));
+    pp.addPlusListener (ActionIntrospector.getAction((ViskitController)getController(),"newSimParameter"));
 
-    JScrollPane parametersScrollPane = new JScrollPane(parametersTable);
-*/
-    ParametersPanel pp = new ParametersPanel();
-    JScrollPane parametersScrollPane = new JScrollPane(pp);
-    parametersPanel.add(parametersScrollPane, BorderLayout.CENTER);
-
+    // Introspector can't handle a param to the method....?
+    pp.addDoubleClickedListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent event)
+      {
+        ((ViskitController)getController()).simParameterEdit((vParameter)event.getSource());
+      }
+    });
 
     // Split pane that has state variables on top, parameters on bottom.
     stateParameterSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, stateVariablesPanel, parametersPanel);
@@ -298,7 +293,7 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
     super.setVisible(b);
     if(firstShown == false) {
       firstShown = true;
-      stateDrawingSplit.setDividerLocation(0.6d);
+      stateDrawingSplit.setDividerLocation(0.5d);
       stateParameterSplit.setDividerLocation(0.5d);
     }
   }
@@ -306,61 +301,28 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
   /**
    * run the add parameter dialog
    */
-  public Parameter addParameterDialog()
+  public void addParameterDialog()
   {
-    ParameterDialog parameterDialog = new ParameterDialog(this, this.getExistingNames());
-    String parameterName;
-    String parameterType;
 
-    parameterDialog.setVisible(true);
-
-    // User hit cancel? Bail without adding anything.
-    if (parameterDialog.getButtonChosen() == ParameterDialog.CANCEL_CHOSEN)
-      return null;
-
-    // Retrieve the parameter name and type from the dialog. These items
-    // were error-checked in the parameter dialog.
-
-    parameterName = parameterDialog.getParameterName();
-    parameterType = parameterDialog.getParameterType();
-
-    Parameter newParameter = new Parameter(parameterName, parameterType);
-
-    // the following would be done on command of the Model through the listener
-    // Add to the model
-    //parameterTableModel.addParameter(newParameter);
-    return newParameter;
+    if( ParameterDialog.showDialog(this,this,null)) {      // blocks here
+      ((ViskitController)getController()).newSimParameter(ParameterDialog.newName,
+                                                          ParameterDialog.newType,
+                                                          "new value here",
+                                                          ParameterDialog.newComment);
+    }
   }
 
   /**
    * run the add state variable dialog
    */
-  public StateVariable addStateVariableDialog()
+  public void addStateVariableDialog()
   {
-    StateVariableDialog stateVariableDialog = new StateVariableDialog(this, this.getExistingNames());
-    String name;
-    String type;
-    String initialValue;
-
-    stateVariableDialog.setVisible(true);
-
-    // User hit cancel? Bail without adding anything.
-    if(stateVariableDialog.getButtonChosen() == StateVariableDialog.CANCEL_CHOSEN)
-      return null;
-
-    // Retrieve the state variable name and type from the dialog. These items
-    // were error-checked in the parameter dialog.
-
-    name = stateVariableDialog.getStateVariableName();
-    type = stateVariableDialog.getType();
-    initialValue = stateVariableDialog.getInitialValue();
-
-    StateVariable stateVariable = new StateVariable(name, type, initialValue);
-
-    // the following would be done on command of the Model through the Listener
-    // Add to the model
-    //stateVariableTableModel.addStateVariable(stateVariable);
-    return stateVariable;
+    if( StateVariableDialog.showDialog(this,this,null)) {      // blocks here
+      ((ViskitController)getController()).newStateVariable(StateVariableDialog.newName,
+                                                          StateVariableDialog.newType,
+                                                          "new value here",
+                                                          StateVariableDialog.newComment);
+    }
   }
 
   /**
@@ -407,8 +369,8 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
     editMenu.addSeparator();
 
     editMenu.add(buildMenuItem(controller,"newNode",         "Add Event",            new Integer(KeyEvent.VK_E),null));
-    editMenu.add(buildMenuItem(controller,"addStateVariable","Add State Variable...",new Integer(KeyEvent.VK_S),null));
-    editMenu.add(buildMenuItem(controller,"addSimParameter", "Add Parameter...",     new Integer(KeyEvent.VK_M),null));
+    editMenu.add(buildMenuItem(controller,"newStateVariable","Add State Variable...",new Integer(KeyEvent.VK_S),null));
+    editMenu.add(buildMenuItem(controller,"newSimParameter", "Add vParameter...",     new Integer(KeyEvent.VK_M),null));
 
     // Set up simulation menu for controlling the simulation
     simulationMenu = new JMenu("Simulation");
@@ -448,6 +410,8 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
     else jtb = new JToggleButton();
     jtb.setIcon(new ImageIcon(ClassLoader.getSystemResource(icPath)));
     jtb.setToolTipText(tt);
+    jtb.setBorder(BorderFactory.createEtchedBorder());
+    jtb.setText(null);
     return jtb;
   }
 
@@ -491,7 +455,9 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
     toolBar.addSeparator(new Dimension(24,24));
     toolBar.add(new JLabel("Mode: "));
     toolBar.add(selectMode);
+    toolBar.addSeparator(new Dimension(5,24));
     toolBar.add(arcMode);
+    toolBar.addSeparator(new Dimension(5,24));
     toolBar.add(cancelArcMode);
 
     addMode.setTransferHandler(new TransferHandler("text"));
@@ -535,7 +501,8 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
     vCursorHandler()
     {
       super();
-      select    = new Cursor(Cursor.MOVE_CURSOR);
+      select    = Cursor.getDefaultCursor();
+      //select    = new Cursor(Cursor.MOVE_CURSOR);
       arc       = new Cursor(Cursor.CROSSHAIR_CURSOR);
 
       Image img = new ImageIcon(ClassLoader.getSystemResource("simkit/viskit/images/canArcCursor.png")).getImage();
@@ -619,19 +586,28 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
   public boolean doEditNode(EventNode node)
   //---------------------------------------
   {
-    return EventInspectorDialog.showDialog(this,this,node); // blocks
+    return EventInspectorDialog.showDialog(this,this.graphPane,node); // blocks
   }
 
   public boolean doEditEdge(SchedulingEdge edge)
   //--------------------------------------------
   {
-    return EdgeInspectorDialog.showDialog(this,this,edge); // blocks
+    return EdgeInspectorDialog.showDialog(this,this.graphPane,edge); // blocks
   }
 
   public boolean doEditCancelEdge(CancellingEdge edge)
   //--------------------------------------------------
   {
-    return EdgeInspectorDialog.showDialog(this,this,edge); // blocks
+    return EdgeInspectorDialog.showDialog(this,this.graphPane,edge); // blocks
+  }
+
+  public boolean doEditParameter(vParameter param)
+  {
+    return ParameterDialog.showDialog(this,this.graphPane,param);    // blocks
+  }
+  public boolean doEditStateVariable(vStateVariable var)
+  {
+    return StateVariableDialog.showDialog(this,this.graphPane,var);
   }
 
   public int genericAsk(String title, String msg)
@@ -654,7 +630,7 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
   }
 
   /**
-   * This is where the "master" model (simkit.viskit.Model) updates the view.
+   * This is where the "master" model (simkit.viskit.model.Model) updates the view.
    * @param event
    */
   public void modelChanged(mvcModelEvent event)
@@ -673,7 +649,24 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
     // Then, our inner jgraph component gets this information
     // to typically update the graph.
 
-    this.graphPane.viskitModelChanged((ModelEvent)event);
+    switch(event.getID())
+    {
+      case ModelEvent.SIMPARAMETERADDED:
+        pp.addRow(event.getSource());
+        break;
+      case ModelEvent.STATEVARIABLEADDED:
+        vp.addRow(event.getSource());
+        break;
+      case ModelEvent.SIMPARAMETERDELETED:
+        pp.removeRow(event.getSource());
+        break;
+      case ModelEvent.STATEVARIABLEDELETED:
+        vp.removeRow(event.getSource());
+        break;
+      default:
+        this.graphPane.viskitModelChanged((ModelEvent)event);
+
+    }
   }
 
 }

@@ -1,6 +1,6 @@
 package simkit.viskit;
 
-import simkit.viskit.model.EventArgument;
+import simkit.viskit.model.vEdgeParameter;
 import java.util.ArrayList;
 
 /**
@@ -13,11 +13,11 @@ import java.util.ArrayList;
  * Time: 8:49:21 AM
  */
 
-public class ArgumentsPanel extends ViskitTablePanel
+public class EdgeParametersPanel extends ViskitTablePanel
 {
-  private String[] mytitles = {"name","type","comment"};
+  private String[] mytitles = {"value","type"};
 
-  ArgumentsPanel(int wid)
+  EdgeParametersPanel(int wid)
   {
     super(wid);            // separate constructor from initialization
     init();
@@ -31,21 +31,14 @@ public class ArgumentsPanel extends ViskitTablePanel
   public String[] getFields(Object o)
   {
     String[] sa = new String[3];
-    sa[0] = ((EventArgument)o).getName();
-    sa[1] = ((EventArgument)o).getType();
-    ArrayList  ar = ((EventArgument)o).getComments();
-    if(ar.size() > 0)
-      sa[2] = (String)((EventArgument)o).getComments().get(0);
-    else
-      sa[2] = "comment";
+    sa[0] = ((vEdgeParameter)o).getValue();
+    sa[1] = ((vEdgeParameter)o).getType();
     return sa;
   }
 
   public Object newRowObject()
   {
-    EventArgument ea = new EventArgument();
-    ea.setName("name");
-    ea.setType("int");
+    vEdgeParameter ea = new vEdgeParameter("value","type");
     return ea;
   }
 

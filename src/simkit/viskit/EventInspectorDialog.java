@@ -5,10 +5,18 @@ import bsh.EvalError;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Iterator;
+import java.util.Vector;
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.border.EtchedBorder;
+
+import simkit.viskit.model.EventNode;
+import simkit.viskit.model.vParameter;
+import simkit.viskit.model.EventStateTransition;
+import simkit.viskit.model.EventArgument;
+import simkit.xsd.bindings.*;
 
 /**
  * OPNAV N81 - NPS World Class Modeling (WCM) 2004 Projects
@@ -23,7 +31,7 @@ import javax.swing.border.EtchedBorder;
 public class EventInspectorDialog extends JDialog
 {
   private static EventInspectorDialog dialog;
-  private Component locationComp;
+  private Component locationComponent;
   private EventNode node;
   private static boolean modified = false;
   private JButton canButt,okButt,testButt;
@@ -31,6 +39,9 @@ public class EventInspectorDialog extends JDialog
   private JList parameters;
   private TransitionsPanel transitions;
   private ArgumentsPanel arguments;
+  private LocalVariablesPanel localVariables;
+  private JFrame fr;
+  private JButton lvPlus,lvMinus;
 
   /**
    * Set up and show the dialog.  The first Component argument
@@ -53,13 +64,14 @@ public class EventInspectorDialog extends JDialog
     return modified;
   }
 
-  private EventInspectorDialog(Frame frame,
+  private EventInspectorDialog(JFrame frame,
                               Component locationComp,
                               EventNode node)
   {
-    super(frame, "Event -- "+node.name, true);
+    super(frame, "Event -- "+node.getName(), true);
+    this.fr = frame;
     this.node = node;
-    this.locationComp = locationComp;
+    this.locationComponent = locationComp;
     this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
     Container cont = getContentPane();
@@ -75,13 +87,20 @@ public class EventInspectorDialog extends JDialog
       namePan.setLayout(new BoxLayout(namePan,BoxLayout.X_AXIS));
       namePan.setOpaque(false);
       namePan.setBorder(BorderFactory.createTitledBorder("Event name"));
-        name = new JTextField();
+        name = new JTextField("Junk");
         name.setOpaque(true);
         name.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+
       namePan.add(name);
+    // make the field expand only horiz.
+     Dimension d = namePan.getPreferredSize();
+     d.width = Integer.MAX_VALUE;
+     namePan.setMaximumSize(d);
+
     con.add(namePan);
     con.add(Box.createVerticalStrut(5));
 
+/*
       // delay
       JPanel delayPan = new JPanel();
       delayPan.setLayout(new BoxLayout(delayPan,BoxLayout.X_AXIS));
@@ -93,22 +112,24 @@ public class EventInspectorDialog extends JDialog
       delayPan.add(delay);
     con.add(delayPan);
     con.add(Box.createVerticalStrut(5));
+*/
 
       // state transitions
       transitions = new TransitionsPanel();
-      transitions.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-      JScrollPane condSp = new JScrollPane(transitions);
-      condSp.setBorder(BorderFactory.createTitledBorder("State transitions"));
-      condSp.setOpaque(false);
-    con.add(condSp);
+      transitions.setBorder(BorderFactory.createTitledBorder("State transitions"));
+    con.add(transitions);
     con.add(Box.createVerticalStrut(5));
 
-      arguments = new ArgumentsPanel();
-      arguments.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-      JScrollPane argSp = new JScrollPane(arguments);
-      argSp.setBorder(BorderFactory.createTitledBorder("Event arguments"));
-      argSp.setOpaque(false);
-    con.add(argSp);
+      // local vars
+      localVariables = new LocalVariablesPanel(300);
+      localVariables.setBorder(BorderFactory.createTitledBorder("Local variables"));
+    con.add(localVariables);
+    con.add(Box.createVerticalStrut(5));
+
+      // Event arguments
+      arguments = new ArgumentsPanel(300);
+      arguments.setBorder(BorderFactory.createTitledBorder("Event arguments"));
+    con.add(arguments);
     con.add(Box.createVerticalStrut(5));
 
       // buttons
@@ -132,9 +153,28 @@ public class EventInspectorDialog extends JDialog
     myChangeActionListener chlis = new myChangeActionListener();
     //name.addActionListener(chlis);
     name.addKeyListener(new myKeyListener());
-    delay.addActionListener(chlis);
-
-    //todo transitions.add
+    arguments.addDoubleClickedListener( new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        EventArgument ea = (EventArgument)e.getSource();
+        boolean modified = EventArgumentDialog.showDialog(fr,locationComponent,ea);
+        if(modified) {
+          arguments.updateRow(ea);
+        }
+      }
+    });
+    transitions.addDoubleClickedListener( new MouseAdapter()
+    {
+      public void mouseClicked(MouseEvent e)
+      {
+        EventStateTransition est = (EventStateTransition)e.getSource();
+        boolean modified = EventTransitionDialog.showDialog(fr,locationComponent,est);
+        if(modified) {
+          transitions.updateTransition(est);
+        }
+      }
+    });
   }
 
   private void sizeAndPosition()
@@ -143,13 +183,13 @@ public class EventInspectorDialog extends JDialog
     // little check to add some extra space to always include the node name in title bar w/out dotdotdots
     if(getWidth()<350)
       setSize(350,getHeight());
-    this.setLocationRelativeTo(locationComp);
+    this.setLocationRelativeTo(locationComponent);
   }
 
   public void setParams(Component c, EventNode en)
   {
     node=en;
-    locationComp = c;
+    locationComponent = c;
 
     fillWidgets();
     sizeAndPosition();
@@ -157,18 +197,24 @@ public class EventInspectorDialog extends JDialog
 
   private void fillWidgets()
   {
-    setTitle("Event -- "+node.name);
-    name.setText(node.name);
-    transitions.setString(node.stateTrans);
+    setTitle("Event -- "+node.getName());
+    name.setText(node.getName());
+    transitions.setTransitions(node.getTransitions());
+    arguments.setData(node.getArguments());
+    localVariables.setData(node.getLocalVariables());
     modified = false;
 // test    okButt.setEnabled(false);
     getRootPane().setDefaultButton(canButt);
   }
+
   private void unloadWidgets()
   {
-    node.name = name.getText();
-    node.stateTrans = transitions.getString();
-    // todo the rest
+    if(modified) {
+      node.setName(name.getText());
+      node.setTransitions(transitions.getTransitions());
+      node.setArguments(arguments.getData());
+      node.setLocalVariables(new Vector(localVariables.getData()));
+    }
   }
   class cancelButtonListener implements ActionListener
   {

@@ -3,6 +3,7 @@ package simkit.viskit;
 import simkit.viskit.model.Edge;
 import simkit.viskit.model.vParameter;
 import simkit.viskit.model.vStateVariable;
+import simkit.viskit.model.vEdgeParameter;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -24,25 +25,24 @@ import java.util.regex.*;
  * @author DMcG
  */
 
-public class ParameterDialog extends JDialog
+public class EdgeParameterDialog extends JDialog
 {
-  private JTextField parameterNameField;    // Text field that holds the parameter name
-  private JTextField expressionField;       // Text field that holds the expression
-  private JTextField commentField;          // Text field that holds the comment
+  private JTextField valueField;       // Text field that holds the expression
+  //private JTextField commentField;          // Text field that holds the comment
   private JComboBox  parameterTypeCombo;    // Editable combo box that lets us select a type
 
-  private static ParameterDialog dialog;
+  private static EdgeParameterDialog dialog;
   private static boolean modified = false;
-  private vParameter param;
+  private vEdgeParameter param;
   private Component locationComp;
   private JButton okButt, canButt;
 
-  public static String newName, newType, newComment;
+  public static String newValue, newType; //, newComment;
 
-  public static boolean showDialog(JFrame f, Component comp, vParameter parm)
+  public static boolean showDialog(JFrame f, Component comp, vEdgeParameter parm)
   {
     if(dialog == null)
-      dialog = new ParameterDialog(f,comp,parm);
+      dialog = new EdgeParameterDialog(f,comp,parm);
     else
       dialog.setParams(comp,parm);
 
@@ -51,9 +51,9 @@ public class ParameterDialog extends JDialog
     return modified;
   }
 
-  private ParameterDialog(JFrame parent, Component comp, vParameter param)
+  private EdgeParameterDialog(JFrame parent, Component comp, vEdgeParameter param)
   {
-    super(parent, "Parameter Inspector", true);
+    super(parent, "Edge Parameter", true);
     this.param = param;
     this.locationComp = comp;
     this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -69,23 +69,21 @@ public class ParameterDialog extends JDialog
       JPanel fieldsPanel = new JPanel();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel,BoxLayout.Y_AXIS));
 
-        JLabel nameLab = new JLabel("name");
-        JLabel initLab = new JLabel("initial value");
+        JLabel valueLab = new JLabel("initial value");
         JLabel typeLab = new JLabel("type");
-        JLabel commLab = new JLabel("comment");
-        int w = maxWidth(new JComponent[]{nameLab,initLab,typeLab,commLab});
+        //JLabel commLab = new JLabel("comment");
+        int w = maxWidth(new JComponent[]{valueLab,typeLab}); //commLab});
 
-        parameterNameField = new JTextField(15);   setMaxHeight(parameterNameField);
-        expressionField    = new JTextField(25);   setMaxHeight(expressionField);
-        commentField       = new JTextField(25);   setMaxHeight(commentField);
+        valueField         = new JTextField(25);   setMaxHeight(valueField);
+       // commentField       = new JTextField(25);   setMaxHeight(commentField);
         parameterTypeCombo = new JComboBox(VGlobals.instance().getTypeCBModel());
                                                setMaxHeight(parameterTypeCombo);
 
         parameterTypeCombo.setEditable(true);
 
-        fieldsPanel.add(new OneLinePanel(nameLab,w,parameterNameField));
+        fieldsPanel.add(new OneLinePanel(valueLab,w,valueField));
         fieldsPanel.add(new OneLinePanel(typeLab,w,parameterTypeCombo));
-        fieldsPanel.add(new OneLinePanel(commLab,w,commentField));
+        //fieldsPanel.add(new OneLinePanel(commLab,w,commentField));
        con.add(fieldsPanel);
        con.add(Box.createVerticalStrut(5));
 
@@ -115,9 +113,8 @@ public class ParameterDialog extends JDialog
     okButt .addActionListener(new applyButtonListener());
 
     enableApplyButtonListener lis = new enableApplyButtonListener();
-    this.parameterNameField.addCaretListener(lis);
-    this.commentField.      addCaretListener(lis);
-    this.expressionField.   addCaretListener(lis);
+    //this.commentField.      addCaretListener(lis);
+    this.valueField.   addCaretListener(lis);
     this.parameterTypeCombo.addActionListener(lis);
   }
 
@@ -137,7 +134,7 @@ public class ParameterDialog extends JDialog
     d.width = Integer.MAX_VALUE;
     c.setMaximumSize(d);
   }
-  public void setParams(Component c, vParameter p)
+  public void setParams(Component c, vEdgeParameter p)
   {
     param = p;
     locationComp = c;
@@ -151,7 +148,7 @@ public class ParameterDialog extends JDialog
 
     this.setLocationRelativeTo(c);
   }
-  private void setType(vParameter p)
+  private void setType(vEdgeParameter p)
   {
     String nm = p.getType();
     ComboBoxModel mod = parameterTypeCombo.getModel();
@@ -170,28 +167,27 @@ public class ParameterDialog extends JDialog
   private void fillWidgets()
   {
     if(param != null) {
-      parameterNameField.setText(param.getName());
+      valueField.setText(param.getValue());
       setType(param);
-      this.commentField.setText(param.getComment());
+      //this.commentField.setText(param.getComment());
     }
     else {
-      parameterNameField.setText("param name");
-      //expressionField.setText("type");
-      commentField.setText("comments here");
+      valueField.setText("param name");
+      //commentField.setText("comments here");
     }
   }
 
   private void unloadWidgets()
   {
     if(param != null) {
-      param.setName(this.parameterNameField.getText());
+      param.setValue(valueField.getText().trim());
       param.setType(((String)(this.parameterTypeCombo.getSelectedItem())).trim());
-      param.setComment(this.commentField.getText());
+      //param.setComment(this.commentField.getText());
     }
     else {
-      newName = parameterNameField.getText().trim();
+      newValue = valueField.getText().trim();
       newType = ((String)(this.parameterTypeCombo.getSelectedItem())).trim();
-      newComment = commentField.getText().trim();
+      //newComment = commentField.getText().trim();
     }
   }
 

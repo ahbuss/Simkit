@@ -1,4 +1,4 @@
-package simkit.viskit;
+package simkit.viskit.model;
 
 import java.util.ArrayList;
 
@@ -14,17 +14,16 @@ import java.util.ArrayList;
 
 public class CancellingEdge extends Edge
 {
-  public CancellingEdge()
+  CancellingEdge()          //package-limited
   {
     parameters = new ArrayList();
-    try {
-      parameters.add(new EdgeParameter("canparam1_St",Class.forName("java.lang.String")));
-      parameters.add(new EdgeParameter("canparam2_Int",Class.forName("java.lang.Integer")));
-      parameters.add(new EdgeParameter("canparam3_HM",Class.forName("java.util.HashMap")));
-    }
-    catch(Exception e) {
-      System.err.println("bad Class.forName, CancellingEdge");
-    }
+
+/*
+    parameters.add(new vParameter("canparam1_St","java.lang.String"));
+    parameters.add(new vParameter("canparam2_Int","java.lang.Integer"));
+    parameters.add(new vParameter("canparam3_HM","java.util.HashMap"));
+*/
+
   }
   Object copyShallow()
   {

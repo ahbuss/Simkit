@@ -1,4 +1,4 @@
-package simkit.viskit;
+package simkit.viskit.model;
 
 import java.io.File;
 import java.awt.*;
@@ -6,14 +6,22 @@ import java.util.Vector;
 import java.util.ArrayList;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mike
+ * OPNAV N81 - NPS World Class Modeling (WCM) 2004 Projects
+ * MOVES Institute
+ * Naval Postgraduate School, Monterey CA
+ * www.nps.navy.mil
+ * By:   Mike Bailey
  * Date: Mar 18, 2004
  * Time: 1:43:07 PM
- * To change this template use File | Settings | File Templates.
  */
+
 public interface ViskitModel
 {
+  /**
+   * Separate initialization from object construction.
+   */
+  public void init();
+
   /**
    * Messaged by controller when a new Model should be loaded.
    * @param f File representing persistent model representation.  If null, model resets itself to 0 nodes, 0 edges, etc.
@@ -21,7 +29,7 @@ public interface ViskitModel
   public void newModel      (File f);
 
   /**
-   * Save existing model to specified file.  If null, save to last file.  If no list file, error.
+   * Save existing model to specified file.  If null, save to last file.  If no last file, error.
    * @param f File to save to.
    */
   public void saveModel     (File f);
@@ -46,7 +54,7 @@ public interface ViskitModel
   
   /**
    * Messaged by controller to get all defined simulation parameters.  Order (may be) important (?), ergo ArrayList container.
-   * @return ArrayList of Parameter objects.
+   * @return ArrayList of vParameter objects.
    */
   public ArrayList getSimParameters();
 
@@ -54,7 +62,7 @@ public interface ViskitModel
   // todo further comments...
 
 
-  public void newEvent      (EventNode node, Point p);
+  public void newEvent      (String nodeName, Point p);
   public void newEdge       (EventNode src, EventNode target);
   public void newCancelEdge (EventNode src, EventNode target);
 
@@ -66,10 +74,12 @@ public interface ViskitModel
   public void changeCancelEdge (Edge e);
   public void changeEvent      (EventNode ev);
 
-  public void newStateVariable    (StateVariable sv);
-  public void newSimParameter     (Parameter p);
-  public void changeStateVariable (StateVariable st);
-  public void changeSimParameter  (Parameter p);
-  public void deleteStateVariable (StateVariable sv);
-  public void deleteSimParameter  (Parameter p);
+  public void newStateVariable    (String name, String type, String initVal, String comment);
+  public void newSimParameter     (String name, String type, String initVal, String comment);
+  public void changeStateVariable (vStateVariable st);
+  public void changeSimParameter  (vParameter p);
+  public void deleteStateVariable (String sv);
+  public void deleteStateVariable (vStateVariable sv);
+  public void deleteSimParameter  (vParameter p);
+  public void deleteSimParameter  (String p);
 }

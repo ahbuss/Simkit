@@ -1,4 +1,4 @@
-package simkit.viskit;
+package simkit.viskit.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,17 +15,16 @@ import java.util.HashMap;
 
 public class SchedulingEdge extends Edge
 {
-  public SchedulingEdge()
+  SchedulingEdge()       // package-limited
   {
     parameters = new ArrayList();
-    try {
-      parameters.add(new EdgeParameter("schparam1_St" ,new String("")));
-      parameters.add(new EdgeParameter("schparam2_Int",new Integer(0)));
-      parameters.add(new EdgeParameter("schparam3_HM" ,new HashMap()));
-    }
-    catch(Exception e) {
-      System.err.println("bad Class.forName, SchlingEdge");
-    }
+
+/*
+    parameters.add(new vParameter("schparam1_St" ,"java.lang.String"));
+    parameters.add(new vParameter("schparam2_Int","java.lang.Integer"));
+    parameters.add(new vParameter("schparam3_HM" ,"java.util.HashMap"));
+*/
+
   }
   Object copyShallow()
   {
