@@ -15,7 +15,7 @@ public class Side {
      *  These are the only instances of <CODE>Side</CODE> that can ever exist in an
      *  application.  To add more, subclass <CODE>Side</CODE>.
      **/
-    protected static HashMap allSides = new HashMap(6);
+    protected static HashMap allSides = new HashMap(12);
 
     public static final Side RED = new Side("Red");
     public static final Side BLUE = new Side("Blue");
@@ -35,6 +35,7 @@ public class Side {
     protected Side(String side) {
         this.side = side;
         allSides.put(side, this);
+        allSides.put(side.toLowerCase(), this);
     }
     /**
      *  @return the name of this Side
