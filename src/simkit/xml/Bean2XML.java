@@ -9,9 +9,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.output.XMLOutputter;
+import javax.xml.parsers.*;
+import org.w3c.dom.*;
 /**
  * Serializes an Object to xml using javabean Introspection.
  * <br/>Note that this Class is not yet complete.
@@ -25,34 +24,41 @@ public class Bean2XML {
 **/
     public static final Class[] stringClassArray = new Class[] { java.lang.String.class };
     
+    private Document document;
+    
+    public Bean2XML(String rootElementName) {
+        try {
+            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        } 
+        catch (ParserConfigurationException e) { e.printStackTrace(System.err); }
+        document.appendChild(document.createElement(rootElementName));
+    }
+    
 /**
-* Return an XML Element containing the Class of the given Object and the name, type, and
-* value of all attributes. Uses java bean Introspection to discover the properties.
+* Adds an  Element to the Document containing the Class of the given Object 
+* and the name, type, and value of all attributes. Uses java bean Introspection 
+* to discover the properties.
 * Note that properties that are references to an Object have shallow values; the
 * value is the Class and a hash value.
 **/
-    public static Element createElementFromBean(Object bean) {
-        Element beanElement = new Element("Bean");
-        Element classElement = new Element("class");
-        classElement.setText(bean.getClass().getName());
+    public Element createElementFromBean(Object bean) {
+        Element beanElement = document.createElement("Bean");
+        document.getChildNodes().item(0).appendChild(beanElement);
+        Element classElement = document.createElement("class");
+        classElement.appendChild(document.createTextNode(bean.getClass().getName()));
         
-        List children = new ArrayList();
-        children.add(classElement);
         try {
             BeanInfo bi = Introspector.getBeanInfo(bean.getClass(), Object.class);
             PropertyDescriptor[] pd = bi.getPropertyDescriptors();
             for (int i = 0; i < pd.length; i++) {
                 Method reader = pd[i].getReadMethod();
                 if (reader == null) { continue; }
-                Element propertyElement = new Element("property");
+                Element propertyElement = document.createElement("property");
                 propertyElement.setAttribute("name", pd[i].getName());
                 propertyElement.setAttribute("value", reader.invoke(bean, null).toString());
                 propertyElement.setAttribute("type", pd[i].getPropertyType().getName());
-                children.add(propertyElement);
+                beanElement.appendChild(propertyElement);
             }
-            //beanElement.setChildren(children);
-            beanElement.setContent(children);
-            
         } 
         catch (IntrospectionException e) {System.err.println(e); }
         catch (IllegalAccessException e) {System.err.println(e); }
@@ -61,16 +67,20 @@ public class Bean2XML {
         return beanElement;
     }
     
+    public Document getDocument() {
+        return document;
+    }
+    
 /**
 * Not yet complete.
 **/
-    public static Object createBeanFromElement(Element element) {
+    public Object createBeanFromElement(Element element) {
         Object bean = null;
-        Element classElement = element.getChild("class");
+        Node classElement = element.getElementsByTagName("class").item(0);
         if (classElement != null) {
             try {
                 Class beanClass = Thread.currentThread().getContextClassLoader().loadClass(
-                    classElement.getText());
+                    classElement.getNodeValue());
                 bean = beanClass.newInstance();
                 BeanInfo bi = Introspector.getBeanInfo(beanClass, Object.class);
                 PropertyDescriptor[] pd = bi.getPropertyDescriptors();                
@@ -126,28 +136,24 @@ public class Bean2XML {
         for (int i = 0; i < 1000; i++) {
             test.newObservation(rng.draw());
         }
-        Element root = new Element("Stats");
-        Element element = createElementFromBean(test);
-        root.addContent(element);
         
+        Bean2XML b2x = new Bean2XML("Beans");
+        
+        b2x.createElementFromBean(test);
+        System.out.println(b2x.getDocument().getDocumentElement());
+
         test.reset();
         test.setName("bar");
         for (int i = 0; i < 500; i++) {
             test.newObservation(2.0 * rng.draw());
         }
-        root.addContent(createElementFromBean(test));
         
+        b2x.createElementFromBean(test);
+        System.out.println(b2x.getDocument().getDocumentElement());
+
         simkit.smdx.Mover mover = new simkit.smdx.UniformLinearMover("Fred",  
             new java.awt.geom.Point2D.Double(20.0, 30.0), 40.0);
-        root.addContent(createElementFromBean(mover));
-        
-        root.addContent(createElementFromBean(mover.getLocation()));
-        
-        Document doc = new Document(root);
-        XMLOutputter outputter = new XMLOutputter();
-        outputter.setNewlines(true);
-        outputter.setIndent("  ");
-        outputter.output(doc, System.out);
-        
+        b2x.createElementFromBean(mover);
+        System.out.println(b2x.getDocument().getDocumentElement());
     }
 }
