@@ -1,5 +1,9 @@
 package simkit.random;
 
+/** Generates Exponential random variate using log transform.
+ *
+ * @author Arnold Buss
+ */
 public class ExponentialVariate extends RandomVariateBase implements RandomVariate {
     
     private double mean;
@@ -11,6 +15,9 @@ public class ExponentialVariate extends RandomVariateBase implements RandomVaria
         return - mean * Math.log(rng.draw());
     }
     
+    /** Note that the value is the mean rather than the rate.
+     * @param params mean as single element of array.
+     */    
     public void setParameters(Object[] params) {
         if (params.length != 1) {
             throw new IllegalArgumentException("Should be only one parameter for Exponential: " +

@@ -7,9 +7,8 @@
 package simkit.random;
 
 /**
- *
+ * Generates Bernoulli random variates (either int or double).
  * @author  Arnold Buss
- * @version 
  */
 public class BernoulliVariate extends RandomVariateBase implements DiscreteRandomVariate {
 
@@ -19,13 +18,15 @@ public class BernoulliVariate extends RandomVariateBase implements DiscreteRando
     public BernoulliVariate() {
     }
 
+    /**
+     * @return  integer Bernoulli variate*/    
     public int generateInt() {
         return rng.draw() < probability ? 1 : 0;
     }
     
-    /**
-     * Generate a random variate having this class's distribution.
- */
+    /** Generate a random variate having this class's distribution.
+     * @return Bernoulli variate as double
+     */
     public double generate() {
         return generateInt();
     }
@@ -37,12 +38,11 @@ public class BernoulliVariate extends RandomVariateBase implements DiscreteRando
         return new Object[] { new Double(probability) }; 
     }
     
-    /**
-     * Sets the random variate's parameters.
+    /** Sets the random variate's parameters.
      * Alternatively, the parameters could be set in the constructor or
      * in additional methods provided by the programmer.
-     * @param params the array of parameters, wrapped in objects.
- */
+     * @param params The probability of '1', as a double in the range [0,1].
+     */
     public void setParameters(Object[] params) {
         if (params.length != 1) {
             throw new IllegalArgumentException("One parameter needed for Bernoulli");
@@ -55,6 +55,9 @@ public class BernoulliVariate extends RandomVariateBase implements DiscreteRando
         }
     }
     
+    /**
+     * @param prob The probability of 1, in range [0,1]
+     */    
     public void setProbability(double prob) {
         if (prob <= 0.0) {
             throw new IllegalArgumentException("Probability must be positive");
@@ -64,8 +67,12 @@ public class BernoulliVariate extends RandomVariateBase implements DiscreteRando
         }
     }
     
+    /**
+     * @return  */    
     public double getProbability() { return probability; }
     
+    /**
+     * @return  */    
     public String toString() { return "Bernoulli (" + getProbability() + ")"; }
         
 }

@@ -1,5 +1,11 @@
 package simkit.random;
 
+/** Generates random variates having an arbitrary
+ * discrete distribution.  The distribution is
+ * given by a set of values and a set of either probabilities,
+ * frequencies, or cumulative probabilities.
+ * @author Arnold Buss
+ */
 public class DiscreteVariate extends RandomVariateBase {
 
     private double[] cdf;
@@ -7,6 +13,14 @@ public class DiscreteVariate extends RandomVariateBase {
 
     public DiscreteVariate() {}
 
+    /** First argumenr is values as double[].
+     * Second argument is probabilities, frequencies, or
+     * cumulative probabilties, as double[]
+     *
+     * If (values, frequencies) are given, then the frequencies
+     * are normalized to sum to 1.
+     * @param params (values, prob) as (double[], double[])
+     */    
     public void setParameters(Object[] params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Must have Object[] {double[], double[]}");
@@ -20,6 +34,10 @@ public class DiscreteVariate extends RandomVariateBase {
         }
     }
     
+    /** Returns probabilities as second element in array regardless
+     * of how it was instantiated or set.
+     * @return (values, probabilities)
+     */    
     public Object[] getParameters() { return new Object[] { getValues(), getProbabilities() }; }
     
     public double generate() {

@@ -41,11 +41,8 @@ public class BinomialVariate implements DiscreteRandomVariate {
         return new Object[] { new Integer(n), new Double(bernoulli.getProbability()) };
     }
     
-    /**
-     * Sets the random variate's parameters.
-     * Alternatively, the parameters could be set in the constructor or
-     * in additional methods provided by the programmer.
-     * @param params the array of parameters, wrapped in objects.
+    /** Sets parameters - first is n, the second is p
+     * @param params (n, p)
      */
     public void setParameters(Object[] params) {
         if (params == null) {

@@ -1,5 +1,10 @@
 package simkit.random;
 
+/** Generates Normal(mean, std) random variate using the
+ * Box-Muller algorithm
+ *
+ * @author Arnold Buss
+ */
 public class NormalVariate extends RandomVariateBase {
     
     private double savedValue;
@@ -10,6 +15,9 @@ public class NormalVariate extends RandomVariateBase {
     public NormalVariate() {
     }
     
+    /**
+     * @param params (mean, std. dev)
+     */    
     public void setParameters(Object[] params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Need (mean, std. dev.), received " +
@@ -21,6 +29,9 @@ public class NormalVariate extends RandomVariateBase {
         }
     }
     
+    /**
+     * @return (mean, std. dev.)
+     */    
     public Object[] getParameters() { return new Object[] { new Double(mean), new Double(sigma) }; }
     
     public double generate() {

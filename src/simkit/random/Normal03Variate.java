@@ -6,10 +6,10 @@
 
 package simkit.random;
 
-/**
- *
- * @author  Arnold Buss
- * @version 
+/** Generates Normal random variates using Acceptance/Rejection
+ * method.  The majorizing function is uniform in the center
+ * and exponential in the tails.
+ * @author Arnold Buss
  */
 public class Normal03Variate extends Normal02Variate {
 

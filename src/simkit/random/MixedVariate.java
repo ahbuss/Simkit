@@ -7,9 +7,7 @@
 package simkit.random;
 
 /**
- *
- * @author  Arnold Buss
- * @version
+ * @author Arnold Buss
  */
 public class MixedVariate extends simkit.random.RandomVariateBase {
     
@@ -28,18 +26,17 @@ public class MixedVariate extends simkit.random.RandomVariateBase {
         return distributions[index].generate();
     }
     
-    /**
-     * Returns the array of parameters as an Object[].
+    /** Returns the array of parameters as an Object[].
+     * @return (double[], RandomVariate[]) - (mixing probabilities, distributions)
      */
     public Object[] getParameters() {
         return new Object[] { mixing.getProbabilities(), deepCopy(distributions) };
     }
     
-    /**
-     * Sets the random variate's parameters.
-     * Alternatively, the parameters could be set in the constructor or
-     * in additional methods provided by the programmer.
-     * @param params the array of parameters, wrapped in objects.
+    /** The first element is a double[] that are the
+     * mixing probabilities; the second is a RandomVariate[]
+     * from which the values will be generated.
+     * @param params (double[], RandomVariate[])
      */
     public void setParameters(Object[] params) {
         if (params.length != 2) {

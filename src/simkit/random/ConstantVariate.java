@@ -1,7 +1,8 @@
 package simkit.random;
-/**
- *   A "RandomVariate" class that is constant.
-**/
+/**   A "RandomVariate" class that is constant.
+ *
+ * @author Arnold Buss
+ */
 public class ConstantVariate extends RandomVariateBase {
 
     private double value;

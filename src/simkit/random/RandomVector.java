@@ -1,7 +1,6 @@
 package simkit.random;
 
 /**
- * <P> 26 January 2001 started
  * <P> The common interface for all random vector classes and the
  * parent interface for specialized random variate interfaces.  Typically an
  * instance is retrieved using an Abstract Factory, handing the factory a String

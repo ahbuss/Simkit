@@ -1,5 +1,13 @@
 package simkit.random;
 
+/** Generates Beta(alpha, beta) random variates.
+ *  mean =  alpha/(alpha + beta)
+ *
+ * It uses the ratio of two Gamma variates to generate a Beta -
+ * perhaps not the most efficient way, but gets the job done.
+ *
+ * @author Arnold Buss
+ */
 public class BetaVariate extends RandomVariateBase {
 
     private double alpha;
@@ -17,6 +25,9 @@ public class BetaVariate extends RandomVariateBase {
         return u1 / (u1 + u2);
     }
 
+    /**
+     * @param params (alpha, beta)
+     */    
     public void setParameters(Object[] params) {
         if (params.length != 2) {
             throw new IllegalArgumentException(this.getClass().getName() + " must have two arguments: " + params.length +

@@ -1,5 +1,9 @@
 package simkit.random;
 
+/** Generates Gamma(alpha, beta) random variates using
+ * Acceptance/Rejection method
+ * @author Arnold Buss
+ */
 public class GammaVariate extends RandomVariateBase {
 
     private double alpha;
@@ -21,6 +25,10 @@ public class GammaVariate extends RandomVariateBase {
     public GammaVariate() {
     }
 
+    /** Parameterized as in Law and Kelton, so that mean = alpha * beta
+     * and variance = alpha * beta^2
+     * @param params elements are (alpha, beta)
+     */    
     public void setParameters(Object[] params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Must have 2 parameters for GammaVariate");
@@ -36,6 +44,9 @@ public class GammaVariate extends RandomVariateBase {
         }
     }
     
+    /**
+     * @return (alpha, beta) as elements
+     */    
     public Object[] getParameters() { return new Object[] { new Double(alpha), new Double(beta) }; }
     
     public void setbeta(double beta) {
