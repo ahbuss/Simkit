@@ -22,6 +22,10 @@ public class TestRandomVariateFactory {
     */
     public static void main (String args[]) {
         
+        System.out.println( (1L << 31) - 1 );
+        System.out.println(simkit.random.Congruential.MODULUS);
+        
+        
         RandomVariateFactory.setVerbose(true);
         
         Class[] classes = new Class[] {

@@ -14,7 +14,7 @@ public class PooledGenerator implements RandomNumber {
     private long[] seeds;
     
     public PooledGenerator() {
-//        setSeed(42L);
+        setSeed(42L);
     }
     /**
      * Both the LCG and the Tausworth seeds are set to the same value.
@@ -61,9 +61,9 @@ public class PooledGenerator implements RandomNumber {
     /**
      * The LCG and the Tausworth generators are advanced, logical "or-d", and
      * the return scaled to [0, 1).
-     * @return  The next Uniform(0, 1) random number
+     * @return  The next long value in the pseudo-random sequence
      **/
-    public double draw() {
+    public long drawLong() {
         seeds[0] *= MULTIPLIER;
         seeds[0] %= MASK;
         
@@ -71,7 +71,7 @@ public class PooledGenerator implements RandomNumber {
         seeds[1] ^= seeds[1] << 18;
         seeds[1] &= MASK;
         
-        return (seeds[0] ^ seeds[1]) * MULTIPLICATIVE_FACTOR;
+        return (seeds[0] ^ seeds[1]) ;
     }
     /**
      *  @return a copy of the RandomVariate instance.
@@ -95,6 +95,10 @@ public class PooledGenerator implements RandomNumber {
         }
         buf.append(')');
         return buf.toString();
+    }
+    
+    public double draw() {
+        return drawLong() * MULTIPLICATIVE_FACTOR;
     }
     
 }

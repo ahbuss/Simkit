@@ -17,6 +17,7 @@ public class Tausworthe implements RandomNumber {
     
     /** Creates a new instance of Tausworthe */
     public Tausworthe() {
+        setSeed(42L);
     }
     
     public long drawLong() {
@@ -72,6 +73,10 @@ public class Tausworthe implements RandomNumber {
             copy = super.clone();
         } catch (CloneNotSupportedException e) {}
         return copy;
+    }
+    
+    public String toString() {
+        return "Tausworthe Generator (" + getSeed() + ")";
     }
     
 }
