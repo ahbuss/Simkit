@@ -1,14 +1,31 @@
 package simkit.random;
 
 /**
+ * Generates random variates having the Inverse Gaussian distribution.
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class InverseGaussianVariate extends RandomVariateBase {
 
+/**
+* The scale factor.
+**/
     private double lambda;
+
+/**
+* The mean.
+**/
     private double mu;
+
+/**
+* The instance of the NormalVariate that is used to generate Inverse Gaussian.
+**/
     private NormalVariate normal;
     
+/**
+* Creates a new InverseGaussian without setting the parameters. The
+* parameters must be set prior to generating.
+**/
     public InverseGaussianVariate() {
         normal = new NormalVariate();
         normal.setRandomNumber(super.rng);
@@ -32,6 +49,7 @@ public class InverseGaussianVariate extends RandomVariateBase {
     }
     
 /**
+ * Returns a two element array conatining mu (the mean) and lambda (the scale).
  * @return the array of parameters as an Object[].
  */
     public Object[] getParameters() {
@@ -39,8 +57,10 @@ public class InverseGaussianVariate extends RandomVariateBase {
     }
     
 /**
- * Sets the random variate's parameters.
- * @param params the array of parameters, wrapped in objects.
+ * Sets mu (the mean) and lambda (the scale) to the values given.
+ * @param params A two element array containing me and lambda as Numbers
+ * @throws IllegalArgumentException If the array does not contain exactly two Numbers
+ * or if lambda is not positive.
  */
     public void setParameters(Object[] params) {
         if (params.length != 2) {
@@ -58,12 +78,22 @@ public class InverseGaussianVariate extends RandomVariateBase {
         }
     }
     
+/**
+* Sets mu (the mean).
+**/
     public void setMu(double m) {
         mu = m;
     }
     
+/**
+* Returns mu (the mean).
+**/
     public double getMu() { return mu; }
     
+/**
+* Sets lambda (the scale).
+* @throws IllegalArgumentException If lambda is not positive.
+**/
     public void setLambda(double l) {
         if (l > 0.0) { 
             lambda = l;
@@ -73,8 +103,14 @@ public class InverseGaussianVariate extends RandomVariateBase {
         }
     }
     
+/**
+* Gets lambda (the scale).
+**/
     public double getLambda() { return lambda; }
     
+/**
+* Returns a String containing the name of this distribution and its parameters.
+**/
     public String toString() {
         return "Inverse Gaussian (" + getMu() + ", " + getLambda() + ")";
     }

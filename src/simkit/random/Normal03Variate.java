@@ -10,6 +10,7 @@ package simkit.random;
  * method.  The majorizing function is uniform in the center
  * and exponential in the tails.
  * @author Arnold Buss
+ * @version $Id$
  */
 public class Normal03Variate extends Normal02Variate {
 
@@ -19,7 +20,7 @@ public class Normal03Variate extends Normal02Variate {
     /** Creates new Normal03Variate */
     public Normal03Variate() {
     }
-
+//Javadoc inherited
     public double generate() {
         double y = Double.NaN;
         double u = Double.NaN;

@@ -7,30 +7,86 @@ package simkit.random;
  * <i>f(x) = &beta;<sup>&alpha;</sup>x<sup>-(&alpha;+1)</sup>e<sup>-&beta;x</sup>/&Gamma;(&alpha;), x > 0</i>
  * (0, otherwise)
  * @author Arnold Buss
+ * @version $Id$
  */
 public class GammaVariate extends RandomVariateBase {
 
+/**
+* The Alpha parameter for this GammaVariate.
+**/
     private double alpha;
+
+/**
+* The Beta parameter for this GammaVariate.
+**/
     private double beta;
 
+/**
+* Holds a precalculated value.
+**/
     private double b;
+
+/**
+* Holds a precalculated value.
+**/
     private double p;
+
+/**
+* Holds a precalculated value.
+**/
     private double a;
+
+/**
+* Holds a precalculated value.
+**/
     private double q;
+
+/**
+* Holds a precalculated value.
+**/
     private double theta;
+
+/**
+* Holds a precalculated value.
+**/
     private double d;
+
+/**
+* Holds a precalculated value.
+**/
     private double z;
+
+/**
+* Holds a precalculated value.
+**/
     private double u1;
+
+/**
+* Holds a precalculated value.
+**/
     private double v;
+
+/**
+* Holds a precalculated value.
+**/
     private double w;
+
+/**
+* Holds a precalculated value.
+**/
     private double alphaInv;
 
-
+/**
+* Instantiates a new GammaVariate. Alpha and Beta must be set prior to use.
+**/
     public GammaVariate() {
     }
 
     /** 
+     * Sets alpha and beta for this GammaVariate.
      * @param params elements are (&alpha;, &beta;)
+     * @throws IllegalArgumentException If the given array does not contain exactly two
+     * Numbers or if either of the parameters is not positive.
      */    
     public void setParameters(Object[] params) {
         if (params.length != 2) {
@@ -48,10 +104,15 @@ public class GammaVariate extends RandomVariateBase {
     }
     
     /**
+     * Returns a two element array containing the alpha and beta.
      * @return (&alpha;, &beta;) as elements
      */    
     public Object[] getParameters() { return new Object[] { new Double(alpha), new Double(beta) }; }
     
+/**
+* Sets the value of Beta. Causes pre-calculated values to be updated.
+* @throws IllegalArgumentExcption If beta is not positive.
+**/
     public void setbeta(double beta) {
         if (beta <= 0.0) {
             throw new IllegalArgumentException("Parameter beta must be positive");
@@ -62,6 +123,7 @@ public class GammaVariate extends RandomVariateBase {
         }
     }
 
+//Javadoc inherited
     public double generate() {
         double y = 0.0;
         if (alpha < 1.0) {
@@ -99,6 +161,9 @@ public class GammaVariate extends RandomVariateBase {
     }
 
 
+/**
+* Pre-calculates values that only depend on alpha and beta.
+**/
     protected void setConvenienceParameters() {
         alpha = getAlpha();
         beta = getBeta();
@@ -115,6 +180,10 @@ public class GammaVariate extends RandomVariateBase {
         }
     }
 
+/**
+* Sets the value of Alpha. Warning: Does not undate the pre-calculated values.
+* @throws IllegalArgumentExcption If alpha is not positive.
+**/
     public void setAlpha(double a) {
         if ( a > 0.0) {
             alpha = a;
@@ -124,6 +193,11 @@ public class GammaVariate extends RandomVariateBase {
         }
     }
 
+/**
+* Sets the value of Beta. Warning: Does not update the pre-caluculated values
+* use setbeta to cause recalculation to occurs.
+* @throws IllegalArgumentExcption If beta is not positive.
+**/
     public void setBeta(double b) {
         if ( b > 0.0) {
             beta = b;
@@ -132,8 +206,19 @@ public class GammaVariate extends RandomVariateBase {
             throw new IllegalArgumentException("Beta parameter must be > 0.0: " + b);
         }
     }
+
+/**
+* Returns the current value of Alpha.
+**/
     public double getAlpha() {return alpha;}
+
+/**
+* Returns the current value of Beta.
+**/
     public double getBeta() {return beta;}
 
+/**
+* Returns the name and parameters of this RandomVariate.
+**/
     public String toString() { return "Gamma (" + getAlpha() + ", " + getBeta() + ")"; }
 }

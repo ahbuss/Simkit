@@ -51,7 +51,7 @@ public class BivariateNormal implements RandomVector {
 
 /**
 * Not yet implemented.
-* @returns An empty Object array.
+* @return An empty Object array.
 */
     public Object[] getParameters() {
         return new Object[] {};
@@ -72,7 +72,7 @@ public class BivariateNormal implements RandomVector {
 
 /**
 * Generate the next Uncorrelated Bivariate Standard Normal.
-* @returns A 2 element array containing the x and y values generated.
+* @return A 2 element array containing the x and y values generated.
 **/
     public double[] generate() {
         double[] val = new double[rv.length];

@@ -1,7 +1,7 @@
 package simkit.random;
 
 /**
- * Mersenne Twister:
+ * Mersenne Twister random number generator.
  * <P>
  * This is a Java version of the C-program for MT19937: Integer version.
  * genrand() generates one pseudorandom unsigned integer (32bit)
@@ -55,6 +55,7 @@ package simkit.random;
  * ACM Transactions on Modeling and Computer Simulation,
  * Vol. 8, No. 1, January 1998, pp 3--30.
  *
+ * @version $Id$
  */
 
 public class MersenneTwister implements RandomNumber {
@@ -91,7 +92,7 @@ public class MersenneTwister implements RandomNumber {
     }
     
     /**
-     * Initalize the pseudo random number generator.
+     * Initalizes the pseudo random number generator.
      *
      * @param seed from constructor
      *
@@ -116,7 +117,7 @@ public class MersenneTwister implements RandomNumber {
     }
     
     /**
-     * Generate the next random number.
+     * Generates the next random number.
      */
     public long drawLong() {
         int y;
@@ -150,7 +151,9 @@ public class MersenneTwister implements RandomNumber {
         mti = 0;
     }
     
-    /** @return  The next Uniform(0, 1) random number
+    /** 
+     * Generates the next random number and casts to <code>double</code>.
+     * @return  The next Uniform(0, 1) random number
      */
     public double draw() {
         return (double) drawLong()  * MODULUS_MULT ;
@@ -168,7 +171,9 @@ public class MersenneTwister implements RandomNumber {
         return (long) mt[mti];
     }
     
-    /** @return  The current array of random number seed s
+    /** 
+     * Currently does not work properly.
+     * @return  The current array of random number seed s
      */
     public long[] getSeeds() {
         return new long[] { getSeed() };
@@ -180,7 +185,10 @@ public class MersenneTwister implements RandomNumber {
         sgenrand(originalSeed);
     }
     
-    /** @param seed The new random number seed
+    /** 
+     * Sets the seed to the given value.
+     * @param seed The new random number seed
+     * @throws IllegalArgumentException if the seed is 0
      */
     public void setSeed(long seed) {
         if (seed != 0) {
@@ -190,7 +198,11 @@ public class MersenneTwister implements RandomNumber {
             throw new IllegalArgumentException("Seed cannot be 0");
         }
     }
-    /** @param seed The new array of seeds
+    /** 
+     * Sets the seed to the value in the first element of the array
+     * @param seed The new array of seeds
+     * @throws IllegalArgumentException If the array does not contain at 
+     * least one element.
      */
     public void setSeeds(long[] seed) {
         if (seed.length == 0) {
@@ -199,6 +211,9 @@ public class MersenneTwister implements RandomNumber {
         setSeed(seed[0]);
     }
     
+/**
+* Returns the name of this RandomNumber.
+**/
     public String toString() {
         return "Mersenne Twister";
     }

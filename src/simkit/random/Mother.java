@@ -7,9 +7,12 @@
 package simkit.random;
 
 /**
- *
+ * The "Mother-of-All" random number generators. A multiply-with-carry generator
+ * invented by George Marsaglia.
+ * <p/>Cycle length is 3 x 10<sup>47</sup> 
  * @author Paul Sanchez
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class Mother implements RandomNumber {
     
@@ -23,7 +26,10 @@ public class Mother implements RandomNumber {
     private long result;
     private long[] x;
     
-/** Creates a new instance of Mother */
+/** 
+* Creates a new instance of Mother with default seeds.
+*/
+
     public Mother() {
         x = new long[4];
         setSeeds(new long[] {
@@ -35,6 +41,9 @@ public class Mother implements RandomNumber {
         });
     }
     
+/**
+* Generates the next number.
+**/
     public long drawLong() {
         result = 2111111111L * x[0] +
                  1492L * x[1] +
@@ -48,19 +57,25 @@ public class Mother implements RandomNumber {
         return x[3];
     }
     
-    /** @return  The next Uniform(0, 1) random number
+    /** 
+      * Generates the next U(0,1)
+      * @return  The next Uniform(0, 1) random number
      */
     public double draw() {
         return drawLong() * MULTIPLIER;
     }
     
-    /** @return  The current random number seed
+    /** 
+      * Returns the current seed.
+      * @return  The current random number seed
      */
     public long getSeed() {
         return x[3];
     }
     
-    /** @return  The current array of random number seed s
+    /** 
+      * Returns an array containing the 5 seeds of the generator.
+      * @return  The current array of random number seed s
      */
     public long[] getSeeds() {
         return new long[] { x[0], x[1], x[2], x[3], result};
@@ -74,16 +89,18 @@ public class Mother implements RandomNumber {
     }
     
     /**
-     * Crank through another generator to produce the initial values.
-     *  
-     * @param seed The new random number seed.  Seeds the generator producing
-     * the initial 4 values.
+     * Not used since this generator requires 4 seeds (use setSeeds(long[])) 
+     * @throws IllegalArgumentException In all cases.
      */
     public void setSeed(long seed) {
         throw new IllegalArgumentException("Use setSeeds(long[]) with 5 values instead");
     }
     
-    /** @param seed The new array of seeds
+    /** 
+     * Sets this generators seeds to the 5 seeds in the given array.
+     * @param seed An array with at least 5 elements. The elements should be unique
+     * and non-zero.
+     * @throws IllegalArgumentException If the array does not have at least 5 elements.  
      */
     public void setSeeds(long[] seed) {
         if (seed.length < 5) {
@@ -106,9 +123,13 @@ public class Mother implements RandomNumber {
         return null;
     }
     
+/**
+* Returns "Mother of All Generators"
+**/
     public String toString() { return "Mother of All Generators"; }
     
-    /**
+    /** 
+     * Tests the random generator.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -139,6 +160,9 @@ public class Mother implements RandomNumber {
 //         RandomNumberFactory.getInstance("simkit.random.Mother", 1L);
     }
         
+/**
+* Returns the multiplier used to convert the random number to a U(0,1).
+**/
     public double getMultiplier() {
         return MULTIPLIER;
     }

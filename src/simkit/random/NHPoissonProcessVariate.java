@@ -12,7 +12,7 @@ import simkit.Schedule;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
     

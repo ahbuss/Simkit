@@ -4,19 +4,43 @@ package simkit.random;
  * Box-Muller algorithm
  *
  * @author Arnold Buss
+ * @version $Id$
  */
 public class NormalVariate extends RandomVariateBase {
     
+/**
+* Stores the second value generated when a pair of values is generated.
+**/
     private double savedValue;
+
+/**
+* True if the savedValue is a valid value to return on the next call to 
+* <code>generate</code>.
+**/
     private boolean hasSavedValue;
+
+/**
+* The mean of this normal variate.
+**/
     private double mean;
+
+/**
+* The standard deviation of this normal variate.
+**/
     private double sigma;
     
+/**
+* Creates a new NoramalVariate. Parameters must be set prior to generating.
+**/
     public NormalVariate() {
     }
     
     /**
-     * @param params (mean, std. dev)
+     * Sets the neam and standard devaition for this NormalVariate.
+     * @param params A two element array containing the mean and standard deviation as
+     * Numbers.
+     * @throws IllegalArgumentException If the array doesn't have exactly 2 elements,
+     * either element is not a number, or if the standard deviation is negative.
      */    
     public void setParameters(Object[] params) {
         if (params.length != 2) {
@@ -30,10 +54,14 @@ public class NormalVariate extends RandomVariateBase {
     }
     
     /**
-     * @return (mean, std. dev.)
+     * Returns an array containing the mean and standard deviation.
+     * @return A 2 element array with the mean and standard deviation wrapped as Doubles.
      */    
     public Object[] getParameters() { return new Object[] { new Double(mean), new Double(sigma) }; }
     
+/**
+* Generates the next normally distributed value.
+**/
     public double generate() {
         double value = Double.NaN;
         if (hasSavedValue) {
@@ -57,8 +85,15 @@ public class NormalVariate extends RandomVariateBase {
         return value * sigma + mean;
     }
     
+/**
+* Sets the mean for this NormalVariate.
+**/
     public void setMean(double mean) { this.mean = mean; }
     
+/**
+* Sets the standard deviation for this NormalVariate.
+* @throws IllegalArgumentException If the standard deviation is negative.
+**/
     public void setStandardDeviation(double std) {
         if (std >= 0.0) {
             sigma = std;
@@ -68,6 +103,10 @@ public class NormalVariate extends RandomVariateBase {
         }
     }
     
+/**
+* Sets the variance of this NormalVariate.
+* @throws IllegalArgumentException If the variance is negative.
+**/
     public void setVariance(double var) {
         if (var >= 0.0) {
             sigma = Math.sqrt(var);
@@ -77,12 +116,24 @@ public class NormalVariate extends RandomVariateBase {
         }
     }
     
+/**
+* Returns the mean of this Normal variate.
+**/
     public double getMean() { return mean; }
     
+/**
+* Returns the standard deviation of this Normal variate.
+**/
     public double getStandardDeviation() { return sigma; }
     
+/**
+* Returns the variance of this Normal variate.
+**/
     public double getVariance() { return sigma * sigma; }
     
+/**
+* Returns the name of this distibution with its mean and standard deviation.
+**/
     public String toString() { return "Normal (" + mean + ", " + sigma + ")"; }
     
 }

@@ -4,13 +4,26 @@ package simkit.random;
  * discrete distribution.  The distribution is
  * given by a set of values and a set of either probabilities or
  * frequencies.
+ *
+ * @version $Id$
  * @author Arnold Buss
  */
 public class DiscreteVariate extends RandomVariateBase {
 
+/**
+* Holds the cdf defined for this RandomVariate.
+**/
     private double[] cdf;
+
+/**
+* Holds the values at which the cdf changes for this RandomVariate.
+**/
     private double[] value;
 
+/**
+* Constructs a new DiscreteVariate with an undefined cdf. Use setParameters to
+* define this RandomVarite prior to use.
+**/
     public DiscreteVariate() {}
 
 /** 
@@ -44,7 +57,9 @@ public class DiscreteVariate extends RandomVariateBase {
         }
     }
     
-    /** Returns probabilities as second element in array regardless
+    /** 
+     * Returns the values and probabilities that define this RandomVariate.
+     * Returns probabilities as second element in array regardless
      * of how it was instantiated or set.
      * @return (values, probabilities)
      */    
@@ -62,7 +77,7 @@ public class DiscreteVariate extends RandomVariateBase {
 * Convert the given array of probabilities/frequencies to a cdf.
 *
 * @throws IllegalArgumentException If any of the probabilities/frequencies are 
-* negative or they're sums are zero.
+* negative or they sum to zero.
 */
     protected double[] normalize(double[] freq) {
         double[] norm = null;

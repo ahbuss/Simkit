@@ -3,20 +3,32 @@ package simkit.random;
 /** Generates Exponential random variate using log transform.
  *
  * @author Arnold Buss
+ * @version $Id$
  */
 public class ExponentialVariate extends RandomVariateBase implements RandomVariate {
     
+/**
+* The mean of this Exponential Variate.
+**/
     private double mean;
     
+/**
+* Creates a new ExpontialVariate with a zero mean. 
+**/
     public ExponentialVariate() {
     }
     
+//Javadoc Inherited
     public double generate() {
         return - mean * Math.log(rng.draw());
     }
     
-    /** Note that the value is the mean rather than the rate.
+    /** 
+     * Sets the mean of this Exponential Variate. 
+     * Note that the value is the mean rather than the rate.
      * @param params mean as single element of array.
+     * @throws IllegalArgumentException If the array is not a single element or
+     * if the element is not a Number.
      */    
     public void setParameters(Object[] params) {
         if (params.length != 1) {
@@ -31,8 +43,16 @@ public class ExponentialVariate extends RandomVariateBase implements RandomVaria
         }
     }
     
+/**
+* Returns the mean of this exponential variate in a single element array.
+**/
     public Object[] getParameters() { return new Object[] { new Double(mean) }; }
     
+/**
+* Sets the desired mean.
+* Note that the value is the mean rather than the rate.
+* @throws IllegalArgumentException If the given mean is not positive.
+**/
     public void setMean(double mean) { 
         if (mean > 0.0) {
             this.mean = mean;
@@ -42,8 +62,14 @@ public class ExponentialVariate extends RandomVariateBase implements RandomVaria
         }
     }
     
+/**
+* Returns the mean of this exponential variate.
+**/
     public double getMean() { return mean; }
     
+/**
+* Returns a string containing the name and mean of this RandomVariate.
+**/
     public String toString() { return "Exponential (" + mean + ")"; }
     
 }

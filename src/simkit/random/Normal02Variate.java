@@ -7,21 +7,38 @@
 package simkit.random;
 
 /**
+ * Generates a Normal random variate.
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class Normal02Variate implements RandomVariate {
     
+/**
+* The instance of the supporting RandomNumber.
+**/
     protected RandomNumber rng;
+
+/**
+* The mean of this normal random variate.
+**/
     protected double mean;
+
+/**
+* The standard deviation of this normal random variate.
+**/
     protected double stdDev;
     
-    /** Creates new Normal02Variate */
+/** 
+* Creates new Normal02Variate with 0 mean and standard deviation.
+**/
+
     public Normal02Variate() {
         rng = RandomNumberFactory.getInstance();
     }
     
     /**
-     * @return The underlying RandomNumber instance (should be a copy)
+     * Returns the instance of the supporting RandomNumber.
+     * @return The underlying RandomNumber instance
      */
     public RandomNumber getRandomNumber() {
         return rng;
@@ -35,8 +52,7 @@ public class Normal02Variate implements RandomVariate {
     }
     
     /**
-     * Returns the array of parameters as an Object[].
-     * @return the array of parameters as an Object[].
+     * Returns a 2 element array with the mean and the standard deviation.
      */
     public Object[] getParameters() {
         return new Object[] {new Double(getMean()), new Double(getStandardDeviation())};
@@ -44,9 +60,11 @@ public class Normal02Variate implements RandomVariate {
     
     /**
      * Sets the random variate's parameters.
-     * Alternatively, the parameters could be set in the constructor or
-     * in additional methods provided by the programmer.
-     * @param params the array of parameters, wrapped in objects.
+     * @param params A 2 element array with the mean in the first element and
+     * the standard deviation as the second, both as Numbers.
+     * @throws IllegalArgumentException If the array does not contain exactly 2
+     * elements, if either of the elements is not a number, or if the standard
+     * deviation is not positive.
      */
     public void setParameters(Object[] params) {
         if (params == null) { throw new NullPointerException(); }
@@ -90,10 +108,20 @@ public class Normal02Variate implements RandomVariate {
         throw new InternalError();
     }
     
+/**
+* Sets the mean of this normal variate.
+**/
     public void setMean(double mean) { this.mean = mean; }
     
+/**
+* Returns the mean of this normal variate.
+**/
     public double getMean() { return mean; }
     
+/**
+* Sets the standard deviation of this normal.
+* @throws IllegalArgumentException if the standard deviation is not positive.
+**/
     public void setStandardDeviation(double sd) {
         if (sd > 0.0) {
             this.stdDev = sd; 
@@ -104,7 +132,15 @@ public class Normal02Variate implements RandomVariate {
         }
     }
     
+/**
+* Gets the standard deviation for this normal variate.
+**/
     public double getStandardDeviation() { return stdDev; }
     
-    public String toString() { return "Normal (" + getMean() + ", " + getStandardDeviation() + ")"; }
+/**
+* Returns a String containing the name, mean, and standard deviation of this variate.
+**/
+    public String toString() { 
+      return "Normal (" + getMean() + ", " + getStandardDeviation() + ")"; 
+    }
 }
