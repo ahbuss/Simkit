@@ -68,7 +68,11 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
 * If true causes debug/trace information to be output.
 **/
     private boolean verbose;
-
+    
+/*
+ * If true (default), then SimEntity is persistent.
+ */
+    private boolean persistant;
 /**
 * Manages Properties for the entity. 
 * @see PropertyChangeDispatcher
@@ -95,6 +99,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         setName(name);
         setPriority(priority);
         property = new PropertyChangeDispatcher(this);
+        setPersistant(true);                    //TODO add constructor with persistant
         Schedule.addRerun(this);
     }
     
@@ -649,6 +654,17 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      */
     public PropertyChangeListener[] getPropertyChangeListeners() {
         return property.getPropertyChangeListeners();
+    }
+    
+    public boolean isPersistant() {
+        return  persistant;
+    }    
+    
+    public void setPersistant(boolean persist) {
+        persistant = persist;
+        if (!persistant) {
+            Schedule.removeRerun(this);
+        }
     }
     
 }

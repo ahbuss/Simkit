@@ -154,6 +154,8 @@ public class Schedule  {
 **/
     private static Comparator simEventComp;
     
+    private static SimEntity stopInstance;
+    
     static {
         simEventComp    = new SimEventComp();
         eventListClass  = java.util.TreeSet.class;
@@ -276,18 +278,37 @@ public class Schedule  {
         synchronized(reRun) {
             sortedReruns.addAll(reRun.keySet());
         }
-        
+        ArrayList transients = new ArrayList();
         for (Iterator i = sortedReruns.iterator(); i.hasNext();) {
             SimEntity rerunSimEntity =  (SimEntity) i.next();
             if (isReallyVerbose()) {
                 output.println("Checking rerun " + rerunSimEntity + "[rerunnable?] " + rerunSimEntity.isReRunnable());
             }
-            rerunSimEntity.reset();
-            if (rerunSimEntity.isReRunnable()) {
-                rerunSimEntity.waitDelay("Run", 0.0, null, Double.POSITIVE_INFINITY);
+            if (!rerunSimEntity.isPersistant()) {
+                transients.add(rerunSimEntity);
+                SimEventListener[] listener = rerunSimEntity.getSimEventListeners();
+                for (int j = 0; j < listener.length; ++j) {
+                    if (listener[j] instanceof SimEntity) {
+                        SimEntity se = (SimEntity) listener[j];
+                        if ( !se.isPersistant() ) {
+                            rerunSimEntity.removeSimEventListener(se);
+                        }
+                    }
+                }
+            }
+            else {
+                rerunSimEntity.reset();
+                if (rerunSimEntity.isReRunnable()) {
+                    rerunSimEntity.waitDelay("Run", 0.0, null, Double.POSITIVE_INFINITY);
+                }
             }
         }
-        if (stopOnTime) { stopOnTime(endingTime); }
+        synchronized(reRun) {
+            for (int j = 0; j < transients.size(); ++j) {
+                reRun.remove(transients.get(j));
+            }
+        }
+        if (stopOnTime) { stopAtTime(endingTime); }
     }
     
     /**
@@ -471,7 +492,10 @@ public class Schedule  {
     public static void stopAtTime(double atTime) {
         interrupt("Stop");
         endingTime = atTime;
-        new Stop().waitDelay("Stop", endingTime - getSimTime(), Double.NEGATIVE_INFINITY );
+        if (stopInstance == null) {
+            stopInstance = new Stop();
+        }
+        stopInstance.waitDelay("Stop", endingTime - getSimTime(), new Object[] {}, Double.NEGATIVE_INFINITY );
         stopOnEvent = false;
         stopOnTime = true;
     }

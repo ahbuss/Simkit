@@ -130,5 +130,16 @@ public interface SimEntity extends Named,
 * A unique number assigned to this entity when it is constructed.
 **/
   public int getSerial();
+  
+/*
+ * Sets the SimEntity to be persistent.  By default, SimEntites will be persistant.
+ */
+  public void setPersistant(boolean persist);
+  
+/*
+ * Whether or not the SimEntity is persistent.  Non-persistant SimEntities will be
+ * cleared by Schedule between runs.
+ */
+  public boolean isPersistant();
 
 }
