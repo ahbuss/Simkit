@@ -32,7 +32,7 @@ public class PropertyChangeFrame extends JFrame implements PropertyChangeListene
 /**
  *  The text containing the logs of property change events.
 **/
-   private JTextArea text;
+   protected JTextArea text;
 
 /**
  *  Construct a PropertyChangeEvent
