@@ -16,10 +16,11 @@ public class TestLogNormal {
         
         RandomVariate norm = RandomVariateFactory.getInstance("simkit.random.NormalVariate",
             new Object[] { new Double(mean), new Double(stdDev) } );
-         RandomVariate logNormal = new ExponentialTransform(norm);
+         RandomVariate logNormal = RandomVariateFactory.getInstance("ExponentialTransform",
+            new Object[] { norm });
+         System.out.println(logNormal);
          for (int i = 0 ; i <100; i++) {
              System.out.println(logNormal.generate());
-         }
+         }         
     }
-
 }

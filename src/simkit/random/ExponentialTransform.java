@@ -2,11 +2,8 @@ package simkit.random;
 
 /**
 * Generates a random variate that is the exponential transform of another
-* random variate. The underlying RandomVariate is specified in the constructor
-* and cannot be changed. The generate method simple generates the underlying
+* random variate. The generate method simple generates the underlying
 * variate, then takes the exponential of it.
-* <p><b>Note: This RandomVariate cannot be instantiated using the 
-* RandomVariateFactory</b></p>
 * 
 * @version $Id$
 **/
@@ -18,11 +15,9 @@ public class ExponentialTransform implements RandomVariate {
     private RandomVariate rv;
 
 /**
-* Constructs a new ExponentialTransform with the given underlying
-* RandomVariate.
+* Constructs a new ExponentialTransform 
 **/
-    public ExponentialTransform(RandomVariate rvariate) {
-        rv = RandomVariateFactory.getInstance(rvariate);
+    public ExponentialTransform() {
     }
 
 /**
@@ -31,33 +26,40 @@ public class ExponentialTransform implements RandomVariate {
     public double generate() {
         return Math.exp(rv.generate());
     }
+    
+    /**
+     *
+     * @param randVar Underlying RandomVariate that will be transformed
+     */    
+    public void setRandomVariate(RandomVariate randVar) {
+        rv = randVar;
+    }
 
-/**
-* Sets the seed of the supporting RandomNumber of the underlying RandomVariate.
-**/ 
-    public void setSeed(long seed) {rv.getRandomNumber().setSeed(seed);}
-
-/**
-* Resets the seed of the supporting RandomNumber to the value of the
-* last set seed.
-**/
-    public void resetSeed() {rv.getRandomNumber().resetSeed();}
-
-/**
-* Gets the current value of the seed of the supporting RandomNumber of
-* the underlying RandomVariate.
-**/
-    public long getSeed() { return rv.getRandomNumber().getSeed(); }
-
+    /**
+     *
+     * @return Underlying RandomVariate instance
+     */    
+    public RandomVariate getRandomVariate() { return rv; }
+    
 /**
 * Gets the parameters of the underlying RandomVariate.
 **/
-     public Object[] getParameters() {return rv.getParameters();}
+     public Object[] getParameters() {
+         return new Object[] { getRandomVariate() };
+     }
 
 /**
 * Sets the parameters of the underlying RandomVariate.
 **/
-    public void setParameters(Object[] params) {rv.setParameters(params);}
+    public void setParameters(Object[] params) {
+        if (params.length != 1) {
+            throw new IllegalArgumentException("Need 1 parameter: " + params.length);
+        }
+        if (! (params[0] instanceof simkit.random.RandomVariate) ) {
+            throw new IllegalArgumentException("RandomVariate instance needed: " + params[0].getClass().getName());
+        }
+        setRandomVariate( (RandomVariate) params[0]);
+    }
 
 /**
 * Returns the instance of the supporting RandomNumber of the underlying
@@ -69,5 +71,13 @@ public class ExponentialTransform implements RandomVariate {
 * Sets the supporting RandomNumber of the underlying RandomVariate.
 **/
     public void setRandomNumber(RandomNumber rng) { rv.setRandomNumber(rng); }
+    
+    /**
+     * The form is "Exp { RandomVariate's toString() }"
+     * @return Description of this RandomVariate with parameters
+     */    
+    public String toString() {
+        return "Exp { " + getRandomVariate() + " }";
+    }
 
 }
