@@ -1,4 +1,4 @@
-Simkit version 1.2.1
+Simkit version 1.2.2
 Copyright (C) 1997-2001 Kirk Stork and Arnold Buss
 
 Installation Instructions
@@ -9,7 +9,7 @@ AUTOEXEC.BAT file (located in C:\).  For Windows NT 4.0/Windows 2000, you will n
 edit the environment, located in the System icon of the Conrol Panel.
 
 
-Double-click the file simkit-1.2.1.exe and follow the 
+Double-click the file simkit-1.2.2.exe and follow the 
 directions.  You may choose to put the simsystem.zip file
 anywhere you like.  
 
