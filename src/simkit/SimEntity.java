@@ -74,9 +74,11 @@ public interface SimEntity extends Named,
  *  The second most common convenience waitDelay method.
  * @param eventName The name of the scheduled event (prefixed by "do" for method name).
  * @param delay The amount of time before the event is scheduled
- * @param param The (single) parameter passed.  Note that it is not an array.
+ * @param param The array of parameters passed.
 **/
-   public SimEvent waitDelay( String eventName, double delay, Object param  );
+   public SimEvent waitDelay( String eventName, double delay, Object[] param  );
+   
+
 
 /**
  * Interrupt the next pending event with name eventName

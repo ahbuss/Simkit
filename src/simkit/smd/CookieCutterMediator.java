@@ -70,7 +70,7 @@ public class CookieCutterMediator extends SimEntityBase implements Mediator, Pro
 **/
   public void doDetection(RangeParameters rp) {
     if ( (isConnected() && rp.getSensor() == sensor) && (rp.getTarget() == target)){
-      sensor.waitDelay("Detection", 0.0, contact);
+        sensor.waitDelay("Detection", 0.0, new Object[] {contact});
     }
   }
 
@@ -81,7 +81,7 @@ public class CookieCutterMediator extends SimEntityBase implements Mediator, Pro
 **/
     public void doExitRange(RangeParameters rp) {
         if (isConnected() &&  (rp.getSensor() == sensor) && (rp.getTarget() == target)){
-            sensor.waitDelay("Undetection", 0.0, contact);
+            sensor.waitDelay("Undetection", 0.0, new Object[] {contact});
             disconnect();
         }
     }
