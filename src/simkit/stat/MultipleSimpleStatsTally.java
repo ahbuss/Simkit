@@ -14,6 +14,11 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
         indexedStats = new TreeMap();
     }
 
+    public MultipleSimpleStatsTally(String name) {
+        this();
+        setName(name);
+    }
+    
     public void newObservation(double x, int index) {
         this.newObservation(x);
         Integer key = new Integer(index);

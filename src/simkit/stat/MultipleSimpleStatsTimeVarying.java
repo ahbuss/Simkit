@@ -14,6 +14,11 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         indexedStats = new TreeMap();
     }
 
+    public MultipleSimpleStatsTimeVarying(String name) {
+        this();
+        setName(name);
+    }
+
     public void newObservation(double x, int index) {
         this.newObservation(x);
         Integer key = new Integer(index);
