@@ -41,6 +41,9 @@ public class SimEventFactory {
         }
 
         SimEvent event = (SimEvent) eventPool.pop();
+        if (event == null) {
+            event = new SimEventImpl();
+        }
         event.reset();
         event.setSource(source);
         event.setEventName(eventName);
