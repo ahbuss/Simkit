@@ -47,7 +47,7 @@ import java.util.*;
 *
 **/
 
-public abstract class SimEntityBase implements SimEntity {
+public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
    
    private static int         serializer = 0;
    private static  String PREFIX = "do";
@@ -652,6 +652,10 @@ if (isDebug()) {
         psp.removePropertyChangeListener(pcl);
     }
 
+    public void firePropertyChange(PropertyChangeEvent event) {
+        psp.firePropertyChange(event);
+    }
+
     public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         psp.firePropertyChange(propertyName, oldValue, newValue);
     }
@@ -675,14 +679,12 @@ if (isDebug()) {
         psp.firePropertyChange(propertyName, null, newValue);
     }
 
-    public boolean setProperty(String property, Object value) {
+    public void setProperty(String property, Object value) {
         psp.setProperty(property, value);
-        return true;
     }
 
-    public boolean setProperty(String property, Object value, Object defaultValue) {
+    public void setProperty(String property, Object value, Object defaultValue) {
         psp.setProperty(property, value != null ? value : defaultValue);
-        return true;
     }
 
     public Object getProperty(String property) {

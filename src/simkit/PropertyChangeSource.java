@@ -53,7 +53,7 @@ public interface PropertyChangeSource {
  *  @param e The event with all the information about what property has changed
  *  and to what value.
 **/
-  public void notifyPropertyChangeListeners(PropertyChangeEvent e);
+  public void firePropertyChange(PropertyChangeEvent e);
 
 /**
  *  @param listener The new listener to all my property changes.

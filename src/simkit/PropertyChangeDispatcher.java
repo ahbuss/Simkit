@@ -21,7 +21,7 @@ import java.util.*;
 
 import simkit.util.*;
 
-public class PropertyChangeDispatcher extends PropertyChangeSupport {
+public class PropertyChangeDispatcher extends PropertyChangeSupport implements PropertyChangeSource {
 
     private static final Class STOP_CLASS;
     private static simkit.util.Hashtable2 properties;

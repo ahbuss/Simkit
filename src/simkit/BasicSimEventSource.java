@@ -20,10 +20,10 @@ package simkit;
 import java.util.*;
 public class BasicSimEventSource implements SimEventSource {
 
-  private Vector listeners;
+  private ArrayList listeners;
 
   public BasicSimEventSource() {
-     listeners = new Vector();
+     listeners = new ArrayList();
   }
 
 /**
@@ -33,7 +33,7 @@ public class BasicSimEventSource implements SimEventSource {
   public void addSimEventListener(SimEventListener listener) {
     synchronized(listeners) {
       if (!listeners.contains(listener)) {
-        listeners.addElement(listener);
+        listeners.add(listener);
       }
     }
   }
@@ -43,7 +43,7 @@ public class BasicSimEventSource implements SimEventSource {
 **/
   public void removeSimEventListener(SimEventListener listener) {
     synchronized(listeners) {
-      listeners.removeElement(listener);
+      listeners.remove(listener);
     }
   }
 
@@ -51,12 +51,12 @@ public class BasicSimEventSource implements SimEventSource {
  * @param event The SimEvent that all SimEventListeners are notified has occured.
 **/
   public void notifyListeners(SimEvent event) {
-    Vector listenersCopy = null;
+    ArrayList listenersCopy = null;
     synchronized(listeners) {
-      listenersCopy = (Vector) listeners.clone();
+      listenersCopy = (ArrayList) listeners.clone();
     }
-    for (Iterator enum = listenersCopy.iterator(); enum.hasNext();) {
-      ((SimEventListener)enum.next()).processSimEvent(event);
+    for (Iterator i = listenersCopy.iterator(); i.hasNext();) {
+      ((SimEventListener)i.next()).processSimEvent(event);
     }
   }
 
