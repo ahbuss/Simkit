@@ -828,16 +828,14 @@ public class Schedule  {
     public static void setEventSourceVerbose(boolean v) {printEventSources = v;}
     
 /**
-* Adds the entity to the list of entities with "Run" events and
-* schedules the Run event at the current time.
-* Note: It is up to the SimEntity to add itself. (This is
-* implemented in BasicSimEntity.)
+* Adds the entity to the list of entities with "Run" events.
+ * Note: addRerun() no longer schedules the Run event - that is
+ * supposed to happen when Schedule.reset() is invoked, as it <i>should</i>
+ * be, before each simulation run.
+ * schedules the Run event at the current time.
 **/
     public static void addRerun(SimEntity se) {
         reRun.put(se, null);
-        if (se.isReRunnable()) {
-            se.waitDelay("Run", 0.0, null, se.getPriority());
-        }
     }
 
 /**
