@@ -29,4 +29,16 @@ public class Sequential implements RandomNumber {
         index = index + 1 % Long.MAX_VALUE;
         return index * MULTIPLIER;
     }
+    /**
+     *  @return a copy of the RandomVariate instance;
+     **/
+    
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {}
+        finally {}
+        return null;        
+    }
+    
 } 
