@@ -16,13 +16,15 @@ import java.awt.geom.*;
 public class TestMunition {
     
     static {
-        MunitionTargetAdjudicatorFactory.addAdjudicator(simkit.smdx.CircularImpactMunition.class,
-            simkit.smdx.SimpleTarget.class, simkit.smdx.SureFireKillAdjudicator.class);
+//        MunitionTargetAdjudicatorFactory.addAdjudicator(simkit.smdx.CircularImpactMunition.class,
+//            simkit.smdx.SimpleTarget.class, simkit.smdx.SureFireKillAdjudicator.class);
     }
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        MunitionTargetAdjudicatorFactory.setDefaultAdjudicator(new SureFireKillAdjudicator());
+        
         MunitionTargetReferee ref = new MunitionTargetReferee();
         
         Target[] target = new Target[2];
