@@ -174,7 +174,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     Object[]    parameters,
     double      eventPriority) {
         
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, parameters, eventPriority);
+        SimEvent event = new SimEvent(this, methodName, parameters, delay, eventPriority);
         attemptSchedule(event);
         return event;
     }
@@ -193,7 +193,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     double      delay,
     Object      parameter,
     double      eventPriority) {
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, new Object[] {parameter}, eventPriority);
+        SimEvent event = new SimEvent(this, methodName, new Object[] {parameter}, delay, eventPriority);
         attemptSchedule(event);
         return event;
     }
@@ -213,7 +213,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     String      methodName,
     double      delay,
     Object[]    parameters) {
-        SimEvent event =  SimEventFactory.createSimEvent(this, methodName, delay, parameters, DEFAULT_PRIORITY);
+        SimEvent event =  new SimEvent(this, methodName, parameters, delay, DEFAULT_PRIORITY);
         attemptSchedule(event);
         return event;
     }
@@ -230,7 +230,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     String      methodName,
     double      delay,
     double      eventPriority) {
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, new Object[] {}, eventPriority);
+        SimEvent event = new SimEvent(this, methodName, new Object[] {}, delay, eventPriority);
         attemptSchedule(event);
         return event;
     }
@@ -247,7 +247,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     double      delay,
     Object      parameter ) {
         
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, new Object[] {parameter});
+        SimEvent event = new SimEvent(this, methodName, new Object[] {parameter}, delay );
         attemptSchedule(event);
         return event;
     }
@@ -265,7 +265,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     public SimEvent waitDelay(
     String      methodName,
     double      delay )  {
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, new Object[] {}, DEFAULT_PRIORITY);
+        SimEvent event = new SimEvent(this, methodName, new Object[] {}, delay, DEFAULT_PRIORITY);
         attemptSchedule(event);
         return event;
     }
@@ -279,7 +279,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     Object      parameter,
     double      delay,
     String      eventName ) {
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, new Object[] {parameter}, DEFAULT_PRIORITY);
+        SimEvent event = new SimEvent(this, methodName, new Object[] {parameter}, delay, DEFAULT_PRIORITY);
         attemptSchedule(event);
         return event;
     }

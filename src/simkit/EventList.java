@@ -307,6 +307,7 @@ public class EventList {
         clearEventList();
         currentSimEvent = null;
         simTime = 0.0;
+        SimEvent.resetID();
         synchronized(reRun) {
             for (Iterator i = reRun.iterator(); i.hasNext(); ) {
                 SimEntity simEntity = (SimEntity) i.next();
@@ -353,11 +354,7 @@ public class EventList {
      * to the pool.
      */    
     protected void clearEventList() {
-        while( !eventList.isEmpty() ) {
-            SimEvent event = (SimEvent) eventList.first();
-            eventList.remove(eventList.first());
-            SimEventFactory.returnSimEventToPool(event);
-        }
+        eventList.clear();
         eventCounts.clear();
     }
     
@@ -370,7 +367,6 @@ public class EventList {
             SimEvent simEvent = (SimEvent) eventList.first();
             if (!simEvent.isPending()) {
                 eventList.remove(simEvent);
-                SimEventFactory.returnSimEventToPool(simEvent);
             }
             else {
                 break;
@@ -505,7 +501,6 @@ public class EventList {
                 if (isVerbose()) { dump(""); }
                 if (isPauseAfterEachEvent()) { pause(); }
             }
-            SimEventFactory.returnSimEventToPool(currentSimEvent);
             currentSimEvent = null;
         }
         running = false;
@@ -601,7 +596,6 @@ public class EventList {
                 (event.getEventName().equals(eventName)) &&
                 (event.isPending())) {
                     i.remove();
-                    SimEventFactory.returnSimEventToPool(event);
                     break;
             }
         }
@@ -623,7 +617,6 @@ public class EventList {
                 (event.interruptParametersMatch(parameters)) &&
                 (event.isPending())) {
                     i.remove();
-                    SimEventFactory.returnSimEventToPool(event);
                     break;
             }
         }
@@ -639,7 +632,6 @@ public class EventList {
             SimEvent simEvent = (SimEvent) i.next();
             if (simEvent.getSource() == simEntity) {
                 i.remove();
-                SimEventFactory.returnSimEventToPool(simEvent);
             }
         }
     }
@@ -656,7 +648,6 @@ public class EventList {
             if ((simEvent.getSource() == simEntity) &&
                 (simEvent.getEventName().equals(eventName)) ){
                 i.remove();
-                SimEventFactory.returnSimEventToPool(simEvent);
             }
         }
     }
@@ -677,7 +668,6 @@ public class EventList {
                 (simEvent.getEventName().equals(eventName)) &&
                 (simEvent.interruptParametersMatch(parameters)) ){
                 i.remove();
-                SimEventFactory.returnSimEventToPool(simEvent);
             }
         }
     }

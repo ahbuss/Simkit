@@ -7,7 +7,6 @@
 package simkit.test;
 import simkit.BasicSimEntity;
 import simkit.Schedule;
-import simkit.SimEventFactory;
 import simkit.examples.ArrivalProcess2;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
@@ -45,8 +44,6 @@ public class TestBasicSimEntity {
         
         Schedule.setVerbose(true);
 //        Schedule.stopOnEvent("Arrival", 10);
-        
-        SimEventFactory.setVerbose(true);
         
         Schedule.getDefaultEventList().dump("Before reset()");
         

@@ -55,21 +55,19 @@ public class Adapter extends BasicSimEntity {
     
     /** If the heard event is the one we are listening for,
      * dispatch an event with the name "passedEvent"
-     * that is otherwise identical.  The event is retreived
-     * using <CODE>SimEventFactory</CODE>.
+     * that is otherwise identical. 
      * @param event Heard event
      */    
     public void processSimEvent(SimEvent event) {
         if (event.getEventName().equals(getHeardEvent())) {
-            SimEvent se = SimEventFactory.createSimEvent(
+            SimEvent se = new SimEvent(
                 event.getSource(),
                 getPassedEvent(),
-                0.0,
                 event.getParameters(),
+                0.0,
                 event.getEventPriority()
             );
             notifyListeners(se);
-            SimEventFactory.returnSimEventToPool(se);
         }
     }
     

@@ -29,6 +29,10 @@ public class SimEventState {
 * The event is on the event list waiting to be processed.
 **/
     public static SimEventState WAITING = new SimEventState("WAITING");
+/**
+* The event has been processed by its scheduling SimEntity.
+**/
+    public static SimEventState PROCESSED = new SimEventState("PROCESSED");
 
 /**
 * The event has been cancelled and will never be processed.
