@@ -28,7 +28,7 @@
     
     <Event name="Run" >
     
-        <StateTransition test="true" state="numberAvailableServers" >
+        <StateTransition state="numberAvailableServers" >
             <Assignment value="getNumberServers()" />
         </StateTransition>
     
