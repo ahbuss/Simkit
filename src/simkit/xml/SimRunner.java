@@ -12,7 +12,7 @@ import org.w3c.dom.NodeList;
 import simkit.Schedule;
 import simkit.StopType;
 /**
- * Runs a simKit simulation as controled by a xml control file.
+ * Runs a Simkit simulation as controled by an xml control file.
  * @author  ahbuss
  * @version $Id$
  */
