@@ -62,7 +62,7 @@ public class Server2 extends BasicSimEntity {
         firePropertyChange("numberAvailableServers", numberAvailableServers);
     }
 
-    /** Arrivale of a customer to queue.  After incrementing the number in queue, 
+    /** Arrival of a customer to queue.  After incrementing the number in queue, 
      *  if a server is available, a StartService event is scheduled.
      * Fires a property change for numberInQueue.
      */    
@@ -77,7 +77,7 @@ public class Server2 extends BasicSimEntity {
 /** 
 * Schedules EndService event after delay of a service time.
 * Decrements number in queue and number of available servers.
-* Fires property changes dor numberInQueue and numberAvailable servers.
+* Fires property changes for numberInQueue and numberAvailable servers.
 */    
     public void doStartService() {
         firePropertyChange("numberInQueue", numberInQueue, --numberInQueue);

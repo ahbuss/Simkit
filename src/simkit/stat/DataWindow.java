@@ -9,7 +9,7 @@ import java.awt.event.*;
 * A simple class for displaying a window. The window created is 
 * at position (5,5) and is 275 by 300 pixels. When the
 * window is closed, the program will exit.
-* @see simkit.util.CloseableDataWindow
+* <p/>{@link simkit.util.CloseableDataWindow} is a more flexible version of this Class.
 * @version $Id$
 **/
 public class   DataWindow

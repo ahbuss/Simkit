@@ -4,7 +4,7 @@ package simkit.stat;
 
 /**
 * Base interface for objects that support logging with
-* simkit Log objects.
+* simkit DataLog objects.
 * @version $Id$
 **/
 
@@ -12,7 +12,7 @@ public interface DataLogging
 {
 /**
 Set this objects Log.  Log messages will be sent to this
-Log object until setLog is called again.  This method
+DataLog object until setLog is called again.  This method
 should register this object with the Log object by calling
 registerLogger(this), and if necessary, unregisterLogger(this).
 **/

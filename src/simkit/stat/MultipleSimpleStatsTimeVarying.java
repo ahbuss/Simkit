@@ -15,6 +15,8 @@ import java.beans.PropertyChangeEvent;
 * observation, therefore the value returned by <CODE>getCount</CODE> may not
 * correspond to the number of times <CODE>newObservation</CODE> has been called.
 * </P>
+* The getters inherited from <code>SimplStatsTimeVarying</code> will return statistics
+* for all observations of the property independent of index.
 * @version $Id$
 **/
 public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying implements IndexedSampleStatistics {

@@ -17,7 +17,9 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 
 /**
-*  Base class for time based statistical data accumulation.
+* A Class to accumulate statistics and display them graphically. The data
+* can be displayed as either a histogram, an average vs. time, or a time
+* weighted average vs. time.</p>
 *
 *  @author    Kirk A. Stork
 *  @version $Id$
@@ -44,12 +46,18 @@ public class      GraphStat
 
    private HistogramDataSet theHistData;
    
+/**
+* Creates a new GraphStat with the given name and given start time.
+**/
    public GraphStat( String dataName,
 	                  double creationTime ) {
 	   super(dataName, creationTime);
 	}
 	
    
+/**
+* Resets the statistics and re-initializes this GraphStat at the given time.
+**/
 	public void reset(double now) {
 	   super.reset(now);
       collectingAverage     = false;
@@ -62,6 +70,14 @@ public class      GraphStat
       histogramChart        = null;
 	}
 
+/**
+* Creates a histogram. The returned Graph2D should be added to an AWT Container
+* for display.
+* @param animate If true the Chart will be automatically updated.
+* @param left The lowest value on the histogram
+* @param right The highest value on the histogram
+* @param numBins The number of histogram bins.
+**/
    public Graph2D initHistogram( boolean  animate,
                                  double   left,
                                  double   right,
@@ -81,6 +97,11 @@ public class      GraphStat
    }
    
       
+/**
+* Creates a graph of average vs. time. The returned Graph2D should be added
+* to an AWT Container for display.
+* @param animate If true the chart will be automatically updated.
+**/
    public Graph2D initAveChart( boolean animate) {
       collectingAverage = true;
       animatingAverage  = animate;
@@ -95,6 +116,11 @@ public class      GraphStat
       return aveChart;
    }
       
+/**
+* Creates a graph of time average vs. time. The returned Graph2D should be added
+* to an AWT Container for display.
+* @param animate If true the chart will be automatically updated.
+**/
    public Graph2D initTimeAveChart( boolean animate) {
       collectingTimeAverage = true;
       animatingTimeAverage  = animate;
@@ -125,6 +151,9 @@ public class      GraphStat
 	   }
 	}
 	
+/**
+* Updates the data on the chart(s).
+**/
 	public synchronized void flushDisplay( double now) {
 		super.flushDisplay(now);
       if ( collectingAverage ) {
@@ -142,11 +171,18 @@ public class      GraphStat
       }
 	}
 	
+/**
+* Updates the histogram display
+**/
    private synchronized void updateChartData() {
          histogramChart.updateDisplay();
 //         histogramChart.repaint();
    }
    
+/**
+* Adds a new sample. Updates the data on the Charts as determined by the value
+* of the display update interval (default is 50).
+**/
    public synchronized void sample( double now, double val ) {
       
       boolean counted = false;

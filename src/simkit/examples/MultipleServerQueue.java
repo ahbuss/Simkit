@@ -5,7 +5,7 @@ import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 
 /**
-* A standalone implementation of a multiserver, single queue system. This Class
+* A standalone implementation of a multi-server, single queue system. This Class
 * models both the arrival process and the server process.
 * @version $Id$
 **/
@@ -42,7 +42,7 @@ public class MultipleServerQueue extends SimEntityBase {
     protected int numberAvailableServers;
 
 /**
-* The total number servered.
+* The total number served.
 **/
     protected int numberServed;
 
@@ -159,7 +159,7 @@ public class MultipleServerQueue extends SimEntityBase {
     public int getNumberArrivals() { return numberArrivals; }
 
 /**
- * Returns the curent length of the queue.
+ * Returns the current length of the queue.
  * @return Number in Queue (state variable)
 **/
     public int getNumberInQueue() { return numberInQueue; }

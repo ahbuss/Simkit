@@ -7,11 +7,17 @@ import java.awt.Label;
 
 /**
 *  Base class for time based statistical data accumulation.
+*  Accumulates samples, calculates statistics, and displays the statistics
+* in a Panel. The confidence interval generating functions have not yet been 
+* tested.
+* <p/>Note: If the display features of this Class are not needed, then it is
+* recommended that one of the children of 
+* {@link AbstractSimpleStats} be used since they have a more numerically stable
+* algorithm.
 *
 *  @author    Kirk A. Stork
 *  @version $Id$
 */
-
 public class      SummaryStat
        implements DataLogging
 
@@ -36,16 +42,26 @@ public class      SummaryStat
    private   double[]         values;
    protected DataLog          samples;
    
+/**
+* Creates a new SummaryStat with the given name and creation time.
+**/
    public SummaryStat( String  dataName,
                        double  creationTime) {
       this.reset(creationTime);
       name_            = dataName;
    }         
    
+/**
+* Returns a String containing the name of this SummaryStat.
+**/
    public String name() {
       return name_;
    }
    
+/**
+* Clears this SummaryStat.
+* @param now The new creation time.
+**/
    public void reset(double now) {
       n              = 0;
       cumValTime     = 0.0;
@@ -63,6 +79,9 @@ public class      SummaryStat
       setLog(null);
    }
 
+/**
+* Sets the DataLog to which observations will be logged.
+**/
    public void setLog(DataLog whichLog) {
       if (samples !=null) {
          samples.unregisterLogger(this);
@@ -75,14 +94,28 @@ public class      SummaryStat
       }
    }
    
+/**
+* Gets the DataLog to which observations will be logged.
+**/
    public DataLog getLog() {
       return samples;
    }
    
+/**
+* Sets how often the TablePanel will be updated (default is 50).
+* The TablePanel is created by calling createTable.
+**/
    public void setDisplayUpdateInterval ( int x ) {
       updateInterval = x;
    }
    
+/**
+* Adds a sample. Updates both time weighted and non-time statistics.
+* Updates data on the TablePanel (if created) as determined by the value
+* of the display update interval (default 50).
+* @param now The time of the sample
+* @param val The value of the sample.
+**/
    public synchronized void sample(double now, double val) {
 
       if ( samples != null ) {
@@ -110,19 +143,30 @@ public class      SummaryStat
    }
       
 
-
+/**
+* Returns the mean of the samples.
+**/
    public double mean(){
       return sum_ / n;
    }
 
+/**
+* Returns the sum of the samples.
+**/
    public double sum(){
       return sum_;
    }
 
+/**
+* Returns the number of samples.
+**/
    public long count() {
       return n;
    }
    
+/**
+* Returns the variance of the samples.
+**/
    public double variance(){
       return   ( sumsq - 
             ( sum_ * sum_ ) / 
@@ -130,6 +174,9 @@ public class      SummaryStat
             (double)(n);
    }
    
+/**
+* Returns the variance of the samples.
+**/
    public double sampleVar(){
       return   ( sumsq - 
             ( sum_ * sum_ ) / 
@@ -137,14 +184,23 @@ public class      SummaryStat
             (double)(n);
    }
    
+/**
+* Returns the standard deviation of the samples.
+**/
    public double std(){
       return Math.sqrt( variance() );
    }
    
+/**
+* Returns the time weighted mean of the samples.
+**/
    public double wtdMean(double now){
       return  cumValTime  / ( now - creationTime  );
    }
    
+/**
+* Returns the time weighted variance of the samples.
+**/
    public double wtdVariance( double now ){
       return    ( cumValTimeSq  - 
             ( cumValTime * cumValTime ) / 
@@ -152,10 +208,16 @@ public class      SummaryStat
             ( now - creationTime  );
    }
 
+/**
+* Returns the time weighted standard deviation of the samples.
+**/
    public double wtdStd(double now) {
       return Math.sqrt(wtdVariance(now));
    }
 
+/**
+* Returns the half width of a time weighted 95% confidence interval.
+**/
    public double timeWtdCIHalfWidth( double now) {
       double hw;
       
@@ -164,6 +226,9 @@ public class      SummaryStat
       return hw;
    }
    
+/**
+* Returns the half-width of the 95% confidence interval.
+**/
    public double CI95HalfWidth( ) {
       double hw;
       
@@ -172,6 +237,9 @@ public class      SummaryStat
       return hw;
    }
    
+/**
+* Returns the half-width of the 90% confidence interval.
+**/
    public double CI90HalfWidth( ) {
       double hw;
       
@@ -180,26 +248,48 @@ public class      SummaryStat
       return hw;
    }
    
+/**
+* Returns the relative error at 90% confidence. It is the 90% CI half-width
+* divided by the mean.
+**/
    public double rel90Err() {
       return CI90HalfWidth() / mean();
    }
    
+/**
+* Returns the relative error at 95% confidence. It is the 95% CI half-width
+* divided by the mean.
+**/
    public double rel95Err() {
       return CI95HalfWidth() / mean();
    }
    
+/**
+* Returns the minimum observation for the samples.
+**/
    public double min(){
       return minimum;
    }
    
+/**
+* Returns the maximum observation for the samples.
+**/
    public double max(){
       return maximum;
    }
 
+/**
+* Returns a String containing the statistics for the samples as of the
+* last sample time.
+**/
    public synchronized String toString() {
       return this.toString(lastChangeTime);
    }
 
+/**
+* Returns a String containing the statistics for the samples as of the
+* given time. It is assumed that the given time is later than the last sample time.
+**/
    public synchronized String toString( double now ){
       String result = 
                   name() + " At time: " + now + "\n" +
@@ -212,7 +302,7 @@ public class      SummaryStat
                   "Sample Variance:             " + sampleVar() + "\n" +
                   "Std Dev:                     " + std() + "\n" +
                   "90% CI Half Width:           " + CI90HalfWidth() + "\n" +
-                  "95% CI Half Width:           " + CI90HalfWidth() + "\n" +
+                  "95% CI Half Width:           " + CI95HalfWidth() + "\n" +
                   "       TIME WEIGHTED STATISTICS\n" +
                   "Mean:                        " + wtdMean(now) + "\n" +
                   "Variance:                    " + wtdVariance(now) + "\n" +
@@ -222,6 +312,10 @@ public class      SummaryStat
    }
    
    
+/**
+* Creates a TablePanel with headers for the statistics.
+* After adding to a Container ,call flushDisplay to fill in the values.
+**/
    public TablePanel makeTable(double now) {
       if ( window == null ) {
          window = new TablePanel();
@@ -247,6 +341,10 @@ public class      SummaryStat
    
    }
    
+/**
+* Update the TablePanel with the statistics.
+* The TablePanel is created by calling makeTable.
+**/
    public void flushDisplay( double now ) {
       if ( window != null ) {
          int i = 0;

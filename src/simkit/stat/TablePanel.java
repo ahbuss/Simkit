@@ -4,6 +4,15 @@ import java.awt.*;
 import java.util.*;
 
 /**
+* A Panel to contain labels and data fields. <p/>
+* Usage:<ul>
+* <li>Construct the TablePanel.</li>
+* <li>Add it to an AWT Container.</li>
+* <li>Call addItem for each data field</li>
+* <li>Call init</li>
+* <li>Display the parent Container</li>
+* <li>Call updateValues to change the data values displayed.</li>
+*
 * @version $Id$
 */
 public class   TablePanel
@@ -23,6 +32,9 @@ public class   TablePanel
                         winWidth,
                         winHeight;
    
+/**
+* Constructs a new TablePanel.
+**/
    public TablePanel() {
 //      super(title);
       labels     = new Vector();
@@ -37,6 +49,10 @@ public class   TablePanel
    }
    
    
+/**
+* Adds a label/data field pair to this TablePanel.
+* @param s The contents of the label.
+**/
    public void addItem( String s ) {
       Label     newLabel = new Label(s, Label.RIGHT);
       TextField newField = new TextField(valueWidth);
@@ -58,6 +74,9 @@ public class   TablePanel
 
    }
    
+/**
+* Initializes this TablePanel. Call after all calls to addItem.
+**/
    public void init() {
       for ( int i = 0; i < labels.size(); i++ ) {
          this.add((Label)(labels.elementAt(i)));
@@ -68,6 +87,12 @@ public class   TablePanel
       winHeight = (7 + labelMetrics.getHeight() ) * labels.size();
    }
       
+/**
+* Updates the contents of the data fields with new values.
+* Prints a warning and returns if the given array does not contain the
+* same number of elements as there are fields.
+* @param vals An array containing the values to put in the boxes.
+**/
    public void updateValues( double[] vals ) {
       if ( vals.length != valueBoxes.size() ) {
          System.err.println("Wrong number of values passed to TableWindow");

@@ -4,7 +4,7 @@ import simkit.*;
 import simkit.random.*;
 
 /**
- * An implementation of a simple single queue, muli-server process. After instatiating,
+ * An implementation of a simple single queue, multi-server process. After instantiating,
  * should be registered as a SimEventListener for a source of arrival events (like
  * {@link ArrivalProcess2}.
  * @author  Arnold Buss
@@ -65,7 +65,7 @@ public class Server extends SimEntityBase {
     }
     
 /**
-* If there is an availabe server, schedules StartService now. Fires a property change
+* If there is an available server, schedules StartService now. Fires a property change
 * for numberInQueue.
 **/
     public void doArrival() {

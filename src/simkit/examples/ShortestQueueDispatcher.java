@@ -48,7 +48,7 @@ public class ShortestQueueDispatcher extends SimEntityBase {
     }
     
 /**
-* Sets the Servers availble to this dispathcer.
+* Sets the Servers available to this dispatcher.
 * Each Server will have a corresponding {@link PropertyChangeNamespace} that listens for
 * its PropertyChangeEvents, prepends the property name with the server number
 * and then re-fires the event. The dispatcher has a PropertyChangeNamespace that

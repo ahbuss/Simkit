@@ -9,7 +9,7 @@ import simkit.*;
 import simkit.random.*;
 /**
  * An implementation of an Arrival Process. Generates arrival events with an
- * interarrival time determined by the RandomVariate. After instatiating with
+ * interarrival time determined by the RandomVariate. After instantiating with
  * the desired interarrival time RandomVariate, register the entity that will
  * process the arrivals as a SimEventListener.
  * @author  Arnold Buss

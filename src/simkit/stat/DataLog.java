@@ -4,15 +4,25 @@ package simkit.stat;
 import java.io.IOException;
 
 /**
+* An interface for an Object that can log information in some manner.
+* The information can be either text or numbers.
 * @version $Id$
 */
 public interface DataLog
 {
 /**
-Log a message.
+Logs the given String.
 **/
    public void log(String msg);
+
+/**
+* Logs the given String at the given time.
+**/
    public void log(double now, String msg);
+
+/**
+* Logs the given value at the given time.
+**/
    public void log(double now, double val);
 /**
 Stop this Log.  This method is allowed to close files,

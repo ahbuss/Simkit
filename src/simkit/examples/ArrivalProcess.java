@@ -35,14 +35,14 @@ public class ArrivalProcess extends SimEntityBase {
         numberArrivals = 0;
     }
     /**
-     *  Schedule the first arrival. (Event Method)
+     *  Schedules the first arrival. (Event Method)
      **/
     public void doRun() {
         firePropertyChange("numberArrivals", numberArrivals);
         waitDelay("Arrival", interArrivalTime.generate());
     }
     /**
-     *  Arrival event.  Increments number of arrivals and schedules next arrival. (Event Mathod)
+     *  Arrival event.  Increments number of arrivals and schedules next arrival. (Event Method)
      **/
     public void doArrival() {
         firePropertyChange("numberArrivals", numberArrivals, ++numberArrivals);

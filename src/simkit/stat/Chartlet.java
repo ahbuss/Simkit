@@ -6,7 +6,7 @@ import graph.*;
 import java.util.*;
 
 /**
-Create and manage a g2d chart in its own window.
+Create and manage a graph.Graph2D chart in its own window.
 
 @author Kirk A. Stork
 @version $Id$

@@ -3,9 +3,9 @@ import simkit.Schedule;
 import java.text.DecimalFormat;
 /**
  * Represents a generic minimal entity.  Instances of Customer can be 
- * instantiated and used to represent customers (or jobs) being proccessed
+ * instantiated and used to represent customers (or jobs) being processed
  * in a system.  Each instance keeps track of when it was created and also
- * has the capability of marking points in time for later retreival via the
+ * has the capability of marking points in time for later retrieval via the
  * stampTime() method and the timeStamp instance variable.
  * @author  Arnold Buss
  * @version $Id$
@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 public class Customer {
     
 /**
-* Holds formating information for outputting times.
+* Holds formatting information for outputting times.
 **/
     public static final DecimalFormat form = new DecimalFormat("0.000");
     
