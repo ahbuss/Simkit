@@ -181,7 +181,7 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
     
     /**
      * The name of the Property that this SampleStatistic is associated with.
-     * @param The Property name associated with the SampleStatistics instance
+     * @param name The Property name associated with the SampleStatistics instance
      */
     public void setName(String name) { this.name = name; }
     /**
