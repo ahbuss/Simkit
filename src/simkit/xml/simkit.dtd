@@ -57,12 +57,12 @@
 	name		ID	#REQUIRED
 >
 
-<!ELEMENT Operation ( #PCDATA ) >
+<!ELEMENT Operation EMPTY >
 <!ATTLIST Operation
         method  CDATA   #REQUIRED   
 >
 
-<!ELEMENT Assignment ( #PCDATA ) >
+<!ELEMENT Assignment EMPTY >
 <!ATTLIST Assignment
         value   CDATA   #REQUIRED
 >
