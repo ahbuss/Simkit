@@ -119,6 +119,9 @@
                 <exclude name="build/**/*"/>
                 <exclude name="dist/**/*"/>
                 <exclude name="CVS/**.*"/>
+                <exclude name="**/.nb*" />
+                <exclude name="Simkitlocales/**/*" />
+                <exclude name="Simkit_Build_Output/**/*" />
                 <exclude name="**/*.class"/>
             </fileset>
             
