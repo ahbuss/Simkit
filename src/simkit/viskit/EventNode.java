@@ -18,11 +18,12 @@ import java.util.Vector;
 public class EventNode extends ViskitElement
 {
   public String name;
-  //public Object opaqueUserObject;
   public String stateTrans;
+  
   public EventNode(String name)
   {
     this.name = name;
+    this.stateTrans = "";
   }
   public String toString()
   {
