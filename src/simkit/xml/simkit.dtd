@@ -11,56 +11,77 @@
 -->
 
 
-<!ENTITY % VariableDeclarations " State | Parameter ">
+<!ENTITY % VariableDeclarations " StateVariable | Parameter " >
 <!ENTITY % EventGraph " (%VariableDeclarations;)* , (Event)+ " >
-<!ENTITY % Connectors " Schedule | Cancel "> 
+<!ENTITY % EdgeType " Schedule | Cancel " >
+<!ENTITY % TransitionType " Assignment | Operator " > 
  
 <!-- AKA LEGO -->
 <!ELEMENT SimkitModule ( Comment*, %EventGraph; ) >
 <!ATTLIST SimkitModule
         name            CDATA   #REQUIRED
 	version		CDATA	#REQUIRED
-	extends 	(SimEntityBase|BasicSimEntity) "SimEntityBase"
 >
 
 <!ELEMENT Comment ( #PCDATA ) >
 
-<!ELEMENT State  ( Comment )* >
-<!ATTLIST State
+<!ELEMENT StateVariable  ( Comment )* >
+<!ATTLIST StateVariable
 	type        CDATA	#REQUIRED
 	name        ID  	#REQUIRED
-        shortName   CDATA       #REQUIRED
+        shortName   CDATA       #IMPLIED
+>
+
+<!ELEMENT Argument ( Comment )* >
+<!ATTLIST Argument
+        type        CDATA       #REQUIRED
+        name        ID          #REQUIRED
 >
 
 <!ELEMENT Parameter ( Comment )* >
 <!ATTLIST Parameter
 	type        CDATA	#REQUIRED
-	name        CDATA	#REQUIRED
+	name        ID  	#REQUIRED
         shortName   CDATA       #REQUIRED
 >
 
-<!ELEMENT Event	( Comment*, StateTransition*, ( %Connectors; )+ ) > 
+<!ELEMENT LocalVariable ( Comment )* >
+<!ATTLIST LocalVariable
+        type        CDATA       #REQUIRED
+        name        CDATA       #REQUIRED
+        value       CDATA       #REQUIRED
+>
+
+<!ELEMENT Event	( Comment*, Argument*, LocalVariable*, StateTransition*, ( %EdgeType; )+ ) > 
 <!ATTLIST Event
 	name		ID	#REQUIRED
 >
 
-<!ELEMENT StateTransition EMPTY >
+<!ELEMENT Operator ( #PCDATA ) >
+
+<!ELEMENT Assignment ( #PCDATA ) >
+
+<!ELEMENT StateTransition ( %TransitionType; ) >
 <!ATTLIST StateTransition
         state           IDREF   #REQUIRED
         transition      CDATA   #REQUIRED
 >
   
+<!ELEMENT EdgeParameter EMPTY >
+<!ATTLIST EdgeParameter
+        value   CDATA   #REQUIRED
+>
 
-<!ELEMENT Schedule (Parameter)* >
+<!ELEMENT Schedule ( EdgeParameter )* >
 <!ATTLIST Schedule
 	delay	CDATA	"0.0"
 	event	IDREF	#REQUIRED
-	condition CDATA	#IMPLIED 	
+	condition CDATA	#IMPLIED 
+        priority  CDATA  "0.0"	
 >
 
-<!ELEMENT Cancel (Parameter)* >
+<!ELEMENT Cancel ( EdgeParameter )* >
 <!ATTLIST Cancel
-	delay	CDATA	"0.0"
 	event	IDREF	#REQUIRED
 	condition CDATA	#IMPLIED 	
 >
