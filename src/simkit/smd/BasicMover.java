@@ -215,6 +215,9 @@ public class BasicMover extends SimEntityBase implements Mover {
  *  perhaps a momentary interruption in response to information.
 **/
   public void stop() {
+    this.lastStopLocation = this.getCurrentLocation();
+    this.setSpeed(0.0);
+    this.setVelocity(new Coordinate(0.0, 0.0));
     interruptAll("EndMove", this);
     waitDelay("EndMove", 0.0, this);
   }
