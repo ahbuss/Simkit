@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 
 public class WayPoint implements Cloneable {
     
-    private static final double DEFAULT_SPEED = Double.POSITIVE_INFINITY;
+    public static final double DEFAULT_SPEED = Double.POSITIVE_INFINITY;
     
     private Point2D point;
     private double speed;
