@@ -14,7 +14,7 @@
 <!ENTITY % VariableDeclarations " StateVariable | Parameter " >
 <!ENTITY % EventGraph " (%VariableDeclarations;)* , (Event)+ " >
 <!ENTITY % EdgeType " Schedule | Cancel " >
-<!ENTITY % TransitionType " Assignment | Operator " > 
+<!ENTITY % TransitionType " Assignment | Operation " > 
  
 <!-- AKA LEGO -->
 <!ELEMENT SimkitModule ( Comment*, %EventGraph; ) >
@@ -52,19 +52,24 @@
         value       CDATA       #REQUIRED
 >
 
-<!ELEMENT Event	( Comment*, Argument*, LocalVariable*, StateTransition*, ( %EdgeType; )+ ) > 
+<!ELEMENT Event	( Comment*, Argument*, LocalVariable*, StateTransition*, ( %EdgeType; )* ) > 
 <!ATTLIST Event
 	name		ID	#REQUIRED
 >
 
-<!ELEMENT Operator ( #PCDATA ) >
+<!ELEMENT Operation ( #PCDATA ) >
+<!ATTLIST Operation
+        method  CDATA   #REQUIRED   
+>
 
 <!ELEMENT Assignment ( #PCDATA ) >
+<!ATTLIST Assignment
+        value   CDATA   #REQUIRED
+>
 
 <!ELEMENT StateTransition ( %TransitionType; ) >
 <!ATTLIST StateTransition
         state           IDREF   #REQUIRED
-        transition      CDATA   #REQUIRED
 >
   
 <!ELEMENT EdgeParameter EMPTY >

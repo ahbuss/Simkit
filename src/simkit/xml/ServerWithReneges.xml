@@ -64,10 +64,10 @@
     
     <Event name="StartService" >
         
-        <LocalVariable name="customer" type="java.lang.Integer" value="(Integer)queue.first()" >
+        <LocalVariable name="customer" type="java.lang.Integer" value="(Integer)queue.first()" />
         
         <StateTransition state="queue" >
-            <Operation method="removeFirst()">
+            <Operation method="removeFirst()" />
         </StateTransition>
         
         
@@ -87,10 +87,10 @@
     
     <Event name="EndService" >
     
-        <Argument name="customer" type="java.lang.Integer" />
+        <Argument name="customer1" type="java.lang.Integer" />
         
         <StateTransition state="numberAvailableServers" >
-            <Assignmnet value="numberAvailableServers+1" />
+            <Assignment value="numberAvailableServers+1" />
         </StateTransition>
         
         <StateTransition state="numberServed" >
@@ -103,9 +103,9 @@
     
     <Event name="Renege" >
     
-        <Argument name="customer" type="java.lang.Integer" />
+        <Argument name="customer2" type="java.lang.Integer" />
  
-        <StateTransition state="queue" />
+        <StateTransition state="queue" >
             <Operation method="remove(customer)" />
         </StateTransition>
         
