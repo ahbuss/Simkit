@@ -16,7 +16,6 @@ anywhere you like.
 Any questions regarding Simkit may be addressed by e-mail to
 abuss@nps.navy.mil.
 
-
 Uninstallation Instructions
 -------------- ------------
 
