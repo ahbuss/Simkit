@@ -12,8 +12,8 @@ package simkit;
 
 /**
  *  This class provides two ways to "Stop" a simulation.  The first, the Stop
- *  event shuts the whole thing down.  The second only cancels the events scheduled
- * by a particular SimEnity.  A variant resets as well.
+ *  event stops the entire simulation.  The second only cancels the events scheduled
+ * by a particular SimEnity.
  * @version 1.0.9
  * @author Arnold Buss
 **/
@@ -54,14 +54,23 @@ public class Stop extends SimEntityBase {
         stopping.reset();
     }
 
+/**
+* Schedule the simulation to stop at the given time.
+**/
     public void stopAtTime(double time) {
         new Stop().waitDelay("Stop", time);
     }
 
+/**
+* Schedule the given SimEntity to be stopped at the given time.
+**/
     public static void stopSimEntityAtTime(SimEntity entity, double time) {
         new Stop().waitDelay("StopSimEntity", time, entity);
     }
 
+/**
+* Schedule the given SimEntity to be stopped and reset at the given time.
+**/
     public static void stopAndResetSimEntityAtTime(SimEntity entity, double time) {
         new Stop().waitDelay("StopAndResetSimEntity", time, entity);
     }

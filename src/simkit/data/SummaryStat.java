@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Label;
 
 /**
+* @deprecated Use simkit.stat.SummaryStat instead.
 *  Base class for time based statistical data accumulation.
 *
 *  @author    Kirk A. Stork

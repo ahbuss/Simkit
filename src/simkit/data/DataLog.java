@@ -3,7 +3,9 @@
 package simkit.data;
 
 import java.io.IOException;
-
+/**
+* @deprecated Use simkit.stat.DataLog instead.
+**/
 public interface DataLog
 {
 /**

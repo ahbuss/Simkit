@@ -1,20 +1,20 @@
 package simkit.data;
 
+
+import java.text.*;
+import simkit.*;
+import java.beans.*;
+
 /**
  *	<P> A class for collecting data on the fly and reporting basic
  *	summary statistics.
  *
  *  <P> 09 August 2000 - Modified per Paul Sanchez' algorithm
  *
- * @deprecated This class has been replaced by <CODE>simkit.random.SimpleStats2</CODE>
- * @see simkit.random.SimpleStats2
+ * @deprecated This class has been replaced by <CODE>simkit.stat.SimpleStatsTally</CODE>
+ * or <CODE>simkit.stat.SimpleStatsTimeVarying</CODE>
  *	@author Arnie Buss
 **/
-
-import java.text.*;
-import simkit.*;
-import java.beans.*;
-
 public class SimpleStats2 implements Named,
                                     SampleStatistics, 
                                     PropertyChangeListener {

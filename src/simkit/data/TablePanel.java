@@ -3,6 +3,9 @@ package simkit.data;
 import java.awt.*;
 import java.util.*;
 
+/**
+* @deprecated Use simkit.stat.TablePanel instead.
+**/
 public class   TablePanel
        extends Panel
 {   

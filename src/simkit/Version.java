@@ -7,11 +7,33 @@ import java.net.*;
 import java.awt.*;
 import simkit.util.*;
 
+/**
+* This class is used to display version and copyright information about SimKit. Constructing a 
+* Version object will cause a dialog box to pop-up containing information about the program.
+**/
 public class Version {
     
+/**
+* Contains version information. Loaded during static initialization from the file
+* version.txt
+**/
     private static String SIMKIT_VERSION = "Not Found";
+
+/**
+* Currently unused.
+**/
     private static Properties SIMKIT_PROPERTIES;
+
+/**
+* Contains the copyright statement. Loaded during static initialization from the file
+* copyright.txt
+**/
     private static String SIMKIT_COPYRIGHT = "";
+
+/**
+* Contains information on the GNU license. Loaded during static initialization from the
+* file gnu.txt
+**/
     private static String SIMKIT_MESSAGE = "";
     
     static {
@@ -48,9 +70,16 @@ public class Version {
             br.close();
         } catch (IOException e) {}
     }
-    
+   
+/**
+* Cause the program to exit, closing the information box.
+**/ 
     public void exit() { System.exit(0); }
     
+/**
+* Create and display the information window. The dialog box will
+* close when the user selects "OK"
+**/
     public Version() {
         JWindow frame = new JWindow();
         
@@ -82,16 +111,29 @@ public class Version {
         frame.setVisible(true);
     }
     
+/**
+* Return the copyright information.
+**/
     public static final String getCopyright() {
         return SIMKIT_COPYRIGHT;
     }
     
+/**
+* Return the GNU license information.
+**/
     public static final String getMessage() {
         return SIMKIT_MESSAGE;
     }
     
+/**
+* Return the version information.
+**/
     public static final String getVersion() {return SIMKIT_VERSION;}
     
+/**
+* Create and display the information window. The dialog box will
+* close when the user selects "OK"
+**/
     public static void main(String[] args) throws Throwable {
         new Version();
     }

@@ -6,19 +6,47 @@ import java.util.*;
  *  A factory for creating SimEvents. 
  *  This class has nothing but "factory" methods for creating SimEvents based
  *  on the type of data needed for the event.
+ * <P/>Keeps a pool of already created SimEvents for performance. This class handles 
+ * replenishing the pool when needed. Users of this class should call one of the createSimEvent
+ * methods instead of constructing SimEvents directly. When a SimEvent is no longer needed,
+ * it should be returned to the pool for reuse by calling returnSimEventToPool.
+ *
  *  @version 1.1.2
  *  @author Arnold Buss
 **/
 public class SimEventFactory {
 
+/**
+* Holds the pool of SimEvents.
+**/
     private static Stack eventPool;
+
+/**
+* The initial size of the pool. Note: This method is called
+* during static initialization to set the initial size of the pool. Subsequent
+* calls have no effect.
+**/
     private static int initialCapacity;
+
+/**
+* The number of SimEvents that will be added to the pool when
+* it is augmented during a call to createSimEvent. The default is 50.
+**/
     private static int increment;
 
     private static final int DEFAULT_INITIAL_CAPACITY = 50;
     private static final int DEFAULT_INCREMENT = 50;
 
+/**
+* If true, print debug/trace information.
+**/
     private static boolean verbose;
+
+/**
+* Holds the serial number of the next event to be created.
+* Each event returned by createSimEvent will have a unique 
+* serial number.
+**/
     private static int eventSerializer;
 
     static {
@@ -31,15 +59,20 @@ public class SimEventFactory {
     }
 
 /**
+* No need to instantiate since all methods are static.
+**/
+   private SimEventFactory() {}
+
+/**
 * Creates a SimEvent with the given parameters. This is the full implementation with no default values.
 * @param source The SimEntity that is scheduling this SimEvent. When the event occurs the source will
 * first attempt to execute the event, then notify any registered SimEventListeners. 
 * @param eventName The name of the event method. Event methods must start with "do", however
 * the "do" is optional in the event name parameter. (i.e., A SimEvent to execute the "doRun"
-* method can be scheduled as either "Run" or "doRun"
+* method can be scheduled as either "Run" or "doRun")
 * @param delay The time the event will occur.
 * @param params An Object array containing the parameters for the event method.
-* Primatives should be wrapped in the appropriate Object.
+* Primitives should be wrapped in the appropriate Object.
 * @param priority If two events are scheduled to occur at the same time, the one
 * with the higher priority will be processed first.
 **/ 
@@ -86,18 +119,18 @@ public class SimEventFactory {
 * first attempt to execute the event, then notify any registered SimEventListeners. 
 * @param eventName The name of the event method. Event methods must start with "do", however
 * the "do" is optional in the event name parameter. (i.e., A SimEvent to execute the "doRun"
-* method can be scheduled as either "Run" or "doRun"
+* method can be scheduled as either "Run" or "doRun")
 * @param delay The time the event will occur.
 * @param params An Object array containing the parameters for the event method.
-* Primatives should be wrapped in the appropriate Object.
+* Primitives should be wrapped in the appropriate Object.
 **/ 
    public static SimEvent createSimEvent(
                        SimEntity source,
-                       String theMethodName,
+                       String eventName,
                        double delay,
                        Object[] params
                        ) {
-     return createSimEvent(source, theMethodName, delay, params, SimEvent.DEFAULT_PRIORITY);
+     return createSimEvent(source, eventName, delay, params, SimEvent.DEFAULT_PRIORITY);
    }
 
 /**
@@ -106,15 +139,15 @@ public class SimEventFactory {
 * first attempt to execute the event, then notify any registered SimEventListeners. 
 * @param eventName The name of the event method. Event methods must start with "do", however
 * the "do" is optional in the event name parameter. (i.e., A SimEvent to execute the "doRun"
-* method can be scheduled as either "Run" or "doRun"
+* method can be scheduled as either "Run" or "doRun")
 * @param delay The time the event will occur.
 **/ 
     public static SimEvent createSimEvent(
                        SimEntity source,
-                       String theMethodName,
+                       String eventName,
                        double delay
                        ) {
-        return createSimEvent(source, theMethodName, delay, new Object[] {}, SimEvent.DEFAULT_PRIORITY);
+        return createSimEvent(source, eventName, delay, new Object[] {}, SimEvent.DEFAULT_PRIORITY);
     }
 
 /**
@@ -154,7 +187,14 @@ public class SimEventFactory {
 **/
     public static void setIncrement(int inc) {increment = inc;}
 
+/**
+* If true, print debug/trace information.
+**/
     public static void setVerbose(boolean v) {verbose = v;}
+
+/**
+* If true, print debug/trace information.
+**/
     public static boolean isVerbose() {return verbose;}
 
 }

@@ -5,6 +5,9 @@ package simkit.data;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+* @deprecated Use simkit.stat.DataWindow instead.
+**/
 public class   DataWindow
        extends Frame
 {

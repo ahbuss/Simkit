@@ -11,23 +11,49 @@ package simkit;
 ///////////////////////////////////////////////////////////////////////
 
 /**
- *  This Java-style "Enumeration" is all that is left of the dozen or so
- *  states a SimEvent originally could be in.  Now it is either WAITING
- *  (which would be better named "PENDING"), menaing it is on the event list
- *  waiting to occur, or INTERRUPTED, meaning that it may still be on the event
- *  list but will never occur.
+ * A Java enumeration that indicates what state a SimEvent is in. <P/>
+ * The possible states are:
+ * <OL>
+ * <LI>WAITING: The event is on the event list waiting to be processed.</LI>
+ * <LI>INTERRUPTED: The event may be on the event list, but has been
+ * cancelled and will never be processed.</LI>
+ * <LI>UNUSED: The event object is currently not is use.</LI>
+ * </OL>
+ *
  *  @version 1.1.2
  *  @author Arnold Buss
 **/
-
 public class SimEventState {
 
+/**
+* The event is on the event list waiting to be processed.
+**/
     public static SimEventState WAITING = new SimEventState("WAITING");
+
+/**
+* The event has been cancelled and will never be processed.
+**/
     public static SimEventState INTERRUPTED = new SimEventState("INTERRUPTED");
+
+/**
+* The event object is not currently in use.
+**/
     public static SimEventState UNUSED = new SimEventState("UNUSED");
 
+/**
+* The name of this event state.
+**/
     private String name;
+
+/**
+* Construct a new SimEventState with the given name. This constructor
+* should only be called during static initialization of this class.
+**/
     protected SimEventState(String name) {this.name = name;}
+
+/**
+* Returns the name of the SimEventState.
+**/
     public String toString() {return name;}
   
 }

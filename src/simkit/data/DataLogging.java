@@ -3,6 +3,7 @@ package simkit.data;
 
 
 /**
+* @deprecated Use simkit.stat.DataLogging instead.
 * Base interface for objects that support logging with
 * simkit Log objects.
 **/

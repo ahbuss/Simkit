@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 
 /**
+* @deprecated Use simkit.stat.GraphStat instead.
 *  Base class for time based statistical data accumulation.
 *
 *  @author    Kirk A. Stork
