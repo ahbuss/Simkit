@@ -7,7 +7,6 @@
 package simkit.test;
 import simkit.*;
 import simkit.random.*;
-import simkitx.random.*;
 import simkit.util.*;
 import java.io.*;
 import java.net.*;
