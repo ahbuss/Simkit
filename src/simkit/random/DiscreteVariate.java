@@ -46,8 +46,8 @@ public class DiscreteVariate extends RandomVariateBase {
             throw new IllegalArgumentException("Must have Object[] {double[], double[]}");
         }
         else if (params[0] instanceof double[] && params[1] instanceof double[]) {
-            value = (double[]) ((double[]) params[0]).clone();
-            cdf = normalize((double[]) params[1]);
+            setValues((double[]) params[0]);
+            setProbabilities((double[]) params[1]);
         }
         else {
             throw new IllegalArgumentException("Parameters not of type {double[], double[]}");
@@ -137,13 +137,6 @@ public class DiscreteVariate extends RandomVariateBase {
 * points contained in the value array.
 **/
     public void setProbabilities(double[] prob) { cdf = normalize(prob); }
-    
-/**
-* Directly sets the cdf of this RandomVariate. No checking is done by this
-* method to ensure the array is a legal cdf or that it has the same length
-* as the value array.
-**/
-    public void setCDF(double[] cdf) { this.cdf = (double[])cdf.clone(); }
     
 /**
 * Returns a copy of the value array.
