@@ -25,7 +25,7 @@ package simkit.random;
  * work in a reasonable manner.  setSeed(long) and resetSeed() appear to be working,
  * but there is something I am not getting about "what" the seed is, so 
  * getSeed() does not appear to be correct.  The following code 
- * <code>rng.setDeed(rng.getSeed());</code> should leave the object essentially
+ * <code>rng.setSeed(rng.getSeed());</code> should leave the object essentially
  * in the same state, and it does not. 
  * <p>Simkit is also copyleft under the GNU General Public Licence.
  * <P>
