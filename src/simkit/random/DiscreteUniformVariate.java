@@ -40,4 +40,16 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
         return (int) Math.floor(minimum + range * rng.draw());
     }
     
+    public void setMinimum(int min) {
+            minimum = min;
+            range = maximum - minimum;
+    }
+
+    public void setMaximum(int max) {
+            maximum = max;
+            range = maximum - minimum;
+    }
+
+    public int getMaximum() { return maximum; }
+    public int getMinimum() { return minimum; }
 }

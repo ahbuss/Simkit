@@ -40,6 +40,24 @@ public class BetaVariate extends RandomVariateBase {
 
     public double getAlpha() {return alpha; }
     public double getBeta() { return beta; }
+    
+    public void setAlpha(double a) {
+        if ( a > 0.0) {
+            alpha = a;
+        }
+        else {
+            throw new IllegalArgumentException("Alpha parameter must be > 0.0");
+        }
+    }
+
+    public void setBeta(double b) {
+        if ( b > 0.0) {
+            beta = b;
+        }
+        else {
+            throw new IllegalArgumentException("Beta parameter must be > 0.0");
+        }
+    }
 
     public String toString() { return "Beta (" + getAlpha() + ", " + getBeta() + ")"; }
 

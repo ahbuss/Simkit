@@ -54,6 +54,10 @@ public class UniformSampleVariate extends simkit.random.RandomVariateBase {
         }
     }
     
+    public void setSample(double[] sample) { this.sample = (double[]) sample.clone(); }
+    
+    public double[] getSample() { return (double[]) sample.clone(); }
+    
     public String toString() {
         StringBuffer buf = new StringBuffer("Uniform Sample Distribution\n{");
         for (int i = 0; i < sample.length; i++ ) {
