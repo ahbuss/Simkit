@@ -5,7 +5,7 @@ import simkit.*;
 import simkit.smd.*;
 import java.awt.geom.*;
 
-public class PathMoverManager extends SimEntityBase {
+public class PathMoverManager extends SimEntityBase implements MoverManager {
     
     private static final double EPSILON = 1.0E-10;
     
