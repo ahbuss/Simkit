@@ -96,18 +96,4 @@ public class ArrivalProcess2 extends BasicSimEntity {
             doArrival();
         }
     }
-    
-/**
-* Returns a String containing information about this ArrivalProcess2.
-**/
-    public String paramString() {
-        return toString();
-    }
-    
-/**
-* Returns a String containing information about this ArrivalProcess2.
-**/
-    public String toString() {
-        return "Arrival Process " + interarrivalTime;
-    }
 }

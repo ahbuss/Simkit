@@ -149,15 +149,4 @@ public class CustomerServer extends SimEntityBase {
      * @return Number available servers at this point in time
      */    
     public int getNumberAvailableServers() { return numberAvailableServers; }
-    
-    /**
-     * Returns a String containing the number of servers and the service time
-     * distribution.
-     * @return Short description
-     */    
-    public String toString() {
-        return "Multiple Server Queue\n\tNumber Servers:\t" + getNumberServers() +
-            "\n\tService Time Distribution:\t" + getServiceTime();
-    }
-    
 }

@@ -84,14 +84,6 @@ public class ArrivalProcess extends SimEntityBase {
     public String paramString() { return toString(); }
 
     /**
-     * Returns a String containing information about this ArrivalProcess.
-     *  @return String suitable for part of report
-     **/
-    public String toString() {
-        return "Arrival Process\n\tInterarrival times: " + interArrivalTime;
-    }
-
-    /**
      * Returns a String containing usage information for the main method.
      *  @return Usage String (uses Exponential interarrival times)
      **/

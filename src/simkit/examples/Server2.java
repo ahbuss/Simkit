@@ -133,31 +133,7 @@ public class Server2 extends BasicSimEntity {
      * @return Service time RandomVariate
      */    
     public RandomVariate getServiceTime() { return RandomVariateFactory.getInstance(serviceTime); }
-    
-    /**
-     * Sets the RandomVariate used to generate service times.
-     * @param st  RandomVariate instance to generate service times from.
-     */    
-    public void setServiceTime(RandomVariate st) {serviceTime = st;}
-
-    /**
-     * Returns a String containing information about the total number of servers and
-     * the distribution of the service times.
-     */
-    public String paramString() {
-        return toString();
-    }
-    
-    /**
-     * Returns a String containing information about the total number of servers and
-     * the distribution of the service times.
-     * @return Short description of class
-     */    
-    public String toString() {
-          return "Multiple Server Queue\n\tNumber Servers:\t" + totalNumberServers +
-            "\n\tService Time Distribution:\t" + serviceTime;
-  }
-
+ 
 /**
  * Returns a short description of this Class.
  *  @return A short description of this class

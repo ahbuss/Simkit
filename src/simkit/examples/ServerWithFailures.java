@@ -91,21 +91,6 @@ public class ServerWithFailures extends MultipleServerQueue {
     }
     
 /**
-* Returns a String containing information about this process.
-**/
-    public String paramString() {
-        return toString();
-    }
-    
-/**
-* Returns a String containing information about this process.
-**/
-    public String toString() {
-        return super.toString() + "\nFailure time distribution " + timeToFailure +
-        "\nRepair time distribution " + repairTime;
-    }
-    
-/**
 * Returns a String containing a brief description of this Class.
 **/
     public static String description() {

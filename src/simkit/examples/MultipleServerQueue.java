@@ -176,21 +176,6 @@ public class MultipleServerQueue extends SimEntityBase {
     public int getNumberServed() { return numberServed; }
 
 /**
-* Returns information about this MutlipleServerQueue.
-**/
-    public String paramString() {
-        return toString();
-    }
-    
-/**
-* Returns information about this MutlipleServerQueue.
-**/
-    public String toString() {
-        return "Multiple Server Queue\n\nNumber of servers: " + getTotalNumberServers() +
-                "\n\nInterarrival Times are " + getInterArrivalTime() +
-                "\n\nService times are " + getServiceTime();
-    }
-/**
  * Returns a String containing a short description of this Class.
  *  @return A short description of this class
 **/

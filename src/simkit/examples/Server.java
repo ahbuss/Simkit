@@ -147,16 +147,4 @@ public class Server extends SimEntityBase {
 **/
     public int getNumberServed() { return numberServed; }
     
-/**
-* Returns a String containing information about this Server.
-**/
-    public String toString() { 
-        return "Multiple Server Queue\n\tNumber Servers:\t" + getNumberServers() +
-            "\n\tService Time Distribution:\t" + getServiceTime();
-    }
-    
-/**
-* Returns a String containing information about this Server.
-**/
-    public String paramString() { return toString(); }
 }
