@@ -22,7 +22,7 @@ import java.lang.reflect.*;
  *
  * @author K. A. Stork
  * @author Arnold Buss
- * @version 1.1.1
+ * @version $Id$
  *
  **/
 public class Schedule  {

@@ -14,7 +14,7 @@ package simkit;
  *  This class provides two ways to "Stop" a simulation.  The first, the Stop
  *  event stops the entire simulation.  The second only cancels the events scheduled
  * by a particular SimEnity.
- * @version 1.0.9
+ * @version $Id$
  * @author Arnold Buss
 **/
 public class Stop extends SimEntityBase {

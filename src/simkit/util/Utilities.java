@@ -7,6 +7,7 @@ import java.lang.reflect.*;
 
 /**
 * Holds a static method used to create an "action button".
+* @version $Id$
 **/
 public class Utilities {
 

@@ -1,4 +1,13 @@
 package simkit;
+/*
+* <P>Changes
+* <UL>
+* <LI> 22 Oct 1998 - SimEntity now extends SimEventSource and SimEventListener.
+* This should not impact anything, but will make references to SimEntity
+* full-featured.  That is, they will now be able to dispatch and listen to
+* other SimEntitys' SimEvents. [AB]
+* </UL>
+*/
 
 /**
 * Base interface for simulation entities.
@@ -8,17 +17,10 @@ package simkit;
 * structure.  The default implementation is in
 * SimEntityBase.
 *
-* <P>Changes
-* <UL>
-* <LI> 22 Oct 1998 - SimEntity now extends SimEventSource and SimEventListener.
-* This should not impact anything, but will make references to SimEntity
-* full-featured.  That is, they will now be able to dispatch and listen to
-* other SimEntitys' SimEvents. [AB]
-* </UL>
 *
 * @author K. A. Stork
 * @author Arnold Buss
-* @version 1.0
+* @version $Id$
 *
 **/
 public interface SimEntity extends Named,

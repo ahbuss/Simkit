@@ -14,6 +14,7 @@ import java.util.*;
  *
  *  @author Arnold Buss
  *  @author K. A. Stork
+ *  @version $Id$
  *
  **/
 public abstract class SimEntityBase extends BasicSimEntity {

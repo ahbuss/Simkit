@@ -21,6 +21,7 @@ import java.io.Serializable;
 * @author Arnold Buss 
 * @since Simkit 1.0
 * @see SimEventFactory
+* @version $Id$
 *
 **/
 public class SimEventImpl implements SimEvent, Serializable {

@@ -31,9 +31,9 @@ package simkit;
 * <P> name() changed to getName() in keeping with standard patterns - AB
 * <br>
 *
-* @author Kirk A. Stork<br>
-* @author Arnold Buss <BR>
-* @version 1.1<br>
+* @author Kirk A. Stork
+* @author Arnold Buss 
+* @version $Id$
 */
 public interface Named
 {

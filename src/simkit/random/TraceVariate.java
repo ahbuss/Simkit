@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 * replaced, <code>generate</code> will return
 * the contents of the array in order. After all values of the array have been 
 * used, the default value is returned until reset.
+* @version $Id$
 **/
 public class TraceVariate extends RandomVariateBase {
     

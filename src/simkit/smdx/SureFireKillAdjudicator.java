@@ -7,11 +7,12 @@
 package simkit.smdx;
 
 /**
- * An Adjudicator the kills the target if the actual Target 
+ * An Adjudicator that kills the target if the actual Target 
  * location is contained inside the impact Shape of the Munition.
  * If the Target is inside the impact Shape, the probability of kill
  * if 1, if not the probability of kill is 0.
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class SureFireKillAdjudicator implements Adjudicator {
 

@@ -10,6 +10,7 @@ import simkit.util.*;
 /**
 * This class is used to display version and copyright information about SimKit. Constructing a 
 * Version object will cause a dialog box to pop-up containing information about the program.
+* @version $Id$
 **/
 public class Version {
     

@@ -18,7 +18,7 @@ package simkit;
 * of this class will be thrown.
 *
 * @author K. A. Stork
-* @version 0.1
+* @version $Id$
 *
 **/
 

@@ -10,6 +10,7 @@ import java.util.*;
  * A Java enumeration for methods of stopping a simulation.
  *
  * @author  ahbuss
+ * @version $Id$
  */
 public class StopType {
     

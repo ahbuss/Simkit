@@ -16,7 +16,7 @@ import java.beans.PropertyChangeEvent;
  *  listens for a single property name and adds a new observation if the newValue
  *  is of type <CODE>Number</CODE>
  *  @author Arnold Buss
- *  @version $Date$
+ *  @version $Id$
  **/
 public class SimpleStatsTally extends AbstractSimpleStats {
     

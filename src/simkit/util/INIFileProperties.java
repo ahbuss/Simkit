@@ -20,6 +20,7 @@ import java.util.*;
 * Note: This class is similar to java.util.Properties, but adds
 * blocks so that the file format mimics Windows ini file format.
 * @see Properties
+* @version $Id$
 **/
 public class INIFileProperties extends Hashtable2 {
 

@@ -4,7 +4,7 @@ package simkit.stat;
  *  implement <CODE>PropertyChangeListener</CODE> so they can respond to
  *  data fired in <CODE>PropertyChangeEvent</CODE>s.
  *  @author Arnold Buss
- *  @version $Date$
+ *  @version $Id$
 **/
 public interface SampleStatistics extends java.beans.PropertyChangeListener {
 /**

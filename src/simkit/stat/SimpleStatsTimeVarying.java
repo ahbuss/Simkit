@@ -15,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 * observation, therefore the value returned by <CODE>getCount</CODE> may not
 * correspond to the number of times <CODE>newObservation</CODE> has been called.
 * </P>
+* @version $Id$
 **/
 public class SimpleStatsTimeVarying extends AbstractSimpleStats {
     

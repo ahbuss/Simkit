@@ -4,6 +4,7 @@ package simkit.random;
  * <BLOCKQUOTE>
  * <i>f(x) = &alpha;x<sup>&alpha;-1</sup>&beta;<sup>-&alpha;</sup>e<sup>-(x/&beta;)<sup>&alpha;</sup></sup>, x > 0</i>
  * </BLOCKQUOTE>
+ * @version $Id$
  */
 public class WeibullVariate extends RandomVariateBase{
     private double alpha;

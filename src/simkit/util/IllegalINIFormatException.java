@@ -2,6 +2,7 @@ package simkit.util;
 
 /**
 * Used to indicate that a INI file contained a formatting error on read.
+* @version $Id$
 **/
 public class IllegalINIFormatException extends RuntimeException {
 

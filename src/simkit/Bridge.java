@@ -13,6 +13,7 @@ package simkit;
  * with one or more SimEventSources.
  *
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class Bridge extends simkit.BasicSimEntity {
     

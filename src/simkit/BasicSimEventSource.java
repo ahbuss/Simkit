@@ -7,7 +7,7 @@ import java.util.*;
  *  either subclassing or as a delegate.  A basic implementation of the Listener
  *  pattern.  It does attempt to be somewhat thread safe.
  *  @author Arnold Buss
- *  @version 0.5
+ *  @version $Id$
  **/
 public class BasicSimEventSource implements SimEventSource {
     

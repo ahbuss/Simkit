@@ -7,7 +7,7 @@ import java.util.*;
  *  A utility class to reduce the clutter in SimEntityBase and rationalize some
  *  common methods involving introspection.
  *
- *  @version 1.0.9
+ *  @version $Id$
  *  @author Arnold Buss
 **/
 

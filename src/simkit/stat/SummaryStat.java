@@ -9,6 +9,7 @@ import java.awt.Label;
 *  Base class for time based statistical data accumulation.
 *
 *  @author    Kirk A. Stork
+*  @version $Id$
 */
 
 public class      SummaryStat

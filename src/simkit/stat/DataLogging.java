@@ -5,6 +5,7 @@ package simkit.stat;
 /**
 * Base interface for objects that support logging with
 * simkit Log objects.
+* @version $Id$
 **/
 
 public interface DataLogging

@@ -15,6 +15,7 @@ import java.util.Comparator;
  * </OL>
  *
  * @author  ahbuss
+ * @version $Id$
  */
 public class SimEntityComparator implements Comparator {
 

@@ -13,6 +13,7 @@ import java.util.*;
  *  @author Arnold Buss
  *  @author K. A. Stork
  *  @author John Ruck, R&A
+ *  @version $Id$
  *
  **/
 public abstract class SimEntityBaseProtected extends BasicSimEntity {

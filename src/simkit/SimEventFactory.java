@@ -11,7 +11,7 @@ import java.util.*;
  * methods instead of constructing SimEvents directly. When a SimEvent is no longer needed,
  * it should be returned to the pool for reuse by calling returnSimEventToPool.
  *
- *  @version 1.1.2
+ *  @version $Id$
  *  @author Arnold Buss
 **/
 public class SimEventFactory {

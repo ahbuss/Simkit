@@ -7,6 +7,7 @@ import java.beans.PropertyChangeEvent;
 
 /**
 * A class to collect Tally statistics for an array of properties.
+* @version $Id$
 **/
 public class MultipleSimpleStatsTally extends SimpleStatsTally implements IndexedSampleStatistics {
 

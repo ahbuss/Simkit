@@ -3,6 +3,9 @@ package simkit.stat;
 import java.awt.*;
 import java.util.*;
 
+/**
+* @version $Id$
+*/
 public class   TablePanel
        extends Panel
 {   

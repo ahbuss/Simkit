@@ -10,6 +10,7 @@ import java.awt.event.*;
 * at position (5,5) and is 275 by 300 pixels. When the
 * window is closed, the program will exit.
 * @see simkit.util.CloseableDataWindow
+* @version $Id$
 **/
 public class   DataWindow
        extends Frame

@@ -20,6 +20,7 @@ import java.awt.Font;
 *  Base class for time based statistical data accumulation.
 *
 *  @author    Kirk A. Stork
+*  @version $Id$
 */
 
 public class      GraphStat

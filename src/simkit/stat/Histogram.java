@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 * A class that collects statistics that can be used to produce a histogram.
 * This class does not draw the histogram, it simply calculates frequency and
 * proportion data.
+* @version $Id$
 **/
 public class Histogram extends SimpleStatsTally {
 

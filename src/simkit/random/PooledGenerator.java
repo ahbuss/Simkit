@@ -4,6 +4,7 @@ package simkit.random;
  * @deprecated Use PooledXORGenerator instead
  * @see Pooled
  * @see PooledXORGenerator
+ * @version $Id$
  */
 public class PooledGenerator implements RandomNumber {
     

@@ -22,6 +22,7 @@ import java.net.*;
  *  property.
  * 
  * @author Arnold Buss
+ * @version $Id$
 **/
 public class Hashtable2 extends HashMap {
 

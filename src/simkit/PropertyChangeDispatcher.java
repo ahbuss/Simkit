@@ -20,7 +20,7 @@ import simkit.util.*;
  *  Uses reflection to set/get properties by name (String).  This will also
  *  fire a PropertyChangeEvent whenever a property is set/gotten using the
  *  setProperty() or getProperty() methods here.
- *  @version 1.1.1
+ *  @version $Id$
 **/
 public class PropertyChangeDispatcher extends PropertyChangeSupport implements PropertyChangeSource {
 
@@ -45,6 +45,10 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
 * The entity for which this PropertyChangeDispatcher manages properties.
 **/
     private Object source;
+
+/**
+* Currently unused.
+**/
     private PropertyChangeListener pcl; //appears unused
 
 /**

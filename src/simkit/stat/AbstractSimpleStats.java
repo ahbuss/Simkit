@@ -18,6 +18,7 @@ import java.text.DecimalFormat;
  * need to implement the logic for calculating the mean and standard deviation.
  * </P>
  * @author  ahbuss
+ * @version $Id$
  */
 public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable {
     

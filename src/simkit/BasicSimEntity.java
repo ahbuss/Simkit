@@ -34,7 +34,7 @@ import simkit.util.IndexedPropertyChangeEvent;
  *  gets a "Run" event by through listening).  Failure to do this will result in
  *  multiple "Run" events for the same object at the start of a simulation.
  *  @author Arnold Buss
- *  @version 0.5
+ *  @version $Id$
  **/
 public abstract class BasicSimEntity extends BasicSimEventSource implements SimEntity {
     

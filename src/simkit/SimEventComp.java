@@ -34,6 +34,7 @@ package simkit;
 *
 * @author K. A. Stork
 * @author Arnold H. Buss
+* @version $Id$
 *
 **/
 public class SimEventComp implements java.util.Comparator

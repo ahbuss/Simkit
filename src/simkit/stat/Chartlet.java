@@ -9,7 +9,7 @@ import java.util.*;
 Create and manage a g2d chart in its own window.
 
 @author Kirk A. Stork
-@version 1.0 (1.17.97)
+@version $Id$
 
 */
 

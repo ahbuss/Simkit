@@ -12,7 +12,7 @@ package simkit;
 /**
 * An abstraction of an event in a descrete event simulation. 
 * 
-* @version 1.1.0
+* @version $Id$
 * @author Kirk A. Stork
 * @author Arnold H. Buss
 *

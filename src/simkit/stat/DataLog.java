@@ -1,9 +1,11 @@
-//FILE: Log.java
 
 package simkit.stat;
 
 import java.io.IOException;
 
+/**
+* @version $Id$
+*/
 public interface DataLog
 {
 /**

@@ -6,6 +6,7 @@ import simkit.*;
 
 /**
 * A location for a number of useful static methods.
+* @version $Id$
 **/
 public class Misc {
     /**

@@ -13,6 +13,7 @@ import java.util.*;
  * added to the container for a Munition-Target pair, then the get methods will
  * return the default Adjudicator. 
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class MunitionTargetAdjudicatorFactory {
     

@@ -14,6 +14,7 @@ import java.util.*;
  * make any sense.
  *
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class MultiStat implements PropertyChangeListener {
     
