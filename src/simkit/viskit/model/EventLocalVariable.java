@@ -15,7 +15,7 @@ public class EventLocalVariable extends ViskitElement
   private String type;
   private String name;
   private String value;
-  private String comment;
+  private String comment="";
 
   public EventLocalVariable(String name, String type, String value)
   {

@@ -259,8 +259,8 @@ public abstract class ViskitTablePanel extends JPanel
   //------------------------
   {
    // todo jmb get the cloning working
-    // return (ArrayList)shadow.clone();
-    return shadow;
+     return (ArrayList)shadow.clone();
+    //return shadow;
   }
 
   /**

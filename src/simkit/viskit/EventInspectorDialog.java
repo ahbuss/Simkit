@@ -218,6 +218,7 @@ public class EventInspectorDialog extends JDialog
   private void unloadWidgets()
   {
     if(modified) {
+      String nuts = name.getText();
       node.setName(name.getText());
       node.setTransitions(transitions.getTransitions());
       node.setArguments(arguments.getData());

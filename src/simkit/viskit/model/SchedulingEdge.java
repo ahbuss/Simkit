@@ -18,23 +18,17 @@ public class SchedulingEdge extends Edge
   SchedulingEdge()       // package-limited
   {
     parameters = new ArrayList();
-
-/*
-    parameters.add(new vParameter("schparam1_St" ,"java.lang.String"));
-    parameters.add(new vParameter("schparam2_Int","java.lang.Integer"));
-    parameters.add(new vParameter("schparam3_HM" ,"java.util.HashMap"));
-*/
-
   }
+  
   Object copyShallow()
   {
-    SchedulingEdge ce = new SchedulingEdge();
-    ce.opaqueViewObject = opaqueViewObject;
-    ce.to = to;
-    ce.from = from;
-    ce.parameters = parameters;
-    ce.delay = delay;
-    ce.conditional = conditional;
-    return ce;
+    SchedulingEdge se = new SchedulingEdge();
+    se.opaqueViewObject = opaqueViewObject;
+    se.to = to;
+    se.from = from;
+    se.parameters = parameters;
+    se.delay = delay;
+    se.conditional = conditional;
+    return se;
   }
 }

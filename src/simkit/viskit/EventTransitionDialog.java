@@ -52,7 +52,7 @@ public class EventTransitionDialog extends JDialog
 
   private EventTransitionDialog(JFrame parent, Component comp, EventStateTransition param)
   {
-    super(parent, "Event Argument", true);
+    super(parent, "State Transition", true);
     this.param = param;
     this.locationComp = comp;
     this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

@@ -17,14 +17,8 @@ public class CancellingEdge extends Edge
   CancellingEdge()          //package-limited
   {
     parameters = new ArrayList();
-
-/*
-    parameters.add(new vParameter("canparam1_St","java.lang.String"));
-    parameters.add(new vParameter("canparam2_Int","java.lang.Integer"));
-    parameters.add(new vParameter("canparam3_HM","java.util.HashMap"));
-*/
-
   }
+  
   Object copyShallow()
   {
     CancellingEdge ce = new CancellingEdge();

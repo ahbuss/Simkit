@@ -119,7 +119,6 @@ public class vGraphComponent extends JGraph
   public String getToolTipText(MouseEvent event)
   {
     String tt = "";
-    int count = 0;
     if(event != null) {
       Object c = this.getFirstCellForLocation(event.getX(),event.getY());
       if(c != null) {
@@ -130,18 +129,30 @@ public class vGraphComponent extends JGraph
           if(vc.getUserObject() instanceof SchedulingEdge) {
             SchedulingEdge se = (SchedulingEdge)vc.getUserObject();
             Schedule sch =  (Schedule)se.opaqueModelObject;
+
             String cond = "";
             if(sch.getCondition() != null && sch.getCondition().length()>0) {
               cond += sch.getCondition();
-              count++;
             }
             if(cond.length() > 0)
               tt += "if( " + cond + " )";
 
-            String params = getEdgePs((List)sch.getEdgeParameter());
-            if(params != null) {
-              tt += "<OL>"+params+"</OL>";
-              count++;
+            List edPLis = sch.getEdgeParameter();
+            StringBuffer epSt = new StringBuffer();
+            int idx = 1;
+            for(Iterator itr = edPLis.iterator();itr.hasNext();) {
+              EdgeParameter ep = (EdgeParameter)itr.next();
+              epSt.append("&nbsp;"+idx++);
+              epSt.append("(");
+              epSt.append(ep.getType());
+              epSt.append(")");
+              epSt.append("&nbsp;");
+              epSt.append(ep.getValue());
+              epSt.append("<br>");
+            }
+            if(epSt.length()>0) {
+              epSt.setLength(epSt.length()-4); // lose the last <br>
+              tt += "<u>edge parameters</u><br>"+epSt.toString();
             }
           }
           else {
@@ -150,19 +161,30 @@ public class vGraphComponent extends JGraph
             String cond = "";
             if(can.getCondition() != null && can.getCondition().length()>0) {
               cond += can.getCondition();
-              count++;
             }
             if(cond.length() >0)
               tt += "if( " + cond + " )";
 
-            String params = getEdgePs((List)can.getEdgeParameter());
-            if(params != null) {
-              tt += "<OL>"+params+"</OL>";
-              count++;
-            }
+            List edPLis = can.getEdgeParameter();
+             StringBuffer epSt = new StringBuffer();
+             int idx = 1;
+             for(Iterator itr = edPLis.iterator();itr.hasNext();) {
+               EdgeParameter ep = (EdgeParameter)itr.next();
+               epSt.append("&nbsp;"+idx++);
+               epSt.append("(");
+               epSt.append(ep.getType());
+               epSt.append(")");
+               epSt.append("&nbsp;");
+               epSt.append(ep.getValue());
+               epSt.append("<br>");
+             }
+             if(epSt.length()>0) {
+               epSt.setLength(epSt.length()-4); // lose the last <br>
+               tt += "<u>edge parameters</u><br>"+epSt.toString();
+             }
           }
 
-          if(count <= 0)
+          if(tt.length() <= 0)
 
             return "true";
           //else
@@ -195,7 +217,6 @@ public class vGraphComponent extends JGraph
             else
               sttrans += "&nbsp;" + stt.getName() + "." + opr.getMethod();
             sttrans += "<br>";
-            count++;
           }
           if(sttrans.length()>0) {
             sttrans = sttrans.substring(0,sttrans.length()-4);
@@ -211,11 +232,24 @@ public class vGraphComponent extends JGraph
             args += "&nbsp;"+n + " " +as + "<br>";
           }
           if(args.length() > 0) {
-            args = args.substring(0,args.length()-4);
+            args = args.substring(0,args.length()-4);  // remove last <br>
             tt += "<br><u>arguments</u><br>"+args;
           }
 
-          return "<HTML>"+tt +"</HTML>";
+          List locVarLis = ev.getLocalVariable();
+          String lvs = "";
+          for(Iterator itr = locVarLis.iterator(); itr.hasNext();) {
+            LocalVariable lv = (LocalVariable)itr.next();
+            String vs = lv.getName() + " ("+lv.getType()+") = ";
+            String val = lv.getValue();
+            vs += (val.length()<= 0? "<i><default></i>" : val);
+            lvs += "&nbsp;"+vs+"<br>";
+          }
+          if(lvs.length() > 0) {
+            lvs = lvs.substring(0,lvs.length()-4); // remove last <br>
+            tt += "<br><u>local variables</u><br>"+lvs;
+          }
+          return "<HTML>"+ tt +"</HTML>";
         }
       }
     }
@@ -247,8 +281,11 @@ public class vGraphComponent extends JGraph
       else if (e instanceof EventNode)
         return ((EventNode)e).getName();
     }
+    else if(value instanceof String)      // jmb added
+    {if(((String)value).length()<= 0) System.out.println("myfault3");
+        return (String)value;         }
 
-    return super.convertValueToString(value);
+    return "S"; // todo make work neither of these 2 changes has any effect //super.convertValueToString(value);
   }
 
 
@@ -575,6 +612,83 @@ public class vGraphComponent extends JGraph
 
 
   } // End of Editor.MyMarqueeHandler
+  public static class testDefaultRouting implements org.jgraph.graph.Edge.Routing {
+
+    public void route(EdgeView edge, java.util.List points) {
+      //System.out.println(edge.toString() + points);
+      int n = points.size();
+      Point from = edge.getPoint(0);
+      if (edge.getSource() instanceof PortView)
+        from = ((PortView) edge.getSource()).getLocation(null);
+      else if (edge.getSource() != null)
+        from = edge.getSource().getBounds().getLocation();
+      Point to = edge.getPoint(n - 1);
+      if (edge.getTarget() instanceof PortView)
+        to = ((PortView) edge.getTarget()).getLocation(null);
+      else if (edge.getTarget() != null)
+        to = edge.getTarget().getBounds().getLocation();
+      if (from != null && to != null) {
+        Point[] routed;
+        // Handle self references
+        if (edge.getSource() == edge.getTarget()
+          && edge.getSource() != null) {
+
+System.out.println(edge.toString() + " /// " +points);
+
+          Rectangle bounds =
+            edge.getSource().getParentView().getBounds();
+          int height = 30; //edge.getGraph().getGridSize();
+          int width = 20; //(int) (bounds.getWidth() / 3);
+          routed = new Point[4];
+          routed[0] =
+            new Point(
+              bounds.x + width,
+              bounds.y + bounds.height);
+          routed[1] =
+            new Point(
+              bounds.x + width,
+              bounds.y + bounds.height + height);
+          routed[2] =
+            new Point(
+              bounds.x + 2 * width,
+              bounds.y + bounds.height + height);
+          routed[3] =
+            new Point(
+              bounds.x + 2 * width,
+              bounds.y + bounds.height);
+          System.out.println("...... "+routed[0].x+","+routed[0].y+" "
+                                      +routed[1].x+","+routed[1].y+" "
+                                      +routed[2].x+","+routed[2].y+" "
+                                      +routed[3].x+","+routed[3].y+" ");
+        } else {
+          int dx = Math.abs(from.x - to.x);
+          int dy = Math.abs(from.y - to.y);
+          int x2 = from.x + ((to.x - from.x) / 2);
+          int y2 = from.y + ((to.y - from.y) / 2);
+          routed = new Point[2];
+          if (dx > dy) {
+            routed[0] = new Point(x2, from.y);
+            //new Point(to.x, from.y)
+            routed[1] = new Point(x2, to.y);
+          } else {
+            routed[0] = new Point(from.x, y2);
+            // new Point(from.x, to.y)
+            routed[1] = new Point(to.x, y2);
+          }
+        }
+        // Set/Add Points
+        for (int i=0; i<routed.length; i++)
+          if (points.size() > i+2)
+            points.set(i+1, routed[i]);
+          else
+            points.add(i+1, routed[i]);
+        // Remove spare points
+        while (points.size() > routed.length+2) {
+          points.remove(points.size()-2);
+        }
+      }
+    }
+  }
 
 }
 
@@ -592,7 +706,7 @@ class vEdgeCell extends DefaultEdge
   public vEdgeCell(Object userObject)
   {
     super(userObject);
-    GraphConstants.setRouting(attributes,new DefaultRouting());
+    GraphConstants.setRouting(attributes,GraphConstants.ROUTING_SIMPLE);
   }
 }
 
@@ -612,6 +726,8 @@ class vEdgeView extends EdgeView
   {
     return renderer;
   }
+
+
 }
 
 /**

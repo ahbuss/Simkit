@@ -33,17 +33,17 @@ import java.awt.event.ActionListener;
 public class LocalVariableDialog extends JDialog
 {
   private JTextField parameterNameField;    // Text field that holds the parameter name
-  private JTextField expressionField;       // Text field that holds the expression
+  private JTextField valueField;       // Text field that holds the expression
   private JTextField commentField;          // Text field that holds the comment
   private JComboBox  parameterTypeCombo;    // Editable combo box that lets us select a type
 
   private static LocalVariableDialog dialog;
   private static boolean modified = false;
-  private EventLocalVariable param;
+  private EventLocalVariable locVar;
   private Component locationComp;
   private JButton okButt, canButt;
 
-  public static String newName, newType, newComment;
+  public static String newName, newType, newValue, newComment;
 
   public static boolean showDialog(JFrame f, Component comp, EventLocalVariable parm)
   {
@@ -57,10 +57,10 @@ public class LocalVariableDialog extends JDialog
     return modified;
   }
 
-  private LocalVariableDialog(JFrame parent, Component comp, EventLocalVariable param)
+  private LocalVariableDialog(JFrame parent, Component comp, EventLocalVariable lv)
   {
     super(parent, "Local Variable Inspector", true);
-    this.param = param;
+    this.locVar = lv;
     this.locationComp = comp;
     this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -82,7 +82,7 @@ public class LocalVariableDialog extends JDialog
         int w = maxWidth(new JComponent[]{nameLab,initLab,typeLab,commLab});
 
         parameterNameField = new JTextField(15);   setMaxHeight(parameterNameField);
-        expressionField    = new JTextField(25);   setMaxHeight(expressionField);
+        valueField    = new JTextField(25);   setMaxHeight(valueField);
         commentField       = new JTextField(25);   setMaxHeight(commentField);
         parameterTypeCombo = new JComboBox(VGlobals.instance().getTypeCBModel());
                                                setMaxHeight(parameterTypeCombo);
@@ -91,6 +91,7 @@ public class LocalVariableDialog extends JDialog
 
         fieldsPanel.add(new OneLinePanel(nameLab,w,parameterNameField));
         fieldsPanel.add(new OneLinePanel(typeLab,w,parameterTypeCombo));
+        fieldsPanel.add(new OneLinePanel(initLab,w,valueField));
         fieldsPanel.add(new OneLinePanel(commLab,w,commentField));
        con.add(fieldsPanel);
        con.add(Box.createVerticalStrut(5));
@@ -108,8 +109,8 @@ public class LocalVariableDialog extends JDialog
 
     fillWidgets();     // put the data into the widgets
 
-    modified        = (param==null?true:false);     // if it's a new param, they can always accept defaults with no typing
-    okButt.setEnabled((param==null?true:false));
+    modified        = (lv==null?true:false);     // if it's a new locVar, they can always accept defaults with no typing
+    okButt.setEnabled((lv==null?true:false));
 
     getRootPane().setDefaultButton(canButt);
 
@@ -123,7 +124,7 @@ public class LocalVariableDialog extends JDialog
     enableApplyButtonListener lis = new enableApplyButtonListener();
     this.parameterNameField.addCaretListener(lis);
     this.commentField.      addCaretListener(lis);
-    this.expressionField.   addCaretListener(lis);
+    this.valueField.        addCaretListener(lis);
     this.parameterTypeCombo.addActionListener(lis);
   }
 
@@ -145,7 +146,7 @@ public class LocalVariableDialog extends JDialog
   }
   public void setParams(Component c, EventLocalVariable p)
   {
-    param = p;
+    locVar = p;
     locationComp = c;
 
     fillWidgets();
@@ -170,33 +171,35 @@ public class LocalVariableDialog extends JDialog
     VGlobals.instance().addType(nm);
     mod = VGlobals.instance().getTypeCBModel();
     parameterTypeCombo.setModel(mod);
-    parameterTypeCombo.setSelectedIndex(mod.getSize()-1);
+    parameterTypeCombo.setSelectedIndex(0); //mod.getSize()-1);
   }
 
   private void fillWidgets()
   {
-    if(param != null) {
-      parameterNameField.setText(param.getName());
-      setType(param);
-      this.commentField.setText(param.getComment());
+    if(locVar != null) {
+      parameterNameField.setText(locVar.getName());
+      setType(locVar);
+      valueField.setText(locVar.getValue());
+      commentField.setText(locVar.getComment());
     }
     else {
-      parameterNameField.setText("param name");
-      //expressionField.setText("type");
+      parameterNameField.setText("locVar name");
       commentField.setText("comments here");
     }
   }
 
   private void unloadWidgets()
   {
-    if(param != null) {
-      param.setName(this.parameterNameField.getText());
-      param.setType(((String)(this.parameterTypeCombo.getSelectedItem())).trim());
-      param.setComment(this.commentField.getText());
+    if(locVar != null) {
+      locVar.setName(parameterNameField.getText().trim());
+      locVar.setType(((String)(this.parameterTypeCombo.getSelectedItem())).trim());
+      locVar.setValue(valueField.getText().trim());
+      locVar.setComment(commentField.getText().trim());
     }
     else {
-      newName = parameterNameField.getText().trim();
-      newType = ((String)(this.parameterTypeCombo.getSelectedItem())).trim();
+      newName    = parameterNameField.getText().trim();
+      newType    = ((String)(this.parameterTypeCombo.getSelectedItem())).trim();
+      newValue   = valueField.getText().trim();
       newComment = commentField.getText().trim();
     }
   }

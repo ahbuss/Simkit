@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Time: 3:57:26 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EventArgument
+public class EventArgument extends ViskitElement
 {
   private String type;
   private String name;

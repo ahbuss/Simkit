@@ -16,39 +16,47 @@ import java.util.Vector;
 public class VGlobals
 {
   private static VGlobals me;
+
   public static synchronized VGlobals instance()
   {
-    if(me == null) {
+    if (me == null) {
       me = new VGlobals();
     }
     return me;
   }
+
   private VGlobals()
   {
 
   }
-  public String [] getTypes()
+
+  public String[] getTypes()
   {
     return defaultTypes;
   }
 
-  private String [] defaultTypes = {
-    "int",
-    "float",
+  private String[] defaultTypes = {
     "double",
+    "float",
+    "int",
+    "java.lang.String",
     "short",
-    "java.lang.String"
   };
 
   public void addType(String ty)
   {
-    String[] newArr = new String[defaultTypes.length+1];
-    System.arraycopy(defaultTypes,0,newArr,0,defaultTypes.length);
-    newArr[newArr.length-1] = ty;
-    defaultTypes = newArr;
-    cbMod = new DefaultComboBoxModel(defaultTypes);
+    if (Arrays.binarySearch(defaultTypes, ty) < 0) {
+      String[] newArr = new String[defaultTypes.length + 1];
+      System.arraycopy(defaultTypes, 0, newArr, 0, defaultTypes.length);
+      newArr[newArr.length - 1] = ty;
+      defaultTypes = newArr;
+      Arrays.sort(defaultTypes);
+      cbMod = new DefaultComboBoxModel(defaultTypes);
+    }
   }
+
   ComboBoxModel cbMod = new DefaultComboBoxModel(defaultTypes);
+
   public ComboBoxModel getTypeCBModel()
   {
     return cbMod;
@@ -58,7 +66,9 @@ public class VGlobals
   {
     stateVars = svs;
   }
+
   private Collection stateVars;
+
   public ComboBoxModel getStateVarsCBModel()
   {
     return new DefaultComboBoxModel(new Vector(stateVars));

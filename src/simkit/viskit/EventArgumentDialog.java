@@ -33,7 +33,7 @@ public class EventArgumentDialog extends JDialog
 
   private static EventArgumentDialog dialog;
   private static boolean modified = false;
-  private EventArgument param;
+  private EventArgument myEA;
   private Component locationComp;
   private JButton okButt, canButt;
 
@@ -54,7 +54,7 @@ public class EventArgumentDialog extends JDialog
   private EventArgumentDialog(JFrame parent, Component comp, EventArgument param)
   {
     super(parent, "Event Argument", true);
-    this.param = param;
+    this.myEA = param;
     this.locationComp = comp;
     this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -79,8 +79,8 @@ public class EventArgumentDialog extends JDialog
         commentField       = new JTextField(25);   setMaxHeight(commentField);
         parameterTypeCombo = new JComboBox(VGlobals.instance().getTypeCBModel());
                                                setMaxHeight(parameterTypeCombo);
-        parameterTypeCombo.setBackground(Color.white);
-    
+        //parameterTypeCombo.setBackground(Color.white);
+        parameterTypeCombo.setEditable(true);
         fieldsPanel.add(new OneLinePanel(nameLab,w,nameField));
         fieldsPanel.add(new OneLinePanel(typeLab,w,parameterTypeCombo));
         fieldsPanel.add(new OneLinePanel(commLab,w,commentField));
@@ -100,7 +100,7 @@ public class EventArgumentDialog extends JDialog
 
     fillWidgets();     // put the data into the widgets
 
-    modified        = (param==null?true:false);     // if it's a new param, they can always accept defaults with no typing
+    modified        = (param==null?true:false);     // if it's a new myEA, they can always accept defaults with no typing
     okButt.setEnabled((param==null?true:false));
 
     getRootPane().setDefaultButton(canButt);
@@ -136,7 +136,7 @@ public class EventArgumentDialog extends JDialog
   }
   public void setParams(Component c, EventArgument p)
   {
-    param = p;
+    myEA = p;
     locationComp = c;
 
     fillWidgets();
@@ -151,16 +151,16 @@ public class EventArgumentDialog extends JDialog
 
   private void fillWidgets()
   {
-    if(param != null) {
-      nameField.setText(param.getName());
-      if(param.getComments().size() > 0)
-        commentField.setText((String)param.getComments().get(0));
-      setType(param);
-      parameterTypeCombo.insertItemAt(param.getType(),0);
-      parameterTypeCombo.setSelectedIndex(0);
+    if(myEA != null) {
+      nameField.setText(myEA.getName());
+      if(myEA.getComments().size() > 0)
+        commentField.setText((String)myEA.getComments().get(0));
+      setType(myEA);
+      //parameterTypeCombo.insertItemAt(myEA.getType(),0);
+      //parameterTypeCombo.setSelectedIndex(0);
     }
     else {
-      nameField.setText("param name");
+      nameField.setText("myEA name");
       commentField.setText("comments here");
     }
   }
@@ -177,17 +177,18 @@ public class EventArgumentDialog extends JDialog
     VGlobals.instance().addType(nm);
     mod = VGlobals.instance().getTypeCBModel();
     parameterTypeCombo.setModel(mod);
-    parameterTypeCombo.setSelectedIndex(mod.getSize()-1);
+    parameterTypeCombo.setSelectedIndex(0);
   }
 
   private void unloadWidgets()
   {
-    if(param != null) {
-      param.setName(this.nameField.getText());
-      param.getComments().clear();
+    if(myEA != null) {
+      myEA.setName(this.nameField.getText());
+      myEA.setType((parameterTypeCombo.getSelectedItem().toString()));
+      myEA.getComments().clear();
       String cs = commentField.getText().trim();
       if(cs.length() > 0)
-        param.getComments().add(0,cs);
+        myEA.getComments().add(0,cs);
     }
     else {
       newName    = nameField.getText().trim();

@@ -49,17 +49,19 @@ public class EventNode extends ViskitElement
   }
   public String getName()
   {
+    /*
     if(this.opaqueModelObject != null)
       return ((Event)opaqueModelObject).getName();
     else
+    */
       return name;
   }
   public void setName(String s)
   {
     if(this.opaqueModelObject != null)
       ((Event)opaqueModelObject).setName(s);
-    else
-      this.name = s;
+
+    this.name = s;
   }
   public ArrayList getArguments()
   {

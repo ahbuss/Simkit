@@ -14,7 +14,7 @@ import simkit.viskit.model.EventLocalVariable;
 
 public class LocalVariablesPanel extends ViskitTablePanel
 {
-  private String[] mytitles = {"name","type","value"};
+  private String[] mytitles = {"name","type","initial value","comment"};
 
   LocalVariablesPanel(int wid)
   {
@@ -29,10 +29,11 @@ public class LocalVariablesPanel extends ViskitTablePanel
 
   public String[] getFields(Object o)
   {
-    String[] sa = new String[3];
+    String[] sa = new String[4];
     sa[0] = ((EventLocalVariable)o).getName();
     sa[1] = ((EventLocalVariable)o).getType();
     sa[2] = ((EventLocalVariable)o).getValue();
+    sa[3] = ((EventLocalVariable)o).getComment();
     return sa;
   }
 

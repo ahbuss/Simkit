@@ -657,12 +657,15 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
 
       case ModelEvent.STATEVARIABLEADDED:
         vp.addRow(event.getSource());
+        VGlobals.instance().setStateVarsList(((ViskitModel)this.getModel()).getStateVariables());
         break;
       case ModelEvent.STATEVARIABLEDELETED:
         vp.removeRow(event.getSource());
+        VGlobals.instance().setStateVarsList(((ViskitModel)this.getModel()).getStateVariables());
         break;
       case ModelEvent.STATEVARIABLECHANGED:
         vp.updateRow(event.getSource());
+        VGlobals.instance().setStateVarsList(((ViskitModel)this.getModel()).getStateVariables());
         break;
 
       case ModelEvent.NEWMODEL:

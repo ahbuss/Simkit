@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Time: 4:00:29 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EventStateTransition
+public class EventStateTransition extends ViskitElement
 {
   private String stateVarName="";
   private String stateVarType="";

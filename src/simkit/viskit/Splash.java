@@ -27,6 +27,7 @@ public class Splash extends JFrame
   {
     super();
     this.setUndecorated(true);
+    this.setBackground(new Color(255,255,255,128));
     ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("simkit/viskit/images/ViskitSplash.png"));
     label = new JLabel(icon);
     label.setOpaque(false);
