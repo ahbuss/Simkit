@@ -8,17 +8,17 @@ package simkit.smdx;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 /**
- *  A doppleganger for a mover - to be passed by a SensorTargetMediator in lieu
+ *  A doppleganger for a Moveable - to be passed by a SensorTargetMediator in lieu
  *  of the actual target.
  *  @author  Arnold Buss
  */
 public class Contact implements Moveable {
     
     private DecimalFormat form;
-    private Mover mover;
+    private Moveable mover;
     
     /** Creates a new instance of Contact */
-    public Contact(Mover mover) {
+    public Contact(Moveable mover) {
         this.mover = mover;
         form = new DecimalFormat("0.000;-0.000");
     }
