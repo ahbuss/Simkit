@@ -28,9 +28,11 @@ public class TestMixedVariate extends Object {
                 RandomVariateFactory.getInstance("simkit.random.ConstantVariate",
                 new Object[] { new Double(0.0) } ),
                 RandomVariateFactory.getInstance("simkit.random.GammaVariate",
-                new Object[] { new Double(2.0), new Double(1.5) } )
+                new Object[] { new Double(2.0), new Double(1.5) } ),
+                RandomVariateFactory.getInstance("Normal",
+                new Object[] { new Double(-3.1), new Double(4.2) } )
             };
-            double[] prob = new double[] { 0.3, 0.7 };
+            double[] prob = new double[] { 4.0, 6.0, 2.0 };
             
         RandomVariate mixed = RandomVariateFactory.getInstance("simkit.random.MixedVariate",
         new Object[] { prob, rv } );
