@@ -14,7 +14,6 @@ import java.awt.*;
 /**
  *
  * @author  Arnold Buss
- * @version
  */
 public class SensorTargetReferee extends SimEntityBase implements PropertyChangeListener {
     
@@ -188,6 +187,18 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         }
 
         return time;
+    }
+    
+    public void doRun() {
+        for (Iterator i = getSensors().iterator(); i.hasNext(); ) {
+            Sensor sensor = (Sensor) i.next();
+            for (Iterator j = getTargets().iterator(); j.hasNext(); ) {
+                Mover target = (Mover) j.next();
+                if (sensor.getMover() != target && sensor.isInRangeOf(target.getLocation())) {
+                    waitDelay("EnterRange", 0.0, new Object[] { sensor, target });
+                }
+            }
+        }
     }
     
     public void doStartMove(Mover target) {
