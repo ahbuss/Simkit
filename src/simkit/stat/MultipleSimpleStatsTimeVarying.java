@@ -163,6 +163,13 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
             }
         }
     }
+    public void reset() {
+        super.reset();
+        if (indexedStats == null) { return; }
+        for (Iterator i = indexedStats.values().iterator(); i.hasNext(); ) {
+            ((SimpleStatsTimeVarying) i.next()).reset();
+        }
+    }
 
     public String toString() {
         StringBuffer buf = new StringBuffer();

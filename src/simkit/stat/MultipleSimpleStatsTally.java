@@ -163,6 +163,14 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
             }
         }
     }
+    
+    public void reset() {
+        super.reset();
+        if (indexedStats == null) { return; }
+        for (Iterator i = indexedStats.values().iterator(); i.hasNext(); ) {
+            ((SimpleStatsTally) i.next()).reset();
+        }
+    }
 
     public String toString() {
         StringBuffer buf = new StringBuffer();
