@@ -25,6 +25,11 @@ import javax.swing.table.*;
    
    /** Vector that holds data to be displayed */
    private Vector tableData;
+   
+   /**
+    * Whether we can edit values in the table.
+    */
+   private boolean isEditable;
 
    /**
     * Constructor that adds some bogus data for testing purposes
@@ -39,6 +44,11 @@ import javax.swing.table.*;
      //tableData.add(new StateVariable("waiteresses", "int", new Integer(4)));
      //tableData.add(new StateVariable("waiters", "int", new Integer(5)));
      
+   }
+   
+   public void setIsEditable(boolean pIsEditable)
+   {
+        isEditable = pIsEditable;
    }
 
    
@@ -77,6 +87,9 @@ import javax.swing.table.*;
     */
    public boolean isCellEditable(int row, int col)
    {
+     if(isEditable == false)
+         return false;
+     
      if(//(col == NAME_COLUMN) ||
         (col == CURRENT_VALUE_COLUMN))
         return false;

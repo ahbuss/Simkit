@@ -36,6 +36,7 @@ import javax.swing.table.*;
    public final static int ADD_NODE_MODE   = 1;
    public final static int ARC_MODE        = 2;
    public final static int CANCEL_ARC_MODE = 3;
+   public final static int VIEW_ONLY_MODE  = 4;
    
    /** Menu bar for the application */
    private JMenuBar menuBar;
@@ -120,11 +121,17 @@ import javax.swing.table.*;
    }
    
    /**
-    * Sets whether or not we can edit this event graph
+    * Sets whether or not we can edit this event graph. Also modifies
+    * the GUI to the desired state.
     */
    public void setEditable(boolean pIsEditable)
    {
      isEditable = pIsEditable;
+     
+     selectMode.setEnabled(isEditable);
+     addMode.setEnabled(isEditable);
+     arcMode.setEnabled(isEditable);
+     cancelArcMode.setEnabled(isEditable);
    }
    
    /**
@@ -148,9 +155,9 @@ import javax.swing.table.*;
      if(arcMode.isSelected() == true)    return ARC_MODE;
      if(arcMode.isSelected() == true)    return CANCEL_ARC_MODE;
      
-     // If none of them are selected we're in serious trouble.
+     // If none of them are selected we're presumably in the "view-only" mode.
      
-     return 0;
+     return VIEW_ONLY_MODE;
    }
    
    /**
@@ -349,6 +356,16 @@ import javax.swing.table.*;
        }
      });
      
+     // New EventGraph action
+     aMenuItem = fileMenu.getItem(NEW_EVENT_GRAPH_INDEX);
+     aMenuItem.addActionListener(new ActionListener()
+     {
+         public void actionPerformed(ActionEvent e)
+         {
+             EventGraphFrame eventGraph = new EventGraphFrame();
+         }
+     });
+     
      // Set up edit menu
      editMenu = new JMenu("Edit");
      editMenu.add(new JMenuItem("Cut"));
@@ -401,16 +418,16 @@ import javax.swing.table.*;
      toolBar = new JToolBar();
 
      // Buttons for what mode we are in
-     selectMode = new JToggleButton(new ImageIcon("images/select.jpg" ));
+     selectMode = new JToggleButton(new ImageIcon(EventGraphFrame.class.getResource("images/select.jpg" )));
      selectMode.setToolTipText("Select items on the graph");
 
-     addMode = new JToggleButton(new ImageIcon("images/node.jpg"));
+     addMode = new JToggleButton(new ImageIcon(EventGraphFrame.class.getResource("images/node.jpg" )));
      addMode.setToolTipText("Add new nodes to the event graph");
 
-     arcMode = new JToggleButton(new ImageIcon("images/connect.jpg"));
+     arcMode = new JToggleButton(new ImageIcon(EventGraphFrame.class.getResource("images/connect.jpg" )));
      arcMode.setToolTipText("Connect nodes with scheduling arcs");
 
-     cancelArcMode = new JToggleButton(new ImageIcon("images/cancel.jpg"));
+     cancelArcMode = new JToggleButton(new ImageIcon(EventGraphFrame.class.getResource("images/cancel.jpg" )));
      cancelArcMode.setToolTipText("Connect nodes with a canceling arc");
      
      modeButtonGroup.add(selectMode);

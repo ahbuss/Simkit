@@ -22,6 +22,9 @@ import javax.swing.table.*;
 
    /** Vector that holds data to be displayed */
    private Vector tableData;
+  
+   /** Whether the user can edit this. */
+   private boolean isEditable = true;
 
    /**
     * Constructor that adds some bogus data for testing purposes
@@ -37,6 +40,15 @@ import javax.swing.table.*;
      //tableData.add(new Parameter("value", "double"));
 
    }
+   
+   /** 
+    * Sets whether the user can edit the data in the table.
+    */
+   public void setIsEditable(boolean pIsEditable)
+   {
+       isEditable = pIsEditable;
+   }
+       
    
    public void addParameter(Parameter newParameter)
    {
@@ -79,6 +91,9 @@ import javax.swing.table.*;
     */
    public boolean isCellEditable(int row, int col)
    {
+     if(isEditable == false)
+         return false;
+     
      return false;
    }
 
