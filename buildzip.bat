@@ -1,6 +1,6 @@
 @echo off
 if not exist build mkdir build
-javac -classpath .;lib\jdom.jar -O -verbose -d build graph\*.java simkit\*.java simkit\random\*.java simkit\stat\*.java simkit\smd\*.java simkit\util\*.java simkit\examples\*.java simkit\smdx\*.java simkit\xml\*.java
+javac -classpath . -O -verbose -d build graph\*.java simkit\*.java simkit\random\*.java simkit\stat\*.java simkit\smd\*.java simkit\util\*.java simkit\examples\*.java simkit\smdx\*.java simkit\xml\*.java
 copy simkit\*.txt build\simkit
 copy simkit\*.png build\simkit
 copy simkit\xml\*.xml build\simkit\xml
