@@ -1,7 +1,7 @@
 package simkit.random;
 
 /**
- * Generates Bernoulli random variates (either int or double).
+ * Generates Bernoulli random variates (either int or double).<br>
  * Parameter:
  * <ul><li><code>probability</code> = P{X = 1}</li>
  * @author  Arnold Buss

@@ -5,6 +5,12 @@ package simkit.random;
  *
  * It uses the ratio of two Gamma variates to generate a Beta -
  * perhaps not the most efficient way, but gets the job done.
+ * 
+ * <p>The pdf is f(x) = x<sup>&alpha;-1</sup>(1-x)<sup>&beta;-1</sup>, 
+ *  0&le;x&le;1 <br>
+ * Parameters:
+ * <ul><li><code>alpha</code>: &alpha; in pdf</li>
+ * <li><code>beta</code>: &beta; in pdf</li></ul>
  *
  * @author Arnold Buss
  */
