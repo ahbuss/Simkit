@@ -17,6 +17,6 @@ if [ ! -d doc ]; then
 	mkdir doc
 fi
 cd ..
-javadoc -author -private -d simsystem/doc simkit simkit.data simkit.random simkit.smdx simkit.smd imkit.stat simkit.util simkit.examples
+javadoc -author -private -d simsystem/doc simkit simkit.data simkit.random simkit.smdx simkit.smd simkit.stat simkit.util simkit.examples
 java -cp simsystem/simkit.jar simkit.Version
 
