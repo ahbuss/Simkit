@@ -1,7 +1,7 @@
 package simkit.data;
 /**
- * @deprecated This class has been replaced by <CODE>simkit.random.SampleStatistics</CODE>
- * @see simkit.random.SampleStatistics
+ * @deprecated This class has been replaced by <CODE>simkit.stat.SampleStatistics</CODE>
+ * @see simkit.stat.SampleStatistics
 **/
 public interface SampleStatistics extends java.beans.PropertyChangeListener {
    public void reset();
