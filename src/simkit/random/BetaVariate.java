@@ -23,8 +23,8 @@ public class BetaVariate extends RandomVariateBase {
                                              " passed");
         }
         else if (params[0] instanceof Number && params[1] instanceof Number) {
-            alpha = ((Number) params[0]).doubleValue();
-            beta = ((Number) params[1]).doubleValue();
+            this.setAlpha(((Number) params[0]).doubleValue());
+            this.setBeta(((Number) params[1]).doubleValue());
         }
         else {
             throw new IllegalArgumentException("Parameters both must be of type Number");

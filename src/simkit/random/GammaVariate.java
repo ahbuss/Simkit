@@ -26,9 +26,9 @@ public class GammaVariate extends RandomVariateBase {
             throw new IllegalArgumentException("Must have 2 parameters for GammaVariate");
         }
         else if (params[0] instanceof Number && params[1] instanceof Number) {
-             ((Number) params[0]).doubleValue();
+             this.setAlpha(((Number) params[0]).doubleValue());
             
-            beta = ((Number) params[1]).doubleValue();
+             this.setBeta(((Number) params[1]).doubleValue());
             this.setConvenienceParameters();
         }
         else {
