@@ -279,9 +279,11 @@ public class SimkitXML2Java {
 
     void doEventBlock(Event e, StringWriter eventBlock) {
 	PrintWriter pw = new PrintWriter(eventBlock);
-	ListIterator li = e.getStateTransition().listIterator();
+	ListIterator sli = e.getStateTransition().listIterator();
 	List args = e.getArgument();
 	ListIterator ai = args.listIterator();
+	List locs = e.getLocalVariable();
+	ListIterator lci = locs.listIterator();
 
 	pw.print(sp4 + "public void do" + e.getName() + lp); 
 
@@ -293,10 +295,20 @@ public class SimkitXML2Java {
 	    }
  	}
 
+	// finish the method decl
 	pw.println(rp + sp + ob);
 
-	while ( li.hasNext() ) {
-   	    StateTransition st = (StateTransition) li.next();
+	// local variable decls
+	while ( lci.hasNext() ) {
+	    LocalVariable local = (LocalVariable) lci.next();
+	    pw.print(sp8 + local.getType() + sp + local.getName() + sp + eq);
+	    pw.print(sp + lp + local.getType() + rp);
+	    //pw.print(eq + sp + lp + local.getType() + rp);
+	    pw.println(sp + local.getValue() + sc);
+	}
+
+	while ( sli.hasNext() ) {
+   	    StateTransition st = (StateTransition) sli.next();
 	    StateVariable sv = (StateVariable) st.getState();
 	    AssignmentType asg = st.getAssignment();
 	    OperationType ops = st.getOperation(); 
@@ -304,10 +316,16 @@ public class SimkitXML2Java {
 	    pw.print(sp8 + sv.getName());
 	    if (asg == null) {
 		pw.println(pd + ops.getMethod() + sc);
+	    } else {
+		pw.println(sp + eq + sp + asg.getValue() + sc);
 	    }
-	//tbd
+	    pw.print(sp8 + "firePropertyChange(" + qu + sv.getName() + qu + cm + sp);
+	    pw.println(sv.getName() + rp + sc);
 
 	}
+
+	pw.println(sp4 + cb);
+	pw.println();
 	
     }
 
