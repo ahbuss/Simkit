@@ -2,8 +2,8 @@ package simkit.random;
 
 /** Generates random variates having an arbitrary
  * discrete distribution.  The distribution is
- * given by a set of values and a set of either probabilities,
- * frequencies, or cumulative probabilities.
+ * given by a set of values and a set of either probabilities or
+ * frequencies.
  * @author Arnold Buss
  */
 public class DiscreteVariate extends RandomVariateBase {
@@ -13,14 +13,21 @@ public class DiscreteVariate extends RandomVariateBase {
 
     public DiscreteVariate() {}
 
-    /** First argumenr is values as double[].
-     * Second argument is probabilities, frequencies, or
-     * cumulative probabilties, as double[]
-     *
-     * If (values, frequencies) are given, then the frequencies
-     * are normalized to sum to 1.
-     * @param params (values, prob) as (double[], double[])
-     */    
+/** 
+* Defines the cdf for this RandomVariate.
+* First argument is an array of doubles that define where the cdf changes.
+* The second argument is an array of doubles that specify either
+* frequencies or probabilities at the points given.
+*
+* If (values, frequencies) are given, then the frequencies
+* are normalized to sum to 1.
+* @param params (values, prob) as (double[], double[])
+* @throws IllegalArgumentException If the given array does not have 2 elements,
+* if the elements are not arrays of doubles, or if the two doule arrays are not
+* the same length.
+* @throws IllegalArgumentException If any of the probabilities/frequencies are 
+* negative or they're sums are zero.
+*/    
     public void setParameters(Object[] params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Must have Object[] {double[], double[]}");
@@ -32,6 +39,9 @@ public class DiscreteVariate extends RandomVariateBase {
         else {
             throw new IllegalArgumentException("Parameters not of type {double[], double[]}");
         }
+        if (value.length != cdf.length) {
+            throw new IllegalArgumentException("The 2 double arrays are not the same length.");
+        }
     }
     
     /** Returns probabilities as second element in array regardless
@@ -40,6 +50,7 @@ public class DiscreteVariate extends RandomVariateBase {
      */    
     public Object[] getParameters() { return new Object[] { getValues(), getProbabilities() }; }
     
+//javadoc inherited
     public double generate() {
         int index;
         double uniform = this.rng.draw();
@@ -47,6 +58,12 @@ public class DiscreteVariate extends RandomVariateBase {
         return value[index];
     }
 
+/**
+* Convert the given array of probabilities/frequencies to a cdf.
+*
+* @throws IllegalArgumentException If any of the probabilities/frequencies are 
+* negative or they're sums are zero.
+*/
     protected double[] normalize(double[] freq) {
         double[] norm = null;
         double sum = 0.0;
@@ -72,6 +89,9 @@ public class DiscreteVariate extends RandomVariateBase {
         return norm;
     }
 
+/**
+* Returns a String containing a table representation of the pdf and cdf.
+**/
     public String toString() {
         java.text.DecimalFormat df = new java.text.DecimalFormat("0.000");
         StringBuffer buf = new StringBuffer();
@@ -87,16 +107,42 @@ public class DiscreteVariate extends RandomVariateBase {
         return buf.toString();
     }
 
+/**
+* Sets the array of values at which the cdf changes value.
+* Warning: This array must be the same length as the probability and cdf arrays, however
+* no checking is done by this method.
+**/
     public void setValues(double[] values) { this.value = (double[]) values.clone(); }
     
+/**
+* Sets the cdf of this RandomVariate based on the contents of the given array.
+* Warning: This array must be the same length as the value array, however
+* no checking is done by this method.
+* @param prob An array containing either the probabilities or frequecies at the
+* points contained in the value array.
+**/
     public void setProbabilities(double[] prob) { cdf = normalize(prob); }
     
+/**
+* Directly sets the cdf of this RandomVariate. No checking is done by this
+* method to ensure the array is a legal cdf or that it has the same length
+* as the value array.
+**/
     public void setCDF(double[] cdf) { this.cdf = (double[])cdf.clone(); }
     
+/**
+* Returns a copy of the value array.
+**/
     public double[] getValues() { return (double[]) value.clone(); }
 
+/**
+* Returns a copy of the cdf array.
+**/
     public double[] getCDF() { return (double[]) cdf.clone(); }
 
+/**
+* Returns an array containing the probability at each point in the value array.
+**/
     public double[] getProbabilities() {
         double[] freq = new double[cdf.length];
         for (int i = 0; i < cdf.length; i++) {
