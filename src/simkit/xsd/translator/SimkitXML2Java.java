@@ -193,6 +193,8 @@ public class SimkitXML2Java {
 	
 	PrintWriter pw = new PrintWriter(runBlock);
 	ListIterator li;
+	List sched = run.getScheduleOrCancel();
+	ListIterator schi = sched.listIterator();
 
 	pw.println();
 	pw.println(sp4 + "/** Creates a new instance of " + this.root.getName() + " */");
@@ -269,6 +271,15 @@ public class SimkitXML2Java {
 	    OperationType ops = st.getOperation();
 	    pw.print(sp8 + "firePropertyChange(" + qu + sv.getName() + qu); 
 	    pw.println(cm + sv.getName() + rp + sc);
+	}
+
+	while ( schi.hasNext() ) {
+	    Object o = schi.next();
+	    if ( o instanceof ScheduleType ) {
+		doSchedule((ScheduleType)o,run,pw);
+	    } else {
+		doCancel((CancelType)o,run,pw);
+	    }
 	}
 	
 	pw.println(sp4 + cb);
