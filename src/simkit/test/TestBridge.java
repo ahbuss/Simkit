@@ -52,7 +52,7 @@ public class TestBridge {
         
         System.out.println(arrival.paramString());
         System.out.println(server[0].paramString());
-        System.out.println(bridge.paramString());
+        System.out.println(bridge);
         System.out.println(server[1].paramString());
         
         SimplePropertyDumper dump = new SimplePropertyDumper();
