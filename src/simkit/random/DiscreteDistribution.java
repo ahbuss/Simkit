@@ -14,10 +14,6 @@ package simkit.random;
 public interface DiscreteDistribution extends Distribution {
     
     public double pmf(double x);
-    
-    public int[] getValues();
-    
-    public double[] getRealValues();
-    
+        
 }
 
