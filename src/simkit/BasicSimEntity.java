@@ -688,9 +688,9 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
                 }
             }
         } 
-        catch (IntrospectionException e) { e.printStackTrace(System.err);  }
-        catch (IllegalAccessException e) { e.printStackTrace(System.err);  }
-        catch (InvocationTargetException e) { e.getTargetException().printStackTrace(System.err);  }
+        catch (IntrospectionException e) { throw new RuntimeException(e); }
+        catch (IllegalAccessException e) { throw new RuntimeException(e); }
+        catch (InvocationTargetException e) { throw new RuntimeException(e.getTargetException()); }
         return buf.toString();
     }        
     /**  
