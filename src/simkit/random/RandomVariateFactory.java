@@ -17,7 +17,8 @@ public class RandomVariateFactory {
         RandomVariate instance = null;
         Class randomVariateClass = null;
         try {
-            randomVariateClass = Class.forName(className);
+//            randomVariateClass = Class.forName(className);
+            randomVariateClass = Thread.currentThread().getContextClassLoader().loadClass(className);
         }                            
         catch (ClassNotFoundException e) { System.err.println(e); }
         if (!simkit.random.RandomVariate.class.isAssignableFrom(randomVariateClass)) {
@@ -45,7 +46,8 @@ public class RandomVariateFactory {
         RandomVariate instance = null;
         Class randomVariateClass = null;
         try {
-            randomVariateClass = Class.forName(className);
+//            randomVariateClass = Class.forName(className);
+            randomVariateClass = Thread.currentThread().getContextClassLoader().loadClass(className);
         }                            
         catch (ClassNotFoundException e) { System.err.println(e); }
         if (!simkit.random.RandomVariate.class.isAssignableFrom(randomVariateClass)) {
