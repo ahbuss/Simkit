@@ -35,15 +35,15 @@ public class Server extends BasicSimEntity {
     /** Simply fires the PropertyChangeEvents for time-varying state variables.
      */    
     public void doRun() {
-        property.firePropertyChange("numberInQueue", -1, numberInQueue);
-        property.firePropertyChange("numberAvailableServers", 0, numberAvailableServers);
+        firePropertyChange("numberInQueue", numberInQueue);
+        firePropertyChange("numberAvailableServers", numberAvailableServers);
     }
 
     /** Arrivale of a customer to queue.  After incrementing the number in queue, 
      *  if a server is available, a StartService event is scheduled.
      */    
     public void doArrival() {
-        property.firePropertyChange("numberInQueue", numberInQueue, ++numberInQueue);
+        firePropertyChange("numberInQueue", numberInQueue, ++numberInQueue);
 
         if (numberAvailableServers > 0) {
             waitDelay("StartService", 0.0);
@@ -54,8 +54,8 @@ public class Server extends BasicSimEntity {
      * Schedule EndService event after delay of a service time.
      */    
     public void doStartService() {
-        property.firePropertyChange("numberInQueue", numberInQueue, --numberInQueue);
-        property.firePropertyChange("numberAvailableServers", numberAvailableServers, --numberAvailableServers);
+        firePropertyChange("numberInQueue", numberInQueue, --numberInQueue);
+        firePropertyChange("numberAvailableServers", numberAvailableServers, --numberAvailableServers);
 
         waitDelay("EndService", serviceTime.generate());
     }
@@ -64,8 +64,8 @@ public class Server extends BasicSimEntity {
      * waiting in the queue, schedule a StartService event immediately.
      */    
     public void doEndService() {
-        property.firePropertyChange("numberAvailableServers", numberAvailableServers, ++numberAvailableServers);
-        property.firePropertyChange("numberServed", 0, ++numberServed);
+        firePropertyChange("numberAvailableServers", numberAvailableServers, ++numberAvailableServers);
+        firePropertyChange("numberServed", 0, ++numberServed);
 
         if (numberInQueue > 0 ) {
             waitDelay("StartService", 0.0);
