@@ -436,19 +436,19 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
 
     // Buttons for what mode we are in
     selectMode = makeJTButton(controller.SELECTMODE,
-                              "images/select.jpg",
+                              "simkit/viskit/images/select.jpg",
                               "Select items on the graph");
 
     addMode    = makeJTButton(controller.NEWNODEMODE,
-                              "images/node.jpg",
+                              "simkit/viskit/images/node.jpg",
                               "Add new nodes to the event graph");
 
     arcMode    = makeJTButton(controller.ARCMODE,
-                              "images/connect.jpg",
+                              "simkit/viskit/images/connect.jpg",
                               "Connect nodes with scheduling arcs");
 
     cancelArcMode = makeJTButton(controller.CANCELARCMODE,
-                                 "images/cancel.jpg",
+                                 "simkit/viskit/images/cancel.jpg",
                                  "Connect nodes with a canceling arc");
 
     modeButtonGroup.add(selectMode);
