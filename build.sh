@@ -10,7 +10,7 @@ else
 	mkdir simsystem
 fi
 javac -O -classpath . -verbose -d simsystem graph/*.java simkit/*.java simkit/data/*.java simkit/random/*.java simkit/stat/*.java simkit/smd/*.java simkit/util/*.java simkit/examples/*.java simkit/smdx/*.java
-cp simkit/*.txt simsystem/simkit
+cp simkit/*.txt simkit/*.png simsystem/simkit
 cd simsystem
 jar cvf simkit.jar graph simkit
 if [ ! -d doc ]; then
