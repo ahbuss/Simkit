@@ -115,11 +115,4 @@ public class MultipleServerQueue extends SimEntityBase {
     public static String description() {
         return "Model of Multiple Server Queue";
     }
-/**
- *  @return Usage string (assumes exponential arrivals and service times).
-**/
-    public static String usage() {
-        return "Usage: java simkit.examples.MultipleServerQueue <mean interarrival time>" +
-               " <mean service time> <# servers> <stop time>" ;
-    }
 }
