@@ -6,6 +6,8 @@ package simkit.data;
  *
  *  <P> 09 August 2000 - Modified per Paul Sanchez' algorithm
  *
+ * @deprecated This class has been replaced by <CODE>simkit.random.SimpleStats2</CODE>
+ * @see simkit.random.SimpleStats2
  *	@author Arnie Buss
 **/
 

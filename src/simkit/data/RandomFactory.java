@@ -1,5 +1,4 @@
 package simkit.data;
-
 import java.lang.reflect.*;
 
 /**

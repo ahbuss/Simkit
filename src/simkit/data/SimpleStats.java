@@ -8,6 +8,9 @@ package simkit.data;
  *      <P>PropertyChangeListener methods added 12-15-97 (ab)
  *      <P> 02 June 1999 - synchronized getter methods ("What took so long??)
  *
+ * @deprecated This class has been replaced by <CODE>simkit.random.SimpleStats</CODE>
+ * @see simkit.random.SimpleStats
+ *
  *	@author Arnie Buss
 **/
 
