@@ -165,7 +165,7 @@ public class SimRunner implements Runnable {
         Document document = builder.parse(inStream);
         
         SimRunner runner = SimRunner.getSimRunner(document.getDocumentElement());
-        Schedule.setVerbose(true);
+        
         System.out.println(runner);
         runner.run();
     }
