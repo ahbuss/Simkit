@@ -1,7 +1,0 @@
-package simkit.random;
-
-public class RandomVariateBase implements RandomVariate {
-
-    public RandomVariateBase() {
-    }
-} 
