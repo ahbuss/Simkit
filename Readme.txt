@@ -1,4 +1,4 @@
-Simkit version 1.2.9
+Simkit version 1.2.10
 Copyright (C) 1997-2003 Kirk Stork and Arnold Buss
 
 Installation Instructions
