@@ -28,16 +28,17 @@ import java.util.regex.*;
 public class EdgeParameterDialog extends JDialog
 {
   private JTextField valueField;       // Text field that holds the expression
+  private JLabel     typeLabel;    // static type value passed in
   //private JTextField commentField;          // Text field that holds the comment
-  private JComboBox  parameterTypeCombo;    // Editable combo box that lets us select a type
 
   private static EdgeParameterDialog dialog;
   private static boolean modified = false;
   private vEdgeParameter param;
+  private String type;
   private Component locationComp;
   private JButton okButt, canButt;
 
-  public static String newValue, newType; //, newComment;
+  public static String newValue; //, newType; //, newComment;
 
   public static boolean showDialog(JFrame f, Component comp, vEdgeParameter parm)
   {
@@ -56,6 +57,8 @@ public class EdgeParameterDialog extends JDialog
     super(parent, "Edge Parameter", true);
     this.param = param;
     this.locationComp = comp;
+    this.type = param.bogus!=null?param.bogus:"";
+
     this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
     Container cont = getContentPane();
@@ -69,20 +72,18 @@ public class EdgeParameterDialog extends JDialog
       JPanel fieldsPanel = new JPanel();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel,BoxLayout.Y_AXIS));
 
-        JLabel valueLab = new JLabel("initial value");
+        JLabel valueLab = new JLabel("value");
         JLabel typeLab = new JLabel("type");
         //JLabel commLab = new JLabel("comment");
         int w = maxWidth(new JComponent[]{valueLab,typeLab}); //commLab});
 
         valueField         = new JTextField(25);   setMaxHeight(valueField);
        // commentField       = new JTextField(25);   setMaxHeight(commentField);
-        parameterTypeCombo = new JComboBox(VGlobals.instance().getTypeCBModel());
-                                               setMaxHeight(parameterTypeCombo);
+        typeLabel = new JLabel("argument type"); //new JComboBox(VGlobals.instance().getTypeCBModel());
+                                               //setMaxHeight(typeLabel);
 
-        parameterTypeCombo.setEditable(true);
-
+        fieldsPanel.add(new OneLinePanel(typeLab,w,typeLabel));
         fieldsPanel.add(new OneLinePanel(valueLab,w,valueField));
-        fieldsPanel.add(new OneLinePanel(typeLab,w,parameterTypeCombo));
         //fieldsPanel.add(new OneLinePanel(commLab,w,commentField));
        con.add(fieldsPanel);
        con.add(Box.createVerticalStrut(5));
@@ -115,7 +116,7 @@ public class EdgeParameterDialog extends JDialog
     enableApplyButtonListener lis = new enableApplyButtonListener();
     //this.commentField.      addCaretListener(lis);
     this.valueField.   addCaretListener(lis);
-    this.parameterTypeCombo.addActionListener(lis);
+    //this.typeLabel.addActionListener(lis);
   }
 
   private int maxWidth(JComponent[] c)
@@ -138,6 +139,7 @@ public class EdgeParameterDialog extends JDialog
   {
     param = p;
     locationComp = c;
+    type = p.bogus!=null?p.bogus:"";
 
     fillWidgets();
 
@@ -148,45 +150,22 @@ public class EdgeParameterDialog extends JDialog
 
     this.setLocationRelativeTo(c);
   }
-  private void setType(vEdgeParameter p)
-  {
-    String nm = p.getType();
-    ComboBoxModel mod = parameterTypeCombo.getModel();
-    for(int i=0;i<mod.getSize(); i++) {
-      if(nm.equals(mod.getElementAt(0))) {
-        parameterTypeCombo.setSelectedIndex(i);
-        return;
-      }
-    }
-    VGlobals.instance().addType(nm);
-    mod = VGlobals.instance().getTypeCBModel();
-    parameterTypeCombo.setModel(mod);
-    parameterTypeCombo.setSelectedIndex(mod.getSize()-1);
-  }
 
   private void fillWidgets()
   {
-    if(param != null) {
-      valueField.setText(param.getValue());
-      setType(param);
-      //this.commentField.setText(param.getComment());
-    }
-    else {
-      valueField.setText("param name");
-      //commentField.setText("comments here");
-    }
+    valueField.setText(param.getValue());
+    typeLabel.setText(type);
+    //this.commentField.setText(param.getComment());
   }
 
   private void unloadWidgets()
   {
     if(param != null) {
       param.setValue(valueField.getText().trim());
-      param.setType(((String)(this.parameterTypeCombo.getSelectedItem())).trim());
       //param.setComment(this.commentField.getText());
     }
     else {
       newValue = valueField.getText().trim();
-      newType = ((String)(this.parameterTypeCombo.getSelectedItem())).trim();
       //newComment = commentField.getText().trim();
     }
   }
@@ -288,10 +267,10 @@ jmb..this is good regex checking.  put in a single utility class
 
 
     // Check to make sure the class or type exists
-    if(!ClassUtility.classExists(parameterTypeCombo.getSelectedItem().toString()))
+    if(!ClassUtility.classExists(typeLabel.getSelectedItem().toString()))
     {
       JOptionPane.showMessageDialog(null,
-                                    "The class name " + parameterTypeCombo.getSelectedItem().toString() + "  does not exist on the classpath",
+                                    "The class name " + typeLabel.getSelectedItem().toString() + "  does not exist on the classpath",
                                     "alert",
                                     JOptionPane.ERROR_MESSAGE);
       return false;

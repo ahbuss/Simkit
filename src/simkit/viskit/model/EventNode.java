@@ -4,6 +4,7 @@ import simkit.xsd.bindings.Event;
 
 import java.util.Vector;
 import java.util.ArrayList;
+import java.awt.*;
 
 /**
  * OPNAV N81 - NPS World Class Modeling (WCM) 2004 Projects
@@ -27,6 +28,7 @@ public class EventNode extends ViskitElement
   private ArrayList transitions = new ArrayList();
   private Vector    localVariables = new Vector();
   private ArrayList arguments = new ArrayList();
+  private Point     position = new Point(0,0);
 
   EventNode(String name)      // package access on constructor
   {
@@ -113,5 +115,14 @@ public class EventNode extends ViskitElement
     this.transitions = transitions;
   }
 
+  public Point getPosition()
+  {
+    return position;
+  }
+
+  public void setPosition(Point position)
+  {
+    this.position = position;
+  }
 
 }

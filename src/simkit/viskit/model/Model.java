@@ -113,7 +113,7 @@ public class Model extends mvcAbstractModel implements ViskitModel
      }
      catch (JAXBException e) {
        //assert false : "Model.java -- error on JAXBContext instantiation";
-       System.err.println("assert false : Model.java -- error marshalling "+f.getName());
+       System.err.println("assert false : Model.java -- error marshalling "+f.getName()+"\n"+e);
      }
      catch (IOException ex) {
        System.err.println("Error writing the file...");   // todo, access view and put up error dialog
@@ -123,7 +123,7 @@ public class Model extends mvcAbstractModel implements ViskitModel
   private void buildEventsFromJaxb(List lis)
   //----------------------------------------
   {
-    xdim = ydim = 1; // init...temp
+   // xdim = ydim = 1; // init...temp
     for(Iterator itr = lis.iterator(); itr.hasNext();) {
       Event ev = (Event)itr.next();
       EventNode en = buildNodeFromJaxbEvent(ev);
@@ -142,9 +142,9 @@ public class Model extends mvcAbstractModel implements ViskitModel
     jaxbEvToNode(ev,en);
     en.opaqueModelObject = ev;
     evNodeCache.put(ev,en);   // key = ev
-    Point p = tempPositionPoint(ev.getName()); //p = new Point(p.x+75,p.y+75);
 
-    notifyChanged(new ModelEvent(new Object[]{en,p},ModelEvent.EVENTADDED, "Event added"));
+    //notifyChanged(new ModelEvent(new Object[]{en,p},ModelEvent.EVENTADDED, "Event added"));
+    notifyChanged(new ModelEvent(en,ModelEvent.EVENTADDED, "Event added"));
 
     return en;
   }
@@ -162,6 +162,11 @@ public class Model extends mvcAbstractModel implements ViskitModel
   private void jaxbEvToNode(Event ev, EventNode node)
   {
     node.setName(ev.getName());
+
+    CoordinateType coor = ev.getCoordinate();
+    if(coor != null)        //todo lose this after all xmls updated
+      node.setPosition(new Point(Integer.parseInt(coor.getX()),
+                               Integer.parseInt(coor.getY())));
 
     node.getComments().clear();
     node.getComments().addAll(ev.getComment());
@@ -209,6 +214,7 @@ public class Model extends mvcAbstractModel implements ViskitModel
     }
   }
 
+/*
   int xdim = 1, ydim=1;
   int factor = 50;
   private Point tempPositionPoint(String name)
@@ -226,6 +232,7 @@ public class Model extends mvcAbstractModel implements ViskitModel
 
     return new Point(factor*xdim++,factor*ydim++);
   }
+*/
   private void buildEdgesFromJaxb(EventNode src,List lis)
   {
 
@@ -288,7 +295,7 @@ public class Model extends mvcAbstractModel implements ViskitModel
     for(Iterator itr = lis.iterator();itr.hasNext();) {
       EdgeParameter ep = (EdgeParameter)itr.next();
 
-      vEdgeParameter vep = new vEdgeParameter(ep.getValue(),ep.getType());
+      vEdgeParameter vep = new vEdgeParameter((String)ep.getValue()); //,ep.getType());
       alis.add(vep);
     }
     return alis;
@@ -462,8 +469,11 @@ public class Model extends mvcAbstractModel implements ViskitModel
   public void newEvent(String nodeName, Point p)
   {
     EventNode node = new EventNode(nodeName);
-    if (p == null) p = new Point(100, 100);
-    // put code to do it here
+    if (p == null)
+      node.setPosition(new Point(100,100));
+    else
+      node.setPosition(p);
+
     Event jaxbEv = null;
     try {
       jaxbEv = oFactory.createEvent();
@@ -480,7 +490,7 @@ public class Model extends mvcAbstractModel implements ViskitModel
     jaxbRoot.getEvent().add(jaxbEv);
 
     modelDirty = true;
-    notifyChanged(new ModelEvent(new Object[]{node,p},ModelEvent.EVENTADDED, "Event added"));
+    notifyChanged(new ModelEvent(node,ModelEvent.EVENTADDED, "Event added"));
   }
   /**
    * Delete the referenced event, also deleting attached edges.
@@ -584,6 +594,17 @@ public class Model extends mvcAbstractModel implements ViskitModel
     Event jaxbEv = (Event)node.opaqueModelObject;
 
     jaxbEv.setName(node.getName());
+
+    Coordinate coor = null;
+    try {
+      coor = oFactory.createCoordinate();
+    } catch(JAXBException e) {
+      System.err.println("Exc Model.changeEvent()");
+    }
+    coor.setX(""+node.getPosition().x);
+    coor.setY(""+node.getPosition().y);
+    jaxbEv.setCoordinate(coor);
+
     cloneTransitions(jaxbEv.getStateTransition(),node.getTransitions());
     cloneComments(jaxbEv.getComment(),node.getComments());
     cloneArguments(jaxbEv.getArgument(),node.getArguments());
@@ -619,6 +640,16 @@ public class Model extends mvcAbstractModel implements ViskitModel
     sch.setEvent(targEv);
     Event srcEv = (Event)src.opaqueModelObject;
     srcEv.getScheduleOrCancel().add(sch);
+
+    // Put in dummy edge parameters to match the target arguments
+    ArrayList args = target.getArguments();
+    if(args.size() > 0) {
+      ArrayList eps = new ArrayList(args.size());
+      for(int i = 0;i<args.size();i++)
+        eps.add(new vEdgeParameter(""));
+      se.parameters = eps;
+    }
+
     this.edgeCache.put(sch,se);
     modelDirty = true;
 
@@ -647,6 +678,17 @@ public class Model extends mvcAbstractModel implements ViskitModel
     can.setEvent(targEv);
     Event srcEv = (Event)src.opaqueModelObject;
     srcEv.getScheduleOrCancel().add(can);
+
+    // Put in dummy edge parameters to match the target arguments
+    ArrayList args = target.getArguments();
+    if(args.size() > 0) {
+      ArrayList eps = new ArrayList(args.size());
+      for(int i = 0;i<args.size();i++)
+        eps.add(new vEdgeParameter(""));
+      ce.parameters = eps;
+    }
+
+
     this.edgeCache.put(can,ce);
     modelDirty = true;
 
@@ -703,7 +745,7 @@ public class Model extends mvcAbstractModel implements ViskitModel
         System.err.println("Model.changeEdge, jaxb error createing EdgeParameter");
         return;
       }
-      p.setType(vp.getType());
+      //p.setType(vp.getType());
       p.setValue(vp.getValue());
       sch.getEdgeParameter().add(p);
     }
@@ -730,7 +772,7 @@ public class Model extends mvcAbstractModel implements ViskitModel
         System.err.println("Model.changeEdge, jaxb error createing EdgeParameter");
         return;
       }
-      p.setType(vp.getType());
+      //p.setType(vp.getType());
       p.setValue(vp.getValue());
       can.getEdgeParameter().add(p);
     }

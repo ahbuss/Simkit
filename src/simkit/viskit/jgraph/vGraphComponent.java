@@ -1,16 +1,16 @@
 package simkit.viskit.jgraph;
 
 import simkit.viskit.*;
-import simkit.viskit.model.Edge;
-import simkit.viskit.model.EventNode;
-import simkit.viskit.model.CancellingEdge;
-import simkit.viskit.model.SchedulingEdge;
+import simkit.viskit.model.*;
 import simkit.xsd.bindings.*;
 import org.jgraph.JGraph;
 import org.jgraph.event.GraphSelectionListener;
 import org.jgraph.event.GraphSelectionEvent;
+import org.jgraph.event.GraphModelListener;
+import org.jgraph.event.GraphModelEvent;
 import org.jgraph.plaf.basic.BasicGraphUI;
 import org.jgraph.graph.*;
+import org.jgraph.graph.Edge;
 
 
 import javax.swing.*;
@@ -18,10 +18,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.*;
-import java.util.Map;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -32,7 +29,7 @@ import java.util.List;
  * Date: Feb 19, 2004
  * Time: 2:54:31 PM
  */
-public class vGraphComponent extends JGraph
+public class vGraphComponent extends JGraph implements GraphModelListener
 /**********************************************/
 {
   vGraphModel model;
@@ -51,9 +48,12 @@ public class vGraphComponent extends JGraph
     //this.setGridMode(JGraph.CROSS_GRID_MODE);
     //this.setGridMode(JGraph.DOT_GRID_MODE);
     this.setGridMode(JGraph.LINE_GRID_MODE);
+    this.setGridColor(new Color(0xcc,0xcc,0xff)); // default on Mac, makes Windows look better
+    this.setGridEnabled(true);
     this.setMarqueeHandler(new MyMarqueeHandler());
     this.setAntiAliased(true);
     this.addGraphSelectionListener(new myGraphSelectionListener());
+    model.addGraphModelListener(this);
   }
 
   public void updateUI()
@@ -73,8 +73,7 @@ public class vGraphComponent extends JGraph
         model.deleteAll();
         break;
       case ModelEvent.EVENTADDED:
-        Object[] oa = (Object[])ev.getSource();
-        model.addEventNode((EventNode)oa[0],(Point)oa[1]);
+        model.addEventNode((EventNode)ev.getSource());
         break;
       case ModelEvent.EDGEADDED:
         model.addEdge((SchedulingEdge)ev.getSource());
@@ -105,12 +104,37 @@ public class vGraphComponent extends JGraph
         ;
     }
   }
+  /**
+   * GraphModelListener entry.  We use this to listen for position changes so
+   * we can stuff them into EventNode
+   * @param e
+   */
+  public void graphChanged(GraphModelEvent e)
+  {
+    GraphModelEvent.GraphModelChange c = e.getChange();
+    Object[] ch = c.getChanged();
+    if(ch != null) {
+      for(int i=0;i<ch.length;i++) {
+        if(ch[i] instanceof CircleCell) {
+          CircleCell cc = (CircleCell)ch[i];
+          Map m = cc.getAttributes();
+          Rectangle r = (Rectangle)m.get("bounds");
+          if(r != null) {
+            EventNode en = (EventNode)cc.getUserObject();
+            en.setPosition(new Point(r.x, r.y));
+            ((ViskitModel)parent.getModel()).changeEvent(en);
+          }
+        }
+      }
+    }
+  }
+
   private String getEdgePs(List edgLis)
   {
     String params = "";
     for(Iterator itr = edgLis.iterator(); itr.hasNext();) {
       EdgeParameter edPar = (EdgeParameter)itr.next();
-      params+="<LI>"+edPar.getValue()+" ("+edPar.getType()+")</LI>";
+      params+="<LI>"+edPar.getValue()+" ("+/*edPar.getType()+*/")</LI>";
     }
     if(params.length()<=0)
       return null;
@@ -143,10 +167,12 @@ public class vGraphComponent extends JGraph
             for(Iterator itr = edPLis.iterator();itr.hasNext();) {
               EdgeParameter ep = (EdgeParameter)itr.next();
               epSt.append("&nbsp;"+idx++);
+/*
               epSt.append("(");
               epSt.append(ep.getType());
               epSt.append(")");
               epSt.append("&nbsp;");
+*/
               epSt.append(ep.getValue());
               epSt.append("<br>");
             }
@@ -171,10 +197,12 @@ public class vGraphComponent extends JGraph
              for(Iterator itr = edPLis.iterator();itr.hasNext();) {
                EdgeParameter ep = (EdgeParameter)itr.next();
                epSt.append("&nbsp;"+idx++);
+/*
                epSt.append("(");
                epSt.append(ep.getType());
                epSt.append(")");
                epSt.append("&nbsp;");
+*/
                epSt.append(ep.getValue());
                epSt.append("<br>");
              }
@@ -633,7 +661,7 @@ public class vGraphComponent extends JGraph
         if (edge.getSource() == edge.getTarget()
           && edge.getSource() != null) {
 
-System.out.println(edge.toString() + " /// " +points);
+//System.out.println(edge.toString() + " /// " +points);
 
           Rectangle bounds =
             edge.getSource().getParentView().getBounds();

@@ -22,7 +22,7 @@ public class ParametersPanel extends ViskitTablePanel
   ParametersPanel(int wid)
   {
     super(wid);            // separate constructor from initialization
-    init();
+    init(true);
   }
 
   public String[] getColumnTitles()
@@ -30,7 +30,7 @@ public class ParametersPanel extends ViskitTablePanel
     return mytitles;
   }
 
-  public String[] getFields(Object o)
+  public String[] getFields(Object o, int rowNum)
   {
     String[] sa = new String[3];
     sa[0] = ((vParameter)o).getName();

@@ -31,61 +31,6 @@ public class vGraphModel extends DefaultGraphModel
   Map viskitEdgeStyle, viskitCancelEdgeStyle;
 
   public void initViskitStyle() {
-    ConnectionSet cs = new ConnectionSet();
-    Map attributes = new Hashtable();
-    // Styles For Implement/Extend/Aggregation
-/*
-    Map implementStyle = GraphConstants.createMap();
-    GraphConstants.setLineBegin  (implementStyle,GraphConstants.ARROW_TECHNICAL);   // open arrow
-    GraphConstants.setBeginSize  (implementStyle, 10);
-    GraphConstants.setDashPattern(implementStyle, new float[] { 3, 3 });
-    GraphConstants.setFont       (implementStyle, GraphConstants.defaultFont.deriveFont(10));
-    GraphConstants.setBendable   (implementStyle, true);
-   // GraphConstants.setLineStyle  (implementStyle, GraphConstants.STYLE_BEZIER);
-    GraphConstants.setLineStyle  (implementStyle, GraphConstants.STYLE_ORTHOGONAL);
-    GraphConstants.setLineWidth  (implementStyle, 1);
-    GraphConstants.setOpaque     (implementStyle, true);
-    GraphConstants.setBackground (implementStyle, new Color(255,255,255,150));
-    GraphConstants.setBorderColor(implementStyle, Color.gray);
-    GraphConstants.setForeground (implementStyle, Color.black);
-    GraphConstants.setRouting    (implementStyle, GraphConstants.ROUTING_SIMPLE);
-*/
-
-/*
-    Map extendStyle = GraphConstants.createMap();
-    GraphConstants.setLineBegin(extendStyle,GraphConstants.ARROW_TECHNICAL);
-    GraphConstants.setBeginFill(extendStyle, true);
-    GraphConstants.setBeginSize(extendStyle, 10);
-    GraphConstants.setFont     (extendStyle, GraphConstants.defaultFont.deriveFont(10));
-    GraphConstants.setBendable (extendStyle, true);
-    //GraphConstants.setLineStyle(extendStyle, GraphConstants.STYLE_BEZIER);
-    GraphConstants.setLineStyle(extendStyle, GraphConstants.STYLE_QUADRATIC);
-    GraphConstants.setLineWidth(extendStyle, 1);
-    GraphConstants.setOpaque     (extendStyle, true);
-    GraphConstants.setBackground (extendStyle, new Color(255,255,255,150));
-    GraphConstants.setBorderColor(extendStyle, Color.gray);
-    GraphConstants.setForeground (extendStyle, Color.black);
-    GraphConstants.setRouting    (extendStyle, GraphConstants.ROUTING_SIMPLE);
-*/
-
-/*
-    Map aggregateStyle = GraphConstants.createMap();
-    //GraphConstants.setLineBegin    (aggregateStyle,GraphConstants.ARROW_DIAMOND);
-    GraphConstants.setBeginFill    (aggregateStyle, true);
-    GraphConstants.setBeginSize    (aggregateStyle, 6);
-    GraphConstants.setLineEnd      (aggregateStyle, GraphConstants.ARROW_SIMPLE);   // 2 lines
-    GraphConstants.setEndSize      (aggregateStyle, 8);
-    GraphConstants.setLabelPosition(aggregateStyle, new Point(500, 1200));
-    GraphConstants.setFont         (aggregateStyle, GraphConstants.defaultFont.deriveFont(10));
-    GraphConstants.setBendable     (aggregateStyle, true);
-    GraphConstants.setLineStyle    (aggregateStyle, GraphConstants.STYLE_BEZIER);
-    GraphConstants.setLineWidth    (aggregateStyle, 1);
-    GraphConstants.setOpaque       (aggregateStyle, true);
-    GraphConstants.setBackground   (aggregateStyle, new Color(255,255,255,150));
-    GraphConstants.setBorderColor  (aggregateStyle, Color.gray);
-    GraphConstants.setForeground   (aggregateStyle, Color.black);
-    GraphConstants.setRouting      (aggregateStyle, GraphConstants.ROUTING_SIMPLE);
-*/
 
     viskitEdgeStyle = GraphConstants.createMap();
     GraphConstants.setLineBegin  (viskitEdgeStyle,GraphConstants.ARROW_TECHNICAL);
@@ -177,14 +122,15 @@ public class vGraphModel extends DefaultGraphModel
     c.removeAllChildren();
     this.remove(new Object[]{c});
   }
-  public void addEventNode(EventNode en, Point p)
+  public void addEventNode(EventNode en)
   {
     DefaultGraphCell c = new CircleCell(en.getName());
     en.opaqueViewObject = c;
     c.setUserObject(en);
 
     Map attributes = new Hashtable();
-    attributes.put(c,createBounds(p.x,p.y,Color.black)); // color a nop?
+    attributes.put(c,createBounds(en.getPosition().x, en.getPosition().y,Color.black));
+    //attributes.put(c,createBounds(p.x,p.y,Color.black)); // color a nop?
     c.add(new DefaultPort(en.getName()+"/Center"));
     this.insert(new Object[]{c},attributes,null,null,null);
   }

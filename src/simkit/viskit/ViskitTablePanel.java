@@ -29,7 +29,7 @@ import java.util.Vector;
 public abstract class ViskitTablePanel extends JPanel
 /***************************************************/
 {
-  private JTable tab;
+  protected JTable tab;
   private JButton plusButt, minusButt, edButt;
   private ThisTableModel mod;
 
@@ -40,6 +40,8 @@ public abstract class ViskitTablePanel extends JPanel
 
   private String plusToolTip  = "Add a row to this table";
   private String minusToolTip = "Delete the selected row from this table;";
+
+  private boolean plusMinusEnabled = false;
 
   public ViskitTablePanel(int defaultWidth)
   //=======================================
@@ -54,9 +56,10 @@ public abstract class ViskitTablePanel extends JPanel
     this.defaultHeight = defaultHeight;
   }
 
-  public void init()
+  public void init(boolean wantAddDelButts)
   //----------------
   {
+    plusMinusEnabled = wantAddDelButts;
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
     // edit instructions line
@@ -88,7 +91,9 @@ public abstract class ViskitTablePanel extends JPanel
     add(jsp);
     add(Box.createVerticalStrut(5));
 
-    // plus, minus and edit buttons
+    ActionListener lis = new MyAddDelEditHandler();
+
+    if(wantAddDelButts) {// plus, minus and edit buttons
      JPanel buttPan = new JPanel();
      buttPan.setLayout(new BoxLayout(buttPan, BoxLayout.X_AXIS));
      buttPan.add(Box.createHorizontalGlue());
@@ -97,9 +102,9 @@ public abstract class ViskitTablePanel extends JPanel
       plusButt.setBorder(null);
       plusButt.setText(null);
       plusButt.setToolTipText(getPlusToolTip());
-      Dimension d = plusButt.getPreferredSize();
-      plusButt.setMinimumSize(d);
-      plusButt.setMaximumSize(d);
+      Dimension dd = plusButt.getPreferredSize();
+      plusButt.setMinimumSize(dd);
+      plusButt.setMaximumSize(dd);
       plusButt.setActionCommand("p");
      buttPan.add(plusButt);
       // delete button
@@ -108,24 +113,24 @@ public abstract class ViskitTablePanel extends JPanel
       minusButt.setBorder(null);
       minusButt.setText(null);
       minusButt.setToolTipText(getMinusToolTip());
-      d = minusButt.getPreferredSize();
-      minusButt.setMinimumSize(d);
-      minusButt.setMaximumSize(d);
+      dd = minusButt.getPreferredSize();
+      minusButt.setMinimumSize(dd);
+      minusButt.setMaximumSize(dd);
       minusButt.setActionCommand("m");
       minusButt.setEnabled(false);
      buttPan.add(minusButt);
      buttPan.add(Box.createHorizontalGlue());
     add(buttPan);
     add(Box.createVerticalStrut(5));
-
+      // install local add, delete handlers
+      plusButt .addActionListener(lis);
+      minusButt.addActionListener(lis);
+    }
     // don't let the whole panel get squeezed smaller that what we start out with
-    d = getPreferredSize();
+    Dimension d = getPreferredSize();
     setMinimumSize(d);
 
-    // install local add, delete and edit handlers
-    ActionListener lis = new MyAddDelEditHandler();
-    plusButt .addActionListener(lis);
-    minusButt.addActionListener(lis);
+    // install local edit handler
     edButt   .addActionListener(lis);
 
     // install the handler to enable delete and edit buttons only on row-select
@@ -135,7 +140,8 @@ public abstract class ViskitTablePanel extends JPanel
       {
         if (!event.getValueIsAdjusting()) {
           boolean yn = tab.getSelectedRowCount() > 0;
-          minusButt.setEnabled(yn);
+          if(plusMinusEnabled)
+            minusButt.setEnabled(yn);
           edButt.setEnabled(yn);
         }
       }
@@ -195,7 +201,7 @@ public abstract class ViskitTablePanel extends JPanel
   {
     shadow.add(o);
     Vector rowData = new Vector();
-    String[] fields = getFields(o);
+    String[] fields = getFields(o,0);
     rowData.addAll(Arrays.asList(fields));
     mod.addRow(rowData);
 
@@ -272,7 +278,7 @@ public abstract class ViskitTablePanel extends JPanel
   {
     int row = findObjectRow(rowObject);
 
-    String[] fields = getFields(rowObject);
+    String[] fields = getFields(rowObject,0);
     for (int i = 0; i < mod.getColumnCount(); i++) {
       mod.setValueAt(fields[i], row, i);
     }
@@ -302,9 +308,10 @@ public abstract class ViskitTablePanel extends JPanel
   /**
    * Return the fields to be displayed in the table.
    * @param o row object
+   * @param rowNum row number...not used unless EdgeParametersPanel //todo fix
    * @return  String array of fields
    */
-  abstract public String[] getFields(Object o);
+  abstract public String[] getFields(Object o, int rowNum);
   //-------------------------------------------
 
   /**
@@ -341,7 +348,7 @@ public abstract class ViskitTablePanel extends JPanel
    * @param o row object
    * @return row index
    */
-  private int findObjectRow(Object o)
+  protected int findObjectRow(Object o)
   //---------------------------------
   {
     int row = 0;
@@ -403,7 +410,7 @@ public abstract class ViskitTablePanel extends JPanel
   {
     shadow.add(o);
     Vector rowData = new Vector();
-    String[] fields = getFields(o);
+    String[] fields = getFields(o,0);
     rowData.addAll(Arrays.asList(fields));
     mod.addRow(rowData);
   }

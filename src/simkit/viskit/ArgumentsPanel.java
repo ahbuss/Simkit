@@ -20,7 +20,7 @@ public class ArgumentsPanel extends ViskitTablePanel
   ArgumentsPanel(int wid)
   {
     super(wid);            // separate constructor from initialization
-    init();
+    init(true);
   }
 
   public String[] getColumnTitles()
@@ -28,7 +28,7 @@ public class ArgumentsPanel extends ViskitTablePanel
     return mytitles;
   }
 
-  public String[] getFields(Object o)
+  public String[] getFields(Object o, int rowNum)
   {
     String[] sa = new String[3];
     sa[0] = ((EventArgument)o).getName();

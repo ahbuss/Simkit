@@ -19,7 +19,7 @@ public class LocalVariablesPanel extends ViskitTablePanel
   LocalVariablesPanel(int wid)
   {
     super(wid);            // separate constructor from initialization
-    init();
+    init(true);
   }
 
   public String[] getColumnTitles()
@@ -27,7 +27,7 @@ public class LocalVariablesPanel extends ViskitTablePanel
     return mytitles;
   }
 
-  public String[] getFields(Object o)
+  public String[] getFields(Object o, int rowNum)
   {
     String[] sa = new String[4];
     sa[0] = ((EventLocalVariable)o).getName();

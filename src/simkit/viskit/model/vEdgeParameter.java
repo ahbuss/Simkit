@@ -9,13 +9,15 @@ package simkit.viskit.model;
  */
 public class vEdgeParameter extends ViskitElement
 {
-  private String type;
+  //private String type;
   private String value;
-  public vEdgeParameter(String value, String type)
+  public String bogus; //todo fix
+  public vEdgeParameter(String value)//, String type)
   {
-    this.type = type;
+    //this.type = type;
     this.value = value;
   }
+/*
   public String getType()
   {
     return type;
@@ -25,6 +27,7 @@ public class vEdgeParameter extends ViskitElement
   {
     this.type = type;
   }
+*/
 
   public String getValue()
   {

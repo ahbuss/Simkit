@@ -34,13 +34,15 @@ public class EdgeInspectorDialog extends JDialog
   private JButton canButt,okButt,reverse;
   private JRadioButton schrb,canrb;
   private ButtonGroup bGroup;
-  private JComboBox srcEvent,targEvent;
+  private JLabel srcEvent,targEvent;
   private JTextField delay;
   private EdgeParametersPanel parameters;
   private ConditionalsPanel conditionals;
   private JPanel delayPan;
   private Border delayPanBorder,delayPanDisabledBorder;
   private JFrame myFrame;
+  private JPanel myParmPanel;
+
   /**
    * Set up and show the dialog.  The first Component argument
    * determines which frame the dialog depends on; it should be
@@ -103,6 +105,36 @@ public class EdgeInspectorDialog extends JDialog
     con.add(typeP);
     con.add(Box.createVerticalStrut(5));
 
+      JPanel srcTargP = new JPanel();
+      srcTargP.setLayout(new BoxLayout(srcTargP,BoxLayout.X_AXIS));
+      srcTargP.add(Box.createHorizontalGlue());
+        JPanel stNamesP = new JPanel();
+        stNamesP.setLayout(new BoxLayout(stNamesP,BoxLayout.Y_AXIS));
+          JLabel srcLab = new JLabel("Source event:");
+          srcLab.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
+        stNamesP.add(srcLab);
+          JLabel tarLab = new JLabel("Target event:");
+          tarLab.setAlignmentX(JLabel.RIGHT_ALIGNMENT);
+        stNamesP.add(tarLab);
+      srcTargP.add(stNamesP);
+      srcTargP.add(Box.createHorizontalStrut(25));
+        JPanel stValuesP = new JPanel();
+        stValuesP.setLayout(new BoxLayout(stValuesP,BoxLayout.Y_AXIS));
+          srcEvent = new JLabel("srcEvent");
+          //srcEvent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+          srcEvent.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        stValuesP.add(srcEvent);
+          targEvent = new JLabel("targEvent");
+          //targEvent.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+          targEvent.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        stValuesP.add(targEvent);
+        stValuesP.setBorder(BorderFactory.createTitledBorder(""));
+        keepSameSize(srcEvent,targEvent);
+      srcTargP.add(stValuesP);
+      srcTargP.add(Box.createHorizontalGlue());
+    con.add(srcTargP);
+
+/*
       JPanel dirP = new JPanel();
       dirP.setLayout(new BoxLayout(dirP,BoxLayout.X_AXIS));
         JPanel dirPSub = new JPanel();
@@ -112,8 +144,9 @@ public class EdgeInspectorDialog extends JDialog
           JLabel lab1 = new JLabel("Source event:");
           srcPan.add(lab1);
           srcPan.add(Box.createHorizontalStrut(5));
-          srcEvent = new JComboBox(); //nodeList);
-          srcEvent.setBackground(Color.white);
+            //srcEvent = new JComboBox(); //nodeList);
+            //srcEvent.setBackground(Color.white);
+            srcEvent = new JLabel("srcEvent");
           srcPan.add(srcEvent);
           Dimension d = srcPan.getPreferredSize();
           d.width = Integer.MAX_VALUE;
@@ -128,8 +161,9 @@ public class EdgeInspectorDialog extends JDialog
           lab.setPreferredSize(lab1.getPreferredSize());
           targPan.add(lab);
           targPan.add(Box.createHorizontalStrut(5));
-          targEvent = new JComboBox(); //nodeList); //JTextField();
-          targEvent.setBackground(Color.white);
+            //targEvent = new JComboBox(); //nodeList); //JTextField();
+            //targEvent.setBackground(Color.white);
+            targEvent = new JLabel("targEvent");
           targPan.add(targEvent);
           d = targPan.getPreferredSize();
           d.width = Integer.MAX_VALUE;
@@ -137,8 +171,10 @@ public class EdgeInspectorDialog extends JDialog
         dirPSub.add(targPan);
       dirP.add(dirPSub);
         reverse = new JButton("reverse");
-      dirP.add(reverse);
+      //dirP.add(reverse);
+      dirP.add(Box.createHorizontalGlue());
     con.add(dirP);
+*/
     con.add(Box.createVerticalStrut(5));
 
     delayPan = new JPanel();
@@ -148,7 +184,7 @@ public class EdgeInspectorDialog extends JDialog
         delay = new JTextField();
         delay.setOpaque(true);
         delay.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        d = delay.getPreferredSize();      // only expand in horiz direction
+        Dimension d = delay.getPreferredSize();      // only expand in horiz direction
         d.width = Integer.MAX_VALUE;
         delay.setMaximumSize(d);
       delayPan.add(delay);
@@ -167,7 +203,7 @@ public class EdgeInspectorDialog extends JDialog
     con.add(conditionals);
     con.add(Box.createVerticalStrut(5));
 
-     JPanel myParmPanel = new JPanel();
+    myParmPanel = new JPanel();
      myParmPanel.setLayout(new BoxLayout(myParmPanel,BoxLayout.Y_AXIS));
      myParmPanel.setBorder(BorderFactory.createTitledBorder("Edge Parameters"));
 
@@ -207,10 +243,10 @@ public class EdgeInspectorDialog extends JDialog
     ChangeListener chlis = new myChangeListener();
     schrb.addChangeListener(chlis);
     canrb.addChangeListener(chlis);
-    reverse.addActionListener(new reverseButtonListener());
+    //reverse.addActionListener(new reverseButtonListener());
     conditionals.addChangeListener(chlis);
-    ActionListener ttArgLis = new ArgumentsToolTipUpdater();
-    targEvent.addActionListener(ttArgLis);
+    //ActionListener ttArgLis = new ArgumentsToolTipUpdater();
+    //targEvent.addActionListener(ttArgLis);
     
 
     parameters.addDoubleClickedListener(new ActionListener()
@@ -218,6 +254,7 @@ public class EdgeInspectorDialog extends JDialog
       public void actionPerformed(ActionEvent event)
       {
         vEdgeParameter ep = (vEdgeParameter)event.getSource();
+
         boolean modified = EdgeParameterDialog.showDialog(myFrame,EdgeInspectorDialog.this,ep);
         if(modified) {
           parameters.updateRow(ep);
@@ -238,13 +275,21 @@ public class EdgeInspectorDialog extends JDialog
 
     this.setLocationRelativeTo(c);
   }
-
+  private void keepSameSize(JComponent a, JComponent b)
+  {
+    Dimension ad = a.getPreferredSize();
+    Dimension bd = b.getPreferredSize();
+    Dimension d = new Dimension(Math.max(ad.width,bd.width),Math.max(ad.height,bd.height));
+    a.setMinimumSize(d);
+    b.setMinimumSize(d);
+  }
   private void fillWidgets()
   {
     nodeList = mod.getAllNodes();                  // todo fix
-    srcEvent.setModel(new DefaultComboBoxModel(nodeList));
-    targEvent.setModel(new DefaultComboBoxModel(nodeList));
-    setTargEventTT(targEvent);
+    //srcEvent.setModel(new DefaultComboBoxModel(nodeList));
+    //targEvent.setModel(new DefaultComboBoxModel(nodeList));
+    //setTargEventTT(targEvent);
+
     if(edge instanceof SchedulingEdge) {
       schrb.setSelected(true);
       canrb.setSelected(false);
@@ -253,10 +298,12 @@ public class EdgeInspectorDialog extends JDialog
       canrb.setSelected(true);
       schrb.setSelected(false);
     }
-    srcEvent.setSelectedItem(edge.from);
-    targEvent.setSelectedItem(edge.to);
+    srcEvent.setText(edge.from.getName()); //setSelectedItem(edge.from);
+    targEvent.setText(edge.to.getName());  //setSelectedItem(edge.to);
+    myParmPanel.setBorder(BorderFactory.createTitledBorder("Edge Parameters -- to "+targEvent.getText()));
 
-    parameters.setData(edge.parameters);
+   parameters.setArgumentList(edge.to.getArguments());  // 
+   parameters.setData(edge.parameters);
 
     if(edge instanceof SchedulingEdge) {
       conditionals.setText(edge.conditional);
@@ -277,8 +324,8 @@ public class EdgeInspectorDialog extends JDialog
 
   private void unloadWidgets()
   {
-    edge.from = (EventNode)srcEvent.getSelectedItem(); //edgeCopy.from;
-    edge.to   = (EventNode)targEvent.getSelectedItem(); //edgeCopy.to;
+    //edge.from = (EventNode)srcEvent.getSelectedItem(); //edgeCopy.from;
+    //edge.to   = (EventNode)targEvent.getSelectedItem(); //edgeCopy.to;
     edge.delay = delay.getText();
     edge.conditional = conditionals.getText();
 
@@ -295,8 +342,8 @@ public class EdgeInspectorDialog extends JDialog
       EventNode en = edge.from;
       edge.from = edge.to;
       edge.to = en;
-      srcEvent.setSelectedItem(edge.from);
-      targEvent.setSelectedItem(edge.to);
+      //srcEvent.setSelectedItem(edge.from);
+      //targEvent.setSelectedItem(edge.to);
       modified = true;
       okButt.setEnabled(true);
       getRootPane().setDefaultButton(okButt);
@@ -328,6 +375,7 @@ public class EdgeInspectorDialog extends JDialog
       getRootPane().setDefaultButton(okButt);
     }
   }
+/*
   class ArgumentsToolTipUpdater implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
@@ -336,6 +384,7 @@ public class EdgeInspectorDialog extends JDialog
       setTargEventTT(jcb);
     }
   }
+*/
   private void setTargEventTT(JComboBox jcb)
   {
     EventNode en = (EventNode)jcb.getSelectedItem();

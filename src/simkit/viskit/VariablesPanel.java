@@ -23,7 +23,7 @@ public class VariablesPanel extends ViskitTablePanel
   VariablesPanel(int wid, int height)
   {
     super(wid,height);            // separate constructor from initialization
-    init();
+    init(true);
   }
 
   public String[] getColumnTitles()
@@ -31,7 +31,7 @@ public class VariablesPanel extends ViskitTablePanel
     return mytitles;
   }
 
-  public String[] getFields(Object o)
+  public String[] getFields(Object o, int rowNum)
   {
     String[] sa = new String[3];
     sa[0] = ((vStateVariable)o).getName();
