@@ -19,4 +19,6 @@ public interface Munition extends Moveable, SimEntity {
     public boolean isExpended();
     
     public void doImpact(Munition munition);
+    
+    public void setAimPoint(Point2D aimPoint);
 }
