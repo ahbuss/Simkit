@@ -55,6 +55,8 @@ public class PearsonTypeVVariate extends RandomVariateBase {
                 gammaVariate = RandomVariateFactory.getInstance("Gamma",
                     new Object[] { new Double(getAlpha()), new Double(1.0/getBeta()) },
                     rng);
+        } else {
+            throw new IllegalArgumentException("Both parameters must be Numbers.");
         }
     }
     
