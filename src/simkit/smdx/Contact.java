@@ -14,8 +14,8 @@ import java.text.DecimalFormat;
  */
 public class Contact implements Moveable {
     
-    private DecimalFormat form;
-    private Moveable mover;
+    protected DecimalFormat form;
+    protected Moveable mover;
     
     /** Creates a new instance of Contact */
     public Contact(Moveable mover) {

@@ -451,7 +451,13 @@ public class Math2D {
     }
     
     public static Point2D getInterceptVelocity(Mover pursuer, double speed, Mover target) {
-        return Math2D.scaleTo( subtract(getIntercept(pursuer, speed, target), pursuer.getLocation()), speed);
+        Point2D intercept = getIntercept(pursuer, speed, target);
+        if (intercept != null) {
+            return Math2D.scaleTo( subtract(intercept, pursuer.getLocation()), speed);
+        }
+        else {
+            return null;
+        }
     }
     
     public static Point2D getInterceptVelocity(Mover pursuer, Mover target) {
@@ -465,7 +471,11 @@ public class Math2D {
             return pursuer.getLocation();
         }
         Point2D interceptVelocity = getInterceptVelocity(pursuer, speed, target);
-        Point2D relativeInterceptVelocity = subtract(target.getVelocity(), interceptVelocity);
+        if (interceptVelocity == null) {
+            return null;
+        }
+        Point2D targetVelocity = target.getVelocity();
+        Point2D relativeInterceptVelocity = subtract(targetVelocity, interceptVelocity);
         double[] coeff = new double[3];
         coeff[0] = Math2D.normSquared(relativePursuerLocation) - range * range;
         coeff[1] = 2.0 * Math2D.innerProduct(relativePursuerLocation, relativeInterceptVelocity);
