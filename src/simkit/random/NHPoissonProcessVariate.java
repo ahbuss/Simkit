@@ -1,5 +1,5 @@
 /*
- * NSPoissonProcessVariate.java
+ * NHPoissonProcessVariate.java
  *
  * Created on October 1, 2001, 4:24 PM
  */
@@ -57,7 +57,7 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
     private Object[] arg;
 
     /** 
-      * Creates new NSPoissonProcessVariate, the parameters must be set prior to use.
+      * Creates new NHPoissonProcessVariate, the parameters must be set prior to use.
     */
     public NHPoissonProcessVariate() {
         rng = RandomNumberFactory.getInstance();
@@ -121,7 +121,7 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
     public void setParameters(Object[] params) {
         if (params.length != 3)  {
             throw new IllegalArgumentException(
-                "NSPoissonProcessVariate requires 3 parameters: " +
+                "NHPoissonProcessVariate requires 3 parameters: " +
                 "(<reference to Lambda-inverse Method>, <object method belongs to>, "+
                 " (start time)");
         }

@@ -18,9 +18,18 @@ import java.util.*;
  **/
 public abstract class SimEntityBaseProtected extends BasicSimEntity {
     
+/**
+* A two dimensional Hash table used to cache doMethods
+* for all SimEntityBases. Keyed by Class and Method.
+**/
     private static Hashtable2 allDoMethods;
+
+/**
+* A two dimensional Hash table used to hold the
+* names and signatures of all doMethods of all SimEntityBases.
+* Keyed by Class and Method name.
+**/
     private static Hashtable2 allNamesAndSignatures;
-    private static Map allImpossibleEvents;// appears unused.
 
     /**
      * True if the entity has a doRun method.
@@ -38,10 +47,12 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     static {
         allDoMethods = new Hashtable2();
         allNamesAndSignatures = new Hashtable2();
-        allImpossibleEvents = new HashMap();
         System.out.println("??? Warning: SimEntityBaseProtected is still a prototype and may not work.");
     }
     
+/**
+* If true, print debug information
+**/
     private static boolean debug = false;
  
     /**
@@ -424,7 +435,14 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     }
     
     
+/**
+* If true, print debug information
+**/
     public static void setDebug(boolean b) {debug = b;}
+
+/**
+* If true, print debug information
+**/
     public static boolean isDebug() {return debug;}
     
 /**

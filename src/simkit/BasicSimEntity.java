@@ -75,6 +75,9 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
 **/
     protected PropertyChangeDispatcher property;
 
+/**
+* Currently unused.
+**/
     private int warnLevel; //appears unused.
     
    /**
@@ -121,8 +124,14 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         setName(getClass().getName() + '.' + getSerial());
     }
     
+/**
+* Currently unused.
+**/
     public void setWarnLevel(int level) { warnLevel = level; }
     
+/**
+* Currently unused.
+**/
     public int getWarnLevel() { return warnLevel; }
     
    /**
