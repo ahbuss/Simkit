@@ -28,7 +28,7 @@ public class ArrivalProcess2 extends BasicSimEntity {
     
     public void setInterarrivalTime(RandomVariate rv) { interarrivalTime = rv; }
     
-    public int getNumberArrivale() { return numberArrivals; }
+    public int getNumberArrivals() { return numberArrivals; }
     
     public void reset() {
         super.reset();
@@ -52,7 +52,7 @@ public class ArrivalProcess2 extends BasicSimEntity {
             doRun();
         }
         
-        if (event.getEventName().equals("Arrival")) {
+        else if(event.getEventName().equals("Arrival")) {
             doArrival();
         }
         notifyListeners(event);

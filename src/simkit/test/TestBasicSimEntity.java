@@ -29,6 +29,7 @@ public class TestBasicSimEntity {
         rv[0] = RandomVariateFactory.getInstance(arrivalDist, arrivalParam);
         rv[1] = RandomVariateFactory.getInstance(serviceDist, serviceParam);
         BasicSimEntity arrival = new ArrivalProcess2(rv[0]);
+
         BasicSimEntity server = new Server(2, rv[1]);
         BasicSimEntity server2 = new Server(1, rv[0]);
         arrival.addSimEventListener(server);
@@ -37,9 +38,19 @@ public class TestBasicSimEntity {
         PropertyChangeFrame pcf = new PropertyChangeFrame();
         server2.addPropertyChangeListener(pcf);
         pcf.setVisible(true);
+
         
-        Schedule.setSingleStep(true);
+        Schedule.setVerbose(true);
+//        Schedule.stopOnEvent("Arrival", 10);
+        
+        SimEventFactory.setVerbose(true);
+        
+        Schedule.dump("Before reset()");
+        
+        Schedule.stopAtTime(20.0);
         Schedule.reset();
+        Schedule.dump("After reset()");
+
         Schedule.startSimulation();
         
     }

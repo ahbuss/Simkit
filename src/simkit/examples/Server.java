@@ -126,11 +126,11 @@ public class Server extends BasicSimEntity {
             doRun();
         }
         
-        if (thisEvent.equals("Arrival")) {
+        else if(thisEvent.equals("Arrival")) {
             doArrival();
         }
         
-        if (thisEvent.equals("StartService")) {
+        else if(thisEvent.equals("StartService")) {
             doStartService();
         }
         else if (thisEvent.equals("EndService")) {

@@ -151,10 +151,9 @@ public class Schedule  {
      * Clears the event list and starts time at 0.0.
      **/
     public static void reset() {
-        agenda.clear();
+        clearEventList();
         currentSimEvent = null;
         time = 0.0;
-        eventCounts.clear();
         TreeSet sortedReruns = new TreeSet(new SimEntityComparator());
         synchronized(reRun) {
             sortedReruns.addAll(reRun.keySet());
@@ -317,7 +316,7 @@ public class Schedule  {
     public static void stopAtTime(double atTime) {
         interrupt("Stop");
         endingTime = atTime;
-        new Stop().waitDelay("Stop", endingTime - simTime() );
+        new Stop().waitDelay("Stop", endingTime - getSimTime() );
         stopOnEvent = false;
         stopOnTime = true;
     }
@@ -351,8 +350,7 @@ public class Schedule  {
     }
     
     public static synchronized void stopSimulation() {
-        agenda.clear();
-        eventCounts.clear();
+        clearEventList();
         running = false;
     }
     
@@ -636,5 +634,15 @@ public class Schedule  {
     }
     
     public static Class getEventListType() {return eventListClass;}
+    
+    private static void clearEventList() {
+        while (!agenda.isEmpty()) {
+            SimEvent event = (SimEvent) agenda.first();
+            agenda.remove(agenda.first());
+            SimEventFactory.returnSimEventToPool(event);
+        }
+        agenda.clear();
+        eventCounts.clear();
+    }
     
 } // class Schedule
