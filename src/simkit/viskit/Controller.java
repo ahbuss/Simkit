@@ -1,14 +1,14 @@
 package simkit.viskit;
 
+import actions.ActionIntrospector;
+import org.jgraph.graph.DefaultGraphCell;
 import simkit.viskit.mvc.mvcAbstractController;
-import simkit.viskit.mvc.mvcModelEvent;
 
 import javax.swing.*;
-import java.io.File;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
+import java.io.File;
+import java.util.Iterator;
+import java.util.Vector;
 
 /**
  * OPNAV N81 - NPS World Class Modeling (WCM) 2004 Projects
@@ -23,82 +23,37 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * This is the MVC controller for the Viskit app.  All user inputs come here, and this
  * code decides what to do about it.  To add new events:
- *  1 add a new public Action BLAH field
- *  2 instantiate it in the constructor, mapping it to a handler (name)
- *  3 write the handler
+ * 1 add a new public Action BLAH field
+ * 2 instantiate it in the constructor, mapping it to a handler (name)
+ * 3 write the handler
  */
 
-public class Controller extends mvcAbstractController
+public class Controller extends mvcAbstractController implements ViskitController
+    /***************************************************************************/
 {
-  public Action OPEN;
-  public Action ADDPARAMETER;
-  public Action ADDSTATEVARIABLE;
-  public Action COPY;
-  public Action CUT;
-  public Action DELETEPARAMETER;
-  public Action DELETESTATEVARIABLE;
-  public Action GENERATEJAVACLASS;
-  public Action NEWASSEMBLY;
-  public Action NEWEVENTGRAPH;
-  public Action PASTE;
-  public Action QUIT;
-  public Action SAVE;
-  public Action SAVEAS;
-  public Action EVENTLIST;
-
-  public Action SELECTMODE;
-  public Action NEWNODEMODE;
-  public Action ARCMODE;
-  public Action CANCELARCMODE;
-
-
   public Controller()
+  //=================
   {
-    ADDPARAMETER        = new VAction("AddParameterAction");
-    ADDSTATEVARIABLE    = new VAction("AddStateVariableAction");
-    COPY                = new VAction("CopyAction");
-    CUT                 = new VAction("CutAction");
-    DELETEPARAMETER     = new VAction("DeleteParameterAction");
-    DELETESTATEVARIABLE = new VAction("DeleteStateVariableAction");
-    GENERATEJAVACLASS   = new VAction("GenerateJavaClassAction");
-    NEWASSEMBLY         = new VAction("NewAssemblyAction");
-    NEWEVENTGRAPH       = new VAction("NewEventGraphAction");
-    OPEN                = new VAction("OpenAction");
-    PASTE               = new VAction("PasteAction");
-    QUIT                = new VAction("QuitAction");
-    SAVE                = new VAction("SaveAction");
-    SAVEAS              = new VAction("SaveAsAction");
-    EVENTLIST           = new VAction("EventListAction");
-    SELECTMODE          = new VAction("SelectModeAction");
-    NEWNODEMODE         = new VAction("NewNodeModeAction");
-    ARCMODE             = new VAction("ArcModeAction");
-    CANCELARCMODE       = new VAction("CancelArcModeAction");
   }
 
-  // Note: These handler classes should be private.  We're trying to access them through
-  // the nested VAction class below.  But access from "methods of classes
-  // within the class" doesn't seem to work, although I think it should.
-  //   See VAction.actionPerformed().
-
-  //Introspection Action scheme handlers:
-
-  private JFileChooser jfc;        // cache it so it comes up in last dir.
-  /**
-   * Handler for a user request to open a (saved event graph) file
-   * @param ev ActionEvent, not used here
-   */
-  public void OpenAction(ActionEvent ev)
-  //-------------------------------------
+  public void quit()
+  //----------------
   {
-    // To do this right (mvc-wise, put the view stuff in the view, and call it
-    if(getModel() == null)
-      return;             // Model is the only guy to do anything with this
-    Model mod = (Model)getModel();
-    if(mod.isDirty()) {
+    // todo implement
+    System.exit(0);
+  }
+
+  File lastFile;
+  public void open()
+  //----------------
+  {
+
+    Model mod = (Model) getModel();
+    if (mod.isDirty()) {
       // Ask to save
-     int yn = JOptionPane.showConfirmDialog(
-          getView() instanceof Component ? (Component)getView():null,"Save current graph?");
-      switch(yn) {
+      int yn = (((ViskitView) getView()).genericAsk("Question", "Save current graph?"));
+
+      switch (yn) {
         case JOptionPane.YES_OPTION:
           mod.saveModel(null);       // null means use original file
           break;
@@ -109,174 +64,236 @@ public class Controller extends mvcAbstractController
           return;
       }
     }
-    if(jfc == null)
-      jfc = new JFileChooser(System.getProperty("user.dir"));
 
-    int retv = jfc.showOpenDialog(getView() instanceof JFrame ? (JFrame)getView() : null);
-    if (retv == JFileChooser.APPROVE_OPTION) {
-      File file = jfc.getSelectedFile();
-      Model model = (Model)getModel();
-      model.newModel(file);
+    lastFile = ((ViskitView) getView()).openFileAsk();
+    if (lastFile != null) {
+      ((ViskitModel) getModel()).newModel(lastFile);
+      ((ViskitView) getView()).fileName(lastFile.getName());
     }
   }
 
-  // Change these to return the added object, then hand off to model
-  public void AddParameterAction(ActionEvent ev)
+  public void save()
+  //----------------
   {
-    ((EventGraphViewFrame)getView()).addParameterDialog();
-    /*
-    String ret = JOptionPane.showInputDialog(
-        getView() instanceof Component? (Component)getView() : null,
-        "Enter parameter name:",
-        "Add Parameter",
-        JOptionPane.PLAIN_MESSAGE);
+    if(lastFile == null)
+      saveAs();
+    else
+      ((ViskitModel)getModel()).saveModel(lastFile);
+  }
 
-    if(ret == null || ret.trim().length() <= 0)
+  public void saveAs()
+  //------------------
+  {
+    lastFile = ((ViskitView)getView()).saveFileAsk();
+    if(lastFile != null)
+      ((ViskitModel)getModel()).saveModel(lastFile);
+
+    ((ViskitView)getView()).fileName(lastFile.getName());
+  }
+
+
+  public void addSimParameter()
+  //------------------------
+  {
+    Parameter p = ((ViskitView) getView()).addParameterDialog();
+
+    if(p != null)
+    ((ViskitModel) getModel()).newSimParameter(p);
+  }
+
+  public void addStateVariable()
+  //----------------------------
+  {
+    StateVariable sv = ((ViskitView) getView()).addStateVariableDialog();
+
+    if(sv != null)
+      ((ViskitModel)getModel()).newStateVariable(sv);
+  }
+
+  private Vector selectionVector = new Vector();
+
+  public void selectNodeOrEdge(Vector v)
+  //------------------------------------
+  {
+    selectionVector = v;
+    boolean ccbool = (selectionVector.size() > 0 ? true : false);
+    ActionIntrospector.getAction(this, "copy").setEnabled(ccbool);
+    ActionIntrospector.getAction(this, "cut").setEnabled(ccbool);
+  }
+
+  private Vector copyVector = new Vector();
+
+  public void copy()
+  //----------------
+  {
+    if (selectionVector.size() <= 0)
       return;
-    ((Model)getModel()).newParameter(ret);
-    */
-    ((Model)getModel()).newParameter("mikesBigTest");
+    copyVector = (Vector) selectionVector.clone();
+    ActionIntrospector.getAction(this,"paste").setEnabled(true);
   }
 
-  public void AddStateVariableAction(ActionEvent ev)
+  public void paste()
+  //-----------------
   {
-    ((EventGraphViewFrame)getView()).addStateVariableDialog();
-    /*
-    String ret = JOptionPane.showInputDialog(
-        getView() instanceof Component? (Component)getView() : null,
-        "Enter variable name:",
-        "Add Variable",
-        JOptionPane.PLAIN_MESSAGE);
-
-    if(ret == null || ret.trim().length() <= 0)
+    if (copyVector.size() <= 0)
       return;
-    ((Model)getModel()).newStateVariable(ret);
-    */
-  }
-
-  public void CopyAction(ActionEvent ev)
-  {
-    System.out.println("CopyAction in "+this);
-  }
-
-  public void CutAction(ActionEvent ev)
-  { System.out.println("CutAction in "+this); }
-
-  public void DeleteParameterAction(ActionEvent ev)
-  {
-    String ret = JOptionPane.showInputDialog(
-        getView() instanceof Component? (Component)getView() : null,
-        "Enter parameter name:",
-        "Delete Parameter",
-        JOptionPane.PLAIN_MESSAGE);
-
-    if(ret == null || ret.trim().length() <= 0)
-      return;
-    ((Model)getModel()).deleteParameter(ret);
-  }
-  public void DeleteStateVariableAction(ActionEvent ev)
-  {
-    String ret = JOptionPane.showInputDialog(
-        getView() instanceof Component? (Component)getView() : null,
-        "Enter variable name:",
-        "Delete State Variable",
-        JOptionPane.PLAIN_MESSAGE);
-
-    if(ret == null || ret.trim().length() <= 0)
-      return;
-    ((Model)getModel()).deleteStateVariable(ret);
-  }
-  public void GenerateJavaClassAction(ActionEvent ev)   { System.out.println("GenerateJavaClassAction in "+this); }
-  public void NewAssemblyAction(ActionEvent ev)         { System.out.println("NewAssemblyAction in "+this); }
-  public void NewEventGraphAction(ActionEvent ev)       { System.out.println("NewEventGraphAction in "+this); }
-  public void PasteAction(ActionEvent ev)               { System.out.println("PasteAction in "+this); }
-  public void QuitAction(ActionEvent ev)                { System.exit(0); }
-  public void SaveAction(ActionEvent ev)                { System.out.println("SaveAction in "+this); }
-  public void SaveAsAction(ActionEvent ev)              { System.out.println("SaveAsAction in "+this); }
-  public void EventListAction(ActionEvent ev)           { System.out.println("EventListAction in "+this); }
-  public void SelectModeAction(ActionEvent ev)          { System.out.println("SelectModeAction in "+this); }
-
-  public void NewNodeModeAction(ActionEvent ev)
-  {
-    String ret = JOptionPane.showInputDialog(
-        getView() instanceof Component? (Component)getView() : null,
-        "Enter event name:",
-        "Add Event",
-        JOptionPane.PLAIN_MESSAGE);
-
-    if(ret == null || ret.trim().length() <= 0)
-      return;
-    ((Model)getModel()).newEvent(ret);
-  }
-  public void ArcModeAction(ActionEvent ev)
-  {
-    String ret = JOptionPane.showInputDialog(
-        getView() instanceof Component? (Component)getView() : null,
-        "Enter edge name:",
-        "Add Edge",
-        JOptionPane.PLAIN_MESSAGE);
-
-    if(ret == null || ret.trim().length() <= 0)
-      return;
-    ((Model)getModel()).newEdge(ret);
-  }
-
-  public void CancelArcModeAction(ActionEvent ev)
-  {
-    String ret = JOptionPane.showInputDialog(
-        getView() instanceof Component? (Component)getView() : null,
-        "Enter cancelling edge name:",
-        "Add Cancelling Edge",
-        JOptionPane.PLAIN_MESSAGE);
-
-    if(ret == null || ret.trim().length() <= 0)
-      return;
-    ((Model)getModel()).newEdge(ret);
-  }
-  //=======================================
-
-  class VAction extends AbstractAction
-  {
-    private Method method;
-
-    VAction(String handler)
-    //=====================
-    {
-      try {
-        Class actionEvClass = Class.forName("java.awt.event.ActionEvent");
-        method = Controller.this.getClass().getDeclaredMethod(handler,new Class[]{actionEvClass});
-      }
-      catch (Exception e) {
-        //assert false : "Reflection error ("+handler+") in Controller.java" ;
-        System.out.println("assert false : \"Reflection error ("+handler+") in Controller.java\"");
-      }
+    int x=100,y=100; int n=0;
+    // We only paste un-attached nodes (at first)
+    for(Iterator itr = copyVector.iterator(); itr.hasNext();) {
+      Object o = itr.next();
+      if(o instanceof Edge)
+        continue;
+      EventNode nn = (EventNode)((EventNode)o).clone();
+      ((ViskitModel) getModel()).newEvent(nn, new Point(x+(20*n),y+(20*n)));
+      n++;
     }
+  }
 
-    /**
-     * Each event comes in here and is vectored to the appropriate method in this class
-     * @param e ActionEvent
-     */
-    public void actionPerformed(ActionEvent e)
-    //----------------------------------------
-    {
-      try {
-        method.invoke(Controller.this,new Object[]{e});
+  public void cut()
+  //---------------
+  {
+    if (selectionVector != null && selectionVector.size() > 0) {
+      // first ask:
+      String msg = "";
+      for (Iterator itr = selectionVector.iterator(); itr.hasNext();) {
+        Object o = itr.next();
+        String s = o.toString();
+        s = s.replace('\n', ' ');
+        msg += ", \n" + s;
       }
-      catch (IllegalAccessException e1) {
-        e1.printStackTrace();
-      }
-      catch (InvocationTargetException e1) {
-        e1.printStackTrace();
+      if (((ViskitView) getView()).genericAsk("Delete element(s)?", "Confirm remove" + msg + "?" +
+          "\n(All unselected but attached edges will also be deleted.)") == JOptionPane.YES_OPTION) {
+        // do edges first?
+        Vector localV = (Vector) selectionVector.clone();   // avoid concurrent update
+        for (Iterator itr = localV.iterator(); itr.hasNext();) {
+          Object elem = itr.next();
+          if(elem instanceof Edge) {
+            killEdge((Edge)elem);
+          }
+          else if(elem instanceof EventNode) {
+            EventNode en = (EventNode)elem;
+            for (Iterator it2 = en.connections.iterator(); it2.hasNext();) {
+              Edge ed = (Edge) it2.next();
+              killEdge(ed);
+            }
+            ((ViskitModel) getModel()).deleteEvent(en);
+          }
+        }
       }
     }
   }
 
-  /**
-   * Unit test entry.
-   * @param args
-   */
-  public static void main(String[] args)
+  private void killEdge(Edge e)
   {
-    new Controller();
+    if (e instanceof SchedulingEdge)
+      ((ViskitModel) getModel()).deleteEdge((SchedulingEdge) e);
+    else
+      ((ViskitModel) getModel()).deleteCancelEdge((CancellingEdge) e);
   }
+
+  public void deleteSimParameter()
+  //---------------------------
+  {
+    String ret = ((ViskitView) getView()).promptForStringOrCancel("Delete Parameter", "Enter parameter name:", "");
+    // build Parameter from string here?
+    Parameter p = new Parameter(ret, null);
+    if (ret == null || ret.trim().length() <= 0)
+      return;
+    ((ViskitModel) getModel()).deleteSimParameter(p);
+  }
+
+  public void deleteStateVariable()
+  //-------------------------------
+  {
+    String ret = ((ViskitView) getView()).promptForStringOrCancel("Delete State Variable", "Enter variable name:", "");
+    // build StateVariable froms string here?
+    StateVariable st = new StateVariable(ret, null, null);
+
+    if (ret == null || ret.trim().length() <= 0)
+      return;
+    ((ViskitModel) getModel()).deleteStateVariable(st);
+  }
+
+  public void generateJavaClass()
+  //-----------------------------
+  {
+    // todo implement
+    System.out.println("generateJavaClass in " + this);
+  }
+
+  public void newAssembly()
+  {
+    // todo implement
+    System.out.println("newAssembly in " + this);
+  }
+
+  public void newEventGraph()
+  {
+    // todo implement
+    System.out.println("newEventGraph in " + this);
+  }
+
+  public void eventList()
+  {
+    // todo implement
+    System.out.println("EventListAction in " + this);
+  }
+
+  private int nodeCount = 0;
+  public void newNode()
+  {
+    newNode(new Point(100,100));
+  }
+  public void newNode(Point p)
+  //--------------------------
+  {
+    String fauxName = "evnt " + nodeCount++;
+    ((ViskitModel) getModel()).newEvent(new EventNode(fauxName), p);
+  }
+
+  public void newArc(Object[] nodes)
+  //--------------------------------
+  {
+    // My node view objects hold node model objects and vice versa
+    EventNode src = (EventNode) ((DefaultGraphCell) nodes[0]).getUserObject();
+    EventNode tar = (EventNode) ((DefaultGraphCell) nodes[1]).getUserObject();
+    ((ViskitModel) getModel()).newEdge(src, tar);
+  }
+
+  public void newCancelArc(Object[] nodes)
+  //--------------------------------------
+  {
+    // My node view objects hold node model objects and vice versa
+    EventNode src = (EventNode) ((DefaultGraphCell) nodes[0]).getUserObject();
+    EventNode tar = (EventNode) ((DefaultGraphCell) nodes[1]).getUserObject();
+    ((ViskitModel) getModel()).newCancelEdge(src, tar);
+  }
+
+  public void nodeEdit(EventNode node)
+  //----------------------------------
+  {
+    boolean modified = ((ViskitView) getView()).doEditNode(node);
+    if (modified) {
+      ((ViskitModel) getModel()).changeEvent(node);
+    }
+  }
+
+  public void arcEdit(SchedulingEdge ed)
+  //------------------------------------
+  {
+    boolean modified = ((ViskitView) getView()).doEditEdge(ed);
+    if (modified) {
+      ((ViskitModel) getModel()).changeEdge(ed);
+    }
+  }
+
+  public void canArcEdit(CancellingEdge ed)
+  //---------------------------------------
+  {
+    boolean modified = ((ViskitView) getView()).doEditCancelEdge(ed);
+    if (modified) {
+      ((ViskitModel) getModel()).changeCancelEdge(ed);
+    }
+  }
+
 }
