@@ -17,4 +17,6 @@ public interface Munition extends Moveable, SimEntity {
     public Shape getImpact() ;
     
     public boolean isExpended();
+    
+    public void doImpact(Munition munition);
 }
