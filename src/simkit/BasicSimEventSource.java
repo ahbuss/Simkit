@@ -45,8 +45,8 @@ public class BasicSimEventSource implements SimEventSource {
         synchronized(listeners) {
             listenersCopy = (ArrayList) listeners.clone();
         }
-        for (Iterator i = listenersCopy.iterator(); i.hasNext();) {
-            ((SimEventListener)i.next()).processSimEvent(event);
+        for (int i = 0; i < listenersCopy.size(); i++) {
+            ((SimEventListener) listenersCopy.get(i)).processSimEvent(event);
         }
     }
     
