@@ -14,36 +14,36 @@ import java.beans.PropertyChangeEvent;
  *
  *  <P> A frequent use is as a PropertyChangeListener.  In this capacity, an instance
  *  listens for a single property name and adds a new observation if the newValue
- *  is of type <CODE>Number</CODE> 
+ *  is of type <CODE>Number</CODE>
  *  @author Arnold Buss
  *  @version $Date$
-**/
+ **/
 public class SimpleStatsTally implements SampleStatistics, Cloneable {
-
+    
     private static String DEFAULT_NAME = "%unnamed%";
     private static String DEFAULT_FORMAT = " 0.0000;-0.0000";
-
+    
     private int count;
     private double mean;
     private double variance;
     private double minObs;
     private double maxObs;
     private double diff;
-
+    
     private String name;
     private DecimalFormat df;
-
+    
 /**
  *  Construct a SimpleStatsTally with the default name.  Note:  The name can
  *  be set after instantiation using setName().
-**/
+ **/
     public SimpleStatsTally() {
         this(DEFAULT_NAME);
     }
 /**
  *  Construct a SimpleStatsTally with the name <CODE>name</CODE>
  *  @param name The property name that will be listened too.
-**/
+ **/
     public SimpleStatsTally(String name) {
         this.setFormat(DEFAULT_FORMAT);
         this.setName(name);
@@ -52,11 +52,11 @@ public class SimpleStatsTally implements SampleStatistics, Cloneable {
 /**
  *  Update counters with a new observation.
  *  @param x The new (primitive) ovservation.
-**/
+ **/
     public void newObservation(double x) {
         minObs = (x < minObs) ? x : minObs;
         maxObs = (x > maxObs) ? x : maxObs;
-
+        
         count++;
         diff = x - mean;
         variance += (count == 1) ? 0.0 : diff * diff / count - 1.0 / (count - 1) * variance;
@@ -66,46 +66,79 @@ public class SimpleStatsTally implements SampleStatistics, Cloneable {
  *  Update counters with a new observation - just invokes primitive newObservation()
  *  with <CODE>x.doubleValue()</CODE>
  *  @param x The new (Number) ovservation.
-**/
+ **/
     public void newObservation(Number x) { this.newObservation( x.doubleValue() ); }
-
+    
+    public void newObservation(boolean b) {
+        this.newObservation(b ? 1.0 : 0.0);
+    }
+    
+    public void newObservation(Boolean b) {
+        this.newObservation(b.booleanValue() ? 1.0 : 0.0);
+    }
+    
+/**
+ * @return Current minimum of observations
+ */    
     public double getMinObs() { return minObs; }
+/**
+ * @return Current maximum of observations
+ */    
     public double getMaxObs() { return maxObs; }
+/** 
+ * @return Current mean
+ */    
     public double getMean() { return mean; }
+/**
+ * @return Current variance of observations
+ */    
     public double getVariance() { return variance; }
+/**
+ * @return Current Standard Deviation of observations
+ */    
     public double getStandardDeviation() { return Math.sqrt(getVariance()); }
-    public int getCount() { return count; } 
-
+/**
+ * @return Current count of observations
+ */    
+    public int getCount() { return count; }
+    
     public void setFormat(String formatString) {
         df = new DecimalFormat(formatString);
     }
-
-// Implements Named interface
-
+    
+    // Implements Named interface
+    
     public void setName(String newName) { this.name = newName; }
     public String getName() { return name; }
-
+    
     public SamplingType getSamplingType() { return SamplingType.TALLY; }
-
+    
+/** This is now a no-on, since the type cannot be changed now.  
+ *  Probably will be deprecated in the next version
+ * @param type The SamplingType of this SimpleStats object
+ */    
     public void setSamplingType(SamplingType type) {  }
 /**
  *  When a PropetyChangeEvent is heard, if the propertyName matches the name of
  *  this instance and the newValue is of type Number, invoke
  *  newObservation(Number).
  *  @param event The PropertyChangeEvent heard.
-**/
+ **/
     public void propertyChange(PropertyChangeEvent event) {
         if (this.getName().equals(event.getPropertyName()) ){
             Object value = event.getNewValue();
             if (value instanceof Number) {
                 newObservation((Number) value);
             }
+            else if (value instanceof Boolean) {
+                this.newObservation((Boolean) value);
+            }
         }
     }
 /**
  *  Reset all counters to 0, except max/min which are set to minus and plus
  *  infinity, respectively.
-**/
+ **/
     public void reset() {
         count = 0;
         diff = 0.0;
@@ -116,7 +149,7 @@ public class SimpleStatsTally implements SampleStatistics, Cloneable {
     }
 /**
  *  @return a clone of this object with all counters identical.
-**/
+ **/
     public synchronized Object clone() {
         SimpleStatsTally clone = new SimpleStatsTally();
         clone.count = this.count;
@@ -128,7 +161,7 @@ public class SimpleStatsTally implements SampleStatistics, Cloneable {
         clone.variance = this.variance;
         return clone;
     }
-
+    
     public String toString() {
         StringBuffer buf = new StringBuffer();
         buf.append(getName());
@@ -138,13 +171,13 @@ public class SimpleStatsTally implements SampleStatistics, Cloneable {
         buf.append(")");
         buf.append(EOL);
         return buf.toString() + getDataLine();
-   }
+    }
 /**
  *  @return A single line of space-separated, formated data containing: count,
  *          min, max, mean, variance, std deviation
-**/
+ **/
     public String getDataLine() {
-        StringBuffer buf = new StringBuffer();        
+        StringBuffer buf = new StringBuffer();
         buf.append(getCount());
         buf.append(' ');
         buf.append(df.format(getMinObs()));
@@ -156,8 +189,8 @@ public class SimpleStatsTally implements SampleStatistics, Cloneable {
         buf.append(df.format(getVariance()));
         buf.append(' ');
         buf.append(df.format(getStandardDeviation()));
-
+        
         return buf.toString();
     }
-
+    
 }

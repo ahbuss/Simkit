@@ -6,30 +6,30 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
 public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeListener {
-
+    
     private static String DEFAULT_NAME = "%unnamed%";
     private static String DEFAULT_FORMAT = " 0.0000;-0.0000";
-
+    
     private int count;
     private double mean;
     private double variance;
     private double minObs;
     private double maxObs;
     private double diff;
-
+    
     private double lastTime;
     private double startTime;
-
+    
     private String name;
     private DecimalFormat df;
-
+    
     public SimpleStatsTimeVarying(String name) {
         this.setFormat(DEFAULT_FORMAT);
         this.setName(name);
         this.startTime = Schedule.getSimTime();
         this.reset();
     }
-
+    
     public SimpleStatsTimeVarying() {
         this(DEFAULT_NAME);
     }
@@ -48,9 +48,13 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
         diff = x - mean;
         this.lastTime = Schedule.getSimTime();
     }
-
+    
     public void newObservation(Number x) { this.newObservation( x.doubleValue() ); }
-
+    
+    public void newObservation(boolean b) { this.newObservation(b ? 1.0 : 0.0); }
+    
+    public void newObservation(Boolean b) { this.newObservation(b.booleanValue() ? 1.0 : 0.0); }
+    
     public double getMinObs() { return minObs; }
     public double getMaxObs() { return maxObs; }
     public double getMean() {
@@ -66,27 +70,33 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
         return variance;
     }
     public double getStandardDeviation() { return Math.sqrt(getVariance()); }
-    public int getCount() { return count; } 
-
+    public int getCount() { return count; }
+    
     public void setFormat(String formatString) {
         df = new DecimalFormat(formatString);
     }
-
-// Implements Named interface
-
+    
+    // Implements Named interface
+    
     public void setName(String newName) { this.name = newName; }
     public String getName() { return name; }
-
+    
     public SamplingType getSamplingType() { return SamplingType.TIME_VARYING; }
-
+    
     public void setSamplingType(SamplingType type) {  }
-
+    
     public void propertyChange(PropertyChangeEvent event) {
         if (this.getName().equals(event.getPropertyName()) ){
-            newObservation(Double.valueOf(event.getNewValue().toString()));
+            Object value = event.getNewValue();
+            if (value instanceof Number) {
+                this.newObservation((Number)event.getNewValue());
+            }
+            else if (value instanceof Boolean) {
+                this.newObservation((Boolean) value);
+            }
         }
     }
-
+    
     public void reset() {
         count = 0;
         diff = 0.0;
@@ -97,7 +107,7 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
         lastTime = Schedule.getSimTime();
         
     }
-
+    
     public synchronized Object clone() {
         SimpleStatsTimeVarying clone = new SimpleStatsTimeVarying();
         clone.count = this.count;
@@ -111,9 +121,9 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
         clone.variance = this.variance;
         return clone;
     }
-
+    
     public String getDataLine() {
-        StringBuffer buf = new StringBuffer();        
+        StringBuffer buf = new StringBuffer();
         buf.append(getCount());
         buf.append(' ');
         buf.append(df.format(getMinObs()));
@@ -125,10 +135,10 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
         buf.append(df.format(getVariance()));
         buf.append(' ');
         buf.append(df.format(getStandardDeviation()));
-
+        
         return buf.toString();
     }
-
+    
     public String toString() {
         StringBuffer buf = new StringBuffer();
         buf.append(getName());
@@ -137,7 +147,7 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
         buf.append(this.getSamplingType());
         buf.append(')');
         buf.append(EOL);
-
+        
         return buf.toString() + getDataLine();
-   }
+    }
 }
