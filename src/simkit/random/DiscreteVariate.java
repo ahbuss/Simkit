@@ -8,35 +8,35 @@ public class DiscreteVariate extends RandomVariateBase {
     public DiscreteVariate() {}
 
     public void setParameters(Object[] params) {
-        if (params[1] instanceof double[]) {
-            normalize((double[])params[1]);
-            if (params[0] instanceof double[]) {
-                value = (double[]) params[0];
-            }
-            super.setParameters(new Object[] {params[0], params[1], cdf});
+        if (params.length != 2) {
+            throw new IllegalArgumentException("Must have Object[] {double[], double[]}");
+        }
+        else if (params[0] instanceof double[] && params[1] instanceof double[]) {
+            value = (double[]) ((double[]) params[0]).clone();
+            cdf = normalize((double[]) params[1]);
         }
         else {
             throw new IllegalArgumentException("Parameters not of type {double[], double[]}");
         }
     }
-
-
+    
+    public Object[] getParameters() { return new Object[] { getValues(), getProbabilities() }; }
+    
     public double generate() {
         int index;
         double uniform = this.rng.draw();
         for (index = 0; (uniform > cdf[index]) && (index < cdf.length - 1); index++) ;
-
-//        System.out.println("U = " + uniform + " index = " + index + " value = " + value[index] );
         return value[index];
     }
 
-    protected void normalize(double[] freq) {
+    protected double[] normalize(double[] freq) {
+        double[] norm = null;
         double sum = 0.0;
-        cdf = new double[freq.length];
+        norm = new double[freq.length];
         for (int i = 0; i < freq.length; i++) {
             if (freq[i] >= 0.0) {
                 sum += freq[i];
-                cdf[i] = sum;
+                norm[i] = sum;
             }
             else {
                 throw new IllegalArgumentException("Bad frequency value at index " +
@@ -44,13 +44,14 @@ public class DiscreteVariate extends RandomVariateBase {
             }
         }
         if (sum > 0.0) {
-            for (int i = 0; i < cdf.length; i++) {
-                cdf[i] = cdf[i] / sum;
+            for (int i = 0; i < norm.length; i++) {
+                norm[i] = norm[i] / sum;
             }
         }
         else {
             throw new IllegalArgumentException("Frequency sum not positive: " + sum);
         }
+        return norm;
     }
 
     public String toString() {
@@ -68,10 +69,12 @@ public class DiscreteVariate extends RandomVariateBase {
         return buf.toString();
     }
 
-    public void setValuesAndProbabilities(double[] values, double[] probs) {
-        this.setParameters(new Object[] {values, probs});
-    }
-
+    public void setValues(double[] values) { this.value = (double[]) values.clone(); }
+    
+    public void setProbabilities(double[] prob) { cdf = normalize(prob); }
+    
+    public void setCDF(double[] cdf) { this.cdf = (double[])cdf.clone(); }
+    
     public double[] getValues() { return (double[]) value.clone(); }
 
     public double[] getCDF() { return (double[]) cdf.clone(); }
@@ -83,5 +86,5 @@ public class DiscreteVariate extends RandomVariateBase {
         }
         return freq;
     }
-
 }
+
