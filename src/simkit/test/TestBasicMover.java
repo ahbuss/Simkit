@@ -29,9 +29,13 @@ public class TestBasicMover {
         bm.moveTo(destination, 20);
         Schedule.startSimulation();
         
+        Schedule.reset();
+        bm.moveTo(destination, 100);
+        Schedule.startSimulation();
+        
     }
 /*
- * ** Event List -- Starting Simulation **
+ ** Event List -- Starting Simulation **
 0.000        StartMove         {Test (10.00, 20.00) 50.0}        
  ** End  of Event List -- Starting Simulation **
  
@@ -55,6 +59,20 @@ Time: 0.000         Current Event: StartMove         {Test (10.00, 20.00) 20.0} 
  ** End  of Event List --  **
  
 Time: 2.500         Current Event: EndMove         {Test (40.00, 60.00) 20.0}        [1]
+ ** Event List --  **
+               << empty >>
+ ** End  of Event List --  **
+ 
+ ** Event List -- Starting Simulation **
+0.000        StartMove         {Test (10.00, 20.00) 50.0}        
+ ** End  of Event List -- Starting Simulation **
+ 
+Time: 0.000         Current Event: StartMove         {Test (10.00, 20.00) 50.0}        [1]
+ ** Event List --  **
+1.000        EndMove         {Test (10.00, 20.00) 50.0}        
+ ** End  of Event List --  **
+ 
+Time: 1.000         Current Event: EndMove         {Test (40.00, 60.00) 50.0}        [1]
  ** Event List --  **
                << empty >>
  ** End  of Event List --  **
