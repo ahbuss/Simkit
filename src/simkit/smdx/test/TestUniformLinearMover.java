@@ -58,7 +58,7 @@ public class TestUniformLinearMover {
         sensor[1] = new CookieCutterSensor(20.0, mover[1]);
         
         SensorTargetReferee ref = new SensorTargetReferee();
-        ref.setVerbose(true);
+//        ref.setVerbose(true);
         
         for (int i = 0; i < sensor.length; i++) {
             ref.register(sensor[i]);

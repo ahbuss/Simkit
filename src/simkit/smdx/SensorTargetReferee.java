@@ -102,7 +102,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     
     public void propertyChange(PropertyChangeEvent e) {
         if (!e.getPropertyName().equals("movementState")) { return; }
-        if (e.getNewValue() == MovementState.CRUISING) {
+        if (e.getNewValue() == MovementState.CRUISING || e.getNewValue() == MovementState.STOPPED) {
             if (e.getSource() instanceof Mover) {
                 processTarget((Mover) e.getSource());
             }
