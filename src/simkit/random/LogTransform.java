@@ -35,4 +35,13 @@ public class LogTransform  implements RandomVariate {
   public RandomNumber getRandomNumber() { return rv.getRandomNumber(); }
 
   public void setRandomNumber(RandomNumber rng) { rv.setRandomNumber(rng); }
+  
+  public Object clone() {
+      try {
+          return super.clone();
+      } catch(CloneNotSupportedException e) {}
+      finally{}
+      return null;
+      
+  }
 }
