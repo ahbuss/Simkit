@@ -104,4 +104,8 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
         return footprint.contains(point);
     }
     
+    public String toString() {
+        return "CookieCutterSensor (" +  getMaxRange() + ") [" + getMover() +"]";
+    }
+    
 }

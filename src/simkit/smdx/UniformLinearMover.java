@@ -12,10 +12,10 @@ import java.text.DecimalFormat;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version
  */
 public class UniformLinearMover extends SimEntityBase implements Mover {
-
+    
     protected static final Point2D ORIGIN = new Point2D.Double();
     protected static final DecimalFormat df = new DecimalFormat("0.000");
     
@@ -30,6 +30,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     protected double moveTime;
     
     protected MovementState movementState;
+    protected final Object[] param;
     
     /** Creates new UniformLinearMover */
     public UniformLinearMover(String name, Point2D location, double maxSpeed) {
@@ -38,9 +39,10 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         this.maxSpeed = maxSpeed;
         lastStopLocation = (Point2D) originalLocation.clone();
         velocity = (Point2D) ORIGIN.clone();
-        setMovementState(MovementState.STOPPED);
+        movementState = MovementState.STOPPED;
+        param = new Object[] { this };
     }
-
+    
     public Point2D getVelocity() {
         return (Point2D) velocity.clone();
     }
@@ -48,37 +50,24 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     public Point2D getLocation() {
         if (isMoving()) {
             return new Point2D.Double(
-                lastStopLocation.getX() + (Schedule.getSimTime() - startMoveTime) * getVelocity().getX(),
-                lastStopLocation.getY() + (Schedule.getSimTime() - startMoveTime) * getVelocity().getY()
+            lastStopLocation.getX() + (Schedule.getSimTime() - startMoveTime) * getVelocity().getX(),
+            lastStopLocation.getY() + (Schedule.getSimTime() - startMoveTime) * getVelocity().getY()
             );
         }
         else {
             return (Point2D) lastStopLocation.clone();
         }
     }
-   
+    
     public void stop() {
-        interrupt("EndMove", new Object[] { this });
-        if (getMovementState() != MovementState.PAUSED) {
-            setMovementState(MovementState.PAUSED);
-            waitDelay("EndMove", 0.0, new Object[] { this });      
-        }
-        else {
-            setMovementState(MovementState.STOPPED);
-        }
+        stopHere();
+        setMovementState(MovementState.STOPPED);
+        
     }
     
     public void doEndMove(Moveable mover) {
-        lastStopLocation = getLocation();
-        velocity.setLocation(ORIGIN);
-        startMoveTime = Schedule.getSimTime();
-        firePropertyChange("stop", getLocation());
-        if (getMovementState() == MovementState.PAUSED) {
-            setMovementState(MovementState.STOPPED);
-        }
-        else {
-            setMovementState(MovementState.PAUSED);
-        }
+        stopHere();
+        setMovementState(MovementState.PAUSED);
     }
     
     public Point2D getAcceleration() {
@@ -86,10 +75,10 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     public void doStartMove(Moveable mover) {
-        firePropertyChange("start", getLocation(), getVelocity());
         if (destination != null) {
-            waitDelay("EndMove", moveTime, new Object[] { this });
+            waitDelay("EndMove", moveTime, param);
         }
+        setMovementState(MovementState.CRUISING);
     }
     
     public void moveTo(Point2D destination) {
@@ -99,8 +88,8 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     public String toString() {
         Point2D loc = getLocation();
         return this.getName() + " (" + df.format(loc.getX()) + "," +
-            df.format(loc.getY()) +") [" + df.format(this.getVelocity().getX()) +
-            "," + df.format(this.getVelocity().getY()) + "]";
+        df.format(loc.getY()) +") [" + df.format(this.getVelocity().getX()) +
+        "," + df.format(this.getVelocity().getY()) + "]";
     }
     
     public String paramString() {
@@ -116,48 +105,52 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         destination = null;
     }
     
-    public boolean isMoving() { return velocity != null || Math.abs(velocity.getX()) > 0.0 || Math.abs(velocity.getY()) > 0.0; }
+    public boolean isMoving() {return Math.abs(velocity.getX()) > 0.0 || Math.abs(velocity.getY()) > 0.0; }
     
     public void moveTo(Point2D destination, double cruisingSpeed) {
         if (destination == null || cruisingSpeed <= 0.0) { return; }
         if (isMoving()){
             pause();
         }
-        setMovementState(MovementState.CRUISING);
         cruisingSpeed = Math.min(cruisingSpeed, maxSpeed);
         this.destination = destination;
         double distance = destination.distance(this.getLocation());
         moveTime = distance / cruisingSpeed;
         velocity.setLocation((destination.getX() - lastStopLocation.getX()) / moveTime,
-                        (destination.getY() - lastStopLocation.getY())/moveTime);
+        (destination.getY() - lastStopLocation.getY())/moveTime);
         waitDelay("StartMove", 0.0, new Object[] { this });
     }
     
     public void pause() {
+        stopHere();
         setMovementState(MovementState.PAUSED);
+    }
+    
+    protected void stopHere() {
         lastStopLocation = getLocation();
         if (velocity == null) {
             velocity = new Point2D.Double();
-        } 
+        }
         else {
             velocity.setLocation(ORIGIN);
         }
         startMoveTime = Schedule.getSimTime();
-        interrupt("EndMove", new Object[] { this });
+        
+        interrupt("EndMove", param);
     }
     
     public void move(Point2D desiredVelocity) {
         double desiredSpeed = desiredVelocity.distance(ORIGIN);
         if (desiredSpeed <= 0.0) { return; }
-        setMovementState(MovementState.CRUISING);
         if ( desiredSpeed > maxSpeed) {
             desiredVelocity = Math2D.scalarMultiply(maxSpeed / desiredSpeed, desiredVelocity);
         }
         destination = null;
         lastStopLocation = getLocation();
         startMoveTime = Schedule.getSimTime();
-        velocity = desiredVelocity;       
-        waitDelay("StartMove", 0.0, new Object[] { this });
+        velocity = desiredVelocity;
+        waitDelay("StartMove", 0.0, param);
+        setMovementState(MovementState.STARTING);
     }
     
     public void magicMove(Point2D location) throws MagicMoveException {
@@ -173,7 +166,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     protected void setMovementState(MovementState state) {
         MovementState oldState = getMovementState();
         movementState = state;
-        firePropertyChange("movementState", oldState, movementState);
+        firePropertyChange("movementState", oldState, movementState);        
     }
     
     public MovementState getMovementState() { return movementState; }

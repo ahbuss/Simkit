@@ -14,7 +14,10 @@ import java.util.*;
 public class MovementState {
     
     public static final MovementState PAUSED = new MovementState("Paused");
+    public static final MovementState PAUSING = new MovementState("Pausing");
     public static final MovementState STOPPED = new MovementState("Stopped");
+    public static final MovementState STOPPING = new MovementState("Stopping");
+    public static final MovementState STARTING = new MovementState("Starting");
     public static final MovementState ACCELERATING = new MovementState("Accelerating");
     public static final MovementState CRUISING = new MovementState("Cruising");
     
@@ -26,7 +29,7 @@ public class MovementState {
     protected MovementState(String name) {
         this.name = name;
         if (states == null) {
-            states = new HashMap(4);
+            states = new HashMap(8);
         }
         states.put(name, this);
     }

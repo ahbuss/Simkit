@@ -8,15 +8,15 @@ package simkit.smdx;
 import simkit.*;
 import java.util.*;
 import java.beans.*;
-import simkit.smdx.*;
+import java.awt.geom.*;
 
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version
  */
 public class SensorTargetReferee extends SimEntityBase implements PropertyChangeListener {
-
+    
     protected Map sensors;
     protected Map targets;
     
@@ -26,8 +26,9 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     public SensorTargetReferee() {
         sensors = new WeakHashMap();
         targets = new WeakHashMap();
+        setClearOnReset(false);
     }
-
+    
     public Set getSensors() {
         return new HashSet(sensors.keySet());
     }
@@ -39,36 +40,85 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     public void register(SimEntity entity) {
         if (entity instanceof simkit.smdx.Sensor) {
             sensors.put(entity, null);
-            entity.addSimEventListener(this);
+            //            entity.addSimEventListener(this);
+            entity.addPropertyChangeListener("movementState", this);
+            if (Schedule.isRunning()) {
+                processSensor((Sensor) entity);
+            }
         }
         else if (entity instanceof Mover) {
             targets.put(entity, null);
-            entity.addSimEventListener(this);
+            //            entity.addSimEventListener(this);
+            entity.addPropertyChangeListener("movementState", this);
+            if (Schedule.isRunning()) {
+                processTarget((Mover) entity);
+            }
         }
         else {
             throw new IllegalArgumentException(entity.getClass().getName() +
-                " not a Sensor or a Target");
-        }        
+            " not a Sensor or a Target");
+        }
     }
     
     public void unregister(SimEntity entity) {
         if (entity instanceof simkit.smdx.Sensor) {
             sensors.remove(entity);
-            entity.removeSimEventListener(this);            
+            entity.removeSimEventListener(this);
         }
         else if (entity instanceof Mover) {
             targets.remove(entity);
-            entity.removeSimEventListener(this);            
+            entity.removeSimEventListener(this);
         }
     }
     
-    public void propertyChange(java.beans.PropertyChangeEvent propertyChangeEvent) {
+    public void propertyChange(PropertyChangeEvent e) {
+        if (!e.getPropertyName().equals("movementState")) { return; }
+        if (e.getNewValue() == MovementState.CRUISING) {
+            if (e.getSource() instanceof Mover) {
+                processTarget((Mover) e.getSource());
+            }
+            else if (e.getSource() instanceof Sensor) {
+                processSensor((Sensor) e.getSource());
+            }
+        }
+    }
+    
+    protected void processTarget(Mover target) {
+        Point2D targetLocation = target.getLocation();
+        Point2D targetVelocity = target.getVelocity();
+        for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
+            Sensor sensor = (Sensor) i.next();
+            Object[] pair = new Object[] { target, sensor };
+            double time = Math2D.smallestPositive(
+            Math2D.findIntersectionTime(
+            Math2D.subtract(sensor.getLocation(), targetLocation),
+            Math2D.subtract(sensor.getVelocity(), targetVelocity),
+            sensor.getFootprint()
+            )
+            );
+            if (sensor.getFootprint().contains(targetLocation)) {
+                interrupt("ExitRange", pair);
+                if (time < Double.POSITIVE_INFINITY) {
+                    waitDelay("ExitRange", time, pair);
+                }
+            }
+            else {
+                interrupt("EnterRange", pair);
+                if (time < Double.POSITIVE_INFINITY) {
+                    waitDelay("EnterRange", time, pair);
+                }
+            }
+        }
+    }
+    
+    protected void processSensor(Sensor target) {
+        System.out.println("Ssensors not implemented yet...");
     }
     
     public void doStartMove(Mover target) {
         Object[] param = new Object[2];
         param[1] = target;
-//        Interrupts here
+        //        Interrupts here
         for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
         }
     }

@@ -47,7 +47,7 @@ public class PathMoverManager extends SimEntityBase {
             WayPoint nextWP = (WayPoint) nextWayPoint.next();
             mover.moveTo(nextWP.getWayPoint(), nextWP.getSpeed());
         }
-        else {
+        else if (mover.getMovementState() != MovementState.STOPPED) {
             stop();
         }
     }

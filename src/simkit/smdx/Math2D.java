@@ -221,7 +221,7 @@ public class Math2D {
         pts[3] = scalarMultiply(3.0, pts[3]);
         pts[3] = subtract(pts[3], curve.getP1());
         pts[3] = add(curve.getP2(), pts[3]);
-
+        
         for (int i = 0; i < coeff.length; i++) {
             coeff[i] = innerProduct(orthoVel, pts[i]);
         }
@@ -234,7 +234,7 @@ public class Math2D {
                 for (int i = 0; i < sol.length; i++) {
                     if (Math.abs(sol[i] - 0.5) < 0.5) {
                         list.add(getPoint(curve, sol[i]));
-                    }                    
+                    }
                 }
                 return (Point2D[]) list.toArray(new Point2D[list.size()]);
             case -1:
@@ -286,7 +286,7 @@ public class Math2D {
                     
                 case PathIterator.SEG_LINETO:
                     segments.add(new Line2D.Double(lastPoint.getX(), lastPoint.getY(), coords[0], coords[1]));
-                    lastPoint.setLocation(coords[1], coords[1]);                    
+                    lastPoint.setLocation(coords[1], coords[1]);
                     break;
                     
                 case PathIterator.SEG_CLOSE:
@@ -332,16 +332,17 @@ public class Math2D {
     
     public static double smallestPositive(double[] data, int num) {
         double smallest = Double.POSITIVE_INFINITY;
-        if (num > data.length || num < 0) { return smallest; }
-        for (int i = 0; i < num; i++) {
-            if (data[i] >= 0.0 && data[i] < smallest){
-                smallest = data[i];
+        if (num <= data.length && num > 0) {
+            for (int i = 0; i < num; i++) {
+                if (data[i] >= 0.0 && data[i] < smallest){
+                    smallest = data[i];
+                }
             }
         }
         return smallest;
     }
     
-    public static double smallestPositive (double[] data) {
+    public static double smallestPositive(double[] data) {
         return smallestPositive(data, data.length);
     }
     
