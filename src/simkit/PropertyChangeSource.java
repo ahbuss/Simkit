@@ -1,14 +1,4 @@
 package simkit;
-/////////////////////////// Copyright Notice //////////////////////////
-//                                                                   //
-// This simkit package or sub-package and this file is Copyright (c) //
-// 1997, 1998, 1999 by Kirk A. Stork and Arnold H. Buss.             //
-//                                                                   //
-// Please forward any changes, comments or suggestions to:           //
-//   abuss@nps.navy.mil                                              //
-//                                                                   //
-///////////////////////////////////////////////////////////////////////
-
 import java.beans.*;
 /**
  *  <UL>
@@ -24,44 +14,49 @@ import java.beans.*;
  *  their propertyChanged(PropertyChangeEvent) method invoked (not enforced).
  *
  *  @author Arnold Buss
-**/
+ **/
 
 public interface PropertyChangeSource {
+    
+    /**
+     *  @param name The name of the property to be set
+     *  @param value The new value of the property
+     **/
+    public void setProperty(String name, Object value);
+    
+    /**
+     *  @param name The name of the property to be retrieved
+     *  @return The value of the property
+     **/
+    public Object getProperty(String name);
+    
+    /**
+     *  @param name The name of the property to be retrieved.
+     *  @param defaultValue The default value -- returned if property's value cannot
+     *         be returned or is null.
+     *  @return The value of the property.
+     **/
+    public Object getProperty(String name, Object defaultValue);
+    
+    /**
+     *  Notify all PropertyChangeListeners of the PropertyChangeEvent.
+     *  @param e The event with all the information about what property has changed
+     *  and to what value.
+     **/
+    public void firePropertyChange(PropertyChangeEvent e);
+    
+    /**
+     *  @param listener The new listener to all my property changes.
+     **/
+    public void addPropertyChangeListener(PropertyChangeListener listener);
+    
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
 
-/**
- *  @param name The name of the property to be set
- *  @param value The new value of the property 
-**/
-  public void setProperty(String name, Object value);
-
-/**
- *  @param name The name of the property to be retrieved
- *  @return The value of the property
-**/
-  public Object getProperty(String name);
-
-/**
- *  @param name The name of the property to be retrieved.
- *  @param defaultValue The default value -- returned if property's value cannot
- *         be returned or is null. 
- *  @return The value of the property.
-**/
-  public Object getProperty(String name, Object defaultValue);
-
-/**
- *  Notify all PropertyChangeListeners of the PropertyChangeEvent.
- *  @param e The event with all the information about what property has changed
- *  and to what value.
-**/
-  public void firePropertyChange(PropertyChangeEvent e);
-
-/**
- *  @param listener The new listener to all my property changes.
-**/
-  public void addPropertyChangeListener(PropertyChangeListener listener);
-
-/**
- *  @param listener The listener that will stop listening to my property changes.
-**/
-  public void removePropertyChangeListener(PropertyChangeListener listener);
+    /**
+     *  @param listener The listener that will stop listening to my property changes.
+     **/
+    public void removePropertyChangeListener(PropertyChangeListener listener);
+    
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
+    
 }
