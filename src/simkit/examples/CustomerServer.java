@@ -119,9 +119,8 @@ public class CustomerServer extends SimEntityBase {
      * @return Short description
      */    
     public String toString() {
-        return "Multiple Server Queue" +
-            "\n\t" + getNumberServers() + " servers" +
-            "\n\t" + getServiceTime() + " service time";
+        return "Multiple Server Queue\n\tNumber Servers:\t" + getNumberServers() +
+            "\n\tService Time Distribution:\t" + getServiceTime();
     }
     
 }

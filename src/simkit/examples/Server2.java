@@ -110,9 +110,9 @@ public class Server2 extends BasicSimEntity {
      * @return Short description of class
      */    
     public String toString() {
-        return "Multiple Server Queue with " + totalNumberServers + " servers" +
-            "\nService time distribution is " + serviceTime;
-    }/**
+          return "Multiple Server Queue\n\tNumber Servers:\t" + totalNumberServers +
+            "\n\tService Time Distribution:\t" + serviceTime;
+  }/**
  *  @return A short description of this class
 **/
     public static String description() {
