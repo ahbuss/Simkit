@@ -369,7 +369,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
      *  Prints out the "do" methods for this SimEntity
      **/
     public void dumpDoMethods() {
-        Schedule.getOutputStream().println(this.dumpDoMethodsStr());
+        System.out.println(this.dumpDoMethodsStr());
     }
     
     /**
@@ -420,7 +420,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
      **/
     public void dumpNamesAndSignatures() {
         String str = dumpNamesAndSignaturesStr();
-        Schedule.getOutputStream().println(str);
+        System.out.println(str);
     }
     /**
      * Interrupt all this SimEntity's events when a certain time is reached

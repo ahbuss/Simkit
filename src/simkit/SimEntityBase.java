@@ -315,7 +315,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
      *  Prints out the "do" methods for this SimEntity
      **/
     public void dumpDoMethods() {
-        Schedule.getOutputStream().println(this.dumpDoMethodsStr());
+        System.out.println(this.dumpDoMethodsStr());
     }
     
     /**
@@ -365,7 +365,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
      *  Prints names and signatures of "do" methods to output specified by Schedule.
      **/
     public void dumpNamesAndSignatures() {
-        Schedule.getOutputStream().println(dumpNamesAndSignaturesStr());
+        System.out.println(dumpNamesAndSignaturesStr());
     }
     /**
      * Interrupt all this SimEntity's events when a certain time is reached

@@ -163,7 +163,7 @@ public class SimEventFactory {
     public static synchronized void returnSimEventToPool(SimEvent event) {
         eventPool.push(event);
         if (verbose) {
-            Schedule.getOutputStream().println("\tEvent " + event.hashCode() +
+            System.out.println("\tEvent " + event.hashCode() +
                 " returned to Event pool");
         }
     }
