@@ -16,7 +16,7 @@ public class TransformUtilities {
 
     public static RectangularShape createTransformedShape(RectangularShape shape, AffineTransform trans) {
         RectangularShape newShape = (RectangularShape) shape.clone();
-        Rectangle2D bounds = newShape.getBounds2D();
+        Rectangle2D bounds = new Rectangle2D.Double(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
         Shape transformedBounds = trans.createTransformedShape(bounds);
         Rectangle2D newBounds = transformedBounds.getBounds2D();
         newShape.setFrame(newBounds);

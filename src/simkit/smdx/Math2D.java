@@ -90,6 +90,7 @@ public class Math2D {
                             getPoint(curve, coeff[0]),
                             getPoint(curve, coeff[1])
                         };
+                        return intersect;
                     }
                     else {
                         coeff[0] = coeff[1];  // fall through
