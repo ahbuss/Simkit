@@ -1,7 +1,18 @@
 package simkit.random;
 
+/** Factory for creating <CODE>RandomVariate</CODE> instances from "orders".
+ * The "specifications" of each order are as generic as possible:
+ * String (name of class), Object[] (parameters), long (seed),
+ * RandomNumber (instance of supporting Un(0,1) generator).
+ * @author Arnold Buss
+ */
 public class RandomVariateFactory {
 
+    /** Create a <CODE>RandomVariate</CODE> instance based on the parameters passed.
+     * @return Instance of <CODE>RandomVariate</CODE> based on the (fully-qualified) class name and the parameters.  The default <CODE>RandomNumber</CODE> instance is used with the default seed(s).
+     * @param className The fully-qualified class name of the desired instance
+     * @param parameters The desired parameters for the instance
+     */    
     public static RandomVariate getInstance(String className, Object[] parameters) {
         RandomVariate instance = null;
         Class randomVariateClass = null;
