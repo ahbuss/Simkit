@@ -337,7 +337,7 @@ public class Math2D {
         double smallest = Double.POSITIVE_INFINITY;
         if (num <= data.length && num > 0) {
             for (int i = 0; i < num; i++) {
-                if (data[i] >= 0.0 && data[i] < smallest){
+                if (data[i] > 0.0 && data[i] < smallest){
                     smallest = data[i];
                 }
             }

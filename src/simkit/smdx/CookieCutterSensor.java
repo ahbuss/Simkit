@@ -24,6 +24,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     protected Ellipse2D footprint;
     protected AffineTransform locationTransform;
     protected Set contacts;
+    protected double maxRange;
     
     /** Creates new CookieCutterSensor */
     
@@ -35,7 +36,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
         setMover(mover);
         locationTransform = new AffineTransform();
         footprint = new Ellipse2D.Double();
-        footprint.setFrameFromCenter(0.0, 0.0, maxRange, maxRange);
+        this.maxRange = maxRange;
         contacts = new HashSet();
     }
 
@@ -54,13 +55,14 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     public double getMaxRange() {
-        return footprint.getMaxX();
+        return maxRange;
     }
     
     public Shape getFootprint() {
         Point2D loc = mover.getLocation();
-        locationTransform.setToTranslation(loc.getX(), loc.getY());
-        return locationTransform.createTransformedShape(footprint);
+        footprint.setFrameFromCenter(loc.getX(), loc.getY(), loc.getX() + maxRange,
+            loc.getY() + maxRange);
+        return footprint;
     }
     
     public Point2D getAcceleration() {
@@ -105,7 +107,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     public boolean isInRangeOf(Point2D point) {
-        return footprint.contains(point);
+        return getFootprint().contains(point);
     }
     
     public String toString() {
