@@ -7,28 +7,35 @@ import java.awt.geom.*;
 
 public class PathMoverManager extends SimEntityBase {
     
-    private static final double EPSILON = 1.0E-14;
+    private static final double EPSILON = 1.0E-10;
     
     private List wayPoints;
     private Mover mover;
     private Iterator nextWayPoint;
     private boolean startOnReset;
     
+    public PathMoverManager(Mover m, WayPoint[] path) {
+        this(m);
+        for (int i = 0; i < path.length; i++) {
+            addWayPoint(path[i]);
+        }
+    }
+    
     public PathMoverManager(Mover m, Point2D[] path) {
-        this.mover = m;
-        mover.addSimEventListener(this);
-        wayPoints = new ArrayList();
+        this(m);
         for (int i = 0; i < path.length; i++) {
             addWayPoint(path[i]);
         }
     }
     
     public PathMoverManager(Mover m, List path) {
-        this(m, (Point2D[]) path.toArray(new Point2D[path.size()]));
+        this(m, (WayPoint[]) path.toArray(new WayPoint[path.size()]));
     }
     
     public PathMoverManager(Mover m) {
-        this(m, new ArrayList());
+        this.mover = m;
+        mover.addSimEventListener(this);
+        wayPoints = new ArrayList();
     }
     
     public void start() {
@@ -79,7 +86,7 @@ public class PathMoverManager extends SimEntityBase {
     }
     
     public void addWayPoint(WayPoint wayPoint) {
-        wayPoints.add(wayPoint);
+        wayPoints.add(wayPoint.clone());
     }
     
     public void addWayPoint(Point2D point, double speed) {
@@ -92,7 +99,7 @@ public class PathMoverManager extends SimEntityBase {
     
     public void removeWayPoint(Point2D point) {
         for (Iterator i = wayPoints.iterator(); i.hasNext();) {
-            Point2D nextPoint = (Point2D) i.next();
+            Point2D nextPoint = ((WayPoint) i.next()).getWayPoint();
             if (nextPoint.distance(point) < EPSILON) {
                 wayPoints.remove(nextPoint);
                 break;
