@@ -60,8 +60,7 @@ public class ShortestQueueDispatcher extends SimEntityBase {
         int leastBusyServer = Integer.MIN_VALUE;
         int smallestNumber = Integer.MAX_VALUE;
         for (int i = 0; i < server.length; ++i) {
-            int thisNumber = server[i].getNumberInQueue() + 
-                    server[i].getTotalNumberServers() - server[i].getNumberAvailableServers();
+            int thisNumber = server[i].getNumberInSystem();
             if (thisNumber < smallestNumber) {
                 smallestNumber = thisNumber;
                 leastBusyServer = i;
