@@ -47,6 +47,10 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
         contacts = new HashSet();
     }
 
+    public CookieCutterSensor(Mover mover, double maxRange) {
+        this(maxRange, mover);
+    }
+    
     /** Add contact to list.  Note that in general the Contact will
      * not be a reference to the actual target.
      * @param contact Mover that is passed by the Mediator
@@ -175,4 +179,9 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
             firePropertyChange(e.getPropertyName(), e.getOldValue(), e.getNewValue());
         }
     }
+    
+    public Set getContacts() {
+        return new HashSet(contacts);
+    }
+    
 }
