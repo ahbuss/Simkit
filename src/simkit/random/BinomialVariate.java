@@ -5,17 +5,18 @@
  */
 
 package simkit.random;
-
 /**
  *
+ * Generates Binomial(n, p) random variates (representing the number
+ * of successes in n iid Bernoulli(p) trials.<br>
+ * Parameters:
+ * <ul><li><code>n</code> = number of Bernoulli trials</li>
+ * <li> <code>probability</code> = P{X=1} for Bernoulli trials.
  * @author  Arnold Buss
- * @version
  */
 public class BinomialVariate implements DiscreteRandomVariate {
     
     protected int n;
-    /**
-     */
     protected BernoulliVariate bernoulli;
     
     /** Creates new BinomialVariate */
@@ -24,38 +25,42 @@ public class BinomialVariate implements DiscreteRandomVariate {
     }
     
     /**
-     * @return The underlying RandomNumber instance (should be a copy)
+     * @return The underlying RandomNumber instance
      */
     public RandomNumber getRandomNumber() { return bernoulli.getRandomNumber(); }
     
-    /** Sets the supporting RandomNumber object
+    /** 
      * @param rng The RandomNumber instance supporting the generating algorithm
      */
     public void setRandomNumber(RandomNumber rng) { bernoulli.setRandomNumber(rng); }
     
     /**
-     * Returns the array of parameters as an Object[].
+     * First element is n, wrapped in <code>Integer</code> second is probability,
+     * wrapped in <code>Double</code>
      * @return the array of parameters as an Object[].
      */
     public Object[] getParameters() {
         return new Object[] { new Integer(n), new Double(bernoulli.getProbability()) };
     }
     
-    /** Sets parameters - first is n, the second is p
-     * @param params (n, p)
+    /** Sets parameters - first is n, the second is probability
+     * @param params (n, probability)
      */
     public void setParameters(Object[] params) {
-        if (params == null) {
-            throw new NullPointerException();
-        }
-        else if (params.length != 2 ){
+        if (params.length != 2 ){
             throw new IllegalArgumentException("Binomial needs 2 parameters: " + params.length);
+        }
+        if (!( params[0] instanceof Number ) ) {
+            throw new IllegalArgumentException("Number needed for params[0]: " + params[0].getClass());
+        }
+        if (!( params[1] instanceof Number ) ) {
+            throw new IllegalArgumentException("Number needed for params[1]: " + params[1].getClass());
         }
         setN( ((Number)params[0]).intValue());
         setProbability( ((Number)params[1]).doubleValue());
     }
     
-    /** Dumb method, but works...
+    /** Adds n Bernoulli variates together.
      * @return generated binomial variate
      */
     public int generateInt() {
@@ -75,7 +80,7 @@ public class BinomialVariate implements DiscreteRandomVariate {
     }
     
     /**
-     * @param n  */
+     * @param n # of Bernoulli trials */
     public void setN(int n) {
         if (n < 0) {
             throw new IllegalArgumentException("Binomial variate must have positive n: " + n);
@@ -84,11 +89,11 @@ public class BinomialVariate implements DiscreteRandomVariate {
     }
     
     /**
-     * @return  */
+     * @return number of Bernoulli trials */
     public int getN() { return n; }
     
     /**
-     * @param p  */
+     * @param p probability of success  */
     public void setProbability(double p) {
         if (p >= 0.0 && p <= 1.0) {
             bernoulli.setProbability(p);

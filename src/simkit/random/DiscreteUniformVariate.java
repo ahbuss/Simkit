@@ -1,14 +1,23 @@
 package simkit.random;
 
+/**
+ * Generates Discrete Uniform (a, b) random variates.<br>
+ * Parameters:
+ * <ul> <li><code>minimum</code> = smallest possible value (integer).</li>
+ * <li> <code>maximum</code> = largest possible value (integer).</li></ul>
+ * @author Arnold Buss
+ */
 public class DiscreteUniformVariate extends RandomVariateBase implements DiscreteRandomVariate {
 
-    private int minimum;
-    private int maximum;
+    protected int minimum;
+    protected int maximum;
     private int range;
 
     public DiscreteUniformVariate() {
     }
 
+    /**
+     * @param params (minimum, maximum) */    
     public void setParameters(Object[] params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Two parameters needed, " +
@@ -24,10 +33,16 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
         }
     }
     
+    /**
+     * @return (minimum, maximum) wrapped as Doubles in Object[]
+     */    
     public Object[] getParameters() {
         return new Object[] { new Integer(minimum), new Integer(maximum) };
     }
 
+    /**
+     * @return generated Discrete Uniform(a,b) variate as double
+     */    
     public double generate() {
         return (double) generateInt();
     }
@@ -36,20 +51,35 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
         return "Discrete Uniform (" + minimum + ", " + maximum + ")";
     }
 
+    /**
+     * @return generated Discrete Uniform(a, b) variate as integer
+     */    
     public int generateInt() {
         return (int) Math.floor(minimum + range * rng.draw());
     }
     
+    /**
+     * @param min smallest possible value
+     */    
     public void setMinimum(int min) {
             minimum = min;
             range = maximum - minimum;
     }
 
+    /**
+     * @param max largest possible value
+     */    
     public void setMaximum(int max) {
             maximum = max;
             range = maximum - minimum;
     }
 
+    /**
+     * @return largest possible value
+     */    
     public int getMaximum() { return maximum; }
+    /**
+     * @return smallest possible value
+     */    
     public int getMinimum() { return minimum; }
 }
