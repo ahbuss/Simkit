@@ -7,9 +7,11 @@
 package simkit.smdx;
 import simkit.*;
 /**
- *
+ * A Mediator is a SimEntity that determines the
+ * effects of the interaction between 2 types of
+ * Objects.
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public interface Mediator extends SimEntity {
 

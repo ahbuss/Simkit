@@ -5,7 +5,9 @@ import simkit.*;
 import java.awt.geom.*;
 
 /**
+ * A manager that causes a Mover to move along a specified path.
  * @author Arnold Buss
+ * @version $Id$
  */
 public class PathMoverManager extends SimEntityBase implements MoverManager {
     
@@ -17,6 +19,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     private boolean startOnReset;
     
     /**
+     * Contructs a new PathMoverManager.
      * @param m Mover this instance is managing
      * @param path Array of WayPoints for mover to follow
      */
@@ -28,6 +31,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
+     * Contructs a new PathMoverManager.
      * @param m Mover this instance is managing
      * @param path Array of waypoints
      */
@@ -39,6 +43,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
+     * Contructs a new PathMoverManager.
      * @param m Mover this instance is managing
      * @param path List of WayPoints
      */
@@ -47,6 +52,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
+     * Contructs a new PathMoverManager with no path specified.
      * @param m Mover this instance is managing
      */
     public PathMoverManager(Mover m) {
@@ -55,7 +61,10 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
         wayPoints = new ArrayList();
     }
     
-    /** Start by moving to first WayPoint
+    /** 
+     * Start by moving to first WayPoint. When the Mover reaches the
+     * first waypoint, an EndMove event will occur causing the Mover
+     * to continue to the next WayPoint.
      */
     public void start() {
         nextWayPoint = wayPoints.iterator();

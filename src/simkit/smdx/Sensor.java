@@ -25,8 +25,14 @@ public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
     
     public void setMover(Mover mover);
 
+/**
+* Scheduled by a Mediator when this Sensor detects a Moveable.
+**/
     public void doDetection(Moveable contact);
     
+/**
+* Scheduled by a Mediator when this Sensor stops detecting a Moveable.
+**/
     public void doUndetection(Moveable contact);
     
     public void doStartMove(Mover mover);

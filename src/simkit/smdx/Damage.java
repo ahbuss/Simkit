@@ -7,12 +7,17 @@
 package simkit.smdx;
 
 /**
- *
+ * Contains information about damage to a Target by a Munition.
+ * The type of Object returned by <CODE>getDamage()</CODE> is implementation
+ * dependent as is how the Object affects the Target.
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public interface Damage {
     
+/**
+* Gets the damage information.
+**/
     public Object getDamage();
 
 }

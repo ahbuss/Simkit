@@ -9,9 +9,10 @@ import simkit.*;
 import java.awt.geom.*;
 
 /**
- *
+ * A Mover whose movement is controled by specifying an acceleration vector.
+ * @deprecated Not yet fully implemented.
  * @author  ahbuss
- * @version
+ * @version $Id$
  */
 public class AcceleratedMover extends SimEntityBase implements Mover {
     

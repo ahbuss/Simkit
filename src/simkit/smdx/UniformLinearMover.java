@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
  * than private with setters/getters.  This is because all parameters
  * (like max speed, etc) should not be changed after the object is instantiated.
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class UniformLinearMover extends SimEntityBase implements Mover {
     
@@ -24,26 +25,48 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     /** reset() will return Mover to this location */
     protected Point2D originalLocation;
     
-    /** State variable when in motion. */
+/**
+* The point where this Mover last stopped. The origin of the 
+* current motion.
+**/
     protected Point2D lastStopLocation;
-    /** State variable when in motion */
+
+/**
+* The time that the current movement started. When this Mover
+* left the lastStopLocation.
+**/
     protected double startMoveTime;
-    /** State variable when in motion */
+
+/**
+* The current velocity of this Mover.
+**/
     protected Point2D velocity;
     
-    /** Useful for certain tasks */
+/**
+* The current location that this Mover is moving towards.
+**/
     protected Point2D destination;
-    /** convenience value */
+
+/**
+* The length of time it will take this Mover to move from 
+* the lastStopLocation to the destination at the current
+* velocity.
+**/
     protected double moveTime;
     
-    /** Possible values are PAUSED, STOPPED, and CRUISING */
+/** 
+* Possible values are PAUSED, STOPPED, and CRUISING
+**/
     protected MovementState movementState;
-    /** Convenience array. doStartMove() and doEndMove() have identical
+
+    /** Convenience array. <!-- End. Of. Sentence-->
+     * doStartMove() and doEndMove() have identical
      * signatures, so the same Object array can be used.
      */
     protected final Object[] param;
     
     /**
+     * Constructs a new UniformLinearMover.
      * @param name Name of the Mover
      * @param location starting location of the Mover
      * @param maxSpeed maximum possible speed of the Mover
@@ -54,6 +77,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     /**
+     * Constructs a new UniformLinearMover.
      * @param location starting location of the Mover
      * @param maxSpeed maximum possible speed of the Mover
      */
@@ -67,7 +91,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     /**
-     * Create a Mover that can't move.  (Sometimes necessary for stationary
+     * Creates a Mover that can't move.  (Sometimes necessary for stationary
      * sensors.)
      * @param location Location of Mover
      */
@@ -76,6 +100,8 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     /**
+     * Creates a Mover that can't move.  (Sometimes necessary for stationary
+     * sensors.)
      * @param name Name of the Mover
      * @param location Starting location of the Mover
      */
@@ -84,7 +110,8 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     /**
-     * @return current velocity of the Mover
+     * The current velocity of this Mover
+     * @return current velocity of this Mover
      */
     public Point2D getVelocity() {
         return (Point2D) velocity.clone();
@@ -93,7 +120,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     /**
      * If moving, determine actual location by use of the equation of
      * motion.
-     * @return Current location of the Mover
+     * @return Current location of this Mover
      */
     public Point2D getLocation() {
         if (isMoving()) {
@@ -106,25 +133,22 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
             return (Point2D) lastStopLocation.clone();
         }
     }
-    
+// Javadoc inherited    
     public void stop() {
         stopHere();
         setMovementState(MovementState.STOPPED);
     }
-    
-    /**
-     * @param mover
-     */
+// Javadoc inherited    
     public void doEndMove(Moveable mover) {
         if (mover == this) {
             stopHere();
             setMovementState(MovementState.PAUSED);
         }
     }
-    
-    /**
-     * @return
-     */
+
+/**
+* Always returns (0,0) for a UniformLinearMover.
+**/
     public Point2D getAcceleration() {
         return new Point2D.Double();
     }
@@ -151,7 +175,8 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     /**
-     * @return
+     * Returns a String containing the Name, current location, and current
+     * velocity of this Mover.
      */
     public String toString() {
         Point2D loc = getLocation();
@@ -161,12 +186,17 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     /**
-     * @return
+     * Returns a String containing the Name, original location, and the 
+     * maximum speed of this Mover.
      */
     public String paramString() {
         return this.getName() + " " + originalLocation + " " + maxSpeed;
     }
     
+/**
+* Cancels all pending SimEvents for this Mover and returns it to its
+* original location stopped.
+**/
     public void reset() {
         super.reset();
         setMovementState(MovementState.STOPPED);
@@ -175,10 +205,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         startMoveTime = Schedule.getSimTime();
         destination = null;
     }
-    
-    /**
-     * @return
-     */
+// Javadoc inherited.    
     public boolean isMoving() {
         return Math.abs(velocity.getX()) > 0.0 || Math.abs(velocity.getY()) > 0.0; 
     }
@@ -206,10 +233,9 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         startMoveTime = Schedule.getSimTime();
         waitDelay("StartMove", 0.0, new Object[] { this });
     }
-    
-    /**
-     * Pauses Mover
-     */
+/**
+* Pauses this Mover at its current location.
+**/    
     public void pause() {
         stopHere();
         setMovementState(MovementState.PAUSED);
@@ -252,7 +278,8 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     /**
-     * @param location Location of magic mover
+     * Instantly moves this Mover to the given location.
+     * @param location The new location of magic mover
      * @throws MagicMoveException if Magic Moves are not enabled.
      */
     public void magicMove(Point2D location) throws MagicMoveException {
@@ -265,6 +292,9 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         }
     }
     
+/**
+* Sets the MovementState and fires a property change.
+**/
     protected void setMovementState(MovementState state) {
         MovementState oldState = getMovementState();
         movementState = state;
@@ -289,6 +319,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     /**
+     * The speed that this Mover will never exceed.
      * @return maximum possible speed of Mover
      */
     public double getMaxSpeed() { return maxSpeed; }
