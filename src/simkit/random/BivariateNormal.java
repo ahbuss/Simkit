@@ -40,6 +40,10 @@ public class BivariateNormal implements RandomVector {
     public RandomNumber getRandomNumber() { return rv[0].getRandomNumber(); }
 
     public double[] generate() {
-        return new double[]{};
+        double[] val = new double[rv.length];
+        for (int i = 0; i < val.length; i++) {
+            val[i] = rv[i].generate();
+        }
+        return val;
     }
 } 
