@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE SAX-bindings PUBLIC "-//XML Module//DTD SAX Bindings 1.0//EN" "">
+<SAX-bindings version='1'>
+	<bind element='Cancel' method='Cancel' type='CONTAINER' ></bind>
+	<bind element='Comment' method='Comment' type='DATA' ></bind>
+	<bind element='Schedule' method='Schedule' type='CONTAINER' ></bind>
+	<bind element='State' method='State' type='CONTAINER' ></bind>
+	<bind element='StateTransition' method='StateTransition' type='EMPTY' ></bind>
+	<bind element='Event' method='Event' type='CONTAINER' ></bind>
+	<bind element='SimkitModule' method='SimkitModule' type='CONTAINER' ></bind>
+	<bind element='Parameter' method='Parameter' type='CONTAINER' ></bind>
+</SAX-bindings>

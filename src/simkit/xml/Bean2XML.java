@@ -43,7 +43,9 @@ public class Bean2XML {
                 propertyElement.setAttribute("type", pd[i].getPropertyType().getName());
                 children.add(propertyElement);
             }
-            beanElement.setChildren(children);
+            //beanElement.setChildren(children);
+            beanElement.setContent(children);
+            
         } 
         catch (IntrospectionException e) {System.err.println(e); }
         catch (IllegalAccessException e) {System.err.println(e); }
