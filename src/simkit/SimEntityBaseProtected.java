@@ -23,31 +23,6 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     private static Map allImpossibleEvents;
 
     /**
-    * Determines if the SimEntityBase method of getting events is used.
-    * If true, then only public do methods will be returned. If false then all
-    * do methods will be returned.
-    */
-    private boolean useOldMethod = false;
- 
-    /**
-    * Determines if the SimEntityBase method of getting events is used.
-    * If true, then only public do methods will be returned. If false then all
-    * do methods will be returned.
-    */   
-    public boolean getUseOldMethod() {
-        return useOldMethod;
-    }
- 
-    /**
-    * Determines if the SimEntityBase method of getting events is used.
-    * If true, then only public do methods will be returned. If false then all
-    * do methods will be returned.
-    */    
-    public void setUseOldMethod(boolean useOldMethod) {
-        this.useOldMethod = useOldMethod;
-    }
-    
-    /**
      * True if the entity has a doRun method.
      */
     protected boolean reRunnable = false;
@@ -67,19 +42,20 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
         System.out.println("??? Warning: SimEntityBaseProtected is still a prototype and may not work.");
     }
     
-    private  String stopEventName;
-    private static boolean debug = true;
-    
+    private static boolean debug = false;
  
     /**
-     * Base constructor.
+     * Contruct a new SimEntityBaseProtected with the given name and
+     * default event priority.
+     * @param name The name of the entity.
+     * @param priority The default priority for processing this entity's events.
      **/
     public SimEntityBaseProtected(String name, double priority) {
         super(name, priority);
         
         Map doMethods = (Map) allDoMethods.get(this.getClass());
         if (doMethods == null) {
-            doMethods = getDoMethods(useOldMethod);
+            doMethods = getDoMethods();
             allDoMethods.put(this.getClass(), doMethods);
         } // if
         
@@ -103,49 +79,39 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
         }
     }
     
-    /**
-     * Convenience constructors.
-     **/
+/**
+* Construct a new SimEntityBaseProtected with a default name and priority.
+* The name is the class name plus a unique serial number.
+**/
     public SimEntityBaseProtected() {
         this(DEFAULT_ENTITY_NAME, DEFAULT_PRIORITY);
         setName(getClass().getName() + '.' + getSerial());
     }
     
+/**
+* Construct a new SimEntityBaseProtected with  given name and a default priority.
+* @param name The name of the entity.
+**/
     public SimEntityBaseProtected(String name) {
         this(name, DEFAULT_PRIORITY);
     }
     
+/**
+* Construct a new SimEntityBaseProtected with a default name and 
+* the given priority.
+* The name is the class name plus a unique serial number.
+* @param priority The default priority for processing this entity's events.
+**/
     public SimEntityBaseProtected(double priority) {
         this(DEFAULT_ENTITY_NAME, priority);
         setName(getClass().getName() + '.' + getSerial());
     }
-    /**
-     * Gets the public do methods only. This is the same as the original behavior of 
-     * SimEntityBase.
-     */
-    protected Map getPublicDoMethods() {
-        Map doMethods = new HashMap();      
-        Method[] methods = this.getClass().getMethods();
-        for (int i = 0; i < methods.length; i++) {
-            if (methods[i].getName().startsWith(EVENT_METHOD_PREFIX)) {
-                doMethods.put(getFullMethodName(methods[i]), methods[i]);
-                String methodName = methods[i].getName();
-            } // if
-        }  // for
-        return doMethods;
-    }
-    /**
-     * Gets the do Methods. 
-     * @param publicOnly If true, get only public do methods. If false,
-     * get all do methods.
-     */
-    protected Map getDoMethods(boolean publicOnly) {
-        if (publicOnly) {
-            return getPublicDoMethods();
-        }
-        if (debug) {
-            System.out.println("Enter, SimEntityBaseProtected.getDoMethods with publicOnly false.");
-        }
+ 
+/**
+* Gets all the do Methods for this entity. This includes public, private, and
+* protected events defined anywhere in the inheritence. 
+*/
+    protected Map getDoMethods() {
         Map doMethods = new HashMap();
  
         // I really wanted to handle this with recursion, but couldn't.
@@ -153,15 +119,16 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
         // When getClass() is called on Object we get a null and stop.
         Class clazz = this.getClass();
         while (clazz != null) { 
-            if (debug) System.out.println("Checking class: " + clazz.getName() + " for do methods");
+            if (debug) System.out.println("+++ Checking class: " + clazz.getName() + " for do methods");
             Method[] methods = clazz.getDeclaredMethods(); //Get methods declared in this class.
             for (int i = 0; i < methods.length; i++) {
                 String fullName = getFullMethodNameWrapped(methods[i]); //name + signature.
-                if (debug) System.out.print("Found: " + fullName + "...");
+                if (debug) System.out.print("\tFound: " + fullName + "...");
+
 // If it is a do method and has not been added then add it.
                 if (fullName.startsWith(EVENT_METHOD_PREFIX) && !doMethods.containsKey(fullName)) {
                     doMethods.put(fullName,methods[i]);
-                    if (methods[i].getName().equals("doRun")) {
+                    if (methods[i].getName().equals("doRun")) { 
                         reRunnable = true;
                         if (debug) System.out.print("Found a doRun, setting reRunnable to true ... ");
                     } //endif doRun.
@@ -174,12 +141,19 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
         }//while
         return doMethods;
     }
-    // implements SimEventListener
-    
+
+/**
+* Process the given SimEvent. If the Method signature does not match any for
+* this entity, the event is ignored. Also other entity's doRun events are ignored.
+*/   
     public synchronized void handleSimEvent(SimEvent event) {
         processSimEvent(event);
     }
     
+/**
+* Process the given SimEvent. If the Method signature does not match any for
+* this entity, the event is ignored. Also other entity's doRun events are ignored.
+*/   
     public synchronized void processSimEvent(SimEvent event) {
         if (event == null) { return; }
         Method m = null;
@@ -217,8 +191,15 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
             } // if
             else { //Theoretically this else should no longer be needed since all do methods
                 // are preloaded in the constructor. If this code is somehow executed with
-                // a protected do method, then it will throw a method not found exception.
-                System.out.println("*** Error in SimEntityBaseProtected.processSimEvent, this should be dead code");
+                // a protected do method with a matching signature, then it will throw a method not found exception.
+               // This code will execute in the case of the method whose name matchs, but the 
+               // signature doesn't.
+                System.out.println("******************************************************");
+                System.out.println("??? Warning in SimEntityBaseProtected.processSimEvent" +
+                " Only an attempt to process an event whose name exists, but signature doesn't match" +
+                " should end up here.");
+                System.out.println("*******************************************************");
+                
                 if (isVerbose()) {
                     System.out.println(
                     "Master lookup failed, trying namesAndSignatures..." +
@@ -296,8 +277,16 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
                                 doMethods.put(event.getFullMethodName(), m);
                             }
                             catch (NoSuchMethodException f) {f.printStackTrace(System.err);}
-                        }  //if
-                    }
+                        }  else {//no match
+                            if (isVerbose()) {
+                                System.out.println(" No match found\n");
+                            }
+                        }//if
+                    } else { //param not same length
+                        if (isVerbose()) {
+                            System.out.println("Different number of parameters");
+                        }
+                    }//endif param lengths.
                 }
             }
         }
@@ -440,28 +429,16 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
         new Stop().waitDelay("StopSimEntity", endingTime, this, -Double.MAX_VALUE);
     }
     
-    /**
-     * Interrupt all this SimEntity's events when a certain event count is reached
-     * @param eventName The event to be used.
-     * @param count The number of occurences of the event beyond which no events are
-     *        scheduled.
-     **/
-/*
-   public void stopOnEvent(String eventName, int count) {
-      resetEventCounts();
-      stopEventName = eventName;
-      numberEvents = count;
-   }
- */
     
     public static void setDebug(boolean b) {debug = b;}
     public static boolean isDebug() {return debug;}
     
-    /**
-     *  @param m The method for which to get the full name (unfortunately the jdk does
-     *           not appear to provide this particular String...to my knowledge).
-     *  @return The full method name of m, including signature, as a String.
-     **/
+/**
+* Gets the method name plus signature as a String.
+*  @param m The method for which to get the full name (unfortunately the jdk does
+*           not appear to provide this particular String...to my knowledge).
+*  @return The full method name of m, including signature, as a String.
+**/
     public static String getFullMethodName(Method m) {
         String name = m.toString();
         return m.getName() + getSignatureString(m);
@@ -481,9 +458,9 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     }
     
     /**
-     * Returns a String containing the Method name plus the signature with any
+     * Gets a String containing the Method name plus the signature with any
      * primative parameters wrapped in an Object. (e.g., "int" is replaced by
-     * "java.lang.Integer.
+     * "java.lang.Integer"
      */
     public static String getFullMethodNameWrapped(Method m) {
         Class[] parameters = m.getParameterTypes();
@@ -529,7 +506,13 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
         return buf.toString();
     }
 
-    
+/**
+* Determines if a event signature is equivelent to the given arguments.
+* @param signature An array of the method's Classes.
+* @param args An array containing the method's arguments as Objects.
+* @return True if the corresponding signatures are assignable from
+* the arguments and are therefore equivelent.
+**/    
     public static boolean isAssignableFrom(Class[] signature, Object[] args) {
         boolean assignable = true;
         if (signature.length != args.length) {
