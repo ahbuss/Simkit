@@ -134,6 +134,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         moveTime = distance / cruisingSpeed;
         velocity.setLocation((destination.getX() - lastStopLocation.getX()) / moveTime,
         (destination.getY() - lastStopLocation.getY())/moveTime);
+        startMoveTime = Schedule.getSimTime();
         waitDelay("StartMove", 0.0, new Object[] { this });
     }
     
