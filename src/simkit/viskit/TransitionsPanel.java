@@ -101,11 +101,17 @@ public class TransitionsPanel extends JPanel implements ActionListener
       interpreter.set("simParam1",5);
       interpreter.set("simParam2","yellow");
 
-      interpreter.eval(jta.getText());
+      //interpreter.eval(jta.getText());
+      String s = "";
+      for(int i=0;i<lis.getModel().getSize();i++) {
+        s += lis.getModel().getElementAt(i);
+        s += ";\n";
+      }
+      interpreter.eval(s);
     }
     catch (EvalError evalError) {
-      String s = "Error in line "+evalError.getErrorLineNumber()+":  ";
-      s += evalError.getErrorText() + "\n";
+      String s = ""; //"Error in line "+evalError.getErrorLineNumber()+":  ";
+      //s += evalError.getErrorText() + "\n";
       s += evalError.getMessage();
       JOptionPane.showMessageDialog(TransitionsPanel.this,s,"Java Error",JOptionPane.ERROR_MESSAGE);
       return;
