@@ -13,7 +13,7 @@ import simkit.smd.*;
  * @author  Arnold Buss
  * @version 
  */
-public interface Target extends Moveable, SimEntity {
+public interface Target extends Mover {
     
     public void kill();
     
