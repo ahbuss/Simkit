@@ -22,20 +22,25 @@ public class TestRandomVariateFactory {
     */
     public static void main (String args[]) {
         
+        RandomVariateFactory.setVerbose(true);
+        
         Class[] classes = new Class[] {
             simkit.random.ExponentialVariate.class,
             simkit.random.NormalVariate.class,
-            simkit.random.GammaVariate.class
+            simkit.random.GammaVariate.class,
+            simkit.random.BetaVariate.class
         };
         
         String[] name = new String[] {
                 "simkit.random.ExponentialVariate",
                 "simkit.random.NormalVariate",
-                "GammaVariate"
+                "GammaVariate",
+                "Beta"
         };
         
         Object[][] param = new Object[][] {
             new Object[] { new Double(1.0) },
+            new Object[] { new Double(1.0), new Double(2.0) },
             new Object[] { new Double(1.0), new Double(2.0) },
             new Object[] { new Double(1.0), new Double(2.0) }
         };
@@ -66,9 +71,16 @@ public class TestRandomVariateFactory {
         
         RandomVariateFactory.addSearchPackage("simkit.test");
         RandomVariate seq = RandomVariateFactory.getInstance("SequenceVariate", new Object[] {});
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             System.out.println(seq.generate());
         }
+        
+        seq = RandomVariateFactory.getInstance("Sequence", new Object[] {});
+        for (int i = 0; i < 5; i++) {
+            System.out.println(seq.generate());
+        }
+        
+        System.out.println(RandomVariateFactory.getCache());
     }
 
 }
