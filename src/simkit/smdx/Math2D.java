@@ -147,6 +147,9 @@ public class Math2D {
     }
     
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, Shape shape, AffineTransform trans) {
+        if (shape instanceof Ellipse2D) {
+            return findIntersection(start, velocity, (Ellipse2D) shape);
+        }
         ArrayList intersections = new ArrayList();
         Shape[] segment = getSegments(shape, trans);
         for (int i = 0; i < segment.length; i++) {
@@ -346,14 +349,14 @@ public class Math2D {
         return smallestPositive(data, data.length);
     }
     
-    public Point2D[] getCoefficients(Line2D line) {
+    public static Point2D[] getCoefficients(Line2D line) {
         Point2D[] coeff = new Point2D[2];
         coeff[0] = line.getP1();
         coeff[1] = subtract(line.getP2(), line.getP1());
         return coeff;
     }
     
-    public Point2D[] getCoefficients(QuadCurve2D quadCurve) {
+    public static Point2D[] getCoefficients(QuadCurve2D quadCurve) {
         Point2D[] coeff = new Point2D[3];
         coeff[0] = quadCurve.getP1();
         coeff[1] = scalarMultiply(2.0, subtract(quadCurve.getCtrlPt(), quadCurve.getP1()));
@@ -361,13 +364,17 @@ public class Math2D {
         return coeff;
     }
     
-    public Point2D[] getCoefficients(CubicCurve2D cubicCurve) {
+    public static Point2D[] getCoefficients(CubicCurve2D cubicCurve) {
         Point2D[] coeff = new Point2D[4];
         coeff[0] = cubicCurve.getP1();
         coeff[1] = scalarMultiply(3.0, add(cubicCurve.getP1(), cubicCurve.getCtrlP1()));
         coeff[2] = scalarMultiply(-3.0, add(cubicCurve.getP1(), add(scalarMultiply(2.0, cubicCurve.getCtrlP1()), cubicCurve.getCtrlP2())));
         coeff[3] = add(add(cubicCurve.getP1(), scalarMultiply(3.0, subtract(cubicCurve.getCtrlP1(), cubicCurve.getCtrlP2()))), cubicCurve.getP2());
         return coeff;
+    }
+    
+    public static Point2D scaleTo(Point2D point, double scale) {
+        return Math2D.scalarMultiply(scale / Math2D.norm(point), point);
     }
     
 }
