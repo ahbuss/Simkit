@@ -22,14 +22,11 @@ import java.util.Vector;
 
 /**
  * This is the MVC controller for the Viskit app.  All user inputs come here, and this
- * code decides what to do about it.  To add new events:
- * 1 add a new public Action BLAH field
- * 2 instantiate it in the constructor, mapping it to a handler (name)
- * 3 write the handler
+ * code decides what to do about it.
  */
 
 public class Controller extends mvcAbstractController implements ViskitController
-    /***************************************************************************/
+/*******************************************************************************/
 {
   public Controller()
   //=================
