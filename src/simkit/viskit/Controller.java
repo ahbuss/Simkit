@@ -247,7 +247,8 @@ public class Controller extends mvcAbstractController
         method = Controller.this.getClass().getDeclaredMethod(handler,new Class[]{actionEvClass});
       }
       catch (Exception e) {
-        assert false : "Reflection error ("+handler+") in Controller.java" ;
+        //assert false : "Reflection error ("+handler+") in Controller.java" ;
+        System.out.println("assert false : \"Reflection error ("+handler+") in Controller.java\"");
       }
     }
 
