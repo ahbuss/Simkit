@@ -21,6 +21,7 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
     private Method inverseIntegratedRate;
     private Object rateInvoker;
     private double lastUnitRatePoisson;
+    private double lastGeneratedTime;
     private Object[] arg;
 
     /** Creates new NSPoissonProcessVariate */
@@ -49,7 +50,9 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
         arg[0] = new Double(lastUnitRatePoisson);
         try {
             Number num = (Number) this.inverseIntegratedRate.invoke(rateInvoker, arg ); 
-            return num.doubleValue();
+            double inter = num.doubleValue() - this.lastGeneratedTime;
+            lastGeneratedTime = num.doubleValue();
+            return inter;
         }
         catch (IllegalAccessException e) { System.err.println(e);}
         catch (InvocationTargetException e) { System.err.println(e.getTargetException());}
@@ -108,6 +111,7 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
         if (time >= 0.0) {
             this.startTime = time;
             this.lastUnitRatePoisson = getStartTime();
+            this.lastGeneratedTime = getStartTime();
     } else {
         throw new IllegalArgumentException("Start time must be non-negative: " + 
             time);
