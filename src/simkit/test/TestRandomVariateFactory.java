@@ -24,16 +24,19 @@ public class TestRandomVariateFactory {
         
         Class[] classes = new Class[] {
             simkit.random.ExponentialVariate.class,
-            simkit.random.NormalVariate.class
+            simkit.random.NormalVariate.class,
+            simkit.random.GammaVariate.class
         };
         
         String[] name = new String[] {
-                "simkit.random.Exponential",
-                "simkit.random.NormalVariate"
+                "simkit.random.ExponentialVariate",
+                "simkit.random.NormalVariate",
+                "GammaVariate"
         };
         
         Object[][] param = new Object[][] {
             new Object[] { new Double(1.0) },
+            new Object[] { new Double(1.0), new Double(2.0) },
             new Object[] { new Double(1.0), new Double(2.0) }
         };
         
@@ -61,6 +64,11 @@ public class TestRandomVariateFactory {
             System.out.println(rand[i].getRandomNumber() == rand2[i].getRandomNumber());
         }
         
+        RandomVariateFactory.addSearchPackage("simkit.test");
+        RandomVariate seq = RandomVariateFactory.getInstance("SequenceVariate", new Object[] {});
+        for (int i = 0; i < 10; i++) {
+            System.out.println(seq.generate());
+        }
     }
 
 }
