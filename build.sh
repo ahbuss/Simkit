@@ -12,12 +12,11 @@ fi
 javac -O -classpath . -verbose -d simsystem graph/*.java simkit/*.java simkit/data/*.java simkit/random/*.java simkit/stat/*.java simkit/smd/*.java simkit/util/*.java simkit/examples/*.java simkit/smdx/*.java
 cp simkit/*.txt simsystem/simkit
 cd simsystem
-jar cvf simsystem.zip graph simkit
+jar cvf simkit.jar graph simkit
 if [ ! -d doc ]; then
 	mkdir doc
 fi
 cd ..
-javadoc -author -private -d simsystem/doc simkit simkit.data simkit.random simkit.smd simkit.stat simkit.util simkit.examples
-java -cp simsystem/simsystem.zip simkit.Version
-
+javadoc -author -private -d simsystem/doc simkit simkit.data simkit.random simkit.smdx simkit.smd imkit.stat simkit.util simkit.examples
+java -cp simsystem/simkit.jar simkit.Version
 
