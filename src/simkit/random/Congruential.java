@@ -51,7 +51,7 @@ public class Congruential implements RandomNumber {
         if ( currentSeed == startingSeed ) {
             System.err.println("WARNING: Random seed repetition detected.");
         }
-        return currentSeed;
+        return Math.abs(currentSeed);
     }
     
 /**
