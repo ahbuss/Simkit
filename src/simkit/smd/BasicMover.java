@@ -214,13 +214,13 @@ public class BasicMover extends SimEntityBase implements Mover {
  *  of a move, perhaps due to its platorm being damaged or destroyed, or
  *  perhaps a momentary interruption in response to information.
 **/
-  public void stop() {
-    this.lastStopLocation = this.getCurrentLocation();
-    this.setSpeed(0.0);
-    this.setVelocity(new Coordinate(0.0, 0.0));
-    interruptAll("EndMove", this);
-    waitDelay("EndMove", 0.0, this);
-  }
+    public void stop() {
+        this.lastStopLocation = this.getCurrentLocation();
+        this.setSpeed(0.0);
+        this.setVelocity(new Coordinate(0.0, 0.0));
+        interruptAll("EndMove", this);
+        waitDelay("EndMove", 0.0, this);
+    }
 /**
  *  Event method signaling the start of a move.
  *  @param mover The mover who started moving: me.
