@@ -79,10 +79,11 @@ public class ArrivalProcess extends SimEntityBase {
     public RandomVariate getInterArrivalTime() {
         return RandomVariateFactory.getInstance(interArrivalTime);
     }
+    public String paramString() { return toString(); }
     /**
      *  @return String suitable for part of report
      **/
-    public String paramString() {
+    public String toString() {
         return "Arrival Process with interarrival times " + interArrivalTime;
     }
     /**

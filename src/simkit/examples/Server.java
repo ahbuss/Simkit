@@ -102,10 +102,14 @@ public class Server extends BasicSimEntity {
      */    
     public void setServiceTime(RandomVariate st) {serviceTime = st;}
 
+    public String paramString() {
+        return toString();
+    }
+    
     /**
      * @return Short description of class
      */    
-    public String paramString() {
+    public String toString() {
         return "Multiple Server Queue with " + totalNumberServers + " servers" +
             "\nService time distribution is " + serviceTime;
     }/**

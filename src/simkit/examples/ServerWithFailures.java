@@ -50,7 +50,11 @@ public class ServerWithFailures extends MultipleServerQueue {
     }
     
     public String paramString() {
-        return super.paramString() + "\nFailure time distribution " + timeToFailure +
+        return toString();
+    }
+    
+    public String toString() {
+        return super.toString() + "\nFailure time distribution " + timeToFailure +
         "\nRepair time distribution " + repairTime;
     }
     

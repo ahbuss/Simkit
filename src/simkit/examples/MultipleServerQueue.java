@@ -105,6 +105,10 @@ public class MultipleServerQueue extends SimEntityBase {
     public int getNumberServed() { return numberServed; }
 
     public String paramString() {
+        return toString();
+    }
+    
+    public String toString() {
         return "Multiple Server Queue\n\nNumber of servers: " + getTotalNumberServers() +
                 "\n\nInterarrival Times are " + getInterArrivalTime() +
                 "\n\nService times are " + getServiceTime();
