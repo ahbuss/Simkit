@@ -132,7 +132,6 @@ public class Server2 extends BasicSimEntity {
         else if (thisEvent.equals("EndService")) {
             doEndService();
         }
-        notifyListeners(event);
     }
     
     /** Callback method when a SimEvent is "heard" via the SimEventListener pattern

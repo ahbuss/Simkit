@@ -46,6 +46,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     private String name;
     private double priority;
     private int serial;
+    private boolean verbose;
     protected PropertyChangeDispatcher property;
     private int warnLevel;
     
@@ -229,6 +230,8 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     public void setPriority(double p) {priority = p;}
     public double getPriority() {return priority;}
     
+    public void setVerbose(boolean b) { verbose = b; }
+    public boolean isVerbose() { return verbose; }    
     
     public static boolean parametersMatch(Object[] fromEvent, Object[] fromInterrupt) {
         boolean match = true;

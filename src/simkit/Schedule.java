@@ -1,13 +1,3 @@
-/////////////////////////// Copyright Notice //////////////////////////
-//                                                                   //
-// This simkit package or sub-package and this file is Copyright (c) //
-// 1997, 1998, 1999 by Kirk A. Stork and Arnold H. Buss.             //
-//                                                                   //
-// Please forward any changes, comments or suggestions to:           //
-//   abuss@nps.navy.mil                                              //
-//                                                                   //
-///////////////////////////////////////////////////////////////////////
-
 /**
  * Simulation scheduling.
  *
@@ -218,7 +208,9 @@ public class Schedule  {
             
             if (currentSimEvent.isPending()) {
                 updateEventCounts(currentSimEvent);
-                ((SimEntity) currentSimEvent.getSource()).handleSimEvent(currentSimEvent);
+                SimEntity entity = (SimEntity) currentSimEvent.getSource();
+                entity.handleSimEvent(currentSimEvent);
+                entity.notifyListeners(currentSimEvent);
                 
                 if (stopOnEvent) { checkStopEvent(); }
                 if (verbose) { dump(""); }

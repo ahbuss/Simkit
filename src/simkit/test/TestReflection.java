@@ -39,6 +39,7 @@ public class TestReflection {
         
         System.out.println(intClass.isAssignableFrom(y.getClass()));
         System.out.println(intClass.isAssignableFrom(Integer.TYPE));
+        System.out.println(Integer.TYPE.isAssignableFrom(intClass));
         System.out.println();
         
         Method[] method = TestReflection.class.getDeclaredMethods();

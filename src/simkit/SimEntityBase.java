@@ -27,13 +27,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
         allImpossibleEvents = new HashMap();
     }
     
-    private boolean verbose;
-    
-    //    private  Map doMethods;
-    //    private  Map namesAndSignatures;
-    
     private  String stopEventName;
-    
     private static boolean debug;
     
     /**
@@ -93,15 +87,10 @@ public abstract class SimEntityBase extends BasicSimEntity {
         setName(getClass().getName() + '.' + getSerial());
     }
     
-    public void setVerbose(boolean v) {verbose = v;}
-    public boolean isVerbose() {return verbose;}
-    
-    
     // implements SimEventListener
     
     public synchronized void handleSimEvent(SimEvent event) {
         processSimEvent(event);
-        notifyListeners(event);
     }
     
     public synchronized void processSimEvent(SimEvent event) {
@@ -119,7 +108,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
             } // if
             return;
         } // if
-        if (verbose) {
+        if (isVerbose()) {
             System.out.println("Event processed by " + this + ": " + event);
         } // if
         
@@ -137,7 +126,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
                 //                updateEventCounts(event);
             } // if
             else {
-                if (verbose) {
+                if (isVerbose()) {
                     System.out.println(
                     "Master lookup failed, trying namesAndSignatures..." +
                     " Method Name = " + event.getFullMethodName());
@@ -196,7 +185,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
                             else {
                                 match = match && signature[i].isAssignableFrom(params[i].getClass());
                             }  // else
-                            if (verbose) {
+                            if (isVerbose()) {
                                 System.out.println(signature[i].getName() + " ?=? " +
                                 params[i].getClass().getName());
                             } // if
@@ -216,8 +205,6 @@ public abstract class SimEntityBase extends BasicSimEntity {
                     }
                 }
             }
-            //        }
-            
         }
         catch (NullPointerException e) {
             System.out.println("Attempted method: " + event.getFullMethodName());

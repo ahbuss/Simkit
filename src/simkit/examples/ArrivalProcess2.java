@@ -55,7 +55,6 @@ public class ArrivalProcess2 extends BasicSimEntity {
         else if(event.getEventName().equals("Arrival")) {
             doArrival();
         }
-        notifyListeners(event);
     }
     
     public String paramString() {
