@@ -30,7 +30,7 @@ public class TestTransformUtilities extends JPanel{
         original = new RectangularShape[] {
             new Rectangle2D.Double(10, 20, 30, 40),
             new Ellipse2D.Double(10, 100, 30, 40),
-            new Arc2D.Double(10, 170, 60, 60, 45, 90, Arc2D.PIE),
+            new Arc2D.Double(10, 170, 30, 30, 45, 90, Arc2D.PIE),
             null
         };
         original[3] = original[2].getBounds2D();
@@ -80,7 +80,7 @@ public class TestTransformUtilities extends JPanel{
         JFrame frame = new JFrame("Test Transform Utilities");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(panel);
-        frame.setSize(400, 300);
+        frame.setSize(400, 500);
         frame.setVisible(true);
     }
     

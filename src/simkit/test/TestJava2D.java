@@ -41,6 +41,8 @@ public class TestJava2D extends JPanel{
             new Point2D.Double(450.0, 700.0),
         };
         
+        System.out.println(Math2D.add(point));
+        
         line = new Line2D[point.length];
         for (int i = 0; i < line.length; i++) {
             int j = (i + 1) % line.length;
@@ -71,6 +73,7 @@ public class TestJava2D extends JPanel{
                 }
             }
         }
+        Ellipse2D ellipse = (Ellipse2D) shape[0];
         circle = (Shape[]) intersections.toArray(new Shape[0]);
     }
     
@@ -116,7 +119,6 @@ public class TestJava2D extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 800);
         frame.setVisible(true);
-        
     }
     
 }
