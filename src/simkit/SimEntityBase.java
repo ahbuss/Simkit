@@ -32,22 +32,11 @@ public abstract class SimEntityBase extends BasicSimEntity {
 **/
     private static Hashtable2 allNamesAndSignatures;
 
-/**
-* Unused.
-**/
-    private static Map allImpossibleEvents;
-    
     static {
         allDoMethods = new Hashtable2();
         allNamesAndSignatures = new Hashtable2();
-        allImpossibleEvents = new HashMap();
     }
     
-/**
-* Unused.
-**/
-    private  String stopEventName;
-
 /**
 * If true, print debug information.
 **/

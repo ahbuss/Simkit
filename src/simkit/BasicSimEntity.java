@@ -75,11 +75,6 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
 **/
     protected PropertyChangeDispatcher property;
 
-/**
-* Currently unused.
-**/
-    private int warnLevel; //appears unused.
-    
    /**
    * Construct a new BasicSimEntity with the given name and a default priority.
    * @param name The name of the BasicSimEntity.
@@ -99,7 +94,6 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         serial = ++nextSerial;
         setName(name);
         setPriority(priority);
-        setWarnLevel(0);
         property = new PropertyChangeDispatcher(this);
         Schedule.addRerun(this);
     }
@@ -123,16 +117,6 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         this(DEFAULT_ENTITY_NAME, DEFAULT_PRIORITY);
         setName(getClass().getName() + '.' + getSerial());
     }
-    
-/**
-* Currently unused.
-**/
-    public void setWarnLevel(int level) { warnLevel = level; }
-    
-/**
-* Currently unused.
-**/
-    public int getWarnLevel() { return warnLevel; }
     
    /**
    * A BasicSimEntity is "ReRunnable" if it has a doRun method.

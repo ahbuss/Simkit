@@ -21,11 +21,6 @@ public class Version {
     private static String SIMKIT_VERSION = "Not Found";
 
 /**
-* Currently unused.
-**/
-    private static Properties SIMKIT_PROPERTIES;
-
-/**
 * Contains the copyright statement. Loaded during static initialization from the file
 * copyright.txt
 **/
