@@ -13,7 +13,7 @@ import java.io.Serializable;
  *
  * @author Arnold Buss
 **/
-public interface RandomNumber extends java.io.Serializable {
+public interface RandomNumber extends java.io.Serializable, Cloneable {
 
 /**
   * @param seed The new random number seed
