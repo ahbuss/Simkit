@@ -28,6 +28,8 @@ public class TestReflection {
         Object[] arg = new Object[] { new Double(1.0), new Integer(3) };
         String name = Misc.getFullMethodName(TestReflection.class, "foo", arg);
         System.out.println(name);
+        name = Misc.getFullMethodName("bar", arg);
+        System.out.println(name);
         
     }
 

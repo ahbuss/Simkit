@@ -40,9 +40,9 @@ public class BernoulliDistribution implements DiscreteDistribution {
         }
     }
     
-    public double pmf(int x) {
+    public double pmf(double x) {
         double value = 0.0;
-        switch (x) {
+        switch ( (int) x) {
             case 0:
                 value = 1.0 - probabilityOfSuccess;
                 break;
@@ -89,5 +89,5 @@ public class BernoulliDistribution implements DiscreteDistribution {
     public double getMaximum() { return 1.0; }
     
     public double getMinimum() { return 0.0; }
-    
+        
 }
