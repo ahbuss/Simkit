@@ -3,29 +3,29 @@ import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 
 public class ServerWithFailures extends MultipleServerQueue {
-
+    
     private RandomVariate timeToFailure;
     private RandomVariate repairTime;
-
+    
     protected int numberFailedMachines;
-
+    
     public ServerWithFailures(RandomVariate iat, RandomVariate st,
-            RandomVariate ft, RandomVariate rt) {
+    RandomVariate ft, RandomVariate rt) {
         super(1, iat, st);
         timeToFailure = RandomVariateFactory.getInstance(ft);
         repairTime = RandomVariateFactory.getInstance(rt);
     }
-
+    
     public void reset() {
         super.reset();
         numberFailedMachines = 0;
     }
-
+    
     public void doRun() {
         super.doRun();
         waitDelay("Failure", timeToFailure.generate());
     }
-
+    
     public void doFailure() {
         firePropertyChange("numberFailedMachines", numberFailedMachines, ++numberFailedMachines);
         int oldNIQ = numberInQueue;
@@ -33,12 +33,12 @@ public class ServerWithFailures extends MultipleServerQueue {
         firePropertyChange("numberInQueue", oldNIQ, numberInQueue);
         int oldNAS = numberAvailableServers;
         firePropertyChange("numberAvailableServers", oldNAS, numberAvailableServers);
-
+        
         interrupt("EndService");
-
+        
         waitDelay("EndRepair", repairTime.generate());
-   }
-
+    }
+    
     public void doEndRepair() {
         firePropertyChange("numberFailedMachines", numberFailedMachines, --numberFailedMachines);
         numberAvailableServers = 1;
@@ -48,12 +48,12 @@ public class ServerWithFailures extends MultipleServerQueue {
             waitDelay("StartService", 0.0);
         }
     }
-
+    
     public String paramString() {
         return super.paramString() + "\nFailure time distribution " + timeToFailure +
-            "\nRepair time distribution " + repairTime;
+        "\nRepair time distribution " + repairTime;
     }
-
+    
     public static String description() {
         return "Server With Failures";
     }
