@@ -35,9 +35,7 @@ public class Mother implements RandomNumber {
         });
     }
     
-    /** @return  The next Uniform(0, 1) random number
-     */
-    public double draw() {
+    public long drawLong() {
         result = 2111111111L * x[0] +
                  1492L * x[1] +
                  1776L * x[2] +
@@ -47,7 +45,13 @@ public class Mother implements RandomNumber {
         x[1] = x[2];
         x[2] = x[3];
         x[3] = result & BITMASK;
-        return x[3] * MULTIPLIER;
+        return x[3];
+    }
+    
+    /** @return  The next Uniform(0, 1) random number
+     */
+    public double draw() {
+        return drawLong() * MULTIPLIER;
     }
     
     /** @return  The current random number seed

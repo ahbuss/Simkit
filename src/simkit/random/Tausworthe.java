@@ -19,14 +19,17 @@ public class Tausworthe implements RandomNumber {
     public Tausworthe() {
     }
     
-    /** @return  The next Uniform(0, 1) random number
-     */
-    public double draw() {
+    public long drawLong() {
         seed ^= seed >> SHIFT_RIGHT;
         seed ^= seed << SHIFT_LEFT;
         seed &= BITMASK;
-        
-        return seed * MULTIPLICATIVE_FACTOR;
+        return seed;
+    }
+    
+    /** @return  The next Uniform(0, 1) random number
+     */
+    public double draw() {
+        return drawLong() * MULTIPLICATIVE_FACTOR;
     }
     
     /** @return  The current random number seed

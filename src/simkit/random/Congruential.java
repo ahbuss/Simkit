@@ -2,8 +2,10 @@ package simkit.random;
 
 public class Congruential implements RandomNumber {
 
-    private static final long MODULUS = 2147483647L;
-    private static final long MULTIPLIER = 630360016L;
+    public static final long MODULUS = 2147483647L;
+    public static final long MULTIPLIER = 630360016L;
+    
+    public static final double MULT = 1.0 / MODULUS;
 
     private long   startingSeed;
     private long   currentSeed;
@@ -40,15 +42,22 @@ public class Congruential implements RandomNumber {
 **/
     public long[] getSeeds() { return new long[] {currentSeed}; }
 
-/**
-  * @return  The next Uniform(0, 1) random number
-**/
-    public double draw() {
+    /**
+     * @return Next long, numerator of next Un(0,1)
+     */    
+    public long drawLong() {
         currentSeed = currentSeed * MULTIPLIER % MODULUS;
         if ( currentSeed == startingSeed ) {
             System.err.println("WARNING: Random seed repetition detected.");
         }
-        return (double) currentSeed / MODULUS;
+        return currentSeed;
+    }
+    
+/**
+  * @return  The next Uniform(0, 1) random number
+**/
+    public double draw() {
+        return (double) drawLong() * MULT;
     }
     
     /**
