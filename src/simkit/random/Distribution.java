@@ -11,7 +11,7 @@ package simkit.random;
  * @author  Arnold Buss
  * @version 
  */
-public interface Distribution extends simkit.Named {
+public interface Distribution extends simkit.Named, Cloneable {
 
     public double getMean();
     
@@ -26,6 +26,10 @@ public interface Distribution extends simkit.Named {
     public void setStandardDeviation(double std);
     
     public double getMedian();
+    
+    public double getMinimum();
+    
+    public double getMaximum();
     
     public void setCannonicalParameters(Object[] params);
     
