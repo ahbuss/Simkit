@@ -56,7 +56,7 @@
         </StateTransition>
         
         <Schedule event="Renege" delay="renegeTime.generate()" >
-            <EdgeParameter type="java.lang.Integer" value="customer" />
+            <EdgeParameter value="customer" />
         </Schedule>
         
         <Schedule event="StartService" delay="0.0" condition="getNumberAvailableServers() > 0" /> 

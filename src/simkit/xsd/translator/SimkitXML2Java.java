@@ -6,7 +6,7 @@
 
 package simkit.xsd.translator;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.PrintWriter;
@@ -28,7 +28,7 @@ public class SimkitXML2Java {
 
     private SimkitModule root;
 
-    FileInputStream fileInputStream;
+    InputStream fileInputStream;
     JAXBContext jaxbCtx;
 
     /* convenience Strings for formatting */
@@ -56,7 +56,7 @@ public class SimkitXML2Java {
     public SimkitXML2Java(String xmlFile) {
 	try {
             jaxbCtx = JAXBContext.newInstance("simkit.xsd.bindings");
-	    fileInputStream = new FileInputStream(xmlFile);
+	    fileInputStream = Class.forName("simkit.xsd.translator.SimkitXML2Java").getClassLoader().getResourceAsStream(xmlFile);
 	} catch ( Exception e ) {
 	    e.printStackTrace();
 	} 
@@ -386,10 +386,10 @@ public class SimkitXML2Java {
 	while ( ei.hasNext() ) {
 	    EdgeParameterType ep = (EdgeParameterType) ei.next();
 	    try {
-	        c = Class.forName(ep.getType()); 
+	        c = Class.forName(((ArgumentType)ep.getValue()).getType()); 
 	    } catch ( ClassNotFoundException cnfe ) {
 		// most likely a primitive type
-		String type = ep.getType();
+		String type = ((ArgumentType)ep.getValue()).getType();
 		String constructor = "new" + sp;
 		if (type.equals("int")) {
 		    constructor+="Integer";
@@ -402,10 +402,10 @@ public class SimkitXML2Java {
 		} else if (type.equals("boolean")) {
 		    constructor+="Boolean";
 		}
-		pw.print(constructor + lp + ep.getValue() + rp);
+		pw.print(constructor + lp + ((ArgumentType)ep.getValue()).getName() + rp);
 	    }
 	    if (c != null) {
-		pw.print(ep.getValue());
+		pw.print(((ArgumentType)ep.getValue()).getName());
 	    }
 	    
 	    if ( edges.size() > 1 && edges.indexOf(ep) < edges.size() - 1 ) {
@@ -437,10 +437,10 @@ public class SimkitXML2Java {
 	while ( ei.hasNext() ) {
 	    EdgeParameterType ep = (EdgeParameterType) ei.next();
 	    try {
-	        cl = Class.forName(ep.getType()); 
+	        cl = Class.forName(((ArgumentType)ep.getValue()).getType()); 
 	    } catch ( ClassNotFoundException cnfe ) {
 		// most likely a primitive type
-		String type = ep.getType();
+		String type = ((ArgumentType)ep.getValue()).getType();
 		String constructor = "new" + sp;
 		if (type.equals("int")) {
 		    constructor+="Integer";
@@ -453,10 +453,10 @@ public class SimkitXML2Java {
 		} else if (type.equals("boolean")) {
 		    constructor+="Boolean";
 		}
-		pw.print(constructor + lp + ep.getValue() + rp);
+		pw.print(constructor + lp + ((ArgumentType)ep.getValue()).getName() + rp);
 	    }
 	    if (cl != null) {
-		pw.print(ep.getValue());
+		pw.print(((ArgumentType)ep.getValue()).getName());
 	    }
 	    
 	    if ( edges.size() > 1 && edges.indexOf(ep) < edges.size() - 1 ) {
