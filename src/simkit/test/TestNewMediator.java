@@ -26,18 +26,26 @@ public class TestNewMediator {
     public static void main(String args[]) {
         MediatorFactory mediatorFactory = SensorTargetMediatorFactory.getInstance();
         mediatorFactory.addMediatorFor(simkit.smdx.CookieCutterSensor.class,
-        simkit.smdx.UniformLinearMover.class, simkit.smdx.CookieCutterMediator.class);
+            simkit.smdx.UniformLinearMover.class, simkit.smdx.CookieCutterMediator.class);
         System.out.println(mediatorFactory.getMediators());
         
-        Mover target = new UniformLinearMover("Fred", new Point2D.Double(0.0, 0.0), 10.0);
-        Sensor sensor = new CookieCutterSensor();
-        
-        Mediator mediator = mediatorFactory.getMediatorFor(sensor.getClass(), target.getClass());
+        Mover[] mover =
+        new Mover[] {
+            new UniformLinearMover("Fred", new Point2D.Double(0.0, 0.0), 10.0),
+            new UniformLinearMover("Barney", new Point2D.Double(100.0, 100.0), 15.0)
+        };
+        Sensor[] sensor = new Sensor[] {
+            new CookieCutterSensor(10.0, mover[0]),
+            new CookieCutterSensor(20.0, mover[1])
+        };
+        Mediator mediator = mediatorFactory.getMediatorFor(sensor[0].getClass(), mover[0].getClass());
         System.out.println(mediator);
         
         SensorTargetReferee referee = new SensorTargetReferee();
-        referee.register(target);
-        referee.register(sensor);
+        for (int i = 0; i < mover.length; i++) {
+            referee.register(mover[i]);
+            referee.register(sensor[i]);
+        }
         System.out.println(referee);
         
         mediatorFactory.clear();
@@ -49,26 +57,33 @@ public class TestNewMediator {
         catch (ClassNotFoundException e) {System.err.println(e);}
         System.out.println(mediatorFactory.getMediators());
         
-        PathMoverManager pmm = new PathMoverManager(target);
-        List wayPoints = new ArrayList();
-        wayPoints.add(new Point2D.Double(20, 30));
-        wayPoints.add(new Point2D.Double(30, 50));
-        wayPoints.add(new Point2D.Double(50, 50));
-        pmm.setWayPoints(wayPoints);
+        PathMoverManager[] pmm = new PathMoverManager[] {
+            new PathMoverManager(mover[0]),
+            new PathMoverManager(mover[1])
+        };
+            
+        List[] wayPoints = new List[2];
+        for (int i = 0; i < wayPoints.length; i++) {
+            wayPoints[i] = new ArrayList();
+        }
+        wayPoints[0].add(new Point2D.Double(20, 30));
+        wayPoints[0].add(new Point2D.Double(30, 50));
+        wayPoints[0].add(new Point2D.Double(50, 50));
         
-        Mover target2 = new UniformLinearMover("Barney", new Point2D.Double(100.0, 100.0), 15.0);
-        wayPoints.clear();
-        wayPoints.add(new Point2D.Double(80.0, 70.0));
-        wayPoints.add(new Point2D.Double(40.0, 70.0));
-        wayPoints.add(new Point2D.Double(40.0, 30.0));
-        wayPoints.add(new Point2D.Double(45.0, 50.0));
-        PathMoverManager pmm2 = new PathMoverManager(target2);
-        pmm2.setWayPoints(wayPoints);
+        wayPoints[1].add(new Point2D.Double(80.0, 70.0));
+        wayPoints[1].add(new Point2D.Double(40.0, 70.0));
+        wayPoints[1].add(new Point2D.Double(40.0, 30.0));
+        wayPoints[1].add(new Point2D.Double(45.0, 50.0));
+        
+        for (int i = 0; i < wayPoints.length; i++) {
+            pmm[i].setWayPoints(wayPoints[i]);
+        }
         
         Schedule.reset();
         Schedule.setSingleStep(true);
-        pmm.start();
-        pmm2.start();
+        for (int i = 0; i < pmm.length; i++) {
+            pmm[i].start();
+        }
         
         Schedule.startSimulation();
     }

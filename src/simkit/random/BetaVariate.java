@@ -25,6 +25,7 @@ public class BetaVariate extends RandomVariateBase {
         else if (params[0] instanceof Number && params[1] instanceof Number) {
             this.setAlpha(((Number) params[0]).doubleValue());
             this.setBeta(((Number) params[1]).doubleValue());
+            this.setGammas(rng);
         }
         else {
             throw new IllegalArgumentException("Parameters both must be of type Number");
@@ -34,8 +35,8 @@ public class BetaVariate extends RandomVariateBase {
     public Object[] getParameters() { return new Object[] { new Double(alpha), new Double(beta) }; }
 
     private void setGammas(RandomNumber rng) {
-        gammaVariate1 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", new Object[] {new Double(alpha)}, rng);
-        gammaVariate2 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", new Object[] {new Double(beta)}, rng);
+        gammaVariate1 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", new Object[] {new Double(alpha), new Double(1.0)}, rng);
+        gammaVariate2 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", new Object[] {new Double(beta), new Double(1.0)}, rng);
     }
 
     public double getAlpha() {return alpha; }
@@ -59,6 +60,11 @@ public class BetaVariate extends RandomVariateBase {
         }
     }
 
+    public void setRandomNumber(RandomNumber rng) {
+        super.setRandomNumber(rng);
+        setGammas(rng);
+    }
+    
     public String toString() { return "Beta (" + getAlpha() + ", " + getBeta() + ")"; }
 
 } 
