@@ -178,7 +178,7 @@ if (isReallyVerbose()) {
       if (event.getScheduledTime() < simTime()) {
          throw new InvalidSchedulingException("Attempt to reverse time!");
       }
-      else {
+      else if (!Double.isNaN(event.getScheduledTime())){
          if (!agenda.add(event)){
              throw new InvalidSchedulingException("Unknown Problem Scheduling event " +
                   event + "," + event.getSource() + ">");
