@@ -95,6 +95,8 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
         variance = Double.NaN;
         minObs = Double.POSITIVE_INFINITY;
         maxObs = Double.NEGATIVE_INFINITY;
+        lastTime = Schedule.getSimTime();
+        
     }
 
     public synchronized Object clone() {
