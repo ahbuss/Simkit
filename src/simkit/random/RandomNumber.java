@@ -42,7 +42,18 @@ public interface RandomNumber extends java.io.Serializable, Cloneable {
 **/
     public double draw();
     
+    /**
+     * @return Deep copy of this instance
+     */    
     public Object clone();
     
+    /**
+     * @return Next integer value as a long
+     */    
     public long drawLong();
+    
+    /**
+     * @return When gives Un(0,1) when multipled by return from drawLong()
+     */    
+    public double getMultiplier();
 }

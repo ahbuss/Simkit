@@ -139,4 +139,8 @@ public class Mother implements RandomNumber {
 //         RandomNumberFactory.getInstance("simkit.random.Mother", 1L);
     }
         
+    public double getMultiplier() {
+        return MULTIPLIER;
+    }
+    
 }

@@ -6,20 +6,15 @@ package simkit.random;
  */
 public abstract class PooledGeneratorBase implements Pooled {
     
-    public static final double MULTIPLICATIVE_FACTOR = 1.0 / (1 << 32);
+    public static final double MULTIPLICATIVE_FACTOR_32BIT = 1.0 / (1 << 32);
+    public static final double MULTIPLICATIVE_FACTOR_31BIT = 1.0 / (1 << 31);
+    public static final long MASK_31BIT = 0x7FFFFFFFL;
 
     protected RandomNumber first;
     protected RandomNumber second;
     
     /** Creates a new instance of PooledGeneratorBase */
     public PooledGeneratorBase() {
-    }
-    
-    /**
-     * @return Next Un(0,1) pseudo-random number.
-     */    
-    public double draw() {
-        return drawLong() * MULTIPLICATIVE_FACTOR;
     }
     
     /**

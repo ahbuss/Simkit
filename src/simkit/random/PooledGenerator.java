@@ -1,5 +1,10 @@
 package simkit.random;
 
+/**
+ * @deprecated Use PooledXORGenerator instead
+ * @see Pooled
+ * @see PooledXORGenerator
+ */
 public class PooledGenerator implements RandomNumber {
     
     public static final int MULTIPLIER = 630360016;
@@ -13,6 +18,9 @@ public class PooledGenerator implements RandomNumber {
     private long[] originalSeeds;
     private long[] seeds;
     
+    /**
+     * @deprecated Use PooledXORGenerator instead
+     */    
     public PooledGenerator() {
         setSeed(42L);
     }
@@ -58,11 +66,11 @@ public class PooledGenerator implements RandomNumber {
      **/
     public long[] getSeeds() { return (long[]) seeds.clone();  }
     
-    /**
-     * The LCG and the Tausworth generators are advanced, logical "or-d", and
+    /** The LCG and the Tausworth generators are advanced, logical "or-d", and
      * the return scaled to [0, 1).
-     * @return  The next long value in the pseudo-random sequence
-     **/
+     * @return The next long value in the pseudo-random sequence
+     * @deprecated Use PooledXORGenerator instead
+     */
     public long drawLong() {
         seeds[0] *= MULTIPLIER;
         seeds[0] %= MASK;
@@ -99,6 +107,10 @@ public class PooledGenerator implements RandomNumber {
     
     public double draw() {
         return drawLong() * MULTIPLICATIVE_FACTOR;
+    }
+    
+    public double getMultiplier() {
+        return MULTIPLICATIVE_FACTOR;
     }
     
 }

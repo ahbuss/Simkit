@@ -39,4 +39,11 @@ public class Antithetic implements RandomNumber {
     }
     
     public String toString() { return delegate.toString() + " [Antithetic]"; }
+    
+    public double getMultiplier() { return delegate.getMultiplier(); }
+    
+    public long drawLong() {
+        return ((long) (1.0 / delegate.getMultiplier())) - delegate.drawLong();
+    }
+    
 }

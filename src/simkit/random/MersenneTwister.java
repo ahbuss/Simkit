@@ -237,4 +237,8 @@ public class MersenneTwister implements RandomNumber {
         }
     }
     
+    public double getMultiplier() {
+        return MODULUS_MULT;
+    }
+    
 }

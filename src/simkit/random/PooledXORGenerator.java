@@ -14,7 +14,20 @@ public class PooledXORGenerator extends PooledGeneratorBase {
      *  instances.
      */
     public long drawLong() {
-        return first.drawLong() ^ second.drawLong();
+        return first.drawLong() ^ second.drawLong() ;
     }
 
+        /**
+     * @return Next Un(0,1) pseudo-random number.
+     */    
+    public double draw() {
+        return (drawLong() & MASK_31BIT) * MULTIPLICATIVE_FACTOR_31BIT;
+    }
+   
+    /** @return When gives Un(0,1) when multipled by return from drawLong()
+     */
+    public double getMultiplier() {
+        return MULTIPLICATIVE_FACTOR_31BIT;
+    }
+    
 }

@@ -2,7 +2,8 @@ package simkit.random;
 
 public class Congruential implements RandomNumber {
 
-    public static final long MODULUS = 2147483647L;
+//    public static final long MODULUS = 2147483647L;
+    public static final long MODULUS = 0x7FFFFFFFL;
     public static final long MULTIPLIER = 630360016L;
     
     public static final double MULT = 1.0 / MODULUS;
@@ -73,6 +74,10 @@ public class Congruential implements RandomNumber {
     
     public String toString() {
         return "Multiplicative Congruential (" + this.getSeed() + ")";
+    }
+    
+    public double getMultiplier() {
+        return MULT;
     }
     
 }
