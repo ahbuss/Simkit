@@ -30,7 +30,7 @@ public class MunitionTargetReferee extends SimEntityBase {
         }
     }
     
-    public void doEndMove(Munition munition) {
+    public void doImpact(Munition munition) {
         Shape impact = munition.getImpact();
         for (Iterator i = targets.iterator(); i.hasNext(); ) {
             Target target = (Target) i.next();
