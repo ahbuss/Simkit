@@ -107,16 +107,39 @@
         </javadoc>
     </target>
     
+<!-- === TARGET: jar.source === -->
+    <target depends="build.init" name="jar.source">
+        <jar excludes="**/*.class" jarfile="${dir.build}\simkit-src.jar">
+            <fileset dir="${dir.src}">
+                <exclude name="build/**/*"/>
+                <exclude name="dist/**/*"/>
+                <exclude name="CVS/**.*"/>
+                <exclude name="**/*.class"/>
+            </fileset>
+            
+        </jar>
+    </target>
+
+    
 <!-- === TARGET: dist === -->
 
-	<target depends="jar, doc" name="dist">
+	<target depends="jar, doc, jar.source" name="dist">
 	    <mkdir dir="${dir.dist}"/>
 	    <mkdir dir="${dir.dist}/doc"/>
+	    <mkdir dir="${dir.dist}/lib"/>
+	    <mkdir dir="${dir.dist}/gnu"/>
 		<copy todir="${dir.dist}">
 			<fileset dir="${dir.build.lib}"/>
 		</copy>
 		<copy todir="${dir.dist}/doc">
 			<fileset dir="${dir.build.doc}"/>
 		</copy>
+		<copy todir="${dir.dist}/lib">
+			<fileset dir="${dir.lib}"/>
+		</copy>
+                <copy todir="${dir.dist}" file="${dir.build}/simkit-src.jar" />
+                <copy todir="${dir.dist}/gnu">
+                    <fileset dir="${dir.src}/gnu" />
+                </copy>
 	</target>
 </project>
