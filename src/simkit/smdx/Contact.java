@@ -23,18 +23,30 @@ public class Contact implements Moveable {
         form = new DecimalFormat("0.000;-0.000");
     }
     
+    /**
+     * @return Acceleration for Mover - passthrough
+     */    
     public Point2D getAcceleration() {
         return mover.getAcceleration();
     }
     
+    /**
+     * @return Location for Mover - passthrough
+     */    
     public Point2D getLocation() {
         return mover.getLocation();
     }
     
+    /**
+     * @return Velocity for Mover - passthrough
+     */    
     public Point2D getVelocity() {
         return mover.getVelocity();
     }
     
+    /**
+     * @return String description of Mover information
+     */    
     public String toString() { 
         Point2D loc = mover.getLocation();        
         return "Contact: [" + form.format(loc.getX()) +
