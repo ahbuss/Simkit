@@ -99,4 +99,9 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
             locationTransform.setToTranslation(loc.getX(), loc.getY());
         }
     }
+    
+    public boolean isInRangeOf(Point2D point) {
+        return footprint.contains(point);
+    }
+    
 }

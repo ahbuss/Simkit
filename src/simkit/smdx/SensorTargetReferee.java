@@ -69,7 +69,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         Object[] param = new Object[2];
         param[1] = target;
 //        Interrupts here
-        for (Iterator i = sensors.keySet(); i.hasNext(); ) {
+        for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
         }
     }
     
@@ -82,6 +82,21 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     
     public void doEndMove(Sensor sensor) {
         System.out.println("Heard EndMove(" + sensor +")");
+    }
+    
+    protected void scheduleEntries(Mover target) {
+        Object[] params = new Object[] { null, target};
+        for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
+            Sensor sensor= (Sensor) i.next();
+            params[1] = sensor;
+            interrupt("EnterRange", params);
+            interrups("ExitRange", params);
+            if (sensor.isInRangeOf(target.getCurrentLocation())) {
+                waitDelay("ManueverInRange", params);
+            }
+            else {
+            }
+        }
     }
     
     public void doEnterRange(Sensor sensor, Mover target) {
@@ -114,7 +129,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         }
     }
     
-    public String toString() {
+    public String paramString() {
         StringBuffer buf = new StringBuffer(this.getClass().getName());
         buf.append("\nSensors:");
         for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {

@@ -6,6 +6,7 @@
 
 package simkit.smdx;
 import java.awt.*;
+import java.awt.geom.*;
 import simkit.*;
 /**
  *
@@ -29,6 +30,8 @@ public interface Sensor extends Moveable, SimEntity, PropertyChangeSource {
     public void doStartMove(Mover mover);
     
     public void doEndMove(Mover mover);
+    
+    public boolean isInRangeOf(Point2D point);
     
 }
 
