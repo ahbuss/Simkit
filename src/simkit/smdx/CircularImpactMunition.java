@@ -42,7 +42,7 @@ public class CircularImpactMunition extends UniformLinearMover implements Muniti
     }
     
     public void doFire(Point2D aimPoint) {
-        this.aimPoint = aimPoint;
+        setAimPoint(aimPoint);
         expended = true;
         firePropertyChange("expended", Boolean.FALSE, Boolean.TRUE);
         moveTo(aimPoint);
@@ -75,6 +75,11 @@ public class CircularImpactMunition extends UniformLinearMover implements Muniti
     
     public void doImpact(Munition munition) {
         firePropertyChange("impact", getImpact());
+    }
+    
+    public void setAimPoint(Point2D aimPoint) {
+        this.aimPoint = aimPoint;
+        firePropertyChange("aimPoint", aimPoint);
     }
     
 }
