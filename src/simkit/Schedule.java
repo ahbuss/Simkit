@@ -362,7 +362,7 @@ public class Schedule  {
         SimEvent event = null;
         for (Iterator i = agenda.iterator(); i.hasNext();) {
             event = (SimEvent) i.next();
-            if (event.getSource() == se) {
+            if (event.getSource() == se && event.isPending()) {
                 event.interrupt();
                 break;
             }
@@ -374,7 +374,8 @@ public class Schedule  {
         SimEvent event = null;
         for (Iterator i = agenda.iterator(); i.hasNext();) {
             event = (SimEvent) i.next();
-            if ((event.getSource() == se) && event.getEventName().equals(eventName)) {
+            if ((event.getSource() == se) && event.getEventName().equals(eventName) &&
+                event.isPending()) {
                 event.interrupt();
                 break;
             }
@@ -387,7 +388,7 @@ public class Schedule  {
         for (Iterator i = agenda.iterator(); i.hasNext();) {
             event = (SimEvent) i.next();
             if ((event.getSource() == se) && event.getEventName().equals(eventName) &&
-            (event.interruptParametersMatch(parameters)) ) {
+            (event.interruptParametersMatch(parameters)) && event.isPending()) {
                 event.interrupt();
                 break;
             }
