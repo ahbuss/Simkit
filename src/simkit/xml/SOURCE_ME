@@ -1,0 +1,6 @@
+export JAXB_HOME=/usr/java/j2sdk_nb/jaxb
+export JAXP_HOME=/usr/java/j2sdk_nb/jaxp
+export JAXB_LIBS=$JAXB_HOME/lib
+export JAXP_LIBS=$JAXP_HOME/lib
+export CLASSPATH=$CLASSPATH:$JAXB_LIBS/jaxb-api.jar:$JAXB_LIBS/jaxb-impl.jar:$JAXB_LIBS/jaxb-xjc.jar:$JAXB_LIBS/jaxb-libs.jar:$JAXP_LIBS/jaxp-api.jar:$JAXP_LIBS/endorsed/xercesImpl.jar:$JAXP_LIBS/endorsed/sax.jar:$JAXP_LIBS/endorsed/dom.jar:.
+#$JAXP_LIBS/endorsed/dom.jar:$JAXP_LIBS/jax-qname.jar:.
