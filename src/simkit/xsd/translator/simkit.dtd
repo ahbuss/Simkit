@@ -1,0 +1,79 @@
+<!ELEMENT SimkitModule ( Comment*, Parameter*, StateVariable*, Event+ ) >
+<!ATTLIST SimkitModule
+        name            CDATA   #REQUIRED
+	version		CDATA	#REQUIRED
+>
+
+<!ELEMENT Comment ( #PCDATA ) >
+
+<!ELEMENT StateVariable  ( Comment )* >
+<!ATTLIST StateVariable
+	type        CDATA	#REQUIRED
+	name        ID  	#REQUIRED
+        shortName   CDATA       #IMPLIED
+>
+
+<!ELEMENT Argument ( Comment )* >
+<!ATTLIST Argument
+	type	    CDATA	#REQUIRED
+        name        CDATA       #REQUIRED
+>
+
+<!ELEMENT Parameter ( Comment )* >
+<!ATTLIST Parameter
+	type        CDATA	#REQUIRED
+	name        ID  	#REQUIRED
+        shortName   CDATA       #REQUIRED
+>
+
+<!ELEMENT LocalVariable ( Comment )* >
+<!ATTLIST LocalVariable
+        type        CDATA       #REQUIRED
+        name        CDATA       #REQUIRED
+        value       CDATA       #REQUIRED
+>
+
+<!ELEMENT Event	( Comment*, Argument*, LocalVariable*, StateTransition*, (Schedule|Cancel)*, Coordinate? ) > 
+<!ATTLIST Event
+	name		ID	#REQUIRED
+>
+
+<!ELEMENT Coordinate EMPTY >
+<!ATTLIST Coordinate 
+	x	CDATA	#REQUIRED
+	y	CDATA	#REQUIRED
+>
+
+<!ELEMENT Operation EMPTY >
+<!ATTLIST Operation
+        method  CDATA   #REQUIRED   
+>
+
+<!ELEMENT Assignment EMPTY >
+<!ATTLIST Assignment
+        value   CDATA   #REQUIRED
+>
+
+<!ELEMENT StateTransition ( Assignment|Operation ) >
+<!ATTLIST StateTransition
+        state           IDREF   #REQUIRED
+>
+  
+<!ELEMENT EdgeParameter EMPTY >
+<!ATTLIST EdgeParameter
+        value   CDATA	#REQUIRED
+>
+
+<!ELEMENT Schedule ( EdgeParameter )* >
+<!ATTLIST Schedule
+	delay	CDATA	"0.0"
+	event	IDREF	#REQUIRED
+	condition CDATA	#IMPLIED 
+        priority  CDATA  "0.0"	
+>
+
+<!ELEMENT Cancel ( EdgeParameter )* >
+<!ATTLIST Cancel
+	event	IDREF	#REQUIRED
+	condition CDATA	#IMPLIED 	
+>
