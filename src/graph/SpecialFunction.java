@@ -1247,7 +1247,7 @@ Direct inquiries to 30 Frost Street, Cambridge, MA 02140
          k4 = a + 1.0;
          k5 = 1.0;
          k6 = a + b;
-         k7 = a + 1.0;;
+         k7 = a + 1.0;
          k8 = a + 2.0;
 
          pkm2 = 0.0;

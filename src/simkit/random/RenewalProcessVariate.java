@@ -40,7 +40,7 @@ public class RenewalProcessVariate implements RandomVariate {
      * @return the array of parameters as an Object[].
      */
     public Object[] getParameters() {
-        return new Object[] { interarrivalTime };;
+        return new Object[] { interarrivalTime };
     }
     
     /**

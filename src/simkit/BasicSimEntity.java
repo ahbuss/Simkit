@@ -1,14 +1,4 @@
 package simkit;
-/////////////////////////// Copyright Notice //////////////////////////
-//                                                                   //
-// This simkit package or sub-package and this file is Copyright (c) //
-// 1997, 1998, 1999 by Kirk A. Stork and Arnold H. Buss.             //
-//                                                                   //
-// Please forward any changes, comments or suggestions to:           //
-//   abuss@nps.navy.mil                                              //
-//                                                                   //
-///////////////////////////////////////////////////////////////////////
-
 /**
  *  An abstract basic implementation of <CODE>SimEntity</CODE> that does not use
  *  reflection but rather
@@ -43,16 +33,26 @@ package simkit;
 
 import java.util.*;
 import java.lang.reflect.*;
+import java.beans.*;
 
 public abstract class BasicSimEntity extends BasicSimEventSource implements SimEntity {
 
-    private static final String DEFAULT_NAME = "BasicSimEntity";
+    public static final String DEFAULT_NAME = "BasicSimEntity";
+    private static int nextSerial;
+    static {
+        nextSerial = 0;
+    }
+    
     private String name;
     private double priority;
+    private int serial;
+    protected PropertyChangeSupport property;
 
     public BasicSimEntity(String name) {
         super();
+        serial = ++nextSerial;
         this.setName(name);
+        property = new PropertyChangeSupport(this);
         Schedule.addRerun(this);
     }
 
@@ -143,15 +143,18 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         return match;
     }
 
-    public synchronized void handleSimEvent(SimEvent event) {
-        processSimEvent(event);
-        notifyListeners(event);        
-        SimEventFactory.returnSimEventToPool(event);
-    }
+    public abstract void handleSimEvent(SimEvent event) ;
 
-/**
- *  Abstract -- must be overridden to use.
-**/
     public abstract void processSimEvent(SimEvent event);
 
+    public int getSerial() { return serial; }
+    
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        property.addPropertyChangeListener(listener);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        property.removePropertyChangeListener(listener);
+    }
+    
 }

@@ -17,7 +17,7 @@ public class Simtrospector {
     private static String prefix;
 
     static {
-        setPrefix("do");;
+        setPrefix("do");
     }
 
     public static Hashtable getEventMethods(Class c) {
