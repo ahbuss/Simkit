@@ -164,9 +164,24 @@ public class SimkitXML2Java {
     void buildStateVariableAccessor(StateVariable s, StringWriter sw) {
 
         PrintWriter pw = new PrintWriter(sw);
+	String clStr = "";
+	Class aClass = null;
+
+	// check for cloneable 
+
+	try {
+	    aClass = Thread.currentThread().getContextClassLoader().loadClass(s.getType());
+	} catch ( ClassNotFoundException cnfe ) {
+	}
+	
+	if (aClass != null) {
+	    if ( java.lang.Cloneable.class.isAssignableFrom(aClass) ) {
+	        clStr = ".clone()";
+	    } 
+	}
 
         pw.print(sp4 + "public " + s.getType() + sp + "get" + capitalize(s.getName()) );
-        pw.println(lp + rp + sp + ob + sp + "return" + sp + s.getName() + sc + sp + cb);
+        pw.println(lp + rp + sp + ob + sp + "return" + sp + s.getName() + clStr + sc + sp + cb);
         pw.println();
     }
 
