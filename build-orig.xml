@@ -148,8 +148,10 @@
         	</fileset>
         </copy>
     </target>
-
-	<target name="compile"
+    
+   <!-- compile  -->
+  
+    <target name="compile"
                depends="compile.noextensions, dep.NPSActions, compile.simxml.util">
         <javac destdir="${dir.build.classes}"
                excludes="xsd/**">
@@ -317,12 +319,21 @@
         	</classpath>
                 <src path="${dir.src.simtran}"/>
             </javac>
+            <copy todir="${dir.build.classes}/simkit/xsd/bindings" >
+                <fileset dir="${dir.src}/simkit/xsd/bindings" includes="jaxb.properties" />
+                <fileset dir="${dir.src}/simkit/xsd/bindings" includes="bgm.ser" />
+            </copy>
             <javac destdir="${dir.build.classes}" >
         	<classpath>
         		<fileset dir="${dir.lib.xml}" includes="*.jar" />
         	</classpath>
         	<src path="${dir.src.simasm}"/>
-            </javac>
+            </javac>    
+            <copy todir="${dir.build.classes}/simkit/xsd/bindings/assembly" >
+                <fileset dir="${dir.src}/simkit/xsd/bindings/assembly" includes="jaxb.properties" />
+                <fileset dir="${dir.src}/simkit/xsd/bindings/assembly" includes="bgm.ser" />
+            </copy>
+            
         </target>
         
         <target name="compile.simxml.util"
@@ -339,7 +350,7 @@
                     <fileset dir="${dir.build.classes}" />
                 </classpath>
                 <src path="${dir.src.simasm.util}" />
-                <!-- remove include and exclude, bug in output from simasm tbd -->
+                <!-- tbd remove include and exclude, bug in output from simasm tbd -->
                 <include name="SimkitAssemblyXML2Java.java"/>
                 <exclude name="Server*.java"/>
             </javac>
