@@ -22,7 +22,10 @@ public class Resetter extends SimEntityBase {
     private int state;
     private double resetTime;
     
-    /** Creates new Resetter */
+    /**
+     * Creates new Resetter
+     * @param resetTime
+     */
     public Resetter(double resetTime) {
         this.resetTime = resetTime;
     }
