@@ -1,7 +1,6 @@
 package simkit.test;
 
 import simkit.Schedule;
-import simkit.data.SimpleStats;
 import simkit.examples.ArrivalProcess;
 import simkit.stat.SampleStatistics;
 import simkit.stat.MultipleSimpleStatsTimeVarying;

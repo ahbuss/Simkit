@@ -1,7 +1,6 @@
 package simkit.test;
 
 import simkit.Schedule;
-import simkit.data.SimpleStats;
 import simkit.examples.ArrivalProcess;
 import simkit.stat.SimpleStatsTally;
 import simkit.random.RandomVariateFactory;
@@ -10,18 +9,18 @@ public class TestSimpleStatsTally {
 
     public static void main(String[] args) {
         SimpleStatsTally sst = new SimpleStatsTally();
-        SimpleStats ss = new SimpleStats();
+//        SimpleStats ss = new SimpleStats();
         for (int i = 1; i < 100001; i++) {
             sst.newObservation(i);
-            ss.newObservation(i);
+//            ss.newObservation(i);
         }
         System.out.println(sst);
-        System.out.println(ss);
+//        System.out.println(ss);
 
-        ss.setName("numberArrivals");
+//        ss.setName("numberArrivals");
         sst.setName("numberArrivals");
         sst.reset();
-        ss.reset();
+//        ss.reset();
 
         ArrivalProcess ap =
             new ArrivalProcess(
@@ -31,7 +30,7 @@ public class TestSimpleStatsTally {
                     12345L
                 )
             );
-        ap.addPropertyChangeListener(ss);
+//        ap.addPropertyChangeListener(ss);
         ap.addPropertyChangeListener(sst);
 
         Schedule.stopAtTime(20.0);
@@ -39,7 +38,7 @@ public class TestSimpleStatsTally {
         Schedule.startSimulation();
 
         System.out.println(sst);
-        System.out.println(ss);
+//        System.out.println(ss);
         System.out.println(sst.clone());
     }
 } 
