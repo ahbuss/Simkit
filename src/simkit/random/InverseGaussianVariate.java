@@ -1,32 +1,21 @@
-/*
- * InverseGaussianVariate.java
- *
- * Created on August 30, 2001, 5:58 PM
- */
-
 package simkit.random;
 
 /**
- *
  * @author  Arnold Buss
- * @version 
  */
-public class InverseGaussianVariate extends simkit.random.RandomVariateBase {
+public class InverseGaussianVariate extends RandomVariateBase {
 
     private double lambda;
     private double mu;
     private NormalVariate normal;
     
-    /** Creates new InverseGaussianVariate */
     public InverseGaussianVariate() {
         normal = new NormalVariate();
         normal.setRandomNumber(super.rng);
     }
 
-    /**
-     *
-     * Generate a random variate having this class's distribution.
-     *
+/**
+ * Generate a random variate having an Inverse Gaussian distribution
  */
     public double generate() {
         double n = normal.generate();
@@ -42,25 +31,16 @@ public class InverseGaussianVariate extends simkit.random.RandomVariateBase {
         }
     }
     
-    /**
-     *
-     * Returns the array of parameters as an Object[].
-     *
+/**
+ * @return the array of parameters as an Object[].
  */
     public Object[] getParameters() {
         return new Object[] { new Double(mu), new Double(lambda) };
     }
     
-    /**
-     *
-     * Sets the random variate's parameters.
-     *
-     * Alternatively, the parameters could be set in the constructor or
-     *
-     * in additional methods provided by the programmer.
-     *
-     * @param params the array of parameters, wrapped in objects.
-     *
+/**
+ * Sets the random variate's parameters.
+ * @param params the array of parameters, wrapped in objects.
  */
     public void setParameters(Object[] params) {
         if (params.length != 2) {
@@ -68,14 +48,35 @@ public class InverseGaussianVariate extends simkit.random.RandomVariateBase {
                 params.length + " given");
         }
         if (params[0] instanceof Number && params[1] instanceof Number) {
-            mu = ((Number) params[0]).doubleValue();
-            lambda = ((Number) params[1]).doubleValue();
+            setMu(((Number) params[0]).doubleValue());
+            setLambda(((Number) params[1]).doubleValue());
         }
         else {
             throw new IllegalArgumentException(
                 "Need two Number objects; (" + params[0].getClass().getName() +
                 ", " + params[1].getClass().getName() + ") given");
         }
+    }
+    
+    public void setMu(double m) {
+        mu = m;
+    }
+    
+    public double getMu() { return mu; }
+    
+    public void setLambda(double l) {
+        if (l > 0.0) { 
+            lambda = l;
+        }
+        else {
+            throw new IllegalArgumentException("Lambda must be > 0.0: " + l);
+        }
+    }
+    
+    public double getLambda() { return lambda; }
+    
+    public String toString() {
+        return "Inverse Gaussian (" + getMu() + ", " + getLambda() + ")";
     }
     
 }
