@@ -5,7 +5,8 @@
  */
 
 package simkit.smdx;
-import simkit.SimEventListener;import simkit.SimEventListener;
+import simkit.SimEventListener;
+import simkit.SimEventSource;
 import simkit.smd.Mover;
 import simkit.smd.Sensor;
 import java.beans.*;
