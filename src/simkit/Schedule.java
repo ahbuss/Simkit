@@ -345,8 +345,23 @@ public class Schedule  {
     /**
      * @return Whether default EventList is in this mode
      */    
-    public boolean getPauseAfterEachEvent() {
+    public static boolean getPauseAfterEachEvent() {
         return defaultEventList.isPauseAfterEachEvent();
+    }
+    
+    /** defaultEventList is now completely pristine. */    
+    public void coldReset() {
+        Integer id = new Integer(defaultEventList.getID());
+        Class clazz = defaultEventList.getClass();
+        try {
+            Constructor construct = clazz.getConstructor(new Class[] { int.class });
+            defaultEventList = (EventList) construct.newInstance(new Object[] { id });
+            allEventLists.put(id, defaultEventList);
+        }
+        catch (NoSuchMethodException e) { e.printStackTrace(System.err); }
+        catch (InstantiationException e) { e.printStackTrace(System.err); }
+        catch (IllegalAccessException e) { e.printStackTrace(System.err); }
+        catch (InvocationTargetException e) { e.getTargetException().printStackTrace(System.err); }
     }
 
 } // class Schedule
