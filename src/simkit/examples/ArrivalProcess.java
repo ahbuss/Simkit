@@ -50,6 +50,7 @@ public class ArrivalProcess extends SimEntityBase {
      **/
     public void doRun() {
         waitDelay("Arrival", interArrivalTime.generate());
+        waitDelay("StopArrivals", 20.0);
     }
     /**
      *  Arrival event.  Increments number of arrivals and schedules next arrival. (Event Mathod)
@@ -58,6 +59,11 @@ public class ArrivalProcess extends SimEntityBase {
         firePropertyChange("numberArrivals", numberArrivals, ++numberArrivals);
         waitDelay("Arrival", interArrivalTime.generate());
     }
+    
+    public void doStopArrivals() {
+        interrupt("Arrival");
+    }
+    
     /**
      *  @return number of arrivals (state variable)
      **/
@@ -161,7 +167,7 @@ At time 100.0 there have been 2 arrivals
         simkit.Schedule.setSingleStep(singleStep);
         
 //        simkit.Schedule.stopAtTime(stopTime);
-        simkit.Schedule.stopOnEvent("Arrival", 10);
+//        simkit.Schedule.stopOnEvent("Arrival", 10);
         for (int i = 0; i < 2; i++) {
             
             if (i > 0) {

@@ -13,10 +13,17 @@ public class PathMoverManager extends SimEntityBase {
     private Mover mover;
     private Iterator nextWayPoint;
     
-    public PathMoverManager(Mover m, List path) {
+    public PathMoverManager(Mover m, Point2D[] path) {
         this.mover = m;
         mover.addSimEventListener(this);
-        this.setWayPoints(path);
+        wayPoints = new ArrayList();
+        for (int i = 0; i < path.length; i++) {
+            addWayPoint(path[i]);
+        }
+    }
+    
+    public PathMoverManager(Mover m, List path) {
+        this(m, (Point2D[]) path.toArray(new Point2D[path.size()]));
     }
     
     public PathMoverManager(Mover m) {
@@ -26,7 +33,8 @@ public class PathMoverManager extends SimEntityBase {
     public void start() {
         nextWayPoint = wayPoints.iterator();
         if (nextWayPoint.hasNext()) {
-            mover.moveTo(  (Point2D) nextWayPoint.next());
+            WayPoint nextWP = (WayPoint) nextWayPoint.next();
+            mover.moveTo(nextWP.getWayPoint(), nextWP.getSpeed());
         }
     }
     
@@ -36,7 +44,11 @@ public class PathMoverManager extends SimEntityBase {
     
     public void doEndMove(Mover m) {
         if ((mover == m) && nextWayPoint.hasNext()) {
-            mover.moveTo((Point2D) nextWayPoint.next());
+            WayPoint nextWP = (WayPoint) nextWayPoint.next();
+            mover.moveTo(nextWP.getWayPoint(), nextWP.getSpeed());
+        }
+        else {
+            stop();
         }
     }
     
@@ -45,7 +57,7 @@ public class PathMoverManager extends SimEntityBase {
     public void setWayPoints(List path) {
         if (path == null) {
             throw new IllegalArgumentException("PathMoverManager needs a non-null path.");
-       }
+        }
         if (isMoving()) { stop(); }
         this.wayPoints = new Vector(path.size());
         // Check that every element is a Coordinate.
@@ -53,6 +65,9 @@ public class PathMoverManager extends SimEntityBase {
             Object nextPoint = e.next() ;
             if (nextPoint instanceof Point2D) {
                 addWayPoint((Point2D) nextPoint);
+            }
+            else if (nextPoint instanceof WayPoint) {
+                addWayPoint( (WayPoint) nextPoint);
             }
         }
     }
@@ -62,8 +77,16 @@ public class PathMoverManager extends SimEntityBase {
         wayPoints.clear();
     }
     
+    public void addWayPoint(WayPoint wayPoint) {
+        wayPoints.add(wayPoint);
+    }
+    
+    public void addWayPoint(Point2D point, double speed) {
+        addWayPoint(new WayPoint((Point2D) point.clone(), speed));
+    }
+    
     public void addWayPoint(Point2D point) {
-        wayPoints.add((Point2D) point.clone());
+        addWayPoint(point, mover.getMaxSpeed());
     }
     
     public void removeWayPoint(Point2D point) {
@@ -80,5 +103,5 @@ public class PathMoverManager extends SimEntityBase {
         return new ArrayList(wayPoints);
     }
     
-    public Mover getMover() {return mover;}    
+    public Mover getMover() {return mover;}
 }

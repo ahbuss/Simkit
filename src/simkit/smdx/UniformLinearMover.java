@@ -58,17 +58,27 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
    
     public void stop() {
-        setMovementState(MovementState.STOPPED);
         interrupt("EndMove", new Object[] { this });
-        waitDelay("EndMove", 0.0, new Object[] { this });
+        if (getMovementState() != MovementState.PAUSED) {
+            setMovementState(MovementState.PAUSED);
+            waitDelay("EndMove", 0.0, new Object[] { this });      
+        }
+        else {
+            setMovementState(MovementState.STOPPED);
+        }
     }
     
     public void doEndMove(Moveable mover) {
-        setMovementState(MovementState.PAUSED);
         lastStopLocation = getLocation();
         velocity.setLocation(ORIGIN);
         startMoveTime = Schedule.getSimTime();
         firePropertyChange("stop", getLocation());
+        if (getMovementState() == MovementState.PAUSED) {
+            setMovementState(MovementState.STOPPED);
+        }
+        else {
+            setMovementState(MovementState.PAUSED);
+        }
     }
     
     public Point2D getAcceleration() {
@@ -89,7 +99,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     public String toString() {
         Point2D loc = getLocation();
         return this.getName() + " (" + df.format(loc.getX()) + "," +
-            df.format(loc.getX()) +") [" + df.format(this.getVelocity().getX()) +
+            df.format(loc.getY()) +") [" + df.format(this.getVelocity().getX()) +
             "," + df.format(this.getVelocity().getY()) + "]";
     }
     
@@ -173,5 +183,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     
     public void accelerate(Point2D acceleration, double speed) {
     }
+    
+    public double getMaxSpeed() { return maxSpeed; }
     
 }

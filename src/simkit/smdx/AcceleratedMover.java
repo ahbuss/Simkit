@@ -132,4 +132,6 @@ public class AcceleratedMover extends SimEntityBase implements Mover {
     public void accelerate(Point2D acceleration, double speed) {
     }
     
+    public double getMaxSpeed() { return maxSpeed;  }
+    
 }

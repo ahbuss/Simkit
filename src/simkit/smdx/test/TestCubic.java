@@ -5,6 +5,7 @@
  */
 
 package simkit.smdx.test;
+import simkit.smdx.*;
 import java.awt.geom.*;
 import java.util.*;
 
@@ -33,10 +34,24 @@ public class TestCubic {
         
         int num = CubicCurve2D.solveCubic(coeff, sol);
         
-        Arrays.sort(sol);
-        System.out.println(num + " solutions:");
+        System.out.print(num + " solution" + (num == 1 ? ": " : "s: "));
         System.out.println(simkit.smdx.Math2D.arrayToString(sol));
+        System.out.println("Smallest positive: " + Math2D.smallestPositive(sol, num));
         
-    }
+        coeff = new double[]{1.0, 3.0, 3.0, 1.0};
+        sol = new double[3];
+        num = CubicCurve2D.solveCubic(coeff, sol);
+        
+        System.out.print(num + " solution" + (num == 1 ? ": " : "s: "));
+        System.out.println(simkit.smdx.Math2D.arrayToString(sol));
+        System.out.println("Smallest positive: " + Math2D.smallestPositive(sol, num));
 
+        coeff = new double[]{2.0, -1.0, -2.0, 1.0};
+        sol = new double[3];
+        num = CubicCurve2D.solveCubic(coeff, sol);
+        
+        System.out.print(num + " solution" + (num == 1 ? ": " : "s: "));
+        System.out.println(simkit.smdx.Math2D.arrayToString(sol));
+        System.out.println("Smallest positive: " + Math2D.smallestPositive(sol, num));
+    }
 }

@@ -41,5 +41,7 @@ public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
     public boolean isMoving();
     
     public MovementState getMovementState();
+    
+    public double getMaxSpeed();
 }
 

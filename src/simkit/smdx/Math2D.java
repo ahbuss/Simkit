@@ -18,6 +18,8 @@ public class Math2D {
     
     public static final Point2D ZERO = new Point2D.Double(0.0, 0.0);
     
+    public static final AffineTransform IDENTITY_TRANSFORM = new AffineTransform();
+    
     public static Point2D add(Point2D first, Point2D second) {
         return new Point2D.Double(
         first.getX() + second.getX(), first.getY() + second.getY()  );
@@ -38,6 +40,14 @@ public class Math2D {
                 }
                 return sum;
         }
+    }
+    
+    public static double[] innerProduct(Point2D[] points, Point2D by) {
+        double[] ip = new double[points.length];
+        for (int i = 0; i < points.length; i++) {
+            ip[i] = innerProduct(points[i], by);
+        }
+        return ip;
     }
     
     public static Point2D subtract(Point2D first, Point2D second) {
@@ -63,17 +73,26 @@ public class Math2D {
     
     public static double normSquared(Point2D point) { return point.distanceSq(ZERO); }
     
-    public static Point2D findIntersection(Point2D start, Point2D velocity, Line2D line) {
+    public static Point2D[] findIntersection(Point2D start, Point2D velocity, Line2D line) {
         AffineTransform trans = getTransform(velocity, subtract(line.getP1(), line.getP2()));
         if (trans.getDeterminant() != 0.0) {
             try {
                 Point2D result = trans.inverseTransform(subtract(line.getP1(), start), null);
                 if (result.getX() >= 0.0 && result.getY() >= 0.0 && result.getY() <= 1.0) {
-                    return add( start, scalarMultiply(result.getX(), velocity));
+                    return new Point2D[] { add( start, scalarMultiply(result.getX(), velocity)) };
                 }
             } catch (NoninvertibleTransformException e) {}
         }
-        return null;
+        return new Point2D[0];
+    }
+    
+    public static double[] findIntersectionTime(Point2D start, Point2D velocity, Shape shape) {
+        Point2D[] intersect = findIntersection(start, velocity, shape, IDENTITY_TRANSFORM);
+        double[] times = new double[intersect.length];
+        for (int i = 0; i < times.length; i++) {
+            times[i] = innerProduct(subtract(intersect[i], start), velocity) / normSq(velocity);
+        }
+        return times;
     }
     
     public static AffineTransform getTransform(Point2D p1, Point2D p2) {
@@ -123,14 +142,18 @@ public class Math2D {
         }
     }
     
+    public static Point2D[] findIntersection(Point2D start, Point2D velocity, Shape shape) {
+        return findIntersection(start, velocity, shape, IDENTITY_TRANSFORM);
+    }
+    
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, Shape shape, AffineTransform trans) {
         ArrayList intersections = new ArrayList();
         Shape[] segment = getSegments(shape, trans);
         for (int i = 0; i < segment.length; i++) {
             if (segment[i] instanceof Line2D) {
-                Point2D intersect = findIntersection(start, velocity, (Line2D) segment[i]);
-                if (intersect != null) {
-                    intersections.add(intersect);
+                Point2D[] intersect = findIntersection(start, velocity, (Line2D) segment[i]);
+                if (intersect != null && intersect.length == 1) {
+                    intersections.add(intersect[0]);
                 }
             }
             else if (segment[i] instanceof QuadCurve2D) {
@@ -305,6 +328,45 @@ public class Math2D {
         }
         buf.append('}');
         return buf.toString();
+    }
+    
+    public static double smallestPositive(double[] data, int num) {
+        double smallest = Double.POSITIVE_INFINITY;
+        if (num > data.length || num < 0) { return smallest; }
+        for (int i = 0; i < num; i++) {
+            if (data[i] >= 0.0 && data[i] < smallest){
+                smallest = data[i];
+            }
+        }
+        return smallest;
+    }
+    
+    public static double smallestPositive (double[] data) {
+        return smallestPositive(data, data.length);
+    }
+    
+    public Point2D[] getCoefficients(Line2D line) {
+        Point2D[] coeff = new Point2D[2];
+        coeff[0] = line.getP1();
+        coeff[1] = subtract(line.getP2(), line.getP1());
+        return coeff;
+    }
+    
+    public Point2D[] getCoefficients(QuadCurve2D quadCurve) {
+        Point2D[] coeff = new Point2D[3];
+        coeff[0] = quadCurve.getP1();
+        coeff[1] = scalarMultiply(2.0, subtract(quadCurve.getCtrlPt(), quadCurve.getP1()));
+        coeff[2] = add(quadCurve.getP2(), subtract(quadCurve.getP1(), scalarMultiply(2.0, quadCurve.getCtrlPt())));
+        return coeff;
+    }
+    
+    public Point2D[] getCoefficients(CubicCurve2D cubicCurve) {
+        Point2D[] coeff = new Point2D[4];
+        coeff[0] = cubicCurve.getP1();
+        coeff[1] = scalarMultiply(3.0, add(cubicCurve.getP1(), cubicCurve.getCtrlP1()));
+        coeff[2] = scalarMultiply(-3.0, add(cubicCurve.getP1(), add(scalarMultiply(2.0, cubicCurve.getCtrlP1()), cubicCurve.getCtrlP2())));
+        coeff[3] = add(add(cubicCurve.getP1(), scalarMultiply(3.0, subtract(cubicCurve.getCtrlP1(), cubicCurve.getCtrlP2()))), cubicCurve.getP2());
+        return coeff;
     }
     
 }
