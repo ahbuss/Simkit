@@ -65,7 +65,7 @@ public class MersenneTwister implements RandomNumber {
     private static final int UPPER_MASK = 0x80000000; // most significant w-r bits
     private static final int LOWER_MASK = 0x7fffffff; // least significant r bits
     
-    private static final double MODULUS_MULT = 1.0 / 2147483647L;
+    private static final double MODULUS_MULT = 1.0 / (1L << 32);
     // Tempering parameters
     private static final int TEMPERING_MASK_B = 0x9d2c5680;
     private static final int TEMPERING_MASK_C = 0xefc60000;
@@ -118,7 +118,7 @@ public class MersenneTwister implements RandomNumber {
     /**
      * Generate the next random number.
      */
-    public int genrand() {
+    public long drawLong() {
         int y;
         
         if (mti >= N) {	// generate N words at one time
@@ -130,7 +130,7 @@ public class MersenneTwister implements RandomNumber {
         y ^= (y << 15) & TEMPERING_MASK_C;	// TEMPERING_SHIFT_T(y)
         y ^= (y >>> 18);							// TEMPERING_SHIFT_L(y)
         
-        return y;
+        return (long) y & 0xffffffffL;
     }
     
     private void fill() {
@@ -150,14 +150,10 @@ public class MersenneTwister implements RandomNumber {
         mti = 0;
     }
     
-    public long drawLong() {
-        return (long) genrand();
-    }
-    
     /** @return  The next Uniform(0, 1) random number
      */
     public double draw() {
-        return (double) (genrand() & 0xffffffffL) * MODULUS_MULT ;
+        return (double) drawLong()  * MODULUS_MULT ;
     }
     
     /**
@@ -228,7 +224,8 @@ public class MersenneTwister implements RandomNumber {
         RandomVariate rv = RandomVariateFactory.getInstance("Exponential",
         new Object[] { new Double(1.0) }, r);
         for (j = 0; j < 1000; j++) {
-            System.out.print((long) (r.draw() * 2147483647L) + " ");
+//            System.out.print((long) (r.draw() * 2147483647L) + " ");
+            System.out.print( r.drawLong() + " ");
             //          System.out.print(r.draw() + " ");
             //         System.out.print((((long)(r.genrand())) & 0xffffffffL) + " ");
             if (j%8==7) System.out.println();
