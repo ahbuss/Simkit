@@ -34,13 +34,25 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     
     /** Creates new UniformLinearMover */
     public UniformLinearMover(String name, Point2D location, double maxSpeed) {
-        this.setName(name);
+        this(location, maxSpeed);
+        setName(name);
+    }
+    
+    public UniformLinearMover(Point2D location, double maxSpeed) {
         originalLocation = (Point2D) location.clone();
         this.maxSpeed = maxSpeed;
         lastStopLocation = (Point2D) originalLocation.clone();
         velocity = (Point2D) ORIGIN.clone();
         movementState = MovementState.STOPPED;
         param = new Object[] { this };
+    }
+    
+    public UniformLinearMover(Point2D location) {
+        this(location, 0.0);
+    }
+    
+    public UniformLinearMover(String name, Point2D location) {
+        this(name, location, 0.0);
     }
     
     public Point2D getVelocity() {
