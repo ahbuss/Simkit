@@ -1,6 +1,8 @@
 package simkit.data;
 /**
- *   A "RandomVariate" class that is constant.
+ * A "RandomVariate" class that is constant.
+ * @deprecated This class has been replaced by <CODE>simkit.random.ConstantVariate</CODE>
+ * @see simkit.random.ConstantVariate
 **/
 public class ConstantVariate extends RandomVariateBase {
 

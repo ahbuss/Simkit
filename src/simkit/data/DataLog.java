@@ -39,7 +39,6 @@ Set the format of numbers used by this Log.  The
 string should conform to the format strings supported
 by class Format.
 
-@see Format
 **/
    public void setNumberFormat(String f);
 /**

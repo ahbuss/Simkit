@@ -1,5 +1,9 @@
 package simkit.data;
 
+/**
+ * @deprecated This class has been replaced by <CODE>simkit.random.LogTransform</CODE>
+ * @see simkit.random.RandomVariate
+ **/
 public class LogTransform  implements RandomVariate {
 
   private RandomVariate rv;

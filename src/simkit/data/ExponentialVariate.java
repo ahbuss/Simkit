@@ -1,5 +1,9 @@
 package simkit.data;
 
+/**
+ * @deprecated This class has been replaced by <CODE>simkit.random.ExponentialVariate</CODE>
+ * @see simkit.random.ExponentialVariate
+**/
 public class ExponentialVariate extends RandomVariateBase implements RandomVariate {
 
   private double mean;

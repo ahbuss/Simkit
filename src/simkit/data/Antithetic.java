@@ -1,5 +1,8 @@
 package simkit.data;
-
+/**
+ * @deprecated This class has been replaced by <CODE>simkit.random.Antithetic</CODE> 
+ * @see simkit.random.Antithetic
+**/
 public class Antithetic implements RandomNumber {
 
     private RandomNumber rnDelegate;

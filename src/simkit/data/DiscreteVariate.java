@@ -1,5 +1,9 @@
 package simkit.data;
 
+/**
+ * @deprecated This class has been replaced by <CODE>simkit.random.RandomVariateBase</CODE>
+ * @see simkit.random.DiscreteVariate
+**/
 public class DiscreteVariate extends RandomVariateBase {
 
     private double[] cdf;

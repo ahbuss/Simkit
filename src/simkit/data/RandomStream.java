@@ -3,26 +3,34 @@
 package simkit.data;
 
 /**
-* Random Numbers for simkit.<br>
-*
-* This class produces the same random stream of
-* numbers produced by the random number generator
-* in SIMSCRIPT II.  This may not be the best random
-* number generator available, but at least you know
-* what you are getting.  The period is approximately 2^31 .
-* The 10 standard SIMSCRIPT streams can be selected
-* with the STREAM_x constants.
-* using 
-* @version   simkit 0.5.3
-* @author    Arnold H. Buss
-* @author    Kirk A. Stork (Java port & modifications)
-*
-* <UL>
-*  <LI> Java port                      [6.20.96]
-*  <LI> Added Rayleigh and ChiSquare   [8.25.96]
-*  <LI> 22 Oct 1998 Conforms to RandomNumber interface
-*  </UL>
-*/
+ * Random Numbers for simkit.<br>
+ *
+ * This class produces the same random stream of
+ * numbers produced by the random number generator
+ * in SIMSCRIPT II.  This may not be the best random
+ * number generator available, but at least you know
+ * what you are getting.  The period is approximately 2^31 .
+ * The 10 standard SIMSCRIPT streams can be selected
+ * with the STREAM_x constants.
+ * @deprecated The seeds have been replaced by <CODE>simkit.random.CongruentialSeeds<CODE>
+ *             The random variate generation has been replaced by the <CODE>simkit.random.RandomVariate</CODE>
+ *             interface and its various implementations, and random number generation
+ *             has been replaced by the <CODE>simkit.random.RandomNumber</CODE> and
+ *             its implementations, most notably <CODE>simkit.random.Congruential</CODE>
+ * @see simkit.random.RandomNumber
+ * @see simkit.random.RandomVariate
+ * @see simkit.random.Congruential
+ * @see simkit.random.CongruentialSeeds
+ * @version   simkit 0.5.3
+ * @author    Arnold H. Buss
+ * @author    Kirk A. Stork (Java port & modifications)
+ *
+ * <UL>
+ *  <LI> Java port                      [6.20.96]
+ *  <LI> Added Rayleigh and ChiSquare   [8.25.96]
+ *  <LI> 22 Oct 1998 Conforms to RandomNumber interface
+ *  </UL>
+ */
 public class RandomStream implements RandomNumber {
 
     public static final long[] STREAM =

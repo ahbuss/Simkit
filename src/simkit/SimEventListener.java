@@ -15,7 +15,8 @@ package simkit;
   * listener model.  The one method is invoked when a SimEvent is fired by
   * its source.
   *
-  * @see SimEvent, SimEventSource
+  * @see SimEvent
+  * @see SimEventSource
   *
   * @author Arnold Buss 
   * @version Simkit 0.5.0

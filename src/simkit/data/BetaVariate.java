@@ -1,5 +1,9 @@
 package simkit.data;
 
+/**
+ * @deprecated This class has been replaced by <CODE>simkit.random.BetaVariate</CODE> 
+ * @see simkit.random.BetaVariate
+**/
 public class BetaVariate extends RandomVariateBase {
 
   private static final double DEFAULT_ALPHA;

@@ -7,6 +7,14 @@ import java.lang.reflect.*;
  *  Still needs some work...
  *
  *  @author Arnold Buss
+ *  @deprecated This class has been replaced by <CODE>simkit.random.RandomVariateFactory</CODE>
+ *           for obtaining instances of <CODE>RandomVariate</CODE> and
+ *           <CODE>simkit.random.RandomNumberFactory</CODE> for obtaining instances
+ *           of <CODE>RandomNumber</CODE>
+ *  @see simkit.random.RandomVariateFactory
+ *  @see simkit.random.RandomVariate
+ *  @see simkit.random.RandomNumberFactory
+ *  @see simkit.random.RandomNumber
 **/
 
 public class RandomFactory {

@@ -139,7 +139,7 @@ public class SimpleStats implements Named,
 
    /**
      *  Compute standard deviation of observations so far
-     *	@see variance
+     *	@see #getVariance
    **/
    public synchronized double getStandardDeviation() {
       return Math.sqrt(getVariance());

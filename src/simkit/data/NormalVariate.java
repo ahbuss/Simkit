@@ -1,5 +1,9 @@
 package simkit.data;
 
+/**
+ * @deprecated This class has been replaced by <CODE>simkit.random.NormalVariate</CODE>
+ * @see simkit.random.NormalVariate
+**/
 public class NormalVariate extends RandomVariateBase {
 
   private static double DEFAULT_MEAN;

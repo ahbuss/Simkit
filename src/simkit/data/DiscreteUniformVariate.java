@@ -1,5 +1,8 @@
 package simkit.data;
-
+/**
+ * @deprecated This class has been replaced by <CODE>simkit.random.DiscreteUniformVariate</CODE>
+ * @see simkit.random.DiscreteUniformVariate
+**/
 public class DiscreteUniformVariate extends RandomVariateBase {
 
     private int minimum;

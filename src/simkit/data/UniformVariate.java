@@ -1,5 +1,8 @@
 package simkit.data;
-
+/**
+ * @deprecated This class has been replaced by <CODE>simkit.random.UniformVariate<CODE>
+ * @see simkit.random.UniformVariate
+**/
 public class UniformVariate implements RandomVariate {
 
   private static double DEFAULT_LOW;

@@ -1,6 +1,9 @@
 package simkit.data;
 
 import java.util.*;
+/**
+ * @deprecated No replacement yet.
+**/
 public class JavaRandomNumber extends java.util.Random implements RandomNumber{
 
   private long originalSeed;

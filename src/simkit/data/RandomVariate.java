@@ -9,6 +9,8 @@ package simkit.data;
  * since a random variate can always be cast to one.  More specialized classes
  * may choose to generate an int or some other thing.
  *
+ * @deprecated This class has been replaced by <CODE>simkit.random.RandomVariate<CODE>
+ * @see simkit.random.RandomVariate
  * @author Arnold Buss
 **/
 public interface RandomVariate {

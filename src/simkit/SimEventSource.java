@@ -15,7 +15,8 @@ package simkit;
   * listener model.  Methods are available for SimEventListeners to
   * register and un-register.
   *
-  * @see SimEvent, SimEventListener
+  * @see SimEvent
+  * @see SimEventListener
   *
   * @author Arnold Buss 
   * @version Simkit 0.5.0

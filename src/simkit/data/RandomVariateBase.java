@@ -6,7 +6,8 @@ package simkit.data;
  *  is not implemented, but must be subclassed.  For performance reasons, the
  *  subclasses may also keep primitive copies of the parameters.
  *  @author Arnold Buss
- *  @version 0.5 
+ *  @deprecated This class has been replaced by <CODE>simkit.random.RandomVariateBase<CODE>
+ *  @see simkit.random.RandomVariateBase
 **/
 
 public abstract class RandomVariateBase implements RandomVariate {
