@@ -60,7 +60,7 @@ public class PropertyChangeFrame extends JFrame implements PropertyChangeListene
  *  @param e The PropertyChangeEvent "heard" by this PropertyChangeFrame.
 **/
    public void propertyChange(PropertyChangeEvent e) {
-      text.append("[" + Schedule.geturrentEvent() + "] " + e.getSource() +
+      text.append("[" + Schedule.getCurrentEvent() + "] " + e.getSource() +
             " " + e.getPropertyName() +
           ": "  + e.getOldValue() + " -> " + e.getNewValue() + '\n');
       text.setCaretPosition(text.getText().length());
