@@ -52,7 +52,7 @@ public class ArrivalProcess extends SimEntityBase {
         waitDelay("Arrival", interArrivalTime.generate());
     }
 /**
- *  Arrival event.  Increments number of arrivals and schedules next arrival.
+ *  Arrival event.  Increments number of arrivals and schedules next arrival. (Event Mathod)
 **/
     public void doArrival() {
         firePropertyChange("numberArrivals", numberArrivals, ++numberArrivals);
