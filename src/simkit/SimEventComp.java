@@ -1,14 +1,3 @@
-// FILE SimEventComp.java
-
-/////////////////////////// Copyright Notice //////////////////////////
-//                                                                   //
-// This simkit package or sub-package and this file is Copyright (c) //
-// 1997, 1998, 1999 by Kirk A. Stork and Arnold H. Buss.             //
-//                                                                   //
-// Please forward any changes, comments or suggestions to:           //
-//   abuss@nps.navy.mil                                              //
-//                                                                   //
-///////////////////////////////////////////////////////////////////////
 package simkit;
 
 /**
@@ -26,7 +15,7 @@ package simkit;
 *
 * 1. Scheduled time of the events (Earlier time is a higher priority.) <br>
 * 2. Priority of the SimEvents. (A larger number is a higher priority.) <BR> 
-* 3. Priorities of the SimEntities that own the SimEvents (A smaller number 
+* 3. Priorities of the SimEntities that own the SimEvents (A larger number 
 * is a higher priority.) <br>
 * 4. The SimTime the SimEvents were instantiated. (An earlier creation time 
 * is a higher priority.) <br>
@@ -57,19 +46,19 @@ public class SimEventComp implements java.util.Comparator
       if (fst.equals(snd)) {return 0;}
       if (snd.equals(fst)) {return 0;}
 
-      SimEvent b = (SimEvent)fst;
-      SimEvent a = (SimEvent)snd;
+      SimEvent a = (SimEvent)fst;
+      SimEvent b = (SimEvent)snd;
 
-      if ( a.getScheduledTime() > b.getScheduledTime() ) return -1;
-      if ( a.getScheduledTime() < b.getScheduledTime() ) return 1;     
-      if ( a.getEventPriority() < b.getEventPriority() ) return -1;
-      if ( a.getEventPriority() > b.getEventPriority() ) return 1;
+      if ( a.getScheduledTime() > b.getScheduledTime() ) return 1;
+      if ( a.getScheduledTime() < b.getScheduledTime() ) return -1;     
+      if ( a.getEventPriority() < b.getEventPriority() ) return 1;
+      if ( a.getEventPriority() > b.getEventPriority() ) return -1;
       if ( a.getOwnerPriority() > b.getOwnerPriority() ) return -1;
       if ( a.getOwnerPriority() < b.getOwnerPriority() ) return 1;
-      if ( a.getCreationTime()  > b.getCreationTime() )  return -1;
-      if ( a.getCreationTime()  < b.getCreationTime() )  return 1;
-      if ( a.getID()        > b.getID() )        return -1;
-      if ( a.getID()        < b.getID() )        return 1;
+      if ( a.getCreationTime()  > b.getCreationTime() )  return 1;
+      if ( a.getCreationTime()  < b.getCreationTime() )  return -1;
+      if ( a.getID()        > b.getID() )        return 1;
+      if ( a.getID()        < b.getID() )        return -1;
       return 0;
    }
 }
