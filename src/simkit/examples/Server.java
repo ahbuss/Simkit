@@ -126,6 +126,10 @@ public class Server extends BasicSimEntity {
             doRun();
         }
         
+        if (thisEvent.equals("Arrival")) {
+            doArrival();
+        }
+        
         if (thisEvent.equals("StartService")) {
             doStartService();
         }
@@ -141,7 +145,7 @@ public class Server extends BasicSimEntity {
     public void processSimEvent(SimEvent event) {
         String thisEvent = event.getEventName();
         if (thisEvent.equals("Arrival") || thisEvent.equals("EndService")) {
-            doArrival();
+            waitDelay("Arrival", 0.0);;
         }
     }
     
