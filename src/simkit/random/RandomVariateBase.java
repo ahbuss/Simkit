@@ -35,7 +35,9 @@ public abstract class RandomVariateBase implements RandomVariate {
     public RandomNumber getRandomNumber() { return rng; }
     
     /**
-     *  @return a copy of the RandomVariate instance;
+     *  @return a copy of the RandomVariate instance.  Note that this is a shallow
+     *          copy in that the copy is supported by the same RandomNumber instance
+     *          as this RandomVariate instance.
      **/
     
     public Object clone() {
