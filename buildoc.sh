@@ -13,5 +13,5 @@ if [ -d simsystem/doc ]; then
 else
 	mkdir simsystem/doc
 fi
-javadoc -author -private -d simsystem/doc simkit simkit.data simkit.random simkit.smd simkit.stat simkit.util simkit.examples
+javadoc -author -private -d simsystem/doc simkit simkit.data simkit.random simkit.smd simkit.stat simkit.util simkit.examples simkit.smdx
 
