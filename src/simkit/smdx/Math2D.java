@@ -359,6 +359,18 @@ public class Math2D {
         return smallestPositive(data, data.length, TINY);
     }
     
+    public static int getMaxIndex(double[] data) {
+        int index = -1;
+        double max = Double.NEGATIVE_INFINITY;
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] > max) {
+                index = i;
+                max = data[i];
+            }
+        }
+        return index;
+    }
+    
     public static Point2D[] getCoefficients(Line2D line) {
         Point2D[] coeff = new Point2D[2];
         coeff[0] = line.getP1();
@@ -387,4 +399,54 @@ public class Math2D {
         return Math2D.scalarMultiply(scale / Math2D.norm(point), point);
     }
     
+    /**
+     *  Assumes Linear Mover
+     */
+    public static Point2D getIntercept(Mover pursuer, double speed, Mover target) {
+        Point2D intercept = null;
+        
+        if (speed > pursuer.getMaxSpeed()) { 
+            speed = pursuer.getMaxSpeed(); 
+        }
+        if (speed > norm(target.getVelocity())) {
+            double[] coeff = new double[3];
+            Point2D relativeLocation = subtract(target.getLocation(), pursuer.getLocation());
+            Point2D targetVelocity = target.getVelocity();
+            coeff[0] =  Math2D.normSquared(targetVelocity) - speed * speed;
+            coeff[1] = 2.0 * Math2D.innerProduct(relativeLocation, targetVelocity);
+            coeff[2] = Math2D.normSquared(relativeLocation);
+            
+            double[] sol = new double[2];
+            double oneOverTime = Double.NEGATIVE_INFINITY;
+            int numberSolutions = QuadCurve2D.solveQuadratic(coeff, sol);
+            switch (numberSolutions) {
+                case 2:
+                    double tmp = Math.max(sol[0], sol[1]);
+                    if (tmp > 0.0) {
+                        oneOverTime = tmp;
+                    }
+                    break;
+                case 1:
+                    if (sol[0] > 0.0) {
+                        oneOverTime = sol[0];
+                        break;
+                    }
+                default:                    
+            }
+            if (oneOverTime > 0.0) {
+                Point2D pursuerVelocity = 
+                    Math2D.add(Math2D.scalarMultiply(oneOverTime, relativeLocation),
+                        targetVelocity);
+                intercept = Math2D.add(
+                        Math2D.scalarMultiply(1.0/oneOverTime, pursuerVelocity), 
+                        pursuer.getLocation()
+                    );
+            }            
+        }        
+        return intercept;
+    }
+    
+    public static Point2D getIntercept(Mover pursuer, Mover target) {
+        return getIntercept(pursuer, pursuer.getMaxSpeed(), target);
+    }
 }
