@@ -5,8 +5,9 @@
  */
 
 package simkit.smdx;
-import simkit.*;
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
+
+import simkit.SimEntityBase;
 
 /**
  * A Mover whose movement is controlled by specifying an acceleration vector.

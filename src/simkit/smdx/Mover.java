@@ -5,9 +5,10 @@
  */
 
 package simkit.smdx;
-import simkit.*;
+import java.awt.geom.Point2D;
 
-import java.awt.geom.*;
+import simkit.PropertyChangeSource;
+import simkit.SimEntity;
 
 /**
  * A SimEntity whose movement can be controlled and that can interact

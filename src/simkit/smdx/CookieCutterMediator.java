@@ -1,8 +1,9 @@
 package simkit.smdx;
 
-import java.beans.*;
-import simkit.*;
-import java.util.*;
+import java.util.Map;
+import java.util.WeakHashMap;
+
+import simkit.SimEntityBase;
 
 /** Mediator for CookieCutter detection. The Sensor detects the Mover
  * as soon as the Mover enters the coverage volume.

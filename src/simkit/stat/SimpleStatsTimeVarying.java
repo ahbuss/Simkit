@@ -1,9 +1,6 @@
 package simkit.stat;
 
-import java.text.DecimalFormat;
 import simkit.Schedule;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 
 /**
 * Basic class for collecting statistics on time varying properties.

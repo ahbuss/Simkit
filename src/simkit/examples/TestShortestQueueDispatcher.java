@@ -1,7 +1,11 @@
 package simkit.examples;
-import simkit.*;
-import simkit.random.*;
-import simkit.util.*;
+import simkit.Schedule;
+import simkit.random.CongruentialSeeds;
+import simkit.random.RandomNumber;
+import simkit.random.RandomNumberFactory;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.util.SimplePropertyDumper;
 /**
  * Tests the ShortestQueueDispatcher.
  * @author  Arnold Buss

@@ -6,9 +6,9 @@
 
 package simkit.smdx;
 
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
 
-import simkit.*;
+import simkit.SimEntityBase;
 
 /**
  * @deprecated Not yet fully implemented.

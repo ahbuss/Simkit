@@ -1,8 +1,9 @@
 package simkit.smdx;
-import simkit.*;
-import simkit.smdx.*;
-import simkit.random.*;
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
+
+import simkit.SimEntityBase;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
 /**
  * Causes the controlled Mover to move to random points at random speeds. The
  * locations and speeds are controlled by the selection of the RandomVariates

@@ -5,9 +5,10 @@
  */
 
 package simkit.test;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+
+import javax.swing.JTextArea;
 /**
  *
  * @author  Arnold Buss

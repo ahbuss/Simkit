@@ -1,6 +1,5 @@
 package simkit.random;
 
-import java.io.Serializable;
 
 /*
  *  <P> Started 22 October 1998

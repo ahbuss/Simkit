@@ -1,7 +1,9 @@
 package simkit.smdx;
-import simkit.*;
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
+
+import simkit.Schedule;
+import simkit.SimEntityBase;
 
 /**
  * Implementation of Mover with uniform linear motion.  Note that the

@@ -5,10 +5,9 @@
  */
 
 package simkit.smdx;
-import simkit.smdx.*;
-import java.util.*;
-import java.beans.*;
-import java.lang.reflect.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.WeakHashMap;
 /**
  * Holds SensorTargetMediators. The Mediators can either be constructed
  * then added to the factory or constructed by the factory.

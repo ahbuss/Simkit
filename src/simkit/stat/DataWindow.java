@@ -2,8 +2,10 @@
 
 package simkit.stat;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
 * A simple class for displaying a window. The window created is 

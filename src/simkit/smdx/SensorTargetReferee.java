@@ -5,11 +5,19 @@
  */
 
 package simkit.smdx;
-import simkit.*;
-import java.util.*;
-import java.beans.*;
-import java.awt.geom.*;
-import java.awt.*;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
+
+import simkit.Schedule;
+import simkit.SimEntity;
+import simkit.SimEntityBase;
 
 /**
  * A referee to manage interactions between Sensors and Movers (targets).<P/>

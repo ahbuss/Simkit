@@ -1,6 +1,7 @@
 package simkit.test;
-import simkit.random.*;
-import simkit.stat.*;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.stat.Histogram;
 /**
  *
  * @author  Arnold Buss

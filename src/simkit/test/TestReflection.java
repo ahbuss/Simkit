@@ -6,8 +6,9 @@
 
 package simkit.test;
 
-import java.lang.reflect.*;
-import simkit.util.*;
+import java.lang.reflect.Method;
+
+import simkit.util.Misc;
 /**
  *
  * @author  ahbuss

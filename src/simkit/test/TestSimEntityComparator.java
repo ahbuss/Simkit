@@ -5,9 +5,16 @@
  */
 
 package simkit.test;
-import simkit.*;
-import simkit.random.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import simkit.Schedule;
+import simkit.SimEntity;
+import simkit.SimEntityBase;
+import simkit.SimEntityComparator;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  ahbuss

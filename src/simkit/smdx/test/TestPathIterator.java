@@ -5,10 +5,12 @@
  */
 
 package simkit.smdx.test;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Shape;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.PathIterator;
+
+import javax.swing.JComponent;
 
 /**
  *

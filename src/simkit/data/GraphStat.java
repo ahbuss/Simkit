@@ -4,17 +4,7 @@ package simkit.data;
 
 //import jgl.Array;
 import graph.Graph2D;
-import graph.Axis;
-import graph.DataSet;
 import graph.HistogramDataSet;
-
-import java.awt.Color;
-import java.awt.Label;
-import java.awt.Frame;
-import java.awt.Image;
-import java.awt.Graphics;
-import java.awt.BorderLayout;
-import java.awt.Font;
 
 /**
 * @deprecated Use simkit.stat.GraphStat instead.

@@ -1,5 +1,6 @@
 package simkit.data;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  *  A factory class that produces RandomNumber and RandomVariate instances.

@@ -4,8 +4,10 @@ package simkit.smd;
  *
  *  @author Arnold Buss
 **/
-import simkit.*;
-import java.util.*;
+import java.util.StringTokenizer;
+
+import simkit.Schedule;
+import simkit.SimEntityBase;
 
 public class BasicMover extends SimEntityBase implements Mover {
 
@@ -180,7 +182,7 @@ public class BasicMover extends SimEntityBase implements Mover {
 **/
   public Coordinate getCurrentLocation() {
     if (isMoving()) {
-      double timeMoved = (Schedule.simTime() - startMoveTime) ;
+      double timeMoved = (Schedule.getSimTime() - startMoveTime) ;
       Coordinate cp =  getVelocity().getDirection();
       return cp.scalarMultiply( getSpeed() * timeMoved).incrementBy(lastStopLocation);
     }
@@ -228,9 +230,9 @@ public class BasicMover extends SimEntityBase implements Mover {
   public void doStartMove(Mover mover) {
     Coordinate destCopy = new Coordinate(destination);
     setVelocity(destCopy.decrementBy(getCurrentLocation()));
-    startMoveTime = Schedule.simTime();
+    startMoveTime = Schedule.getSimTime();
     moveDuration = getMoveTime();
-    endMoveTime = Schedule.simTime() + moveDuration;
+    endMoveTime = Schedule.getSimTime() + moveDuration;
     if (!isMoverReadyToGo()) {
       throw new MovingException("Move started without proper initialization");
     }
@@ -243,8 +245,8 @@ public class BasicMover extends SimEntityBase implements Mover {
   public void doEndMove(Mover mover) {
     lastStopLocation = getCurrentLocation();
      setVelocity(new Coordinate(0,0));
-     startMoveTime = Schedule.simTime();
-     endMoveTime = Schedule.simTime();
+     startMoveTime = Schedule.getSimTime();
+     endMoveTime = Schedule.getSimTime();
      moveDuration = 0.0;
   }
 /**

@@ -5,8 +5,10 @@
  */
 
 package simkit.test;
-import simkit.random.*;
-import java.lang.reflect.*;
+import java.lang.reflect.Method;
+
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
 
 /**
  *

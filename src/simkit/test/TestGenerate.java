@@ -6,15 +6,15 @@
 
 package simkit.test;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+
+import simkit.random.CongruentialSeeds;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
-import simkit.random.CongruentialSeeds;
-
-import java.awt.Rectangle;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import simkit.util.CloseableDataWindow;
 import simkit.stat.GraphStat;
+import simkit.util.CloseableDataWindow;
 
 /**
  *

@@ -1,7 +1,9 @@
 package simkit.test;
-import simkit.random.*;
-import simkit.stat.*;
-import java.text.*;
+import java.text.DecimalFormat;
+
+import simkit.random.DiscreteRandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.stat.SimpleStatsTally;
 /**
  *
  * @author  Arnold Buss

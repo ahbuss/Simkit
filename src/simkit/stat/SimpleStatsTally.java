@@ -1,8 +1,5 @@
 package simkit.stat;
 
-import java.text.DecimalFormat;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 /**
  *  Basic class for collecting tally statistics as produced by a typical
  *  simulation model, that is, one observation at a time.  The algorithm is

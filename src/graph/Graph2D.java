@@ -1,13 +1,16 @@
 package graph;
 
-import java.awt.*;
-import java.applet.*;
-import java.util.*;
-import java.lang.*;
-import java.io.StreamTokenizer;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.io.InputStream;
-import java.io.IOException;
 import java.net.URL;
+import java.util.Vector;
 
 /*
 **************************************************************************
@@ -672,6 +675,7 @@ public class Graph2D extends Canvas {
 /**
  * Handle  keyDown events. Only one event is handled the pressing
  * of the key 'r' - this will repaint the canvas.
+ * @deprecated deprecated in superclass, no substitute
  */
    public boolean keyDown(Event e, int key) {
 
@@ -1065,6 +1069,7 @@ class LoadMessage extends Thread {
 	  }
 /**
  *   end displaying message and force a graph repaint
+ * @deprecated stop method is deprecated in superclass, no substitute
  */
         public void end() {
              

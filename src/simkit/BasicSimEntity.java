@@ -1,8 +1,14 @@
 package simkit;
 
-import java.util.*;
-import java.lang.reflect.*;
-import java.beans.*;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import simkit.util.IndexedPropertyChangeEvent;
 
 /**

@@ -1,10 +1,13 @@
 package graph;
 
-import java.awt.*;
-import java.applet.*;
-import java.net.URL;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Event;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.Vector;
 
 /*
 **************************************************************************
@@ -634,6 +637,7 @@ public class Contour extends G2Dint {
    * 
    *   If 'l' is pressed repaint without the labels
    *   If 'L' is pressed repaint with the labels.
+   * @deprecated deprecated in superclass, no substitute
    */
      public boolean keyDown(Event e, int key) {
            if(xaxis==null || yaxis==null) return false;

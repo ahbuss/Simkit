@@ -6,11 +6,10 @@
 
 package simkit.smdx;
 
-import simkit.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.beans.*;
-import java.text.*;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 /**
  * A Munition that has an area of effect that is a circle centered around its
  * aimpoint.

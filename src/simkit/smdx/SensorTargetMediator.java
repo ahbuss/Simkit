@@ -5,8 +5,7 @@
  */
 
 package simkit.smdx;
-import simkit.*;
-import java.beans.*;
+import java.beans.PropertyChangeListener;
 
 /**
  * Mediates interactions between Sensors and Movers.

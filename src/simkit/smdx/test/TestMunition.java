@@ -5,10 +5,16 @@
  */
 
 package simkit.smdx.test;
-import simkit.*;
-import simkit.smdx.*;
-import simkit.util.*;
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
+
+import simkit.Schedule;
+import simkit.smdx.CircularImpactMunition;
+import simkit.smdx.MunitionTargetAdjudicatorFactory;
+import simkit.smdx.MunitionTargetReferee;
+import simkit.smdx.SimpleTarget;
+import simkit.smdx.SureFireKillAdjudicator;
+import simkit.smdx.Target;
+import simkit.util.SimplePropertyDumper;
 /**
  *
  * @author  Arnold Buss

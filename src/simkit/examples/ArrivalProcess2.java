@@ -5,8 +5,9 @@
  */
 
 package simkit.examples;
-import simkit.*;
-import simkit.random.*;
+import simkit.BasicSimEntity;
+import simkit.SimEvent;
+import simkit.random.RandomVariate;
 /**
  * An implementation of an Arrival Process. Generates arrival events with an
  * interarrival time determined by the RandomVariate. After instantiating with

@@ -5,7 +5,9 @@
  */
 
 package simkit.smdx;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 /**
  * Stores Adjudicators indexed by the Munition and Target they should be used for. 
  * The Adjudicators can either be created by the factory or instantiated and then added.

@@ -1,11 +1,24 @@
 package simkit;
 
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
-import java.net.*;
-import java.awt.*;
-import simkit.util.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JWindow;
+
+import simkit.util.GenericAction;
 
 /**
 * This class is used to display version and copyright information about SimKit. Constructing a 

@@ -1,9 +1,11 @@
 package simkit.examples;
-import simkit.*;
-import simkit.random.*;
-import simkit.stat.*;
-import simkit.util.*;
-import java.text.*;
+import java.text.DecimalFormat;
+
+import simkit.Schedule;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.stat.SimpleStatsTally;
+import simkit.stat.SimpleStatsTimeVarying;
 /**
  * Simulates a system consisting of a 2 server single queue system for Customers. Uses an 
  * {@link ArrivalProcess}, a {@link CustomerCreator}, and a {@link CustomerServer}.

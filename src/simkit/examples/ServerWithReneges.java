@@ -1,8 +1,10 @@
 package simkit.examples;
 
-import simkit.*;
-import simkit.random.*;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+
+import simkit.SimEntityBase;
+import simkit.random.RandomVariate;
 
 /**
  * A multiple-server queue with impatient customers.  Each arriving

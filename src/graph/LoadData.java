@@ -1,12 +1,7 @@
 package graph;
 
-import java.awt.*;
-import java.applet.*;
-import java.util.*;
-import java.lang.*;
-import java.io.StreamTokenizer;
+import java.applet.Applet;
 import java.io.InputStream;
-import java.io.IOException;
 import java.net.URL;
 
 /*

@@ -5,7 +5,9 @@
  */
 
 package simkit.test;
-import simkit.random.*;
+import simkit.random.ExponentialTransform;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
 public class TestLogNormal {
     public static void main (String args[]) {
         

@@ -2,8 +2,10 @@
 
 package simkit.data;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
 * @deprecated Use simkit.stat.DataWindow instead.

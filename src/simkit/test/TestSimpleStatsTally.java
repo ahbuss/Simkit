@@ -2,8 +2,8 @@ package simkit.test;
 
 import simkit.Schedule;
 import simkit.examples.ArrivalProcess;
-import simkit.stat.SimpleStatsTally;
 import simkit.random.RandomVariateFactory;
+import simkit.stat.SimpleStatsTally;
 
 public class TestSimpleStatsTally {
 

@@ -5,9 +5,18 @@
  */
 
 package simkit.smdx;
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
+import java.awt.geom.QuadCurve2D;
+import java.awt.geom.RectangularShape;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Contains a library of useful calculations in 2-dimensional space.

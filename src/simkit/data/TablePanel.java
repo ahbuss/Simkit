@@ -1,7 +1,12 @@
 package simkit.data;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.Panel;
+import java.awt.TextField;
+import java.util.Vector;
 
 /**
 * @deprecated Use simkit.stat.TablePanel instead.

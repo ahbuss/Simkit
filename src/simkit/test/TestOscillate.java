@@ -5,11 +5,15 @@
  */
 
 package simkit.test;
-import simkit.*;
-import simkit.random.*;
-import simkit.util.*;
-import java.io.*;
-import java.net.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URL;
+
+import simkit.Schedule;
+import simkit.SimEntityBase;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.util.PropertyDataLogger;
 /**
  *
  * @author  Arnold Buss

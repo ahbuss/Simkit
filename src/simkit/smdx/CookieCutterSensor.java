@@ -5,11 +5,15 @@
  */
 
 package simkit.smdx;
-import simkit.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.beans.*;
-import java.util.*;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.util.HashSet;
+import java.util.Set;
+
+import simkit.SimEntityBase;
 
 /** Models a Cookie Cutter Sensor.  Instances of this class delegate
  * their movement state to a Mover.  Responsibilities are to maintain

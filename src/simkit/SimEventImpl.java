@@ -9,9 +9,9 @@ package simkit;
 //                                                                   //
 ///////////////////////////////////////////////////////////////////////
 
-import java.util.*;
-import java.text.*;
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 /**
 * Base class for simulation events. It is more efficient to use the
 * SimEventFactory than to construct SimEvents directly.

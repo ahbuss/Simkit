@@ -1,10 +1,15 @@
 package graph;
 
-import java.awt.*;
-import java.awt.event.*;  //AB
-import java.applet.*;
-import java.net.URL;
-import java.util.*;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Event;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.Rectangle;
+import java.awt.TextField;
 
 /*
 **************************************************************************
@@ -235,6 +240,7 @@ public class G2Dint extends Graph2D {
 
 /**
  * Handle the Key Down events.
+ * @deprecated deprecated in superclass, no substitute
  */
    public boolean keyDown(Event e, int key) {
 
@@ -296,6 +302,7 @@ public class G2Dint extends Graph2D {
 
 /**
  * Handle the Mouse Down events
+ * @deprecated deprecated in superclass, no substitute written yet
  */
     public boolean mouseDown(Event e, int x, int y) {
 
@@ -329,6 +336,7 @@ public class G2Dint extends Graph2D {
      }
 /**
  * Handle the Mouse Up events
+ * @deprecated deprecated in superclass, no substitute
  */
     public boolean mouseUp(Event e, int x, int y) {
 
@@ -376,6 +384,7 @@ public class G2Dint extends Graph2D {
 	      }
 /**
  * Handle the Mouse Drag events
+ * @deprecated deprecated in superclass, no substitute
  */
     public boolean mouseDrag(Event e, int x, int y) {
 
@@ -411,6 +420,7 @@ public class G2Dint extends Graph2D {
     }
 /** 
  * Handle the Mouse Mouve events
+ * @deprecated deprecated in superclass, no substitute
  */
     public boolean mouseMove(Event e, int x, int y) {
 
@@ -432,6 +442,7 @@ public class G2Dint extends Graph2D {
  * Handle the Action Events.
  * This handler allows external classes (pop-up windows etc.) to
  * communicate to this class asyncronously.
+ * @deprecated deprecated in superclass, no substitute
  */ 
     public boolean action(Event e, Object a) {
 
@@ -591,6 +602,7 @@ class Gin extends Frame {
    * Set the size of the window
    * @param x width in pixels
    * @param y height in pixels
+   * @deprecated deprecated in superclass, no substitute
    */
      public void resize( int x, int y) {
         super.setSize(x,y);   //AB
@@ -602,6 +614,7 @@ class Gin extends Frame {
    *
    * @param e The event
    * @param key the key pressed
+   * @deprecated deprecated in superclass, no substitute
    */
 
      public boolean keyDown(Event e, int key) {
@@ -710,7 +723,9 @@ class Range extends Frame {
 	     }
      }
 
-
+/**
+ * @deprecated deprecated in superclass, no substitute
+ */
      public void resize( int x, int y) {
         super.setSize(x,y);
      }
@@ -718,8 +733,9 @@ class Range extends Frame {
      public void requestFocus() {
        xminText.requestFocus();
      }
-/*
-** Handle the events
+/**
+* Handle the events
+* @deprecated deprecated in superclass, no substitute
 */
    public boolean keyDown(Event e, int key) {
 
@@ -754,7 +770,9 @@ class Range extends Frame {
 
    }
 
-
+/**
+ * @deprecated deprecated in superclass, no substitute
+ */
     public boolean action(Event e, Object a) {
 
          if(e.target instanceof Button) {

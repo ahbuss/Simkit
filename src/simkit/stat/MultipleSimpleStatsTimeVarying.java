@@ -1,9 +1,10 @@
 package simkit.stat;
 
-import java.util.TreeMap;
-import java.util.Iterator;
-import simkit.util.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
+import java.util.Iterator;
+import java.util.TreeMap;
+
+import simkit.util.IndexedPropertyChangeEvent;
 
 /**
 * A class to collect time varying statistics for an array of properties. 

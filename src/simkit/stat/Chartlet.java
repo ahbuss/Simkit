@@ -1,10 +1,22 @@
  // FILE: Chartlet.java
 package simkit.stat;
 
-import java.awt.*;
-import graph.*;
-import java.util.*;
+import graph.Axis;
+import graph.DataSet;
+import graph.Graph2D;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Label;
+
+/**
+ * @author kirk
+ *
+ * To change the template for this generated type comment go to
+ * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ */
 /**
 Create and manage a graph.Graph2D chart in its own window.
 
@@ -93,10 +105,18 @@ public class  Chartlet
 	   }
 	}
 	
+	public void setVisible(boolean yn) {
+		showing = true;
+		chartmade = false;
+		flushPlot();
+	}
+	
+	/** 
+	 * @deprecated This method is deprecated because the method is deprecated in java.awt.  Use setVisible(boolean) instead.
+	 * 
+	 **/
 	public void show() {
-      showing = true;
-      chartmade = false;
-      flushPlot();
+      this.setVisible(true);
 	}
 
 	public synchronized void repaint( ) {

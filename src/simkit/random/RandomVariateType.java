@@ -1,6 +1,5 @@
 package simkit.random;
 
-import java.lang.reflect.Constructor;
 
 /**
 * Holds the Class of a RandomVariate. Can be used to find the Class of a RandomVariate

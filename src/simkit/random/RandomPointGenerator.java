@@ -1,6 +1,5 @@
 package simkit.random;
-import simkit.random.*;
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
 /**
  * Generates a random Point2D as prescribed by a pair of RandomVariates.
  * @author  Arnold Buss

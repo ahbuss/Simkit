@@ -1,8 +1,8 @@
 package simkit.test;
 import simkit.Schedule;
 import simkit.examples.ArrivalProcess;
-import simkit.stat.SimpleStatsTimeVarying;
 import simkit.random.RandomVariateFactory;
+import simkit.stat.SimpleStatsTimeVarying;
 
 public class TestSimpleStatsTimeVarying {
 

@@ -5,11 +5,16 @@
  */
 
 package simkit.smdx.test;
-import simkit.*;
-import simkit.smdx.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
+import simkit.Schedule;
+import simkit.smdx.Math2D;
+import simkit.smdx.Mover;
+import simkit.smdx.PathMoverManager;
+import simkit.smdx.UniformLinearMover;
 /**
  *
  * @author  Arnold Buss

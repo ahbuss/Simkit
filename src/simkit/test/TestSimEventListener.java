@@ -5,11 +5,13 @@
  */
 
 package simkit.test;
-import simkit.*;
+import java.beans.PropertyChangeListener;
+
+import simkit.SimEventListener;
 import simkit.examples.ArrivalProcess;
-import simkit.random.*;
-import simkit.stat.*;
-import java.beans.*;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.stat.SimpleStatsTally;
 /**
  *
  * @author  ahbuss

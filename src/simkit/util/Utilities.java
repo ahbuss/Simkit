@@ -1,9 +1,8 @@
 package simkit.util;
 
-import javax.swing.*;
-import java.beans.*;
-import java.util.*;
-import java.lang.reflect.*;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.JButton;
 
 /**
 * Holds a static method used to create an "action button".

@@ -5,9 +5,9 @@
  */
 
 package simkit.test;
-import simkit.*;
-import simkit.random.*;
-import simkit.stat.*;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.stat.SimpleStatsTally;
 /**
  *
  * @author  ahbuss

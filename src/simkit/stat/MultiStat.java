@@ -1,9 +1,12 @@
 package simkit.stat;
 
-import simkit.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+
+import simkit.SimEntity;
 
 /**
  * Listens for PropertyChangeEvents that are associated with state changes

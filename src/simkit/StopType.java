@@ -5,7 +5,8 @@
  */
 
 package simkit;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 /**
  * A Java enumeration for methods of stopping a simulation.
  *

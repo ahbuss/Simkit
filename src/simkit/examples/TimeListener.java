@@ -6,10 +6,12 @@
 
 package simkit.examples;
 
-import java.beans.*;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.*;
-import simkit.*;
+import java.util.HashMap;
+
+import simkit.Schedule;
+import simkit.SimEntityBase;
 
 /**
  *

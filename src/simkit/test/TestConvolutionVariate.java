@@ -1,5 +1,9 @@
 package simkit.test;
-import simkit.random.*;
+import simkit.random.CongruentialSeeds;
+import simkit.random.RandomNumber;
+import simkit.random.RandomNumberFactory;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  ahbuss

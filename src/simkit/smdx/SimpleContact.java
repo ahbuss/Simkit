@@ -5,9 +5,7 @@ package simkit.smdx;
  *
  * Created on March 19, 2002, 4:14 PM
  */
-import simkit.*;
-import simkit.smdx.*;
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
 
 /**
  * Contains detection information about a Moveable. When a detection

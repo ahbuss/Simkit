@@ -5,8 +5,9 @@
  */
 
 package simkit.smdx;
-import java.beans.*;
-import java.lang.reflect.*;
+import java.beans.Beans;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 /**
  * A factory used to construct MoverManagers.
  * @see MoverManager

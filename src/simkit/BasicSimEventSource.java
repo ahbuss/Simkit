@@ -1,6 +1,6 @@
 package simkit;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  *  A basic implementation of a SimEventSource that is potentially useful for

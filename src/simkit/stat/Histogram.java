@@ -1,7 +1,5 @@
 package simkit.stat;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 import java.text.DecimalFormat;
 
 /**

@@ -5,10 +5,13 @@
  */
 
 package simkit.test;
-import simkit.*;
-import simkit.random.*;
-import simkit.examples.*;
-import simkit.util.*;
+import simkit.BasicSimEntity;
+import simkit.Schedule;
+import simkit.SimEventFactory;
+import simkit.examples.ArrivalProcess2;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.util.PropertyChangeFrame;
 
 /**
  *

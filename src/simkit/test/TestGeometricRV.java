@@ -5,10 +5,14 @@
  */
 
 package simkit.test;
-import simkit.random.*;
-import simkit.stat.*;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.net.URL;
+
+import simkit.random.DiscreteRandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.stat.SimpleStatsTally;
 /**
  *
  * @author  Arnold Buss

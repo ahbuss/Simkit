@@ -1,5 +1,5 @@
 package simkit.smd;
-import simkit.*;
+import simkit.SimEntity;
 
 /**
  *  The basic Mediator interface.  Every Mediator needs at least these

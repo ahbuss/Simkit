@@ -5,9 +5,12 @@
  */
 
 package simkit.test;
-import simkit.random.*;
 import java.text.DecimalFormat;
-import simkit.*;
+
+import simkit.Schedule;
+import simkit.SimEntityBase;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  Arnold Buss

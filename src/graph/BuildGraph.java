@@ -1,13 +1,12 @@
 package graph;
 
-import java.awt.*;
-import java.util.*;
-import java.lang.*;
-import java.io.StreamTokenizer;
-import java.io.InputStream;
-import java.io.IOException;
-import java.net.URL;
 import java.applet.Applet;
+import java.awt.Color;
+import java.awt.Font;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Stack;
+import java.util.Vector;
 
 /*
 **************************************************************************
@@ -199,6 +198,7 @@ public class BuildGraph extends ScanWord {
    * Instantiate the class
    * @param in The inputstream to be read
    * @param ap the driving applet.
+   * @deprecated ScanWord is deprecated, no substitute
    */
 
      public BuildGraph( InputStream in, Applet ap ) {

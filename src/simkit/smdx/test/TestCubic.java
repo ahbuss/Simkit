@@ -5,9 +5,9 @@
  */
 
 package simkit.smdx.test;
-import simkit.smdx.*;
-import java.awt.geom.*;
-import java.util.*;
+import java.awt.geom.CubicCurve2D;
+
+import simkit.smdx.Math2D;
 
 /**
  *

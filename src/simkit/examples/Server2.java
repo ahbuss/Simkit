@@ -1,6 +1,8 @@
 package simkit.examples;
-import simkit.*;
-import simkit.random.*;
+import simkit.BasicSimEntity;
+import simkit.SimEvent;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
 
 /**
  * Multiple server queue using BasicSimEntity as superclass. This inplementation

@@ -1,9 +1,8 @@
 package graph;
 
-import java.awt.*;
-import java.applet.*;
-import java.util.*;
-import java.lang.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 
 /*

@@ -1,6 +1,8 @@
 package simkit.examples;
-import simkit.*;
-import java.beans.*;
+import java.beans.PropertyChangeListener;
+
+import simkit.PropertyChangeNamespace;
+import simkit.SimEntityBase;
 
 /**
  * Implementation of a dispatcher that directs Arrival events to the 

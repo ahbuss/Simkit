@@ -6,7 +6,8 @@
 
 package simkit.test;
 
-import simkit.random.*;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  Arnold Buss

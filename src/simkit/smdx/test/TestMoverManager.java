@@ -5,10 +5,18 @@
  */
 
 package simkit.smdx.test;
-import simkit.smdx.*;
-import simkit.*;
-import simkit.random.*;
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
+
+import simkit.Schedule;
+import simkit.random.RandomNumber;
+import simkit.random.RandomNumberFactory;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.smdx.Mover;
+import simkit.smdx.MoverManager;
+import simkit.smdx.MoverManagerFactory;
+import simkit.smdx.RandomLocationMoverManager;
+import simkit.smdx.UniformLinearMover;
 /**
  *
  * @author  Arnold Buss

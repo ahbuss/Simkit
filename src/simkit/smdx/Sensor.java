@@ -5,11 +5,12 @@
  */
 
 package simkit.smdx;
-import java.awt.*;
-import java.awt.geom.*;
-import java.beans.*;
-import java.util.*;
-import simkit.*;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+import java.beans.PropertyChangeListener;
+import java.util.Set;
+
+import simkit.SimEntity;
 /**
  * Represents an object that can detect a Mover. The {@link SensorTargetReferee}
  * is responsible for determining when a Mover enters the footprint of this

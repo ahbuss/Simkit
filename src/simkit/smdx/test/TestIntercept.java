@@ -1,8 +1,15 @@
 package simkit.smdx.test;
-import simkit.*;
-import simkit.smdx.*;
-import java.awt.geom.*;
-import java.util.*;
+import java.awt.geom.Point2D;
+
+import simkit.Schedule;
+import simkit.SimEntityBase;
+import simkit.smdx.CookieCutterSensor;
+import simkit.smdx.Math2D;
+import simkit.smdx.Mover;
+import simkit.smdx.Sensor;
+import simkit.smdx.SensorTargetMediatorFactory;
+import simkit.smdx.SensorTargetReferee;
+import simkit.smdx.UniformLinearMover;
 /**
  *
  * @author  Arnold Buss
@@ -20,6 +27,10 @@ public class TestIntercept extends SimEntityBase {
         );
     }
     
+    /**
+     * @deprecated Relies on non-functional Math2D code.
+     *
+     */
     public void doRun() {
         
         SensorTargetReferee ref = new SensorTargetReferee();

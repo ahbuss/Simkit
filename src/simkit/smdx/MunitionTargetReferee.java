@@ -6,9 +6,13 @@
 
 package simkit.smdx;
 
-import simkit.*;
-import java.util.*;
-import java.awt.*;
+import java.awt.Shape;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import simkit.SimEntityBase;
 /**
  * A referee for Munition-Target interactions. The referee is responsible
  * for determining which {@link Target Targets} are affected by the impact of a 

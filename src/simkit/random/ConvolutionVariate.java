@@ -1,5 +1,4 @@
 package simkit.random;
-import simkit.random.*;
 /**
  * Generates the convolution (sum) of a number of RandomVariates. An
  * array of instances

@@ -1,7 +1,7 @@
 package simkit.random;
-import simkit.random.*;
-import java.lang.reflect.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.WeakHashMap;
 /**
  * Factory for creating <CODE>RandomVector</CODE> instances from "orders".
  * The "specifications" of each order are as generic as possible:

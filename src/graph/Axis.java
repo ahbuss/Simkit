@@ -1,12 +1,14 @@
 package graph;
 
-import java.awt.*;
-import java.applet.*;
-import java.util.Vector;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.text.DecimalFormat;
 import java.util.Enumeration;
-import java.lang.*;
-
-import java.text.*;   // ab 12-05-97
+import java.util.Vector;
 
 /*
 **************************************************************************

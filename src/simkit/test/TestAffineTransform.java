@@ -5,8 +5,9 @@
  */
 
 package simkit.test;
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 /**
  *
  * @author  Arnold Buss

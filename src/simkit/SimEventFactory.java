@@ -1,6 +1,6 @@
 package simkit;
 
-import java.util.*;
+import java.util.Stack;
 
 /**
  *  A factory for creating SimEvents. 

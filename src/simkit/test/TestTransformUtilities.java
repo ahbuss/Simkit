@@ -5,10 +5,25 @@
  */
 
 package simkit.test;
-import simkit.smdx.*;
-import java.awt.geom.*;
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Arc2D;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
+import java.awt.geom.QuadCurve2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import simkit.smdx.TransformUtilities;
 /**
  *
  * @author  Arnold Buss

@@ -1,6 +1,5 @@
 package simkit.data;
 
-import java.util.*;
 /**
  * @deprecated No replacement yet.
 **/

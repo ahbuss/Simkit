@@ -10,7 +10,7 @@ package simkit.smd;
   * @version 0.2
 **/
 
-import java.text.*;
+import java.text.DecimalFormat;
 
 public class RangeParameters{ 
 // instance variables

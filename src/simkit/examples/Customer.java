@@ -1,6 +1,7 @@
 package simkit.examples;
-import simkit.Schedule;
 import java.text.DecimalFormat;
+
+import simkit.Schedule;
 /**
  * Represents a generic minimal entity.  Instances of Customer can be 
  * instantiated and used to represent customers (or jobs) being processed

@@ -1,9 +1,12 @@
 package simkit.data;
 
 
-import java.text.*;
-import simkit.*;
-import java.beans.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.DecimalFormat;
+
+import simkit.Named;
+import simkit.Schedule;
 
 /**
  *	A class for collecting data on the fly and reporting basic 

@@ -1,9 +1,9 @@
 package simkit.smdx;
 
-import simkit.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.beans.*;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+
+import simkit.SimEntity;
 /**
  * A Munition is an entity can interact with a Target. The effect of the
  * interaction is determined by a {@link MunitionTargetReferee} and a

@@ -1,7 +1,8 @@
 package simkit.examples;
 
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
+
 import simkit.SimEntityBase;
 import simkit.random.RandomVariate;
 

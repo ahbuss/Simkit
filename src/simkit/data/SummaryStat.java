@@ -2,8 +2,6 @@
 
 package simkit.data;
 
-import java.awt.Color;
-import java.awt.Label;
 
 /**
 * @deprecated Use simkit.stat.SummaryStat instead.

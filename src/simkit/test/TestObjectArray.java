@@ -6,7 +6,8 @@
 
 package simkit.test;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 
 /**
  *  How to dynamically create an arbitrary array using reflection.

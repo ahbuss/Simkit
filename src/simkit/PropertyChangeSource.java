@@ -1,5 +1,6 @@
 package simkit;
-import java.beans.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 /**
  *  Basic interface for property sources. (Since java.beans does not do
  *  it.)  The usual stuff, inspired by Arent Arntzen's Modkit ModPropertySource.

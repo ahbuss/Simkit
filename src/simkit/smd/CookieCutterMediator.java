@@ -1,8 +1,10 @@
 package simkit.smd;
 
-import java.beans.*;    // II
-import simkit.*;
-import simkit.smd.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import simkit.Schedule;
+import simkit.SimEntityBase;
 
 /**
  *  A mediator for implementing a "Cookie-Cutter" sensor. The detection

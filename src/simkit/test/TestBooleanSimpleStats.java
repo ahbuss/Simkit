@@ -8,10 +8,10 @@ package simkit.test;
 
 import simkit.Schedule;
 import simkit.SimEntityBase;
-import simkit.stat.SimpleStatsTally;
-import simkit.stat.SimpleStatsTimeVarying;
 import simkit.random.RandomNumber;
 import simkit.random.RandomNumberFactory;
+import simkit.stat.SimpleStatsTally;
+import simkit.stat.SimpleStatsTimeVarying;
 /**
  *
  * @author  Arnold Buss

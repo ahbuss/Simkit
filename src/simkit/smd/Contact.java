@@ -1,6 +1,6 @@
 package simkit.smd;
 
-import simkit.*;
+import simkit.SimEntityBase;
 /**
  *  This class shields a sensor from having access to the actual target.
 **/

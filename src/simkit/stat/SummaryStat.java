@@ -2,8 +2,6 @@
 
 package simkit.stat;
 
-import java.awt.Color;
-import java.awt.Label;
 
 /**
 *  Base class for time based statistical data accumulation.

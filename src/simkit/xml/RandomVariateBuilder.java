@@ -5,10 +5,14 @@
  */
 
 package simkit.xml;
-import simkit.random.*;
-import org.jdom.*;
-import java.util.*;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
+import org.jdom.Element;
+
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
 /**
  * Creates instances of RandomVariates from xml Elements.
  * @author  ahbuss

@@ -4,17 +4,7 @@ package simkit.stat;
 
 //import jgl.Array;
 import graph.Graph2D;
-import graph.Axis;
-import graph.DataSet;
 import graph.HistogramDataSet;
-
-import java.awt.Color;
-import java.awt.Label;
-import java.awt.Frame;
-import java.awt.Image;
-import java.awt.Graphics;
-import java.awt.BorderLayout;
-import java.awt.Font;
 
 /**
 * A Class to accumulate statistics and display them graphically. The data
@@ -90,7 +80,7 @@ public class      GraphStat
       histogramChart.setYLabel("Count");
       histogramChart.replaceData(theHistData);
       if ( animate ) {
-         histogramChart.show();
+         histogramChart.setVisible(true);
 
       }
       return histogramChart;
@@ -110,7 +100,7 @@ public class      GraphStat
       aveChart.setYLabel("Value");
 
       if ( animatingAverage ) {
-         aveChart.show();
+         aveChart.setVisible(true);
       }
       
       return aveChart;
@@ -129,7 +119,7 @@ public class      GraphStat
       timeAveChart.setXLabel("Time");
       timeAveChart.setYLabel("Value");
       if ( animatingTimeAverage ) {
-         timeAveChart.show();
+         timeAveChart.setVisible(true);
       }
       return timeAveChart;
    }

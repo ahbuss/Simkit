@@ -5,7 +5,7 @@
  */
 
 package simkit.smdx;
-import simkit.*;
+import simkit.SimEntity;
 /**
  * A Mediator is a SimEntity that determines the
  * effects of the interaction between 2 types of

@@ -1,8 +1,9 @@
 package simkit.util;
 
-import java.util.*;
-import java.io.*;
-import java.net.*;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 
 /*  <P> 3 Nov 1999: Removed load() and save() methods -- now in a subclass called
  *      INIFileProperties.

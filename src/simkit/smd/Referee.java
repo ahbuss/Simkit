@@ -21,10 +21,12 @@ package simkit.smd;
  *  @version 21 Febraury 2001
  *  @author Arnold Buss
 **/
-import simkit.*;
-import simkit.smd.*;
-import simkit.smd.*;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Vector;
+
+import simkit.Schedule;
+import simkit.SimEntity;
+import simkit.SimEntityBase;
 
 public class Referee extends SimEntityBase {
 /**

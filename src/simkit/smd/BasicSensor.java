@@ -1,7 +1,9 @@
 package simkit.smd;
 
-import java.util.*;
-import simkit.*;
+import java.util.List;
+import java.util.Vector;
+
+import simkit.SimEntityBase;
 
 /**
   *  <P>The basic sensor class.  The primary purpose is to hold properties of the

@@ -17,8 +17,8 @@ package simkit.smd;
   * 
 **/
 
-import simkit.SimEntity;
 import simkit.PropertyChangeSource;
+import simkit.SimEntity;
 
 public interface Mover extends SimEntity, PropertyChangeSource {
 

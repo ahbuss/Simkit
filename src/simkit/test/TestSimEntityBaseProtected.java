@@ -1,5 +1,6 @@
 package simkit.test;
-import simkit.*;
+import simkit.Schedule;
+import simkit.SimEntityBaseProtected;
 /**
  *
  * @author  Arnold Buss

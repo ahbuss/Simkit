@@ -5,8 +5,10 @@
  */
 
 package simkit.smdx;
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
 /**
  * Contains a method to transform the coordinates of a rectangle.
  * @author  Arnold Buss

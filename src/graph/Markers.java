@@ -1,12 +1,11 @@
 package graph;
 
-import java.awt.*;
-import java.util.*;
-import java.lang.*;
-import java.io.StreamTokenizer;
-import java.io.InputStream;
+import java.awt.Graphics;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StreamTokenizer;
 import java.net.URL;
+import java.util.Vector;
 
 
 /*
@@ -193,6 +192,7 @@ public class Markers extends Object {
    *
    * @param file URL of file to load
    * @exception IOException If there is an IO error
+   * @deprecated StreamTokenizer(InputStream) is deprecated, no substitute
    */
      public void LoadMarkers(URL file) throws IOException {
          InputStream is;

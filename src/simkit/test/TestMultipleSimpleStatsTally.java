@@ -2,9 +2,9 @@ package simkit.test;
 
 import simkit.Schedule;
 import simkit.examples.ArrivalProcess;
-import simkit.stat.SampleStatistics;
-import simkit.stat.MultipleSimpleStatsTally;
 import simkit.random.RandomVariateFactory;
+import simkit.stat.MultipleSimpleStatsTally;
+import simkit.stat.SampleStatistics;
 
 public class TestMultipleSimpleStatsTally {
 

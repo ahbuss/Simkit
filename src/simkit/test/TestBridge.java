@@ -5,10 +5,15 @@
  */
 
 package simkit.test;
-import simkit.*;
-import simkit.random.*;
-import simkit.util.*;
-import simkit.examples.*;
+import simkit.Bridge;
+import simkit.PropertyChangeNamespace;
+import simkit.Schedule;
+import simkit.examples.ArrivalProcess;
+import simkit.random.CongruentialSeeds;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.util.PropertyChangeFrame;
+import simkit.util.SimplePropertyDumper;
 /**
  *
  * @author  ahbuss

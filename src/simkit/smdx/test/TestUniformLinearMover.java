@@ -5,10 +5,17 @@
  */
 
 package simkit.smdx.test;
-import simkit.smdx.*;
-import simkit.*;
-import simkit.util.*;
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
+
+import simkit.Schedule;
+import simkit.smdx.CookieCutterSensor;
+import simkit.smdx.Mover;
+import simkit.smdx.PathMoverManager;
+import simkit.smdx.Sensor;
+import simkit.smdx.SensorTargetMediatorFactory;
+import simkit.smdx.SensorTargetReferee;
+import simkit.smdx.UniformLinearMover;
+import simkit.util.PropertyChangeFrame;
 
 /**
  *

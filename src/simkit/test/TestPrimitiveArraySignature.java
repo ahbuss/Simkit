@@ -1,5 +1,6 @@
 package simkit.test;
-import simkit.*;
+import simkit.Schedule;
+import simkit.SimEntityBase;
 /**
  * This class demonstrates that arrays of primitives (or ints at least)
  * do in fact work as signatures to do methods in SimEntityBase.

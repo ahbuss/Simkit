@@ -1,9 +1,16 @@
 package simkit.xml;
-import simkit.*;
-import java.util.*;
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
-import java.io.*;
+import java.io.InputStream;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import simkit.Schedule;
+import simkit.StopType;
 /**
  * Runs a simKit simulation as controled by a xml control file.
  * @author  ahbuss

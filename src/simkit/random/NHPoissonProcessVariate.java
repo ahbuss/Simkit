@@ -5,9 +5,8 @@
  */
 
 package simkit.random;
-import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
-import simkit.Schedule;
+import java.lang.reflect.Method;
 
 /**
  * Generates interarrival times for a Non-homogenious (non-stationary) Poisson Process.

@@ -3,6 +3,7 @@ package simkit.examples;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
+
 import simkit.Schedule;
 import simkit.SimEntityBase;
 

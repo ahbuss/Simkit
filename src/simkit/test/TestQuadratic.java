@@ -5,7 +5,7 @@
  */
 
 package simkit.test;
-import java.awt.geom.*;
+import java.awt.geom.QuadCurve2D;
 /**
  *
  * @author  Arnold Buss

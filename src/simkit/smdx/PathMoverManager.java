@@ -1,8 +1,12 @@
 package simkit.smdx;
 
-import java.util.*;
-import simkit.*;
-import java.awt.geom.*;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
+import simkit.SimEntityBase;
 
 /**
  * A manager that causes a Mover to move along a specified path.

@@ -1,13 +1,8 @@
 package graph;
 
-import java.awt.*;
-import java.applet.*;
-import java.util.*;
-import java.lang.*;
-import java.io.StreamTokenizer;
 import java.io.InputStream;
-import java.io.IOException;
-import java.net.URL;
+import java.io.StreamTokenizer;
+import java.util.Hashtable;
 
 /*
 ************************************************************************
@@ -90,6 +85,7 @@ public class ScanWord extends StreamTokenizer {
 /**
  * Instantiate the class with the parsed input stream.
  * @param in Input stream to read from
+ * @deprecated StreamTokenizer(InputStream) is deprecated, no substitute
  */
      public ScanWord( InputStream in ) {
            super(in);

@@ -1,7 +1,7 @@
 package simkit.examples;
 
-import simkit.*;
-import simkit.random.*;
+import simkit.SimEntityBase;
+import simkit.random.RandomVariate;
 
 /**
  * An implementation of a simple single queue, multi-server process. After instantiating,

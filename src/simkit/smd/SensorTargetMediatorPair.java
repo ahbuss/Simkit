@@ -4,7 +4,7 @@ package simkit.smd;
  *  <P> 08 March 1999 -- Added to simkit.smd package
 **/
 
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
 
 public class SensorTargetMediatorPair {
   private Constructor mediatorConstructor;

@@ -5,7 +5,7 @@
  */
 
 package simkit.smdx;
-import java.util.*;
+import java.util.HashMap;
 
 /**
  * A java enumeration for the various states of motion for a Mover.<BR/>

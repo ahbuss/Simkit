@@ -9,11 +9,14 @@ package simkit;
 //                                                                   //
 ///////////////////////////////////////////////////////////////////////
 
-import java.beans.*;
-import java.lang.reflect.*;
-import java.util.*;
-
-import simkit.util.*;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  *  <P> A delegate for handling properties for an entity. 

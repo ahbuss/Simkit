@@ -5,7 +5,7 @@
  */
 
 package simkit.smdx;
-import java.util.*;
+import java.util.Map;
 /**
  * Holds instances of Mediators indexed by the two Classes 
  * that the Mediator is used for.

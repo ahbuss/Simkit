@@ -1,9 +1,15 @@
  // FILE: Chartlet.java
 package simkit.data;
 
-import java.awt.*;
-import graph.*;
-import java.util.*;
+import graph.Axis;
+import graph.DataSet;
+import graph.Graph2D;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Label;
 
 /**
 * @deprecated Use simkit.stat.Chartlet instead.

@@ -6,12 +6,11 @@
 
 package simkit.test;
 
-import simkit.SimEntityBase;
 import simkit.Schedule;
+import simkit.SimEntityBase;
 import simkit.examples.ArrivalProcess;
-import simkit.stat.SimpleStatsTimeVarying;
-import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
+import simkit.stat.SimpleStatsTimeVarying;
 
 /**
  *
