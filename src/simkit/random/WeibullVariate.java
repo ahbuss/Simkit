@@ -16,9 +16,8 @@ public class WeibullVariate extends RandomVariateBase{
             + params.length + " given");
         }
         if (params[0] instanceof Number && params[1] instanceof Number) {
-            alpha = ((Number) params[0]).doubleValue();
-            alphaInverse = 1.0 / alpha;
-            beta = ((Number) params[1]).doubleValue();
+            this.setAlpha(((Number) params[0]).doubleValue());
+            this.setBeta(((Number) params[1]).doubleValue());
         }
         else {
             throw new IllegalArgumentException("For Weibull both parameters must "+
@@ -36,6 +35,7 @@ public class WeibullVariate extends RandomVariateBase{
     public void setAlpha(double a) {
         if ( a > 0.0) {
             alpha = a;
+            alphaInverse = 1.0 / alpha;
         }
         else {
             throw new IllegalArgumentException("Alpha parameter must be > 0.0");
