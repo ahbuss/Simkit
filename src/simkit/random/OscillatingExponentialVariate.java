@@ -155,15 +155,6 @@ public class OscillatingExponentialVariate implements simkit.random.RandomVariat
 **/
     public double getPhase() { return phase; }
     
-    
-    public Object clone() {
-        try {
-            return super.clone();
-        }
-        catch (CloneNotSupportedException e) {}
-        return null;
-    }
-    
 /**
 * Returns an String containing the name of this variate with the mean, amplitude,
 * frequency, and phase.

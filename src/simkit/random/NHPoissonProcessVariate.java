@@ -64,17 +64,6 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
         arg = new Object[1];
     }
 
-    /** Note: copy should be typically shallow in that the same RandomNumber instance is supporting the copy.
-     * @return Copy of this RandomVariate instance.
-     */
-    public Object clone() {
-        Object copy = null;
-        try {
-            copy = super.clone();
-        } catch (CloneNotSupportedException e) {}
-        return copy;        
-    }
-    
     /**
      * Generate a random variate having this class's distribution.
      * @return The generated random variate or NaN if there was an error during generation.

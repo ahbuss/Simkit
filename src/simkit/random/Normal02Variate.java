@@ -1,9 +1,3 @@
-/*
- * Normal02Variate.java
- *
- * Created on March 31, 2002, 8:40 PM
- */
-
 package simkit.random;
 
 /**
@@ -101,14 +95,7 @@ public class Normal02Variate implements RandomVariate {
         } while (rng.draw() > Math.exp(-0.5 * Math.pow((Math.abs(y) - 1.0), 2)));
         return getMean() + y * getStandardDeviation();
     }
-    
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        throw new InternalError();
-    }
-    
+
 /**
 * Sets the mean of this normal variate.
 **/

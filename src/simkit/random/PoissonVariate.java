@@ -1,9 +1,3 @@
-/*
- * PoissonVariate.java
- *
- * Created on March 30, 2002, 3:34 AM
- */
-
 package simkit.random;
 
 /**
@@ -108,14 +102,7 @@ public class PoissonVariate implements DiscreteRandomVariate {
 * Gets the value of the desired mean.
 **/
     public double getMean() { return mean; }
-    
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        throw new InternalError();
-    }
-    
+
 /**
 * Returns a String containing the name and mean of this RandomVariate.
 **/

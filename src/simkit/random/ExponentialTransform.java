@@ -69,15 +69,5 @@ public class ExponentialTransform implements RandomVariate {
 * Sets the supporting RandomNumber of the underlying RandomVariate.
 **/
     public void setRandomNumber(RandomNumber rng) { rv.setRandomNumber(rng); }
-    
-/**
-* Returns a copy of this RandomVariate.
-**/
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        finally{}
-        return null;
-    }
+
 }

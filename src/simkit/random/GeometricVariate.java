@@ -102,15 +102,7 @@ public class GeometricVariate implements DiscreteRandomVariate {
 * Returns the probability of success of a single trial.
 **/
     public double getP() { return p; }
-    
-    public Object clone() {
-        try {
-            return super.clone();
-        }
-        catch (CloneNotSupportedException e) {}
-        return null;
-    }
-    
+
 /**
 * Returns a String containing the name of this distribution and the value of <code>p</code>.
 **/
