@@ -8,7 +8,6 @@ package simkit.smdx;
 
 import java.awt.geom.*;
 
-import simkit.smd.*;
 import simkit.*;
 
 /**

@@ -6,7 +6,6 @@
 
 package simkit.smdx;
 import simkit.*;
-import simkit.smd.*;
 
 /**
  * A Mover that can be acted on by a Munition and is subject to being
