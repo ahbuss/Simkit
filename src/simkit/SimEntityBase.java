@@ -2,152 +2,86 @@ package simkit;
 
 import simkit.util.*;
 import simkit.util.IndexedPropertyChangeEvent;
-import java.beans.*;
 import java.lang.reflect.*;
 import java.util.*;
 
-/////////////////////////// Copyright Notice //////////////////////////
-//                                                                   //
-// This simkit package or sub-package and this file is Copyright (c) //
-// 1997, 1998, 1999 by Kirk A. Stork and Arnold H. Buss.             //
-//                                                                   //
-// Please forward any changes, comments or suggestions to:           //
-//   abuss@nps.navy.mil                                              //
-//                                                                   //
-///////////////////////////////////////////////////////////////////////
-
 /**
- * Default implementation of a SimEntity.
+ *  Default implementation of a SimEntity using reflection.  Consequently, the
+ *  callback methods don't have to be implemented by the modeler using
+ *  this class.
  *
- * <P>This implementation provides all the basic requirements
- * of a SimEntity.
- *
- * <P>Changes on 11/10/97 (AB):
- *   <OL>
- *   <LI> Made class abstract, since it doesn't make sense to have an
- *       actual instance of SimEntityBase itself.
- *
- *   <LI> Added Hashtable doMethods to store all "do" methods.
- *   </OL>
- *
- * <P> 22 Oct 1998 - SimEntityBase now only needs to implement SimEntity,
- * since SimEntity extends SimEventSource and SimEventListener.
- *
- * <P>Note that "do" methods must still be public [due to a bug(?) in jdk1.1?].
- *
- * <P> 28 March 1999 - Removed local event list
- * <P> 25 August 1999 - Fixed bug that called overridden "do" methods twice.
- *
- *  <P> Notes (30 Oct):
- *       <P> Make Hashtables static => Hastable2's?
- *       <p> Is namesAndSignatures really necessary??
- *
- * @author Arnold Buss
- * @author K. A. Stork
- * @version 1.1.1
+ *  @author Arnold Buss
+ *  @author K. A. Stork
  *
  **/
 
-public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
-    
-    private static int         serializer = 0;
-    private static  String PREFIX = "do";
+public abstract class SimEntityBase extends BasicSimEntity {
     
     private static Hashtable2 allDoMethods;
     private static Hashtable2 allNamesAndSignatures;
-    private static Hashtable allImpossibleEvents;
+    private static Map allImpossibleEvents;
     
     static {
         allDoMethods = new Hashtable2();
         allNamesAndSignatures = new Hashtable2();
-        allImpossibleEvents = new Hashtable();
+        allImpossibleEvents = new HashMap();
     }
     
-    private double             priority;
-    private String             name;
-    private int                serial;
-    
     private boolean verbose;
-    private Vector listeners;
     
-    private  Map doMethods;
-    private  Map namesAndSignatures;
+    //    private  Map doMethods;
+    //    private  Map namesAndSignatures;
     
-    private  String    stopEventName;
-    private  int       numberEvents;
-    
-    private boolean reRunnable;
-    private PropertyChangeDispatcher psp;
-    
-    private String nameSuffix;
-    private String namePrefix;
+    private  String stopEventName;
     
     private static boolean debug;
     
-    private SimEventSource sourceProxy;
-    
-/**
- * Base constructor.
- **/
+    /**
+     * Base constructor.
+     **/
     public SimEntityBase(String name, double priority) {
-        psp = new PropertyChangeDispatcher(this);
-        priority     = priority;
-        serial       = ++serializer;
-        setNamePrefix("");
-        setNameSuffix("." + serial);
+        super(name, priority);
         
-        if ( name.equals(DEFAULT_ENTITY_NAME) ) {
-            this.name = getClass().getName() ;
-        }
-        else {
-            this.name         = name;
-        }
-        listeners = new Vector();
-        
-        doMethods = (Map) allDoMethods.get(this.getClass());
+        Map doMethods = (Map) allDoMethods.get(this.getClass());
         if (doMethods == null) {
-            doMethods = new Hashtable();
+            doMethods = new HashMap();
             Method[] methods = this.getClass().getMethods();
             for (int i = 0; i < methods.length; i++) {
-                if (methods[i].getName().startsWith(PREFIX)) {
+                if (methods[i].getName().startsWith(EVENT_METHOD_PREFIX)) {
                     doMethods.put(getFullMethodName(methods[i]), methods[i]);
                     String methodName = methods[i].getName();
                 } // if
             }  // for
-            doMethods = new Hashtable(doMethods);
+            doMethods = new HashMap(doMethods);
             allDoMethods.put(this.getClass(), doMethods);
         } // if
         
-        sourceProxy = new BasicSimEventSource();
-        
-        namesAndSignatures = (Map) allNamesAndSignatures.get(this.getClass());
+        Map namesAndSignatures = (Map) allNamesAndSignatures.get(this.getClass());
         if (namesAndSignatures == null) {
-            namesAndSignatures = new Hashtable();
+            namesAndSignatures = new HashMap();
             for (Iterator i = doMethods.keySet().iterator(); i.hasNext(); ) {
                 Method nextDoMethod = (Method) doMethods.get(i.next());
-                Vector v = null;
+                List v = null;
                 if (namesAndSignatures.containsKey(nextDoMethod.getName())) {
-                    v = (Vector)namesAndSignatures.get(nextDoMethod.getName());
+                    v = (List)namesAndSignatures.get(nextDoMethod.getName());
                 }
                 else {
-                    v = new Vector();
+                    v = new ArrayList();
                     namesAndSignatures.put(nextDoMethod.getName(), v);
                 }
                 v.add(nextDoMethod.getParameterTypes());
             }
-            namesAndSignatures = new Hashtable(namesAndSignatures);
+            namesAndSignatures = new HashMap(namesAndSignatures);
             allNamesAndSignatures.put(this.getClass(), namesAndSignatures);
         }
-        
-        reRunnable = doMethods.containsKey("doRun()");
-        Schedule.addRerun(this);
     }
     
-/**
- * Convenience constructors.
- **/
+    /**
+     * Convenience constructors.
+     **/
     public SimEntityBase() {
         this(DEFAULT_ENTITY_NAME, DEFAULT_PRIORITY);
+        setName(getClass().getName() + '.' + getSerial());
     }
     
     public SimEntityBase(String name) {
@@ -156,194 +90,11 @@ public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
     
     public SimEntityBase(double priority) {
         this(DEFAULT_ENTITY_NAME, priority);
+        setName(getClass().getName() + '.' + getSerial());
     }
     
     public void setVerbose(boolean v) {verbose = v;}
     public boolean isVerbose() {return verbose;}
-    
-/*
-  Four-parameter methods
- */
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay,
-    Object[]    parameters,
-    double      eventPriority) {
-        
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, parameters, eventPriority);
-        attemptSchedule(event);
-        return event;
-    }
-    
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay,
-    Object      parameter,
-    double      eventPriority) {
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, new Object[] {parameter}, eventPriority);
-        attemptSchedule(event);
-        return event;
-    }
-    
-/*
-  Three parameter methods
- */
-    
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay,
-    Object[]    parameters) {
-        SimEvent event =  SimEventFactory.createSimEvent(this, methodName, delay, parameters, DEFAULT_PRIORITY);
-        attemptSchedule(event);
-        return event;
-    }
-    
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay,
-    double      eventPriority) {
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, new Object[] {}, eventPriority);
-        attemptSchedule(event);
-        return event;
-    }
-    
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay,
-    Object      parameter ) {
-        
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, new Object[] {parameter});
-        attemptSchedule(event);
-        return event;
-    }
-    
-/*
-  Two parameter method
- */
-    
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay )  {
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, new Object[] {}, DEFAULT_PRIORITY);
-        attemptSchedule(event);
-        return event;
-    }
-    
-/*
-   From previous version -- deprecated
-   @deprecated
- */
-    
-    public SimEvent waitDelay(
-    String      methodName,
-    Object      parameter,
-    double      delay,
-    String      eventName ) {
-        SimEvent event = SimEventFactory.createSimEvent(this, methodName, delay, new Object[] {parameter}, DEFAULT_PRIORITY);
-        attemptSchedule(event);
-        return event;
-    }
-    
-    protected void attemptSchedule(SimEvent event) {
-        Schedule.scheduleEvent(event);
-    }
-    
-/**
- *  Implements simkit.SimEntity.interrupt(String, Object[]).
- **/
-    public void interrupt(String eventName, Object[] parameters) {
-        Schedule.interrupt(this, eventName, parameters);
-    }
-    
-/**
- * Convenience interrupt methods
- **/
-    
-    public void interrupt(String eventName, Object parameter) {
-        interrupt(eventName, new Object[] {parameter});
-    }
-    
-    public void interrupt(String eventName) {
-        Schedule.interrupt(this, eventName);
-    }
-    
-    public void interrupt() {
-        Schedule.interrupt(this);
-    }
-    
-/**
- * Implement simkit.SimEntity.interruptAll(String, Object[]).
- **/
-    public void interruptAll(String eventName, Object[] parameters) {
-        Schedule.interruptAll(this, eventName, parameters);
-    }
-    
-/**
- * Convenience interruptAll methods
- **/
-    
-    public void interruptAll(String eventName, Object parameter) {
-        interruptAll(eventName, new Object[] {parameter});
-    }
-    
-    public void interruptAll(String eventName) {
-        Schedule.interruptAll(this, eventName);
-    }
-    
-    public void interruptAll() {
-        Schedule.interruptAll(this);
-    }
-    
-/**
- *  Implements simkit.SimEntity.getPriority().
- **/
-    public final double getPriority () {
-        return priority;
-    }
-    
-/**
- *  Implements simkit.SimEntity.setPriority()
- **/
-    public final void setPriority (double d) {
-        priority = d;
-    }
-    
-/**
- * A default string description of this entity,
- *
- * name (Entity Priority)
- **/
-    public String toString() {
-        return this.getName();
-    }
-    
-    public void setNameSuffix(String suffix) {nameSuffix = suffix;}
-    public String getNameSuffix() {return nameSuffix;}
-    public void setNamePrefix(String prefix) {namePrefix = prefix;}
-    public String getNamePrefix() {return namePrefix;}
-    
-/**
- * Implements simkit.Named.
- **/
-    public String getName() {
-        StringBuffer buf = new StringBuffer();
-        buf.append(getNamePrefix());
-        buf.append(name);
-        buf.append(getNameSuffix());
-        return buf.toString();
-    }
-    
-/**
- * Implements simkit.Named.
- **/
-    public void setName(String s) {
-        name = s;
-        if (!name.equals(getClass().getName()) ){
-            setNameSuffix("");
-        }
-    }
-    
-    public int getSerial() {return serial;}
     
     
     // implements SimEventListener
@@ -361,6 +112,7 @@ public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
             return;
         } // if
         // If no method of that name, then there is no hope.
+        Map namesAndSignatures = (Map) allNamesAndSignatures.get(this.getClass());
         if (!namesAndSignatures.containsKey(methodName)) {
             if (debug) {
                 System.out.println("No method of name " + methodName + " -- giving up...");
@@ -372,6 +124,7 @@ public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
         } // if
         
         try {
+            Map doMethods = (Map) allDoMethods.get(this.getClass());
             // This method has either happened before or matches one in method exactly
             if (isDebug()) {
                 System.out.println("doMethods hashcode = " + doMethods.hashCode());
@@ -501,18 +254,18 @@ public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
         }
     }
     
-/**
- * <P>This method is added by TRAC-WSMR, Authot Lt Col Olson, USMC.
- * <code>dumpDoMethodsStr</code> returns a String containing the same information as
- * <code>dumpDoMethods</code>.  This method allows a developer to place the information
- * in a graphical user interface, textbox, or similar output device.
- *
- * <P> Method rewritten by A. Buss to use newer Iterator (vice Enumeration) and
- * to use <CODE>StringBuffer</CODE> for speed.  The underscores are also made to
- * exactly match the length of the heading.
- *
- * @return String representation of this entity's "doMethods"
- **/
+    /**
+     * <P>This method is added by TRAC-WSMR, Authot Lt Col Olson, USMC.
+     * <code>dumpDoMethodsStr</code> returns a String containing the same information as
+     * <code>dumpDoMethods</code>.  This method allows a developer to place the information
+     * in a graphical user interface, textbox, or similar output device.
+     *
+     * <P> Method rewritten by A. Buss to use newer Iterator (vice Enumeration) and
+     * to use <CODE>StringBuffer</CODE> for speed.  The underscores are also made to
+     * exactly match the length of the heading.
+     *
+     * @return String representation of this entity's "doMethods"
+     **/
     public String dumpDoMethodsStr() {
         String name = getName();
         StringBuffer buf = new StringBuffer();
@@ -523,6 +276,7 @@ public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
             buf.append('=');
         }
         buf.append(NL);
+        Map doMethods = (Map) allDoMethods.get(this.getClass());
         for (Iterator i = doMethods.keySet().iterator(); i.hasNext(); ) {
             buf.append(i.next());
             buf.append(NL);
@@ -530,25 +284,25 @@ public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
         return buf.toString();
     }
     
-/**
- *  Prints out the "do" methods for this SimEntity
- **/
+    /**
+     *  Prints out the "do" methods for this SimEntity
+     **/
     public void dumpDoMethods() {
         Schedule.getOutputStream().println(this.dumpDoMethodsStr());
     }
     
-/**
- * <P> This method is added by TRAC-WSMR, Authot Lt Col Olson, USMC.
- * <code>dumpNamesAndSignaturesStr()</code> returns a String containing the same information as
- * <code>dumpNamesAndSignatures()</code>.  This method allows a developer to place the information
- * in a graphical user interface, textbox, or similar output device.
- *
- * <P> A. Buss modified this to utilize Iterators and StringBuffer.  Also, the corresponding
- * old method now simply invokes this one.
- *
- * @return String representation of this entity's "NamesAndSignatures"
- *
- **/
+    /**
+     * <P> This method is added by TRAC-WSMR, Authot Lt Col Olson, USMC.
+     * <code>dumpNamesAndSignaturesStr()</code> returns a String containing the same information as
+     * <code>dumpNamesAndSignatures()</code>.  This method allows a developer to place the information
+     * in a graphical user interface, textbox, or similar output device.
+     *
+     * <P> A. Buss modified this to utilize Iterators and StringBuffer.  Also, the corresponding
+     * old method now simply invokes this one.
+     *
+     * @return String representation of this entity's "NamesAndSignatures"
+     *
+     **/
     public String dumpNamesAndSignaturesStr() {
         String name = getName();
         StringBuffer buf = new StringBuffer();
@@ -559,6 +313,7 @@ public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
             buf.append('=');
         }
         buf.append(NL);
+        Map namesAndSignatures = (Map) allNamesAndSignatures.get(this.getClass());
         for (Iterator i = namesAndSignatures.keySet().iterator(); i.hasNext(); ) {
             Object methodName = i.next();
             buf.append(methodName);
@@ -578,35 +333,35 @@ public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
         return buf.toString();
     }
     
-/**
- *  Prints names and signatures of "do" methods to output specified by Schedule.
- **/
+    /**
+     *  Prints names and signatures of "do" methods to output specified by Schedule.
+     **/
     public void dumpNamesAndSignatures() {
         Schedule.getOutputStream().println(dumpNamesAndSignaturesStr());
     }
-/**
- * Interrupt all this SimEntity's events when a certain time is reached
- * @deprecated - Use stopAtTime(double);
- * @param endingTime The ending time at which all this SimEntity's events are interrupted.
- **/
+    /**
+     * Interrupt all this SimEntity's events when a certain time is reached
+     * @deprecated - Use stopAtTime(double);
+     * @param endingTime The ending time at which all this SimEntity's events are interrupted.
+     **/
     public void stopOnTime(double endingTime) {
         this.stopAtTime(endingTime);
     }
     
-/**
- * Interrupt all this SimEntity's events when a certain time is reached
- * @param endingTime The ending time at which all this SimEntity's events are interrupted.
- **/
+    /**
+     * Interrupt all this SimEntity's events when a certain time is reached
+     * @param endingTime The ending time at which all this SimEntity's events are interrupted.
+     **/
     public void stopAtTime(double endingTime) {
         new Stop().waitDelay("StopSimEntity", endingTime, this, -Double.MAX_VALUE);
     }
     
-/**
- * Interrupt all this SimEntity's events when a certain event count is reached
- * @param eventName The event to be used.
- * @param count The number of occurences of the event beyond which no events are
- *        scheduled.
- **/
+    /**
+     * Interrupt all this SimEntity's events when a certain event count is reached
+     * @param eventName The event to be used.
+     * @param count The number of occurences of the event beyond which no events are
+     *        scheduled.
+     **/
 /*
    public void stopOnEvent(String eventName, int count) {
       resetEventCounts();
@@ -615,163 +370,43 @@ public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
    }
  */
     
-/**
- * Counts for events
- **/
-/*
-   protected void updateEventCounts(SimEvent currentSimEvent) {
-     int serial = 1;
-     synchronized (eventCounts) {
-       if (eventCounts.containsKey(currentSimEvent.getEventName())) {
-         serial = ((Integer)
-               eventCounts.get(currentSimEvent.getEventName())).intValue() + 1;
-       }
-       eventCounts.put(currentSimEvent.getEventName(), new Integer(serial));
-       if (currentSimEvent.getEventName().equals(stopEventName) &&
-          ((Integer) eventCounts.get(currentSimEvent.getEventName())).intValue() >= numberEvents) {
-         interruptAll();
-       }
-     }
-  }
-   public void resetEventCounts() { eventCounts.clear(); }
- */
-    public void reset() {
-        interruptAll();
+    public static void setDebug(boolean b) {debug = b;}
+    public static boolean isDebug() {return debug;}
+    
+    /**
+     *  @param m The method for which to get the full name (unfortunately the jdk does
+     *           not appear to provide this particular String...to my knowledge).
+     *  @return The full method name of m, including signature, as a String.
+     **/
+    public static String getFullMethodName(Method m) {
+        String name = m.toString();
+        return m.getName() + getSignatureString(m);
     }
     
-    public boolean isReRunnable() { return reRunnable;  }
-    
-    public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        psp.addPropertyChangeListener(pcl);
+    /**
+     *  @param m The method for which to get the signature as a String (unfortunately
+     *  the jdk does not appear to provide this particular String either...to my knowledge).
+     *  @return The signature m as a String.
+     **/
+    public static String getSignatureString(Method m) {
+        String name = m.toString();
+        return name.substring(name.indexOf('('));
     }
     
-    public void removePropertyChangeListener(PropertyChangeListener pcl) {
-        psp.removePropertyChangeListener(pcl);
+    public static boolean isAssignableFrom(Class[] signature, Object[] args) {
+        boolean assignable = true;
+        if (signature.length != args.length) {
+            assignable = false;
+        }
+        else {
+            for (int i = 0; i < signature.length; i++) {
+                if (!signature[i].isAssignableFrom(args[i].getClass())) {
+                    assignable = false;
+                    break;
+                }
+            }
+        }
+        return assignable;
     }
     
-    public void firePropertyChange(PropertyChangeEvent event) {
-        psp.firePropertyChange(event);
-    }
-    
-    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        psp.firePropertyChange(propertyName, oldValue, newValue);
-    }
-    
-    public void firePropertyChange(String propertyName, int oldValue, int newValue) {
-        psp.firePropertyChange(propertyName, oldValue, newValue);
-    }
-    
-    public void firePropertyChange(String propertyName, boolean newValue) {
-        psp.firePropertyChange(propertyName, null, new Boolean(newValue));
-    }
-    
-    public void firePropertyChange(String propertyName, int newValue) {
-        psp.firePropertyChange(propertyName, null, new Integer(newValue));
-    }
-    
-    public void firePropertyChange(String propertyName, double newValue) {
-        psp.firePropertyChange(propertyName, null, new Double(newValue));    }
-        
-        public void firePropertyChange(String propertyName, Object newValue) {
-            psp.firePropertyChange(propertyName, null, newValue);
-        }
-        
-        public void fireIndexedPropertyChange(int index, String propertyName, Object oldValue,
-        Object newValue) {
-            psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, oldValue, newValue, index));
-        }
-        
-        public void fireIndexedPropertyChange(int index, String propertyName, Object newValue) {
-            psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, newValue, index));
-        }
-        
-        public void fireIndexedPropertyChange(int index, String propertyName, int newValue) {
-            psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, new Integer(newValue), index));
-        }
-        
-        public void fireIndexedPropertyChange(int index, String propertyName, int oldValue, int newValue) {
-            psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, new Integer(oldValue), new Integer(newValue), index));
-        }
-        
-        public void fireIndexedPropertyChange(int index, String propertyName, double newValue) {
-            psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, new Double(newValue), index));
-        }
-        
-        public void fireIndexedPropertyChange(int index, String propertyName, double oldValue, double newValue) {
-            psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, new Double(oldValue), new Double(newValue), index));
-        }
-        
-        public void fireIndexedPropertyChange(int index, String propertyName, boolean newValue) {
-            psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, new Boolean(newValue), index));
-        }
-        
-        public void fireIndexedPropertyChange(int index, String propertyName, boolean oldValue, boolean newValue) {
-            psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, new Boolean(oldValue), new Boolean(newValue), index));
-        }
-        
-        public void setProperty(String property, Object value) {
-            psp.setProperty(property, value);
-        }
-        
-        public void setProperty(String property, Object value, Object defaultValue) {
-            psp.setProperty(property, value != null ? value : defaultValue);
-        }
-        
-        public Object getProperty(String property) {
-            return psp.getProperty(property);
-        }
-        
-        public Object getProperty(String property, Object defaultValue) {
-            return psp.getProperty(property, defaultValue);
-        }
-        
-        
-        public static void setDebug(boolean b) {debug = b;}
-        public static boolean isDebug() {return debug;}
-        
-/**
- *  @param m The method for which to get the full name (unfortunately the jdk does
- *           not appear to provide this particular String...to my knowledge).
- *  @return The full method name of m, including signature, as a String.
- **/
-        public static String getFullMethodName(Method m) {
-            String name = m.toString();
-            return m.getName() + getSignatureString(m);
-        }
-        
-/**
- *  @param m The method for which to get the signature as a String (unfortunately
- *  the jdk does not appear to provide this particular String either...to my knowledge).
- *  @return The signature m as a String.
- **/
-        public static String getSignatureString(Method m) {
-            String name = m.toString();
-            return name.substring(name.indexOf('('));
-        }
-        
-        public static String getPrefix() { return PREFIX; }
-        
-/**
- * register listener
- * @param SimEventListener s
- **/
-        public void addSimEventListener(SimEventListener s) {
-            sourceProxy.addSimEventListener(s);
-        }
- /**
-  * unregister listener
-  * @param SimEventListener s
-  **/
-        public void removeSimEventListener(SimEventListener s) {
-            sourceProxy.removeSimEventListener(s);
-        }
-/**
- * notify listeners
- * @param SimEvent event
- **/
-        public void notifyListeners(SimEvent event) {
-            sourceProxy.notifyListeners(event);
-        }
-        
-        
 }
