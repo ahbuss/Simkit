@@ -33,10 +33,11 @@ import javax.swing.table.*;
    {
      tableData = new Vector();
      
-     tableData.add(new StateVariable("servers", "int", new Integer(2)));
-     tableData.add(new StateVariable("waitrons", "int", new Integer(3)));
-     tableData.add(new StateVariable("waiteresses", "int", new Integer(4)));
-     tableData.add(new StateVariable("waiters", "int", new Integer(5)));
+     // Bogus data for testing and mockups
+     //tableData.add(new StateVariable("servers", "int", new Integer(2)));
+     //tableData.add(new StateVariable("waitrons", "int", new Integer(3)));
+     //tableData.add(new StateVariable("waiteresses", "int", new Integer(4)));
+     //tableData.add(new StateVariable("waiters", "int", new Integer(5)));
      
    }
 
@@ -111,6 +112,32 @@ import javax.swing.table.*;
     if(column == CURRENT_VALUE_COLUMN) stateVariable.setCurrentValue(value);
 
     fireTableCellUpdated(row, column);
+  }
+  
+  /**
+   * Add a state variable to the table model. Redraws the table with
+   * the new data.
+   */
+  public void addStateVariable(StateVariable stateVariable)
+  {
+    tableData.add(stateVariable);
+    this.fireTableDataChanged();
+  }
+
+  
+    /**
+   * Returns an array of all the state variable names.
+   */
+  public java.util.List getNames()
+  {
+    List names = new Vector();
+
+    for(int idx = 0; idx < tableData.size(); idx++)
+    {
+      names.add(((StateVariable)tableData.elementAt(idx)).getVariableName());
+    }
+
+    return names;
   }
     
 } // end StateVariableTableModel

@@ -4,6 +4,7 @@ package simkit.viskit;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
@@ -21,6 +22,7 @@ import javax.swing.table.*;
    private final static int OPEN_INDEX            = 2;
    private final static int SAVE_INDEX            = 3;
    private final static int SAVE_AS_INDEX         = 4;
+   private final static int GENERATE_JAVA         = 5;
    
    // Edit menu
    private final static int CUT_INDEX           = 0;
@@ -87,8 +89,7 @@ import javax.swing.table.*;
    private JToggleButton cancelArcMode;
    
    
-   /**
-    * Whether or not we can edit this event graph */
+   /** Whether or not we can edit this event graph */
     private boolean isEditable;
 
    /**
@@ -96,9 +97,26 @@ import javax.swing.table.*;
     */
    public EventGraphFrame()
    {
-     isEditable = true;
      this.initUI();
      this.setSize(700, 400);
+     this.setEditable(true);
+   }
+   
+   /**
+    * Constructor; takes the reader as an argument, which is used
+    * to hide the details of XML reading. The EventGraphReader
+    * is responsible for parsing the XML file; we query that
+    * object to retrieve the data and fill out the parameter and
+    * state variable data.
+    *
+    * @param reader Object responsible for supplying us with data
+    * @param pIsEditable true if this event graph is editable
+    */
+   public EventGraphFrame(EventGraphXMLReader reader, boolean pIsEditable)
+   {
+     this();         // Run the standard constructor
+     
+     this.setEditable(pIsEditable);
    }
    
    /**
@@ -133,6 +151,25 @@ import javax.swing.table.*;
      // If none of them are selected we're in serious trouble.
      
      return 0;
+   }
+   
+   /**
+    * Returns an array of strings that contain all the existing parameter and
+    * state variable names. This can be used to make sure we don't create
+    * duplicate names.
+    */
+   private java.util.List getExistingNames()
+   {
+     java.util.List parameterNames, stateVariableNames, allNames;
+     
+     parameterNames     = parameterTableModel.getNames();
+     stateVariableNames = stateVariableTableModel.getNames();
+     allNames = new Vector();
+     
+     allNames.addAll(parameterNames);
+     allNames.addAll(stateVariableNames);
+     
+     return allNames;
    }
    
    /**
@@ -192,7 +229,8 @@ import javax.swing.table.*;
      parametersPanel.setLayout(new BorderLayout());
      parametersPanel.add(new JLabel("Parameters"), BorderLayout.NORTH);
      
-     JTable parametersTable = new JTable(new ParameterTableModel());
+     parameterTableModel = new ParameterTableModel();
+     JTable parametersTable = new JTable(parameterTableModel);
 
      column = parametersTable.getColumnModel().getColumn(1);
      column.setCellEditor(new DefaultCellEditor(types));
@@ -238,16 +276,55 @@ import javax.swing.table.*;
     */
    public void addParameterDialog()
    {
-     ParameterDialog parameterDialog = new ParameterDialog(this);
+     ParameterDialog parameterDialog = new ParameterDialog(this, this.getExistingNames());
+     String parameterName;
+     String parameterType;
      
      parameterDialog.setVisible(true);
      
-     System.out.println("in addParameterDialog" + parameterDialog.getParameterName());
+     // User hit cancel? Bail without adding anything.
+     if(parameterDialog.getButtonChosen() == ParameterDialog.CANCEL_CHOSEN)
+       return;
+       
+     // Retrieve the parameter name and type from the dialog. These items
+     // were error-checked in the parameter dialog.
      
+     parameterName = parameterDialog.getParameterName();
+     parameterType = parameterDialog.getParameterType();
+     
+     // Add to the model
+     Parameter newParameter = new Parameter(parameterName, parameterType);
+     parameterTableModel.addParameter(newParameter);
    }
-     
-     
    
+   /**
+    * run the add state variable dialog
+    */
+   public void addStateVariableDialog()
+   {
+     StateVariableDialog stateVariableDialog = new StateVariableDialog(this, this.getExistingNames());
+     String name;
+     String type;
+     String initialValue;
+
+     stateVariableDialog.setVisible(true);
+
+     // User hit cancel? Bail without adding anything.
+     if(stateVariableDialog.getButtonChosen() == StateVariableDialog.CANCEL_CHOSEN)
+       return;
+
+     // Retrieve the state variable name and type from the dialog. These items
+     // were error-checked in the parameter dialog.
+
+     name = stateVariableDialog.getStateVariableName();
+     type = stateVariableDialog.getType();
+     initialValue = stateVariableDialog.getInitialValue();
+
+     // Add to the model
+     StateVariable stateVariable = new StateVariable(name, type, initialValue);
+     stateVariableTableModel.addStateVariable(stateVariable);
+   }
+
    /**
     * Do menu layout work here.
     */
@@ -260,6 +337,7 @@ import javax.swing.table.*;
      fileMenu.add(new JMenuItem("Open"));
      fileMenu.add(new JMenuItem("Save"));
      fileMenu.add(new JMenuItem("Save as..."));
+     fileMenu.add(new JMenuItem("Generate Java Class"));
      
      // Assorted event handling for the above menu items
      JMenuItem aMenuItem = fileMenu.getItem(OPEN_INDEX);
@@ -271,7 +349,6 @@ import javax.swing.table.*;
        }
      });
      
-
      // Set up edit menu
      editMenu = new JMenu("Edit");
      editMenu.add(new JMenuItem("Cut"));
@@ -292,6 +369,17 @@ import javax.swing.table.*;
          addParameterDialog();
        }
       });
+      
+      // Add state variable dialog
+     aMenuItem = editMenu.getItem(ADD_STATE_INDEX);
+     aMenuItem.addActionListener(new ActionListener()
+     {
+       public void actionPerformed(ActionEvent e)
+       {
+         addStateVariableDialog();
+       }
+      });
+      
      
      // Set up simulation menu for controlling the simulation
      simulationMenu = new JMenu("Simulation");
@@ -317,7 +405,7 @@ import javax.swing.table.*;
      selectMode.setToolTipText("Select items on the graph");
 
      addMode = new JToggleButton(new ImageIcon("images/node.jpg"));
-     addMode.setToolTipText("Add new nodes to the graph");
+     addMode.setToolTipText("Add new nodes to the event graph");
 
      arcMode = new JToggleButton(new ImageIcon("images/connect.jpg"));
      arcMode.setToolTipText("Connect nodes with scheduling arcs");
@@ -330,6 +418,7 @@ import javax.swing.table.*;
      modeButtonGroup.add(arcMode);
      modeButtonGroup.add(cancelArcMode);
      
+     // Make selection mode the default mode
      selectMode.setSelected(true);
      
      toolBar.add(selectMode);
@@ -338,16 +427,25 @@ import javax.swing.table.*;
      toolBar.add(cancelArcMode);
    }
    
+   /**
+    * Returns the model that controls the parameter table
+    */
    public ParameterTableModel getParameterTableModel()
    {
      return parameterTableModel;
    }
    
+   /**
+    * Returns the model that controls the table with state variables.
+    */
    public StateVariableTableModel getStateVariableTableModel()
    {
      return stateVariableTableModel;
    }
    
+   /**
+    * Entry point.
+    */
    public static void main(String args[])
    {
      EventGraphFrame gui = new EventGraphFrame();

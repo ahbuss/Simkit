@@ -30,11 +30,18 @@ import javax.swing.table.*;
    {
      tableData = new Vector();
 
-     tableData.add(new Parameter("Randomvariable", "RandomGen"));
-     tableData.add(new Parameter("values", "Collection"));
-     tableData.add(new Parameter("seed", "int"));
-     tableData.add(new Parameter("value", "double"));
+     // bogus data for testing
+     //tableData.add(new Parameter("Randomvariable", "RandomGen"));
+     //tableData.add(new Parameter("values", "Collection"));
+     //tableData.add(new Parameter("seed", "int"));
+     //tableData.add(new Parameter("value", "double"));
 
+   }
+   
+   public void addParameter(Parameter newParameter)
+   {
+      tableData.add(newParameter);
+      this.fireTableDataChanged();
    }
    
    /**
@@ -99,6 +106,21 @@ import javax.swing.table.*;
     if(column == TYPE_COLUMN) parameter.setType((String)value);
 
     fireTableCellUpdated(row, column);
+  }
+  
+  /**
+   * Returns an array of all the parameter names.
+   */
+  public java.util.List getNames()
+  {
+    List names = new Vector();
+    
+    for(int idx = 0; idx < tableData.size(); idx++)
+    {
+      names.add(((Parameter)tableData.elementAt(idx)).getName());
+    }
+    
+    return names;
   }
 
 } // end StateVariableTableModel
