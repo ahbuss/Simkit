@@ -20,10 +20,17 @@ import java.util.*;
  * also helps protect from rogue models that do bad things
  * to the event list, affecting other running models.</P>
  *
- * //TODO: add reallyVerbose and/or warn level scheme
+ * <P>Unlike the previous <CODE>Schedule</CODE>, separate
+ * references to input and output objects are not maintained.
+ * Instead, "dumping" and input is vis <CODE>System.out</CODE>
+ * and <CODE>System.in</CODE>.  If it is desired that
+ * i/o comes from different sources, then change the
+ * default streams via <CODE>System.setOut()</CODE> and
+ * <CODE>System.setIn()</CODE>.
  * @version $Id$
  * @author Arnold Buss
  */
+
 public class EventList {
     
 /**
@@ -131,6 +138,8 @@ public class EventList {
  */
     private DecimalFormat form;
     
+    private boolean printEventSources;
+    
 /**
  * If true, will process one event and wait for another call to 
  * <code>startSimulation()</CODE>
@@ -173,6 +182,20 @@ public class EventList {
      * @return Whether verbose mode is on
      */    
     public boolean isVerbose() { return verbose; }
+    
+    /** For debugging, gives more detailed output
+     * @param b Whether reallyVerbose is on
+     */    
+    public void setReallyVerbose(boolean b) { reallyVerbose = b; }
+    
+    /**
+     * @return Whether reallyVerbose is true
+     */    
+    public boolean isReallyVerbose() { return reallyVerbose; }
+    
+    public void setPrintEventSources(boolean b) { printEventSources = b; }
+    
+    public boolean isPrintEventSources() { return printEventSources; }
     
     /**
      * @param b Whether single step mode is on
@@ -278,6 +301,11 @@ public class EventList {
         synchronized(reRun) {
             for (Iterator i = reRun.iterator(); i.hasNext(); ) {
                 SimEntity simEntity = (SimEntity) i.next();
+                if (isReallyVerbose()) {
+                    System.out.println("Checking rerun " + 
+                        simEntity + "[rerunnable?] " + 
+                        simEntity.isReRunnable());
+                }
                 if (simEntity.isPersistant()) {
                     simEntity.reset();
                     if (simEntity.isReRunnable()) {
@@ -420,6 +448,11 @@ public class EventList {
                 "Event List: " + event);
             }
         }
+        if (isReallyVerbose()) {
+            System.out.println("Event " + event + " Scheduled by " + 
+                event.getSource());
+            dump();
+        }
     }
     
     /** Starts event list algorithm.  While the event
@@ -444,6 +477,10 @@ public class EventList {
         while (!eventList.isEmpty() && isRunning()) {
             currentSimEvent = (SimEvent) eventList.first();
             eventList.remove(currentSimEvent);
+            if (reallyVerbose) {
+                System.out.println("Processing " + currentSimEvent + 
+                    " from Event List");
+            }
             simTime = currentSimEvent.getScheduledTime();
             
             if (currentSimEvent.isPending()) {
@@ -726,6 +763,12 @@ public class EventList {
                     }
                     if (simEvent.isPending()) {
                         buf.append(simEvent);
+                        if (isPrintEventSources()) {
+                            buf.append(' ');
+                            buf.append('<');
+                            buf.append(simEvent.getSource().getName());
+                            buf.append('>');
+                        }
                         buf.append(SimEntity.NL);
                     }
                 }
