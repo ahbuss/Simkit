@@ -39,8 +39,8 @@ public class StopType {
     
 /**
 * Add a StopType to the HashMap.
-* @param The name of the StopType.
-* @param The StopeType to add.
+* @param name The name of the StopType.
+* @param type The StopType to add.
 **/
     public static void addNameForType(String name, StopType type) {
         types.put(name, type);

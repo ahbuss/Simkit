@@ -46,7 +46,6 @@ public interface SimEntity extends Named,
  * @param delay The amount of time before the event is scheduled
  * @param parameters The parameters passed to the scheduled event.
  * @param eventPriority The priority of this event (higher is better).
- * @param name The name of the event, if different from the first argument.
 **/
     public SimEvent waitDelay(
               String      eventName,

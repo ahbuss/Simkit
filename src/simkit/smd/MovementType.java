@@ -21,7 +21,7 @@ public class MovementType {
    
 /**
   * Only allow subclasses to create a new type.
-  * @param String name
+  * @param name name of new MovementType
 **/
    protected MovementType(String name){ this.name = name;}
    

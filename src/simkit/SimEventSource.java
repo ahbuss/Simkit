@@ -38,7 +38,7 @@ public interface SimEventSource  {
 
 /**
   * Notify registered listeners by calling their processSimEvent method.
-  * @param SimEvent event
+  * @param event the event to notify listeners of.
 **/
    public void notifyListeners(SimEvent event);
 

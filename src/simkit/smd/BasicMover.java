@@ -114,7 +114,7 @@ public class BasicMover extends SimEntityBase implements Mover {
  *  <CODE>speed</CODE>.  No check is made to confirm that the Mover can in
  *  fact travel at this speed and no guarantee is made that this can in fact
  *  be done by this Mover.
- * @param destination The (hypothetical) destination
+ * @param dest The (hypothetical) destination
  * @param speed The (hypothetical) speed.
 **/
   protected double getMoveTime(Coordinate dest, double speed) {

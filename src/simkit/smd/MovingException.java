@@ -22,7 +22,7 @@ public class MovingException extends RuntimeException {
 
 /**
   * Construct a <CODE>MovingException</CODE> with specified detail message
-  * @param String detail
+  * @param detail Message for MovingException
 **/
    public MovingException(String detail) { super(detail); }
 

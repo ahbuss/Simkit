@@ -17,7 +17,7 @@ public interface IndexedSampleStatistics extends SampleStatistics {
 /**
 * Adds a new observation for the given member of the collection of 
 * properties associated with this SampleStatistic.
-* @param value The current value of the property.
+* @param newObs The new observation
 * @param index The index of the property.
 **/
     public void newObservation(Number newObs, int index);

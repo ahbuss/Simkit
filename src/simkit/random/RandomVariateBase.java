@@ -33,7 +33,7 @@ public abstract class RandomVariateBase implements RandomVariate {
     /**
      * Sets the supporting RandomNumber for this RandomVariate.
      *  Use this if another random number generator besides the default is desired
-     *  @param gen The <CODE>RandomNumber</CODE> instance to use for Un(0, 1) random numbers.
+     *  @param rng The <CODE>RandomNumber</CODE> instance to use for Un(0, 1) random numbers.
      **/
     public void setRandomNumber(RandomNumber rng) { this.rng = rng; }
     

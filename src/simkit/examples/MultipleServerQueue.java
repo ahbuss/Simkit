@@ -134,7 +134,7 @@ public class MultipleServerQueue extends SimEntityBase {
 /**
  * Sets the RandomVariate used to generate service times to a copy
  * of the given RandomVariate.
- *  @param iat Service time distribution (parameter)
+ *  @param st Service time distribution (parameter)
 **/
     public void setServiceTime(RandomVariate st) {
         serviceTime = RandomVariateFactory.getInstance(st);

@@ -49,7 +49,8 @@ public class Coordinate implements java.io.Serializable {
 
    /**
      *  Construct coordinate at (x, y) <BR>
-     *  @param double x, double y
+     *  @param x x-coordinate
+     *  @param y y-coordinate
    **/
      public Coordinate(double x, double y) {
         setCoordinates(x, y);
@@ -58,7 +59,7 @@ public class Coordinate implements java.io.Serializable {
    
    /**
      *  Construct coordinate at same location as oldCoord <BR>
-     *  @param Coordinate oldCoord
+     *  @param oldCoord Coordinate to copy
    **/
      public Coordinate(Coordinate oldCoord) {
         this(oldCoord.getXCoord(), oldCoord.getYCoord());
@@ -71,7 +72,8 @@ public class Coordinate implements java.io.Serializable {
 
    /**
      *  Note that <I>both</I> coordinates must be set together.
-     * @param double x, double y
+     * @param x x-coordinate
+     * @param y y-coordinate
    **/
    public void setCoordinates(double x, double y) {
       xCoord = x;
@@ -82,7 +84,7 @@ public class Coordinate implements java.io.Serializable {
    /**
      *  An additional setCoordinates method that uses another Coordinate for
      *  its data.
-     * @param Coordinate oldCoord
+     * @param oldCoord new Coordinate 
    **/
    public void setCoordinates(Coordinate oldCoord) {
       setCoordinates(oldCoord.getXCoord(), oldCoord.getYCoord());
@@ -90,7 +92,8 @@ public class Coordinate implements java.io.Serializable {
    
    /**
      *  Increment coordinates by (deltaX, deltaY).
-     * @param double deltaX, double deltaY
+     * @param deltaX x-increment
+     * @param deltaY y-increment
    **/
      public Coordinate incrementBy(double deltaX, double deltaY) {
         setCoordinates( xCoord + deltaX, yCoord + deltaY);
@@ -99,7 +102,7 @@ public class Coordinate implements java.io.Serializable {
  
    /**
      *  Increment coordinates by Coordinate delta.
-     * @param Coordinate delta
+     * @param delta Coordinate to increment by
    **/
      public Coordinate incrementBy(Coordinate delta) {
         incrementBy(delta.getXCoord(), delta.getYCoord());
@@ -108,7 +111,7 @@ public class Coordinate implements java.io.Serializable {
 
    /**
      *  Decrement coordinates by Coordinate delta.
-     * @param Coordinate delta
+     * @param delta Coordinate to decrement by
    **/
      public Coordinate decrementBy(Coordinate delta) {
         incrementBy(- delta.getXCoord(), - delta.getYCoord());
@@ -117,7 +120,7 @@ public class Coordinate implements java.io.Serializable {
 
 /**
   *  Multiply both coordinates by scalar alpha
-  * @param double alpha
+  * @param alpha multiplicative factor
 **/
 
    public Coordinate scalarMultiply(double alpha) {
@@ -127,7 +130,7 @@ public class Coordinate implements java.io.Serializable {
 
 /**
   *  Compute the inner product between this coordinate and another
-  * @param Coordinate other
+  * @param other Cooridnate to compute inner product with
 **/   
 
    public double dotBy(Coordinate other) {
@@ -137,7 +140,8 @@ public class Coordinate implements java.io.Serializable {
 /**
   *  Compute the Euclidean distance between current instance and
   *  (x, y). 
-  *  @param double x, double y
+  *  @param x x-coordinate to compute distance from
+  *  @param y y-coordinate to compute distance from
 **/
    public double distanceFrom(double x, double y) {
       return Math.sqrt( 
@@ -147,7 +151,7 @@ public class Coordinate implements java.io.Serializable {
 /**
   *  Compute the Euclidean distance between current instance and
   *  Coordinate there. <BR>
-  *  @param Coordinate there
+  *  @param there Coordinate to compute distance from
 **/
    public double distanceFrom(Coordinate there) {
       return distanceFrom(there.getXCoord(), there.getYCoord() );
@@ -157,7 +161,7 @@ public class Coordinate implements java.io.Serializable {
      
 /**
   *  Sets the DecimalFormat String
-  *  @param String newFormatString
+  *  @param newFormatString new format string for displaying Coordinates
 **/
    public void setFormat(String newFormatString) {
       form = new DecimalFormat(newFormatString);

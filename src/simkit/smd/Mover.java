@@ -25,7 +25,7 @@ public interface Mover extends SimEntity, PropertyChangeSource {
 /**
   * Move to the destination provided.
   *
-  * @param Coordinate destination
+  * @param destination place to move to
   * @exception smd.MovingException if the entity cannot move toward the destination
 **/
    public void moveTo(Coordinate destination) ;
@@ -33,7 +33,7 @@ public interface Mover extends SimEntity, PropertyChangeSource {
 /**
   * Move to the destination provided at the given speed.
   *
-  * @param Coordinate destination
+  * @param destination destination for this move
   * @param atSpeed The desired speed; should be overridden if this exceeds the
   *        Mover's capabilities 
   * @exception smd.MovingException if the entity cannot move toward the destination

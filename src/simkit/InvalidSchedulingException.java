@@ -27,7 +27,7 @@ public class InvalidSchedulingException extends RuntimeException
 
 /**
   * Create an InvalidSchedulingxception with detailed message s.
-  * @param String s
+  * @param s message for InvalidSchedulingException
 **/
    public InvalidSchedulingException( String s) {
       super(s);

@@ -27,7 +27,7 @@ public class ServerWithFailures extends MultipleServerQueue {
 * Creates a single server system with the given time distributions.
 * Note: Copies are made of the RandomVariates.
 * @param arrivalTime The RandomVariate used to generate the interarrival times.
-* @param serviveTime The RandomVariate used to generate the service times.
+* @param serviceTime The RandomVariate used to generate the service times.
 * @param timeToFailure The RandomVariate used to generate the time to failure.
 * @param repairTime The RandomVariate used to generate the time to repair.
 **/

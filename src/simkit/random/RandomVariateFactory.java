@@ -219,7 +219,7 @@ public class RandomVariateFactory {
      * Creates a <CODE>RandomVariate</CODE> instance supported by the
      * <CODE>RandomNumber</CODE> instance passed in. 
      * @param rvClass The class object of the desired instance
-     * @param parameters The desired parameters for the instance
+     * @param params The desired parameters for the instance
      * @param rng An instance of <CODE>RandomNumber</CODE> to support this
      * RandomVariate.
      * @return Instance of <CODE>RandomVariate</CODE> based on the 

@@ -82,7 +82,7 @@ public interface PropertyChangeSource {
  * The array may contain a mixture of PropertyChangeListeners (for the listeners
  * listening to all properties) and PropertyChangeListenerProxies (for the listeners
  * listening to a specific property.) See 
- * {@link PropertyChangeSupport#getPropertyChangeListeners()}
+ * @link PropertyChangeSupport#getPropertyChangeListeners()
  * for more information.
  *  @return An array of PropertyChangeListeners.
  */
