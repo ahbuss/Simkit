@@ -7,6 +7,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
 import simkit.util.IndexedPropertyChangeEvent;
@@ -665,11 +666,25 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
                 Method readMethod = descriptors[i].getReadMethod();
                 Method writeMethod = descriptors[i].getWriteMethod();
                 if (writeMethod != null && readMethod != null) {
-                    buf.append(System.getProperty("line.separator"));
-                    buf.append('\t');
-                    buf.append( descriptors[i].getName() );
-                    buf.append(" = ");
-                    buf.append( readMethod.invoke(this, (Object[])null));
+                    Object value = readMethod.invoke(this, (Object[])null);
+                    if (!value.getClass().isArray()) {
+                        buf.append(System.getProperty("line.separator"));
+                        buf.append('\t');
+                        buf.append( descriptors[i].getName() );
+                        buf.append(" = ");
+                        buf.append(value);
+                    }
+                    else {
+                        for (int j = 0; j < Array.getLength(value); ++j) {
+                            buf.append(System.getProperty("line.separator"));
+                            buf.append('\t');
+                            buf.append( descriptors[i].getName() );
+                            buf.append('[');
+                            buf.append(j);
+                            buf.append("] = ");
+                            buf.append(Array.get(value, j));
+                        }
+                    }
                 }
             }
         } 
