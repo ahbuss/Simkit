@@ -8,7 +8,7 @@ package simkit;
 
 /**
  * Creates a bridge between two SimEvents. If the Bridge processes a given SimEvent,
- * it will schedule a second specified event at the current time using the paramters
+ * it will schedule a second specified event at the current time using the parameters
  * and priority of the first event.  After construction, the Bridge must be registered
  * with one or more SimEventSources.
  *

@@ -1,20 +1,3 @@
-/**
- * Simulation scheduling.
- *
- * Schedule maintains the simulation schedule and
- * manages SimEvents.
- * <UL>
- * <LI> 3 April 1999 -- removed "synchronized" from scheduleEvent.
- * <LI> 3 April 99 -- tried to add wait/notify to pause/resume simulation
- * <LI> 28 May 1999 -- removed threading from Schedule
- * <LI> 28 Sept 1999 -- Removed all "rewind" stuff.
- * </UL>
- *
- * @author K. A. Stork
- * @author Arnold Buss
- * @version 1.1.1
- *
- **/
 package simkit;
 
 import java.util.*;
@@ -22,46 +5,153 @@ import java.io.*;
 import java.text.*;
 
 import java.lang.reflect.*;
+/*
+* Revision history:
+* 
+* 
+* 3 April 1999 -- removed "synchronized" from scheduleEvent.
+* 3 April 99 -- tried to add wait/notify to pause/resume simulation
+* 28 May 1999 -- removed threading from Schedule
+* 28 Sept 1999 -- Removed all "rewind" stuff.
+*
+*/
 
+/**
+ * Schedule maintains the simulation schedule and
+ * manages SimEvents.
+ *
+ * @author K. A. Stork
+ * @author Arnold Buss
+ * @version 1.1.1
+ *
+ **/
 public class Schedule  {
     
+/**
+* Holds the pending events.
+**/
     private static SortedSet     agenda;
+
+/**
+* The container type for the event list.
+**/
     private static Class         eventListClass;
+
+/**
+* The current simulation time.
+**/
     private static double        time;
+
+/**
+* Unused.
+**/
     private static long          eventSerializer;
+
+/**
+* Holds the default format for outputting times.
+**/
     private static DecimalFormat tsf;
+
+/**
+* The event currently being handled.
+**/
     private static SimEvent      currentSimEvent;
     
+/**
+* Holds the number of times each type of event has been processed.
+**/
     private static Hashtable     eventCounts;
     
+/**
+* If true causes the event list to be printed prior
+* to processing each event.
+**/
     private static boolean verbose;
+
+/**
+* Causes additional debug/trace information to be printed.
+**/
     private static boolean reallyVerbose;
+
+/**
+* Causes the owner of the event to be included in 
+* printouts of the event list.
+**/
     private static boolean printEventSources;
-    //   private static Vector reRun;
+
+/**
+* Holds a list of entities with Run events.
+* Note: It is up to the SimEntity to add itself. (This is
+* implemented in BasicSimEntity.)
+**/
     private static Map reRun;
     
     // for single-step mode
+/**
+* If true the simulation will stop prior to each event and 
+* wait for user input.
+**/
     private static boolean singleStep;
+
+/**
+* The InputStream where Schedule gets input.
+**/
     private static InputStream input;
+
+/**
+* The PrintWriter where Schedule sends output.
+**/
     private static PrintWriter output;
     
     // for stop on event
+
+/**
+* The name of the event to stop on after it
+* has been processed numberEvents times.
+**/
     private static String stopEventName;
+
+/**
+* The number of times to process the stop event
+* prior to stopping the simulation.
+**/
     private static long numberEvents;
+
+/**
+* If true, stop the simulation after the stop event
+* has been processed numberEvents times.
+**/
     private static boolean stopOnEvent;
+
+/**
+* If true, stop the simulation at endingTime.
+**/
     private static boolean stopOnTime;
+
+/**
+* True if the simulation is currently running.
+**/
     private static boolean running;
     
-    // for stop at time
+/**
+* The time to stop the simulation if stopOnTime is true.
+**/
     private static double endingTime;
     
-    // turns INTERRUPTED on & off on dump()
+/**
+* Unused.
+**/
     private static boolean cleanDump;
     
-    // List of events that are not dumped in Event List
+/**
+* List of events that are not dumped in Event List
+**/
     private static Vector ignoreOnDump;
     
     // Comparator for Event List
+/**
+* Determines the sort order of the SimEvents.
+**/
     private static Comparator simEventComp;
     
     static {
@@ -86,15 +176,30 @@ public class Schedule  {
      * Only subclass Schedule by augmenting the simkit package.
      **/
     Schedule() {}
-    
+
+/**
+* Causes a list of the pending events (and other 
+* information) to be dumped to the output stream prior
+* to processing each event when set to true.
+**/    
     public static void setVerbose(boolean v) {verbose = v;}
+
+/**
+* Causes a list of the pending events (and other 
+* information) to be dumped to the output stream prior
+* to processing each event when set to true.
+**/    
     public static boolean isVerbose() {return verbose;}
     
-    /**
-     * Sets single step mode.  After each event is executed, the user must
-     * enter something at the console.
-     * @param boolean step true if seingle-step mode, false otherwise.
-     **/
+/**
+* Sets single step mode.  After each event is executed, the user must
+* enter something at the console.<BR>
+* 's' will stop the simulation.<BR>
+* 'g' will take the simulation out of single-step and continue.<BR>
+* 'f' will take the simulation out of single-step, set verbose to false, and continue.<BR>
+* Return will cause the simulation to step to the next event.
+* @param step true if single-step mode, false otherwise.
+**/
     public static final void setSingleStep(boolean step) {
         singleStep = step;
         if (singleStep) {setVerbose(singleStep);}
@@ -105,10 +210,27 @@ public class Schedule  {
             System.err.println("Press [Enter] for next step; (s)top, (g)o or (f)inish");
         }
     }
+
+/**
+* If true, then Schedule is running in single-step mode and will
+* pause prior to processing each event.
+*/
     public static boolean isSingleStep() { return singleStep; }
+
+/**
+* True when a simulation is currently running.
+**/
     public static boolean isRunning() {return running;}
     
+// cleanDump appears unused.
+/**
+* @deprecated No replacement
+**/
     public static void setCleanDump(boolean c) {cleanDump = c;}
+
+/**
+* @deprecated No replacement
+**/
     public static boolean isCleanDump() {return cleanDump;}
     
     /**
@@ -117,6 +239,7 @@ public class Schedule  {
     public static  double simTime() { return time; }
     
     /**
+     * Gets the current simulation time.
      * @return the current value of simulated time.
      **/
     public static double getSimTime() { return time; }
@@ -127,13 +250,18 @@ public class Schedule  {
     public static  String simTimeStr() { return getSimTimeStr();}
     
     /**
+     * Get the current simulation time as a formatted String. The
+     * default is in decimal form with 3 digits after the decimal point.
      * @return The current value of simulated time as a <CODE>String</CODE>
      **/
     public static String getSimTimeStr() { return tsf.format(simTime()); }
     
     /**
-     *  @param format - The
+     * Get the current simulation time as a formatted String based on 
+     * the user supplied format.
+     *  @param format - The format to use.
      *  @return The current value of simulated time as a <CODE>String</CODE>
+     * @see DecimalFormat
      **/
     public static String getSimTimeStr(String format) { return new DecimalFormat(format).format(simTime()); }
     
@@ -223,6 +351,10 @@ public class Schedule  {
         currentSimEvent = null;
     }
     
+/**
+* If the current event is the designated stop event and the number
+* of occurrences exceeds the number required, then stop the simulation.
+**/
     private static void checkStopEvent() {
         if (currentSimEvent.getFullMethodName().equals(stopEventName) &&
         currentSimEvent.getSerial() >= numberEvents) {
@@ -230,6 +362,9 @@ public class Schedule  {
         }
     }
     
+/**
+* Increment the count for the event type corresponding to the given event.
+**/
     private static void updateEventCounts(SimEvent currentSimEvent) {
         int[] serial = null;
         if (eventCounts.containsKey(currentSimEvent.getFullMethodName())) {
@@ -254,6 +389,10 @@ public class Schedule  {
  */
     }
     
+/**
+* Pause the simulation, which can be resumed with either resumeSimulation()
+* or startSimulation()
+**/
     public static void pause() {
         if (verbose) {
             System.out.println("Schedule is paused");
@@ -261,18 +400,35 @@ public class Schedule  {
         running = false;
     }
     
+/**
+* Pause the simulation, which can be resumed with either resumeSimulation()
+* or startSimulation()
+**/
     public static void pauseSimulation() {
         pause();
     }
     
+/**
+* Resume the simulation at the next event.
+**/
     public static void resumeSimulation() {
         resume();
     }
     
+/**
+* Resume the simulation at the next event.
+**/
     public static void resume() {
         startSimulation();
     }
     
+/**
+* Wait for user input before continuing. <P>
+* 's' will stop the simulation.<BR>
+* 'g' will take the simulation out of single-step and continue.<BR>
+* 'f' will take the simulation out of single-step, set verbose to false, and continue.<BR>
+* Return will cause the simulation to step to the next event.
+**/
     private static void step() {
         while(true) {
             try {
@@ -300,11 +456,18 @@ public class Schedule  {
             catch (IOException e) { System.err.println(); e.printStackTrace(System.err); }
         }
     }
-    
+  
+/**
+* @deprecated Use stopAtTime()
+**/  
     public static void stopOnTime(double endingT) {
         stopAtTime(endingT);
     }
     
+/**
+* Will cause the simulation to stop when it reaches the given
+* simulation time. Any previously set stop time or stop on event is cleared.
+**/  
     public static void stopAtTime(double atTime) {
         interrupt("Stop");
         endingTime = atTime;
@@ -313,17 +476,31 @@ public class Schedule  {
         stopOnTime = true;
     }
     
+/**
+* Disables both stop at time and stop on event.
+**/
     public static void setUserDefinedStop() {
         stopOnTime = false;
         stopOnEvent = false;
     }
     
+/**
+* Causes the simulation to stop after the given event (which takes no arguments) has been processed the
+* given number of times. Cancels any previous stopOnEvent or stopAtTime.
+* @throws IllegalArgumentException if the number of events is negative.
+**/
     public static void stopOnEvent(String eventName, int number) {
         Schedule.stopOnEvent(eventName, new Class[]{}, number);
         stopOnTime = false;
         stopOnEvent = true;
     }
     
+/**
+* Causes the simulation to stop after the given event with the given signature
+* has been processed the
+* given number of times. Cancels any previous stopOnEvent, but does not cancel stopAtTime.
+* @throws IllegalArgumentException if the number of events is negative.
+**/
     public static void stopOnEvent(String eventName, Class[] eventSignature, int number) {
         if (number >= 0) {
             stopOnEvent = true;
@@ -341,6 +518,9 @@ public class Schedule  {
         }
     }
     
+/**
+* Stops the simulation, which cannot be resumed.
+**/
     public static synchronized void stopSimulation() {
         clearEventList();
         running = false;
@@ -357,6 +537,9 @@ public class Schedule  {
      **/
     public static synchronized SimEvent getCurrentEvent() {return currentSimEvent;}
     
+/**
+* Cancels the next event for the given SimEntity.
+**/
     public static void interrupt(SimEntity se) {
         clearDeadEvents();
         SimEvent event = null;
@@ -371,6 +554,9 @@ public class Schedule  {
         }
     }
     
+/**
+* Cancels the next event of the given name for the given SimEntity.
+**/
     public static void interrupt(SimEntity se, String eventName) {
         clearDeadEvents();
         SimEvent event = null;
@@ -386,6 +572,10 @@ public class Schedule  {
         }
     }
     
+/**
+* Cancels the next event of the given name with the given parameters for the given SimEntity.
+* The parameters must match in signature and value.
+**/
     public static void interrupt(SimEntity se, String eventName, Object[] parameters) {
         clearDeadEvents();
         SimEvent event = null;
@@ -401,6 +591,9 @@ public class Schedule  {
         }
     }
     
+/**
+* Cancels all events for the given SimEntity.
+**/
     public static void interruptAll(SimEntity se) {
         clearDeadEvents();
         SimEvent event = null;
@@ -421,6 +614,9 @@ public class Schedule  {
         stopSimulation();
     }
     
+/**
+* Cancels all events of the given name for the given SimEntity.
+**/
     public static void interruptAll(SimEntity se, String eventName) {
         clearDeadEvents();
         SimEvent event = null;
@@ -434,8 +630,11 @@ public class Schedule  {
         }
     }
     
+/**
+* Cancels all events of the given name with the given parameters for the given SimEntity.
+* The parameters must match in signature and value.
+**/
     public static void interruptAll(SimEntity se, String eventName, Object[] parameters) {
-        
         clearDeadEvents();
         SimEvent event = null;
         for (Iterator i = agenda.iterator(); i.hasNext();) {
@@ -449,6 +648,9 @@ public class Schedule  {
         }
     }
     
+/**
+* Cancel the next event.
+**/
     public static void interrupt(){
         clearDeadEvents();
 //        ((SimEvent)agenda.first()).interrupt();
@@ -457,6 +659,9 @@ public class Schedule  {
         SimEventFactory.returnSimEventToPool(event);
     }
     
+/**
+* Cancel the next event of the given name.
+**/
     public static void interrupt(String eventName) {
         clearDeadEvents();
         SimEvent event = null;
@@ -472,6 +677,10 @@ public class Schedule  {
         }
     }
     
+/**
+* Cancels the next event of the given name with the given parameters.
+* The parameters must match in signature and value.
+**/
     public static void interrupt(String eventName, Object[] parameters) {
         clearDeadEvents();
         SimEvent event = null;
@@ -487,7 +696,8 @@ public class Schedule  {
         }
     }
     
-    /** pops all events that are not waiting to execute from this
+    /** 
+     * Pops all events that are not waiting to execute from this
      *  object's agenda, ie., those that are interrupted
      **/
     private static void clearDeadEvents() {
@@ -497,6 +707,10 @@ public class Schedule  {
         }
     }
     
+/**
+* Return a list of the currently pending events.
+* @param reason Added to the last line of the list.
+**/
     public static String getEventListAsString(String reason) {
         clearDeadEvents();
         StringBuffer buf = new StringBuffer();
@@ -544,10 +758,17 @@ public class Schedule  {
         return buf.toString();
     }
     
+/**
+* Return a list of the currently pending events.
+**/
     public static String getEventListAsString() {
         return getEventListAsString("");
     }
     
+/**
+* Prints the list of the currently pending events to the output stream.
+* @param reason Added to the last line of the list.
+**/
     public static void dump(String reason) {
         if (output != null) {
             output.println(getEventListAsString(reason));
@@ -555,20 +776,46 @@ public class Schedule  {
         }
     }
     
+/**
+* Prints the list of the currently pending events to the output stream.
+**/
     public static void dump() {
         dump("");
     }
     
+/**
+* If set to true causes the owner of the event to be included
+* whenever the event list is printed. Used by dump() and getEventListAsString()
+*/
     public static void setEventSourceVerbose(boolean v) {printEventSources = v;}
     
+/**
+* Adds the entity to the list of entities with "Run" events and
+* schedules the Run event at the current time.
+* Note: It is up to the SimEntity to add itself. (This is
+* implemented in BasicSimEntity.)
+**/
     public static void addRerun(SimEntity se) {
         reRun.put(se, null);
         if (se.isReRunnable()) {
             se.waitDelay("Run", 0.0, null, se.getPriority());
         }
     }
+
+/**
+* Removes the SimEntity from the list of entities with Run events.
+* Note it does not interrupt its Run event.
+**/
     public static void removeRerun(SimEntity se) {reRun.remove(se);}
+
+/**
+* Clears the list of SimEntities with Run events.
+**/
     public static void clearRerun() {reRun.clear();}
+
+/**
+* Returns a copy of the list of SimEntities with Run events.
+**/
     public static Map getReruns() {
         return new HashMap(reRun);
     }
@@ -592,22 +839,59 @@ public class Schedule  {
     }
     
     /**
+     * Returns the list of events that are not included when the event list is output.
      *  @return Current list of events that are ignored on dump().
      **/
     public static Vector getIgnoreOnDumpEvents() { return (Vector)ignoreOnDump.clone(); }
     
+/**
+* Set the InputStream from which Scheduled will get its input.
+**/
     public static void setInputStream(InputStream in) {input = in;}
+
+/**
+* Sets the OutputStream to which Scheduled will sent output.
+* A new PrintWriter is constructed to handle the output.
+**/
     public static void setOutputStream(OutputStream out) {
         output = new PrintWriter(out);
     }
+
+/**
+* Sets the output of Scheduled to a pre-existing Writer.
+**/
     public static void setOutputStream(Writer out) { output = new PrintWriter(out); }
     
+/**
+* The InputStream from which Schedule will get its input.
+**/
     public static InputStream getInputStream() {return input;}
+
+/**
+* The PrintWriter to which Schhedule will send output.
+**/
     public static PrintWriter getOutputStream() {return output;}
     
+/**
+* It true, causes Schedule to print additional debug/trace information.
+**/
     public static void setReallyVerbose(boolean rv) {reallyVerbose = rv;}
+
+/**
+* It true, causes Schedule to print additional debug/trace information.
+**/
     public static boolean isReallyVerbose() {return reallyVerbose;}
     
+/**
+* Change the underlying container for the event list. (The default is a TreeSet.)<P>
+* The following conditions must be true in order for the change to succeed: 
+* <UL>
+* <LI>The specified Class must implement the SortedSet interface.</LI>
+* <LI>It must have a constructor that takes a java.util.Comparator as its argument.</LI>
+* <LI>The simulation must not be running.</LI>
+* </UL>
+* @param The class to be used as the container.
+**/
     public static synchronized void setEventListType(Class newClass) {
         if (java.util.SortedSet.class.isAssignableFrom(newClass)) {
             if (!Schedule.isRunning()) {
@@ -638,6 +922,16 @@ public class Schedule  {
         }
     }
     
+/**
+* Change the underlying container for the event list. (The default is a TreeSet.)<P>
+* The following conditions must be true in order for the change to succeed: 
+* <UL>
+* <LI>The specified Class must implement the SortedSet interface.</LI>
+* <LI>It must have a constructor that takes a java.util.Comparator as its argument.</LI>
+* <LI>The simulation must not be running.</LI>
+* </UL>
+* @param The name of the class to be used as the container.
+**/
     public static synchronized void setEventListType(String newClassName) {
         try {
             setEventListType(Thread.currentThread().getContextClassLoader().loadClass(newClassName));
@@ -645,8 +939,14 @@ public class Schedule  {
         catch (ClassNotFoundException e) {e.printStackTrace(System.err);}
     }
     
+/**
+* Returns the Class that is the current container for the event list.
+**/
     public static Class getEventListType() {return eventListClass;}
     
+/**
+* Remove all events from the event list. Causes the simulation to end.
+**/
     private static void clearEventList() {
         while (!agenda.isEmpty()) {
             SimEvent event = (SimEvent) agenda.first();

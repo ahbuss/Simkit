@@ -8,17 +8,32 @@ import java.util.*;
 /**
  *  Default implementation of a SimEntity using reflection.  Consequently, the
  *  callback methods don't have to be implemented by the modeler using
- *  this class.
+ *  this class. When the processSimEvent method is called, reflection is 
+ *  used to attempt to find the method for the SimEvent. If the method is
+ *  not found, it is silently ignored.
  *
  *  @author Arnold Buss
  *  @author K. A. Stork
  *
  **/
-
 public abstract class SimEntityBase extends BasicSimEntity {
     
+/**
+* A two dimensional Hash table used to cache doMethods
+* for all SimEntityBases. Keyed by Class and Method.
+**/
     private static Hashtable2 allDoMethods;
+
+/**
+* A two dimensional Hash table used to hold the
+* names and signatures of all doMethods of all SimEntityBases.
+* Keyed by Class and Method name.
+**/
     private static Hashtable2 allNamesAndSignatures;
+
+/**
+* Unused.
+**/
     private static Map allImpossibleEvents;
     
     static {
@@ -27,12 +42,22 @@ public abstract class SimEntityBase extends BasicSimEntity {
         allImpossibleEvents = new HashMap();
     }
     
+/**
+* Unused.
+**/
     private  String stopEventName;
+
+/**
+* If true, print debug information.
+**/
     private static boolean debug;
     
-    /**
-     * Base constructor.
-     **/
+   /**
+    * Construct a new SimEntityBase with the given name and
+    * event priority.
+    * @param name The name of the entity.
+    * @param priority The default priority for processing this entity's events.
+    **/
     public SimEntityBase(String name, double priority) {
         super(name, priority);
         
@@ -70,29 +95,47 @@ public abstract class SimEntityBase extends BasicSimEntity {
         }
     }
     
-    /**
-     * Convenience constructors.
-     **/
+/**
+* Construct a new SimEntityBase with a default name and priority.
+* The name is the class name plus a unique serial number.
+**/
     public SimEntityBase() {
         this(DEFAULT_ENTITY_NAME, DEFAULT_PRIORITY);
         setName(getClass().getName() + '.' + getSerial());
     }
     
+/**
+* Construct a new SimEntityBase with  given name and a default priority.
+* @param name The name of the entity.
+**/
     public SimEntityBase(String name) {
         this(name, DEFAULT_PRIORITY);
     }
     
+/**
+* Construct a new SimEntityBaseProtected with a default name and
+* the given priority.
+* The name is the class name plus a unique serial number.
+* @param priority The priority for processing this entity's events.
+**/
     public SimEntityBase(double priority) {
         this(DEFAULT_ENTITY_NAME, priority);
         setName(getClass().getName() + '.' + getSerial());
     }
     
-    // implements SimEventListener
-    
+/**
+* Process the given SimEvent. If the Method signature does not match any for
+* this entity, the event is ignored. Also other entity's doRun events are ignored.
+* Just calls processSimEvent.
+*/
     public synchronized void handleSimEvent(SimEvent event) {
         processSimEvent(event);
     }
     
+/**
+* Process the given SimEvent. If the Method signature does not match any for
+* this entity, the event is ignored. Also other entity's doRun events are ignored.
+*/
     public synchronized void processSimEvent(SimEvent event) {
         if (event == null) { return; }
         Method m = null;
@@ -243,6 +286,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
     }
     
     /**
+     * Gets a String representation of this entity's event methods.
      * <P>This method is added by TRAC-WSMR, Authot Lt Col Olson, USMC.
      * <code>dumpDoMethodsStr</code> returns a String containing the same information as
      * <code>dumpDoMethods</code>.  This method allows a developer to place the information
@@ -280,6 +324,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
     }
     
     /**
+     * Produces a String containing the names and signatures of this entity's "do" methods.
      * <P> This method is added by TRAC-WSMR, Authot Lt Col Olson, USMC.
      * <code>dumpNamesAndSignaturesStr()</code> returns a String containing the same information as
      * <code>dumpNamesAndSignatures()</code>.  This method allows a developer to place the information
@@ -344,7 +389,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
         new Stop().waitDelay("StopSimEntity", endingTime, this, -Double.MAX_VALUE);
     }
     
-    /**
+    /*
      * Interrupt all this SimEntity's events when a certain event count is reached
      * @param eventName The event to be used.
      * @param count The number of occurences of the event beyond which no events are
@@ -358,10 +403,18 @@ public abstract class SimEntityBase extends BasicSimEntity {
    }
  */
     
+/**
+* If true, print debug information.
+**/
     public static void setDebug(boolean b) {debug = b;}
+
+/**
+* If true, print debug information.
+**/
     public static boolean isDebug() {return debug;}
     
     /**
+     * Gets the method name plus signature as a String.
      *  @param m The method for which to get the full name (unfortunately the jdk does
      *           not appear to provide this particular String...to my knowledge).
      *  @return The full method name of m, including signature, as a String.
@@ -372,6 +425,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
     }
     
     /**
+     * Get the signature of the given Method as a String.
      *  @param m The method for which to get the signature as a String (unfortunately
      *  the jdk does not appear to provide this particular String either...to my knowledge).
      *  @return The signature m as a String.
@@ -381,6 +435,13 @@ public abstract class SimEntityBase extends BasicSimEntity {
         return name.substring(name.indexOf('('));
     }
     
+/**
+* Determines if a event signature is equivalent to the given arguments.
+* @param signature An array of the method's Classes.
+* @param args An array containing the method's arguments as Objects.
+* @return True if the corresponding signatures are assignable from
+* the arguments and are therefore equivalent.
+**/
     public static boolean isAssignableFrom(Class[] signature, Object[] args) {
         boolean assignable = true;
         if (signature.length != args.length) {
