@@ -1,4 +1,4 @@
-package animate;
+package simkit.test;
 
 /**
  *  This is an example of simple "behavior".  This MoverManager is responsible
