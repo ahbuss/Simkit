@@ -1,12 +1,20 @@
 package simkit.random;
 
+import java.text.DecimalFormat;
 public class TraceVariate extends RandomVariateBase {
     
+    private static final double DEFAULT_DEFAULT_VALUE = Double.NaN;
+    
+    private static final DecimalFormat DF = new DecimalFormat("0.000;-0.000");
     private double[] traceValues;
     private double defaultValue;
+    private boolean allDataInToString;
+    private int shortNumber = 5;
     
     public TraceVariate() {
         this.setRandomNumber(new Sequential());
+        this.setDefaultValue(DEFAULT_DEFAULT_VALUE);
+        this.setAllDataInToString(false);
     }
     
     public void setTraceValues(double[] values) {
@@ -19,8 +27,12 @@ public class TraceVariate extends RandomVariateBase {
     
     public double getDefaultValue() { return defaultValue; }
     
+    public void setAllDataInToString(boolean b) { allDataInToString = b; }
+    
+    public boolean isAllDataInToString() { return allDataInToString; }
+    
     public void setParameters(Object[] params) {
-        if (params.length != 1 || params.length != 2) {
+        if (params.length != 1 && params.length != 2) {
             throw new IllegalArgumentException("Need parameters length 1: " + params.length);
         }
         if (params[0] instanceof double[]) {
@@ -49,5 +61,31 @@ public class TraceVariate extends RandomVariateBase {
         double value = (rng.getSeed() < traceValues.length) ? traceValues[(int) rng.getSeed() ] : getDefaultValue();
         rng.draw();
         return value;
+    }
+    
+    public String toString() {
+        
+        StringBuffer buf = new StringBuffer("Trace: [");
+        if (allDataInToString || traceValues.length <= 2 * shortNumber) {
+            for (int i = 0; i < traceValues.length; i++) {
+                buf.append(DF.format(traceValues[i]));
+                if (i < traceValues.length - 1) { buf.append(','); }
+            }
+        }
+        else{
+            for(int i = 0; i < shortNumber; i++) {
+                buf.append(DF.format(traceValues[i]));
+                buf.append(',');
+            }
+            buf.append("...,");
+            for (int i = traceValues.length - shortNumber; i < traceValues.length; i++) {
+                buf.append(DF.format(traceValues[i]));
+                if (i < traceValues.length - 1) { buf.append(','); }
+            }
+        }
+        buf.append("] (");
+        buf.append(traceValues.length);
+        buf.append(" values)");
+        return buf.toString();
     }
 }
