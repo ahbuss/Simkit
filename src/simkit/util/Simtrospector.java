@@ -13,7 +13,7 @@ import java.util.*;
 
 public class Simtrospector {
 
-    private static Vector additionalPrefixes;
+    private static ArrayList additionalPrefixes;
     private static String prefix;
 
     static {
@@ -22,7 +22,7 @@ public class Simtrospector {
 
     public static Hashtable getEventMethods(Class c) {
         Method[] allMethods = c.getMethods();
-        Vector eventMethods = new Vector(allMethods.length);
+        ArrayList eventMethods = new ArrayList(allMethods.length);
         for (int i = 0; i < allMethods.length; i++) {
             if (allMethods[i].getName().startsWith(prefix)) {
                  eventMethods.add(allMethods[i]);
@@ -46,7 +46,7 @@ public class Simtrospector {
 
     public static void addPrefix(String newPrefix) {
        if (additionalPrefixes == null) {
-            additionalPrefixes = new Vector();
+            additionalPrefixes = new ArrayList();
        }
        if (!additionalPrefixes.contains(newPrefix)) {
            additionalPrefixes.add(newPrefix);
@@ -55,7 +55,7 @@ public class Simtrospector {
 
     public static void removePrefix(String prefix) {
         if (additionalPrefixes != null) {
-            additionalPrefixes.removeElement(prefix);
+            additionalPrefixes.remove(prefix);
         }
         if (additionalPrefixes.size() == 0) {
             additionalPrefixes = null;
