@@ -39,8 +39,8 @@ public class Bridge extends simkit.BasicSimEntity {
             throw new IllegalArgumentException("Heard or sent name is null: " +
                 heard + " - " + sent);
         }
-        heardEvent = heard;
-        sentEvent = sent;
+        setHeardEvent(heard);
+        setSentEvent(sent);
     }
     
 /**
@@ -58,11 +58,24 @@ public class Bridge extends simkit.BasicSimEntity {
         }
     }
     
-/**
-* Returns a String containing the names of the sent and heard events.
-**/
-    public String paramString() {
-        return "Bridge from " + heardEvent + " to " + sentEvent;
-    }
+    /**
+     * @param he The event to be listened for
+     */    
+    public void setHeardEvent(String he) { heardEvent = he; }
+    
+    /**
+     * @return Heard event
+     */    
+    public String getHeardEvent() { return heardEvent; }
+    
+    /**
+     * @param se Event that will be heard by a listener
+     */    
+    public void setSentEvent(String se) { sentEvent = se; }
+    
+    /**
+     * @return New name of event to listeners
+     */    
+    public String getSentEvent() { return sentEvent; }
     
 }
