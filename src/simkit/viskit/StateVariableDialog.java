@@ -212,7 +212,6 @@ public class StateVariableDialog extends JDialog
   {
     public void caretUpdate(CaretEvent event)
     {
-      System.out.println("caretUpdate");
       modified = true;
       okButt.setEnabled(true);
       getRootPane().setDefaultButton(okButt);

@@ -1,7 +1,16 @@
 package simkit.viskit;
 
-import simkit.viskit.model.EventStateTransition;
-import simkit.viskit.model.vStateVariable;
+/**
+ * OPNAV N81 - NPS World Class Modeling (WCM)  2004 Projects
+ * MOVES Institute
+ * Naval Postgraduate School, Monterey, CA
+ * www.nps.edu
+ * By:   Mike Bailey
+ * Date: Apr 12, 2004
+ * Time: 9:19:41 AM
+ */
+
+import simkit.viskit.model.EventLocalVariable;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -18,30 +27,28 @@ import java.awt.event.ActionListener;
  * the object to determine the choice. If the user clicked "OK", the
  * caller can retrieve various choices from the object.
  *
- * @author DMcG, Mike Bailey
+ * @author DMcG
  */
 
-public class EventTransitionDialog extends JDialog
+public class LocalVariableDialog extends JDialog
 {
-  private JTextField nameField;    // Text field that holds the parameter name
-  private JTextField actionField;
+  private JTextField parameterNameField;    // Text field that holds the parameter name
+  private JTextField expressionField;       // Text field that holds the expression
   private JTextField commentField;          // Text field that holds the comment
   private JComboBox  parameterTypeCombo;    // Editable combo box that lets us select a type
-  private JComboBox  testVars;
-  private JRadioButton assTo,opOn;
 
-  private static EventTransitionDialog dialog;
+  private static LocalVariableDialog dialog;
   private static boolean modified = false;
-  private EventStateTransition param;
+  private EventLocalVariable param;
   private Component locationComp;
   private JButton okButt, canButt;
 
   public static String newName, newType, newComment;
 
-  public static boolean showDialog(JFrame f, Component comp, EventStateTransition parm)
+  public static boolean showDialog(JFrame f, Component comp, EventLocalVariable parm)
   {
     if(dialog == null)
-      dialog = new EventTransitionDialog(f,comp,parm);
+      dialog = new LocalVariableDialog(f,comp,parm);
     else
       dialog.setParams(comp,parm);
 
@@ -50,9 +57,9 @@ public class EventTransitionDialog extends JDialog
     return modified;
   }
 
-  private EventTransitionDialog(JFrame parent, Component comp, EventStateTransition param)
+  private LocalVariableDialog(JFrame parent, Component comp, EventLocalVariable param)
   {
-    super(parent, "Event Argument", true);
+    super(parent, "Local Variable Inspector", true);
     this.param = param;
     this.locationComp = comp;
     this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -68,34 +75,23 @@ public class EventTransitionDialog extends JDialog
       JPanel fieldsPanel = new JPanel();
         fieldsPanel.setLayout(new BoxLayout(fieldsPanel,BoxLayout.Y_AXIS));
 
-        JLabel nameLab = new JLabel("state variable");
-        //JLabel initLab = new JLabel("initial value");
-        assTo = new JRadioButton("assign to (\"=\")");
-        opOn  = new JRadioButton("invoke on (\".\")");
-        ButtonGroup bg = new ButtonGroup();
-        bg.add(assTo);bg.add(opOn);
+        JLabel nameLab = new JLabel("name");
+        JLabel initLab = new JLabel("initial value");
+        JLabel typeLab = new JLabel("type");
+        JLabel commLab = new JLabel("comment");
+        int w = maxWidth(new JComponent[]{nameLab,initLab,typeLab,commLab});
 
-        JLabel actionLab = new JLabel("action");
-        JLabel commLab = new JLabel("state var. comment");
-        int w = maxWidth(new JComponent[]{nameLab,assTo,opOn,actionLab,commLab});
-
-        nameField = new JTextField(15);   setMaxHeight(nameField);
-
- testVars = new JComboBox(VGlobals.instance().getStateVarsCBModel());
-        setMaxHeight(testVars);
-    testVars.setBackground(Color.white);
-
+        parameterNameField = new JTextField(15);   setMaxHeight(parameterNameField);
+        expressionField    = new JTextField(25);   setMaxHeight(expressionField);
         commentField       = new JTextField(25);   setMaxHeight(commentField);
-          commentField.setEditable(false);
-        actionField        = new JTextField(25);   setMaxHeight(actionField);
+        parameterTypeCombo = new JComboBox(VGlobals.instance().getTypeCBModel());
+                                               setMaxHeight(parameterTypeCombo);
 
-        fieldsPanel.add(new OneLinePanel(actionLab,w,actionField));
-        fieldsPanel.add(new OneLinePanel(null,w,assTo));
-        fieldsPanel.add(new OneLinePanel(null,w,opOn));
-        //fieldsPanel.add(new OneLinePanel(nameLab,w,nameField));
-   fieldsPanel.add(new OneLinePanel(nameLab,w,testVars));
+        parameterTypeCombo.setEditable(true);
+
+        fieldsPanel.add(new OneLinePanel(nameLab,w,parameterNameField));
+        fieldsPanel.add(new OneLinePanel(typeLab,w,parameterTypeCombo));
         fieldsPanel.add(new OneLinePanel(commLab,w,commentField));
-
        con.add(fieldsPanel);
        con.add(Box.createVerticalStrut(5));
 
@@ -125,27 +121,10 @@ public class EventTransitionDialog extends JDialog
     okButt .addActionListener(new applyButtonListener());
 
     enableApplyButtonListener lis = new enableApplyButtonListener();
-    this.nameField.addCaretListener(lis);
-    actionField.addCaretListener(lis);
+    this.parameterNameField.addCaretListener(lis);
     this.commentField.      addCaretListener(lis);
-    //this.parameterTypeCombo.addActionListener(lis);
-    testVars.addActionListener(new ActionListener()
-    {
-      public void actionPerformed(ActionEvent e)
-      {
-        JComboBox cb = (JComboBox)e.getSource();
-        vStateVariable sv = (vStateVariable)cb.getSelectedItem();
-        commentField.setText(sv.getComment());
-        okButt.setEnabled(true);
-        modified=true;
-      }
-    });
-    // to start off:
-    commentField.setText(((vStateVariable)testVars.getItemAt(0)).getComment());
-
-    RadButtListener rbl = new RadButtListener();
-    this.assTo.addActionListener(rbl);
-    this.opOn.addActionListener(rbl);
+    this.expressionField.   addCaretListener(lis);
+    this.parameterTypeCombo.addActionListener(lis);
   }
 
   private int maxWidth(JComponent[] c)
@@ -164,7 +143,7 @@ public class EventTransitionDialog extends JDialog
     d.width = Integer.MAX_VALUE;
     c.setMaximumSize(d);
   }
-  public void setParams(Component c, EventStateTransition p)
+  public void setParams(Component c, EventLocalVariable p)
   {
     param = p;
     locationComp = c;
@@ -178,59 +157,46 @@ public class EventTransitionDialog extends JDialog
 
     this.setLocationRelativeTo(c);
   }
+  private void setType(EventLocalVariable p)
+  {
+    String nm = p.getType();
+    ComboBoxModel mod = parameterTypeCombo.getModel();
+    for(int i=0;i<mod.getSize(); i++) {
+      if(nm.equals(mod.getElementAt(0))) {
+        parameterTypeCombo.setSelectedIndex(i);
+        return;
+      }
+    }
+    VGlobals.instance().addType(nm);
+    mod = VGlobals.instance().getTypeCBModel();
+    parameterTypeCombo.setModel(mod);
+    parameterTypeCombo.setSelectedIndex(mod.getSize()-1);
+  }
 
   private void fillWidgets()
   {
     if(param != null) {
-      //nameField.setText(param.getStateVarName());//getName());
-      actionField.setText(param.getOperationOrAssignment());
-
-      opOn.setSelected(param.isOperation());
-      assTo.setSelected(!param.isOperation());
-
-      setVarNameComboBox(param);
-      if(param.getComments().size() > 0)
-        commentField.setText((String)param.getComments().get(0));
-      else
-        commentField.setText("");
+      parameterNameField.setText(param.getName());
+      setType(param);
+      this.commentField.setText(param.getComment());
     }
     else {
-      nameField.setText("param name");
-      actionField.setText("action here");
-      testVars.setSelectedIndex(0);
+      parameterNameField.setText("param name");
+      //expressionField.setText("type");
       commentField.setText("comments here");
-      assTo.setSelected(true);
     }
   }
 
-  private void setVarNameComboBox(EventStateTransition est)
-  {
-    for(int i = 0; i< testVars.getItemCount();i++) {
-      vStateVariable sv = (vStateVariable)testVars.getItemAt(i);
-      if(est.getStateVarName().equalsIgnoreCase(sv.getName())) {
-        testVars.setSelectedIndex(i);
-        return;
-      }
-    }
-    if(!est.getStateVarName().equals(""))     // for first time
-      JOptionPane.showMessageDialog(this,"State variable "+est.getStateVarName() +"not found.",
-                                         "alert", JOptionPane.ERROR_MESSAGE);
-    testVars.setSelectedIndex(0);
-  }
   private void unloadWidgets()
   {
     if(param != null) {
-      param.setStateVarName(((vStateVariable)testVars.getSelectedItem()).getName()); //nameField.getText().trim());
-      param.setOperationOrAssignment(actionField.getText().trim());
-      param.setOperation(opOn.isSelected());
-      param.getComments().clear();
-      String cs = commentField.getText().trim();
-      if(cs.length() > 0)
-        param.getComments().add(0,cs);
+      param.setName(this.parameterNameField.getText());
+      param.setType(((String)(this.parameterTypeCombo.getSelectedItem())).trim());
+      param.setComment(this.commentField.getText());
     }
     else {
-      newName    = nameField.getText().trim();
-      // todo complete this
+      newName = parameterNameField.getText().trim();
+      newType = ((String)(this.parameterTypeCombo.getSelectedItem())).trim();
       newComment = commentField.getText().trim();
     }
   }
@@ -243,14 +209,7 @@ public class EventTransitionDialog extends JDialog
       setVisible(false);
     }
   }
-  class RadButtListener implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      modified = true;
-      okButt.setEnabled(true);
-    }
-  }
+
   class applyButtonListener implements ActionListener
   {
     public void actionPerformed(ActionEvent event)
@@ -281,7 +240,6 @@ public class EventTransitionDialog extends JDialog
     OneLinePanel(JLabel lab, int w, JComponent comp)
     {
       setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
-      if(lab == null) lab = new JLabel("");
       add(Box.createHorizontalStrut(5));
       add(Box.createHorizontalStrut(w-lab.getPreferredSize().width));
       add(lab);
@@ -301,7 +259,7 @@ public class EventTransitionDialog extends JDialog
 jmb..this is good regex checking.  put in a single utility class
   private boolean preflightData()
   {
-    String parameterName =  nameField.getText();
+    String parameterName =  parameterNameField.getText();
     String javaVariableNameRegExp;
 
     // Do a REGEXP to confirm that the variable name fits the criteria for

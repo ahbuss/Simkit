@@ -424,10 +424,12 @@ public class vGraphModel extends DefaultGraphModel
     graph.graphDidChange();
 */
   }
-  public void removeAll()
+
+  public void deleteAll()
   {
-    graph.removeAll();
+    remove(getRoots(this));
   }
+
   public void changeCancellingEdge(CancellingEdge ed)
   {
 

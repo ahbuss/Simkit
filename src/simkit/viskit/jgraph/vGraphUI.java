@@ -47,7 +47,6 @@ public class vGraphUI extends BasicGraphUI
 
   protected boolean startEditing(Object cell, MouseEvent event)
   {
-    System.out.println("startEditing");
     //return super.startEditing(cell, event);    //Call superclass
     completeEditing();
     if (graph.isCellEditable(cell) && editDialog == null) {

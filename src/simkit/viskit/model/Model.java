@@ -246,11 +246,12 @@ public class Model extends mvcAbstractModel implements ViskitModel
     for(Iterator itr = lis.iterator(); itr.hasNext();) {
       StateVariable var = (StateVariable)itr.next();
       List varCom = var.getComment();
-      String c = "";
+      String c = " ";
       for(Iterator ii=varCom.iterator();ii.hasNext();) {
         c += (String)ii.next();
-        c += "<br>";
+        c += " ";
       }
+
       vStateVariable v = new vStateVariable(var.getName(),var.getType(),c.trim());
       v.opaqueModelObject = var;
       notifyChanged(new ModelEvent(v,ModelEvent.STATEVARIABLEADDED,"New state variable"));
@@ -261,7 +262,7 @@ public class Model extends mvcAbstractModel implements ViskitModel
     for(Iterator itr = lis.iterator(); itr.hasNext();) {
       Parameter p = (Parameter)itr.next();
       List pCom = p.getComment();
-      String c = "";
+      String c = " ";
       for(Iterator ii=pCom.iterator();ii.hasNext();) {
         c += (String)ii.next();
         c += " ";
@@ -295,15 +296,12 @@ public class Model extends mvcAbstractModel implements ViskitModel
 
   public Vector getStateVariables()
   {
-    //todo
-    return null;
+    return new Vector(jaxbRoot.getStateVariable());
   }
 
   public ArrayList getSimParameters()
   {
-    //todo
-    // Test using queue
-    return null;
+    return new ArrayList(jaxbRoot.getParameter());
   }
 
   // parameter mods
@@ -335,31 +333,26 @@ public class Model extends mvcAbstractModel implements ViskitModel
     this.notifyChanged(new ModelEvent(p, ModelEvent.SIMPARAMETERADDED, "vParameter added"));
   }
 
-  public void deleteSimParameter(String nm)
+  public void deleteSimParameter(vParameter vp)
   {
-    // put code to do it here
-
+    // remove jaxb variable
+    jaxbRoot.getParameter().remove(vp.opaqueModelObject);
     modelDirty = true;
-    // you would get the old one here and show it around
-    vParameter p = new vParameter(nm,"");
-
-    this.notifyChanged(new ModelEvent(p, ModelEvent.SIMPARAMETERDELETED, "vParameter deleted"));
-
-  }
-  public void deleteSimParameter(vParameter p)
-  {
-    // put code to do it here
-
-    modelDirty = true;
-    this.notifyChanged(new ModelEvent(p, ModelEvent.SIMPARAMETERDELETED, "vParameter deleted"));
+    this.notifyChanged(new ModelEvent(vp, ModelEvent.SIMPARAMETERDELETED, "vParameter deleted"));
   }
 
-  public void changeSimParameter(vParameter p)
+  public void changeSimParameter(vParameter vp)
   {
-    // put code to do it here
+    // fill out jaxb variable
+    Parameter p = (Parameter)vp.opaqueModelObject;
+    p.setName(vp.getName());
+    p.setShortName(vp.getName());
+    p.setType(vp.getType());
+    p.getComment().clear();
+    p.getComment().add(vp.getComment());
 
     modelDirty = true;
-    this.notifyChanged(new ModelEvent(p, ModelEvent.SIMPARAMETERCHANGED, "vParameter changed"));
+    this.notifyChanged(new ModelEvent(vp, ModelEvent.SIMPARAMETERCHANGED, "vParameter changed"));
   }
 
   // State variable mods
@@ -383,39 +376,28 @@ public class Model extends mvcAbstractModel implements ViskitModel
     this.notifyChanged(new ModelEvent(sv, ModelEvent.STATEVARIABLEADDED, "State variable added"));
 
   }
-  public void newStateVariable(vStateVariable sv)
+
+  public void deleteStateVariable(vStateVariable vsv)
   {
-    // put code to do it here
-                       //todo is this used?
+    // remove jaxb variable
+    jaxbRoot.getStateVariable().remove(vsv.opaqueModelObject);
+
     modelDirty = true;
-    this.notifyChanged(new ModelEvent(sv, ModelEvent.STATEVARIABLEADDED, "State variable added"));
+    this.notifyChanged(new ModelEvent(vsv, ModelEvent.STATEVARIABLEDELETED, "State variable deleted"));
   }
 
-  public void deleteStateVariable(String nm)
+  public void changeStateVariable(vStateVariable vsv)
   {
-    // put code to do it here
+    // fill out jaxb variable
+    StateVariable sv = (StateVariable)vsv.opaqueModelObject;
+    sv.setName(vsv.getName());
+    sv.setShortName(vsv.getName());
+    sv.setType(vsv.getType());
+    sv.getComment().clear();
+    sv.getComment().add(vsv.getComment());
 
     modelDirty = true;
-
-    // you would get the old one here and show it around
-    vStateVariable sv = new vStateVariable(nm,"",""); // bogus
-    this.notifyChanged(new ModelEvent(sv, ModelEvent.STATEVARIABLEDELETED, "State variable deleted"));
-
-  }
-  public void deleteStateVariable(vStateVariable sv)
-  {
-    // put code to do it here
-
-    modelDirty = true;
-    this.notifyChanged(new ModelEvent(sv, ModelEvent.STATEVARIABLEDELETED, "State variable deleted"));
-  }
-
-  public void changeStateVariable(vStateVariable sv)
-  {
-    // put code to do it here
-
-    modelDirty = true;
-    this.notifyChanged(new ModelEvent(sv, ModelEvent.STATEVARIABLEDELETED, "State variable changed"));
+    this.notifyChanged(new ModelEvent(vsv, ModelEvent.STATEVARIABLECHANGED, "State variable changed"));
   }
 
   // Event (node) mods
@@ -593,16 +575,29 @@ public class Model extends mvcAbstractModel implements ViskitModel
 
   public void deleteEdge(SchedulingEdge edge)
   {
-    Schedule sch = (Schedule)edge.opaqueModelObject;
-    // todo put code to do it here
+    _commonEdgeDelete(edge);
 
     modelDirty = true;
     this.notifyChanged(new ModelEvent(edge, ModelEvent.EDGEDELETED, "Edge deleted"));
   }
 
+  private void _commonEdgeDelete(Edge edg)
+  {
+    Object jaxbEdge = edg.opaqueModelObject;
+
+    List nodes = jaxbRoot.getEvent();
+    for(Iterator itr = nodes.iterator(); itr.hasNext();) {
+      Event ev = (Event)itr.next();
+      List edges = ev.getScheduleOrCancel();
+      edges.remove(jaxbEdge);
+    }
+
+    edgeCache.remove(edg);
+  }
+
   public void deleteCancelEdge(CancellingEdge edge)
   {
-    // todo put code to do it here
+    _commonEdgeDelete(edge);
 
     modelDirty = true;
     this.notifyChanged(new ModelEvent(edge, ModelEvent.CANCELLINGEDGEDELETED, "Cancelling edge deleted"));

@@ -15,7 +15,7 @@ public class EventLocalVariable extends ViskitElement
   private String type;
   private String name;
   private String value;
-  private ArrayList comments=new ArrayList();
+  private String comment;
 
   public EventLocalVariable(String name, String type, String value)
   {
@@ -23,14 +23,14 @@ public class EventLocalVariable extends ViskitElement
     this.type = type;
     this.value = value;
   }
-  public ArrayList getComments()
+  public String getComment()
   {
-    return comments;
+    return comment;
   }
 
-  public void setComments(ArrayList comments)
+  public void setComment(String comment)
   {
-    this.comments = comments;
+    this.comment = comment;
   }
 
   public String getName()

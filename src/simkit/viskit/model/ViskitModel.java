@@ -78,8 +78,6 @@ public interface ViskitModel
   public void newSimParameter     (String name, String type, String initVal, String comment);
   public void changeStateVariable (vStateVariable st);
   public void changeSimParameter  (vParameter p);
-  public void deleteStateVariable (String sv);
   public void deleteStateVariable (vStateVariable sv);
   public void deleteSimParameter  (vParameter p);
-  public void deleteSimParameter  (String p);
 }

@@ -12,10 +12,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.border.EtchedBorder;
 
-import simkit.viskit.model.EventNode;
-import simkit.viskit.model.vParameter;
-import simkit.viskit.model.EventStateTransition;
-import simkit.viskit.model.EventArgument;
+import simkit.viskit.model.*;
 import simkit.xsd.bindings.*;
 
 /**
@@ -172,6 +169,17 @@ public class EventInspectorDialog extends JDialog
         boolean modified = EventTransitionDialog.showDialog(fr,locationComponent,est);
         if(modified) {
           transitions.updateTransition(est);
+        }
+      }
+    });
+    this.localVariables.addDoubleClickedListener( new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        EventLocalVariable elv = (EventLocalVariable)e.getSource();
+        boolean modified = LocalVariableDialog.showDialog(fr,locationComponent,elv);
+        if(modified) {
+          localVariables.updateRow(elv);
         }
       }
     });

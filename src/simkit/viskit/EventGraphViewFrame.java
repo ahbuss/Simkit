@@ -610,6 +610,12 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
     return StateVariableDialog.showDialog(this,this.graphPane,var);
   }
 
+  public boolean doMetaGraphEdit(GraphMetaData gmd)
+  //-----------------------------------------------
+  {
+    return MetaDataDialog.showDialog(this,this.graphPane,gmd);
+  }
+
   public int genericAsk(String title, String msg)
   //---------------------------------------------
   {
@@ -636,33 +642,35 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView implements Viskit
   public void modelChanged(mvcModelEvent event)
   //-------------------------------------------
   {
-//    System.out.println("EventGraphViewFrame got report from model:");
-//    System.out.println("obj "+event.getSource());
-//    System.out.println("id "+event.getID());
-//    System.out.println("msg "+event.getActionCommand());
-
-    // This is where updates to the view happen.
-    // Do changes to Swing widgets here if need be.
-
-    // (nothing I can think of)
-
-    // Then, our inner jgraph component gets this information
-    // to typically update the graph.
-
     switch(event.getID())
     {
+      // Changes the two side panels need to know about
       case ModelEvent.SIMPARAMETERADDED:
         pp.addRow(event.getSource());
-        break;
-      case ModelEvent.STATEVARIABLEADDED:
-        vp.addRow(event.getSource());
         break;
       case ModelEvent.SIMPARAMETERDELETED:
         pp.removeRow(event.getSource());
         break;
+      case ModelEvent.SIMPARAMETERCHANGED:
+        pp.updateRow(event.getSource());
+        break;
+
+      case ModelEvent.STATEVARIABLEADDED:
+        vp.addRow(event.getSource());
+        break;
       case ModelEvent.STATEVARIABLEDELETED:
         vp.removeRow(event.getSource());
         break;
+      case ModelEvent.STATEVARIABLECHANGED:
+        vp.updateRow(event.getSource());
+        break;
+
+      case ModelEvent.NEWMODEL:
+        vp.setData(null);
+        pp.setData(null);
+        // fall through
+
+      // Changes the graph needs to know about
       default:
         this.graphPane.viskitModelChanged((ModelEvent)event);
 

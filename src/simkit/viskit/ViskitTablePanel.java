@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -76,7 +77,7 @@ public abstract class ViskitTablePanel extends JPanel
     add(p);
 
     // the table
-     tab = new JTable(mod = new ThisTableModel(getColumnTitles()));
+     tab = new ThisToolTipTable(mod = new ThisTableModel(getColumnTitles()));
      adjustColumnWidths();
      if(defaultHeight == 0) {
        defaultHeight = tab.getRowHeight();
@@ -241,9 +242,11 @@ public abstract class ViskitTablePanel extends JPanel
     shadow.clear();
     mod.setRowCount(0);
 
-    for (Iterator itr = data.iterator(); itr.hasNext();) {
-      Object o = itr.next();
-      putARow(o);
+    if(data != null) {
+      for (Iterator itr = data.iterator(); itr.hasNext();) {
+        Object o = itr.next();
+        putARow(o);
+      }
     }
     adjustColumnWidths();
   }
@@ -255,7 +258,9 @@ public abstract class ViskitTablePanel extends JPanel
   public ArrayList getData()
   //------------------------
   {
-    return (ArrayList)shadow.clone();
+   // todo jmb get the cloning working
+    // return (ArrayList)shadow.clone();
+    return shadow;
   }
 
   /**
@@ -268,8 +273,8 @@ public abstract class ViskitTablePanel extends JPanel
     int row = findObjectRow(rowObject);
 
     String[] fields = getFields(rowObject);
-    for (int i = 1; i < mod.getColumnCount(); i++) {
-      mod.setValueAt(fields[i - 1], row, i);
+    for (int i = 0; i < mod.getColumnCount(); i++) {
+      mod.setValueAt(fields[i], row, i);
     }
     adjustColumnWidths();
   }
@@ -445,6 +450,27 @@ public abstract class ViskitTablePanel extends JPanel
     public boolean isCellEditable(int row, int col)
     {
       return false;
+    }
+  }
+
+  class ThisToolTipTable extends JTable
+  {
+    ThisToolTipTable(TableModel tm)
+    {
+      super(tm);
+    }
+    public String getToolTipText(MouseEvent e)
+    {
+      String tip = null;
+      java.awt.Point p = e.getPoint();
+      int rowIndex = rowAtPoint(p);
+      int colIndex = columnAtPoint(p);
+      int realColumnIndex = convertColumnIndexToModel(colIndex);
+
+      tip = getValueAt(rowIndex, colIndex).toString();  // tool tip is contents (for long contents)
+      if(tip == null || tip.length() == 0)
+        return null;
+      return tip;
     }
   }
 }

@@ -171,14 +171,18 @@ public class Controller extends mvcAbstractController implements ViskitControlle
     if (selectionVector != null && selectionVector.size() > 0) {
       // first ask:
       String msg = "";
+      int nodeCount = 0;  // different msg for edge delete
       for (Iterator itr = selectionVector.iterator(); itr.hasNext();) {
         Object o = itr.next();
+        if(o instanceof EventNode)
+          nodeCount++;
         String s = o.toString();
         s = s.replace('\n', ' ');
         msg += ", \n" + s;
       }
-      if (((ViskitView) getView()).genericAsk("Delete element(s)?", "Confirm remove" + msg + "?" +
-          "\n(All unselected but attached edges will also be deleted.)") == JOptionPane.YES_OPTION) {
+      String specialNodeMsg = (nodeCount > 0 ? "\n(All unselected but attached edges will also be deleted.)" : "");
+      if (((ViskitView) getView()).genericAsk("Delete element(s)?", "Confirm remove" + msg + "?" + specialNodeMsg)
+       == JOptionPane.YES_OPTION) {
         // do edges first?
         Vector localV = (Vector) selectionVector.clone();   // avoid concurrent update
         for (Iterator itr = localV.iterator(); itr.hasNext();) {
@@ -214,7 +218,7 @@ public class Controller extends mvcAbstractController implements ViskitControlle
 
     if (ret == null || ret.trim().length() <= 0)
       return;
-    ((ViskitModel) getModel()).deleteSimParameter(ret.trim());
+  // x  ((ViskitModel) getModel()).deleteSimParameter(ret.trim());
   }
   public void deleteSimParameter(vParameter p)
   {
@@ -229,7 +233,7 @@ public class Controller extends mvcAbstractController implements ViskitControlle
     if (ret == null || ret.trim().length() <= 0)
       return;
 
-    ((ViskitModel) getModel()).deleteStateVariable(ret.trim());
+  //x  ((ViskitModel) getModel()).deleteStateVariable(ret.trim());
   }
   public void deleteStateVariable(vStateVariable var)
   {

@@ -70,7 +70,7 @@ public class vGraphComponent extends JGraph
     //System.out.println("in vGraphComponent.viskitModelChanged() with ModelEvent "+ev);
     switch (ev.getID()) {
       case ModelEvent.NEWMODEL:
-        model.removeAll();
+        model.deleteAll();
         break;
       case ModelEvent.EVENTADDED:
         Object[] oa = (Object[])ev.getSource();
