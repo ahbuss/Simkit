@@ -359,8 +359,6 @@ if (isReallyVerbose()) {
 /**
  *  Returns currently executing event; null if simulation is not currently running.
 **/
-   public static synchronized SimEvent geturrentEvent() {return currentSimEvent;}
-
    public static synchronized SimEvent getCurrentEvent() {return currentSimEvent;}
 
   public static void interrupt(SimEntity se) {

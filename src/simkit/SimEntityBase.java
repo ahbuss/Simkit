@@ -1,6 +1,7 @@
 package simkit;
 
 import simkit.util.*;
+import simkit.util.IndexedPropertyChangeEvent;
 import java.beans.*;
 import java.lang.reflect.*;
 import java.util.*;
@@ -677,6 +678,27 @@ if (isDebug()) {
 
     public void firePropertyChange(String propertyName, Object newValue) {
         psp.firePropertyChange(propertyName, null, newValue);
+    }
+
+    public void fireIndexedPropertyChange(int index, String propertyName, Object oldValue,
+            Object newValue) {
+        psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, oldValue, newValue, index));
+    }
+
+    public void fireIndexedPropertyChange(int index, String propertyName, Object newValue) {
+        psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, newValue, index));
+    }
+
+    public void fireIndexedPropertyChange(int index, String propertyName, int newValue) {
+        psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, new Integer(newValue), index));
+    }
+
+    public void fireIndexedPropertyChange(int index, String propertyName, double newValue) {
+        psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, new Double(newValue), index));
+    }
+
+    public void fireIndexedPropertyChange(int index, String propertyName, boolean newValue) {
+        psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, new Boolean(newValue), index));
     }
 
     public void setProperty(String property, Object value) {
