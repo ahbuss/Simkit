@@ -6,7 +6,11 @@ import java.util.ArrayList;
  *  A basic implementation of a SimEventSource that is potentially useful for
  *  either subclassing or as a delegate.  A basic implementation of the Listener
  *  pattern.  It does attempt to be somewhat thread safe.
+ * 
+ * 23 May 2004 - kas - added <code>isMyEvent()</code> method.
+ * 
  *  @author Arnold Buss
+ *  @author Kirk Stork
  *  @version $Id$
  **/
 public class BasicSimEventSource implements SimEventSource {
@@ -74,4 +78,19 @@ public class BasicSimEventSource implements SimEventSource {
         return listenerArray;
     }
     
+    /**
+     * Returns whether or not the current <code>SimEvent</code> being processed
+     * was scheduled by this <code>SimEventSource</code>.  This is useful, for example,
+     * when you have many entities firing events of the same name that are all listening
+     * to each other, but you need to discriminate between your own events and those of
+     * other entities.
+     * 
+     * 23 May 2004 - kas - added method.
+     */
+	protected boolean isMyEvent() {
+		if (Schedule.getCurrentEvent().getSource() == this)
+			return true;
+		return false;
+	}
+
 }

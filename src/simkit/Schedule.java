@@ -108,6 +108,14 @@ public class Schedule  {
     private static boolean singleStep;
 
 /**
+* A different way to do single step mode.  If true the simulation
+* will stop after each event and wait for a <code>resume()</code>
+* message.
+* 
+* 22 May 2004 - kas - added field
+**/
+	private static boolean pauseAfterEachEvent = false;
+/**
 * The InputStream where Schedule gets input.
 **/
     private static InputStream input;
@@ -375,6 +383,9 @@ public class Schedule  {
                 entity.handleSimEvent(currentSimEvent);
                 entity.notifyListeners(currentSimEvent);
                 
+                // 22 May 2004 - kas - addition
+                if (pauseAfterEachEvent) { pauseSimulation(); }
+                // end 22 May 2004 addition
                 if (stopOnEvent) { checkStopEvent(); }
                 if (verbose) { dump(""); }
                 if (singleStep) { step(); }
@@ -993,4 +1004,19 @@ public class Schedule  {
         eventCounts.clear();
     }
     
+public static boolean getPauseAfterEachEvent() {
+	return pauseAfterEachEvent;
+}
+
+/**
+* A different way to do single step mode.  If true the simulation
+* will stop after each event and wait for a <code>resume()</code>
+* message.
+* 
+* 22 May 2004 - kas - added field
+**/
+public static void setPauseAfterEachEvent(boolean b) {
+	pauseAfterEachEvent = b;
+}
+
 } // class Schedule
