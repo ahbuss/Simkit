@@ -29,7 +29,7 @@ public class TestPoissonVariate {
         Object[] params = new Object[] { new Double(lambda) };
         DiscreteRandomVariate poiss = (DiscreteRandomVariate) RandomVariateFactory.getInstance(dist, params);
 
-        int number = args.length > 0 ? Integer.parseInt(args[0]) : 100000;
+        int number = args.length > 0 ? Integer.parseInt(args[0]) : 1000000;
         SimpleStatsTally stat = new SimpleStatsTally(poiss.toString());
         URL dirURL = Thread.currentThread().getContextClassLoader().getSystemResource("simkit");
         File dir = new File(dirURL.getFile()).getParentFile();
