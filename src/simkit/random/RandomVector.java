@@ -46,7 +46,7 @@ public interface RandomVector extends java.io.Serializable, Cloneable {
     public RandomNumber getRandomNumber();
     
 /**
-* Makes a copy of this RandomNumber.
+* Makes a copy of this RandomVariate.
 **/
     public Object clone();
 } 

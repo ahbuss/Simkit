@@ -37,9 +37,14 @@ public class AR1Variate extends RandomVariateBase {
     
     /**
      * Sets the random variate's parameters.
-     * Alternatively, the parameters could be set in the constructor or
-     * in additional methods provided by the programmer.
+     * The first parameter is alpha, the multiplier; the second parameter
+     * is the starting value.
      * @param params the array of parameters, wrapped in objects.
+     * @throws IllegalArgumentException If the parameter array has
+     * more than 2 elements. Note: If the array has no parameters, then
+     * does nothing. If the array has 1 element, alpha is set and the current
+     * value of the variate is unchanged. If the first parameter is not a
+     * Number, then it is ignored.
      */
     public void setParameters(Object[] params) {
         if (params.length > 2) {
@@ -57,7 +62,7 @@ public class AR1Variate extends RandomVariateBase {
     }
     
     /**
-     * Generate a the next value.
+     * Generate the next value.
      * @return The generated random variate
      */
     public double generate() {

@@ -1,20 +1,31 @@
 package simkit.random;
 import simkit.random.*;
 /**
- * Specify array of RandomVariate[].  Generates the convolution (sum) of each one.
+ * Generates the convolution (sum) of a number of RandomVariates. An
+ * array of instances
+ * of RandomVariates are supplied as the parameter.
  * Each RandomVariate instance is passed the same RandomNumber instance, to
  * avoid seed management problems.
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class ConvolutionVariate extends RandomVariateBase {
     
+/**
+* The array of RandomVariates that are summed.
+**/
     private RandomVariate[] rv;
     
-    /** Creates a new instance of ConvolutionVariate */
+/** 
+* Creates a new instance of ConvolutionVariate. Generate will return 0.0 until
+* the parameter is set.
+ */
     public ConvolutionVariate() {
     }
     
     /**
+     * Generates the next value which is the sum of the values of the
+     * underlying RandomVariate instances.
      * @return sum of a draw from each RandomVariate instance
      */    
     public double generate() {
@@ -26,6 +37,8 @@ public class ConvolutionVariate extends RandomVariateBase {
     }
     
     /**
+     * Returns a single element Object array that contains a clone
+     * of the RandomVariate array.
      * @return clone of RandomVariate[] array in Object[] array
      */    
     public Object[] getParameters() {
@@ -33,7 +46,10 @@ public class ConvolutionVariate extends RandomVariateBase {
     }
     
     /**
+     * Sets the underlying RandomVariates. 
      * @param obj Must be a single instance of RandomVariate[]
+     * @throws IllegalArgumentException If the array doesn't have 1 element, or if
+     * the element is not an array of RandomVariates.
      */    
     public void setParameters(Object[] obj) {
         if (obj.length != 1) {
@@ -47,6 +63,7 @@ public class ConvolutionVariate extends RandomVariateBase {
     }
     
     /**
+     * Sets the array of RandomVariates.
      * @param rand Array of RandomVariate[] instances
      */    
     public void setRandomVariates(RandomVariate[] rand) {
@@ -57,12 +74,13 @@ public class ConvolutionVariate extends RandomVariateBase {
     }
     
     /**
+     * Gets a clone of the array of RandomVariates.
      * @return clone of RandomVariate[] array
      */    
     public RandomVariate[] getRandomVariates() { return (RandomVariate[]) rv.clone(); }
     
     /**
-     * @param rand RandomVariate[] array
+     * Sets the supporting RandomNumber of each underlying RandomVariate.
      */    
     public void setRandomNumber(RandomNumber rand) {
         super.setRandomNumber(rand);
@@ -72,6 +90,8 @@ public class ConvolutionVariate extends RandomVariateBase {
     }
     
     /**
+     * Return a String containing information about the underlying 
+     * RandomVariates.
      * @return String including each RandomVariate's toString() on
      * a separate line.
      */    
