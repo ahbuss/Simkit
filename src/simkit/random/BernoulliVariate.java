@@ -1,13 +1,9 @@
-/*
- * BernoulliVariate.java
- *
- * Created on August 31, 2001, 7:20 PM
- */
-
 package simkit.random;
 
 /**
  * Generates Bernoulli random variates (either int or double).
+ * Parameter:
+ * <ul><li><code>probability</code> = P{X = 1}</li>
  * @author  Arnold Buss
  */
 public class BernoulliVariate extends RandomVariateBase implements DiscreteRandomVariate {
@@ -24,7 +20,7 @@ public class BernoulliVariate extends RandomVariateBase implements DiscreteRando
         return rng.draw() < probability ? 1 : 0;
     }
     
-    /** Generate a random variate having this class's distribution.
+    /** 
      * @return Bernoulli variate as double
      */
     public double generate() {
@@ -33,14 +29,13 @@ public class BernoulliVariate extends RandomVariateBase implements DiscreteRando
     
     /**
      * Returns the array of parameters as an Object[].
+     * @return P{X = 1} wrapped as Double in Object[]
  */
     public Object[] getParameters() {
         return new Object[] { new Double(probability) }; 
     }
     
-    /** Sets the random variate's parameters.
-     * Alternatively, the parameters could be set in the constructor or
-     * in additional methods provided by the programmer.
+    /** 
      * @param params The probability of '1', as a double in the range [0,1].
      */
     public void setParameters(Object[] params) {
@@ -59,8 +54,11 @@ public class BernoulliVariate extends RandomVariateBase implements DiscreteRando
      * @param prob The probability of 1, in range [0,1]
      */    
     public void setProbability(double prob) {
-        if (prob <= 0.0) {
-            throw new IllegalArgumentException("Probability must be positive");
+        if (prob < 0.0) {
+            throw new IllegalArgumentException("Probability must be >= 0.0: " + prob);
+        }
+        else if (prob > 1.0) {
+            throw new IllegalArgumentException("Probability must be <= 1.0: " + prob);
         }
         else {
             probability = prob;
@@ -68,11 +66,13 @@ public class BernoulliVariate extends RandomVariateBase implements DiscreteRando
     }
     
     /**
-     * @return  */    
+     * @return P{X = 1}
+     */    
     public double getProbability() { return probability; }
     
     /**
-     * @return  */    
+     * @return &quot;Bernoulli (p)&quot;
+     */    
     public String toString() { return "Bernoulli (" + getProbability() + ")"; }
         
 }
