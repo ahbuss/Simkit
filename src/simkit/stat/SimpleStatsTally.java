@@ -20,8 +20,19 @@ import java.beans.PropertyChangeEvent;
  **/
 public class SimpleStatsTally extends AbstractSimpleStats {
     
+/**
+* The mean of the statistic.
+**/
     private double mean;
+
+/**
+* The variance of the statistic.
+**/
     private double variance;
+
+/**
+* The difference between the current observation and the mean.
+**/
     private double diff;
     
 /**
@@ -32,15 +43,15 @@ public class SimpleStatsTally extends AbstractSimpleStats {
         this(DEFAULT_NAME);
     }
 /**
- *  Construct a SimpleStatsTally with the name <CODE>name</CODE>
- *  @param name The property name that will be listened too.
+ *  Construct a SimpleStatsTally with the given name.
+ *  @param name The property name that will be listened to.
  **/
     public SimpleStatsTally(String name) {
         super(name);
     }
 /**
  *  Update counters with a new observation.
- *  @param x The new (primitive) ovservation.
+ *  @param x The new (primitive) observation.
  **/
     public void newObservation(double x) {
         super.newObservation(x);
@@ -51,20 +62,27 @@ public class SimpleStatsTally extends AbstractSimpleStats {
     }
 
 /** 
+ * Gets the current mean of the statistic
  * @return Current mean
  */    
     public double getMean() { return mean; }
 /**
+ * Gets the current variance of the statistic
  * @return Current variance of observations
  */    
     public double getVariance() { return variance; }
 /**
+ * Gets the current standard deviation of the statistic
  * @return Current Standard Deviation of observations
  */    
     public double getStandardDeviation() { return Math.sqrt(getVariance()); }
 
+/**
+* Returns the SamplingType which is always <CODE>TALLY</CODE>.
+**/
     public SamplingType getSamplingType() { return SamplingType.TALLY; }
     
+// Javadoc inherited.
     public void reset() {
         super.reset();
         diff = 0.0;

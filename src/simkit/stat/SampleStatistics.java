@@ -37,54 +37,65 @@ public interface SampleStatistics extends java.beans.PropertyChangeListener {
 /**
  * Add a new Observation of type <code>Boolean</code>.  It is expected that
  * "true" corresponds to '1' and "false" to 0.
- * @param newObs the boolean observation
+ * @param newObs the Boolean observation
  */    
     public void newObservation(Boolean newObs);
     
 /**
+ * Gets the current value of the mean.
  *  @return The current mean.
 **/
     public double getMean();
 /**
+ * Gets the current value of the variance.
  *  @return The current variance.
 **/
     public double getVariance();
 /**
+ * Gets the current value of the standard deviation.
  *  @return The current standard deviation.  Normally will return
  *          Math.sqrt(getVariance());
 **/
     public double getStandardDeviation();
 /**
+ * Gets the number of observations so far.
  *  @return The current number of observations.
 **/
     public int getCount();
 /**
- *  @return The currrent running minumum observation.
+ * Gets the minimum observed value so far.
+ *  @return The current running minimum observation.
 **/
     public double getMinObs();
 /**
- *  @return The currrent running maximum observation.
+ * Gets the maximum observed value so far.
+ *  @return The current running maximum observation.
 **/
     public double getMaxObs();
 /**
+ * Sets the format for any Strings created.
  *  @param format The <CODE>DecimalFormat</CODE> String for default reporting
 **/
     public void setFormat(String format);
 /**
+ * Sets the sampling type to either TALLY or TIME_VARYING.
  *  This should normally have no effect, since each class should only implement
  *  one SamplingType.
  *  @param type The SamplingType (TALLY or TIME_VARYING).
 **/
     public void setSamplingType(SamplingType type);
 /**
+ * Returns the SamplingType for this SampleStatistics.
  *  @return The SamplingType for the class. 
 **/
     public SamplingType getSamplingType();
 /**
+ * The name of the Property for which statistics are collected.
  *  @return The Property name associated with the SampleStatistics instance
  */
     public String getName();
 /**
+ * The name of the Property for which statistics are collected.
  *  @param name The property name associated with the SampleStatistics instance
  */    
     public void setName(String name);

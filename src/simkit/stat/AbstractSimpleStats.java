@@ -10,48 +10,89 @@ import java.beans.PropertyChangeEvent;
 import java.text.DecimalFormat;
 
 /**
- *
+ * Abstract base class implementation of the SampleStatistics interface.
+ * <P>
+ * This class contains a skeletal implementation for collecting new
+ * observations that tracks the minimum and maximum values, along with the
+ * number of observations. Classes extending AbstractSimpleStatistics will
+ * need to implement the logic for calculating the mean and standard deviation.
+ * </P>
  * @author  ahbuss
- * @version
  */
 public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable {
     
+/**
+* The default name for SampleStatistics. "%unnamed%"
+**/
     protected  static String DEFAULT_NAME = "%unnamed%";
+
+/**
+* The default DecimalFormat. <!-- End. First Sentence--> " 0.0000;-0.0000"
+**/
     protected static String DEFAULT_FORMAT = " 0.0000;-0.0000";
     
+/**
+* The total number of observations recorded.
+**/
     protected int count;
+
+/**
+* The smallest observation recorded.
+**/
     protected double minObs;
+
+/**
+* The largest observation recorded.
+**/
     protected double maxObs;
+
+/**
+* The name of the property that this SampleStatistic will
+* collect statistics on.
+**/
     protected  String name;
+
+/**
+* The DecimalFormat used for Strings.
+**/
     protected DecimalFormat df;
     
+/**
+* Creates a new instance with the default name "%unnamed%"
+**/
     public AbstractSimpleStats() {
         this(DEFAULT_NAME);
     }
-    
+
+/**
+* Creates a new instance with the given name.
+**/    
     public AbstractSimpleStats(String name) {
         this.setName(name);
         this.setFormat(DEFAULT_FORMAT);
         this.reset();
     }
-    
+
+// Javadoc inherited from SampleStatistics.    
     /**
-     * @return The currrent running maximum observation.
+     * @return The current running maximum observation.
      */
     public double getMaxObs() { return maxObs; }
     
+// Javadoc inherited from SampleStatistics.    
     /**
-     * @return The currrent running minumum observation.
+     * @return The current running minimum observation.
      */
     public double getMinObs() { return minObs; }
     
+// Javadoc inherited from SampleStatistics.    
     /**
      * @return The current number of observations.
      */
     public int getCount() { return count; }
     
     /**
-     * Should reset/initialize all relevant counters.
+     * Resets/initializes all relevant counters.
      */
     public void reset() {
         count = 0;
@@ -60,7 +101,7 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
     }
     
     /**
-     * Add new observation and update counters (primitive).
+     * Adds new observation and update counters (primitive).
      * @param newObs The new (primitive) observation
      */
     public void newObservation(double newObs) {
@@ -78,6 +119,14 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
         this.newObservation(newObs.doubleValue());
     }
     
+/**
+* If the PropertyChangeEvent contains the property this SampleStatistic
+* is associated with, record the value as a new observation.
+* <P>If the name of the property is "reset" and the value of
+* the property is the name of the property that this SampleStatistic
+* is associated with, then reset this SampleStatistic.
+* </P>
+**/
     public void propertyChange(PropertyChangeEvent e) {
         if (e.getPropertyName().equals(name)) {
             Object newObs = e.getNewValue();
@@ -96,6 +145,7 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
     }
     
     /**
+     * Sets the Sampling type.
      * This should normally have no effect, since each class should only implement
      * one SamplingType.
      * @param type The SamplingType (TALLY or TIME_VARYING).
@@ -104,9 +154,12 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
     }
     
     /**
+     * Sets the format of Strings created.
      * @param format The <CODE>DecimalFormat</CODE> String for default reporting
      */
     public void setFormat(String format) { df = new DecimalFormat(format); }
+
+// Javadoc inherited from SampleStatistics.
     public void newObservation(Boolean newObs) {
         newObservation(newObs.booleanValue());
     }
@@ -120,11 +173,13 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
         newObservation( newObs ? 1.0 : 0.0 );
     }
     /**
+     * The name of the Property that this SampleStatistic is associated with.
      * @return The Property name associated with the SampleStatistics instance
      */
     public String getName() { return name; }
     
     /**
+     * The name of the Property that this SampleStatistic is associated with.
      * @param The Property name associated with the SampleStatistics instance
      */
     public void setName(String name) { this.name = name; }
@@ -139,6 +194,11 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
         return null;
     }
     
+/**
+* Return a String containing the Name, SamplingType, and the DataLine
+* for this SampleStatistic.
+* @see #getDataLine()
+**/
     public String toString() {
         StringBuffer buf = new StringBuffer();
         buf.append(getName());
@@ -150,7 +210,9 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
         return buf.toString() + getDataLine();
     }
     /**
-     *  @return A single line of space-separated, formated data containing: count,
+     * Returns the data line consisting of the count, min, max,
+     * mean, variance, and standard deviation.
+     *  @return A single line of space-separated, formatted data containing: count,
      *          min, max, mean, variance, std deviation
      **/
     public String getDataLine() {

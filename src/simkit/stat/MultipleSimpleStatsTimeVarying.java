@@ -5,20 +5,44 @@ import java.util.Iterator;
 import simkit.util.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 
+/**
+* A class to collect time varying statistics for an array of properties. 
+* The statistics calculated are time weighted. Automatically gets the
+* time of the observations from Schedule.
+* <P>
+* Getting the mean, variance, or standard deviation will cause
+* a new observation to be added to account for the time since the last
+* observation, therefore the value returned by <CODE>getCount</CODE> may not
+* correspond to the number of times <CODE>newObservation</CODE> has been called.
+* </P>
+**/
 public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying implements IndexedSampleStatistics {
 
+/**
+* Holds the table of indexed statistics.
+**/
     private TreeMap indexedStats;
 
+/**
+* Creates a new instance with the default name. The name can be
+* changed later by calling <CODE>setName</CODE>
+**/
     public MultipleSimpleStatsTimeVarying() {
         super();
         indexedStats = new TreeMap();
     }
 
+/**
+* Creates a new instance with the given name.
+* @param name The name of the array of properties for which statistics
+* will be collected.
+**/
     public MultipleSimpleStatsTimeVarying(String name) {
         this();
         setName(name);
     }
 
+// Javadoc inherited.
     public void newObservation(double x, int index) {
         this.newObservation(x);
         Integer key = new Integer(index);
@@ -31,35 +55,43 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         stat.newObservation(x);
     }
 
+// Javadoc inherited.
     public void newObservation(Number num, int index) {
         this.newObservation(num.doubleValue(), index);
     }
 
+// Javadoc inherited.
     public double getMean(int index) {
         SimpleStatsTimeVarying stat = (SimpleStatsTimeVarying) indexedStats.get(new Integer(index));
         return (stat == null) ? Double.NaN : stat.getMean();  
     }
+// Javadoc inherited.
     public double getVariance(int index) {
         SimpleStatsTally stat = (SimpleStatsTally) indexedStats.get(new Integer(index));
         return (stat == null) ? Double.NaN : stat.getVariance();  
     }
+// Javadoc inherited.
     public double getStandardDeviation(int index) {
         SimpleStatsTimeVarying stat = (SimpleStatsTimeVarying) indexedStats.get(new Integer(index));
         return (stat == null) ? Double.NaN : stat.getStandardDeviation();  
     }
+// Javadoc inherited.
     public int getCount(int index) {
         SimpleStatsTimeVarying stat = (SimpleStatsTimeVarying) indexedStats.get(new Integer(index));
         return (stat == null) ? 0 : stat.getCount();  
     }
+// Javadoc inherited.
     public double getMinObs(int index) {
         SimpleStatsTimeVarying stat = (SimpleStatsTimeVarying) indexedStats.get(new Integer(index));
         return (stat == null) ? Double.NaN : stat.getMinObs();  
     }
+// Javadoc inherited.
     public double getMaxObs(int index) {
         SimpleStatsTimeVarying stat = (SimpleStatsTimeVarying) indexedStats.get(new Integer(index));
         return (stat == null) ? Double.NaN : stat.getMaxObs();  
     }
 
+// Javadoc inherited.
     public double[] getAllMean() {
         double[] means = null;
         if (indexedStats.size() > 0) {
@@ -73,6 +105,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         return means;
     }
 
+// Javadoc inherited.
     public double[] getAllVariance() {
         double[] variance = null;
         if (indexedStats.size() > 0) {
@@ -86,6 +119,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         return variance;
     }
 
+// Javadoc inherited.
     public double[] getAllStandardDeviation() {
         double[] std = null;
         if (indexedStats.size() > 0) {
@@ -99,6 +133,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         return std;
     }
 
+// Javadoc inherited.
     public SampleStatistics[] getAllSampleStat() {
         SampleStatistics[] allStats = null;
         SimpleStatsTimeVarying temp;
@@ -115,6 +150,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         return allStats;
     }
 
+// Javadoc inherited.
     public double[] getAllMaxObs() {
         double[] max = null;
         if (indexedStats.size() > 0) {
@@ -128,6 +164,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         return max;
     }
 
+// Javadoc inherited.
     public double[] getAllMinObs() {
         double[] min = null;
         if (indexedStats.size() > 0) {
@@ -141,6 +178,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         return min;
     }
 
+// Javadoc inherited.
     public int[] getAllCount() {
         int[] count = null;
         if (indexedStats.size() > 0) {
@@ -154,6 +192,13 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         return count;
     }
 
+/**
+* If the PropertyChangeEvent contains the indexed property associated
+* with this statistic then record a new observation for the index and value
+* contained in the event.
+* <P>Note: <CODE>MultipleSimpleStatsTimeVarying</CODE> cannot be reset by an event like
+* <CODE>AbstractSimpleStats</CODE>.</P>
+**/
     public void propertyChange(PropertyChangeEvent e) {
         if (this.getName().equals(e.getPropertyName()) &&
             (e instanceof IndexedPropertyChangeEvent) ) {
@@ -163,6 +208,8 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
             }
         }
     }
+
+//Javadoc inherited.
     public void reset() {
         super.reset();
         if (indexedStats == null) { return; }
@@ -171,6 +218,10 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         }
     }
 
+/**
+* Produces a String containing the name, SamplingType, and DataLines for
+* all of the properties.
+**/
     public String toString() {
         StringBuffer buf = new StringBuffer();
         buf.append(this.getName());
