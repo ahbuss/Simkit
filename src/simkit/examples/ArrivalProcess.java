@@ -50,7 +50,6 @@ public class ArrivalProcess extends SimEntityBase {
      **/
     public void doRun() {
         waitDelay("Arrival", interArrivalTime.generate());
-        waitDelay("StopArrivals", 20.0);
     }
     /**
      *  Arrival event.  Increments number of arrivals and schedules next arrival. (Event Mathod)
