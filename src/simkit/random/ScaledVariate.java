@@ -8,6 +8,8 @@ package simkit.random;
 
 /**
  * Given a RandomVariate, this will scale and (optionally) shift it.  
+ * Now allows scale to be negative.  For example, scaling by -1.0
+ * will flip a positive RV to a negative one.
  * @author  Arnold Buss
  * @version $Id$
  */
@@ -45,10 +47,10 @@ public class ScaledVariate implements RandomVariate {
     }
     
 /**
-* Returns a 2 element array with the shift and the scale as Doubles.
+* Returns a 3 element array with the RandomVariate, scale  and the shift as Doubles.
 **/
     public Object[] getParameters() {
-        return new Object[] { new Double(getShift()), new Double(getScale())};
+        return new Object[] { rv, new Double(getScale()), new Double(getShift()) };
     }
     
 /**
@@ -62,8 +64,8 @@ public class ScaledVariate implements RandomVariate {
 * specified) is not a Number, or if the scale is not positive.
 **/
     public void setParameters(Object[] params) {
-        if (params.length != 2 || params.length != 3) {
-            throw new IllegalArgumentException("Needs 2 or 3 parameters");
+        if (params.length != 2 && params.length != 3) {
+            throw new IllegalArgumentException("Needs 2 or 3 parameters: " + params.length);
         }
         if (params[0] instanceof RandomVariate) {
             setRandomVariate((RandomVariate) params[0]);
@@ -116,16 +118,10 @@ public class ScaledVariate implements RandomVariate {
     public double getShift() { return shift; }
     
 /**
-* Sets the amount to scale the RandomVaraite by.
-* @throws IllegalArgumentException If the scale is not positive.
+* Sets the amount to scale the RandomVariate by.
 **/
     public void setScale(double s) {
-        if (s > 0.0) {
-            scale = s;
-        }
-        else {
-            throw new IllegalArgumentException("Scale must be positive: " + s);
-        }
+        scale = s;
     }
     
 /**
