@@ -15,7 +15,7 @@ import java.util.*;
  * @author  Arnold Buss
  * @version
  */
-public class CookieCutterMediator extends SimEntityBase implements SensorTargetMediator, PropertyChangeListener {
+public class CookieCutterMediator extends SimEntityBase implements SensorTargetMediator {
     
     protected static final int[] INIT_COUNT = new int[] { 1 };
     
@@ -31,44 +31,26 @@ public class CookieCutterMediator extends SimEntityBase implements SensorTargetM
     }
     
     public void doEnterRange(Sensor sensor, Mover target) {
-        target.addPropertyChangeListener(this);
-        sensor.addPropertyChangeListener(this);
-        
-        int[] count = (int[]) targetCount.get(target);
-        if (count == null) {
-            targetCount.put(target, INIT_COUNT.clone());
+        if (this == SensorTargetMediatorFactory.getInstance().getMediatorFor(
+                sensor.getClass(), target.getClass())) {
+            Object contact = contacts.get(target);
+            if (contact == null) {
+                contact = new Contact(target);
+                contacts.put(target, sensor);
+            }
+            sensor.waitDelay("Detection", 0.0, new Object[] { contact } );
         }
-        else {
-            count[0]++;
-        }
-        count = (int[]) sensorCount.get(sensor);
-        if (count == null) {
-            sensorCount.put(target, INIT_COUNT.clone());
-        }
-        
-        Object contact = contacts.get(target);
-        if (contact == null) {
-            contact = new SimpleContact(target);
-            contacts.put(target, contact);
-        }
-        else {
-            count[0]++;
-        }
-        sensor.waitDelay("Detection", 0.0, new Object[] { contact });
     }
     
     public void doExitRange(Sensor sensor, Mover target) {
-        Object contact = contacts.get(target);
-        if ( --((int[]) sensorCount.get(sensor))[0] == 0) {
-            sensor.removePropertyChangeListener(this);
+        if (this == SensorTargetMediatorFactory.getInstance().getMediatorFor(
+                sensor.getClass(), target.getClass())) {
+            Object contact = contacts.get(target);
+            sensor.waitDelay("Undetection", 0.0, new Object[] { contact });
         }
-        
-        if ( ((int[]) targetCount.get(target))[0] == 0) {
-            target.removePropertyChangeListener(this);
-        }
-        sensor.waitDelay("UnDetection", 0.0, new Object[] { contact });
     }
     
     public void propertyChange(java.beans.PropertyChangeEvent propertyChangeEvent) {
     }
+    
 }

@@ -8,6 +8,7 @@ package simkit.smdx;
 import simkit.*;
 import java.awt.*;
 import java.awt.geom.*;
+import java.beans.*;
 import java.util.*;
 
 /**
@@ -106,6 +107,12 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     
     public String toString() {
         return "CookieCutterSensor (" +  getMaxRange() + ") [" + getMover() +"]";
+    }
+    
+    public void propertyChange(PropertyChangeEvent e) {
+        if (e.getSource() == mover) {
+            firePropertyChange(e.getPropertyName(), e.getOldValue(), e.getNewValue());
+        }
     }
     
 }

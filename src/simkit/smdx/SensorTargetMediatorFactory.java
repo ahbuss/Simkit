@@ -21,6 +21,15 @@ public class SensorTargetMediatorFactory implements MediatorFactory {
     
     public static MediatorFactory getInstance() { return instance; }
     
+    public static void addMediator(Class sensorClass, Class targetClass,
+            Class mediatorClass) {
+        getInstance().addMediatorFor(sensorClass, targetClass, mediatorClass);
+    }
+    
+    public static Mediator getMediator(Class sensorClass, Class targetClass) {
+        return getInstance().getMediatorFor(sensorClass, targetClass);
+    }
+    
     private WeakHashMap cache;
     
     /** Creates new SensorTargetMediatorFactory */

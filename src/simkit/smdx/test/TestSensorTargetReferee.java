@@ -17,6 +17,14 @@ import java.awt.geom.*;
  */
 public class TestSensorTargetReferee {
     
+    static {
+        SensorTargetMediatorFactory.addMediator(
+            simkit.smdx.CookieCutterSensor.class,
+            simkit.smdx.UniformLinearMover.class,
+            simkit.smdx.CookieCutterMediator.class
+        );
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -40,6 +48,7 @@ public class TestSensorTargetReferee {
         
         PropertyChangeFrame pcf = new PropertyChangeFrame();
         target.addPropertyChangeListener("movementState", pcf);
+        sensor.addPropertyChangeListener(pcf);
         pcf.setVisible(true);
         
         Schedule.reset();

@@ -19,6 +19,8 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     
     protected Map sensors;
     protected Map targets;
+    protected Map mediators;
+    protected MediatorFactory sensorTargetMediatorFactory;
     
     private boolean clearOnReset;
     
@@ -26,7 +28,9 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     public SensorTargetReferee() {
         sensors = new WeakHashMap();
         targets = new WeakHashMap();
+        mediators = new WeakHashMap();
         setClearOnReset(false);
+        sensorTargetMediatorFactory = SensorTargetMediatorFactory.getInstance();
     }
     
     public Set getSensors() {
@@ -42,6 +46,18 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             sensors.put(entity, null);
             //            entity.addSimEventListener(this);
             entity.addPropertyChangeListener("movementState", this);
+            for (Iterator i = targets.keySet().iterator(); i.hasNext(); ) {
+                Object target = i.next();
+                Mediator mediator = sensorTargetMediatorFactory.getMediatorFor(
+                    entity.getClass(), target.getClass());
+                if (mediator == null) {
+                    throw new NoMediatorDefinedException("No mediator defined for (" +
+                        entity.getClass().getName() + "," + target.getClass().getName() +")");
+                }
+                else {
+                    this.addSimEventListener(mediator);
+                }
+            }
             if (Schedule.isRunning()) {
                 processSensor((Sensor) entity);
             }
@@ -50,6 +66,18 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             targets.put(entity, null);
             //            entity.addSimEventListener(this);
             entity.addPropertyChangeListener("movementState", this);
+            for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
+                Object sensor = i.next();
+                Mediator mediator = sensorTargetMediatorFactory.getMediatorFor(
+                    sensor.getClass(), entity.getClass() );
+                if (mediator == null) {
+                    throw new NoMediatorDefinedException("No mediator defined for (" +
+                        sensor.getClass().getName() + "," + entity.getClass().getName() +")");
+                }
+                else {
+                    this.addSimEventListener(mediator);
+                }
+            }
             if (Schedule.isRunning()) {
                 processTarget((Mover) entity);
             }
@@ -88,7 +116,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         Point2D targetVelocity = target.getVelocity();
         for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
             Sensor sensor = (Sensor) i.next();
-            Object[] pair = new Object[] { target, sensor };
+            Object[] pair = new Object[] { sensor, target };
             double time = Math2D.smallestPositive(
             Math2D.findIntersectionTime(
             Math2D.subtract(sensor.getLocation(), targetLocation),
@@ -116,22 +144,15 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
     public void doStartMove(Mover target) {
-        Object[] param = new Object[2];
-        param[1] = target;
-        //        Interrupts here
-        for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
-        }
     }
     
     public void doStartMove(Sensor sensor) {
-        System.out.println("Heard StartMove(" + sensor +")");
     }
     
     public void doEndMove(Mover target) {
     }
     
     public void doEndMove(Sensor sensor) {
-        System.out.println("Heard EndMove(" + sensor +")");
     }
     
     protected void scheduleEntries(Mover target) {
@@ -150,6 +171,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
     public void doEnterRange(Sensor sensor, Mover target) {
+        
     }
     
     public void doExitRange(Sensor sensor, Mover target) {

@@ -7,13 +7,14 @@
 package simkit.smdx;
 import java.awt.*;
 import java.awt.geom.*;
+import java.beans.*;
 import simkit.*;
 /**
  *
  * @author  Arnold Buss
  * @version 
  */
-public interface Sensor extends Moveable, SimEntity, PropertyChangeSource {
+public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
     
     public double getMaxRange();
     
