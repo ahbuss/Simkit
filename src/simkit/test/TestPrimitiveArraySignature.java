@@ -27,11 +27,24 @@ public class TestPrimitiveArraySignature extends SimEntityBase {
  * @param x The passed-in array.
  */
     public void doThis(int[] x) {
-        System.out.println( intArrayToString(x) );
         for (int i = 0; i < x.length; ++i) {
             x[i]++;
         }
+        System.out.println( intArrayToString(x) );
         waitDelay("This", 1.1,  x  );
+        if ( x.length > 0) {
+            waitDelay("That", 0.5, new Integer(x[0]));
+        }
+        else {
+            waitDelay("That", 0.7, new Integer(-1));
+        }
+    }
+    
+/**
+ * @param arg the primitive integer argument.
+*/    
+    public void doThat(int arg) {
+        System.out.println(arg);
     }
 /**
  * Helper method to dump int[] arrays to a String.  The format is
@@ -49,7 +62,8 @@ public class TestPrimitiveArraySignature extends SimEntityBase {
     }
     
     public static void main(String[] args) {
-        SimEntity tas = new TestPrimitiveArraySignature(new int[] { 1, 2, 3 });
+        SimEntityBase tas = new TestPrimitiveArraySignature(new int[] { 1, 2, 3 });
+        tas.setVerbose(true);
         Schedule.setVerbose(true);
         Schedule.stopOnEvent("This", new Class[] { int[].class }, 10);
         Schedule.reset();
