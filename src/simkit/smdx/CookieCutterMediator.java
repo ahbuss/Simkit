@@ -17,17 +17,11 @@ import java.util.*;
  */
 public class CookieCutterMediator extends SimEntityBase implements SensorTargetMediator {
     
-    protected static final int[] INIT_COUNT = new int[] { 1 };
-    
     protected Map contacts;
-    protected Map targetCount;
-    protected Map sensorCount;
     
     /** Creates new CookieCutterMediator */
     public CookieCutterMediator() {
         contacts = new WeakHashMap();
-        targetCount = new WeakHashMap();
-        sensorCount = new WeakHashMap();
     }
     
     public void doEnterRange(Sensor sensor, Mover target) {
