@@ -10,7 +10,12 @@ import java.beans.*;
 public class SimplePropertyDumper implements PropertyChangeListener {
 
     public void propertyChange(PropertyChangeEvent e) {
-        System.out.println(e.getPropertyName() + ": " + e.getOldValue() + " => " +
+        String index = "";
+        if (e instanceof IndexedPropertyChangeEvent) {
+            index = "[" + ((IndexedPropertyChangeEvent) e).getIndex() + "]";
+        }
+
+        System.out.println(e.getPropertyName() + index + ": " + e.getOldValue() + " => " +
             e.getNewValue());
     }
 }
