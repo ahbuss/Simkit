@@ -6,6 +6,7 @@
 
 package simkit.xml;
 import simkit.*;
+import simkit.random.*;
 import java.util.*;
 import org.jdom.*;
 import org.jdom.input.*;
@@ -154,7 +155,8 @@ public class SimRunner implements Runnable {
         SimRunner.getSimRunner(null).run();
 
         simkit.examples.ArrivalProcess arrival = 
-            new simkit.examples.ArrivalProcess("Exponential", new Object[] {new Double(1.7)}, 12345L);
+            new simkit.examples.ArrivalProcess(
+               RandomVariateFactory.getInstance("Exponential", new Object[] {new Double(1.7)}, 12345L));
         
         String filename = args.length > 0 ? args[0] : "Run1.xml";
         InputStream inStream = SimRunner.class.getResourceAsStream(filename);

@@ -47,8 +47,9 @@ public class Resetter extends SimEntityBase {
     }
     
     public static void main(String[] args) {
-        ArrivalProcess arrival = new ArrivalProcess("simkit.random.ConstantVariate",
-        new Object[] { new Double(1.0) }, 1L);
+        ArrivalProcess arrival = new ArrivalProcess(
+            RandomVariateFactory.getInstance("simkit.random.ConstantVariate",
+        new Object[] { new Double(1.0) }, 1L));
         Resetter r = new Resetter(5.0);
         SimpleStatsTimeVarying sstv = new SimpleStatsTimeVarying("state");
         SimpleStatsTimeVarying sstv2 = new SimpleStatsTimeVarying("numberArrivals");
