@@ -1,32 +1,28 @@
 package simkit.random;
 
 public class NormalVariate extends RandomVariateBase {
-
+    
     private double savedValue;
     private boolean hasSavedValue;
-
     private double mean;
     private double sigma;
-
+    
     public NormalVariate() {
     }
-
+    
     public void setParameters(Object[] params) {
-
         if (params.length != 2) {
             throw new IllegalArgumentException("Need (mean, std. dev.), received " +
-                params.length + " parameters");
+            params.length + " parameters");
         }
-
-        super.setParameters(params);
-        double temp = ((Number) params[1]).doubleValue();
-        if (temp <= 0.0) {
-            throw new IllegalArgumentException("Need std. dev. > 0: " + sigma);
+        else {
+            setMean( ((Number) params[0]).doubleValue());
+            setStandardDeviation(((Number) params[1]).doubleValue());
         }
-        mean = ((Number) params[0]).doubleValue();
-        sigma = temp;
     }
-
+    
+    public Object[] getParameters() { return new Object[] { new Double(mean), new Double(sigma) }; }
+    
     public double generate() {
         double value = Double.NaN;
         if (hasSavedValue) {
@@ -49,6 +45,34 @@ public class NormalVariate extends RandomVariateBase {
         }
         return value * sigma + mean;
     }
-
+    
+    public void setMean(double mean) { this.mean = mean; }
+    
+    public void setStandardDeviation(double std) {
+        if (std >= 0.0) {
+            sigma = std;
+        }
+        else {
+            throw new IllegalArgumentException("Standard Deviation must be > 0.0");
+        }
+    }
+    
+    public void setVariance(double var) {
+        if (var >= 0.0) {
+            sigma = Math.sqrt(var);
+        }
+        else {
+            throw new IllegalArgumentException("Variance must be > 0.0");
+        }
+    }
+    
+    public double getMean() { return mean; }
+    
+    public double getStandardDeviation() { return sigma; }
+    
+    public double getVariance() { return sigma * sigma; }
+    
     public String toString() { return "Normal (" + mean + ", " + sigma + ")"; }
+    
 }
+
