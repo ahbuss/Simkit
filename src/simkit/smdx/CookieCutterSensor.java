@@ -34,7 +34,8 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     public CookieCutterSensor(double maxRange, Mover mover) {
         setMover(mover);
         locationTransform = new AffineTransform();
-        footprint = new Ellipse2D.Double(0, 0, maxRange, maxRange);
+        footprint = new Ellipse2D.Double();
+        footprint.setFrameFromCenter(0.0, 0.0, maxRange, maxRange);
         contacts = new HashSet();
     }
 

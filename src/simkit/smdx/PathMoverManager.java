@@ -12,6 +12,7 @@ public class PathMoverManager extends SimEntityBase {
     private List wayPoints;
     private Mover mover;
     private Iterator nextWayPoint;
+    private boolean startOnReset;
     
     public PathMoverManager(Mover m, Point2D[] path) {
         this.mover = m;
@@ -104,4 +105,15 @@ public class PathMoverManager extends SimEntityBase {
     }
     
     public Mover getMover() {return mover;}
+    
+    public void setStartOnReset(boolean b) { startOnReset = b; }
+    
+    public boolean isStartOnReset() { return startOnReset; }
+    
+    public void reset() {
+        super.reset();
+        if (isStartOnReset()) {
+            start();
+        }
+    }
 }

@@ -58,6 +58,7 @@ public class TestUniformLinearMover {
         sensor[1] = new CookieCutterSensor(20.0, mover[1]);
         
         SensorTargetReferee ref = new SensorTargetReferee();
+        ref.setVerbose(true);
         
         for (int i = 0; i < sensor.length; i++) {
             ref.register(sensor[i]);
@@ -70,7 +71,7 @@ public class TestUniformLinearMover {
         PropertyChangeFrame pcf = new PropertyChangeFrame();
         for (int i = 0; i < mover.length; i++ ){
             mover[i].addPropertyChangeListener("movementState", pcf);
-            sensor[i].addPropertyChangeListener("movementState", pcf);
+            sensor[i].addPropertyChangeListener(pcf);
         }
         pcf.setVisible(true);
         

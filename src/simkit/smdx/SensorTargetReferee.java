@@ -172,11 +172,21 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         );
         return time;
          */
+        
         Point2D targetLocation = target.getLocation();
         Point2D relativeVelocity = Math2D.subtract(target.getVelocity(), sensor.getVelocity());
         Shape footPrint = sensor.getFootprint();
         double[] times = Math2D.findIntersectionTime(targetLocation, relativeVelocity, footPrint);
         double time = Math2D.smallestPositive(times);
+        if (isVerbose()) {
+            Point2D[] intersect = Math2D.findIntersection(targetLocation, relativeVelocity, footPrint);
+            for (int i = 0; i < intersect.length; i++) {
+                System.out.println(i + ": " + intersect[i] + " -> " + times[i] + " - " +
+                    Math2D.add(target.getLocation(), Math2D.scalarMultiply(times[i], target.getVelocity())) + " | " +
+                    Math2D.add(sensor.getLocation(), Math2D.scalarMultiply(times[i], sensor.getVelocity())) );
+            }
+        }
+
         return time;
     }
     
