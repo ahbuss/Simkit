@@ -73,7 +73,7 @@ public class TransferLine extends SimEntityBase {
             this.serviceTime[i] = RandomVariateFactory.getInstance(serviceTime[i]);
         }
         numberInQueue = new int[numberServersAtStation.length];
-        numberAvailableServers = (int[]) numberServersAtStation;
+        numberAvailableServers = (int[]) numberServersAtStation.clone();
         numberArrivals = 0;
         numberServed = 0;
     }
@@ -84,7 +84,7 @@ public class TransferLine extends SimEntityBase {
     public void reset() {
         super.reset();
         numberInQueue = new int[numberServersAtStation.length];
-        numberAvailableServers = (int[]) numberServersAtStation;
+        numberAvailableServers = (int[]) numberServersAtStation.clone();
         numberArrivals = 0;
         numberServed = 0;
     }
