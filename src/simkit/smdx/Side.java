@@ -2,8 +2,7 @@ package simkit.smdx;
 import java.util.HashMap;
 
 /**
- * 19 Oct 98 Started
- * <P> A Java "Enumeration" to represent the sides. The side's name is returned
+ * A Java "Enumeration" to represent the sides. The side's name is returned
  * in its toString() and getSide() methods.  Thus, an instance of Side has
  * a String property called "Side"
  * @author Arnold Buss
@@ -30,7 +29,8 @@ public class Side {
     private String side;
     
     /**
-     *  Construct an instance of Side - note only subclasses can do this.
+     *  Constructs an instance of Side.
+     *  @param side The name of this Side.
      **/
     protected Side(String side) {
         this.side = side;
@@ -38,15 +38,19 @@ public class Side {
         allSides.put(side.toLowerCase(), this);
     }
     /**
+     * Gets the name of this Side.
      *  @return the name of this Side
      **/
     public String getSide() {return side;}
     /**
+     * Returns a String containing the name of this Side.
      *  @return the name of this Side
      **/
     public String toString() {return side;}
     
     /**
+     * Find the Side with the given name. The argument can either
+     * be exactly as the Side was constructed or all lower case.
      * @return Side corrseponding to the name of the side passed in
      * or null if there is no such side.
      */    
