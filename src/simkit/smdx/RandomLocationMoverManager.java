@@ -68,10 +68,16 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
         else if (rv[0] == null || rv[1] == null) {
             throw new NullPointerException("Null RandomVariate in array");
         }
-        location = new RandomVariate[] { rv[0], rv[1] };
+        location = (RandomVariate[]) rv.clone();
+    }
+    
+    public RandomVariate[] getLocationGenerator() {
+        return (RandomVariate[]) location.clone();
     }
     
     public void setSpeedGenerator(RandomVariate rv) { speed = rv; }
+    
+    public RandomVariate getSpeedGenerator() { return speed; }
     
     protected Point2D getLocation() {
         return new Point2D.Double(location[0].generate(), location[1].generate());
@@ -83,6 +89,11 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
         }
         mover = newMover;
         mover.addSimEventListener(this);
+    }
+    
+    public String toString() {
+        return getMover() + " " + location[0] + " - " + location[1] + " ["  +
+            speed + "]";
     }
     
 }
