@@ -6,6 +6,7 @@
 
 package simkit.smdx;
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 /**
  *  A doppleganger for a mover - to be passed by a SensorTargetMediator in lieu
  *  of the actual target.
@@ -13,11 +14,13 @@ import java.awt.geom.Point2D;
  */
 public class Contact implements Moveable {
     
+    private DecimalFormat form;
     private Mover mover;
     
     /** Creates a new instance of Contact */
     public Contact(Mover mover) {
         this.mover = mover;
+        form = new DecimalFormat("0.000;-0.000");
     }
     
     public Point2D getAcceleration() {
@@ -32,4 +35,9 @@ public class Contact implements Moveable {
         return mover.getVelocity();
     }
     
+    public String toString() { 
+        Point2D loc = mover.getLocation();        
+        return "Contact: [" + form.format(loc.getX()) +
+        ", " + form.format(loc.getY()) + "]";
+    }
 }
