@@ -134,5 +134,7 @@ public interface SimEntity extends Named,
 **/
 
   public boolean isReRunnable();
+  
+  public int getSerial();
 
 }
