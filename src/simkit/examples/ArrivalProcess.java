@@ -27,18 +27,6 @@ public class ArrivalProcess extends SimEntityBase {
         this.setInterArrivalTime(iat);
     }
     /**
-     *  Construct an <CODE>ArrivalProcess</CODE> instance with given interarrival
-     *  distribution.
-     *  @param distribution The interarrival distribution name (fully-qualified
-     *              class name).
-     *  @param params The prarmeters of the interarrival distribution.
-     *  @param seed The seed of the RandomVariate object.
-     **/
-    public ArrivalProcess(String distribution, Object[] params, long seed) {
-        this.setInterArrivalTime(RandomVariateFactory.getInstance(
-        distribution, params, seed ));
-    }
-    /**
      *  Resets the number of arrivals to 0
      **/
     public void reset() {
@@ -84,7 +72,7 @@ public class ArrivalProcess extends SimEntityBase {
      *  @return String suitable for part of report
      **/
     public String toString() {
-        return "Arrival Process with interarrival times " + interArrivalTime;
+        return "Arrival Process\n\tInterarrival times: " + interArrivalTime;
     }
     /**
      *  @return Usage String (uses Exponential interarrival times)
@@ -153,34 +141,26 @@ At time 100.0 there have been 2 arrivals
         double stopTime = Double.parseDouble(args[1]);
         boolean singleStep = (args.length == 2) ? false : Boolean.valueOf(args[2]).booleanValue();
         
+        RandomVariate interarrivalTime = 
+            RandomVariateFactory.getInstance("Exponential",
+                new Object[] {meanIAT}, simkit.random.CongruentialSeeds.SEED[0]);
         ArrivalProcess arrivals =
-        new ArrivalProcess(
-        RandomVariateFactory.getInstance("simkit.random.ExponentialVariate",
-        new Object[] {meanIAT}, simkit.random.CongruentialSeeds.SEED[0]) );
+            new ArrivalProcess(interarrivalTime);
         
         System.out.println();
-        System.out.println(arrivals.paramString());
+        System.out.println(arrivals);
         System.out.println("Simulation will end at time " + stopTime);
         System.out.println();
         
         simkit.Schedule.setVerbose(true);
         simkit.Schedule.setSingleStep(singleStep);
         
-//        simkit.Schedule.stopAtTime(stopTime);
-//        simkit.Schedule.stopOnEvent("Arrival", 10);
-        for (int i = 0; i < 2; i++) {
+        simkit.Schedule.stopAtTime(stopTime);
             
-            if (i > 0) {
-//        simkit.SimEventFactory.setVerbose(true);
-//                simkit.Schedule.setReallyVerbose(true);
-            }
+        simkit.Schedule.reset();
+        simkit.Schedule.startSimulation();
             
-            simkit.Schedule.reset();
-            simkit.Schedule.startSimulation();
-            
-            System.out.println("At time " + simkit.Schedule.getSimTime() + " there have been " +
+        System.out.println("At time " + simkit.Schedule.getSimTime() + " there have been " +
             arrivals.getNumberArrivals() + " arrivals");
-        }
-        
     }
 }
