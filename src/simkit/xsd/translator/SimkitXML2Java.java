@@ -12,8 +12,6 @@ import java.io.StringWriter;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Vector;
-import java.util.Enumeration;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -46,6 +44,7 @@ public class SimkitXML2Java {
     String rp  = ")";
     String eq  = "=";
     String pd  = ".";
+    String qu  = "\"";
 
     
     /** 
@@ -234,6 +233,9 @@ public class SimkitXML2Java {
 	pw.println(sp4 + "/** Set initial values of all state variables */");
 	pw.println(sp4 + "public void reset() {");
 	pw.println(sp8 + "super.reset()" + sc);
+	pw.println();
+	pw.println(sp8 + "/** StateTransitions for the Run Event */");
+	pw.println();
 
 	li = run.getStateTransition().listIterator();
 	
@@ -253,10 +255,60 @@ public class SimkitXML2Java {
 	pw.println(sp4 + cb);
 	pw.println();
 	
+	pw.println(sp4 + "public void doRun() {");
+	
+	li = run.getStateTransition().listIterator();
+	
+	// because the run event gets split in twain this is 
+	// similar as above
+
+	while( li.hasNext() ) {
+	    StateTransition st = (StateTransition) li.next();
+	    StateVariable sv = (StateVariable) st.getState();
+	    AssignmentType asg = st.getAssignment();
+	    OperationType ops = st.getOperation();
+	    pw.print(sp8 + "firePropertyChange(" + qu + sv.getName() + qu); 
+	    pw.println(cm + sv.getName() + rp + sc);
+	}
+	
+	pw.println(sp4 + cb);
+	pw.println();
     }
 
+    /** these Events should now not be any Run event */
+
     void doEventBlock(Event e, StringWriter eventBlock) {
-    
+	PrintWriter pw = new PrintWriter(eventBlock);
+	ListIterator li = e.getStateTransition().listIterator();
+	List args = e.getArgument();
+	ListIterator ai = args.listIterator();
+
+	pw.print(sp4 + "public void do" + e.getName() + lp); 
+
+	while ( ai.hasNext() ) {
+	    Argument a = (Argument) ai.next();
+	    pw.print(a.getType() + sp + a.getName());
+	    if ( args.size() > 1 && args.indexOf(a) < args.size() - 1 ) {
+		pw.print(cm + sp);
+	    }
+ 	}
+
+	pw.println(rp + sp + ob);
+
+	while ( li.hasNext() ) {
+   	    StateTransition st = (StateTransition) li.next();
+	    StateVariable sv = (StateVariable) st.getState();
+	    AssignmentType asg = st.getAssignment();
+	    OperationType ops = st.getOperation(); 
+	
+	    pw.print(sp8 + sv.getName());
+	    if (asg == null) {
+		pw.println(pd + ops.getMethod() + sc);
+	    }
+	//tbd
+
+	}
+	
     }
 
     void buildTail(StringWriter t) {
