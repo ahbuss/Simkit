@@ -16,6 +16,8 @@ public interface MoverManager extends simkit.SimEntity {
     
     public void stop();
     
+    public void setMover(Mover mover);
+    
     public Mover getMover();
     
     public void setStartOnReset(boolean b);
