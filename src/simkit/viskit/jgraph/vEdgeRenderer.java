@@ -25,7 +25,7 @@ public class vEdgeRenderer extends EdgeRenderer
    */
   public void paint(Graphics g)
   {
-    ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+  // jmb test  ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
     super.paint(g);
   }
 

@@ -225,7 +225,7 @@ public class vVertexRenderer
   {
     Rectangle r = view.getBounds();
     Graphics2D g2 = (Graphics2D)g;
-    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+  // jmb test  g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
     g2.setColor(circColor);
     int myoff=2;
     g2.fillOval(myoff,myoff,r.width-2*myoff,r.height-2*myoff); // size of rect is 54,54
