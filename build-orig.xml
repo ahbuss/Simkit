@@ -1,47 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." default="all" name="Simkit">
+<project name="Simkit"
+         basedir="."
+         default="help" >
+	<description>
+         Ant build file for the NPS Simkit and associated libraries. Third
+         party jar files are not compiled from source here, but they are copied as
+         necessary for the simkit distribution.  This buildfile was created and tested
+         using Ant version 1.5.1 on the Mac OSX 10.3 platform, where it works from the
+         command line as well as within the NetBeans IDE from Sun Microsystems. Suggestions
+         and comments are welcome.
+    </description>
+	
+<!-- magic properties, do not change or delete -->
 
+	<property name="build.compiler" value="modern"/>
+	
+<!-- CVS properties (this file) -->
+	<property name="CVSId"
+              value="$Id$" />
 
-    <property description="Directory containing Simkit source files" name="src.dir" value="."/>
-    <property description="Base directory for Simkit build" name="build.dir" value="build"/>
-    <property description="Directory for compiled classes" name="build.classes" value="${build.dir}/classes/"/>
-    <property description="Directory for Simkit javadoc files" name="build.doc" value="${build.dir}/doc/"/>
-    <property description="Directory for Simkit jar files" name="build.jar" value="${build.dir}/lib/"/>
-    <target depends="clean,compile" name="all">
-        <!-- WRITEME -->
+<!-- Project directories             -->
+
+	<property name="dir.src"
+	          location="."
+	          description="Root of the Simkit source tree." />
+	
+	<property name="dir.build"
+	          location="${basedir}/build"
+	          description="Root of the Simkit binary tree." />
+	          
+	<property name="dir.build.lib"
+	          location="${dir.build}/lib"
+	          description="Directory for built and copied jar files that will wind up in dir.dist." />
+	          
+	<property name="dir.dist"
+	          location="${basedir}/dist"
+	          description="Where the distribution files wind up." />
+	          
+	<property name="dir.lib"
+	          location="${basedir}/lib"
+	          description="Location of Simkit's dependencies" />
+	          
+	<property name="dir.lib.xml"
+	          location="${dir.lib}/jwsdp-1.3"
+	          description="Where all the XML extensions are." />
+	          
+	<property name="dir.build.classes"
+	          location="${dir.build}/classes"
+	          description="Location of class files resulting from operations of this build file." />
+	          
+	<property name="dir.build.doc"
+	          location="${dir.build}/doc"
+	          description="Root of the javadoc tree for Simkit." />
+
+<!--  === TARGET: help === -->
+	<target name="help">
+		<echo message="This is the Ant build file for the NPS Simkit and associated libraries. Third-party jar files are not compiled from source here, but they are copied as necessary for the simkit distribution.  This buildfile was created and tested using Ant version 1.5.1 on the Mac OSX 10.3 platform, where it works from the command line as well as within the NetBeans IDE version 3.5.1 from Sun Microsystems. Suggestions and comments should be forwarded to Kirk Stork (kirk@kastork.org), or posted on the Simkit discussion boards at http://diana.nps.navy.mil/simkit.  Work on integrating Ant and this buildfile within Apple's XCode IDE is in progress." />
     </target>
-    <target description="Deletes build directory" name="clean">
-        <delete dir="${build.dir}"/>
+
+<!--  === TARGET: init === -->
+	<target name="init"
+	        description="Preparatory actions required for all targets.">
+	    <tstamp />
+		<echo message="Build started on ${DSTAMP} at ${TSTAMP}"/>
+		<echo message="Buildfile version ${CVSId}"/>
+		<echo message="Base directory: ${basedir}" />
+		<echo message="Source directory: ${dir.src}" />
+		<echo message="Build directory: ${dir.build}" />
+	</target>
+	
+<!--  === TARGET: build.init === -->
+	<target name="build.init"
+	        depends="init"
+	        description="Preparatory actions for compilation and documentation targets">
+		<mkdir dir="${dir.build}" />
+		<mkdir dir="${dir.build.lib}" />
+		<mkdir dir="${dir.build.classes}" />
+        <mkdir dir="${dir.build.doc}"/>
+	</target>
+	
+<!--  === TARGET: clean === -->
+    <target name="clean"
+            depends="init"
+            description="Deletes build directory, javadoc directory and dist directory" >
+        <echo message="Deleting directory ${dir.build}" />
+        <delete dir="${dir.build}" />
+        <echo message="Deleting directory ${dir.dist}" />
+        <delete dir="${dir.dist}" />
     </target>
-    <target depends="prepare" name="compile">
-        <mkdir dir="${build.classes}"/>
-        <javac destdir="${build.classes}" srcdir="${src.dir}"/>
+
+<!--  === TARGET: compile === -->
+    <target name="compile"
+            depends="build.init"
+            description="Compile the Simkit classes and copy resource files to the binary tree.">
+        <javac destdir="${dir.build.classes}"
+               excludes="viskit/**">
+        	<classpath>
+        		<pathelement location="${dir.lib}/bsh-2.0b1.jar" />
+        		<pathelement location="${dir.lib}/jdom.jar" />
+        		<pathelement location="${dir.lib}/jgraph.jar" />
+        		<pathelement location="${dir.lib.xml}/dom.jar" />
+        		<pathelement location="${dir.lib.xml}/jax-qname.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-api.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-impl.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-libs.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-xjc.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxp-api.jar" />
+        		<pathelement location="${dir.lib.xml}/namespace.jar" />
+        		<pathelement location="${dir.lib.xml}/relaxngDatatype.jar" />
+        		<pathelement location="${dir.lib.xml}/sax.jar" />
+        		<pathelement location="${dir.lib.xml}/xalan.jar" />
+        		<pathelement location="${dir.lib.xml}/xercesImpl.jar" />
+        		<pathelement location="${dir.lib.xml}/xslt.jar" />
+        	</classpath>
+        	<src path="${dir.src}/simkit"/>
+        	<src path="${dir.src}/graph"/>
+        </javac>
         
-        <copy todir="${build.classes}\simkit">
-            <fileset dir="${src.dir}\simkit" includes="**/*.txt,**/*.png"/>
-            <fileset dir="${src.dir}" includes="*.txt"/>
+        <copy todir="${dir.build.classes}">
+            <fileset dir="${dir.src}" includes="**/*.txt,**/*.png"/>
+            <fileset dir="${dir.src}" includes="*.txt"/>
         </copy>
-        
     </target>
-    <target name="prepare">
-        <mkdir dir="${build.dir}"/>
+
+<!--  === TARGET: jar === -->
+    <target name="jar"
+            depends="compile" >
+        <jar basedir="${dir.build.classes}"
+             compress="false"
+             excludes="*/test/*"
+             jarfile="${dir.build}/simkit.jar"/>
     </target>
-    <target name="javadoc">
+
+<!--  === TARGET: doc === -->
+    <target name="doc"
+            depends="build.init"
+            description="Create the javadoc for Simkit." >
         
-        <mkdir dir="${build.doc}"/>
-        <javadoc access="private" author="true" destdir="${build.doc}" excludepackagenames="*.test.*" sourcepath="${src.dir}" version="true">
+        <javadoc access="private"
+                 author="true"
+                 destdir="${dir.build.doc}"
+                 excludepackagenames="*.test.*"
+                 sourcepath="${dir.src}"
+                 version="true">
             
             <package name="simkit"/>
             <package name="simkit.data"/>
+            <package name="simkit.examples" />
+            <package name="simkit.nss" />
             <package name="simkit.random"/>
-            <package name="simkit.stat"/>
-            <package name="simkit.util"/>
             <package name="simkit.smd"/>
             <package name="simkit.smdx"/>
+            <package name="simkit.stat"/>
+            <package name="simkit.util"/>
+            <package name="simkit.viskit" />
+            <package name="simkit.xsd" />
         </javadoc>
     </target>
-    <target depends="compile" name="jar">
-        <mkdir dir="${build.jar}"/>
-        <jar basedir="${build.classes}" compress="true" excludes="*/test/*" jarfile="${build.jar}\simkit.jar"/>
-    </target>
+    
+
 </project>
