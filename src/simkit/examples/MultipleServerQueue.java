@@ -36,7 +36,7 @@ public class MultipleServerQueue extends SimEntityBase {
     }
 
     public void doArrival() {
-        firePropertyChange("numberInQueue", ++numberInQueue);
+        firePropertyChange("numberInQueue", numberInQueue, ++numberInQueue);
         waitDelay("Arrival", interArrivalTime.generate());
         if (numberAvailableServers > 0) {
             waitDelay("StartService", 0.0);
@@ -44,13 +44,15 @@ public class MultipleServerQueue extends SimEntityBase {
     }
 
     public void doStartService() {
-        firePropertyChange("numberAvailableServers", --numberAvailableServers);
-        firePropertyChange("numberInQueue", --numberInQueue);
+        firePropertyChange("numberAvailableServers", numberAvailableServers,
+            --numberAvailableServers);
+        firePropertyChange("numberInQueue", numberInQueue, --numberInQueue);
         waitDelay("EndService", serviceTime.generate());
     }
 
     public void doEndService() {
-        firePropertyChange("numberAvailableServers", ++numberAvailableServers);
+        firePropertyChange("numberAvailableServers", numberAvailableServers,
+            ++numberAvailableServers);
         firePropertyChange("numberServed", ++numberServed);
         if (numberInQueue > 0) {
             waitDelay("StartService", 0.0);
