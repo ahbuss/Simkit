@@ -28,8 +28,7 @@ import simkit.xsd.bindings.*;
 
 public class SimkitXML2Java {
 
-    private Vector params = new Vector();
-    private Vector states = new Vector();
+    private SimkitModule root;
 
     FileInputStream fileInputStream;
     JAXBContext jaxbCtx;
@@ -46,6 +45,7 @@ public class SimkitXML2Java {
     String lp  = "(";
     String rp  = ")";
     String eq  = "=";
+    String pd  = ".";
 
     
     /** 
@@ -64,17 +64,15 @@ public class SimkitXML2Java {
 	
     }
     
-    public SimkitModuleElement unmarshal() {
-	SimkitModuleElement s=null;
+    public void unmarshal() {
 	Unmarshaller u;
 	try {
 	    u = jaxbCtx.createUnmarshaller();
-	    s = (SimkitModuleElement) u.unmarshal(fileInputStream);
+	    this.root = (SimkitModule) u.unmarshal(fileInputStream);
 	} catch (Exception e) { e.printStackTrace(); }
-	return s;
     }  
 
-    public String translate(SimkitModuleElement sme) {
+    public String translate() {
 
 	StringBuffer source = new StringBuffer();
 	StringWriter head = new StringWriter();
@@ -84,20 +82,20 @@ public class SimkitXML2Java {
 	StringWriter eventBlock = new StringWriter();
 	StringWriter accessorBlock = new StringWriter();
 
-	buildHead(sme, head);
-	buildVars(sme, vars, accessorBlock);
-	buildRunBlock(sme, runBlock);
-	buildEventBlock(sme, eventBlock);
-	//buildAccessorBlock(sme, accessorBlock);
+	buildHead(head);
+	buildVars(vars, accessorBlock);
+	buildEventBlock(runBlock,eventBlock);
+	buildTail(tail);
+
 	buildSource(source, head, vars, runBlock, eventBlock, accessorBlock, tail);
 
 	return source.toString();
     }
 
-    void buildHead(SimkitModuleElement sme, StringWriter head) {
+    void buildHead(StringWriter head) {
 
 	PrintWriter pw = new PrintWriter(head);
-	String name = sme.getName();
+	String name = this.root.getName();
 	
 	pw.println("package examples;");
 	pw.println();
@@ -109,71 +107,50 @@ public class SimkitXML2Java {
 	pw.println();
     }
 
-    void buildVars(SimkitModuleElement sme, StringWriter vars, StringWriter accessorBlock) {
+    void buildVars(StringWriter vars, StringWriter accessorBlock) {
 
 	PrintWriter pw = new PrintWriter(vars);
-	boolean gap = true;
 
-	List variableDeclarations = sme.getVariableDeclarations();
-	ListIterator li = variableDeclarations.listIterator();
+	ListIterator li = this.root.getParameter().listIterator();
 
 	while ( li.hasNext() ) {
 
-	    Object o = li.next();
+	    Parameter p = (Parameter) li.next();
 	    
-	    /* the dtd orders these already */
+	    pw.println(sp4 + "private" + sp + p.getType() + sp + p.getName() + sc);
 
-	    if ( o instanceof ParameterType ) {
+	    buildParameterAccessor(p,accessorBlock);
 
-		ParameterType p = (ParameterType) o;
-
-		pw.println(sp4 + "private" + sp + p.getType() + sp + p.getName() + sc);
-
-		this.params.add(p);
+	} 
 	
-		createParameterAccessor(p,accessorBlock);
-
-	    } else if ( o instanceof StateVariableType ) {
-
-		StateVariableType s = (StateVariableType) o;
-
-		if (gap) { 
-		    pw.println();
-		    gap = false;
-		}
-
-		pw.println(sp4 + "protected" + sp + s.getType() + sp + s.getName() + sc);
-
-		this.states.add(s);
-
-	    } else error ("bad content while building variable declarations");
-	}
-
 	pw.println();
-	pw.println(sp4 + "/** Creates a new instance of " + sme.getName() + " */");
-	pw.println();
-	pw.print(sp4 + "public " + sme.getName() + "(");
-	    
-	Enumeration e = params.elements();
 
-	while ( e.hasMoreElements() ) {
+	li = this.root.getStateVariable().listIterator();
 
-	    ParameterType pt = (ParameterType) e.nextElement();
+	while ( li.hasNext() ) {
+	    Class c = null;
 		
-	    pw.print(pt.getType() + sp + pt.getShortName());
-	
- 	    if ( pt != params.lastElement() && params.size() > 1 ) {
-	        pw.print(cm);
-		pw.println();
-		pw.print(sp8);
-	    }
-	}
+	    StateVariable s = (StateVariable) li.next();
 
-	pw.println(") {");
+	    try {
+		c = Class.forName(s.getType());
+	    } catch ( ClassNotFoundException cnfe ) {
+	        pw.println(sp4 + "protected" + sp + s.getType() 
+			+ sp + s.getName() + sc);
+	    }
+
+	    if ( c != null ) {
+		pw.println(sp4 + "protected" + sp + s.getType() + sp 
+			+ s.getName() + sp + eq + sp + "new" + sp 
+			+ s.getType() + lp + rp + sc ) ;	
+	    }
+
+	    buildStateVariableAccessor(s,accessorBlock);
+	}
 
     }
 
-    void createParameterAccessor(ParameterType p, StringWriter sw) {
+    void buildParameterAccessor(Parameter p, StringWriter sw) {
 
 	PrintWriter pw = new PrintWriter(sw);
 	
@@ -185,35 +162,108 @@ public class SimkitXML2Java {
 	pw.println();
     }
 
-    void buildRunBlock(SimkitModuleElement sme, StringWriter runBlock) {
+    void buildStateVariableAccessor(StateVariable s, StringWriter sw) {
+
+        PrintWriter pw = new PrintWriter(sw);
+
+        pw.print(sp4 + "public " + s.getType() + sp + "get" + capitalize(s.getName()) );
+        pw.println(lp + rp + sp + ob + sp + "return" + sp + s.getName() + sc + sp + cb);
+        pw.println();
+    }
+
+    void buildEventBlock(StringWriter runBlock,StringWriter eventBlock) {
 	
-	PrintWriter pw = new PrintWriter(runBlock);
-	List events = sme.getEvent();
+	List events = this.root.getEvent();
 	ListIterator li = events.listIterator();
-	EventType e = null;
+	Event e = null;
 
 	while ( li.hasNext() ) {
-	
-	    /* run should usually be the first Event */
 
-	    e = (EventType) li.next();
+	    e = (Event) li.next();
 	
-	    if ( e.getName().equals("Run") ) break;
+	    if ( e.getName().equals("Run") ) {
+		doRunBlock(e,runBlock);
+	    } else {
+		doEventBlock(e,eventBlock);
+	    }
 
 	}
+    }
 	
+    void doRunBlock(Event run, StringWriter runBlock) {
+	
+	PrintWriter pw = new PrintWriter(runBlock);
+	ListIterator li;
+
+	pw.println();
+	pw.println(sp4 + "/** Creates a new instance of " + this.root.getName() + " */");
+	pw.println();
+	pw.print(sp4 + "public " + this.root.getName() + "(");
+
+	List pList = this.root.getParameter();
+	li = this.root.getParameter().listIterator();
+
+	while ( li.hasNext() ) {
+
+	    Parameter pt = (Parameter) li.next();
+		
+	    pw.print(pt.getType() + sp + pt.getShortName());
+	
+	    if ( pList.size() > 1 ) {
+ 	        if ( pList.indexOf(pt) <  pList.size() - 1 ) {
+	            pw.print(cm);
+		    pw.println();
+		    pw.print(sp8 + sp4);
+	        }
+	    }
+	}
+
+	pw.println(") {");
+	pw.println();
+
+	li = this.root.getParameter().listIterator();
+
+	while ( li.hasNext() ) {
+	    Parameter pt = (Parameter) li.next();
+	    pw.println(sp8 + "set" + capitalize(pt.getName()) + 
+		lp + pt.getShortName() + rp + sc);
+	}
+
+	pw.println(sp4 + cb);
+	pw.println();
 	pw.println(sp4 + "/** Set initial values of all state variables */");
 	pw.println(sp4 + "public void reset() {");
+	pw.println(sp8 + "super.reset()" + sc);
+
+	li = run.getStateTransition().listIterator();
+	
+	while ( li.hasNext() ) {
+	    StateTransition st = (StateTransition) li.next();
+	    StateVariable sv = (StateVariable) st.getState();
+	    AssignmentType asg = st.getAssignment();
+	    OperationType ops = st.getOperation();
+	    pw.print(sp8 + sv.getName());
+	    if ( asg == null ) { 
+		pw.println( pd + ops.getMethod() + sc );
+	    } else {
+		pw.println( sp + eq + sp + asg.getValue() + sc );
+	    }
+	}
+
+	pw.println(sp4 + cb);
 	pw.println();
+	
+    }
+
+    void doEventBlock(Event e, StringWriter eventBlock) {
     
     }
 
-    void buildEventBlock(SimkitModuleElement sme, StringWriter eventBlock) {
-    
-    }
+    void buildTail(StringWriter t) {
+	PrintWriter pw = new PrintWriter(t);
 
-    void buildParameterAccessor(ParameterType p, StringWriter accessorBlock) {
-    
+	pw.println();
+	pw.println(cb);
     }
 
     void buildSource(StringBuffer source, StringWriter head, StringWriter vars, StringWriter runBlock, 
@@ -253,8 +303,8 @@ public class SimkitXML2Java {
 
     public static void main(String[] args) {
 	SimkitXML2Java sx2j = new SimkitXML2Java(args[0]);
-	SimkitModuleElement simkitModule = sx2j.unmarshal();
-	String dotJava = sx2j.translate(simkitModule);
+	sx2j.unmarshal();
+	String dotJava = sx2j.translate();
 	sx2j.writeOut(dotJava,System.out);
     }
     
