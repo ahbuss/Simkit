@@ -6,7 +6,7 @@
 
 package simkit.xsd.assembly;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.PrintWriter;
@@ -28,7 +28,7 @@ public class SimkitAssemblyXML2Java {
 
     private SimkitAssemblyType root;
 
-    FileInputStream fileInputStream;
+    InputStream fileInputStream;
     JAXBContext jaxbCtx;
 
     /* convenience Strings for formatting */
@@ -59,7 +59,7 @@ public class SimkitAssemblyXML2Java {
     public SimkitAssemblyXML2Java(String xmlFile) {
 	try {
             jaxbCtx = JAXBContext.newInstance("simkit.xsd.bindings.assembly");
-	    fileInputStream = new FileInputStream(xmlFile);
+            fileInputStream = Class.forName("simkit.xsd.assembly.SimkitAssemblyXML2Java").getClassLoader().getResourceAsStream(xmlFile);
 	} catch ( Exception e ) {
 	    e.printStackTrace();
 	} 
