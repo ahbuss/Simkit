@@ -39,7 +39,8 @@ public class ListExamples {
             buf.append(": ");
             try {
                 description =
-                    Class.forName(EXAMPLES_PACKAGE + '.' + EXAMPLES[i]).getMethod("description", null);
+                    Thread.currentThread().getContextClassLoader().loadClass(
+                        EXAMPLES_PACKAGE + '.' + EXAMPLES[i]).getMethod("description", null);
                 buf.append(description.invoke(null, null) );
             }
             catch (ClassNotFoundException e) {
@@ -55,7 +56,7 @@ public class ListExamples {
             buf.append(EOL);
             try {
                 usage =
-                    Class.forName(EXAMPLES_PACKAGE + '.' + EXAMPLES[i]).getMethod("usage", null);
+                    Thread.currentThread().getContextClassLoader().loadClass(EXAMPLES_PACKAGE + '.' + EXAMPLES[i]).getMethod("usage", null);
                 buf.append('\t');
                 buf.append( usage.invoke(null, null) );
             }

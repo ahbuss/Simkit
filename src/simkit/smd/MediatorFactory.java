@@ -77,9 +77,9 @@ public class MediatorFactory {
     public static void addMediatorType(String targetClassName, String sensorClassName,
     String mediatorClassName) {
         try {
-            Class targetClass = Class.forName(targetClassName);
-            Class sensorClass = Class.forName(sensorClassName);
-            Class mediatorClass = Class.forName(mediatorClassName);
+            Class targetClass = Thread.currentThread().getContextClassLoader().loadClass(targetClassName);
+            Class sensorClass = Thread.currentThread().getContextClassLoader().loadClass(sensorClassName);
+            Class mediatorClass = Thread.currentThread().getContextClassLoader().loadClass(mediatorClassName);
             Constructor mediatorConstructor = mediatorClass.getConstructor(
             new Class[] {simkit.smd.Sensor.class, simkit.smd.Mover.class});
             mediators.put(sensorClass, targetClass, mediatorConstructor);

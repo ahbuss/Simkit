@@ -624,7 +624,7 @@ if (isReallyVerbose()) {
 
     public static synchronized void setEventListType(String newClassName) {
         try {
-            setEventListType(Class.forName(newClassName));
+            setEventListType(Thread.currentThread().getContextClassLoader().loadClass(newClassName));
         }
         catch (ClassNotFoundException e) {e.printStackTrace(System.err);}
     }

@@ -15,9 +15,9 @@ public class SensorTargetMediatorPair {
                                   String mediatorName) {
       Class mediatorClass = null;
       try {
-          sensorClass = Class.forName(sensorName);
-          targetClass = Class.forName(targetName);
-          mediatorClass = Class.forName(mediatorName);
+          sensorClass = Thread.currentThread().getContextClassLoader().loadClass(sensorName);
+          targetClass = Thread.currentThread().getContextClassLoader().loadClass(targetName);
+          mediatorClass = Thread.currentThread().getContextClassLoader().loadClass(mediatorName);
 
           mediatorConstructor = mediatorClass.getConstructor(
             new Class[] {sensorClass, targetClass});

@@ -9,7 +9,7 @@ public class RandomVariateType {
     protected RandomVariateType(String className) {
 
         try {
-            typeClass = Class.forName(className);
+            typeClass = Thread.currentThread().getContextClassLoader().loadClass(className);
         }
         catch (ClassNotFoundException e) {
             throw new IllegalArgumentException("Class not found: " + className);

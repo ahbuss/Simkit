@@ -10,7 +10,7 @@ public class RandomNumberFactory {
 
     public static void setDefaultClass(String className) {
         try {
-            defaultClass = Class.forName(className);
+            defaultClass = Thread.currentThread().getContextClassLoader().loadClass(className);
         }                                                             
         catch (ClassNotFoundException e) { System.err.println(e); }
         if (!simkit.random.RandomNumber.class.isAssignableFrom(defaultClass)) {
@@ -52,7 +52,7 @@ public class RandomNumberFactory {
         RandomNumber instance = null;
         Class randomNumberClass = null;
         try {
-            randomNumberClass = Class.forName(className);
+            randomNumberClass = Thread.currentThread().getContextClassLoader().loadClass(className);
         }                            
         catch (ClassNotFoundException e) { System.err.println(e); }
         if (!simkit.random.RandomNumber.class.isAssignableFrom(randomNumberClass)) {
