@@ -134,7 +134,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
                 // Now, we are here only because there is some chance that there will be a match.
                 // First
                 Object[] params = event.getParameters();
-                for (Iterator iter = ( (Vector) namesAndSignatures.get(methodName)).iterator(); iter.hasNext(); ) {
+                for (Iterator iter = ( (List) namesAndSignatures.get(methodName)).iterator(); iter.hasNext(); ) {
                     if (isDebug()) {
                         System.out.println("namesAndSignatures: " + namesAndSignatures.hashCode());
                     }
