@@ -4,22 +4,56 @@ import simkit.smdx.*;
 import simkit.random.*;
 import java.awt.geom.*;
 /**
- *
+ * Causes the controlled Mover to move to random points at random speeds. The
+ * locations and speeds are controlled by the selection of the RandomVariates
+ * for the location and speed.
+ * @see MoverManagerFactory
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class RandomLocationMoverManager extends SimEntityBase implements MoverManager {
     
+/**
+* The Mover that this MoverManager manages.
+**/
     private Mover mover;
+
+/**
+* A 2-dimensional array that contains a RandomVariate for the x coordinate and the y
+* coordinate.
+**/
     private RandomVariate[] location;
+
+/**
+* The RandomVariate for the speed of movement.
+**/
     private RandomVariate speed;
+
+/**
+* If true, then after a reset, this MoverManager will re-start the motion
+* of the controlled Mover.
+**/
     private boolean startOnReset;
     
-    /** Creates a new instance of RandomLocationMoverManager */
+/** 
+* Creates a new instance of RandomLocationMoverManager.
+* @param mover The Mover that this MoverManager controls.
+* @param location A 2-dimensional array containing a RandomVariate for the x
+* coordinate and one for the y coordinate.
+* @param speed The RandomVariate used to determine the speed of the moves.
+*/
     public RandomLocationMoverManager(Mover mover, RandomVariate[] location, RandomVariate speed) {
         this(mover, location);
         setSpeedGenerator(speed);
     }
     
+/** 
+* Creates a new instance of RandomLocationMoverManager that moves the Mover
+* at its maximum speed.
+* @param mover The Mover that this MoverManager controls.
+* @param location A 2-dimensional array containing a RandomVariate for the x
+* coordinate and one for the y coordinate.
+**/
     public RandomLocationMoverManager(Mover mover, RandomVariate[] location) {
         setMover(mover);
         setLocationGenerator(location);
@@ -28,36 +62,79 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
         setSpeedGenerator(speed);
     }
     
+/**
+* Cancels all pending events for this MoverManager and if startOnReset is true,
+* starts the Mover's motion.
+**/
     public void reset() {
+        super.reset();
         if (isStartOnReset()) {
             waitDelay("Start", 0.0);
         }
     }
+/**
+* Cancels all pending events for this MoverManager and if startOnReset is true,
+* starts the Mover's motion.
+**/
     
     public void doStart() {
         start();
     }
     
+/**
+* Notifies this MoverManager that the Mover has completed the current move
+* causing the Mover to move to another random point.
+**/
     public void doEndMove(Mover m) {
         if (m == mover) {
             mover.moveTo(getLocation(), speed.generate());
         }
     }    
     
+/**
+* The Mover that this MoverManager manages.
+**/
     public Mover getMover() { return mover; }
     
+/**
+* True if the Mover controlled by this MoverManager is moving.
+**/
     public boolean isMoving() { return mover.isMoving(); }
     
+/**
+* If true, then after a reset, this MoverManager re-starts the motion
+* of the controlled Mover.
+**/
     public boolean isStartOnReset() { return startOnReset; }
     
+/**
+* If true, then after a reset, this MoverManager re-starts the motion
+* of the controlled Mover.
+**/
     public void setStartOnReset(boolean b) { startOnReset = b; }
     
+/**
+* Starts the controlled Mover moving to a random location.
+**/
     public void start() {
         mover.moveTo(getLocation(), speed.generate());
     }
     
+/**
+* Stops the Mover at its current location.
+**/
     public void stop() { mover.stop(); }
     
+/**
+* Sets the RandomVariates used to pick the next x and y coordinates.
+* The array must be at least 2-dimensions, any extra elements are ignored.
+* @param rv A 2-dimensional array containing the RandomVariate for the x and y
+* coordinates.
+* @throws NullPointerException If the array or either of its contents
+* are null.
+* @throws IllegalArgumentException If the array does not contain at least 2
+* elements.
+**/ 
     public void setLocationGenerator(RandomVariate[] rv) {
         if (rv == null) {
             throw new NullPointerException("RandomVariate array is null");
@@ -71,18 +148,33 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
         location = (RandomVariate[]) rv.clone();
     }
     
+/**
+* Returns a copy of the location generator array.
+**/
     public RandomVariate[] getLocationGenerator() {
         return (RandomVariate[]) location.clone();
     }
     
+/**
+* Sets the RandomVariate used to pick the speed for the next leg.
+**/
     public void setSpeedGenerator(RandomVariate rv) { speed = rv; }
     
+/**
+* Returns the RandomVariate used to pick the speed for the next leg.
+**/
     public RandomVariate getSpeedGenerator() { return speed; }
     
+/**
+* Gets the next random location to move to.
+**/
     protected Point2D getLocation() {
         return new Point2D.Double(location[0].generate(), location[1].generate());
     }
-    
+
+/**
+* Sets the Mover that this MoverManager controls.
+**/    
     public void setMover(Mover newMover) {
         if (mover != null) {
             mover.removeSimEventListener(this);
@@ -91,6 +183,10 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
         mover.addSimEventListener(this);
     }
     
+/**
+* Returns a String containing the mover, the next position, and the transit
+* speed.
+**/
     public String toString() {
         return getMover() + " " + location[0] + " - " + location[1] + " ["  +
             speed + "]";
