@@ -77,11 +77,11 @@
         </StateTransition>
         
         <Cancel event="Renege" >
-            <EdgeParameter type="java.lang.Integer" value="customer" />
+            <EdgeParameter value="customer" />
         </Cancel>
         
         <Schedule event="EndService" delay="serviceTime.generate()" >
-            <EdgeParameter type="java.lang.Integer" value="customer" />
+            <EdgeParameter value="customer" />
         </Schedule>
         
     </Event>

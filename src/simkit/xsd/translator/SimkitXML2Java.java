@@ -374,6 +374,9 @@ public class SimkitXML2Java {
 	ListIterator ei = edges.listIterator();
 	Class c = null;
 	String condent = "";
+        EventType event = (EventType)s.getEvent();
+        List eventArgs = event.getArgument();
+        ListIterator eventArgsi = eventArgs.listIterator();
 	
 	if ( s.getCondition() != null ) {
 	    condent = sp4;
@@ -385,11 +388,12 @@ public class SimkitXML2Java {
 	
 	while ( ei.hasNext() ) {
 	    EdgeParameterType ep = (EdgeParameterType) ei.next();
+            ArgumentType arg = (ArgumentType) eventArgsi.next();
 	    try {
-	        c = Class.forName(((ArgumentType)ep.getValue()).getType()); 
+	        c = Class.forName(arg.getType()); 
 	    } catch ( ClassNotFoundException cnfe ) {
 		// most likely a primitive type
-		String type = ((ArgumentType)ep.getValue()).getType();
+		String type = arg.getType();
 		String constructor = "new" + sp;
 		if (type.equals("int")) {
 		    constructor+="Integer";
@@ -402,10 +406,10 @@ public class SimkitXML2Java {
 		} else if (type.equals("boolean")) {
 		    constructor+="Boolean";
 		}
-		pw.print(constructor + lp + ((ArgumentType)ep.getValue()).getName() + rp);
+		pw.print(constructor + lp + ep.getValue() + rp);
 	    }
 	    if (c != null) {
-		pw.print(((ArgumentType)ep.getValue()).getName());
+		pw.print(ep.getValue());
 	    }
 	    
 	    if ( edges.size() > 1 && edges.indexOf(ep) < edges.size() - 1 ) {
@@ -424,23 +428,27 @@ public class SimkitXML2Java {
 	List edges = c.getEdgeParameter();
 	ListIterator ei = edges.listIterator();
 	Class cl = null;
-	String condent = "";
-	
+	String condent = "";        
+        EventType event = (EventType)c.getEvent();
+	List eventArgs = event.getArgument();
+        ListIterator eventArgsi = eventArgs.listIterator();
+
 	if ( c.getCondition() != null ) {
 	    condent = sp4;
 	    pw.println(sp8 + "if" + sp + lp + c.getCondition() + rp + sp + ob);
 	}	
 
-	pw.print(sp8 + condent + "interrupt" + lp + qu + ((EventType)c.getEvent()).getName() + qu + cm);
+	pw.print(sp8 + condent + "interrupt" + lp + qu + event.getName() + qu + cm);
 	pw.print("new Object[]" + ob);
 
 	while ( ei.hasNext() ) {
-	    EdgeParameterType ep = (EdgeParameterType) ei.next();
+	    EdgeParameterType ep = (EdgeParameterType) ei.next();            
+            ArgumentType arg = (ArgumentType) eventArgsi.next();
 	    try {
-	        cl = Class.forName(((ArgumentType)ep.getValue()).getType()); 
+	        cl = Class.forName(arg.getType()); 
 	    } catch ( ClassNotFoundException cnfe ) {
 		// most likely a primitive type
-		String type = ((ArgumentType)ep.getValue()).getType();
+		String type = arg.getType();
 		String constructor = "new" + sp;
 		if (type.equals("int")) {
 		    constructor+="Integer";
@@ -453,10 +461,10 @@ public class SimkitXML2Java {
 		} else if (type.equals("boolean")) {
 		    constructor+="Boolean";
 		}
-		pw.print(constructor + lp + ((ArgumentType)ep.getValue()).getName() + rp);
+		pw.print(constructor + lp + ep.getValue() + rp);
 	    }
 	    if (cl != null) {
-		pw.print(((ArgumentType)ep.getValue()).getName());
+		pw.print(ep.getValue());
 	    }
 	    
 	    if ( edges.size() > 1 && edges.indexOf(ep) < edges.size() - 1 ) {

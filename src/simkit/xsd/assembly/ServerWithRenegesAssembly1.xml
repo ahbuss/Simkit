@@ -10,6 +10,7 @@
 
 <SimkitAssembly 
     name="ServerWithRenegesAssembly1"
+    package="simkit.examples"
     version="0.1"
 >
 

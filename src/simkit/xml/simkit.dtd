@@ -16,7 +16,7 @@
 <!ELEMENT Argument ( Comment )* >
 <!ATTLIST Argument
 	type	    CDATA	#REQUIRED
-        name        ID          #REQUIRED
+        name        CDATA       #REQUIRED
 >
 
 <!ELEMENT Parameter ( Comment )* >
@@ -61,7 +61,7 @@
   
 <!ELEMENT EdgeParameter EMPTY >
 <!ATTLIST EdgeParameter
-        value   IDREF	#REQUIRED
+        value   CDATA	#REQUIRED
 >
 
 <!ELEMENT Schedule ( EdgeParameter )* >

@@ -48,7 +48,7 @@
 
     <Event name="Arrival" >
         
-        <Argument name="customer" type="java.lang.Ingeger" />
+        <Argument name="customer" type="java.lang.Integer" />
         
         <StateTransition state="queue" >
             <Operation method="add(customer)" />

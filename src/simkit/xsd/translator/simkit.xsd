@@ -29,7 +29,7 @@
         <xs:element minOccurs="0" maxOccurs="unbounded" ref="Comment"/>
       </xs:sequence>
       <xs:attribute name="type" use="required"/>
-      <xs:attribute name="name" use="required" type="xs:ID"/>
+      <xs:attribute name="name" use="required"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="Parameter">
@@ -95,7 +95,7 @@
   </xs:element>
   <xs:element name="EdgeParameter">
     <xs:complexType>
-      <xs:attribute name="value" use="required" type="xs:IDREF"/>
+      <xs:attribute name="value" use="required"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="Schedule">
