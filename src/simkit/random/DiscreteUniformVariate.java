@@ -14,13 +14,14 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
             throw new IllegalArgumentException("Two parameters needed, " +
                 params.length + " given");
         }
-        if (params[0] instanceof Number) {
-            minimum = ((Number)params[0]).intValue();
+        if (params[0] instanceof Number && params[1] instanceof Number) {
+            minimum = ((Integer)params[0]).intValue();
+            maximum = ((Integer)params[1]).intValue();
+            range = maximum - minimum + 1;
         }
-        if (params[1] instanceof Number) {
-            maximum = ((Number)params[1]).intValue();
+        else {
+            throw new IllegalArgumentException("Parameters must be Integer");
         }
-        range = maximum - minimum + 1;
     }
     
     public Object[] getParameters() {
