@@ -13,7 +13,7 @@ public class Tausworthe implements RandomNumber {
     public static final int SHIFT_RIGHT = 13;
     public static final int SHIFT_LEFT = 18;
     
-    public static final double MULTIPLICATIVE_FACTOR = 1.0 / (1 << 31);
+    public static final double MULTIPLICATIVE_FACTOR = 1.0 / (1L << 31);
 
 /**
 * The current value of the seed.
