@@ -140,6 +140,8 @@ public class EventList {
     
     private boolean printEventSources;
     
+    private double precision;
+    
 /**
  * If true, will process one event and wait for another call to 
  * <code>startSimulation()</CODE>
@@ -159,6 +161,7 @@ public class EventList {
         ignoreOnDump = new HashSet();
         this.id = id;
         setFormat("0.0000");
+        setSimEventPrecision(0.0);
     }
     
     /**
@@ -445,9 +448,9 @@ public class EventList {
      * @throws InvalidSchedulingException If scheduled time is less than current simTime.
      */    
     public void scheduleEvent(SimEvent event) throws InvalidSchedulingException {
-        if (event.getScheduledTime() < getSimTime()) {
+        if (event.getScheduledTime()  + precision < getSimTime() ) {
             throw new InvalidSchedulingException("Attempt to reverse time!: " +
-            event.getScheduledTime() + " > " + getSimTime());
+            event.getScheduledTime() + " > " + getSimTime() );
         }
         else if (!Double.isNaN(event.getScheduledTime())) {
             boolean success = eventList.add(event);
@@ -804,6 +807,13 @@ public class EventList {
         buf.append(" **");
         buf.append(SimEntity.NL);
         return buf.toString();
+    }
+    
+    public void setSimEventPrecision(double precision) {
+        this.precision = precision;
+        SortedSet temp = Collections.synchronizedSortedSet(new TreeSet(new SimEventComp(precision)));
+        temp.addAll(eventList);
+        eventList = temp;
     }
     
 }
