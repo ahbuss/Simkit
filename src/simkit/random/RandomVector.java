@@ -16,9 +16,9 @@ package simkit.random;
 public interface RandomVector extends java.io.Serializable {
 
 /**
- *  Generate a random variate having this class's distribution.
+ *  @return a random variate having this class's distribution.
 **/
-  public double[] generate();
+    public double[] generate();
 
 /**
  *  Sets the random variate's parameters.
@@ -26,28 +26,19 @@ public interface RandomVector extends java.io.Serializable {
  *  in additional methods provided by the programmer.
  * @param params the array of parameters, wrapped in objects.
 **/
-  public void setParameters(Object[] params);
+    public void setParameters(Object[] params);
 
 /**
- *  Returns the array of parameters as an Object[].
+ *  @return the array of parameters as an Object[].
 **/
-  public Object[] getParameters();
-
+    public Object[] getParameters();
 /**
- *  Resets the seed to the original value
+ *  @param rng The RandomNumber object to be used to generate the underlying Un(0,1)
+ *          random numbers. 
 **/
-  public void resetSeed();
-
+    public void setRandomNumber(RandomNumber rng);
 /**
- *  Sets the seed to the value passed
- *  @param newSeed the new seed for the underlying RandomNumber
+ *  @return the RandomNumber used for this RandomVector instance  
 **/
-  public void setSeed(long newSeed);
-
-/**
- *  Returns the seed to the value passed
- *  @return the current seed for the underlying RandomNumber
-**/
-  public long getSeed();
-
+    public RandomNumber getRandomNumber();
 } 
