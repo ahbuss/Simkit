@@ -156,7 +156,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
             if (debug) System.out.println("Checking class: " + clazz.getName() + " for do methods");
             Method[] methods = clazz.getDeclaredMethods(); //Get methods declared in this class.
             for (int i = 0; i < methods.length; i++) {
-                String fullName = getFullMethodName(methods[i]); //name + signature.
+                String fullName = getFullMethodNameWrapped(methods[i]); //name + signature.
                 if (debug) System.out.print("Found: " + fullName + "...");
 // If it is a do method and has not been added then add it.
                 if (fullName.startsWith(EVENT_METHOD_PREFIX) && !doMethods.containsKey(fullName)) {
@@ -208,13 +208,17 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
                 System.out.println("namesAndSignatures hashcode = " + namesAndSignatures.hashCode());
                 System.out.println("doMethods: " + doMethods);
             }
+
             if (doMethods.containsKey(event.getFullMethodName())) {
                 m = (Method) doMethods.get(event.getFullMethodName());
                 m.setAccessible(true);
                 m.invoke(this, event.getParameters());
                 //                updateEventCounts(event);
             } // if
-            else {
+            else { //Theoretically this else should no longer be needed since all do methods
+                // are preloaded in the constructor. If this code is somehow executed with
+                // a protected do method, then it will throw a method not found exception.
+                System.out.println("*** Error in SimEntityBaseProtected.processSimEvent, this should be dead code");
                 if (isVerbose()) {
                     System.out.println(
                     "Master lookup failed, trying namesAndSignatures..." +
@@ -284,6 +288,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
                                 if (debug) {
                                     System.out.println("Match found: " + event.getFullMethodName());
                                 }
+                           // The following line will fail to find a protected method.
                                 m = getClass().getMethod(methodName, signature);
                                 m.setAccessible(true);
                                 m.invoke(this, params);
@@ -415,7 +420,8 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
      *  Prints names and signatures of "do" methods to output specified by Schedule.
      **/
     public void dumpNamesAndSignatures() {
-        Schedule.getOutputStream().println(dumpNamesAndSignaturesStr());
+        String str = dumpNamesAndSignaturesStr();
+        Schedule.getOutputStream().println(str);
     }
     /**
      * Interrupt all this SimEntity's events when a certain time is reached
@@ -462,6 +468,9 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     }
     
     /**
+     *  Gets the signature of the Method as a String, primative arguments are
+     *  displayed with the primative name (e.g, int)
+     *  @see #getSignatureAsString(Method)
      *  @param m The method for which to get the signature as a String (unfortunately
      *  the jdk does not appear to provide this particular String either...to my knowledge).
      *  @return The signature m as a String.
@@ -470,6 +479,56 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
         String name = m.toString();
         return name.substring(name.indexOf('('));
     }
+    
+    /**
+     * Returns a String containing the Method name plus the signature with any
+     * primative parameters wrapped in an Object. (e.g., "int" is replaced by
+     * "java.lang.Integer.
+     */
+    public static String getFullMethodNameWrapped(Method m) {
+        Class[] parameters = m.getParameterTypes();
+        StringBuffer buf = new StringBuffer();
+        buf.append(m.getName()); 
+        
+        buf.append('(');
+        if (parameters != null) {
+            for (int i = 0; i < parameters.length; i++) {
+                if (parameters[i] != null) {
+                    if (parameters[i].isPrimitive()) {
+                        if (parameters[i].equals(Integer.TYPE)) {
+                            buf.append("java.lang.Integer");
+                        } else if (parameters[i].equals(Float.TYPE)) {
+                            buf.append("java.lang.Float");
+                        } else if (parameters[i].equals(Double.TYPE)) {
+                            buf.append("java.lang.Double");                            
+                        } else if (parameters[i].equals(Long.TYPE)) {
+                            buf.append("java.lang.Long");                            
+                        } else if (parameters[i].equals(Boolean.TYPE)) {
+                            buf.append("java.lang.Boolean");                            
+                         } else if (parameters[i].equals(Byte.TYPE)) {
+                            buf.append("java.lang.Byte");                           
+                         } else if (parameters[i].equals(Short.TYPE)) {
+                            buf.append("java.lang.Short");
+                         } else if (parameters[i].equals(Character.TYPE)) {
+                            buf.append("java.lang.Character");                           
+                        } else {
+                            System.out.println("*** Error in SimEntityBaseProtected.getFullMethodNameWrapped ");
+                            System.out.println("\tAn unknown primitive data type: " + parameters[i].getName());
+                        }
+                    } else {//else not Primitive
+                        buf.append(parameters[i].getName());
+                    } // endif Primative
+                }
+                else { //else paramters[i] null
+                    buf.append("null");
+                }
+                if (i < parameters.length - 1) {buf.append(',');}
+            }//for
+        }//null
+        buf.append(')');
+        return buf.toString();
+    }
+
     
     public static boolean isAssignableFrom(Class[] signature, Object[] args) {
         boolean assignable = true;
