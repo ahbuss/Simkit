@@ -70,7 +70,7 @@ public class EventList {
     public void setSingleStep(boolean b) {
         singleStep = b;
         setVerbose(singleStep);
-        if (isPauseAfterEachEvent()) {
+        if (isVerbose()) {
             setPauseAfterEachEvent(false);
         }
     }
