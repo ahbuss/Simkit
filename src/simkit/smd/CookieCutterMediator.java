@@ -32,14 +32,14 @@ public class CookieCutterMediator extends SimEntityBase implements Mediator, Pro
  *  @param sensor The sensor that may receive a detection.
  *  @param target The mover that may be detected.
 **/
-/*
+
     public CookieCutterMediator(Sensor sensor, Mover target) {
         this.sensor = sensor;
         this.target = target;
         Schedule.removeRerun(this);
         contact = new Contact(target);
     }
-*/
+
     public CookieCutterMediator() {
         Schedule.removeRerun(this);
         contact = new Contact(target);
