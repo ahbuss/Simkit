@@ -1,17 +1,12 @@
-Simkit version 1.2.6
-Copyright (C) 1997-2002 Kirk Stork and Arnold Buss
+Simkit version 1.2.7
+Copyright (C) 1997-2003 Kirk Stork and Arnold Buss
 
 Installation Instructions
 ------------ ------------
-First install the Java Developer Kit version 1.2 (Java 2) or greater.  
+First install the Java Developer Kit version 1.4 (Java 2) or greater.  
 For Windows 95/98, make sure your CLASSPATH variable is correctly set in the
-AUTOEXEC.BAT file (located in C:\).  For Windows NT 4.0/Windows 2000, you will need to
+AUTOEXEC.BAT file (located in C:\).  For Windows NT 4.0/Windows 2000/Windows XP, you will need to
 edit the environment, located in the System icon of the Conrol Panel.
-
-
-Double-click the file simkit-1.2.3.exe and follow the 
-directions.  You may choose to put the simsystem.zip file
-anywhere you like.  
 
 Any questions regarding Simkit may be addressed by e-mail to
 abuss@nps.navy.mil.
