@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ServerWithReneges.xml
+    Created on : March 10, 2004, 1:19 PM
+    Author     : Arnie Buss
+    Author     : Rick Goldberg
+    Description:
+        Advanced Simkit application.
+-->
+
+<!DOCTYPE SimkitModule PUBLIC '-//NPS Simkit//DTD Web Application//EN' 'simkit.dtd'>
+<SimkitModule
+    name="ServerWithReneges"
+    version="0.1.3" >
+
+    <Parameter name="numberServers" type="int" shortName="servers" />
+    <Parameter name="serviceTime" type="simkit.random.RandomVariate" shortName="service" />
+    <Parameter name="renegeTime" type="simkit.random.RandomVariate" shortName="renege" />
+    
+    <StateVariable name="numberAvailableServers" type="int" />
+    <StateVariable name="queue" type="java.util.LinkedList" />
+    <StateVariable name="numberServed" type="int" />
+    <StateVariable name="numberReneges" type="int" >
+        <Comment>this state variable stores the number of reneges</Comment>
+        <Comment>as a Java int.</Comment>
+    </StateVariable>
+    
+    <Event name="Run" >
+    
+        <StateTransition state="numberAvailableServers" >
+            <Assignment value="getNumberServers()" />
+        </StateTransition>
+    
+        <StateTransition state="queue" >
+            <Operation method="clear()"/>
+        </StateTransition>
+        
+        <StateTransition state="numberServed" >
+            <Assignment value="0" />
+        </StateTransition>
+        
+        <StateTransition state="numberReneges" >
+            <Assignment value="0" />
+        </StateTransition>
+        
+    </Event>
+
+    <Event name="Arrival" >
+        
+        <Argument name="customer" type="java.lang.Integer" />
+        
+        <StateTransition state="queue" >
+            <Operation method="add(customer)" />
+        </StateTransition>
+        
+        <Schedule event="Renege" delay="renegeTime.generate()" >
+            <EdgeParameter  value="customer" />
+        </Schedule>
+        
+        <Schedule event="StartService" delay="0.0" condition="getNumberAvailableServers() > 0" /> 
+        
+    </Event>
+    
+    <Event name="StartService" >
+        
+        <LocalVariable name="customer" type="java.lang.Integer" value="(Integer)queue.first()" />
+        
+        <StateTransition state="queue" >
+            <Operation method="removeFirst()" />
+        </StateTransition>
+        
+        
+        <StateTransition state="numberAvailableServers" >
+            <Assignment value="numberAvailableServers - 1" />
+        </StateTransition>
+        
+        <Cancel event="Renege" >
+            <EdgeParameter value="customer" />
+        </Cancel>
+        
+        <Schedule event="EndService" delay="serviceTime.generate()" >
+            <EdgeParameter value="customer" />
+        </Schedule>
+        
+    </Event>
+    
+    <Event name="EndService" >
+    
+        <Argument name="customer1" type="java.lang.Integer" />
+        
+        <StateTransition state="numberAvailableServers" >
+            <Assignment value="numberAvailableServers+1" />
+        </StateTransition>
+        
+        <StateTransition state="numberServed" >
+            <Assignment value="numberServed+1" />
+        </StateTransition>
+        
+        <Schedule event="StartService" condition="getNumberInQueue() > 0" priority="1.0" />
+        
+    </Event>
+    
+    <Event name="Renege" >
+    
+        <Argument name="customer2" type="java.lang.Integer" />
+ 
+        <StateTransition state="queue" >
+            <Operation method="remove(customer)" />
+        </StateTransition>
+        
+        <StateTransition state="numberReneges" >
+            <Assignment value="numberReneges+1" />
+        </StateTransition>
+        
+    </Event>
+    
+</SimkitModule>
