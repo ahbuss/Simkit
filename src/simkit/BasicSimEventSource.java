@@ -58,7 +58,6 @@ public class BasicSimEventSource implements SimEventSource {
         for (Iterator i = listenersCopy.iterator(); i.hasNext();) {
             ((SimEventListener)i.next()).processSimEvent(event);
         }
-        SimEventFactory.returnSimEventToPool(event);
     }
     
 }

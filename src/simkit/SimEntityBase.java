@@ -351,7 +351,6 @@ public abstract class SimEntityBase implements SimEntity, PropertyChangeSource {
     public synchronized void handleSimEvent(SimEvent event) {
         processSimEvent(event);
         notifyListeners(event);
-        SimEventFactory.returnSimEventToPool(event);
     }
     
     public synchronized void processSimEvent(SimEvent event) {

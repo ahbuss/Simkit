@@ -225,6 +225,7 @@ public class Schedule  {
                 if (verbose) { dump(""); }
                 if (singleStep) { step(); }
             } //if
+            SimEventFactory.returnSimEventToPool(currentSimEvent);
             clearDeadEvents();
         }
         running = false;
