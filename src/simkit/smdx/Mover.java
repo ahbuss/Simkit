@@ -28,6 +28,10 @@ public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
     
     public void magicMove(Point2D location) throws MagicMoveException;
     
+    public void accelerate(Point2D acceleration);
+    
+    public void accelerate(Point2D acceleration, double speed);
+    
     public void stop();
     
     public void pause();
@@ -35,5 +39,7 @@ public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
     public String paramString();
     
     public boolean isMoving();
+    
+    public MovementState getMovementState();
 }
 

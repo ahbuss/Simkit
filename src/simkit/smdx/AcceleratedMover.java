@@ -29,6 +29,7 @@ public class AcceleratedMover extends SimEntityBase implements Mover {
     protected Point2D acceleration;
     protected Point2D velocity;
     protected boolean paused;
+    protected MovementState movementState;
     
     /** Creates new AcceleratedMover */
     public AcceleratedMover() {
@@ -62,7 +63,7 @@ public class AcceleratedMover extends SimEntityBase implements Mover {
     public Point2D getAcceleration() {  return (Point2D) acceleration.clone(); }
     
     public void moveTo(Point2D destination, double cruisingSpeed) {
-        if (!isMoving()) {  }        
+        if (!isMoving()) {  }
         accelerating = true;
         cruising = false;
         double distance = getLocation().distance(destination);
@@ -71,7 +72,7 @@ public class AcceleratedMover extends SimEntityBase implements Mover {
     
     public void move(Point2D velocity) {
     }
-
+    
     public boolean isMoving() { return !Double.isNaN(startMoveTime); }
     
     public void doEndMove(Moveable mover) {
@@ -111,6 +112,24 @@ public class AcceleratedMover extends SimEntityBase implements Mover {
         if (MoverMaster.allowsMagicMove()) {
             throw new MagicMoveException();
         }
+    }
+    
+    public MovementState getMovementState() { return movementState;  }
+    
+    protected void setMovementState(MovementState state) {
+        MovementState oldState = getMovementState();
+        movementState = state;
+        firePropertyChange("movementState", oldState, movementState);
+    }
+    
+    /** To be implemented
+     */    
+    public void accelerate(Point2D acceleration) {
+    }
+    
+    /** To be implemented
+     */    
+    public void accelerate(Point2D acceleration, double speed) {
     }
     
 }

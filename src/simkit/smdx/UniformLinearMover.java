@@ -29,6 +29,8 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     protected Point2D destination;
     protected double moveTime;
     
+    protected MovementState movementState;
+    
     /** Creates new UniformLinearMover */
     public UniformLinearMover(String name, Point2D location, double maxSpeed) {
         this.setName(name);
@@ -36,6 +38,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         this.maxSpeed = maxSpeed;
         lastStopLocation = (Point2D) originalLocation.clone();
         velocity = (Point2D) ORIGIN.clone();
+        setMovementState(MovementState.STOPPED);
     }
 
     public Point2D getVelocity() {
@@ -55,11 +58,13 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
    
     public void stop() {
+        setMovementState(MovementState.STOPPED);
         interrupt("EndMove", new Object[] { this });
         waitDelay("EndMove", 0.0, new Object[] { this });
     }
     
     public void doEndMove(Moveable mover) {
+        setMovementState(MovementState.PAUSED);
         lastStopLocation = getLocation();
         velocity.setLocation(ORIGIN);
         startMoveTime = Schedule.getSimTime();
@@ -94,6 +99,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     
     public void reset() {
         super.reset();
+        setMovementState(MovementState.STOPPED);
         lastStopLocation = (Point2D) originalLocation.clone();
         velocity  = new Point2D.Double();
         startMoveTime = Schedule.getSimTime();
@@ -107,6 +113,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         if (isMoving()){
             pause();
         }
+        setMovementState(MovementState.CRUISING);
         cruisingSpeed = Math.min(cruisingSpeed, maxSpeed);
         this.destination = destination;
         double distance = destination.distance(this.getLocation());
@@ -117,6 +124,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     }
     
     public void pause() {
+        setMovementState(MovementState.PAUSED);
         lastStopLocation = getLocation();
         if (velocity == null) {
             velocity = new Point2D.Double();
@@ -131,6 +139,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     public void move(Point2D desiredVelocity) {
         double desiredSpeed = desiredVelocity.distance(ORIGIN);
         if (desiredSpeed <= 0.0) { return; }
+        setMovementState(MovementState.CRUISING);
         if ( desiredSpeed > maxSpeed) {
             desiredVelocity = Math2D.scalarMultiply(maxSpeed / desiredSpeed, desiredVelocity);
         }
@@ -149,6 +158,20 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         else {
             throw new MagicMoveException("Attempted illegal magic move: " + this);
         }
+    }
+    
+    protected void setMovementState(MovementState state) {
+        MovementState oldState = getMovementState();
+        movementState = state;
+        firePropertyChange("movementState", oldState, movementState);
+    }
+    
+    public MovementState getMovementState() { return movementState; }
+    
+    public void accelerate(Point2D acceleration) {
+    }
+    
+    public void accelerate(Point2D acceleration, double speed) {
     }
     
 }
