@@ -42,8 +42,8 @@ public class BasicSensor extends SimEntityBase implements Sensor {
 /**
  *  @return A list of the current contacts of the sensor.  
 **/
-   public Vector getDetectionList() {
-      return (Vector) detectionList.clone(); 
+   public List getDetectionList() {
+      return (List) detectionList.clone(); 
    }
    
 /**

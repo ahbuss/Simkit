@@ -1,7 +1,9 @@
 package simkit.smd;
 
-import simkit.*;
-import java.util.*;
+import simkit.SimEntity;
+import simkit.SimEventSource;
+import simkit.PropertyChangeSource;
+import java.util.List;
 /**
   *  <P>Basic Sensor interface.  The sensor is responsible for reporting its
   *  maximum range, as well as its current position and velocity.  Often the
@@ -12,12 +14,12 @@ import java.util.*;
   * @version 0.6.3
 **/
 
-public interface Sensor extends SimEntity, SimEventSource {
+public interface Sensor extends SimEntity, SimEventSource, PropertyChangeSource {
 
    public double getMaxRange();
    public void addDetection(Mover target);
    public void removeDetection(Mover target);
-   public Vector getDetectionList();
+   public List getDetectionList();
    public boolean isDetected(Mover target);
 
    public Coordinate getCurrentLocation();

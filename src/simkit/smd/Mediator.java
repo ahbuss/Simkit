@@ -9,13 +9,12 @@ import simkit.*;
 **/
 
 public interface Mediator extends SimEntity {
-  public Mover getTarget();
-  public Sensor getSensor();
-  public boolean isTargetInRange();
-  public double getDetectionTime();
-  public double getUndetectionTime();
-  public void disconnect();
-  public void connect();
-//  public Object[] getSensorParameters();
-//  public Object[] getTargetParameters();
-} 
+    public void setTargetAndSensor(Mover target, Sensor sensor);
+    public Mover getTarget();
+    public Sensor getSensor();
+    public boolean isTargetInRange();
+    public double getDetectionTime();
+    public double getUndetectionTime();
+    public void disconnect();
+//    public void connect();
+}
