@@ -1,4 +1,4 @@
-package oa3302;
+package simkit.stat;
 
 /**
  *  <P>A quick hack to provide Student-t quantiles for a few useful values of p
