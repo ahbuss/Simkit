@@ -29,7 +29,7 @@ public class RandomPointGenerator {
 * between the minimum and maximum x and y specified.
 * @param corners A four element array containing: the minimum x, the minimum y,
 * the maximum x, and the maximum y.
-* @throws IllagalArgumentException If the array does not have exactly 4 elementes.
+* @throws IllegalArgumentException If the array does not have exactly 4 elements.
 **/
     public RandomPointGenerator(double[] corners) {
         if (corners.length != 4) {
@@ -55,6 +55,7 @@ public class RandomPointGenerator {
 /** 
 * Creates a new instance of RandomPointGenerator with the given RandomVariates.
 * @param rv A 2 element array containing the RandomVariate for x and y.
+* @throws IllegalArgumentException If the array is not exactly 2 elements.
  */
     public RandomPointGenerator(RandomVariate[] rv) {
         setRandomVariate(rv);

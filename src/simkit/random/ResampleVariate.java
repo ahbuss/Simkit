@@ -14,7 +14,7 @@ public class ResampleVariate extends RandomVariateBase {
     private double[] data;
     
     /**
-     * Generates the next value by sampling with equal likelyhood from the
+     * Generates the next value by sampling with equal likelihood from the
      * data array. 
      * @return resampled value, equally likely from data array
      */    

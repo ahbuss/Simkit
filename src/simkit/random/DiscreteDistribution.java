@@ -7,7 +7,7 @@
 package simkit.random;
 
 /**
- * An interface for Classes that describe a descrete random variable.
+ * An interface for Classes that describe discrete random variables.
  * 
  * @author  Arnold Buss
  * @version $Id$

@@ -7,7 +7,7 @@
 package simkit.random;
 
 /**
- * Generates a random variate by choosing, with equal likelyhood, values
+ * Generates a random variate by choosing, with equal likelihood, values
  * from a supplied sample array.
  * @author  ahbuss
  * @version $Id$

@@ -32,7 +32,7 @@ public class PearsonTypeVVariate extends RandomVariateBase {
     }
     
 /**
-* Returns the alpha and beta paramters.
+* Returns the alpha and beta parameters.
 * @return A 2 element array with &alpha; and &beta; as Doubles.
 **/
     public Object[] getParameters() {

@@ -1,7 +1,7 @@
 package simkit.random;
 
 /**
-* Generates Bivaraite Standard Normal vector random variates with zero correlation.
+* Generates Bivariate Normal random variates with zero correlation.
 * @version $Id$
 **/
 public class BivariateNormal implements RandomVector {
@@ -32,7 +32,7 @@ public class BivariateNormal implements RandomVector {
 * Sets the parameters of this BivariateNormal.
 * @param params A 3 element array of Objects. The first Object is a 2 element double array
 * containing the mean and standard deviation for the first Normal. The second Object
-* is a similiar double array for the second Normal. The third element is a Double which
+* is a similar double array for the second Normal. The third element is a Double which
 * while required is currently ignored (correlation).
 **/
 
@@ -71,7 +71,7 @@ public class BivariateNormal implements RandomVector {
     public RandomNumber getRandomNumber() { return rv[0].getRandomNumber(); }
 
 /**
-* Generate the next Uncorrelated Bivariate Standard Normal.
+* Generate the next Uncorrelated Bivariate Normal.
 * @return A 2 element array containing the x and y values generated.
 **/
     public double[] generate() {

@@ -243,7 +243,7 @@ public class RandomVariateFactory {
 /**
 * Finds the RandomVariate Class corresponding to the given name. First
 * attempts to find the RandomVariate assuming the the name is fully qualified.
-* Then searchs the "search packages." The search path defaults to "simit.random"
+* Then searches the "search packages." The search path defaults to "simit.random"
 * but additional search packages can be added.
 * @see #addSearchPackage(String)
 * @see #setSearchPackages(String[])

@@ -26,7 +26,7 @@ public class ExponentialTransform implements RandomVariate {
     }
 
 /**
-* Generates the next exponetially transformed value.
+* Generates the next exponentially transformed value.
 **/
     public double generate() {
         return Math.exp(rv.generate());
@@ -38,7 +38,7 @@ public class ExponentialTransform implements RandomVariate {
     public void setSeed(long seed) {rv.getRandomNumber().setSeed(seed);}
 
 /**
-* Resests the seed of the supporting RandomNumber to the value of the
+* Resets the seed of the supporting RandomNumber to the value of the
 * last set seed.
 **/
     public void resetSeed() {rv.getRandomNumber().resetSeed();}

@@ -16,7 +16,7 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
     protected int minimum;
 
 /**
-* The largets value of this RandomVariate.
+* The largest value of this RandomVariate.
 **/
     protected int maximum;
 
@@ -26,7 +26,7 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
     private int range;
 
 /**
-* Creates a new DicreteUniformVariate with min and max both zero.
+* Creates a new DiscreteUniformVariate with min and max both zero.
 **/
     public DiscreteUniformVariate() {
     }
@@ -54,7 +54,7 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
     }
     
     /**
-     * Returns an array containing the minimum and maxinum as Intergers.
+     * Returns an array containing the minimum and maximum as Intergers.
      *
      * @return (minimum, maximum) wrapped as Doubles in Object[]
      */    
@@ -72,7 +72,7 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
 
 /**
 * Returns a String containing the name of this variate with the 
-* minimmum and maximum values.
+* minimum and maximum values.
 **/
     public String toString() {
         return "Discrete Uniform (" + minimum + ", " + maximum + ")";
@@ -96,7 +96,7 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
     }
 
     /**
-     * Sets the largets value.
+     * Sets the largest value.
      * @param max largest possible value
      */    
     public void setMaximum(int max) {
@@ -105,13 +105,13 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
     }
 
     /**
-     * Returns the smallest value.
+     * Returns the largest value.
      * @return largest possible value
      */    
     public int getMaximum() { return maximum; }
 
     /**
-     * Returns the largets value.
+     * Returns the smallest value.
      * @return smallest possible value
      */    
     public int getMinimum() { return minimum; }

@@ -1,6 +1,6 @@
 package simkit.random;
 
-/** Generates Gamma(alpha, beta) random variates using
+/** Generates Gamma(alpha, beta) random variates. Uses the
  * Acceptance/Rejection method
  * Parameterized as in Law and Kelton, so that mean = &alpha;&beta;
  * and variance = &alpha;&beta;<sup>2</sup> and density:<br>
@@ -181,7 +181,7 @@ public class GammaVariate extends RandomVariateBase {
     }
 
 /**
-* Sets the value of Alpha. Warning: Does not undate the pre-calculated values.
+* Sets the value of Alpha. Warning: Does not update the pre-calculated values.
 * @throws IllegalArgumentExcption If alpha is not positive.
 **/
     public void setAlpha(double a) {
@@ -194,8 +194,8 @@ public class GammaVariate extends RandomVariateBase {
     }
 
 /**
-* Sets the value of Beta. Warning: Does not update the pre-caluculated values
-* use setbeta to cause recalculation to occurs.
+* Sets the value of Beta. Warning: Does not update the pre-calculated values
+* use setbeta to cause recalculation to occur.
 * @throws IllegalArgumentExcption If beta is not positive.
 **/
     public void setBeta(double b) {

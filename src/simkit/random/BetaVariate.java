@@ -11,7 +11,7 @@ package simkit.random;
  * Parameters:
  * <ul><li><code>alpha</code>: &alpha; in pdf</li>
  * <li><code>beta</code>: &beta; in pdf</li></ul>
- * Note: This RandomVariate shoud be instantiated by using 
+ * Note: This RandomVariate should be instantiated by using 
  * <code>RandomVariateFactory</code>.
  *
  * @author Arnold Buss
@@ -43,9 +43,9 @@ public class BetaVariate extends RandomVariateBase {
     /**
      * Sets the parameters alpha and beta to the contents of the array.
      * Both parameters must be greater than zero.
-     * @param params A two element array containg alpha, beta as Numbers
+     * @param params A two element array containing alpha, beta as Numbers
      * @throws IllegalArgumentException If the parameter array does not
-     * contain exactly two parameters, or the parameters are not Numbers
+     * contain exactly two parameters, or either of the parameters is not a Number
      * greater than zero.
      */    
     public void setParameters(Object[] params) {
@@ -70,6 +70,7 @@ public class BetaVariate extends RandomVariateBase {
 
 /**
 * Creates the two instances of GammaVariate used to generate this BetaVariate.
+* @param rng The supporting instance of RandomNumber for both GammVariates.
 **/
     private void setGammas(RandomNumber rng) {
         gammaVariate1 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", new Object[] {new Double(alpha), new Double(1.0)}, rng);
@@ -122,7 +123,7 @@ public class BetaVariate extends RandomVariateBase {
     
 /**
 * Returns a String containing the name of the distribution of this Beta and
-* its paramaters.
+* its parameters.
 **/
     public String toString() { return "Beta (" + getAlpha() + ", " + getBeta() + ")"; }
 

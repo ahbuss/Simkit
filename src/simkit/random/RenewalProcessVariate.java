@@ -76,8 +76,8 @@ public class RenewalProcessVariate implements RandomVariate {
     }
     
     /**
-     * Generate a random variate having this class's distribution.
-     * @return The generated random variate
+      * Generate the next arrival time.
+      * @return The arrival time.
      */
     public double generate() {
         lastTime += interarrivalTime.generate();

@@ -4,7 +4,7 @@ package simkit.random;
  * Generates Bernoulli random variates (either int or double).<br>
  * Parameter:
  * <ul><li><code>probability</code> = P{X = 1} or the probability of
- * "success" in a single trial.</li>
+ * "success" in a single trial.</li></ul>
  *
  * @version $Id$
  * @author  Arnold Buss
@@ -70,7 +70,7 @@ public class BernoulliVariate extends RandomVariateBase implements DiscreteRando
     /**
      * Sets the probability of success.
      * @param prob The probability of 1, in range [0,1]
-     * @throws IllegalArgumentException If the arugument is not between
+     * @throws IllegalArgumentException If the argument is not between
      * 0 and 1 inclusive.
      */    
     public void setProbability(double prob) {

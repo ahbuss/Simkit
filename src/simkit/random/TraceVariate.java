@@ -34,7 +34,7 @@ public class TraceVariate extends RandomVariateBase {
     private boolean allDataInToString;
 
 /**
-* The number of values to limit the ouput of toString to if allDataInToString is false.
+* The number of values to limit the output of toString to if allDataInToString is false.
 **/
     private int shortNumber = 5;
     

@@ -46,7 +46,7 @@ public abstract class PooledGeneratorBase implements Pooled {
     }
     
     /** 
-      * Do not use, use, get the seeds from the first of second RandomNumber.
+      * Do not use, get the seeds from the first or second RandomNumber.
       * @throws IllegalArgumentException In all cases.
      */
     public long getSeed() {
@@ -54,7 +54,7 @@ public abstract class PooledGeneratorBase implements Pooled {
     }
     
     /** 
-      * Do not use, use, get the seeds from the first of second RandomNumber.
+      * Do not use, get the seeds from the first or second RandomNumber.
       * @throws IllegalArgumentException In all cases.
      */
     public long[] getSeeds() {

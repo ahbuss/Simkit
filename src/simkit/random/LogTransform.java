@@ -2,7 +2,7 @@ package simkit.random;
 
 /**
 * Generates random variates that are the log transform of another random variate.
-* The underlying RandomVariate is specified in teh constructor and cannot be
+* The underlying RandomVariate is specified in the constructor and cannot be
 * changed. The <code>generate</code> method generates the underlying RandomVariate
 * and if a positive number returns the natural log of it, if negative or zero
 * it returns <code>Double.NaN</code>.

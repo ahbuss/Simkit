@@ -30,7 +30,7 @@ public interface Distribution extends simkit.Named, Cloneable {
     public double getVariance();
     
 /**
-* Sets the varianve of this distribution.
+* Sets the variance of this distribution.
 **/
     public void setVariance(double variance);
     
@@ -55,7 +55,7 @@ public interface Distribution extends simkit.Named, Cloneable {
     public double getMinimum();
     
 /**
-* Returns the maximum value possible for thie distribution.
+* Returns the maximum value possible for this distribution.
 **/
     public double getMaximum();
     

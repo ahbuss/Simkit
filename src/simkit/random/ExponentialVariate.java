@@ -13,7 +13,7 @@ public class ExponentialVariate extends RandomVariateBase implements RandomVaria
     private double mean;
     
 /**
-* Creates a new ExpontialVariate with a zero mean. 
+* Creates a new ExponentialVariate with a zero mean. 
 **/
     public ExponentialVariate() {
     }
@@ -27,8 +27,8 @@ public class ExponentialVariate extends RandomVariateBase implements RandomVaria
      * Sets the mean of this Exponential Variate. 
      * Note that the value is the mean rather than the rate.
      * @param params mean as single element of array.
-     * @throws IllegalArgumentException If the array is not a single element or
-     * if the element is not a Number.
+     * @throws IllegalArgumentException If the array is not a single element,
+     * if the element is not a Number, or if the mean is not positive.
      */    
     public void setParameters(Object[] params) {
         if (params.length != 1) {

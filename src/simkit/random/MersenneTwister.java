@@ -27,7 +27,7 @@ package simkit.random;
  * getSeed() does not appear to be correct.  The following code
  * <code>rng.setSeed(rng.getSeed());</code> should leave the object essentially
  * in the same state, and it does not.
- * <p>Simkit is also copyleft under the GNU General Public Licence.
+ * <p>Simkit is also copyleft under the GNU General Public License.
  * <P>
  * This library is free software; you can redistribute it and or
  * modify it under the terms of the GNU Library General Public
@@ -92,7 +92,7 @@ public class MersenneTwister implements RandomNumber {
     }
     
     /**
-     * Initalizes the pseudo random number generator.
+     * Initializes the pseudo random number generator.
      *
      * @param seed from constructor
      *

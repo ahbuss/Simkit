@@ -43,7 +43,7 @@ public class MixedVariate extends simkit.random.RandomVariateBase {
     /** 
      * Returns a two element array that contains a double array of 
      * mixing probabilities and a RandomVariate array that contains the
-     * the distributions to mix.
+     * distributions to mix.
      * @return (double[], RandomVariate[]) - (mixing probabilities, distributions)
      */
     public Object[] getParameters() {
@@ -51,7 +51,7 @@ public class MixedVariate extends simkit.random.RandomVariateBase {
     }
     
     /** 
-     * Sets the probabilities and ditributions that define this RandomVariate.
+     * Sets the probabilities and distributions that define this RandomVariate.
      * The first element is a double[] that are the
      * mixing probabilities; the second is a RandomVariate[]
      * from which the values will be generated.

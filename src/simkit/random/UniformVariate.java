@@ -1,7 +1,7 @@
 package simkit.random;
 
 /**
-* Generates continous uniform random variates.
+* Generates continuous uniform random variates.
 *
 * @version $Id$
 **/
@@ -28,7 +28,7 @@ public class UniformVariate extends RandomVariateBase {
     private double high;
 
 /**
-* The differnce between the high and low values. (Precalculated)
+* The difference between the high and low values. (Precalculated)
 **/
     private double range;
     

@@ -36,7 +36,7 @@ public class DiscreteVariate extends RandomVariateBase {
 * are normalized to sum to 1.
 * @param params (values, prob) as (double[], double[])
 * @throws IllegalArgumentException If the given array does not have 2 elements,
-* if the elements are not arrays of doubles, or if the two doule arrays are not
+* if the elements are not arrays of doubles, or if the two double arrays are not
 * the same length.
 * @throws IllegalArgumentException If any of the probabilities/frequencies are 
 * negative or they're sums are zero.

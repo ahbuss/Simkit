@@ -24,7 +24,7 @@ public class ScaledVariate implements RandomVariate {
     private double shift;
 
 /**
-* The amount to shift the underlying RandomVariate by.
+* The amount to scale the underlying RandomVariate by.
 **/
     private double scale;
     
@@ -57,7 +57,7 @@ public class ScaledVariate implements RandomVariate {
 * @param params A 2 or 3 element array containing: The instance of the 
 * underlying RandomVariate, the scale as a Number, and (optionally) the shift
 * as a Number.
-* @throws IllegalArgumentExcpetion If the array does not have 2 or 3 elements,
+* @throws IllegalArgumentException If the array does not have 2 or 3 elements,
 * if the first element is not a RandomVariate, if either the 2nd or 3rd (if 
 * specified) is not a Number, or if the scale is not positive.
 **/

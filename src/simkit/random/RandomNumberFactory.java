@@ -79,7 +79,7 @@ public class RandomNumberFactory {
     }
     
 /**
-* This factory should not be instatiated.
+* This factory should not be instantiated.
 **/
     protected RandomNumberFactory() {
     }
@@ -128,7 +128,7 @@ public class RandomNumberFactory {
     
     /**
      * Creates an instance of the given Class with its default seed(s).
-     * @param className (Unqualitfied) name of desired <code>RandomNumber</code> class
+     * @param className (Unqualified) name of desired <code>RandomNumber</code> class
      * @return Instance of desired class with its default seed
      */    
     public static RandomNumber getInstance(String className) {
@@ -151,7 +151,7 @@ public class RandomNumberFactory {
      * a single seed.
      * @return Instance of desired class with the given seed.
      * @param seed Desired seed
-     * @param className (Unqualitfied) name of desired <code>RandomNumber</code> class
+     * @param className (Unqualified) name of desired <code>RandomNumber</code> class
      */    
     public static RandomNumber getInstance(String className, long seed) {
         RandomNumber instance = getInstance(className);
@@ -165,7 +165,7 @@ public class RandomNumberFactory {
      * Creates an instance of the given Class with the given seeds.
      * @return Instance of desired class with the given seeds.
      * @param seed Desired seeds
-     * @param className (Unqualitfied) name of desired <code>RandomNumber</code> class
+     * @param className (Unqualified) name of desired <code>RandomNumber</code> class
      */    
     public static RandomNumber getInstance(String className, long[] seed) {
         RandomNumber instance = getInstance(className);
@@ -176,7 +176,7 @@ public class RandomNumberFactory {
     }
     
     /**
-     * Creates a instance that has the same Class as the given <CODE>RandomNumber</CODE>
+     * Creates an instance that has the same Class as the given <CODE>RandomNumber</CODE>
      * and initial seed(s) equal to the current seed of the given <CODE>RandomNumber</CODE>.
      * While immediately upon creation the new <CODE>RandomNumber</CODE> is the same
      * as the given instance, the two are not linked. The two instances will independently
@@ -236,7 +236,8 @@ public class RandomNumberFactory {
      * Creates an instance of a <CODE>RandomNumber</CODE> the will generate
      * numbers that are antithetic to the given instance. Note that the
      * antithetic instance uses the given instance to generate and does
-     * not make a copy of it.
+     * not make a copy of it; therefore, if two negatively correlated streams
+     * are desired, the argument should be a copy.
      * @param rng <code>RandomNumber</code> instance to be antitheticized
      * @return <code>RandomNumber</code> instance that is antithetic
      * to one passed in.
@@ -247,7 +248,7 @@ public class RandomNumberFactory {
     }
     
     /**
-     * Addes the given package to the search path for RandomNumber Classes.
+     * Adds the given package to the search path for RandomNumber Classes.
      * @param packageName Name of package to be searched when qualifying class
      * names (Note: not checked whether package actually exists).
      */    

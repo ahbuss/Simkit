@@ -49,7 +49,7 @@ public class InverseGaussianVariate extends RandomVariateBase {
     }
     
 /**
- * Returns a two element array conatining mu (the mean) and lambda (the scale).
+ * Returns a two element array containing mu (the mean) and lambda (the scale).
  * @return the array of parameters as an Object[].
  */
     public Object[] getParameters() {

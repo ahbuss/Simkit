@@ -6,7 +6,7 @@ package simkit.random;
  * The second is the right side. The third determines the relative heights of the two sides.
  * <ul>
  * <li>If the height is 0 the wedge is a triangle distribution with c = b (the right side).</li>
- * <li>If the height equals the differnce between the right and left the wedge is 
+ * <li>If the height equals the difference between the right and left the wedge is 
  * Uniform(left,right)</li>
  * <li>For intermediate values the height of the left side is (right-left)*height*center height.
  * </li></ul>Note: (right-left)*height cannot be greater than one.

@@ -11,7 +11,7 @@ package simkit.random;
  * of successes in n iid Bernoulli(p) trials.<br>
  * Parameters:
  * <ul><li><code>n</code> = number of Bernoulli trials</li>
- * <li> <code>probability</code> = P{X=1} for Bernoulli trials.
+ * <li> <code>probability</code> = P{X=1} for Bernoulli trials.</li></ul>
  * <p>Note: This implementation uses the convolution method and
  * has an execution time proportional to n.</p>
  * @author  Arnold Buss
@@ -20,7 +20,7 @@ package simkit.random;
 public class BinomialVariate implements DiscreteRandomVariate {
     
 /**
-* The parameter representing the number of bernoulli trials.
+* The parameter representing the number of Bernoulli trials.
 **/
     protected int n;
 
@@ -118,7 +118,7 @@ public class BinomialVariate implements DiscreteRandomVariate {
     public int getN() { return n; }
     
     /**
-     * Sets the probabitity of success of one trial.
+     * Sets the probability of success of one trial.
      * @param p probability of success  
      * @throws IllegalArgumentException If the argument is not between 0.0 and 1.0.
      */

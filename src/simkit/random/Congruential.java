@@ -42,7 +42,7 @@ public class Congruential implements RandomNumber {
     public long getSeed() { return currentSeed;}
 
 /**
-* Resets the seed to its oringinal value.
+* Resets the seed to its original value.
 **/
     public void resetSeed() { currentSeed = startingSeed; }
 
@@ -105,7 +105,7 @@ public class Congruential implements RandomNumber {
         return "Multiplicative Congruential (" + this.getSeed() + ")";
     }
     
-/**
+/*
 * Returns the reciprical of the modulus of this generator.
 **/
     public double getMultiplier() {

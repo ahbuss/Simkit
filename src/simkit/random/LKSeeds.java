@@ -1,7 +1,7 @@
 package simkit.random;
 
 /**
-* Contains 100 seeds that will give non-overlaping streams of length 100,000
+* Contains 100 seeds that will give non-overlapping streams of length 100,000
 * when used with the implementation of RandomNumer, Congruential. 
 * The seeds can be used to produce the 100 streams with any
 * Prime Modulus Multiplicative Linear Congruential Generator with

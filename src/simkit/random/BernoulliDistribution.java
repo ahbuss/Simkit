@@ -9,7 +9,7 @@ package simkit.random;
 /**
  * A representation of the Bernoulli Distribution. A random event with two possible
  * outcomes. A value of 0 represents failure, a value of 1 represents success. Has
- * a single paramater, the probability of success.
+ * a single parameter, the probability of success.
  * @author  Arnold Buss
  * @version $Id$
  */
@@ -19,7 +19,7 @@ public class BernoulliDistribution implements DiscreteDistribution {
 
     /** 
      *  Creates new BernoulliDistribution with a probability of success of 0.
-     * Use setMean of setParameters to set the desired probability of success.
+     * Use setMean or setParameters to set the desired probability of success.
      */
     public BernoulliDistribution() {
     }

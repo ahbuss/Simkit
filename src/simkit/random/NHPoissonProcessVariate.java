@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import simkit.Schedule;
 
 /**
+ * Generates interarrival times for a Non-homogenious (non-stationary) Poisson Process.
  *
  * @author  Arnold Buss
  * @version $Id$

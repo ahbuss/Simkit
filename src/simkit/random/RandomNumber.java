@@ -64,7 +64,7 @@ public interface RandomNumber extends java.io.Serializable, Cloneable {
     /**
      * Returns the value for this RandomNumber needed to scale
      * a number produced by drawLong to result in U(0,1).
-     * @return Number that gives Un(0,1) when multipled by return from drawLong()
+     * @return Number that gives Un(0,1) when multiplied by return from drawLong()
      */    
     public double getMultiplier();
 }

@@ -24,7 +24,7 @@ public class ConvolutionVariate extends RandomVariateBase {
     }
     
     /**
-     * Generates the next value which is the sum of the values of the
+     * Generates the next value, which is the sum of the values of the
      * underlying RandomVariate instances.
      * @return sum of a draw from each RandomVariate instance
      */    
@@ -47,7 +47,7 @@ public class ConvolutionVariate extends RandomVariateBase {
     
     /**
      * Sets the underlying RandomVariates. 
-     * @param obj Must be a single instance of RandomVariate[]
+     * @param obj A single element array containing an array of RandomVariates.
      * @throws IllegalArgumentException If the array doesn't have 1 element, or if
      * the element is not an array of RandomVariates.
      */    

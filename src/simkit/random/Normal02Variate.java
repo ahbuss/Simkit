@@ -8,6 +8,7 @@ package simkit.random;
 
 /**
  * Generates a Normal random variate.
+ * <p>Note: Uses a random number of RandomNumbers per draw.</p>
  * @author  Arnold Buss
  * @version $Id$
  */
@@ -63,7 +64,7 @@ public class Normal02Variate implements RandomVariate {
      * @param params A 2 element array with the mean in the first element and
      * the standard deviation as the second, both as Numbers.
      * @throws IllegalArgumentException If the array does not contain exactly 2
-     * elements, if either of the elements is not a number, or if the standard
+     * elements, if either of the elements is not a Number, or if the standard
      * deviation is not positive.
      */
     public void setParameters(Object[] params) {

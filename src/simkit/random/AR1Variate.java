@@ -26,10 +26,10 @@ public class AR1Variate extends RandomVariateBase {
     }
 
     /**
-     * Returns the currect value of the parameters as an array of Objects.
+     * Returns the current value of the parameters as an array of Objects.
      * The first element is the multiplication factor, the second element
      * is the current value.
-     * @return the array of parameters as an Object[].
+     * @return The array of parameters as an Object[].
      */
     public Object[] getParameters() {
         return new Object[] { new Double(alpha), new Double(lastValue) };
@@ -39,11 +39,11 @@ public class AR1Variate extends RandomVariateBase {
      * Sets the random variate's parameters.
      * The first parameter is alpha, the multiplier; the second parameter
      * is the starting value.
-     * @param params the array of parameters, wrapped in objects.
+     * @param params The array of parameters, wrapped in objects.
      * @throws IllegalArgumentException If the parameter array has
      * more than 2 elements. Note: If the array has no parameters, then
      * does nothing. If the array has 1 element, alpha is set and the current
-     * value of the variate is unchanged. If the first parameter is not a
+     * value is unchanged. If the first parameter is not a
      * Number, then it is ignored.
      */
     public void setParameters(Object[] params) {
@@ -75,7 +75,7 @@ public class AR1Variate extends RandomVariateBase {
     public void setAlpha(double a) { alpha = a; }
     
 /**
-* Gets the multplication factor.
+* Gets the multiplication factor.
 **/
     public double getAlpha() { return alpha; }
     

@@ -58,7 +58,7 @@ public class Tausworthe implements RandomNumber {
     }
     
     /** 
-      * Returns the a single element array containing the current value of the seed.
+      * Returns a single element array containing the current value of the seed.
      */
     public long[] getSeeds() {
         return new long[] { seed };

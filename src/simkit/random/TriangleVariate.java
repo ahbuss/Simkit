@@ -24,7 +24,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
     protected double right;
 
 /**
-* The peak of the triagle. (c)
+* The peak of the triangle. (c)
 **/
     protected double center;
     
@@ -53,7 +53,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
       * values as Numbers.
       * @throws IllegalArgumentException If the array does not contain exactly 3
       * elements, if all three are not Numbers, or if the following relationship
-      * is not true: a &60; c &60; b.
+      * is not true: a &#60;&#61; c &#60;&#61; b.
      */
     public void setParameters(Object[] params) {
         if (params == null) { throw new NullPointerException(); }
@@ -115,7 +115,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
     public double getCenter() { return center; }
     
 /**
-* Verifies the the 3 parameters are consistant and does some 
+* Verifies the 3 parameters are consistent and does some 
 * precalculations. Must be called after changing any parameter prior to generating.
 **/
     protected boolean validate() {

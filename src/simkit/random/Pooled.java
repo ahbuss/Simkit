@@ -10,7 +10,7 @@ package simkit.random;
 public interface Pooled extends RandomNumber {
     
 /**
-* Sets an instance of the first RandomNumber that this Pooled is based on.
+* Sets the instance of the first RandomNumber that this Pooled is based on.
 **/
     public void setFirst(RandomNumber first);
     
@@ -20,7 +20,7 @@ public interface Pooled extends RandomNumber {
     public RandomNumber getFirst();
     
 /**
-* Sets an instance of the second RandomNumber that this Pooled is based on.
+* Sets the instance of the second RandomNumber that this Pooled is based on.
 **/
     public void setSecond(RandomNumber first);
     

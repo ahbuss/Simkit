@@ -32,8 +32,8 @@ public class PooledXORGenerator extends PooledGeneratorBase {
     }
    
     /** 
-      * The factor to mulitply drawLong() by the get U(0,1).
-      * @return What gives Un(0,1) when multipled by return from drawLong()
+      * The factor to multiply drawLong() by the get U(0,1).
+      * @return What gives Un(0,1) when multiplied by return from drawLong()
      */
     public double getMultiplier() {
         return MULTIPLICATIVE_FACTOR_31BIT;

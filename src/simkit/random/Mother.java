@@ -11,7 +11,7 @@ package simkit.random;
  * invented by George Marsaglia.
  * <p/>Cycle length is 3 x 10<sup>47</sup> 
  * @author Paul Sanchez
- * @author  Arnold Buss
+ * @author Arnold Buss
  * @version $Id$
  */
 public class Mother implements RandomNumber {
@@ -89,7 +89,7 @@ public class Mother implements RandomNumber {
     }
     
     /**
-     * Not used since this generator requires 4 seeds (use setSeeds(long[])) 
+     * Not used since this generator requires 5 seeds (use setSeeds(long[])) 
      * @throws IllegalArgumentException In all cases.
      */
     public void setSeed(long seed) {
