@@ -15,6 +15,8 @@ public class Side {
      *  These are the only instances of <CODE>Side</CODE> that can ever exist in an
      *  application.  To add more, subclass <CODE>Side</CODE>.
      **/
+    protected static HashMap allSides = new HashMap(6);
+
     public static final Side RED = new Side("Red");
     public static final Side BLUE = new Side("Blue");
     public static final Side ORANGE = new Side("Orange");
@@ -22,7 +24,6 @@ public class Side {
     public static final Side GREEN = new Side("Green");
     public static final Side WHITE = new Side("White");
     
-    private static HashMap allSides = new HashMap(6);
     /**
      *  Name of this Side
      **/

@@ -13,7 +13,7 @@ import java.awt.geom.*;
  */
 public interface Moveable {
     
-    public Point2D getCurrentLocation();
+    public Point2D getLocation();
     
     public Point2D getVelocity();
     

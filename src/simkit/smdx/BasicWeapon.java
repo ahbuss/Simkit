@@ -31,8 +31,8 @@ public class BasicWeapon extends SimEntityBase implements Weapon {
         return mover.getVelocity();
     }
     
-    public Point2D getCurrentLocation() {
-        return mover.getCurrentLocation();
+    public Point2D getLocation() {
+        return mover.getLocation();
     }
     
     public void setMover(Moveable mover) {
@@ -77,5 +77,5 @@ public class BasicWeapon extends SimEntityBase implements Weapon {
     
     public void doShoot(Weapon weapon, Coordinate aimPoint) {
     }
-    
+       
 }

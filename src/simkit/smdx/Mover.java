@@ -22,6 +22,14 @@ public interface Mover extends Moveable, SimEntity {
     
     public void moveTo(Point2D destination);
     
+    public void moveTo(Point2D destination, double cruisingSpeed);
+    
     public void stop();
+    
+    public void pause();
+    
+    public String paramString();
+    
+    public boolean isMoving();
 }
 

@@ -20,5 +20,5 @@ public interface Weapon extends Moveable, SimEntity {
     public Moveable getMover();
     
     public WeaponFireType getFireType();
-
+    
 }

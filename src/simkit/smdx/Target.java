@@ -20,6 +20,5 @@ public interface Target extends Mover {
     public void hit(Damage damage);
     
     public boolean isAlive();
-    
 }
 

@@ -8,11 +8,12 @@ package simkit.smdx;
 import simkit.*;
 import simkit.smd.*;
 import java.util.*;
+import java.beans.*;
 
 /**
  * @author  Arnold Buss
  */
-public class WeaponTargetReferee extends SimEntityBase {
+public class WeaponTargetReferee extends SimEntityBase implements PropertyChangeListener {
     
     public static final WeaponTargetReferee WEAPON_REFEREE;
 
@@ -91,4 +92,8 @@ public class WeaponTargetReferee extends SimEntityBase {
     public void reset() {
         super.reset();
     }
+    
+    public void propertyChange(java.beans.PropertyChangeEvent propertyChangeEvent) {
+    }
+    
 }

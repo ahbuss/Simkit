@@ -48,7 +48,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     public void doStartMove(Sensor sensor) {
     }
     
-    public Point2D getCurrentLocation() {
+    public Point2D getLocation() {
         return null;
     }
     
