@@ -113,7 +113,7 @@ public class TestJava2D extends JPanel{
                 Point2D[] cubicIntersect = Math2D.findIntersection(point[j], velocity, seg[m]);
                 for (int k = 0; k < cubicIntersect.length; k++) {
                     double t = Math2D.innerProduct(velocity, Math2D.subtract(cubicIntersect[k], point[j]))/Math2D.normSq(velocity);
-                    if (t >= 0.0) {
+                    if (t >= 0.0 && t <= 1.0) {
                         cubicInts.add(cubicIntersect[k]);
                     }
                 }
@@ -174,18 +174,6 @@ public class TestJava2D extends JPanel{
                 g2d.draw(new Rectangle2D.Double(cubicIntersections[k].getX() - size/2,
                 cubicIntersections[k].getY() - size/2, size, size));
             }
-/*
-            g2d.setColor(Color.red);
-            Shape[] segment = Math2D.getSegments(shape[0], null);
-            for (int k = 0; k < segment.length; k++) {
-                if (segment[k] instanceof CubicCurve2D) {
-                    Point2D[] inter = Math2D.findIntersection(point[i], Math2D.subtract(point[ (i+1) % point.length], point[i]), (CubicCurve2D) segment[k]);
-                    for (int m = 0; m < inter.length; i++) {
-                        g2d.draw(new Rectangle2D.Double(inter[m].getX() - size/2, inter[m].getY() - size/2, size, size));
-                    }
-                }
-            }
- */
         }
         
         for (int i = 0; i < curve.length; i++) {

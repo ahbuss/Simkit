@@ -38,7 +38,7 @@ public class TestArcIntersection extends JPanel {
         Area area = new Area(transArc);
         Area obstacle = new Area(new Rectangle2D.Double(360, 230, 100, 70));
         area.subtract(obstacle);
-        arc[1] = area;
+        arc[1] = new GeneralPath(area);
         intersections = new ArrayList();
         
         line = new Line2D[] {
@@ -48,12 +48,16 @@ public class TestArcIntersection extends JPanel {
             new Line2D.Double(175, 30, 50, 330),
             new Line2D.Double(275, 260, 530, 310)
         };
-        for (int k = 0; k < 1; k++) {
+        for (int k = 0; k < arc.length; k++) {
             for (int i = 0; i < line.length; i++) {
-                Point2D[] inter = Math2D.findIntersection(line[i].getP1(), Math2D.subtract(line[i].getP2(), line[i].getP1()),
-                arc[k], null);
+                Point2D velocity = Math2D.subtract(line[i].getP2(), line[i].getP1());
+                Point2D start = line[i].getP1();
+                Point2D[] inter = Math2D.findIntersection(start, velocity, arc[k], null);
                 for (int j = 0; j < inter.length; j++) {
-                    intersections.add(inter[j]);
+                    double t = Math2D.innerProduct(velocity, Math2D.subtract(inter[j], start))/Math2D.normSq(velocity);
+                    if (t >= 0.0 && t <= 1.0) {
+                        intersections.add(inter[j]);
+                    }
                 }
             }
         }

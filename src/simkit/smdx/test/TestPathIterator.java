@@ -85,6 +85,16 @@ public class TestPathIterator extends JComponent {
             }
         }
         System.out.println(buf.toString());
+        
+        Shape[] segments = simkit.smdx.Math2D.getSegments(ellipse, null);
+        for (int i = 0; i < segments.length; i++) {
+            if (segments[i] instanceof CubicCurve2D) {
+                System.out.println(simkit.test.TestJava2D.cubicToString((CubicCurve2D) segments[i]));
+            }
+            else {
+                System.out.println(segments[i]);
+            }
+        }
     }
 
 }
