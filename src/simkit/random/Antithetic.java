@@ -2,23 +2,33 @@ package simkit.random;
 
 public class Antithetic implements RandomNumber {
     
-    private RandomNumber rnDelegate;
+    protected static final String DEFAULT_DELEGATE = "simkit.random.Congruential";
     
-    public Antithetic(RandomNumber delegate) {
-        rnDelegate = delegate;
+    protected RandomNumber delegate;
+    
+    public Antithetic() {
+        this(RandomNumberFactory.getInstance(DEFAULT_DELEGATE));
     }
     
-    public void setSeed(long seed) {rnDelegate.setSeed(seed);}
+    public Antithetic(RandomNumber delegate) {
+        setRandomNumber(delegate);
+    }
     
-    public long getSeed() {return rnDelegate.getSeed();}
+    public void setRandomNumber(RandomNumber rng) { delegate = rng; }
     
-    public void resetSeed() {rnDelegate.resetSeed();}
+    public RandomNumber getRandomNumber() { return delegate; }
     
-    public double draw() {return 1.0 - rnDelegate.draw();}
+    public void setSeed(long seed) {delegate.setSeed(seed);}
     
-    public void setSeeds(long[] seeds) { rnDelegate.setSeeds(seeds); }
+    public long getSeed() {return delegate.getSeed();}
     
-    public long[] getSeeds() { return rnDelegate.getSeeds(); }
+    public void resetSeed() {delegate.resetSeed();}
+    
+    public double draw() {return 1.0 - delegate.draw();}
+    
+    public void setSeeds(long[] seeds) { delegate.setSeeds(seeds); }
+    
+    public long[] getSeeds() { return delegate.getSeeds(); }
     
     public Object clone() {
         try {
@@ -28,5 +38,5 @@ public class Antithetic implements RandomNumber {
         return null;
     }
     
-    
+    public String toString() { return delegate.toString() + " [Antithetic]"; }
 }
