@@ -81,12 +81,4 @@ public class BivariateNormal implements RandomVector {
         }
         return val;
     }
-    
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        finally{}
-        return null;
-    }
 } 

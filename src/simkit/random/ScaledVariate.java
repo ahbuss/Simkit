@@ -132,14 +132,7 @@ public class ScaledVariate implements RandomVariate {
 * Returns the current value of the scale.
 **/
     public double getScale() { return scale; }
-    
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        return null;
-    }
-    
+
 /**
 * Sets the underlying RandomVariate.
 **/

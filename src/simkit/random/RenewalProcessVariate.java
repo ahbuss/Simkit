@@ -85,23 +85,15 @@ public class RenewalProcessVariate implements RandomVariate {
     }
     
 /**
-* Sets the RandomVariate used to generate the interarrival times.
+ * Sets the RandomVariate used to generate the interarrival times.
+ * Note: the instance is passed in, not copied.
 **/
     public void setInterarrivalTime(RandomVariate rv) {
-        interarrivalTime = (RandomVariate) rv.clone();
-        interarrivalTime.setRandomNumber(rv.getRandomNumber());
+        interarrivalTime = rv;
     }
     
 /**
 * Returns the RandomVariate used to generate the interarrival times.
 **/
     public RandomVariate getInterarrivalTime() { return interarrivalTime; }
-    
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        return null;
-    }
-    
 }

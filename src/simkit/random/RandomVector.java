@@ -12,7 +12,7 @@ package simkit.random;
  * @version $Id$
 **/
 
-public interface RandomVector extends java.io.Serializable, Cloneable {
+public interface RandomVector extends java.io.Serializable {
 
 /**
  * Returns an array containing a vector having this class's distribution.
@@ -44,9 +44,5 @@ public interface RandomVector extends java.io.Serializable, Cloneable {
  *  @return the RandomNumber used for this RandomVector instance  
 **/
     public RandomNumber getRandomNumber();
-    
-/**
-* Makes a copy of this RandomVariate.
-**/
-    public Object clone();
+
 } 

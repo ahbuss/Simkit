@@ -148,13 +148,6 @@ public class RightWedgeVariate implements RandomVariate {
         range = getRight() - getLeft();
     }
     
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        return null;
-    }
-    
 /**
 * Returns a String containing the name of this variate with the left, right, height.
 **/

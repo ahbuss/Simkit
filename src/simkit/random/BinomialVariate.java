@@ -136,13 +136,6 @@ public class BinomialVariate implements DiscreteRandomVariate {
      */
     public double getProbability() { return bernoulli.getProbability(); }
     
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        throw new InternalError();
-    }
-    
     /**
       * Returns a String containing the name of the distribution and the parameters
       * of this RandomVariate.

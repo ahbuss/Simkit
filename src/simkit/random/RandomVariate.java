@@ -17,7 +17,7 @@ package simkit.random;
  * @version $Id$
  **/
 
-public interface RandomVariate extends java.io.Serializable, Cloneable {
+public interface RandomVariate extends java.io.Serializable {
     
     /**
      * Generate a random variate having this class's distribution.
@@ -49,9 +49,5 @@ public interface RandomVariate extends java.io.Serializable, Cloneable {
      * @return The underlying RandomNumber instance.
      */
     public RandomNumber getRandomNumber();
-    
-    /** Note: copy should be typically shallow in that the same RandomNumber instance is supporting the copy.
-     * @return Copy of this RandomVariate instance.
-     */
-    public Object clone();
+
 }
