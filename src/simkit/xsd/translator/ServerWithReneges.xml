@@ -28,7 +28,7 @@
     
     <Event name="Run" >
     
-        <StateTransition state="numberAvailableServers" >
+        <StateTransition test="true" state="numberAvailableServers" >
             <Assignment value="getNumberServers()" />
         </StateTransition>
     
@@ -55,7 +55,7 @@
         </StateTransition>
         
         <Schedule event="Renege" delay="renegeTime.generate()" >
-            <EdgeParameter  value="customer" />
+            <EdgeParameter type="java.lang.Integer" value="customer" />
         </Schedule>
         
         <Schedule event="StartService" delay="0.0" condition="getNumberAvailableServers() > 0" /> 
@@ -76,11 +76,11 @@
         </StateTransition>
         
         <Cancel event="Renege" >
-            <EdgeParameter value="customer" />
+            <EdgeParameter type="java.lang.Integer" value="customer" />
         </Cancel>
         
         <Schedule event="EndService" delay="serviceTime.generate()" >
-            <EdgeParameter value="customer" />
+            <EdgeParameter type="java.lang.Integer" value="customer" />
         </Schedule>
         
     </Event>

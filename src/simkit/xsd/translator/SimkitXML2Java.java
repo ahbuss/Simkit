@@ -308,6 +308,8 @@ public class SimkitXML2Java {
 	    //pw.print(eq + sp + lp + local.getType() + rp);
 	    pw.println(sp + local.getValue() + sc);
 	}
+	
+	pw.println();
 
 	while ( sli.hasNext() ) {
    	    StateTransition st = (StateTransition) sli.next();
