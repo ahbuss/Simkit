@@ -75,7 +75,7 @@ public class BasicWeapon extends SimEntityBase implements Weapon {
         waitDelay("Shoot", 0.0, new Object[] { this, target});
     }
     
-    public void doShoot(Weapon weapon, Coordinate aimPoint) {
+    public void doShoot(Munition munition, Point2D aimPoint) {
     }
-       
+    
 }
