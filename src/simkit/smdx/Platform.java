@@ -8,9 +8,9 @@ package simkit.smdx;
 
 /**
  *
- * @author  ahbuss
+ * @author  Arnold Buss
  */
-public interface Platform extends Moveable {
+public interface Platform extends Moveable, simkit.SimEntity {
     
     public boolean isAlive();
     
