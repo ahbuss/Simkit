@@ -13,7 +13,7 @@ import java.beans.*;
  * @author  Arnold Buss
  * @version 
  */
-public interface SensorTargetMediator extends SimEntity, PropertyChangeListener {
+public interface SensorTargetMediator extends Mediator, PropertyChangeListener {
     
     public void doEnterRange(Sensor sensor, Mover target);
     

@@ -17,8 +17,8 @@ import simkit.smdx.*;
  */
 public class SensorTargetReferee extends SimEntityBase implements PropertyChangeListener {
 
-    private WeakHashMap sensors;
-    private WeakHashMap targets;
+    protected WeakHashMap sensors;
+    protected WeakHashMap targets;
     
     private boolean clearOnReset;
     
@@ -40,7 +40,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         if (entity instanceof simkit.smdx.Sensor) {
             sensors.put(entity, null);
         }
-        else if (entity instanceof Target) {
+        else if (entity instanceof Mover) {
             targets.put(entity, null);
         }
         else {
@@ -53,7 +53,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         if (entity instanceof simkit.smdx.Sensor) {
             sensors.remove(entity);
         }
-        else if (entity instanceof Target) {
+        else if (entity instanceof Mover) {
             targets.remove(entity);
         }
     }
@@ -105,10 +105,16 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     
     public String toString() {
         StringBuffer buf = new StringBuffer(this.getClass().getName());
-        buf.append("\nSensors:\n");
-        buf.append(sensors.keySet());
-        buf.append("\nTargets:\n");
-        buf.append(targets.keySet());
+        buf.append("\nSensors:");
+        for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
+            buf.append('\n');
+            buf.append(i.next());
+        }
+        buf.append("\n\nTargets:");
+        for (Iterator i = targets.keySet().iterator(); i.hasNext(); ) {
+            buf.append('\n');
+            buf.append(i.next());
+        }
         
         return buf.toString();
     }

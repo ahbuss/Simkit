@@ -14,15 +14,21 @@ import java.lang.reflect.*;
  * @author  Arnold Buss
  * @version
  */
-public class SensorTargetMediatorFactory {
+public class SensorTargetMediatorFactory implements MediatorFactory {
     
-    private static WeakHashMap cache;
+    protected static final SensorTargetMediatorFactory instance = 
+        new SensorTargetMediatorFactory();
+    
+    public static MediatorFactory getInstance() { return instance; }
+    
+    private WeakHashMap cache;
     
     /** Creates new SensorTargetMediatorFactory */
     protected SensorTargetMediatorFactory() {
+        cache = new WeakHashMap();
     }
     
-    public static void addMediatorFor(Class sensorClass, Class targetClass, Class mediatorClass) {
+    public void addMediatorFor(Class sensorClass, Class targetClass, Class mediatorClass) {
         if (!(simkit.smdx.Sensor.class.isAssignableFrom(sensorClass))) {
             throw new IllegalArgumentException(sensorClass + " is not a Sensor class");
         }
@@ -46,7 +52,7 @@ public class SensorTargetMediatorFactory {
         targetClasses.put(targetClass, mediatorInstance);
     }
     
-    public static SensorTargetMediator getMediatorFor(Class sensorClass, Class targetClass) {
+    public Mediator getMediatorFor(Class sensorClass, Class targetClass) {
         SensorTargetMediator mediator = null;
         if (cache.containsKey(sensorClass)) {
             Map targetClasses = (Map) cache.get(sensorClass);
@@ -59,11 +65,7 @@ public class SensorTargetMediatorFactory {
         return mediator;
     }
     
-    public static SensorTargetMediator getMediatorFor(Sensor sensor, Moveable target) {
-        return getMediatorFor(sensor.getClass(), target.getClass());
-    }
-    
-    public static Map getMediators() {
+    public Map getMediators() {
         Map copy = null;
         synchronized(cache) {
             copy = new WeakHashMap(cache);
@@ -74,4 +76,20 @@ public class SensorTargetMediatorFactory {
         }
         return copy;
     }
+    
+    public void addMediatorFor(String first, String second, String mediator) throws ClassNotFoundException {
+        Class firstClass = Thread.currentThread().getContextClassLoader().loadClass(first);
+        Class secondClass = Thread.currentThread().getContextClassLoader().loadClass(second);
+        Class mediatorClass = Thread.currentThread().getContextClassLoader().loadClass(mediator);
+        addMediatorFor(firstClass, secondClass, mediatorClass);
+    }
+    
+    public Mediator getMeditorFor(Object first, Object second) {
+        return getMediatorFor(first.getClass(), second.getClass());
+    }
+    
+    public void clear() {
+        cache.clear();
+    }
+    
 }
