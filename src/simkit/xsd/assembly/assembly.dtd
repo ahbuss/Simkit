@@ -1,0 +1,55 @@
+<!ENTITY % Parameters "MultiParameter|FactoryParameter|TerminalParameter" >
+
+<!ELEMENT MultiParameter (%Parameters;)* >
+<!ATTLIST MultiParameter
+    type  CDATA #REQUIRED
+>
+
+<!ELEMENT TerminalParameter EMPTY >
+<!ATTLIST TerminalParameter
+    value CDATA #REQUIRED
+    type  CDATA #REQUIRED
+>
+
+<!ELEMENT FactoryParameter (%Parameters;)* >
+<!ATTLIST FactoryParameter
+    factory CDATA #REQUIRED
+    type    CDATA #REQUIRED
+>
+
+<!ELEMENT SimEntity (%Parameters;)* >
+<!ATTLIST SimEntity
+    type CDATA #REQUIRED
+    name ID    #REQUIRED
+>
+
+<!ELEMENT PropertyChangeListener (TerminalParameter)* >
+<!ATTLIST PropertyChangeListener
+    type CDATA #REQUIRED
+    name ID    #REQUIRED
+>
+
+<!ELEMENT SimEventListenerConnection EMPTY >
+<!ATTLIST SimEventListenerConnection
+    listener IDREF #REQUIRED
+    source   IDREF #REQUIRED
+>
+
+<!ELEMENT PropertyChangeListenerConnection EMPTY >
+<!ATTLIST PropertyChangeListenerConnection
+    property CDATA #IMPLIED
+    listener IDREF #REQUIRED
+    source   IDREF #REQUIRED
+>
+
+<!ELEMENT Output EMPTY >
+<!ATTLIST Output
+    entity   IDREF #REQUIRED
+>
+
+<!ELEMENT SimkitAssembly ( SimEntity+ , PropertyChangeListener*, SimEventListenerConnection*, PropertyChangeListenerConnection*, Output* ) >
+<!ATTLIST SimkitAssembly
+	name 	ID      #REQUIRED
+	version	CDATA	#REQUIRED
+>
+

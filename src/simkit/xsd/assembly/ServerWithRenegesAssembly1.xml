@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ServerWithRenegesAssembly1.xml
+    Created on : March 29, 2004, 2:58 PM
+    Author     : ahbuss
+    Description:
+        Purpose of the document follows.
+-->
+
+<SimkitAssembly 
+    name="ServerWithRenegesAssembly1"
+    version="0.1"
+>
+
+    <SimEntity name="arrival" type="examples.ArrivalProcess">
+        <FactoryParameter type="simkit.random.RandomVariate" 
+                factory="simkit.random.RandomVariateFactory">
+            <TerminalParameter type="String" value="Exponential" />
+            <MultiParameter type="Object[]" >
+                <TerminalParameter type="java.lang.Double" value="1.5" />
+            </MultiParameter>
+            <TerminalParameter type="long" value="simkit.random.CongruentialSeeds.SEED[0]" />
+        </FactoryParameter>
+    </SimEntity>
+    
+    <SimEntity name="server" type="examples.ServerWithReneges" >
+        <TerminalParameter type="int" value="2" />
+        <FactoryParameter type="simkit.random.RandomVariate" 
+                factory="simkit.random.RandomVariateFactory">
+            <TerminalParameter type="String" value="Gamma" />
+            <MultiParameter type="Object[]" >
+                <TerminalParameter type="java.lang.Double" value="2.5" />
+                <TerminalParameter type="java.lang.Double" value="1.2" />
+            </MultiParameter>
+            <TerminalParameter type="long" value="simkit.random.CongruentialSeeds.SEED[1]" />
+        </FactoryParameter>
+        <FactoryParameter type="simkit.random.RandomVariate" 
+                factory="simkit.random.RandomVariateFactory">
+            <TerminalParameter type="String" value="Uniform" />
+            <MultiParameter type="Object[]" >
+                <TerminalParameter type="java.lang.Double" value="4.0" />
+                <TerminalParameter type="java.lang.Double" value="6.0" />
+            </MultiParameter>
+            <TerminalParameter type="long" value="simkit.random.CongruentialSeeds.SEED[2]" />
+        </FactoryParameter>
+    </SimEntity>
+        
+    <SimEntity name="csl" type="examples.CollectionSizeListener" />
+    <SimEntity name="ial" type="examples.IntegerArrivalListener" />
+    <SimEntity name="time" type="examples.TimeListener" />
+        
+    <PropertyChangeListener name="numInQueueStat" type="simkit.random.SimpleStateTimeVarying">
+        <TerminalParameter type="java.lang.String" value="numberInQueue" />
+    </PropertyChangeListener>
+        
+    <PropertyChangeListener name="numAvailableServerStat" type="simkit.random.SimpleStateTimeVarying">
+        <TerminalParameter type="java.lang.String" value="numberAvailableServers" />
+    </PropertyChangeListener>
+        
+    <PropertyChangeListener name="timeInSystemStat" type="simkit.random.SimpleStateTally">
+        <TerminalParameter type="java.lang.String" value="timeInSystem" />
+    </PropertyChangeListener>
+        
+    <PropertyChangeListener name="delayInQueueStat" type="simkit.random.SimpleStateTally">
+        <TerminalParameter type="java.lang.String" value="delayInQueue" />
+    </PropertyChangeListener>
+
+    <PropertyChangeListener name="delayInQueueRenegeStat" type="simkit.random.SimpleStateTally">
+        <TerminalParameter type="java.lang.String" value="delayInQueueRenege" />
+    </PropertyChangeListener>
+
+    <PropertyChangeListener name="delayInQueueServedStat" type="simkit.random.SimpleStateTally">
+        <TerminalParameter type="java.lang.String" value="delayInQueueServed" />
+    </PropertyChangeListener>
+
+    <SimEventListenerConnection source="arrival" listener="ial" />
+    <SimEventListenerConnection source="ial" listener="server" />
+    <SimEventListenerConnection source="ial" listener="time" />
+    <SimEventListenerConnection source="server" listener="time" />
+     
+    <PropertyChangeListenerConnection source="server" listener="csl" />
+    <PropertyChangeListenerConnection source="server" listener="time" />
+    <PropertyChangeListenerConnection source="csl" listener="numInQueueStat" property="queue.size" />
+    <PropertyChangeListenerConnection source="server" listener="numAvailableServerStat" property="numberAvailableServers" />
+    <PropertyChangeListenerConnection source="time" listener="timeInSystemStat" property="timeInSystem" />
+    <PropertyChangeListenerConnection source="time" listener="delayInQueueStat" property="delayInQueue" />
+    <PropertyChangeListenerConnection source="time" listener="delayInQueueRenegeStat" property="delayInQueueRenege" />
+    <PropertyChangeListenerConnection source="time" listener="delayInQueueServedStat" property="delayInQueueServed" />
+
+    <Output entity="server" />
+    <Output entity="arrival" />
+
+</SimkitAssembly>

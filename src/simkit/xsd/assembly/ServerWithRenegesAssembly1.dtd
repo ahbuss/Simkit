@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!--
+    An example how to use this DTD from your XML document:
+
+    <?xml version="1.0"?>
+
+    <!DOCTYPE SimkitAssembly SYSTEM "ServerWithRenegesAssembly1.dtd">
+
+    <SimkitAssembly>
+    ...
+    </SimkitAssembly>
+-->
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT PropertyChangeListenerConnection EMPTY>
+<!ATTLIST PropertyChangeListenerConnection
+    property CDATA #IMPLIED
+    listener CDATA #IMPLIED
+    source CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT SimEventListenerConnection EMPTY>
+<!ATTLIST SimEventListenerConnection
+    listener CDATA #IMPLIED
+    source CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT PropertyChangeListener (Parameter)*>
+<!ATTLIST PropertyChangeListener
+    type CDATA #IMPLIED
+    name CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT Parameter (Parameter)*>
+<!ATTLIST Parameter
+    value CDATA #IMPLIED
+    factory CDATA #IMPLIED
+    type CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT SimEntity (Parameter)*>
+<!ATTLIST SimEntity
+    type CDATA #IMPLIED
+    name CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT SimkitAssembly (PropertyChangeListenerConnection|SimEventListenerConnection|PropertyChangeListener|SimEntity)*>
+<!ATTLIST SimkitAssembly
+    version CDATA #IMPLIED
+    name CDATA #IMPLIED
+  >
