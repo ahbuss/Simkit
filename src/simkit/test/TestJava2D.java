@@ -42,7 +42,7 @@ public class TestJava2D extends JPanel{
         size = 9;
         sizePt = new Point2D.Double(size/2, size/2);
         shape = new Shape[2];
-        shape[0] = new Ellipse2D.Double(100.0, 100.0, 300.0, 400.0);
+        shape[0] = new Ellipse2D.Double(100.0, 100.0, 300.0, 300.0);
         
         CubicCurve2D[] seg = getSegments((Ellipse2D) shape[0]);
         for (int i = 0; i < seg.length; i++) {
