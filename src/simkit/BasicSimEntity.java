@@ -266,8 +266,16 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         property.addPropertyChangeListener(listener);
     }
     
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        property.addPropertyChangeListener(propertyName, listener);
+    }
+    
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         property.removePropertyChangeListener(listener);
+    }
+    
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+        property.removePropertyChangeListener(propertyName, listener);
     }
     
     /**
