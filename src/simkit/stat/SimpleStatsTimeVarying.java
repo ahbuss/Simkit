@@ -26,7 +26,6 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
     public SimpleStatsTimeVarying(String name) {
         this.setFormat(DEFAULT_FORMAT);
         this.setName(name);
-        this.startTime = Schedule.getSimTime();
         this.reset();
     }
     
@@ -40,8 +39,8 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
         if (count == 1 ) {
             mean = diff;
             variance = 0.0;
-        } else if (Schedule.getSimTime() > 0.0) {
-            double factor = 1.0 - lastTime / Schedule.getSimTime();
+        } else if (Schedule.getSimTime() > lastTime) {
+            double factor = 1.0 - (lastTime - startTime) / (Schedule.getSimTime() - this.startTime);
             mean += diff * factor;
             variance +=  factor * ( (1.0 - factor) * diff * diff - variance );
         }
@@ -95,6 +94,10 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
                 this.newObservation((Boolean) value);
             }
         }
+        else if (event.getPropertyName().equals("reset") &&
+                this.getName().equals(event.getNewValue())) {
+            this.reset();
+        }
     }
     
     public void reset() {
@@ -105,21 +108,14 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
         minObs = Double.POSITIVE_INFINITY;
         maxObs = Double.NEGATIVE_INFINITY;
         lastTime = Schedule.getSimTime();
-        
+        startTime = Schedule.getSimTime();        
     }
     
     public synchronized Object clone() {
-        SimpleStatsTimeVarying clone = new SimpleStatsTimeVarying();
-        clone.count = this.count;
-        clone.diff = this.diff;
-        clone.lastTime = this.lastTime;
-        clone.maxObs = this.maxObs;
-        clone.minObs = this.minObs;
-        clone.mean = this.mean;
-        clone.name = this.name;
-        clone.startTime = this.startTime;
-        clone.variance = this.variance;
-        return clone;
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {}
+        return null;
     }
     
     public String getDataLine() {
