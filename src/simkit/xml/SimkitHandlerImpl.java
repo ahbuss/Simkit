@@ -106,7 +106,20 @@ public class SimkitHandlerImpl implements SimkitHandler {
             + ";" + '\n';
         }
 
+    }    
+    
+    public void handle_Operation(java.lang.String data, Attributes meta) throws SAXException {
+        if (DEBUG) System.err.println("handle_Operation()");
+        
+        if ( inRun ) {
+            resetBlock += data + ";" + '\n';
+        } else {
+            eventBlock += data + ";" + '\n';
+        }
+        
     }
+    
+    
     
     public void start_Event(final Attributes meta) throws SAXException {
         if (DEBUG) System.err.println("start_Event: " + meta);
@@ -132,7 +145,9 @@ public class SimkitHandlerImpl implements SimkitHandler {
             resetBlock += "}" + '\n' + '\n';
             inRun = false;
         }
-    }    
+    }
+    
+
     
     public void start_SimkitModule(final Attributes meta) throws SAXException {
         if (DEBUG) System.err.println("start_SimkitModule: " + meta);        
@@ -248,6 +263,30 @@ public class SimkitHandlerImpl implements SimkitHandler {
     }
     
     public void endElement( String s, String t, String u) {
+    }
+    
+    public void end_Argument() throws SAXException {
+    }    
+
+    public void end_LocalVariable() throws SAXException {
+    }    
+    
+    public void end_StateVariable() throws SAXException {
+    }
+    
+    public void handle_Assignment(Attributes meta) throws SAXException {
+    }
+    
+    public void handle_EdgeParameter(Attributes meta) throws SAXException {
+    }
+    
+    public void start_Argument(Attributes meta) throws SAXException {
+    }
+    
+    public void start_LocalVariable(Attributes meta) throws SAXException {
+    }
+    
+    public void start_StateVariable(Attributes meta) throws SAXException {
     }
     
 }

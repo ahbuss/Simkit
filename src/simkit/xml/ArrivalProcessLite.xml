@@ -11,18 +11,22 @@
 <!DOCTYPE SimkitModule PUBLIC '-//NPS Simkit//DTD Web Application//EN' 'simkit.dtd'>
 <SimkitModule
     name="ArrivalProcessLite"
-    version="0.1" >
+    version="0.2" >
 
     <Parameter name="interarrivalTime" type="simkit.random.RandomVariate" shortName="tA" />
-    <State name="numberArrivals" type="int" shortName="N" />
+    <StateVariable name="numberArrivals" type="int" shortName="N" />
 
     <Event name="Run" >
-        <StateTransition state="numberArrivals" transition="0" />
+        <StateTransition state="numberArrivals" >
+            <Assignment value="0" />
+        </StateTransition>
         <Schedule event="Arrival" delay="interarrivalTime.generate()" />
     </Event>
 
     <Event name="Arrival" >
-        <StateTransition state="numberArrivals" transition="numberArrivals+1" />
+        <StateTransition state="numberArrivals" >
+            <Assignment value="numberArrivals+1" />
+        </StateTransition>
         <Schedule event="Arrival" delay="interarrivalTime.generate()" />
     </Event>
     
