@@ -94,6 +94,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
     }
     
     public synchronized void processSimEvent(SimEvent event) {
+        if (event == null) { return; }
         Method m = null;
         String methodName =  event.getMethodName();
         // Do not process other SimEntityBase's "doRun()" methods
