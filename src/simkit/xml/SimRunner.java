@@ -1,15 +1,8 @@
-/*
- * SimRunner.java
- *
- * Created on June 26, 2002, 11:45 AM
- */
-
 package simkit.xml;
 import simkit.*;
-import simkit.random.*;
 import java.util.*;
-import org.jdom.*;
-import org.jdom.input.*;
+import org.w3c.dom.*;
+import javax.xml.parsers.*;
 import java.io.*;
 /**
  *
@@ -18,72 +11,70 @@ import java.io.*;
 public class SimRunner implements Runnable {
     
     public static SimRunner getSimRunner(Element element) {
-        if (element == null) {
-            element = new Element("run");
+        if (element.getNodeType() == Node.DOCUMENT_NODE) {
+            element = ((Document) element).getDocumentElement();
         }
         SimRunner runner = new SimRunner();
-        Element verboseElement = element.getChild("Verbose");
+        Node verboseElement = element.getElementsByTagName("Verbose").item(0);
         if (verboseElement != null) {
-            runner.verbose = new Boolean(verboseElement.getText()).booleanValue();
+            runner.verbose = new Boolean(verboseElement.getFirstChild().getNodeValue()).booleanValue();
         }
         else {
             runner.verbose = true;
         }
-        
-        Element singleStepElement = element.getChild("SingleStep");
+        Node singleStepElement = element.getElementsByTagName("SingleStep").item(0);
         if (singleStepElement != null) {
-            runner.singleStep = new Boolean(singleStepElement.getText()).booleanValue();
+            runner.singleStep = new Boolean(singleStepElement.getFirstChild().getNodeValue()).booleanValue();
         }
-        Element numberReplicationsElement = element.getChild("NumberReplications");
+        Node numberReplicationsElement = element.getElementsByTagName("NumberReplications").item(0);
         if (numberReplicationsElement == null) {
             runner.numberReplications = 1;
         }
         else {
-            runner.numberReplications = Integer.parseInt(numberReplicationsElement.getText());
+            runner.numberReplications = Integer.parseInt(numberReplicationsElement.getFirstChild().getNodeValue());
         }
-        Element stopTypeElement = element.getChild("StopType");
-        if (stopTypeElement == null) {
-            stopTypeElement = new Element("StopType");
+        Element stopNode = (Element) element.getElementsByTagName("StopType").item(0);
+        if (stopNode == null || ! stopNode.hasChildNodes()) {
+            runner.stopType = StopType.NO_STOP_TYPE;
         } // if null
-        List stops = stopTypeElement.getChildren();
-        if (stops.isEmpty()) {
-            stopTypeElement.addContent(new Element("NoStopTime"));
-        }
-        stopTypeElement = (Element) stopTypeElement.getChildren().get(0);
-        if (stopTypeElement != null) {
-            String type = stopTypeElement.getName();
-            if (type.equalsIgnoreCase("StopAtTime")) {
+        else {
+            NodeList stopAtTimeNodeList = ((Element) stopNode).getElementsByTagName("StopAtTime");
+            if (stopAtTimeNodeList.getLength() > 0) {
                 runner.stopType = StopType.STOP_AT_TIME;
-                String stopTimeText = stopTypeElement.getChild("stopTime").getText();
-                runner.stopTime = Double.parseDouble(stopTimeText);
-            } // if StopAtTime
-            else if (type.equalsIgnoreCase("StopOnEvent")) {
-                runner.stopType = StopType.STOP_ON_EVENT;
-                runner.stopEvent = stopTypeElement.getChild("stopEvent").getText();
-                String stopEventCountText = stopTypeElement.getChild("stopEventCount").getText();
-                runner.stopEventCount = Integer.parseInt(stopEventCountText);
-                Element signature = stopTypeElement.getChild("signature");
-                if (signature != null) {
-                    List classes = signature.getChildren("class");
-                    runner.stopEventSignature = new Class[classes.size()];
-                    for (int i = 0; i < runner.stopEventSignature.length; i++) {
-                        try {
-                            runner.stopEventSignature[i] = Class.forName(((Element) classes.get(i)).getText());
-                        } catch (ClassNotFoundException e) { System.err.println(e); }
-                    } // for
-                } // if signature == null
-                else {
-                    runner.stopEventSignature = new Class[0];
+                Element stopTimeNode = (Element) stopAtTimeNodeList.item(0);
+                stopTimeNode = (Element) stopTimeNode.getElementsByTagName("stopTime").item(0);
+                if (stopTimeNode != null) {
+                    runner.stopTime = Double.parseDouble(stopTimeNode.getFirstChild().getNodeValue());
                 }
-            } // if StopOnEvent
-            else if (type.equalsIgnoreCase("NoStopTime")) {
-                runner.stopType = StopType.NO_STOP_TYPE;
             }
             else {
-                runner.stopType = StopType.NO_STOP_TYPE;
+                NodeList stopOneEventNodeList = ((Element) stopNode).getElementsByTagName("StopOnEvent");
+                if (stopOneEventNodeList.getLength() > 0) {
+                    runner.stopType = StopType.STOP_ON_EVENT;
+                    Element stopEventNode = (Element) stopOneEventNodeList.item(0);
+                    if (stopEventNode != null) {
+                        runner.stopEvent = stopEventNode.getElementsByTagName("stopEvent").item(0).getFirstChild().getNodeValue();
+                    }
+                    Node stopEventCount = stopEventNode.getElementsByTagName("stopEventCount").item(0);
+                    if (stopEventCount != null) {
+                        runner.stopEventCount = Integer.parseInt(stopEventCount.getFirstChild().getNodeValue());
+                    }
+                    Element signatureNode = (Element) stopEventNode.getElementsByTagName("signature").item(0);
+                    if (signatureNode != null) {
+                        NodeList args = signatureNode.getElementsByTagName("class");
+                        runner.stopEventSignature = new Class[args.getLength()];
+                        for (int i = 0; i < args.getLength(); ++i) {
+                            try {
+                                runner.stopEventSignature[i] = Class.forName(args.item(i).getFirstChild().getNodeValue());
+                            } catch (ClassNotFoundException e) { e.printStackTrace(System.err); }
+                        }
+                    }
+                    else {
+                        runner.stopEventSignature = new Class[0];
+                    }
+                }
             }
         }
-        
         return runner;
     }
     
@@ -151,22 +142,21 @@ public class SimRunner implements Runnable {
     
     public static void main(String[] args) throws Throwable {
         
-        System.out.println("Testing with null Element:\n");
-        SimRunner.getSimRunner(null).run();
-
-        simkit.examples.ArrivalProcess arrival = 
-            new simkit.examples.ArrivalProcess(
-               RandomVariateFactory.getInstance("Exponential", new Object[] {new Double(1.7)}, 12345L));
+        simkit.examples.ArrivalProcess arrival =
+        new simkit.examples.ArrivalProcess(
+            simkit.random.RandomVariateFactory.getInstance(
+            "Exponential", new Object[] {new Double(1.7)}, 12345L));
         
         String filename = args.length > 0 ? args[0] : "Run1.xml";
         InputStream inStream = SimRunner.class.getResourceAsStream(filename);
-        SAXBuilder builder = new SAXBuilder();
-        Document doc = builder.build(inStream);
-        Element root = doc.getRootElement();
-        SimRunner runner = SimRunner.getSimRunner(root);
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(inStream);
+        
+        SimRunner runner = SimRunner.getSimRunner(document.getDocumentElement());
+        Schedule.setVerbose(true);
         System.out.println(runner);
         runner.run();
-        
     }
-    
 }
