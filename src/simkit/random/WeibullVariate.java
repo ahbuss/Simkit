@@ -1,5 +1,10 @@
 package simkit.random;
 
+/** Generate from the Weibull distribution having pdf:
+ * <BLOCKQUOTE>
+ * <i>f(x) = &alpha;x<sup>&alpha;-1</sup>&beta;<sup>-&alpha;</sup>e<sup>-(x/&beta;)<sup>&alpha;</sup></sup>, x > 0</i>
+ * </BLOCKQUOTE>
+ */
 public class WeibullVariate extends RandomVariateBase{
     private double alpha;
     private double alphaInverse;
@@ -7,9 +12,14 @@ public class WeibullVariate extends RandomVariateBase{
     
     public WeibullVariate() {
     }
+    
     public double generate() {
         return beta * Math.pow(- Math.log(rng.draw()), alphaInverse);
     }
+    
+    /**
+     * @param params (&alpha;, &beta;)
+     */    
     public void setParameters(Object[] params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Must bave two parameters for Weibull, "
@@ -52,5 +62,5 @@ public class WeibullVariate extends RandomVariateBase{
     }
     
     
-    public String toString() { return "Weibull (" + beta + ", " + alpha + ")"; }
+    public String toString() { return "Weibull (" + alpha + ", " +  beta+ ")"; }
 }
