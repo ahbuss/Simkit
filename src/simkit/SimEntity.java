@@ -81,11 +81,6 @@ public interface SimEntity extends Named,
    public void interrupt(String eventName, Object[] parameters);
    
 /**
- * Interrupt (cancel) the next pending event for this entity.
-**/   
-   public void interrupt();
-   
-/**
  * Interrupt (cancel) all pending events with name eventName
  * and interruption parameter array "parameters"
  * belonging to this object.
