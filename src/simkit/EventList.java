@@ -41,7 +41,7 @@ public class EventList {
 /**
  * The current simulation time.
  */
-    private double simTime;
+    protected double simTime;
     
 /**
  * The event currently being handled.
