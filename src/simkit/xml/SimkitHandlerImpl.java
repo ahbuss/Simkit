@@ -93,9 +93,10 @@ public class SimkitHandlerImpl implements SimkitHandler {
 
         // what is the rule on when you would use getNumberArrivals() vs. the var?
         eventBlock += "    "
-            + "firePropertyChange(" + '"' + meta.getValue("state")
+            + "firePropertyChange(" + '"' + meta.getValue("state") + '"'
             + ", " + "get" + capitalize(meta.getValue("state")) + "(),"
-            + " " + meta.getValue("transition") + " );"
+            + " " + "(" + meta.getValue("state") + " = " 
+            + meta.getValue("transition") + ") );"
             + '\n' ;
 
         // a run event also does some munging with the reset() method
@@ -163,7 +164,7 @@ public class SimkitHandlerImpl implements SimkitHandler {
         
         beanBlock += "public void" + " set" + capitalize(meta.getValue("name"))
             + "(" + meta.getValue("type") + " " + meta.getValue("shortName") + ") {" + '\n'
-            + "    " + "this." + meta.getValue("name") + " = value; "
+            + "    " + "this." + meta.getValue("name") + " = " + meta.getValue("shortName") + "; "
             + '\n' + "}" + '\n';
         
         // create the following method
