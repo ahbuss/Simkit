@@ -8,6 +8,7 @@ package simkit.test;
 import simkit.*;
 import simkit.random.*;
 import simkit.util.*;
+import simkit.examples.*;
 /**
  *
  * @author  ahbuss

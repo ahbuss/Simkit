@@ -6,6 +6,7 @@
 
 package simkit.test;
 import simkit.*;
+import simkit.examples.ArrivalProcess;
 import simkit.random.*;
 import simkit.stat.*;
 import java.beans.*;
