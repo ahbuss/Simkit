@@ -21,7 +21,8 @@ public class TestPooled {
         System.out.println(pooled);
         
         for (int i = 0; i < 20; i++) {
-            System.out.println(original.drawLong() + "\t" + pooled.drawLong());
+ //           System.out.println(original.drawLong() + "\t" + pooled.drawLong());
+            System.out.println(original.draw() + "\t" + pooled.draw());
         }
     }
 }
