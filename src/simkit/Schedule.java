@@ -68,7 +68,11 @@ public class Schedule  {
 * pause prior to processing each event.
 */
     public static boolean isSingleStep() { return defaultEventList.isSingleStep(); }
+    
+	public static boolean isPauseAfterEachEvent() { return defaultEventList.isPauseAfterEachEvent(); }
 
+	public static void setPauseAfterEachEvent(boolean b) { defaultEventList.setPauseAfterEachEvent(b);
+	}
 /**
 * True when a simulation is currently running.
 **/
@@ -266,5 +270,7 @@ public class Schedule  {
     public static void resetToOriginalEventList() {
         setDefaultEventList(getEventList(0));
     }
+    
+    
     
 } // class Schedule

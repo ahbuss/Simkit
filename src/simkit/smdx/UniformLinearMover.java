@@ -365,5 +365,13 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
      */
     public static String formatPoint(Point2D point) {
         return formatPoint(point, df);
-    }    
+    }
+    
+	public static void main(String[] args) {
+		Mover thePlatform =
+			new UniformLinearMover(
+				"Sensor Platform",
+				new Point2D.Double(0.0, 0.0),
+				10.0);
+	}
 }
