@@ -23,7 +23,7 @@ public class Stop extends SimEntityBase {
  *  Stop the simulation.
 **/
     public void doStop() {
-       Schedule.stopSimulation();
+       getEventList().stopSimulation();
     }
 
 /**
@@ -31,8 +31,8 @@ public class Stop extends SimEntityBase {
  *  reset by Schedule.reset() as well.
 **/
     public void doStopAndReset() {
-        Schedule.stopSimulation();
-        Schedule.reset();
+        getEventList().stopSimulation();
+        getEventList().reset();
     }
 
 /**

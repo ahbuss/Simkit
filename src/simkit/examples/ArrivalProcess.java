@@ -166,20 +166,47 @@ At time 100.0 there have been 2 arrivals
         ArrivalProcess arrivals =
             new ArrivalProcess(interarrivalTime);
         
+        arrivals.setEventListID(11);
+        
         System.out.println();
         System.out.println(arrivals);
         System.out.println("Simulation will end at time " + stopTime);
         System.out.println();
         
-        simkit.Schedule.setVerbose(true);
-        simkit.Schedule.setSingleStep(singleStep);
+        simkit.EventList eventList = simkit.Schedule.getEventList(11);
         
-        simkit.Schedule.stopAtTime(stopTime);
+        eventList.setVerbose(true);
+        eventList.setSingleStep(true);
+//        simkit.Schedule.setSingleStep(singleStep);
+        
+        eventList.stopAtTime(stopTime);
+        
+        eventList.reset();
+        eventList.startSimulation();
             
-        simkit.Schedule.reset();
-        simkit.Schedule.startSimulation();
-            
-        System.out.println("At time " + simkit.Schedule.getSimTime() + " there have been " +
+        System.out.println("At time " + eventList.getSimTime() + " there have been " +
             arrivals.getNumberArrivals() + " arrivals");
+        
+        int newID = simkit.Schedule.addNewEventList();
+        System.out.println(newID);
+        ArrivalProcess ap = new ArrivalProcess(arrivals.getInterArrivalTime());
+        ap.setEventListID(newID);
+        ap.getInterArrivalTime().getRandomNumber().resetSeed();
+        
+        simkit.EventList eventList2 = simkit.Schedule.getEventList(newID);
+        eventList2.stopAtTime(stopTime * 2 );
+        eventList2.setVerbose(true);
+        eventList2.reset();
+        eventList2.startSimulation();
+        
+        newID = 33;
+        eventList2 = simkit.Schedule.getEventList(newID);
+        ap.setEventListID(newID);
+        ap.getInterArrivalTime().getRandomNumber().resetSeed();
+        
+        eventList2.stopOnEvent("Arrival", 5 );
+        eventList2.setVerbose(true);
+        eventList2.reset();
+        eventList2.startSimulation();
     }
 }

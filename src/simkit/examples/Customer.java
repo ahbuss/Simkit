@@ -1,7 +1,7 @@
 package simkit.examples;
 import java.text.DecimalFormat;
 
-import simkit.Schedule;
+import simkit.*;
 /**
  * Represents a generic minimal entity.  Instances of Customer can be 
  * instantiated and used to represent customers (or jobs) being processed
@@ -28,10 +28,13 @@ public class Customer {
 **/
     private double timeStamp;
     
+    private SimEntity owner;
+    
 /**
 * Creates a new Customer at the current simulation time.
 **/
-    public Customer() {
+    public Customer(SimEntity owner) {
+        setOwner(owner);
         reset();
     }
     
@@ -41,13 +44,13 @@ public class Customer {
 * reused.
 */    
     public void reset() {
-        createdTime = Schedule.getSimTime();
+        createdTime = owner.getEventList().getSimTime();
         stampTime();
     }
     
     /** Saves the current time overwriting any previously saved time.
      */    
-    public void stampTime() { timeStamp = Schedule.getSimTime(); }
+    public void stampTime() { timeStamp = owner.getEventList().getSimTime(); }
     
     /**
      * Returns the last saved time.
@@ -66,7 +69,7 @@ public class Customer {
      * @return Elapsed simTime since this instance was created
      */    
     public double getTimeSinceCreated() { 
-        return Schedule.getSimTime() - getCreatedTime();
+        return owner.getEventList().getSimTime() - getCreatedTime();
     }
     
     /**
@@ -74,7 +77,7 @@ public class Customer {
      * @return Elapsed simTime since last time stamp.
      */    
     public double getTimeSinceStamp() {
-        return Schedule.getSimTime() - getTimeStamp();
+        return owner.getEventList().getSimTime() - getTimeStamp();
     }
     
     /**
@@ -84,6 +87,10 @@ public class Customer {
     public String toString() {
         return "Customer [" + form.format(getCreatedTime()) + ", " +
             form.format(getTimeStamp()) +"]";
+    }
+    
+    public void setOwner(SimEntity se) {
+        owner = se;
     }
     
 }

@@ -33,20 +33,26 @@ public class PropertyChangeFrame extends JFrame implements PropertyChangeListene
  *  The text containing the logs of property change events.
 **/
    protected JTextArea text;
+   
+   protected EventList eventList;
 
 /**
  *  Construct a PropertyChangeEvent
  *  @param r The java.awt.Rectangle determining the bounds of the PropertyChangeEvent
 **/
-   public PropertyChangeFrame(Rectangle r) {
+   public PropertyChangeFrame(Rectangle r, int eventListID) {
       this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       text = new JTextArea();
       text.setEditable(false);
       this.getContentPane().add(new JScrollPane(text), BorderLayout.CENTER);
       this.setBounds(r);
       this.setTitle("Property Change Frame");
+      this.setEventListID(eventListID);
    }
-
+   
+   public PropertyChangeFrame(Rectangle r) {
+       this(r, 0);
+   }
 /**
  *  Construct a PropertyChangeEvent with default bounds.
 **/
@@ -65,6 +71,10 @@ public class PropertyChangeFrame extends JFrame implements PropertyChangeListene
             " " + e.getPropertyName() +
           ": "  + e.getOldValue() + " -> " + e.getNewValue() + '\n');
       text.setCaretPosition(text.getText().length());
+   }
+   
+   public void setEventListID(int id) {
+       eventList = Schedule.getEventList(id);
    }
 
 } 

@@ -10,7 +10,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 
-import simkit.Schedule;
 import simkit.SimEntityBase;
 
 /**
@@ -31,14 +30,14 @@ public class TimeListener extends SimEntityBase implements PropertyChangeListene
     }
     
     public void doArrival(Integer customer) {
-        arrivalTimes.put(customer, new Double(Schedule.getSimTime()));
+        arrivalTimes.put(customer, new Double(eventList.getSimTime()));
     }
     
     public void doEndService(Integer customer) {
         Double arrivalTime = (Double) arrivalTimes.remove(customer);
         if (arrivalTime != null) {
             firePropertyChange("timeInSystem", 
-                Schedule.getSimTime() - arrivalTime.doubleValue() );
+                eventList.getSimTime() - arrivalTime.doubleValue() );
         }
     }
     
@@ -46,9 +45,9 @@ public class TimeListener extends SimEntityBase implements PropertyChangeListene
         Double arrivalTime = (Double) arrivalTimes.remove(customer);
         if (arrivalTime != null) {
             firePropertyChange("delayInQueue", 
-                Schedule.getSimTime() - arrivalTime.doubleValue() );
+                eventList.getSimTime() - arrivalTime.doubleValue() );
             firePropertyChange("delayInQueueRenege", 
-                Schedule.getSimTime() - arrivalTime.doubleValue() );
+                eventList.getSimTime() - arrivalTime.doubleValue() );
         }
     }
     
@@ -56,9 +55,9 @@ public class TimeListener extends SimEntityBase implements PropertyChangeListene
         if (evt.getPropertyName().equals("customer")) {
             Double arrivalTime = (Double) arrivalTimes.get(evt.getNewValue());
             if (arrivalTime != null) {
-                firePropertyChange("delayInQueue", Schedule.getSimTime() -
+                firePropertyChange("delayInQueue", eventList.getSimTime() -
                     arrivalTime.doubleValue());
-                firePropertyChange("delayInQueueServed", Schedule.getSimTime() -
+                firePropertyChange("delayInQueueServed", eventList.getSimTime() -
                     arrivalTime.doubleValue());
             }
         }

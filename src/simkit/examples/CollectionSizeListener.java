@@ -14,7 +14,7 @@ import simkit.SimEntityBase;
 public class CollectionSizeListener extends SimEntityBase implements PropertyChangeListener {
     
     public CollectionSizeListener() {
-        Schedule.removeRerun(this);
+        setPersistant(false);
     }
     
     public void propertyChange(PropertyChangeEvent e) {

@@ -136,5 +136,11 @@ public interface SimEntity extends Named,
  * cleared by Schedule between runs.
  */
   public boolean isPersistant();
+  
+  public void setEventListID(int id);
+  
+  public int getEventListID();
+  
+  public EventList getEventList();
 
 }

@@ -85,6 +85,8 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
 **/
     protected PropertyChangeDispatcher property;
 
+    protected EventList eventList;
+    
    /**
    * Construct a new BasicSimEntity with the given name and a default priority.
    * @param name The name of the BasicSimEntity.
@@ -99,14 +101,19 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
    * @param priority The priority assigned this BasicSimEntity. 
    * @see #setPriority(double)
    **/
-    public BasicSimEntity(String name, double priority) {
+    public BasicSimEntity(String name, double priority, int eventListID) {
         super();
         serial = ++nextSerial;
         setName(name);
         setPriority(priority);
         property = new PropertyChangeDispatcher(this);
         setPersistant(true);                    //TODO add constructor with persistant
-        Schedule.addRerun(this);
+        eventList = Schedule.getEventList(eventListID);
+        eventList.addRerun(this);
+    }
+    
+    public BasicSimEntity(String name, double priority) {
+        this(name, priority, 0);
     }
     
    /**
@@ -281,7 +288,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
 * Schedules an event.
 **/    
     protected void attemptSchedule(SimEvent event) {
-        Schedule.scheduleEvent(event);
+        eventList.scheduleEvent(event);
     }
     
     /**
@@ -289,7 +296,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      * value of the parameters. 
      **/
     public void interrupt(String eventName, Object[] parameters) {
-        Schedule.interrupt(this, eventName, parameters);
+        eventList.interrupt(this, eventName, parameters);
     }
     
     /**
@@ -304,14 +311,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      * Cancels the next event for this entity that matches the event name.
      **/
     public void interrupt(String eventName) {
-        Schedule.interrupt(this, eventName);
-    }
-    
-/**
-* Cancels the next event for this entity.
-**/
-    public void interrupt() {
-        Schedule.interrupt(this);
+        eventList.interrupt(this, eventName);
     }
     
     /**
@@ -319,7 +319,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      * value of the parameters. 
      **/
     public void interruptAll(String eventName, Object[] parameters) {
-        Schedule.interruptAll(this, eventName, parameters);
+        eventList.interruptAll(this, eventName, parameters);
     }
     
     /**
@@ -334,14 +334,14 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      * Cancels all events for this entity that match the event name.
      **/
     public void interruptAll(String eventName) {
-        Schedule.interruptAll(this, eventName);
+        eventList.interruptAll(this, eventName);
     }
     
 /**
 * Cancel all events for this entity.
 **/
     public void interruptAll() {
-        Schedule.interruptAll(this);
+        eventList.interruptAll(this);
     }
     
 /**
@@ -680,8 +680,24 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     public void setPersistant(boolean persist) {
         persistant = persist;
         if (!persistant) {
-            Schedule.removeRerun(this);
+            eventList.removeRerun(this);
         }
+    }
+    
+    public void setEventListID(int id) {
+        if (eventList != null) {
+            eventList.removeRerun(this);
+        }
+        eventList = Schedule.getEventList(id);
+        if (isPersistant()) {
+            eventList.addRerun(this);
+        }
+    }
+    
+    public int getEventListID() { return eventList.getID(); }
+    
+    public EventList getEventList() {
+        return eventList;
     }
     
 }

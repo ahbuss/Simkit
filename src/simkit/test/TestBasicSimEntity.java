@@ -48,11 +48,11 @@ public class TestBasicSimEntity {
         
         SimEventFactory.setVerbose(true);
         
-        Schedule.dump("Before reset()");
+        Schedule.getDefaultEventList().dump("Before reset()");
         
         Schedule.stopAtTime(20.0);
         Schedule.reset();
-        Schedule.dump("After reset()");
+        Schedule.getDefaultEventList().dump("After reset()");
 
         Schedule.startSimulation();
         

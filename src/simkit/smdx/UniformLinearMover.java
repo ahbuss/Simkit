@@ -2,7 +2,6 @@ package simkit.smdx;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import simkit.Schedule;
 import simkit.SimEntityBase;
 
 /**
@@ -10,6 +9,7 @@ import simkit.SimEntityBase;
  * parameters are protected with getters (like state variables) rather
  * than private with setters/getters.  This is because all parameters
  * (like max speed, etc) should not be changed after the object is instantiated.
+ * <p>Modifications made per recommendations of Alistair Dickie.
  * @author  Arnold Buss
  * @version $Id$
  */
@@ -121,18 +121,22 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     
     /**
      * If moving, determine actual location by use of the equation of
-     * motion.
+     * motion.  If stopped, return lastStopLocation, if not null.  Otherwise, 
+     * null will be returned.
      * @return Current location of this Mover
      */
     public Point2D getLocation() {
         if (isMoving()) {
             return new Point2D.Double(
-            lastStopLocation.getX() + (Schedule.getSimTime() - startMoveTime) * getVelocity().getX(),
-            lastStopLocation.getY() + (Schedule.getSimTime() - startMoveTime) * getVelocity().getY()
+            lastStopLocation.getX() + (eventList.getSimTime() - startMoveTime) * getVelocity().getX(),
+            lastStopLocation.getY() + (eventList.getSimTime() - startMoveTime) * getVelocity().getY()
             );
         }
-        else {
+        else if (lastStopLocation != null) {
             return (Point2D) lastStopLocation.clone();
+        }
+        else {
+            return null;
         }
     }
 // Javadoc inherited    
@@ -177,13 +181,18 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     
     /**
      * Returns a String containing the Name, current location, and current
-     * velocity of this Mover.
+     * velocity of this Mover, if initialized.
      */
     public String toString() {
         Point2D loc = getLocation();
-        return this.getName() + " (" + df.format(loc.getX()) + "," +
-        df.format(loc.getY()) +") [" + df.format(this.getVelocity().getX()) +
-        "," + df.format(this.getVelocity().getY()) + "]";
+        if (loc != null) {
+            return this.getName() + " (" + df.format(loc.getX()) + "," +
+                df.format(loc.getY()) +") [" + df.format(this.getVelocity().getX()) +
+                "," + df.format(this.getVelocity().getY()) + "]";
+        }
+        else {
+            return getName() + " - Not Initialized";
+        }
     }
     
     /**
@@ -203,12 +212,19 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         setMovementState(MovementState.STOPPED);
         lastStopLocation = (Point2D) originalLocation.clone();
         velocity  = new Point2D.Double();
-        startMoveTime = Schedule.getSimTime();
+        startMoveTime = eventList.getSimTime();
         destination = null;
     }
-// Javadoc inherited.    
+// Javadoc inherited.
+//    Returns <code>false</code> if velocity is <code>null</code>,
+//    per Alistair Dickie's suggestion.
     public boolean isMoving() {
-        return Math.abs(velocity.getX()) > 0.0 || Math.abs(velocity.getY()) > 0.0; 
+        if (velocity != null) {
+            return Math.abs(velocity.getX()) > 0.0 || Math.abs(velocity.getY()) > 0.0; 
+        }
+        else {
+            return false;
+        }
     }
     
     /**
@@ -231,7 +247,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         moveTime = distance / cruisingSpeed;
         velocity.setLocation((destination.getX() - lastStopLocation.getX()) / moveTime,
         (destination.getY() - lastStopLocation.getY())/moveTime);
-        startMoveTime = Schedule.getSimTime();
+        startMoveTime = eventList.getSimTime();
         waitDelay("StartMove", 0.0, new Object[] { this });
     }
 /**
@@ -254,7 +270,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         else {
             velocity.setLocation(ORIGIN);
         }
-        startMoveTime = Schedule.getSimTime();
+        startMoveTime = eventList.getSimTime();
         
         interrupt("EndMove", param);
     }
@@ -272,7 +288,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         }
         destination = null;
         lastStopLocation = getLocation();
-        startMoveTime = Schedule.getSimTime();
+        startMoveTime = eventList.getSimTime();
         velocity = desiredVelocity;
         waitDelay("StartMove", 0.0, param);
         setMovementState(MovementState.STARTING);

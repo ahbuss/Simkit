@@ -22,9 +22,9 @@ public class BivariateNormal implements RandomVector {
     public BivariateNormal() {
         rv = new RandomVariate[2];
         RandomNumber rng = RandomNumberFactory.getInstance();
-        rv[0] = RandomVariateFactory.getInstance("simkit.random.Normal",
+        rv[0] = RandomVariateFactory.getInstance("simkit.random.Normal03",
             new Object[] { new Double(0.0), new Double(1.0) }, rng);
-        rv[1] = RandomVariateFactory.getInstance("simkit.random.Normal",
+        rv[1] = RandomVariateFactory.getInstance("simkit.random.Normal03",
             new Object[] { new Double(0.0), new Double(1.0) }, rng);
     }
 
@@ -80,5 +80,23 @@ public class BivariateNormal implements RandomVector {
             val[i] = rv[i].generate();
         }
         return val;
+    }
+    
+    public void setCorrelation(double corr) {
+        if ( Math.abs( corr ) <= 1.0 ) {
+            correlation = corr;
+        }
+        else {
+            throw new IllegalArgumentException("Correlation  must be between -1.0 and " +
+                " 1.0: " + corr);
+        }
+    }
+    
+    public double getCorrelation() { return correlation; }
+    
+    public String toString() {
+        return "Bivariate Normal (" + rv[0] + ", " +
+            rv[1] + " " + getCorrelation() + ")";
+            
     }
 } 

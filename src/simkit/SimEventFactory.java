@@ -100,7 +100,7 @@ public class SimEventFactory {
         event.setWaitState(SimEventState.WAITING);
         event.setSerial(++eventSerializer);
         event.setID(eventSerializer);
-        event.setCreationTime(Schedule.getSimTime());
+        event.setCreationTime(source.getEventList().getSimTime());
 
         if (verbose) {
             System.out.print("\tEvent fetched from event pool, ");

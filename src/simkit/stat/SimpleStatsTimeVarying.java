@@ -1,11 +1,11 @@
 package simkit.stat;
 
-import simkit.Schedule;
+import simkit.*;
 
 /**
 * Basic class for collecting statistics on time varying properties.
 * The statistics calculated are time weighted. Automatically gets the
-* time of the observations from Schedule.
+* time of the observations from <CODE>EventList</CODE>.
 * <P>
 * Getting the mean, variance, or standard deviation will cause
 * a new observation to be added to account for the time since the last
@@ -42,12 +42,16 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats {
 **/
     private double startTime;
     
+    private EventList eventList;
+    
 /**
 * Constructs a new SimpleStatsTimeVarying with the given name.
 * @param name The name of the property to collect statistics for.
 **/
     public SimpleStatsTimeVarying(String name) {
         super(name);
+        setEventListID(0);
+        reset();
     }
     
 /**
@@ -64,25 +68,25 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats {
         if (count == 1 ) {
             mean = diff;
             variance = 0.0;
-        } else if (Schedule.getSimTime() > lastTime) {
-            double factor = 1.0 - (lastTime - startTime) / (Schedule.getSimTime() - this.startTime);
+        } else if (eventList.getSimTime() > lastTime) {
+            double factor = 1.0 - (lastTime - startTime) / (eventList.getSimTime() - this.startTime);
             mean += diff * factor;
             variance +=  factor * ( (1.0 - factor) * diff * diff - variance );
         }
         diff = x - mean;
-        this.lastTime = Schedule.getSimTime();
+        this.lastTime = eventList.getSimTime();
     }
     
 // Javadoc inherited.
     public double getMean() {
-        if (Schedule.getSimTime() > this.lastTime) {
+        if (eventList.getSimTime() > this.lastTime) {
             newObservation(diff + mean);
         }
         return mean;
     }
 // Javadoc inherited.
     public double getVariance() {
-        if (Schedule.getSimTime() > this.lastTime) {
+        if (eventList.getSimTime() > this.lastTime) {
             newObservation(diff + mean);
         }
         return variance;
@@ -106,7 +110,13 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats {
         diff = 0.0;
         mean = Double.NaN;
         variance = Double.NaN;
-        lastTime = Schedule.getSimTime();
-        startTime = Schedule.getSimTime();        
+        lastTime = eventList.getSimTime();
+        startTime = eventList.getSimTime();        
     }
+    
+    public void setEventListID(int id) {
+        eventList = Schedule.getEventList(id);
+    }
+    
+    public int getEventListID() { return eventList.getID(); }
 }

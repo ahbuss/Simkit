@@ -1,8 +1,11 @@
 package simkit;
 import java.util.*;
 import java.beans.*;
+import java.io.*;
+import java.text.*;
 /**
  * //TODO: add reallyVerbose and/or warn level scheme
+ * @version $Id$
  * @author  Arnold Buss
  */
 public class EventList {
@@ -39,14 +42,24 @@ public class EventList {
     
     private HashSet ignoreOnDump;
     
-    public EventList() {
+    private int id;
+    
+    private DecimalFormat form;
+    
+    private boolean pauseAfterEachEvent;
+    
+    public EventList(int id) {
         eventList = Collections.synchronizedSortedSet(new TreeSet(new SimEventComp()));
         simTime = 0.0;
         running = false;
         eventCounts = new HashMap();
         reRun = Collections.synchronizedSortedSet(new TreeSet(new SimEntityComparator()));
         ignoreOnDump = new HashSet();
+        this.id = id;
+        setFormat("0.0000");
     }
+    
+    public int getID() { return id; }
     
     public double getSimTime() { return simTime; }
     
@@ -57,6 +70,9 @@ public class EventList {
     public void setSingleStep(boolean b) {
         singleStep = b;
         setVerbose(singleStep);
+        if (isPauseAfterEachEvent()) {
+            setPauseAfterEachEvent(false);
+        }
     }
     
     public boolean isSingleStep() { return singleStep; }
@@ -66,6 +82,10 @@ public class EventList {
     public boolean isDumpEventSources() { return dumpEventSources; }
     
     public boolean isStopOnEvent() { return stopOnEvent; }
+    
+    public void setFormat(String format) {
+        form = new DecimalFormat(format);
+    }
     
     public int getNumberStopEvents() { return numberStopEvents; }
     
@@ -78,6 +98,15 @@ public class EventList {
     public String getStopEventName() { return stopEventName; }
     
     public synchronized SimEvent getCurrentSimEvent() { return currentSimEvent; }
+    
+    public void setPauseAfterEachEvent(boolean b) { 
+        pauseAfterEachEvent = b;
+        if (isPauseAfterEachEvent()) {
+            setSingleStep(false);
+        }
+    }
+    
+    public boolean isPauseAfterEachEvent() { return pauseAfterEachEvent; }
     
     public void reset() {
         clearEventList();
@@ -138,11 +167,21 @@ public class EventList {
     }
     
     public void stopAtTime(double time) {
+        stopAtTime = true;
+        stopOnEvent = false;
         stopTime = time;
         if (stopInstance == null) {
             stopInstance = new Stop();
+            stopInstance.setEventListID(getID());
+        }
+        else {
+            stopInstance.interruptAll("Stop", new Object[0]);
         }
         stopInstance.waitDelay("Stop", getStopTime() - getSimTime(), null, Double.NEGATIVE_INFINITY);
+    }
+    
+    public void stopOnEvent(String eventName, int numberEvents) {
+        stopOnEvent(eventName, new Class[0], numberEvents);
     }
     
     public void stopOnEvent(String eventName, Class[] signature, int numberEvents) {
@@ -192,7 +231,9 @@ public class EventList {
         
         if (isVerbose()) { dump("Starting Simulation"); }
         
-        if (isSingleStep()) { step(); }
+        if (isSingleStep()) { 
+            System.err.println("Press [Enter] for next step; (s)top, (g)o or (f)inish");
+        }
         
         while (!eventList.isEmpty() && isRunning()) {
             currentSimEvent = (SimEvent) eventList.first();
@@ -206,8 +247,9 @@ public class EventList {
                 simEntity.notifyListeners(currentSimEvent);
                 
                 if (isStopOnEvent()) { checkStopEvent(); }
-                if (isVerbose()) { dump(""); }
                 if (isSingleStep()) { step(); }
+                if (isVerbose()) { dump(""); }
+                if (isPauseAfterEachEvent()) { pause(); }
             }
             SimEventFactory.returnSimEventToPool(currentSimEvent);
             currentSimEvent = null;
@@ -215,10 +257,19 @@ public class EventList {
         running = false;
     }
     
-    //TODO
     public void step() {
+        while(true) {
+            try {
+                char response = (char) System.in.read();
+                if (  response == 's') { stopSimulation(); }
+                if (  response == 'g') { setSingleStep(false); setVerbose(true); }
+                if (  response == 'f') { setSingleStep(false); setVerbose(false);}
+                if (  response == '\n') { return;}
+            }
+            catch (IOException e) { System.err.println(); e.printStackTrace(System.err); }
+        }    
     }
-    //TODO: implement dump(String)
+
     public void dump(String reason) {
         System.out.println(getEventListAsString(reason));
     }
@@ -227,11 +278,23 @@ public class EventList {
         dump("");
     }
     
-    //TODO
     protected void updateEventCounts(SimEvent event) {
+        int[] serial = (int[]) eventCounts.get(event.getFullMethodName());
+        if (serial == null) {
+            serial = new int[] { 0 };
+            eventCounts.put(event.getFullMethodName(), serial);
+        }
+        synchronized(serial) {
+            serial[0]++;
+            event.setSerial(serial[0]);
+        }
     }
-    //TODO
+
     protected void checkStopEvent() {
+        if (isStopOnEvent() && currentSimEvent.getFullMethodName().equals(stopEventName) &&
+                currentSimEvent.getSerial() >= numberStopEvents) {
+            stopSimulation();
+        }
     }
     
     public void pause() {
@@ -347,14 +410,21 @@ public class EventList {
         StringBuffer buf = new StringBuffer();
         if (currentSimEvent != null) {
             buf.append("Time: ");
-            buf.append(getSimTime());
+            buf.append(form.format(getSimTime()));
             buf.append("\tCurrentEvent: ");
             buf.append(currentSimEvent.paramString());
+            buf.append(' ');
+            buf.append('[');
+            buf.append(currentSimEvent.getSerial());
+            buf.append(']');
             buf.append(SimEntity.NL);
         }
-        buf.append("** Event List -- ");
+        buf.append("** Event List ");
+        buf.append(getID());
+        buf.append(" -- ");
         buf.append(reason);
         buf.append(" **");
+
         buf.append(SimEntity.NL);
         if (eventList.isEmpty()) {
             buf.append("            << empty >>");

@@ -15,7 +15,7 @@ public class CustomerCreator extends SimEntityBase {
 * current simulation time.
 **/
     public void doArrival() {
-        waitDelay("Arrival", 0.0, new Customer());
+        waitDelay("Arrival", 0.0, new Customer(this));
     }
     
 }

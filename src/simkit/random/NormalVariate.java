@@ -3,23 +3,13 @@ package simkit.random;
 /** Generates Normal(mean, std) random variate using the
  * Box-Muller algorithm.
  * <p>Uses a constant number of RandomNumbers per draw.</p>
+ * <p> Removed saved value "feature" for better synchronization.
  *
  * @author Arnold Buss
  * @version $Id$
  */
 public class NormalVariate extends RandomVariateBase {
     
-/**
-* Stores the second value generated when a pair of values is generated.
-**/
-    private double savedValue;
-
-/**
-* True if the savedValue is a valid value to return on the next call to 
-* <code>generate</code>.
-**/
-    private boolean hasSavedValue;
-
 /**
 * The mean of this normal variate.
 **/
@@ -65,24 +55,16 @@ public class NormalVariate extends RandomVariateBase {
 **/
     public double generate() {
         double value = Double.NaN;
-        if (hasSavedValue) {
-            value = savedValue;
-            hasSavedValue = false;
-        }
-        else {
-            double w;
-            double v1;
-            double v2;
-            do {
-                v1 = 2.0 * rng.draw() - 1.0;
-                v2 = 2.0 * rng.draw() - 1.0;
-                w = v1 * v1 + v2 * v2;
-            } while (w > 1.0);
-            double y = Math.sqrt(-2.0 * Math.log(w) / w);
-            value = v1 * y;
-            savedValue = v2 * y;
-            hasSavedValue = true;
-        }
+        double w;
+        double v1;
+        double v2;
+        do {
+            v1 = 2.0 * rng.draw() - 1.0;
+            v2 = 2.0 * rng.draw() - 1.0;
+            w = v1 * v1 + v2 * v2;
+        } while (w > 1.0);
+        double y = Math.sqrt(-2.0 * Math.log(w) / w);
+        value = v1 * y;
         return value * sigma + mean;
     }
     

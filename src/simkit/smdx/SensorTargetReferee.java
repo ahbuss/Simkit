@@ -9,13 +9,8 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.*;
 
-import simkit.Schedule;
 import simkit.SimEntity;
 import simkit.SimEntityBase;
 
@@ -134,7 +129,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
                     this.addSimEventListener(mediator);
                 }
             }
-            if (Schedule.isRunning()) {
+            if (eventList.isRunning()) {
                 processSensor((Sensor) entity);
             }
         }
@@ -154,7 +149,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
                     this.addSimEventListener(mediator);
                 }
             }
-            if (Schedule.isRunning()) {
+            if (eventList.isRunning()) {
                 processTarget((Mover) entity);
             }
         }

@@ -185,7 +185,7 @@ public class SimEventImpl implements SimEvent, Serializable {
 * The simulation time at which this event is 
 * scheduled to occur.
 **/
-    public void setScheduledTime(double time) { scheduledTime = Schedule.getSimTime() + time; }
+    public void setScheduledTime(double time) { scheduledTime = getSource().getEventList().getSimTime() + time; }
 
 /**
 * The event priority is used to determine which event

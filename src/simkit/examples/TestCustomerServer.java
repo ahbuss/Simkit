@@ -28,10 +28,19 @@ public class TestCustomerServer {
         arrival.addSimEventListener(creator);
         creator.addSimEventListener(server);
         
+
         SimpleStatsTimeVarying niqStat = new SimpleStatsTimeVarying("numberInQueue");
         SimpleStatsTimeVarying nasStat = new SimpleStatsTimeVarying("numberAvailableServers");
         SimpleStatsTally diqStat = new SimpleStatsTally("delayInQueue");
         SimpleStatsTally tisStat = new SimpleStatsTally("timeInSystem");
+
+        int eventListID = 15;
+        arrival.setEventListID(eventListID);
+        creator.setEventListID(eventListID);
+        server.setEventListID(eventListID);
+        
+        niqStat.setEventListID(eventListID);
+        nasStat.setEventListID(eventListID);
         
         server.addPropertyChangeListener(niqStat);
         server.addPropertyChangeListener(nasStat);
@@ -43,17 +52,17 @@ public class TestCustomerServer {
         System.out.println(arrival);
         System.out.println(server);
         
-        Schedule.stopAtTime(1000.0);
+        Schedule.getEventList(eventListID).stopAtTime(1000.0);
         
-        Schedule.setVerbose(false);
+        Schedule.getEventList(eventListID).setVerbose(false);
         
-        Schedule.reset();
-        Schedule.startSimulation();
+        Schedule.getEventList(eventListID).reset();
+        Schedule.getEventList(eventListID).startSimulation();
         
         DecimalFormat form = new DecimalFormat("0.000");
 
         System.out.println();
-        System.out.println("Simulation ended at\t" + form.format(Schedule.getSimTime()));
+        System.out.println("Simulation ended at\t" + form.format(Schedule.getEventList(eventListID).getSimTime()));
         System.out.println("Number arrivals: \t" + arrival.getNumberArrivals());
         System.out.println("Number delays:   \t" + diqStat.getCount());
         System.out.println("Number served:   \t" + tisStat.getCount());

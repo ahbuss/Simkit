@@ -45,6 +45,7 @@ public class SimpleStatsTally extends AbstractSimpleStats {
  **/
     public SimpleStatsTally(String name) {
         super(name);
+        reset();
     }
 /**
  *  Update counters with a new observation.

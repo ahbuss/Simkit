@@ -71,7 +71,7 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
     public AbstractSimpleStats(String name) {
         this.setName(name);
         this.setFormat(DEFAULT_FORMAT);
-        this.reset();
+//        this.reset();
     }
 
 // Javadoc inherited from SampleStatistics.    
