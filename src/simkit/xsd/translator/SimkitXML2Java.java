@@ -67,6 +67,7 @@ public class SimkitXML2Java {
     }  
 
     public String translate(SimkitModuleElement sme) {
+
 	StringBuffer source = new StringBuffer();
 	StringWriter head = new StringWriter();
 	StringWriter tail = new StringWriter();
@@ -86,14 +87,24 @@ public class SimkitXML2Java {
     }
 
     void buildHead(SimkitModuleElement sme, StringWriter head) {
+
 	PrintWriter pw = new PrintWriter(head);
 	String name = sme.getName();
 	
-	pw.println("public class " + name + sp + bb);
+	pw.println("package examples;");
+	pw.println();
+	pw.println("import simkit.*;");
+	pw.println("import simkit.random.*;");
+	pw.println("import java.util.*;");
+	pw.println();
+	pw.println("public class " + name + sp + "extends SimEntityBase" + sp + bb);
+	pw.println();
     }
 
     void buildVars(SimkitModuleElement sme, StringWriter vars) {
+
 	PrintWriter pw = new PrintWriter(vars);
+	boolean gap = true;
 
 	java.util.List variableDeclarations = sme.getVariableDeclarations();
 	java.util.ListIterator li = variableDeclarations.listIterator();
@@ -113,6 +124,11 @@ public class SimkitXML2Java {
 	    } else if ( o instanceof StateVariableType ) {
 
 		StateVariableType s = (StateVariableType) o;
+
+		if (gap) { 
+		    pw.println();
+		    gap = false;
+		}
 
 		pw.println(nl + sp4 + "protected" + sp + s.getType() + sp + s.getName() + sc);
 
