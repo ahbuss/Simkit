@@ -26,3 +26,11 @@ click on it.  Click Add/Remove.
 
 When you uninstall Simkit the AUTOEXEC.BAT entry or the environment variables
 will not be removed; you should remove them manually.
+
+Compilation Instructions
+----------- ------------
+
+If you have the source files, there sould be a file called build.bat (for Windows)
+or a file called build.sh (for Unix and Unix-like systems).  Executing this script will
+compile and build a simsystem.zip file in a dierctory called simsystem.  After executing
+the script, put the simsystem.zip file on your classpath.
