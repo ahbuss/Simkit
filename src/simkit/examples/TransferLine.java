@@ -43,7 +43,7 @@ public class TransferLine extends SimEntityBase {
     protected int numberArrivals;
 
 /**
-* The total number served by the system. (The number servered by the
+* The total number served by the system. (The number served by the
 * last station.)
 **/
     protected int numberServed;
@@ -72,6 +72,10 @@ public class TransferLine extends SimEntityBase {
         for (int i = 0; i < serviceTime.length; i++) {
             this.serviceTime[i] = RandomVariateFactory.getInstance(serviceTime[i]);
         }
+        numberInQueue = new int[numberServersAtStation.length];
+        numberAvailableServers = (int[]) numberServersAtStation;
+        numberArrivals = 0;
+        numberServed = 0;
     }
 
 /**
@@ -152,6 +156,20 @@ public class TransferLine extends SimEntityBase {
             firePropertyChange("numberServed", ++numberServed);
         }
     }
+
+/**
+* Returns the number of arrivals into the system.
+**/
+   public int getNumberArrivals() {
+      return numberArrivals;
+   }
+
+/**
+* Returns the number served by the system. (The number served by the last server.)
+*/
+   public int getNumberServed() {
+      return numberServed;
+   }
 
 /**
 * Returns a String with information about this TransferLine.
