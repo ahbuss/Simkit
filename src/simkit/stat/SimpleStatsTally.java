@@ -1,24 +1,14 @@
 package simkit.stat;
 
-/**
- *	<P> A class for collecting data on the fly and reporting basic
- *	summary statistics.
- *
- *  <P> 09 August 2000 - Modified per Paul Sanchez' algorithm
- *
- *	@author Arnie Buss
-**/
-
-import java.text.*;
+import java.text.DecimalFormat;
 import simkit.*;
-import java.beans.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
-public class SimpleStats2 implements Named,
-                                    SampleStatistics, 
-                                    PropertyChangeListener {
+public class SimpleStatsTally implements SampleStatistics, PropertyChangeListener {
 
-    private static String DEFAULT_NAME = "unnamed";
-    private static SamplingType DEFAULT_SAMPLING_TYPE = SamplingType.TALLY;
+    private static String DEFAULT_NAME = "%unnamed%";
+    private static String DEFAULT_FORMAT = " 0.0000;-0.0000";
 
     private int count;
     private double mean;
@@ -26,31 +16,17 @@ public class SimpleStats2 implements Named,
     private double minObs;
     private double maxObs;
     private double diff;
-    
+
     private double lastTime;
     private double startTime;
 
     private String name;
-    private SamplingType samplingType;
-
     private DecimalFormat df;
 
-    public SimpleStats2(String name, SamplingType type) {
-        this.setName(name);
-        this.setSamplingType(type);
-        setFormat(" 0.0000;-0.0000");
-    }
-
-    public SimpleStats2(String name) {
-        this(name, DEFAULT_SAMPLING_TYPE);
-    }
-
-    public SimpleStats2(SamplingType type) {
-        this(DEFAULT_NAME, type);
-    }
-
-    public SimpleStats2() {
-        this(DEFAULT_NAME, DEFAULT_SAMPLING_TYPE);
+    public SimpleStatsTally() {
+        this.setFormat(DEFAULT_FORMAT);
+        this.setName(DEFAULT_NAME);
+        this.reset();
     }
 
     public void newObservation(double x) {
@@ -59,17 +35,9 @@ public class SimpleStats2 implements Named,
         maxObs = (x > maxObs) ? x : maxObs;
 
         count++;
-        if (samplingType == SamplingType.TIME_VARYING) {
-            double ratio = Schedule.getSimTime() > 0.0 ? lastTime / Schedule.getSimTime() : 0.0;
-            variance =  ratio * ( variance + (1.0 - ratio) * diff * diff);
-            mean += (1.0 - ratio) * diff;
-        }
-        lastTime = Schedule.getSimTime();
         diff = x - mean;
-        if (samplingType == SamplingType.TALLY) {
-            variance += (count == 1) ? 0.0 : diff * diff / count - 1.0 / (count - 1) * variance;
-            mean += diff / count;
-        }
+        variance += (count == 1) ? 0.0 : diff * diff / count - 1.0 / (count - 1) * variance;
+        mean += diff / count;
     }
 
     public void newObservation(Number x) { this.newObservation( x.doubleValue() ); }
@@ -91,11 +59,9 @@ public class SimpleStats2 implements Named,
     public void setName(String newName) { this.name = newName; }
     public String getName() { return name; }
 
-    public SamplingType getSamplingType() { return samplingType; }
-    public void setSamplingType(SamplingType type) {
-        samplingType = type;
-        reset();
-    }
+    public SamplingType getSamplingType() { return SamplingType.TALLY; }
+
+    public void setSamplingType(SamplingType type) {  }
 
     public void propertyChange(PropertyChangeEvent event) {
         if (this.getName().equals(event.getPropertyName()) ){
@@ -110,26 +76,25 @@ public class SimpleStats2 implements Named,
         variance = 0.0;
         minObs = Double.POSITIVE_INFINITY;
         maxObs = Double.NEGATIVE_INFINITY;
-        lastTime = Schedule.getSimTime();
-        startTime = Schedule.getSimTime();
     }
 
     public String toString() {
         StringBuffer buf = new StringBuffer();
         buf.append(getName());
+        buf.append(' ');
         buf.append('(');
         buf.append(this.getSamplingType());
         buf.append(")\n");
         buf.append(getCount());
-        buf.append("  ");
+        buf.append(' ');
         buf.append(df.format(getMinObs()));
-        buf.append("  ");
+        buf.append(' ');
         buf.append(df.format(getMaxObs()));
-        buf.append("  ");
+        buf.append(' ');
         buf.append(df.format(getMean()));
-        buf.append("  ");
+        buf.append(' ');
         buf.append(df.format(getVariance()));
-        buf.append("  ");
+        buf.append(' ');
         buf.append(df.format(getStandardDeviation()));
 
         return buf.toString();
