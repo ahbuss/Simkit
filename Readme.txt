@@ -25,7 +25,18 @@ Compilation Instructions
 ----------- ------------
 
 If you have the source files, there sould be an Ant build file called build.xml.  
-Executing the compile task will create a shiny new simkit.jar file in a
-build directory.  The source files should be supplied with the distribution
+Executing the dist target ("ant dist" on the command line) will create all 
+the necessary files in a "dist" directory.  The important file is simkit.jar, 
+that should be put on the classpath of any Java application that uses it.
+The source files should be supplied with the distribution
 in a file called simkit-src.jar, and can be unpacked with the jar tool or 
 with any zip application (e.g. WinZip).
+
+The key Ant targets are as follows:
+
+clean - deletes build and dist directories, and their contents
+compile - compiles the classes to the build directory
+jar - creates simkit.jar in the build directory
+doc - generates the javadoc in build/doc
+jar.source - creates simkit-src.jar file of all Simkit's source files
+dist - puts all of the files in a dist directory
