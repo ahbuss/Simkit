@@ -2,7 +2,6 @@ package simkit.smdx;
 
 import java.util.*;
 import simkit.*;
-import simkit.smd.*;
 import java.awt.geom.*;
 
 /**
@@ -12,9 +11,9 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     
     private static final double EPSILON = 1.0E-10;
     
-    private List wayPoints;
+    protected List wayPoints;
     private Mover mover;
-    private Iterator nextWayPoint;
+    protected Iterator nextWayPoint;
     private boolean startOnReset;
     
     /**
