@@ -8,7 +8,7 @@ package simkit.random;
 
 /**
  *
- * @author  ahbuss
+ * @author  Arnold Buss
  * @version 
  */
 public class InverseGaussianVariate extends simkit.random.RandomVariateBase {
