@@ -622,9 +622,27 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      * name (Entity Priority)
      **/ 
     public String toString() {
-        return this.getName() + ' ' + '(' + getPriority() + ')';
-    }
-        
+        StringBuffer buf = new StringBuffer(this.getName());
+        try {
+            BeanInfo info = Introspector.getBeanInfo( this.getClass(), simkit.BasicSimEntity.class );
+            PropertyDescriptor[] descriptors = info.getPropertyDescriptors();
+            for (int i = 0; i < descriptors.length; ++i) {
+                Method readMethod = descriptors[i].getReadMethod();
+                Method writeMethod = descriptors[i].getWriteMethod();
+                if (writeMethod != null && readMethod != null) {
+                    buf.append(System.getProperty("line.separator"));
+                    buf.append('\t');
+                    buf.append( descriptors[i].getName() );
+                    buf.append(" = ");
+                    buf.append( readMethod.invoke(this, null));
+                }
+            }
+        } 
+        catch (IntrospectionException e) { e.printStackTrace(System.err);  }
+        catch (IllegalAccessException e) { e.printStackTrace(System.err);  }
+        catch (InvocationTargetException e) { e.getTargetException().printStackTrace(System.err);  }
+        return buf.toString();
+    }        
     /**  
      * Gets an array of all registered PropertyChangeListeners.
      * @return array of PropertyChangeListeners
