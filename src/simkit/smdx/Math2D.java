@@ -485,13 +485,17 @@ public class Math2D {
         coeff[3] = add(add(cubicCurve.getP1(), scalarMultiply(3.0, subtract(cubicCurve.getCtrlP1(), cubicCurve.getCtrlP2()))), cubicCurve.getP2());
         return coeff;
     }
-    
+    /**
+     * Returns a Point2D whose vector length is equal to scale.
+     */
     public static Point2D scaleTo(Point2D point, double scale) {
         return Math2D.scalarMultiply(scale / Math2D.norm(point), point);
     }
     
     /**
-     *  Assumes Linear Mover
+     *  Computes the Point2D at which the pursuer will intersect the 
+     *  target when the pursuer moves at the given speed.
+     *  (Assumes Linear Mover).
      */
     public static Point2D getIntercept(Mover pursuer, double speed, Mover target) {
         Point2D intercept = null;
@@ -537,6 +541,10 @@ public class Math2D {
         return intercept;
     }
     
+    /**
+     * Computes the intersection point when the pursuer goes at 
+     * maximum speed.
+     */
     public static Point2D getIntercept(Mover pursuer, Mover target) {
         return getIntercept(pursuer, pursuer.getMaxSpeed(), target);
     }
@@ -555,7 +563,9 @@ public class Math2D {
         return getInterceptVelocity(pursuer, pursuer.getMaxSpeed(), target);
     }
 /**
-* @deprecated Doesn't work (yet).
+ * Computes the point at which the pursuer is within the given range of 
+ * the target.  If the pursuer is already within range, the pursuer's
+ * current position is returned.
 **/
     public static Point2D getIntercept(Mover pursuer, double speed, double range, Mover target) {
         Point2D relativePursuerLocation = Math2D.subtract(target.getLocation(), pursuer.getLocation());
