@@ -113,8 +113,8 @@ public class SimRunner implements Runnable {
         else if (stopType == StopType.STOP_ON_EVENT) {
             Schedule.stopOnEvent(stopEvent, stopEventSignature, stopEventCount);
         }
-        Schedule.setVerbose(verbose);
         Schedule.setSingleStep(singleStep);
+        Schedule.setVerbose(verbose);
         
         for (int i = 0; i < numberReplications; i++) {
             Schedule.reset();
@@ -164,8 +164,9 @@ public class SimRunner implements Runnable {
             simkit.random.RandomVariateFactory.getInstance(
             "Exponential", new Object[] {new Double(1.7)}, 12345L));
         
-        String filename = args.length > 0 ? args[0] : "Run1.xml";
-        InputStream inStream = SimRunner.class.getResourceAsStream(filename);
+        String filename = args.length > 0 ? args[0] : "simkit/xml/Run1.xml";
+        InputStream inStream = 
+            Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
