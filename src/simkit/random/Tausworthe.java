@@ -90,14 +90,6 @@ public class Tausworthe implements RandomNumber {
         setSeed(seed[0]);
     }
     
-    public Object clone() {
-        Object copy = null;
-        try {
-            copy = super.clone();
-        } catch (CloneNotSupportedException e) {}
-        return copy;
-    }
-    
 /**
 * Returns a String containing the name of this RandomNumber with the current seed.
 **/

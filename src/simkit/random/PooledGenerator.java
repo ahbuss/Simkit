@@ -82,20 +82,7 @@ public class PooledGenerator implements RandomNumber {
         
         return (seeds[0] ^ seeds[1]) ;
     }
-    /**
-     *  @return a copy of the RandomVariate instance.
-     **/
-    
-    public Object clone() {
-        try {
-            RandomNumber copy =  (RandomNumber) super.clone();
-            copy.setSeeds(this.seeds);
-            return copy;
-        } catch (CloneNotSupportedException e) {}
-        finally {}
-        return null;
-    }
-    
+
     public String toString() {
         StringBuffer buf = new StringBuffer("Pooled Generator (");
         for (int i = 0; i < seeds.length; i++) {

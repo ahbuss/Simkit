@@ -82,16 +82,7 @@ public class Antithetic implements RandomNumber {
     
 //javadoc inherited.
     public long[] getSeeds() { return delegate.getSeeds(); }
-    
-//javadoc inherited.
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        finally{}
-        return null;
-    }
-    
+
 /**
 * Returns a String containing the name of this RandomNumber.
 **/

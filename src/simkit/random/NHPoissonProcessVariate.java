@@ -136,7 +136,7 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
      * @param rng The RandomNumber instance supporting the generating algorithm
      */
     public void setRandomNumber(RandomNumber rng) {
-        this.rng = (RandomNumber) rng.clone();
+        this.rng = rng;
     }
     
 /**

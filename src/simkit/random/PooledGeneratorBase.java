@@ -100,18 +100,6 @@ public abstract class PooledGeneratorBase implements Pooled {
         throw new IllegalArgumentException("Set Seeds in first or second RandomNumber");
     }
     
-    /** Subclasses that have non-primitive instance variables
-     * should override this to be sure that clean copies are
-     * likewise made.
-     * @return Deep copy, with copies of <code>first</code> and <code>second</code>
-     */    
-    public Object clone() {
-        PooledXORGenerator copy = new PooledXORGenerator();
-        copy.setFirst((RandomNumber) first.clone());
-        copy.setSecond((RandomNumber) second.clone());
-        return copy;
-    }
-    
 /**
 * Returns a String that contains the name of this pooled generator with information
 * about the two pooled RandomNumbers.

@@ -217,14 +217,7 @@ public class MersenneTwister implements RandomNumber {
     public String toString() {
         return "Mersenne Twister";
     }
-    
-    public Object clone() {
-        Object copy = null;
-        try {
-            copy = super.clone();
-        } catch (CloneNotSupportedException e) {}
-        return copy;
-    }
+
     /**
      * This main() outputs first 1000 generated numbers
      */

@@ -1,9 +1,3 @@
-/*
- * Mother.java
- *
- * Created on October 10, 2002, 2:20 PM
- */
-
 package simkit.random;
 
 /**
@@ -114,15 +108,7 @@ public class Mother implements RandomNumber {
         originalX = (long[]) x.clone();
         originalResult = result;
     }
-    
-    public Object clone() {
-        Object copy = null;
-        try {
-            copy = super.clone();
-        } catch (CloneNotSupportedException e) {}
-        return null;
-    }
-    
+
 /**
 * Returns "Mother of All Generators"
 **/

@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @author Arnold Buss
  * @version $Id$
 **/
-public interface RandomNumber extends java.io.Serializable, Cloneable {
+public interface RandomNumber extends java.io.Serializable {
 
 /**
   * Set the random number seed for this RandomNumber.
@@ -48,12 +48,6 @@ public interface RandomNumber extends java.io.Serializable, Cloneable {
   * @return  The next Uniform(0, 1) random number
 **/
     public double draw();
-    
-    /**
-     * Makes a deep copy.
-     * @return Deep copy of this instance
-     */    
-    public Object clone();
     
     /**
      * Draws a random number and returns it as an integer.

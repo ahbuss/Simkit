@@ -58,17 +58,6 @@ public class Sequential implements RandomNumber {
     public double draw() {
         return drawLong() * MULTIPLIER;
     }
-    /**
-     *  @return a copy of the RandomVariate instance;
-     **/
-    
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        finally {}
-        return null;
-    }
     
 /**
 * Increments the seed and returns its new value. Wraps around at

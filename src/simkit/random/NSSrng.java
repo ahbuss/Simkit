@@ -255,18 +255,6 @@ public class NSSrng implements RandomNumber {
         return INVERSE;
     }
     
-    /**
-     * Creates a copy of the current instance.
-     * @return copy of current instance with same seeds.
-     */
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        finally{}
-        return null;
-    }
-    
 /**
 * Returns a String containing information about NSSrng, including the starting seed.
 **/

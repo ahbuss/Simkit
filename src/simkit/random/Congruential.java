@@ -86,18 +86,6 @@ public class Congruential implements RandomNumber {
         return Math.abs((double) drawLong() * MULT);
     }
     
-    /**
-     * Creates a copy of the current instance.
-     * @return copy of current instance with same seeds.
-     */    
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        finally{}
-        return null;
-    }
-    
 /**
 * Returns a String containing the type of generator and the current seed.
 **/
