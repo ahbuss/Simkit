@@ -23,7 +23,7 @@ public class UniformSampleVariate extends simkit.random.RandomVariateBase {
      * Generate a random variate having this class's distribution.
  */
     public double generate() {
-        return 0.0;
+        return sample[(int) (sample.length * rng.draw())];
     }
     
     /**
@@ -47,8 +47,22 @@ public class UniformSampleVariate extends simkit.random.RandomVariateBase {
             sample = (double[]) ((double[]) params[0]).clone();
         }
         else if (params[0] instanceof int[]) {
-            sample = (double[]) ((int[])params[0]).clone();
+            sample = new double[((int[])params[0]).length];
+            for (int i = 0; i < sample.length; i++) {
+                sample[i] = (double) ((int[])params[0])[i];
+            }
         }
     }
     
+    public String toString() {
+        StringBuffer buf = new StringBuffer("Uniform Sample Distribution\n{");
+        for (int i = 0; i < sample.length; i++ ) {
+            buf.append(sample[i]);
+            buf.append(',');
+            buf.append(' ');
+            if (i % 20 == 19) { buf.append('\n'); }
+        }
+        buf.append('}');
+        return buf.toString();
+    }
 }
