@@ -85,6 +85,11 @@
         	<include name="**/*.dtd"/>
             </fileset>
         </copy>
+        <copy todir="${dir.build}">
+            <fileset dir="${dir.src}">
+                <include name="*.txt" />
+            </fileset>
+        </copy>
     </target>
     
 <!--  === TARGET: jar === -->
@@ -109,7 +114,7 @@
     
 <!-- === TARGET: jar.source === -->
     <target depends="build.init" name="jar.source">
-        <jar excludes="**/*.class" jarfile="${dir.build}\simkit-src.jar">
+        <jar excludes="**/*.class" jarfile="${dir.build}/simkit-src.jar">
             <fileset dir="${dir.src}">
                 <exclude name="build/**/*"/>
                 <exclude name="dist/**/*"/>
@@ -137,9 +142,14 @@
 		<copy todir="${dir.dist}/lib">
 			<fileset dir="${dir.lib}"/>
 		</copy>
-                <copy todir="${dir.dist}" file="${dir.build}/simkit-src.jar" />
+                <copy file="${dir.build}/simkit-src.jar" todir="${dir.dist}"/>
                 <copy todir="${dir.dist}/gnu">
-                    <fileset dir="${dir.src}/gnu" />
+                    <fileset dir="${dir.src}/gnu"/>
+                </copy>
+                <copy todir="${dir.dist}">
+                    <fileset dir="${dir.build}">
+                        <include name="*.txt"/>
+                    </fileset>
                 </copy>
 	</target>
 </project>
