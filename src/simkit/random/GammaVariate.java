@@ -2,6 +2,10 @@ package simkit.random;
 
 /** Generates Gamma(alpha, beta) random variates using
  * Acceptance/Rejection method
+ * Parameterized as in Law and Kelton, so that mean = &alpha;&beta;
+ * and variance = &alpha;&beta;<sup>2</sup> and density:<br>
+ * <i>f(x) = &beta;<sup>&alpha;</sup>x<sup>-(&alpha;+1)</sup>e<sup>-&beta;x</sup>/&Gamma;(&alpha;), x > 0</i>
+ * (0, otherwise)
  * @author Arnold Buss
  */
 public class GammaVariate extends RandomVariateBase {
@@ -25,9 +29,8 @@ public class GammaVariate extends RandomVariateBase {
     public GammaVariate() {
     }
 
-    /** Parameterized as in Law and Kelton, so that mean = alpha * beta
-     * and variance = alpha * beta^2
-     * @param params elements are (alpha, beta)
+    /** 
+     * @param params elements are (&alpha;, &beta;)
      */    
     public void setParameters(Object[] params) {
         if (params.length != 2) {
@@ -45,7 +48,7 @@ public class GammaVariate extends RandomVariateBase {
     }
     
     /**
-     * @return (alpha, beta) as elements
+     * @return (&alpha;, &beta;) as elements
      */    
     public Object[] getParameters() { return new Object[] { new Double(alpha), new Double(beta) }; }
     
@@ -117,7 +120,7 @@ public class GammaVariate extends RandomVariateBase {
             alpha = a;
         }
         else {
-            throw new IllegalArgumentException("Alpha parameter must be > 0.0");
+            throw new IllegalArgumentException("Alpha parameter must be > 0.0: " + a);
         }
     }
 
@@ -126,7 +129,7 @@ public class GammaVariate extends RandomVariateBase {
             beta = b;
         }
         else {
-            throw new IllegalArgumentException("Beta parameter must be > 0.0");
+            throw new IllegalArgumentException("Beta parameter must be > 0.0: " + b);
         }
     }
     public double getAlpha() {return alpha;}
