@@ -197,7 +197,7 @@ public class SimkitXML2Java {
 	pw.println();
 	pw.println(sp4 + "/** Creates a new instance of " + this.root.getName() + " */");
 	pw.println();
-	pw.print(sp4 + "public " + this.root.getName() + "(");
+	pw.print(sp4 + "public " + this.root.getName() + lp);
 
 	List pList = this.root.getParameter();
 	li = this.root.getParameter().listIterator();
@@ -217,7 +217,7 @@ public class SimkitXML2Java {
 	    }
 	}
 
-	pw.println(") {");
+	pw.println(rp + sp + ob);
 	pw.println();
 
 	li = this.root.getParameter().listIterator();
@@ -284,6 +284,8 @@ public class SimkitXML2Java {
 	ListIterator ai = args.listIterator();
 	List locs = e.getLocalVariable();
 	ListIterator lci = locs.listIterator();
+	List sched = e.getScheduleOrCancel();
+	ListIterator schi = sched.listIterator();
 
 	pw.print(sp4 + "public void do" + e.getName() + lp); 
 
@@ -319,13 +321,127 @@ public class SimkitXML2Java {
 	    } else {
 		pw.println(sp + eq + sp + asg.getValue() + sc);
 	    }
-	    pw.print(sp8 + "firePropertyChange(" + qu + sv.getName() + qu + cm + sp);
+	    pw.print(sp8 + "firePropertyChange" + lp + qu + sv.getName() + qu + cm + sp);
 	    pw.println(sv.getName() + rp + sc);
+	    pw.println();
 
+	}
+
+	// wailDelay/interrupt
+	while ( schi.hasNext() ) {
+	    Object o = schi.next();
+	    if ( o instanceof ScheduleType ) {
+		doSchedule((ScheduleType)o,e,pw);
+	    } else {
+		doCancel((CancelType)o,e,pw);
+	    }
 	}
 
 	pw.println(sp4 + cb);
 	pw.println();
+	
+    }
+
+    void doSchedule(ScheduleType s, Event e, PrintWriter pw) {
+	List edges = s.getEdgeParameter();
+	ListIterator ei = edges.listIterator();
+	Class c = null;
+	String condent = "";
+	
+	if ( s.getCondition() != null ) {
+	    condent = sp4;
+	    pw.println(sp8 + "if" + sp + lp + s.getCondition() + rp + sp + ob);
+	}	
+
+	pw.print(sp8 + condent + "waitDelay" + lp + qu + e.getName() + qu + cm);
+	pw.print(s.getDelay() + cm + "new Object[]" + ob);
+	
+	while ( ei.hasNext() ) {
+	    EdgeParameterType ep = (EdgeParameterType) ei.next();
+	    try {
+	        c = Class.forName(ep.getType()); 
+	    } catch ( ClassNotFoundException cnfe ) {
+		// most likely a primitive type
+		String type = ep.getType();
+		String constructor = "new" + sp;
+		if (type.equals("int")) {
+		    constructor+="Integer";
+		} else if (type.equals("float")) {
+		    constructor+="Float";
+		} else if (type.equals("double")) {
+		    constructor+="Double";
+		} else if (type.equals("long")) {
+		    constructor+="Long";
+		} else if (type.equals("boolean")) {
+		    constructor+="Boolean";
+		}
+		pw.print(constructor + lp + ep.getValue() + rp);
+	    }
+	    if (c != null) {
+		pw.print(ep.getValue());
+	    }
+	    
+	    if ( edges.size() > 1 && edges.indexOf(ep) < edges.size() - 1 ) {
+	        pw.print(cm);
+	    }
+
+	}
+	pw.println(cb + cm + s.getPriority() + rp + sc);
+	
+	if ( s.getCondition() != null ) {
+	    pw.println(sp8 + cb);
+	}
+    }
+
+    void doCancel(CancelType c, Event e, PrintWriter pw) {
+	List edges = c.getEdgeParameter();
+	ListIterator ei = edges.listIterator();
+	Class cl = null;
+	String condent = "";
+	
+	if ( c.getCondition() != null ) {
+	    condent = sp4;
+	    pw.println(sp8 + "if" + sp + lp + c.getCondition() + rp + sp + ob);
+	}	
+
+	pw.print(sp8 + condent + "interrupt" + lp + qu + e.getName() + qu + cm);
+	pw.print("new Object[]" + ob);
+
+	while ( ei.hasNext() ) {
+	    EdgeParameterType ep = (EdgeParameterType) ei.next();
+	    try {
+	        cl = Class.forName(ep.getType()); 
+	    } catch ( ClassNotFoundException cnfe ) {
+		// most likely a primitive type
+		String type = ep.getType();
+		String constructor = "new" + sp;
+		if (type.equals("int")) {
+		    constructor+="Integer";
+		} else if (type.equals("float")) {
+		    constructor+="Float";
+		} else if (type.equals("double")) {
+		    constructor+="Double";
+		} else if (type.equals("long")) {
+		    constructor+="Long";
+		} else if (type.equals("boolean")) {
+		    constructor+="Boolean";
+		}
+		pw.print(constructor + lp + ep.getValue() + rp);
+	    }
+	    if (cl != null) {
+		pw.print(ep.getValue());
+	    }
+	    
+	    if ( edges.size() > 1 && edges.indexOf(ep) < edges.size() - 1 ) {
+	        pw.print(cm);
+	    }
+
+	}
+	pw.println(cb + rp + sc);
+	
+	if ( c.getCondition() != null ) {
+	    pw.println(sp8 + cb);
+	}
 	
     }
 
