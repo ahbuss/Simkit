@@ -63,8 +63,8 @@ public class SimpleStats implements Named,
       minObs = Double.POSITIVE_INFINITY;
       maxObs = Double.NEGATIVE_INFINITY;
 //      lastObs = Double.NaN;   // not sure about this...
-      lastTime = Schedule.simTime();
-      startTime = Schedule.simTime();
+      lastTime = Schedule.getSimTime();
+      startTime = Schedule.getSimTime();
    }
    
    /**
@@ -79,14 +79,14 @@ public class SimpleStats implements Named,
          sumOfSquares += newObs * newObs;
       }
       else if (myType == SamplingType.TIME_VARYING) {
-         double elapsedTime = Schedule.simTime() - lastTime;
+         double elapsedTime = Schedule.getSimTime() - lastTime;
          sum += elapsedTime * lastObs;
          sumOfSquares += elapsedTime * lastObs * lastObs;
       }
       else {
          System.err.println("Unidentified type!");
       }
-      lastTime = Schedule.simTime();
+      lastTime = Schedule.getSimTime();
       lastObs = newObs;
 
       if (verbose) {System.out.println(toString());}
@@ -100,6 +100,14 @@ public class SimpleStats implements Named,
       newObservation((double) newObs);
    }
 
+    public synchronized void newObservation(boolean newObs) {
+        this.newObservation(newObs ? 1.0 : 0.0); 
+    }
+
+    public synchronized void newObservation(Boolean newObs) {
+        this.newObservation(newObs.booleanValue());
+    }
+
    
    /**
      *	Gives mean of observations collected so far
@@ -109,8 +117,8 @@ public class SimpleStats implements Named,
          return sum / count;
       }
       else if (myType == SamplingType.TIME_VARYING) {
-         double elapsedTime = Schedule.simTime() - lastTime;
-         double totalTime = Schedule.simTime() - startTime;
+         double elapsedTime = Schedule.getSimTime() - lastTime;
+         double totalTime = Schedule.getSimTime() - startTime;
          return (sum + lastObs * elapsedTime)/ totalTime;
       }
       else {
@@ -127,8 +135,8 @@ public class SimpleStats implements Named,
             return (sumOfSquares - sum * sum / count) / (count - 1);
 	 }
          else if (myType == SamplingType.TIME_VARYING) {
-            double elapsedTime = Schedule.simTime() - lastTime;
-            double totalTime = Schedule.simTime() - startTime;
+            double elapsedTime = Schedule.getSimTime() - lastTime;
+            double totalTime = Schedule.getSimTime() - startTime;
             double updatedSum = sum + lastObs * elapsedTime;
             double updatedSS = sumOfSquares + lastObs * lastObs * elapsedTime;
             return (updatedSS - updatedSum * updatedSum / totalTime) / totalTime;
@@ -189,11 +197,17 @@ public class SimpleStats implements Named,
 
 // implements PropertyChangeListener
 
-   public void propertyChange(PropertyChangeEvent event) {
-      if (event.getPropertyName().equals(this.getName())) {
-        newObservation( Double.valueOf(event.getNewValue().toString() ) );
-      }
-   }
+    public void propertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals(this.getName())) {
+            Object obs = event.getNewValue();
+            if (obs instanceof Number) {
+                this.newObservation((Number) obs);
+            }
+            else if (obs instanceof Boolean) {
+                this.newObservation((Boolean) obs);
+            }
+        }
+    }
 
 // implements Named interface
    public void setName(String name) {this.name = name;}
