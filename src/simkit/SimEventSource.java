@@ -22,25 +22,28 @@ package simkit;
   * @version Simkit 0.5.0
   *
 **/
-
 public interface SimEventSource  {
 
 /**
-  * register listener
-  * @param SimEventListener s
+  * Registers a listener.
+  * @param listener 
 **/
-   public void addSimEventListener(SimEventListener s);
+   public void addSimEventListener(SimEventListener listener);
+
  /**
-  * unregister listener
-  * @param SimEventListener s
+  * Unregister a listener.
+  * @param listener
 **/
-  public void removeSimEventListener(SimEventListener s);
+  public void removeSimEventListener(SimEventListener listener);
+
 /**
-  * notify listeners
+  * Notify registered listeners by calling their processSimEvent method.
   * @param SimEvent event
 **/
    public void notifyListeners(SimEvent event);
+
 /**
+ * Get an array conatianing all registered listeners.
  *  @return Array of SimEventListeners
  */   
    public SimEventListener[] getSimEventListeners();

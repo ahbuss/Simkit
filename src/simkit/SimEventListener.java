@@ -22,16 +22,15 @@ package simkit;
   * @version Simkit 0.5.0
   *
 **/
-
 public interface SimEventListener {
 
 /**
   * Process the fired SimEvent.  What is done is, of course, entirely up
-  * to the listener.
+  * to the listener. Listeners should not process other entity's doRun Events.
   * <I>Note:</I> Should this be changed to "handleSimEvent" in accord with Modkit
   * conventions??
   *
-  * @param SimEvent event
+  * @param event The SimEvent to process.
 **/
    public void processSimEvent(SimEvent event);
 }

@@ -1,3 +1,5 @@
+package simkit;
+
 /**
 * Base interface for simulation entities.
 *
@@ -19,9 +21,6 @@
 * @version 1.0
 *
 **/
-
-package simkit;
-
 public interface SimEntity extends Named,
                                    SimEventSource,
                                    SimEventListener,
@@ -37,7 +36,7 @@ public interface SimEntity extends Named,
    public static final String NL = System.getProperty("line.separator");
    
 /**
- * Schedule an event after a delay of delay from the current
+ * Schedule an event after a delay from the current
  * simulation time.
  *
  * @see simkit.SimEvent
@@ -54,14 +53,16 @@ public interface SimEntity extends Named,
               double      eventPriority
             );
 /**
- * The most common convenience waitDelay method.
+ * Schedule an event with no parameters and a default priority after a delay from
+ * the current simulation time.
  * @param eventName The name of the scheduled event (prefixed by "do" for method name).
  * @param delay The amount of time before the event is scheduled
 **/
    public SimEvent waitDelay( String eventName, double delay  );
 
 /**
- *  The second most common convenience waitDelay method.
+ * Schedule an event with a default priority after a delay from
+ * the current simulation time.
  * @param eventName The name of the scheduled event (prefixed by "do" for method name).
  * @param delay The amount of time before the event is scheduled
  * @param param The array of parameters passed.
@@ -71,26 +72,26 @@ public interface SimEntity extends Named,
 
 
 /**
- * Interrupt the next pending event with name eventName
+ * Interrupt (cancel) the next pending event with name eventName
  * and interruption parameter array "parameters"
  * belonging to this object.
 **/   
    public void interrupt(String eventName, Object[] parameters);
    
 /**
- * Interrupt the next pending event.
+ * Interrupt (cancel) the next pending event for this entity.
 **/   
    public void interrupt();
    
 /**
- * Interrupt all pending events with name eventName
+ * Interrupt (cancel) all pending events with name eventName
  * and interruption parameter array "parameters"
  * belonging to this object.
 **/   
    public void interruptAll(String eventName, Object[] parameters);
    
 /**
- * Interrupt all pending events .
+ * Interrupt (cancel) all pending events for this entity.
 **/   
    public void interruptAll();
 
@@ -102,17 +103,14 @@ public interface SimEntity extends Named,
    public void handleSimEvent(SimEvent event);
 
 /**
- * Return this Entity's scheduling priority.
- * Entity scheduling priorities are more important than
- * event priorities.
+ * If two events occur at the same time with the same event priority,
+ * the one with the highest entity priority will be processed first.
 **/
    public double getPriority ();
    
 /**
- * Set this Entity's scheduling priority.
-
- * Entity scheduling priorities are more important than
- * event priorities.
+ * If two events occur at the same time with the same event priority,
+ * the one with the highest entity priority will be processed first.
 **/
    public void setPriority (double d);
 
@@ -124,9 +122,11 @@ public interface SimEntity extends Named,
 /**
  *  True if this SimEntity has the doRun() method.
 **/
-
   public boolean isReRunnable();
   
+/**
+* A unique number assigned to this entity when it is constructed.
+**/
   public int getSerial();
 
 }

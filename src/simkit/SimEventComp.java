@@ -9,6 +9,7 @@
 //   abuss@nps.navy.mil                                              //
 //                                                                   //
 ///////////////////////////////////////////////////////////////////////
+package simkit;
 
 /**
 * Binary predicate (comparator) for simkit SimEvents.
@@ -30,18 +31,17 @@
 * <br>
 *
 * 1. Scheduled time of the events <br>
-* 2. Priorities of the SimEntities that own the SimEvents <br>
-* 3. Priority of the SimEvents <br>
-* 4. Time the SimEvents were instantiated <br>
+* 2. Priority of the SimEvents. An event with a larger priority
+* will occur first if they are scheduled at the same time.<br>
+* 3. Priorities of the SimEntities that own the SimEvents <br>
+* 4. The SimTime the SimEvents were instantiated <br>
 * 5. Order in which the SimEvents were created <br>
 *
 * @author K. A. Stork
-* @uathor Arnold H. Buss
+* @author Arnold H. Buss
 * @version 1.0
 *
 **/
-package simkit;
-
 public class SimEventComp implements java.util.Comparator
 {
    public int compare( Object fst, Object snd ) {
