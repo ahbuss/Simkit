@@ -9,10 +9,19 @@ import java.util.*;
  */
 public class RandomVariateFactory {
     
+    protected static Map cache;
+    
     protected static String[] searchPackages;
+    protected static boolean verbose;
+    
+    public static void setVerbose(boolean b) { verbose = b; }
+    public static boolean isVerbose() { return verbose; }
+    
+    public static Map getCache() { return new WeakHashMap(cache); }
     
     static {
-        setSearchPackages(new String[] {"", "simkit.random"});
+        setSearchPackages(new String[] {"simkit.random"});
+        cache = new WeakHashMap();
     }
     
     /** Create a <CODE>RandomVariate</CODE> instance based on the parameters passed.
@@ -24,10 +33,21 @@ public class RandomVariateFactory {
         if (className == null) {
             throw new IllegalArgumentException("null class name");
         }
-        Class randomVariateClass = null;
-        randomVariateClass = findFullyQualifiedNameFor(className);
+        // First check cache
+        Class randomVariateClass = (Class) cache.get(className);
         if (randomVariateClass == null) {
-            throw new IllegalArgumentException("RandomVariate class not found for " + className);
+            randomVariateClass = findFullyQualifiedNameFor(className);
+            if (randomVariateClass == null) {
+                // The name may be the distribution - try appending "Variate"
+                randomVariateClass = findFullyQualifiedNameFor(className + "Variate");
+            }
+            // All attempts have failed
+            if (randomVariateClass == null) {
+                throw new IllegalArgumentException("RandomVariate class not found for " + className);
+            }
+            else {
+                cache.put(className, randomVariateClass);
+            }
         }
         return getInstance(randomVariateClass, parameters);
     }
@@ -43,9 +63,18 @@ public class RandomVariateFactory {
             throw new IllegalArgumentException("Name of RandomVariate class is null.");
         }
         RandomVariate instance = null;
-        Class randomVariateClass = findFullyQualifiedNameFor(className);
+        Class randomVariateClass = (Class) cache.get(className);
+        if (randomVariateClass == null) {
+            randomVariateClass = findFullyQualifiedNameFor(className);
+        }
+        if (randomVariateClass == null) {
+            randomVariateClass = findFullyQualifiedNameFor(className + "Variate");
+        }
         if (randomVariateClass == null) {
             throw new IllegalArgumentException("Can't find RandomVariate class for " + className);
+        }
+        else {
+            cache.put(className, randomVariateClass);
         }
         instance = getInstance(randomVariateClass, parameters);
         instance.setRandomNumber(rng);
@@ -71,13 +100,13 @@ public class RandomVariateFactory {
     }
     
     public static RandomVariate getInstance(Class rvClass, Object[] params) {
-        if (rvClass == null) { 
+        if (rvClass == null) {
             throw new IllegalArgumentException("null class passed to RandomVariateFactory");
         }
         if (!simkit.random.RandomVariate.class.isAssignableFrom(rvClass)) {
             throw new IllegalArgumentException("Class " + rvClass +
             " does not implement simkit.random.RandomVariate interface");
-        }        
+        }
         RandomVariate instance = null;
         try {
             instance = (RandomVariate) rvClass.newInstance();
@@ -105,7 +134,17 @@ public class RandomVariateFactory {
     
     public static Class findFullyQualifiedNameFor(String className) {
         Class theClass = null;
+        //        First see if name passed is "fully qualified"
+        try {
+            theClass = Thread.currentThread().getContextClassLoader().loadClass(className);
+            return theClass;
+        }
+        //        If not, then try the search path
+        catch (ClassNotFoundException e) {}
         for (int i = 0; i < searchPackages.length; i++) {
+            if (verbose) {
+                System.out.println("Checking " + searchPackages[i] + "." + className);
+            }
             try {
                 theClass = Thread.currentThread().getContextClassLoader().loadClass(
                 searchPackages[i] + "." + className );
@@ -115,6 +154,7 @@ public class RandomVariateFactory {
             }
             catch (ClassNotFoundException e) { continue; }
         }
+        if (verbose) {System.out.println("returning " + theClass);}
         return theClass;
         
     }
