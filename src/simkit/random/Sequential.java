@@ -2,7 +2,10 @@ package simkit.random;
 
 public class Sequential implements RandomNumber {
 
+    private static final double MULTIPLIER = 1.0 / Long.MAX_VALUE;
+
     private long index;
+
 
     public Sequential() {
         resetSeed();
@@ -23,7 +26,7 @@ public class Sequential implements RandomNumber {
     public void resetSeed() { index = 0L; }
 
     public double draw() {
-        index += 1;
-        return Double.NaN;
+        index = index + 1 % Long.MAX_VALUE;
+        return index * MULTIPLIER;
     }
 } 
