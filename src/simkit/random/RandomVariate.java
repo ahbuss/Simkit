@@ -1,8 +1,10 @@
 package simkit.random;
 
-/**
+/*
  * <P> 22 October 1998 Started.
  * <P> 26 January 2001 Moved to <CODE>simkit.random</CODE> package
+*/
+/**
  * <P> The common interface for all random variate generation classes and the
  * parent interface for specialized random variate interfaces.  Typically an
  * instance is retrieved using an Abstract Factory, handing the factory a String
@@ -12,6 +14,7 @@ package simkit.random;
  * may choose to generate an int or some other thing.
  *
  * @author Arnold Buss
+ * @version $Id$
  **/
 
 public interface RandomVariate extends java.io.Serializable, Cloneable {
@@ -25,7 +28,7 @@ public interface RandomVariate extends java.io.Serializable, Cloneable {
     /**
      *  Sets the random variate's parameters.
      *  Alternatively, the parameters could be set in the constructor or
-     *  in additional methods provided by the programmer.
+     *  in additional methods provided in the implementation.
      * @param params the array of parameters, wrapped in objects.
      **/
     public void setParameters(Object[] params);

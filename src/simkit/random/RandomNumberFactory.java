@@ -2,25 +2,56 @@ package simkit.random;
 
 import java.util.*;
 
+/**
+* A factory for creating instances of <CODE>RandomNumber</CODE>. This factory
+* can either create a <CODE>RandomNumnber</CODE> instance specified by the user, or
+* create the default <CODE>RandomNumber</CODE> Class. The default Class
+* is initially set to <CODE>Congruential</CODE>.
+* @author A. Buss
+* @version $Id$
+**/
 public class RandomNumberFactory {
     
+/**
+* Holds a String with the initial setting of the default Class. Currently
+* "simkit.random.Congruential"
+**/
     protected static final String DEFAULT_CLASS = "simkit.random.Congruential";
+
+/**
+* The default Class that will be generated if one is not specified by the user.
+**/
     protected static Class defaultClass ;
     
+/**
+* A cache of RandomNumber Classes that have already been found.
+**/
     protected static Map cache;
+
+/**
+* A list of packages to search when the Class name is not fully qualified.
+* Initially set to "simkit.random"
+**/
     protected static ArrayList searchPackages;
+
+/**
+* If true, print debug/trace information (not yet implemented)
+**/
     protected static boolean verbose;
     
     /**
+     * If true, print debug/trace information (not yet implemented)
      * @param v Sets verbose mode (not implemented yet)
      */    
     public static void setVerbose(boolean v) { verbose = v; }
     /**
+     * If true, print debug/trace information (not yet implemented)
      * @return verbose mode
      */    
     public static boolean isVerbose() { return verbose; }
     
     /**
+     * A cache of RandomNumber Classes that have already been found.
      * @return Map containing unqualified names with corresponding
      * Class objects.
      */    
@@ -47,10 +78,14 @@ public class RandomNumberFactory {
         }
     }
     
+/**
+* This factory should not be instatiated.
+**/
     protected RandomNumberFactory() {
     }
     
     /**
+     * Creates an instance of the default Class with its default seed(s).
      * @return Instance of default class with its default seed(s)
      */    
     public static RandomNumber getInstance() {
@@ -64,6 +99,9 @@ public class RandomNumberFactory {
     }
     
     /**
+     * Creates an instance of the default Class with the given seed.
+     * Should be used only for <CODE>RandomNumber</CODE>s that take
+     * a single seed.
      * @param seed Desired seed for instance
      * @return Instance of default class with given seed.
      */    
@@ -76,6 +114,7 @@ public class RandomNumberFactory {
     }
     
     /**
+     * Creates an instance of the default Class with the given seeds.
      * @param seed Desired seeds for default instance
      * @return Instance of default class with seeds
      */    
@@ -88,6 +127,7 @@ public class RandomNumberFactory {
     }
     
     /**
+     * Creates an instance of the given Class with its default seed(s).
      * @param className (Unqualitfied) name of desired <code>RandomNumber</code> class
      * @return Instance of desired class with its default seed
      */    
@@ -106,7 +146,10 @@ public class RandomNumberFactory {
     }
     
     /**
-     * @return Instance of desired class with its default seed
+     * Creates an instance of the given Class with the given seed.
+     * Should be used only for <CODE>RandomNumber</CODE>s that take
+     * a single seed.
+     * @return Instance of desired class with the given seed.
      * @param seed Desired seed
      * @param className (Unqualitfied) name of desired <code>RandomNumber</code> class
      */    
@@ -119,7 +162,8 @@ public class RandomNumberFactory {
     }
     
     /**
-     * @return Instance of desired class with its default seed
+     * Creates an instance of the given Class with the given seeds.
+     * @return Instance of desired class with the given seeds.
      * @param seed Desired seeds
      * @param className (Unqualitfied) name of desired <code>RandomNumber</code> class
      */    
@@ -132,6 +176,11 @@ public class RandomNumberFactory {
     }
     
     /**
+     * Creates a instance that has the same Class as the given <CODE>RandomNumber</CODE>
+     * and initial seed(s) equal to the current seed of the given <CODE>RandomNumber</CODE>.
+     * While immediately upon creation the new <CODE>RandomNumber</CODE> is the same
+     * as the given instance, the two are not linked. The two instances will independently
+     * generate the same sequence of numbers.
      * @return Identical copy of passed-in instance
      * @param rng Instance to be copied */    
     public static RandomNumber getInstance(RandomNumber rng) {
@@ -139,10 +188,14 @@ public class RandomNumberFactory {
     }
     
     /**
+     * Creates an instance of a <CODE>Pooled RandomNumber</CODE> of the given
+     * Class using the 2 given instances of <CODE>RandomNumber</CODE>.
      * @param className Desired class implementing <code>Pooled</code>
      * @param first First instance to be pooled
      * @param second second instance to be pooled
      * @return <code>Pooled</code> instance pooling first and second
+     * @throws IllegalArgumentException If the given Class does
+     * not implement the <CODE>Pooled</CODE> interface.
      */    
     public static Pooled getInstance(String className, RandomNumber first, RandomNumber second) {
         Pooled pooled = null;
@@ -162,9 +215,14 @@ public class RandomNumberFactory {
     }
     
     /**
+     * Creates an instance of a <CODE>Pooled RandomNumber</CODE> of the given
+     * Class using the 2 given instances of <CODE>RandomNumber</CODE>.
      * @param className Desired (unqualified) class
      * @param rng Array (of length 2) to be pooled
      * @return <code>Pooled</code> instance
+     * @throws IllegalArgumentException If the given RandomNumber array
+     * does not contain 2 instances of <CODE>RandomNumber</CODE> or
+     * if the given Class does not implement <CODE>Pooled</CODE>.
      */    
     public static Pooled getInstance(String className, RandomNumber[] rng) {
         if (rng.length != 2) {
@@ -175,15 +233,21 @@ public class RandomNumberFactory {
     }
     
     /**
+     * Creates an instance of a <CODE>RandomNumber</CODE> the will generate
+     * numbers that are antithetic to the given instance. Note that the
+     * antithetic instance uses the given instance to generate and does
+     * not make a copy of it.
      * @param rng <code>RandomNumber</code> instance to be antitheticized
      * @return <code>RandomNumber</code> instance that is antithetic
      * to one passed in.
+     * @see Antithetic
      */    
     public static RandomNumber getAntithetic(RandomNumber rng) {
         return new Antithetic(rng);
     }
     
     /**
+     * Addes the given package to the search path for RandomNumber Classes.
      * @param packageName Name of package to be searched when qualifying class
      * names (Note: not checked whether package actually exists).
      */    
@@ -194,6 +258,7 @@ public class RandomNumberFactory {
     }
     
     /**
+     * Removes the given package from the search path.
      * @param packageName Name of package to be removed from search path
      */    
     public static void removeSearchPackage(String packageName) {
@@ -201,6 +266,8 @@ public class RandomNumberFactory {
     }
     
     /**
+     * Returns an array containing the names of the packages in the 
+     * current search path.
      * @return Search package names
      */    
     public static String[] getSearchPackages() {

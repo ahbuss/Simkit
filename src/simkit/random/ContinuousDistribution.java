@@ -7,12 +7,16 @@
 package simkit.random;
 
 /**
- *
+ * An interface for Classes that describe a continuous random variable distribution.
+ * 
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public interface ContinuousDistribution extends Distribution{
     
+/**
+* Returns the value of the probability density function at the given value.
+**/
     public double pdf(double x);
     
 }

@@ -7,12 +7,16 @@
 package simkit.random;
 
 /**
- *
+ * A RandomVariate that can only take on discrete values.
+ * 
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public interface DiscreteRandomVariate extends RandomVariate {
     
+/**
+* Generate the next value as an integer.
+**/
     public int generateInt();
 
 }

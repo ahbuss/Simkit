@@ -7,12 +7,16 @@
 package simkit.random;
 
 /**
- *
+ * An interface for Classes that describe a descrete random variable.
+ * 
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public interface DiscreteDistribution extends Distribution {
     
+/**
+* Returns the value of the probability mass function at the given value.
+**/
     public double pmf(double x);
         
 }

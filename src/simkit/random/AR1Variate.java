@@ -1,10 +1,15 @@
 package simkit.random;
 
+/*
+ *  TODO make error variate generic, implement general AR(m) process.         
+*/
 /**
- *  A simple AR(1) process.<br>
- *  To do: make error variate generic, implement general AR(m) process.         
+ *  A simple first order auto regressive AR(1) process.<br>
+ *  The next value of the AR1Variate is alpha * last value + random error.
+ *  <br/>The distribution of the random error is N(0,1).
  *
  *  @author  Arnold Buss
+ *  @version $Id$
  */
 public class AR1Variate extends RandomVariateBase {
     
@@ -12,14 +17,18 @@ public class AR1Variate extends RandomVariateBase {
     private double alpha;
     private RandomVariate error;
 
-    /** Creates new AR1Variate */
+/** 
+* Creates new AR1Variate with a normal(0,1) error distribution.
+*/
     public AR1Variate() {
         error = RandomVariateFactory.getInstance("simkit.random.NormalVariate",
             new Object[] { new Double(0.0), new Double(1.0) }, rng);
     }
 
     /**
-     * Returns the array of parameters as an Object[].
+     * Returns the currect value of the parameters as an array of Objects.
+     * The first element is the multiplication factor, the second element
+     * is the current value.
      * @return the array of parameters as an Object[].
      */
     public Object[] getParameters() {
@@ -48,19 +57,31 @@ public class AR1Variate extends RandomVariateBase {
     }
     
     /**
-     * Generate a random variate having this class's distribution.
+     * Generate a the next value.
      * @return The generated random variate
      */
     public double generate() {
         return lastValue = alpha * lastValue + error.generate();
     }
     
+/**
+* Sets the multiplication factor.
+**/
     public void setAlpha(double a) { alpha = a; }
     
+/**
+* Gets the multplication factor.
+**/
     public double getAlpha() { return alpha; }
     
+/**
+* Sets the current value.
+**/
     public void setLastValue(double lv) { lastValue = lv; }
     
+/**
+* Returns the current value.
+**/
     public double getLastValue() { return lastValue; }
         
 }

@@ -1,5 +1,15 @@
 package simkit.random;
 
+/**
+* Contains 100 seeds that will give non-overlaping streams of length 100,000
+* when used with the implementation of RandomNumer, Congruential. 
+* The seeds can be used to produce the 100 streams with any
+* Prime Modulus Multiplicative Linear Congruential Generator with
+* a Modulus of 2147483647 (2^31-1) and a multiplier of 630360016.
+* Note: The first seed is at index 1 of the array not 0.
+* <p>From Law and Kelton, Simulation and Modeling Analysis, 1991
+* McGraw-Hill.</p>
+*/
 public interface LKSeeds {
 
     public static long ZRNG[] = { 0,
