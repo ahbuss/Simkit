@@ -83,18 +83,16 @@
     <target name="clean"
             depends="init"
             description="Deletes build directory, javadoc directory and dist directory" >
-        <echo message="Deleting directory ${dir.build}" />
         <delete dir="${dir.build}" />
-        <echo message="Deleting directory ${dir.dist}" />
         <delete dir="${dir.dist}" />
     </target>
 
 <!--  === TARGET: compile === -->
-    <target name="compile"
+    <target name="compile.noextensions"
             depends="build.init"
             description="Compile the Simkit classes and copy resource files to the binary tree.">
         <javac destdir="${dir.build.classes}"
-               excludes="viskit/**">
+               excludes="viskit/**, xsd/**">
         	<classpath>
         		<pathelement location="${dir.lib}/bsh-2.0b1.jar" />
         		<pathelement location="${dir.lib}/jdom.jar" />
@@ -118,18 +116,52 @@
         </javac>
         
         <copy todir="${dir.build.classes}">
-            <fileset dir="${dir.src}" includes="**/*.txt,**/*.png"/>
-            <fileset dir="${dir.src}" includes="*.txt"/>
+            <fileset dir="${dir.src}">
+            	<include name="**/*.txt" />
+            	<include name="**/*.png" />
+            	<include name="**/*.gif" />
+            	<include name="**/*.jpg" />
+        		<include name="*.txt" />
+        		<exclude name="build/" />
+        	</fileset>
         </copy>
     </target>
 
+	<target name="compile"
+	        depends="compile.noextensions, dep.NPSActions">
+        <javac destdir="${dir.build.classes}"
+               excludes="xsd/**">
+        	<classpath>
+        		<pathelement location="${dir.lib}/bsh-2.0b1.jar" />
+        		<pathelement location="${dir.lib}/jdom.jar" />
+        		<pathelement location="${dir.lib}/jgraph.jar" />
+        		<pathelement location="${dir.lib.xml}/dom.jar" />
+        		<pathelement location="${dir.lib.xml}/jax-qname.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-api.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-impl.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-libs.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-xjc.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxp-api.jar" />
+        		<pathelement location="${dir.lib.xml}/namespace.jar" />
+        		<pathelement location="${dir.lib.xml}/relaxngDatatype.jar" />
+        		<pathelement location="${dir.lib.xml}/sax.jar" />
+        		<pathelement location="${dir.lib.xml}/xalan.jar" />
+        		<pathelement location="${dir.lib.xml}/xercesImpl.jar" />
+        		<pathelement location="${dir.lib.xml}/xslt.jar" />
+<!--        		<pathelement location="../Actions/build/classes/" /> -->
+        		<pathelement location="${dir.lib}/npsactions.jar" />
+        		<pathelement location="${dir.build.classes}" />
+        	</classpath>
+        	<src path="${dir.src}/simkit/viskit/"/>
+        </javac>
+	</target>
 <!--  === TARGET: jar === -->
     <target name="jar"
             depends="compile" >
         <jar basedir="${dir.build.classes}"
              compress="false"
              excludes="*/test/*"
-             jarfile="${dir.build}/simkit.jar"/>
+             jarfile="${dir.build.lib}/simkit.jar"/>
     </target>
 
 <!--  === TARGET: doc === -->
@@ -143,6 +175,25 @@
                  excludepackagenames="*.test.*"
                  sourcepath="${dir.src}"
                  version="true">
+        	<classpath>
+        		<pathelement location="${dir.lib}/bsh-2.0b1.jar" />
+        		<pathelement location="${dir.lib}/jdom.jar" />
+        		<pathelement location="${dir.lib}/jgraph.jar" />
+        		<pathelement location="${dir.lib.xml}/dom.jar" />
+        		<pathelement location="${dir.lib.xml}/jax-qname.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-api.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-impl.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-libs.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxb-xjc.jar" />
+        		<pathelement location="${dir.lib.xml}/jaxp-api.jar" />
+        		<pathelement location="${dir.lib.xml}/namespace.jar" />
+        		<pathelement location="${dir.lib.xml}/relaxngDatatype.jar" />
+        		<pathelement location="${dir.lib.xml}/sax.jar" />
+        		<pathelement location="${dir.lib.xml}/xalan.jar" />
+        		<pathelement location="${dir.lib.xml}/xercesImpl.jar" />
+        		<pathelement location="${dir.lib.xml}/xslt.jar" />
+        		<pathelement location="../Actions/build/classes/" />
+        	</classpath>
             
             <package name="simkit"/>
             <package name="simkit.data"/>
@@ -154,9 +205,41 @@
             <package name="simkit.stat"/>
             <package name="simkit.util"/>
             <package name="simkit.viskit" />
-            <package name="simkit.xsd" />
         </javadoc>
     </target>
     
+<!-- === TARGET: dist === -->
+
+	<target name="dist"
+	        depends="jar, doc">
+	    <mkdir dir="${dir.dist}" />
+	    <mkdir dir="${dir.dist}/doc" />
+		<copy todir="${dir.dist}">
+			<fileset dir="${dir.build.lib}" />
+			<fileset dir="../Actions/build/lib/" />
+		</copy>
+		<copy todir="${dir.dist}/doc">
+			<fileset dir="${dir.build.doc}" />
+		</copy>
+	</target>
+	
+<!-- === NPS Dependencies (Actions, AgentKit, etc.) === -->
+<!-- This section calls the Ant build files for the projects referred to. -->
+
+	<target name="dep.NPSActions"
+	        depends="build.init"
+	        description="Builds the Actions and related packages and puts them into our lib directory.">
+		<echo message="Building Actions and related packages" />
+		<ant antfile="build.xml"
+		     dir="../Actions"
+		     target="jar"
+		     inheritAll="false" />
+		<copy todir="${dir.lib}">
+			<fileset dir="../Actions/build/lib/" />
+		</copy>
+	</target>
+	
+	<target name="NPSAgentKit">
+	</target>
 
 </project>

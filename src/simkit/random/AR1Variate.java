@@ -4,7 +4,7 @@ package simkit.random;
  *  TODO make error variate generic, implement general AR(m) process.         
 */
 /**
- *  A simple first order auto regressive AR(1) process.<br>
+ *  A simple first order auto regressive AR(1) process.
  *  The next value of the AR1Variate is alpha * last value + random error.
  *  <br/>The distribution of the random error is N(0,1).
  *
