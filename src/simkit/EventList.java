@@ -215,12 +215,12 @@ public class EventList {
     
     /** If true, then the SimEntity toString() is dumped
      * with verbose mode for each event.
-     * @param b Whether thos mode is on
+     * @param b Whether this mode is on
      */    
     public void setDumpEventSources(boolean b) { dumpEventSources = b; }
     
     /**
-     * @return Whether thgis mode is on
+     * @return Whether this mode is on
      */    
     public boolean isDumpEventSources() { return dumpEventSources; }
     
