@@ -1,21 +1,43 @@
 package simkit.viskit;
 
-import simkit.viskit.mvc.mvcAbstractJFrameView;
-import simkit.viskit.mvc.mvcModelEvent;
 import simkit.viskit.jgraph.vGraphComponent;
 import simkit.viskit.jgraph.vGraphModel;
+import simkit.viskit.mvc.mvcAbstractJFrameView;
+import simkit.viskit.mvc.mvcModelEvent;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.util.Vector;
+import java.util.Map;
+import java.util.HashMap;
+
+import actions.*;
 
 /**
- * Main "view" of the Viskit app.
+ * OPNAV N81 - NPS World Class Modeling (WCM) 2004 Projects
+ * MOVES Institute
+ * Naval Postgraduate School, Monterey CA
+ * www.nps.navy.mil
+ * By:   Mike Bailey
+ * Date: Mar 2, 2004
+ * Time: 12:52:59 PM
  */
 
-public class EventGraphViewFrame extends mvcAbstractJFrameView
+/**
+ * Main "view" of the Viskit app.  This class controls a 3-paneled JFrame showing a jgraph on the left and state
+ * variables and sim parameters panels on the right, with menus and a toolbar.  To fully implement application-level MVC,
+ * events like the
+ * dragging and dropping of a node on the screen are first recognized in this class, but the GUI is not yet changed.
+ * Instead, this class (the View) messages the controller class (Controller -- by means of the ViskitController i/f).
+ * The controller then informs the model (Model), which then updates itself and "broadcasts" that fact.  This class is a model
+ * listener, so it gets the report, then updates the GUI.  A round trip.
+ */
+
+public class EventGraphViewFrame extends mvcAbstractJFrameView implements ViskitView
 {
   // Modes we can be in--selecting items, adding nodes to canvas, drawing arcs, etc.
   public final static int SELECT_MODE = 0;
@@ -24,48 +46,18 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
   public final static int CANCEL_ARC_MODE = 3;
 
   /**
-   * Model/View/Controller segregation
-   */
-  // held in super class: private Controller controller;
-  // held in super class: private Model      model;
-
-  /**
    * Menu bar for the application
    */
   private JMenuBar menuBar;
 
   // We keep a reference to the menus in case we have to turn menu
   // items on or off
+  private JMenu fileMenu, editMenu, simulationMenu;
 
   /**
-   * File menu
+   * Two right panels
    */
-  private JMenu fileMenu;
-
-  /**
-   * edit menu
-   */
-  private JMenu editMenu;
-
-  /**
-   * Simulation menu
-   */
-  private JMenu simulationMenu;
-
-  /**
-   * State variables pane
-   */
-  private JPanel stateVariablesPanel;
-
-  /**
-   * Parameters pane
-   */
-  private JPanel parametersPanel;
-
-  /**
-   * Panel that holds both state variables and parameters panels
-   */
-  private JPanel stateAndParametersPanel;
+  private JPanel stateVariablesPanel, parametersPanel;
 
   /**
    * canvas/drawing pane
@@ -104,7 +96,7 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
 
   // Mode buttons on the toolbar
   private JToggleButton selectMode;
-  private JToggleButton addMode;
+  private JLabel addMode;
   private JToggleButton arcMode;
   private JToggleButton cancelArcMode;
 
@@ -118,11 +110,15 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
    * Constructor; lays out initial GUI objects
    */
   public EventGraphViewFrame(Model mod, Controller ctrl)
+  //====================================================
   {
     super("Viskit");
 
     this.initMVC(mod,ctrl);   // set up mvc linkages
     this.initUI();            // build widgets
+
+    parameterTableModel = new ParameterTableModel();
+    stateVariableTableModel = new StateVariableTableModel();
 
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     this.setLocation((d.width - 800) / 2, (d.height - 600) / 2);
@@ -131,27 +127,8 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
     this.setEditable(true);
 
     // Won't want to do this in final version...need to check for save
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
   }
-  /**
-   * Constructor; takes the reader as an argument, which is used
-   * to hide the details of XML reading. The EventGraphReader
-   * is responsible for parsing the XML file; we query that
-   * object to retrieve the data and fill out the parameter and
-   * state variable data.
-   *
-   * @param reader      Object responsible for supplying us with data
-   * @param pIsEditable true if this event graph is editable
-   */
-
-  /*   rethink this
-  public EventGraphViewFrame(EventGraphXMLReader reader, boolean pIsEditable)
-  {
-    this(null);         // Run the standard constructor
-
-    this.setEditable(pIsEditable);
-  }
-  */
 
   /**
    * Sets whether or not we can edit this event graph
@@ -178,12 +155,12 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
     // we are in.
 
     if (selectMode.isSelected() == true) return SELECT_MODE;
-    if (addMode.isSelected() == true) return ADD_NODE_MODE;
+    //if (addMode.isSelected() == true) return ADD_NODE_MODE;
     if (arcMode.isSelected() == true) return ARC_MODE;
-    if (arcMode.isSelected() == true) return CANCEL_ARC_MODE;
-
+    if (cancelArcMode.isSelected() == true) return CANCEL_ARC_MODE;
     // If none of them are selected we're in serious trouble.
-
+    //assert false : "getCurrentMode()";
+    System.err.println("assert false : \"getCurrentMode()\"");
     return 0;
   }
 
@@ -236,7 +213,18 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
     top.add(toolBar, BorderLayout.NORTH);
 
     // Set up the basic panes for the layouts
-    graphPane = new vGraphComponent(new vGraphModel());
+    vGraphModel mod = new vGraphModel();
+    graphPane = new vGraphComponent(mod,this);
+    mod.graph = graphPane;                               // todo fix this
+
+    graphPane.addMouseListener(new vCursorHandler());
+    try{
+      graphPane.getDropTarget().addDropTargetListener(new vDropTargetAdapter());
+    }
+    catch(Exception e) {
+      //assert false : "Drop target init. error";
+      System.err.println("assert false : \"Drop target init. error\"");
+    }
 
     // Set up JTable to hold state variable data
     stateVariableTableModel = new StateVariableTableModel();
@@ -249,14 +237,19 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
     types.addItem("String");
     types.setEditable(true);  // Make this editable so they can add new, arbitrary types
 
+/*
     JTable stateVariableTable = new JTable(stateVariableTableModel);
     TableColumn column = stateVariableTable.getColumnModel().getColumn(1);
     column.setCellEditor(new DefaultCellEditor(types));
+    JScrollPane stateVariablesScrollPane = new JScrollPane(stateVariableTable);
+*/
 
     stateVariablesPanel = new JPanel();
-    JScrollPane stateVariablesScrollPane = new JScrollPane(stateVariableTable);
     stateVariablesPanel.setLayout(new BorderLayout());
     stateVariablesPanel.add(new JLabel("State Variables"), BorderLayout.NORTH);
+
+    VariablesPanel vp = new VariablesPanel();
+    JScrollPane stateVariablesScrollPane = new JScrollPane(vp);
     stateVariablesPanel.add(stateVariablesScrollPane, BorderLayout.CENTER);
 
     // Set up editor for the Name column. We check input so that we don't have
@@ -270,8 +263,9 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
     // and a scrollpane underneath.
     parametersPanel = new JPanel();
     parametersPanel.setLayout(new BorderLayout());
-    parametersPanel.add(new JLabel("Parameters"), BorderLayout.NORTH);
+    parametersPanel.add(new JLabel("Simulation Parameters"), BorderLayout.NORTH);
 
+/*
     parameterTableModel = new ParameterTableModel();
     JTable parametersTable = new JTable(parameterTableModel);
 
@@ -279,6 +273,9 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
     column.setCellEditor(new DefaultCellEditor(types));
 
     JScrollPane parametersScrollPane = new JScrollPane(parametersTable);
+*/
+    ParametersPanel pp = new ParametersPanel();
+    JScrollPane parametersScrollPane = new JScrollPane(pp);
     parametersPanel.add(parametersScrollPane, BorderLayout.CENTER);
 
 
@@ -287,39 +284,29 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
 
     // Split pane with the canvas on the left and a split pane with state variables and parameters on the right.
     stateDrawingSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(graphPane), stateParameterSplit);
-
     top.add(stateDrawingSplit, BorderLayout.CENTER);
 
     this.getContentPane().add(top);
-    stateDrawingSplit.setDividerLocation(500);
-    stateParameterSplit.setDividerLocation(150);
   }
 
-  /**
-   * Open a file. Puts up a standard file dialog.
-   * Make public so controller can use it.  Controller decides what should be done,
-   * uses this method as part of the current "view".
-   * See Controller.OpenAction to see a fuller exposition of what we will normally
-   * want to do on an "open".
-   */
-  public void fileOpen()
-  {
-    JFileChooser fileChooser = new JFileChooser();
-    // Add a subclass of FileFilter here to limit the types of files
-    // that are choosable.
+  // The following is done solely to be able to set the splitpanes to a default position on startup.
+  // Widgets have to be showing.
+  private boolean firstShown = false;
 
-    int returnValue = fileChooser.showOpenDialog(this);
-    if (returnValue == JFileChooser.APPROVE_OPTION) // User selected OK
-    {
-      File selectedFile = fileChooser.getSelectedFile();
-      System.out.println("Chose file " + selectedFile.toString());
+  public void setVisible(boolean b)
+  {
+    super.setVisible(b);
+    if(firstShown == false) {
+      firstShown = true;
+      stateDrawingSplit.setDividerLocation(0.6d);
+      stateParameterSplit.setDividerLocation(0.5d);
     }
   }
 
   /**
    * run the add parameter dialog
    */
-  public void addParameterDialog()
+  public Parameter addParameterDialog()
   {
     ParameterDialog parameterDialog = new ParameterDialog(this, this.getExistingNames());
     String parameterName;
@@ -329,7 +316,7 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
 
     // User hit cancel? Bail without adding anything.
     if (parameterDialog.getButtonChosen() == ParameterDialog.CANCEL_CHOSEN)
-      return;
+      return null;
 
     // Retrieve the parameter name and type from the dialog. These items
     // were error-checked in the parameter dialog.
@@ -337,15 +324,18 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
     parameterName = parameterDialog.getParameterName();
     parameterType = parameterDialog.getParameterType();
 
-    // Add to the model
     Parameter newParameter = new Parameter(parameterName, parameterType);
-    parameterTableModel.addParameter(newParameter);
+
+    // the following would be done on command of the Model through the listener
+    // Add to the model
+    //parameterTableModel.addParameter(newParameter);
+    return newParameter;
   }
 
   /**
    * run the add state variable dialog
    */
-  public void addStateVariableDialog()
+  public StateVariable addStateVariableDialog()
   {
     StateVariableDialog stateVariableDialog = new StateVariableDialog(this, this.getExistingNames());
     String name;
@@ -356,7 +346,7 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
 
     // User hit cancel? Bail without adding anything.
     if(stateVariableDialog.getButtonChosen() == StateVariableDialog.CANCEL_CHOSEN)
-      return;
+      return null;
 
     // Retrieve the state variable name and type from the dialog. These items
     // were error-checked in the parameter dialog.
@@ -365,139 +355,324 @@ public class EventGraphViewFrame extends mvcAbstractJFrameView
     type = stateVariableDialog.getType();
     initialValue = stateVariableDialog.getInitialValue();
 
-    // Add to the model
     StateVariable stateVariable = new StateVariable(name, type, initialValue);
-    stateVariableTableModel.addStateVariable(stateVariable);
+
+    // the following would be done on command of the Model through the Listener
+    // Add to the model
+    //stateVariableTableModel.addStateVariable(stateVariable);
+    return stateVariable;
   }
 
   /**
-   * Do menu layout work here.
+   * Do menu layout work here.  These menus, and the toggle buttons which follow, make use of the "actions"
+   * package, which
    */
+
   private void setupMenus()
   {
-    Controller controller = (Controller)getController();
+    ViskitController controller = (ViskitController)getController();
+    int accelMod = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
     // Set up file menu
     fileMenu = new JMenu("File");
-
-    fileMenu.add(buildMenuItem(controller.NEWEVENTGRAPH,    "New Event Graph"));
-    fileMenu.add(buildMenuItem(controller.NEWASSEMBLY,      "New Assembly"));
-    fileMenu.add(buildMenuItem(controller.OPEN,             "Open"));
-    fileMenu.add(buildMenuItem(controller.SAVE,             "Save"));
-    fileMenu.add(buildMenuItem(controller.SAVEAS,           "Save as..."));
-    fileMenu.add(buildMenuItem(controller.GENERATEJAVACLASS,"Generate Java Class"));
+    fileMenu.setMnemonic(KeyEvent.VK_F);
+    fileMenu.add(buildMenuItem(controller,"newEventGraph",    "New Event Graph", new Integer(KeyEvent.VK_N),
+                                                               KeyStroke.getKeyStroke(KeyEvent.VK_N,accelMod)));
+    fileMenu.add(buildMenuItem(controller,"newAssembly",      "New Assembly", null,null));
+    fileMenu.add(buildMenuItem(controller,"open",             "Open", new Integer(KeyEvent.VK_O),
+                                                               KeyStroke.getKeyStroke(KeyEvent.VK_O,accelMod)));
+    fileMenu.add(buildMenuItem(controller,"save",             "Save", new Integer(KeyEvent.VK_S),
+                                                               KeyStroke.getKeyStroke(KeyEvent.VK_S,accelMod)));
+    fileMenu.add(buildMenuItem(controller,"saveAs",           "Save as...", new Integer(KeyEvent.VK_A),null));
+    fileMenu.add(buildMenuItem(controller,"generateJavaClass","Generate Java Class",new Integer(KeyEvent.VK_G),null));
     fileMenu.addSeparator();;
-    fileMenu.add(buildMenuItem(controller.QUIT,"Quit"));
+    fileMenu.add(buildMenuItem(controller,"quit",             "Exit",new Integer(KeyEvent.VK_X),null));
 
     // Set up edit menu
     editMenu = new JMenu("Edit");
-    editMenu.add(buildMenuItem(controller.CUT,  "Cut"));
-    editMenu.add(buildMenuItem(controller.COPY, "Copy"));
-    editMenu.add(buildMenuItem(controller.PASTE,"Paste"));
+    editMenu.setMnemonic(KeyEvent.VK_E);
+    // the next three are disabled until something is selected
+    editMenu.add(buildMenuItem(controller,"cut",  "Cut",  new Integer(KeyEvent.VK_T),
+                                                   KeyStroke.getKeyStroke(KeyEvent.VK_X,accelMod)));
+    editMenu.add(buildMenuItem(controller,"copy", "Copy", new Integer(KeyEvent.VK_C),
+                                                   KeyStroke.getKeyStroke(KeyEvent.VK_C,accelMod)));
+    editMenu.add(buildMenuItem(controller,"paste","Paste",new Integer(KeyEvent.VK_P),
+                                                   KeyStroke.getKeyStroke(KeyEvent.VK_V,accelMod)));
+
+    // These 3 start off being disabled, until something is selected
+    ActionIntrospector.getAction(controller,"cut").setEnabled(false);
+    ActionIntrospector.getAction(controller,"copy").setEnabled(false);
+    ActionIntrospector.getAction(controller,"paste").setEnabled(false);
+
     editMenu.addSeparator();
-    editMenu.add(buildMenuItem(controller.ADDSTATEVARIABLE,"Add State Variable..."));
-    editMenu.add(buildMenuItem(controller.ADDPARAMETER,    "Add Parameter..."));
+
+    editMenu.add(buildMenuItem(controller,"newNode",         "Add Event",            new Integer(KeyEvent.VK_E),null));
+    editMenu.add(buildMenuItem(controller,"addStateVariable","Add State Variable...",new Integer(KeyEvent.VK_S),null));
+    editMenu.add(buildMenuItem(controller,"addSimParameter", "Add Parameter...",     new Integer(KeyEvent.VK_M),null));
 
     // Set up simulation menu for controlling the simulation
     simulationMenu = new JMenu("Simulation");
-    simulationMenu.add(buildMenuItem(controller.EVENTLIST,"Event List..."));
+    simulationMenu.setMnemonic(KeyEvent.VK_S);
+    simulationMenu.add(buildMenuItem(controller,"eventList","Event List...",new Integer(KeyEvent.VK_L),null));
 
     // Create a new menu bar and add the menus we created above to it
     menuBar = new JMenuBar();
     menuBar.add(fileMenu);
     menuBar.add(editMenu);
     menuBar.add(simulationMenu);
+
     this.setJMenuBar(menuBar);
   }
 
-  private JMenuItem buildMenuItem(Action a, String txt)
+  // Use the actions package
+  private JMenuItem buildMenuItem(Object source, String method, String name, Integer mn, KeyStroke accel)
   {
-    JMenuItem mi = new JMenuItem(a);
-    mi.setText(txt);
-    return mi;
+    Action a = ActionIntrospector.getAction(source,method);
+    Map map = new HashMap();
+    if(mn != null)
+      map.put(Action.MNEMONIC_KEY,mn);
+    if(accel != null)
+      map.put(Action.ACCELERATOR_KEY,accel);
+    if(name != null)
+      map.put(Action.NAME,name);
+    if(!map.isEmpty())
+      ActionUtilities.decorateAction(a,map);
+
+    return ActionUtilities.createMenuItem(a);
   }
 
   private JToggleButton makeJTButton(Action a, String icPath, String tt)
   {
-    JToggleButton jtb = new JToggleButton(a);
+    JToggleButton jtb;
+    if(a != null)jtb = new JToggleButton(a);
+    else jtb = new JToggleButton();
     jtb.setIcon(new ImageIcon(ClassLoader.getSystemResource(icPath)));
     jtb.setToolTipText(tt);
     return jtb;
   }
 
+  private JLabel makeJLabel(String icPath, String tt)
+  {
+    JLabel jlab = new JLabel(new ImageIcon(ClassLoader.getSystemResource(icPath)));
+    jlab.setToolTipText(tt);
+    return jlab;
+  }
+
   private void setupToolbar()
   {
     modeButtonGroup = new ButtonGroup();
-
-    // Set up toolbar
     toolBar = new JToolBar();
 
-    Controller controller = (Controller)getController();
-
     // Buttons for what mode we are in
-    selectMode = makeJTButton(controller.SELECTMODE,
-                              "simkit/viskit/images/select.jpg",
-                              "Select items on the graph");
 
-    addMode    = makeJTButton(controller.NEWNODEMODE,
-                              "simkit/viskit/images/node.jpg",
-                              "Add new nodes to the event graph");
+    addMode = makeJLabel("simkit/viskit/images/eventNode.png",
+                         "Drag onto canvas to add new nodes to the event graph");
+    addMode.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createEtchedBorder(),
+                        BorderFactory.createEmptyBorder(4,4,4,4)));
 
-    arcMode    = makeJTButton(controller.ARCMODE,
-                              "simkit/viskit/images/connect.jpg",
-                              "Connect nodes with scheduling arcs");
 
-    cancelArcMode = makeJTButton(controller.CANCELARCMODE,
-                                 "simkit/viskit/images/cancel.jpg",
-                                 "Connect nodes with a canceling arc");
+    selectMode    = makeJTButton(null, "simkit/viskit/images/selectNode.png",
+                                       "Select items on the graph");
+    arcMode       = makeJTButton(null, "simkit/viskit/images/schedArc.png",
+                                       "Connect nodes with scheduling arcs");
+    cancelArcMode = makeJTButton(null, "simkit/viskit/images/canArc.png",
+                                       "Connect nodes with a canceling arc");
 
     modeButtonGroup.add(selectMode);
-    modeButtonGroup.add(addMode);
     modeButtonGroup.add(arcMode);
     modeButtonGroup.add(cancelArcMode);
 
     // Make selection mode the default mode
     selectMode.setSelected(true);
 
-    toolBar.add(selectMode);
+    toolBar.add(new JLabel("Add: "));
     toolBar.add(addMode);
+    toolBar.addSeparator(new Dimension(24,24));
+    toolBar.add(new JLabel("Mode: "));
+    toolBar.add(selectMode);
     toolBar.add(arcMode);
     toolBar.add(cancelArcMode);
+
+    addMode.setTransferHandler(new TransferHandler("text"));
+    addMode.addMouseListener(new DragMouseAdapter());
+
+    // These buttons perform operations that are internal to our view class, and therefore their operations are
+    // not under control of the application controller (Controller.java).  Small, simple anonymous inner classes
+    // such as these have been certified by the Surgeon General to be only minimally detrimental to code health.
+
+    selectMode.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        graphPane.setPortsVisible(false);
+      }
+    });
+    arcMode.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        graphPane.setPortsVisible(true);
+      }
+    });
+    cancelArcMode.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(ActionEvent e)
+      {
+        graphPane.setPortsVisible(true);
+      }
+    });
+
   }
 
-  /**
-   * Returns the model that controls the parameter table
-   */
-  public ParameterTableModel getParameterTableModel()
+  // Some private classes to implement dnd and dynamic cursor update
+  class vCursorHandler extends MouseAdapter
   {
-    return parameterTableModel;
+    Cursor select;
+    Cursor arc;
+    Cursor cancel;
+
+    vCursorHandler()
+    {
+      super();
+      select    = new Cursor(Cursor.MOVE_CURSOR);
+      arc       = new Cursor(Cursor.CROSSHAIR_CURSOR);
+
+      Image img = new ImageIcon(ClassLoader.getSystemResource("simkit/viskit/images/canArcCursor.png")).getImage();
+      cancel    = Toolkit.getDefaultToolkit().createCustomCursor(img,new Point(0,0),"CancelArcCursor");
+    }
+
+    public void mouseEntered(MouseEvent e)
+    {
+      switch(getCurrentMode()) {
+        case  SELECT_MODE:
+          graphPane.setCursor(select);
+          break;
+        case  ARC_MODE:
+          graphPane.setCursor(arc);
+          break;
+        case CANCEL_ARC_MODE:
+          graphPane.setCursor(cancel);
+          break;
+        default:
+          //assert false : "vCursorHandler";
+          System.err.println("assert false : \"vCursorHandler\"");
+      }
+    }
   }
 
-  /**
-   * Returns the model that controls the table with state variables.
-   */
-  public StateVariableTableModel getStateVariableTableModel()
+  // Two classes to support dragging and dropping on the graph
+  class DragMouseAdapter extends MouseAdapter
   {
-    return stateVariableTableModel;
+    public void mousePressed(MouseEvent e)
+    {
+      JComponent c = (JComponent) e.getSource();
+      TransferHandler handler = c.getTransferHandler();
+      handler.exportAsDrag(c, e, TransferHandler.COPY);
+    }
+  }
+  
+  class vDropTargetAdapter extends DropTargetAdapter
+  {
+    public void drop(DropTargetDropEvent dtde)
+    {
+      Point p = dtde.getLocation();  // subtract the size of the label
+      p.x -= addMode.getWidth();
+      p.y -= addMode.getHeight();
+
+      ((ViskitController)getController()).newNode(p);
+    }
   }
 
+  // ViskitView-required methods:
+  private JFileChooser jfc;
+  public File openFileAsk()
+  //-----------------------
+  {
+    if (jfc == null)
+      jfc = new JFileChooser(System.getProperty("user.dir"));
+
+    int retv = jfc.showOpenDialog(this);
+    if (retv == JFileChooser.APPROVE_OPTION)
+      return jfc.getSelectedFile();
+    return null;
+  }
+
+  public File saveFileAsk()
+  //-----------------------
+  {
+    if(jfc == null)
+      jfc = new JFileChooser(System.getProperty("user.dir"));
+
+    int retv = jfc.showSaveDialog(this);
+    if(retv == JFileChooser.APPROVE_OPTION)
+      return jfc.getSelectedFile();
+    return null;
+  }
+
+  public void fileName(String s)
+  //----------------------------
+  {
+    this.setTitle("Viskit: "+s);
+  }
+
+  public boolean doEditNode(EventNode node)
+  //---------------------------------------
+  {
+    return EventInspectorDialog.showDialog(this,this,node); // blocks
+  }
+
+  public boolean doEditEdge(SchedulingEdge edge)
+  //--------------------------------------------
+  {
+    return EdgeInspectorDialog.showDialog(this,this,edge); // blocks
+  }
+
+  public boolean doEditCancelEdge(CancellingEdge edge)
+  //--------------------------------------------------
+  {
+    return EdgeInspectorDialog.showDialog(this,this,edge); // blocks
+  }
+
+  public int genericAsk(String title, String msg)
+  //---------------------------------------------
+  {
+    return JOptionPane.showConfirmDialog(this,msg,title,JOptionPane.YES_NO_OPTION);
+  }
+
+  public void genericErrorReport(String title, String msg)
+  //-----------------------------------------------------
+  {
+    JOptionPane.showMessageDialog(this,msg,title,JOptionPane.ERROR_MESSAGE);
+  }
+
+  public String promptForStringOrCancel(String title, String message, String initval)
+  //---------------------------------------------------------------------------------
+  {
+    return (String)JOptionPane.showInputDialog(this, message, title, JOptionPane.PLAIN_MESSAGE,
+                                               null, null, initval);
+  }
 
   /**
    * This is where the "master" model (simkit.viskit.Model) updates the view.
    * @param event
    */
   public void modelChanged(mvcModelEvent event)
+  //-------------------------------------------
   {
-    System.out.println("EventGraphViewFrame got report from model:");
-    System.out.println("obj "+event.getSource());
-    System.out.println("id "+event.getID());
-    System.out.println("msg "+event.getActionCommand());
+//    System.out.println("EventGraphViewFrame got report from model:");
+//    System.out.println("obj "+event.getSource());
+//    System.out.println("id "+event.getID());
+//    System.out.println("msg "+event.getActionCommand());
 
-    // This is where updates to the view happen
-    // Do changes to Swing widgets here...
+    // This is where updates to the view happen.
+    // Do changes to Swing widgets here if need be.
 
-    // Then, typically the jgraph component gets this information
-    // to update the graph.
+    // (nothing I can think of)
+
+    // Then, our inner jgraph component gets this information
+    // to typically update the graph.
+
     this.graphPane.viskitModelChanged((ModelEvent)event);
   }
 
