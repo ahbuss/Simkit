@@ -41,4 +41,6 @@ public interface RandomNumber extends java.io.Serializable, Cloneable {
   * @return  The next Uniform(0, 1) random number
 **/
     public double draw();
+    
+    public Object clone();
 }

@@ -38,4 +38,5 @@ public interface RandomVariate extends java.io.Serializable, Cloneable {
 
     public RandomNumber getRandomNumber();
 
+    public Object clone();
 }
