@@ -1,6 +1,5 @@
 package simkit.stat;
 
-
 import java.text.DecimalFormat;
 import simkit.Schedule;
 import java.beans.PropertyChangeListener;
@@ -38,10 +37,10 @@ public class SimpleStatsTimeVarying implements SampleStatistics, PropertyChangeL
         minObs = (x < minObs) ? x : minObs;
         maxObs = (x > maxObs) ? x : maxObs;
         count++;
-        if (count == 1) {
+        if (count == 1 ) {
             mean = diff;
             variance = 0.0;
-        } else {
+        } else if (Schedule.getSimTime() > 0.0) {
             double factor = 1.0 - lastTime / Schedule.getSimTime();
             mean += diff * factor;
             variance +=  factor * ( (1.0 - factor) * diff * diff - variance );
