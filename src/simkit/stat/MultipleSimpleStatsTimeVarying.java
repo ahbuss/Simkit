@@ -25,7 +25,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
 /**
 * Holds the table of indexed statistics.
 **/
-    private TreeMap indexedStats;
+    protected TreeMap indexedStats;
 
 /**
 * Creates a new instance with the default name. The name can be
@@ -221,7 +221,13 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
             ((SimpleStatsTimeVarying) i.next()).reset();
         }
     }
-
+/**
+ * Empties HashMap completely.
+ */
+    public void clear() {
+        indexedStats.clear();
+    }
+    
 /**
 * Produces a String containing the name, SamplingType, and DataLines for
 * all of the properties.

@@ -22,6 +22,10 @@ public class CollectionSizeTimeVaryingStats extends SimpleStatsTimeVarying {
         super(name + ".size");
     }
     
+    public CollectionSizeTimeVaryingStats() {
+        super();
+    }
+    
     /**
      * If newValue is a Collection, pass a new PropertyChangeEvent
      * to the super class.  The property name is that of the
