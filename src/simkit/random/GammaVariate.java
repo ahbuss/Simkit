@@ -10,93 +10,92 @@ package simkit.random;
  * @version $Id$
  */
 public class GammaVariate extends RandomVariateBase {
-
-/**
-* The Alpha parameter for this GammaVariate.
-**/
+    
+    /**
+     * The Alpha parameter for this GammaVariate.
+     **/
     private double alpha;
-
-/**
-* The Beta parameter for this GammaVariate.
-**/
+    
+    /**
+     * The Beta parameter for this GammaVariate.
+     **/
     private double beta;
-
-/**
-* Holds a precalculated value.
-**/
+    
+    /**
+     * Holds a precalculated value.
+     **/
     private double b;
-
-/**
-* Holds a precalculated value.
-**/
+    
+    /**
+     * Holds a precalculated value.
+     **/
     private double p;
-
-/**
-* Holds a precalculated value.
-**/
+    
+    /**
+     * Holds a precalculated value.
+     **/
     private double a;
-
-/**
-* Holds a precalculated value.
-**/
+    
+    /**
+     * Holds a precalculated value.
+     **/
     private double q;
-
-/**
-* Holds a precalculated value.
-**/
+    
+    /**
+     * Holds a precalculated value.
+     **/
     private double theta;
-
-/**
-* Holds a precalculated value.
-**/
+    
+    /**
+     * Holds a precalculated value.
+     **/
     private double d;
-
-/**
-* Holds a precalculated value.
-**/
+    
+    /**
+     * Holds a precalculated value.
+     **/
     private double z;
-
-/**
-* Holds a precalculated value.
-**/
+    
+    /**
+     * Holds a precalculated value.
+     **/
     private double u1;
-
-/**
-* Holds a precalculated value.
-**/
+    
+    /**
+     * Holds a precalculated value.
+     **/
     private double v;
-
-/**
-* Holds a precalculated value.
-**/
+    
+    /**
+     * Holds a precalculated value.
+     **/
     private double w;
-
-/**
-* Holds a precalculated value.
-**/
+    
+    /**
+     * Holds a precalculated value.
+     **/
     private double alphaInv;
-
-/**
-* Instantiates a new GammaVariate. Alpha and Beta must be set prior to use.
-**/
+    
+    /**
+     * Instantiates a new GammaVariate. Alpha and Beta must be set prior to use.
+     **/
     public GammaVariate() {
     }
-
-    /** 
+    
+    /**
      * Sets alpha and beta for this GammaVariate.
      * @param params elements are (&alpha;, &beta;)
      * @throws IllegalArgumentException If the given array does not contain exactly two
      * Numbers or if either of the parameters is not positive.
-     */    
+     */
     public void setParameters(Object[] params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Must have 2 parameters for GammaVariate");
         }
         else if (params[0] instanceof Number && params[1] instanceof Number) {
-             this.setAlpha(((Number) params[0]).doubleValue());
+            this.setAlpha(((Number) params[0]).doubleValue());
             
-             this.setBeta(((Number) params[1]).doubleValue());
-            this.setConvenienceParameters();
+            this.setBeta(((Number) params[1]).doubleValue());
         }
         else {
             throw new IllegalArgumentException("Parameters for GammaVariate must be of type Number");
@@ -106,24 +105,10 @@ public class GammaVariate extends RandomVariateBase {
     /**
      * Returns a two element array containing the alpha and beta.
      * @return (&alpha;, &beta;) as elements
-     */    
+     */
     public Object[] getParameters() { return new Object[] { new Double(alpha), new Double(beta) }; }
     
-/**
-* Sets the value of Beta. Causes pre-calculated values to be updated.
-* @throws IllegalArgumentExcption If beta is not positive.
-**/
-    public void setbeta(double beta) {
-        if (beta <= 0.0) {
-            throw new IllegalArgumentException("Parameter beta must be positive");
-        }
-        else {
-            this.beta = beta;
-            setConvenienceParameters();
-        }
-    }
-
-//Javadoc inherited
+    //Javadoc inherited
     public double generate() {
         double y = 0.0;
         if (alpha < 1.0) {
@@ -159,45 +144,45 @@ public class GammaVariate extends RandomVariateBase {
         }
         return y * beta;
     }
-
-
-/**
-* Pre-calculates values that only depend on alpha and beta.
-**/
+    
+    
+    /**
+     * Pre-calculates values that only depend on alpha and beta.
+     **/
     protected void setConvenienceParameters() {
         alpha = getAlpha();
-        beta = getBeta();
         if (alpha < 1.0) {
-        b = 1.0 + alpha / Math.E;
-        alphaInv = 1.0 / alpha;
+            b = 1.0 + alpha / Math.E;
+            alphaInv = 1.0 / alpha;
         }
         else {
-        a = 1.0 / Math.sqrt(2.0 * alpha - 1.0);
-        b = alpha - 1.38629436111989061883;    // Number is Math.log(4)
-        q = alpha + 1.0 / a;
-        theta = 4.5;
-        d = 2.504077396776274;        // Math.log(1 + theta)
+            a = 1.0 / Math.sqrt(2.0 * alpha - 1.0);
+            b = alpha - 1.38629436111989061883;    // Number is Math.log(4)
+            q = alpha + 1.0 / a;
+            theta = 4.5;
+            d = 2.504077396776274;        // Math.log(1 + theta)
         }
     }
-
-/**
-* Sets the value of Alpha. Warning: Does not update the pre-calculated values.
-* @throws IllegalArgumentExcption If alpha is not positive.
-**/
+    
+    /**
+     * Sets the value of Alpha. Warning: Does not update the pre-calculated values.
+     * @throws IllegalArgumentExcption If alpha is not positive.
+     **/
     public void setAlpha(double a) {
         if ( a > 0.0) {
             alpha = a;
+            setConvenienceParameters();
         }
         else {
             throw new IllegalArgumentException("Alpha parameter must be > 0.0: " + a);
         }
     }
-
-/**
-* Sets the value of Beta. Warning: Does not update the pre-calculated values
-* use setbeta to cause recalculation to occur.
-* @throws IllegalArgumentExcption If beta is not positive.
-**/
+    
+    /**
+     * Sets the value of Beta. Warning: Does not update the pre-calculated values
+     * use setbeta to cause recalculation to occur.
+     * @throws IllegalArgumentExcption If beta is not positive.
+     **/
     public void setBeta(double b) {
         if ( b > 0.0) {
             beta = b;
@@ -206,19 +191,19 @@ public class GammaVariate extends RandomVariateBase {
             throw new IllegalArgumentException("Beta parameter must be > 0.0: " + b);
         }
     }
-
-/**
-* Returns the current value of Alpha.
-**/
+    
+    /**
+     * Returns the current value of Alpha.
+     **/
     public double getAlpha() {return alpha;}
-
-/**
-* Returns the current value of Beta.
-**/
+    
+    /**
+     * Returns the current value of Beta.
+     **/
     public double getBeta() {return beta;}
-
-/**
-* Returns the name and parameters of this RandomVariate.
-**/
+    
+    /**
+     * Returns the name and parameters of this RandomVariate.
+     **/
     public String toString() { return "Gamma (" + getAlpha() + ", " + getBeta() + ")"; }
 }
