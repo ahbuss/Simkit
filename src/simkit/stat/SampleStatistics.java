@@ -28,6 +28,20 @@ public interface SampleStatistics extends java.beans.PropertyChangeListener {
 **/
     public void newObservation(Number newObs);
 /**
+ * Add a new Observation of type <code>boolean</code>.  It is expected that
+ * "true" corresponds to '1' and "false" to 0.
+ * @param newObs the boolean observation
+ */    
+    public void newObservation(boolean newObs);
+    
+/**
+ * Add a new Observation of type <code>Boolean</code>.  It is expected that
+ * "true" corresponds to '1' and "false" to 0.
+ * @param newObs the boolean observation
+ */    
+    public void newObservation(Boolean newObs);
+    
+/**
  *  @return The current mean.
 **/
     public double getMean();
@@ -66,4 +80,12 @@ public interface SampleStatistics extends java.beans.PropertyChangeListener {
  *  @return The SamplingType for the class. 
 **/
     public SamplingType getSamplingType();
+/**
+ *  @return The Property name associated with the SampleStatistics instance
+ */
+    public String getName();
+/**
+ *  @param name The property name associated with the SampleStatistics instance
+ */    
+    public void setName(String name);
 }
