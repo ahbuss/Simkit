@@ -162,7 +162,7 @@ if (isReallyVerbose()) {
 }
          rerunSimEntity.reset();
          if (rerunSimEntity.isReRunnable()) {
-           rerunSimEntity.waitDelay("Run", 0.0, null, rerunSimEntity.getPriority());
+           rerunSimEntity.waitDelay("Run", 0.0, null, Double.POSITIVE_INFINITY);
          }
       }
       if (stopOnTime) { stopOnTime(endingTime); }
