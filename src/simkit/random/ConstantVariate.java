@@ -12,14 +12,18 @@ public class ConstantVariate extends RandomVariateBase {
 
     public void setParameters(Object[] params) {
         if (params[0] instanceof Number) {
-            value = ((Number)params[0]).doubleValue();
+            this.setValue(((Number)params[0]).doubleValue());
         }
         else {
             throw new IllegalArgumentException("Must be Number: " + params[0]);
         }
     }
 
-    public void setValue(double value) { this.setParameters(new Object[] {new Double(value)} );;}
+    public Object[] getParameters() {
+        return new Object[] { new Double(value) };
+    }
+
+    public void setValue(double value) { this.value = value;}
 
     public double getValue() { return value; }
 
