@@ -106,7 +106,7 @@
         <Argument name="customer2" type="java.lang.Integer" />
  
         <StateTransition state="queue" >
-            <Operation method="remove(customer)" />
+            <Operation method="remove(customer2)" />
         </StateTransition>
         
         <StateTransition state="numberReneges" >
