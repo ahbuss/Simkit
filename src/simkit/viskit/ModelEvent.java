@@ -21,9 +21,9 @@ public class ModelEvent extends mvcModelEvent
 {
   public static final int NEWMODEL = 0;
 
-  public static final int PARAMETERADDED = 1;
-  public static final int PARAMETERDELETED = 2;
-  public static final int PARAMETERCHANGED = 3;
+  public static final int SIMPARAMETERADDED = 1;
+  public static final int SIMPARAMETERDELETED = 2;
+  public static final int SIMPARAMETERCHANGED = 3;
 
   public static final int STATEVARIABLEADDED = 4;
   public static final int STATEVARIABLEDELETED = 5;
