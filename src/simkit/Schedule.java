@@ -350,7 +350,7 @@ public class Schedule  {
     }
     
     /** defaultEventList is now completely pristine. */    
-    public void coldReset() {
+    public static void coldReset() {
         defaultEventList.coldReset();
     }
 
