@@ -17,13 +17,7 @@ public class ExponentialVariate extends RandomVariateBase implements RandomVaria
             params.length + " passed.");
         }
         if (params[0] instanceof Number) {
-            double temp = ((Number) params[0]).doubleValue();
-            if (temp > 0) {
-                this.mean = ((Number) getParameters()[0]).doubleValue();
-            }
-            else {
-                throw new IllegalArgumentException("Exponential mean must be positive: " + mean);
-            }
+                setMean(((Number) params[0]).doubleValue());
         }
         else {
             throw new IllegalArgumentException("Parameters must be a Number");
@@ -32,7 +26,14 @@ public class ExponentialVariate extends RandomVariateBase implements RandomVaria
     
     public Object[] getParameters() { return new Object[] { new Double(mean) }; }
     
-    public void setMean(double mean) { this.setParameters(new Object[] { new Double(mean) }); }
+    public void setMean(double mean) { 
+        if (mean > 0.0) {
+            this.mean = mean;
+        }
+        else {
+            throw new IllegalArgumentException("Exponential mean must be positive: " + mean);
+        }
+    }
     
     public double getMean() { return mean; }
     
