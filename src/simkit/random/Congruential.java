@@ -50,4 +50,20 @@ public class Congruential implements RandomNumber {
         }
         return (double) currentSeed / MODULUS;
     }
+    
+    /**
+     * @return copy of current instance with same seeds.
+     */    
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {}
+        finally{}
+        return null;
+    }
+    
+    public String toString() {
+        return "Multiplicative Congruential (" + this.getSeed() + ")";
+    }
+    
 }

@@ -14,7 +14,7 @@ public class PooledGenerator implements RandomNumber {
     private long[] seeds;
     
     public PooledGenerator() {
-        setSeed(42L);
+//        setSeed(42L);
     }
     /**
      * Both the LCG and the Tausworth seeds are set to the same value.
@@ -74,15 +74,27 @@ public class PooledGenerator implements RandomNumber {
         return (seeds[0] ^ seeds[1]) * MULTIPLICATIVE_FACTOR;
     }
     /**
-     *  @return a copy of the RandomVariate instance;
+     *  @return a copy of the RandomVariate instance.
      **/
     
     public Object clone() {
         try {
-            return super.clone();
+            RandomNumber copy =  (RandomNumber) super.clone();
+            copy.setSeeds(this.seeds);
+            return copy;
         } catch (CloneNotSupportedException e) {}
         finally {}
         return null;
+    }
+    
+    public String toString() {
+        StringBuffer buf = new StringBuffer("Pooled Generator (");
+        for (int i = 0; i < seeds.length; i++) {
+            buf.append(seeds[i]);
+            if (i < seeds.length - 1) { buf.append(','); buf.append(' '); }
+        }
+        buf.append(')');
+        return buf.toString();
     }
     
 }
