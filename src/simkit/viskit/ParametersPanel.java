@@ -1,15 +1,14 @@
 package simkit.viskit;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +16,6 @@ import java.util.ArrayList;
  * User: mike
  * Date: Mar 15, 2004
  * Time: 2:35:01 PM
- * To change this template use File | Settings | File Templates.
  */
 public class ParametersPanel extends JPanel implements ActionListener
 {
