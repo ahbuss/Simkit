@@ -16,16 +16,17 @@ package simkit.random;
  *  2^88.  It requires the keeping track of 3 seed values- one for each
  *  generator.  The seeds, s1, s2, s3, must be initially set to non-zero values
  *  greater than 1, 7 and 15.  This is explained further in the paper.  Also in
- *  talking to the author and making observations of the generators, I
+ *  talking to the author and making observations of the generators, it was 
  *  found that if all of the starting values are small then the generator
  *  requires a few steps to warm up.
  *  The individual tausworthe generator will produce numbers between their
- *  minimum starting value and (2^32)-1 inclusive, but the combined generator
- *  will produce numbers from zero to the max value, inclusive.  </p>
+ *  minimum starting value and (2<sup>32</sup>)-1 inclusive, but the combined generator
+ *  will produce numbers from zero to the max value (2<sup>32</sup>-1 or 4294967295L) 
+ * inclusive.  </p>
  * <p>
  * Original C++ implementation by Metron, Incorporated.<br/>
  * Translated to Java by John Ruck, Rolands and Associates Corporation.</p>
- * @version: $Id$
+ * @version $Id$
  */
 
 public class NSSrng implements RandomNumber {
@@ -38,7 +39,7 @@ public class NSSrng implements RandomNumber {
     /**
      * The reciprocal of MAX_VALUE
      **/
-    private static double INVERSE = 2.328306437e-10;
+    private static final double INVERSE = 2.328306437e-10;
     
     /**
      * mask for first generator = (2^32)-2
@@ -56,11 +57,6 @@ public class NSSrng implements RandomNumber {
     private static final long M3 = 4294967280L;
     
     /**
-     * The total number of calls.
-     **/
-    private long RANDOM_CALLS = 0;
-    
-    /**
      * One of three seeds.
      **/
     protected long S1 = 0;
@@ -76,7 +72,7 @@ public class NSSrng implements RandomNumber {
     protected long S3 = 0;
     
     /**
-     * The oringinal value of S1, the generator will be reset using this value
+     * The original value of S1, the generator will be reset using this value
      * when resetSeed is called.
      **/
     protected long originalSeed = 0;
@@ -102,6 +98,13 @@ public class NSSrng implements RandomNumber {
             System.out.println("--- Debug disabled for " + this);
         }
     }
+
+/**
+* If true, print debug information.
+**/
+   public boolean getDebug() {
+      return debug;
+   }
     
     //javadoc inherited
     public long drawLong() {
@@ -111,27 +114,18 @@ public class NSSrng implements RandomNumber {
         /* 
          * Java change: Any operation that causes a number to get bigger
          * is followed by anding with MAX_VALUE to simulate the rollover
-         * that would occur in C++ using a 32bit unsigned long, we are
-         * using a 64bit signed long.
+         * that would occur in C++ using a 32 bit unsigned long, we are
+         * using a 64 bit signed long.
          */
         b = ((((S1 << 13) & MAX_VALUE) ^ S1) >> 19) ;
-        if (debug) System.out.print(b + "\t");
         S1 = ((((S1 & M1) << 12) & MAX_VALUE) ^ b) ;
-        if (debug) System.out.print(S1 + "\t");
         b = ((((S2 << 2) & MAX_VALUE) ^ (S2)) >> 25);
-        if (debug) System.out.print(b + "\t");
         S2 = ((((S2 & M2) << 4) & MAX_VALUE) ^ b) ;
-        if (debug) System.out.print(S2 + "\t");
         b = ((((S3 << 3) & MAX_VALUE) ^ S3) >> 11) ;
-        if (debug) System.out.print(b + "\t");
         S3 = ((((S3 & M3) << 17) & MAX_VALUE) ^ b) ;
-        if (debug) System.out.println(S3 + "\t");
-        if ((RANDOM_CALLS)==198) {
-            int a=0;
-        }
-        RANDOM_CALLS++;
         
         temp = ((S1) ^ (S2) ^ (S3)) & MAX_VALUE;
+
         return temp;
     }
     
@@ -180,7 +174,7 @@ public class NSSrng implements RandomNumber {
         else
             warm_up_iterations = 153;
         
-        if (debug) System.out.println("+++ NSSrng performing " + warm_up_iterations + "warmups");
+        if (debug) System.out.println("+++ NSSrng performing " + warm_up_iterations + " warmups");
         for (i = 0; i < warm_up_iterations; i++)
             drawLong();
     }
@@ -188,7 +182,7 @@ public class NSSrng implements RandomNumber {
     /**
      * Sets the seed to the given value. The seed must be greater than 1.
      * Seeds larger than 4294967295L, the max value of a C++ unsigned long
-     * (32 bits) will be truncated.
+     * (32 bits), will be truncated.
      * @throws IllegalArgumentException If the seed is not greater than 1
      **/
     public void setSeed(long seed) {
@@ -210,15 +204,14 @@ public class NSSrng implements RandomNumber {
                 " truncating to 32 bits. New seed is " + seed);
         }
         S1 = seed;
-        RANDOM_CALLS = 0;
         originalSeed = seed;
         initialize_random_generator();
     }
     
     /**
      * Returns the current value of the current seed. This RandomNumber has
-     * 3 seeds so getSeeds() should be used instead. It is not guaranteed that
-     * setting the seed with the return value of this method would restore the
+     * 3 seeds so getSeeds() should be used instead. 
+     * Setting the seed with the return value of this method will <b>not</b> restore the
      * state of the generator.
      **/
     public long getSeed() {
@@ -234,7 +227,7 @@ public class NSSrng implements RandomNumber {
      * Sets all 3 seeds of this RandomNumber. The performance of the generator may
      * depend on the relationship of the seeds which is automattically established with
      * setSeed. This method does not perform
-     * the "warm-up" draws that was part of the NSS generator. Internal limits
+     * the "warm-up" draws that were part of the NSS generator. Internal limits
      * on the seeds are not enforced. Therefore, setSeed should normally be
      * used.
      * @param seed An array of 3 longs.
@@ -242,7 +235,7 @@ public class NSSrng implements RandomNumber {
      **/
     public void setSeeds(long[] seed) {
         if (seed.length != 3) {
-            throw new IllegalArgumentException("NSSrng.setSeeds requires an array of 3 numbers" +
+            throw new IllegalArgumentException("NSSrng.setSeeds requires an array of 3 longs" +
             ", the array length was " + seed.length);
         }
         
@@ -256,7 +249,8 @@ public class NSSrng implements RandomNumber {
         long[] ret = {S1, S2, S3};
         return ret;
     }
-    
+
+   //javadoc inherited 
     public double getMultiplier() {
         return INVERSE;
     }
@@ -273,9 +267,12 @@ public class NSSrng implements RandomNumber {
         return null;
     }
     
+/**
+* Returns a String containing information about NSSrng, including the starting seed.
+**/
     public String toString() {
-        return new String("RandomNumber implemenation, NSSrng with initial seed of " + originalSeed +
-            "\t[" + super.toString() + "]");
+        return new String("NSSrng with initial seed of " + originalSeed + 
+         " and current seeds of (" + S1 + ", " + S2 + ", " + S3 + ")");
     }
 }
 
