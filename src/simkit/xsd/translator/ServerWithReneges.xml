@@ -64,7 +64,7 @@
     
     <Event name="StartService" >
         
-        <LocalVariable name="customer" type="java.lang.Integer" value="(Integer)queue.first()" />
+        <LocalVariable name="customer" type="java.lang.Integer" value="queue.first()" />
         
         <StateTransition state="queue" >
             <Operation method="removeFirst()" />
