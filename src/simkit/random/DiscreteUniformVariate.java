@@ -22,6 +22,10 @@ public class DiscreteUniformVariate extends RandomVariateBase {
         }
         range = maximum - minimum + 1;
     }
+    
+    public Object[] getParameters() {
+        return new Object[] { new Integer(minimum), new Integer(maximum) };
+    }
 
     public double generate() {
         return (int) Math.floor(minimum + range * rng.draw());

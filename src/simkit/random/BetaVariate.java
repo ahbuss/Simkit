@@ -2,14 +2,6 @@ package simkit.random;
 
 public class BetaVariate extends RandomVariateBase {
 
-    private static final double DEFAULT_ALPHA;
-    private static final double DEFAULT_BETA;
-
-    static {
-        DEFAULT_ALPHA = 1.0;
-        DEFAULT_BETA = 1.0;
-    }
-
     private double alpha;
     private double beta;
 
@@ -26,31 +18,28 @@ public class BetaVariate extends RandomVariateBase {
     }
 
     public void setParameters(Object[] params) {
-        if (params == null) {
-            super.setParameters(new Object[]{new Double(DEFAULT_ALPHA), new Double(DEFAULT_BETA)});
-        }
-        else if (params.length == 2) {
-             super.setParameters(params);
-        }
-        else {
+        if (params.length != 2) {
             throw new IllegalArgumentException(this.getClass().getName() + " must have two arguments: " + params.length +
                                              " passed");
         }
-       setConvenienceParameters();
+        else if (params[0] instanceof Number && params[1] instanceof Number) {
+            alpha = ((Number) params[0]).doubleValue();
+            beta = ((Number) params[1]).doubleValue();
+        }
+        else {
+            throw new IllegalArgumentException("Parameters both must be of type Number");
+        }
     }
-
-    private void setConvenienceParameters() {
-        alpha = getAlpha();
-        beta = getBeta();
-    }
+    
+    public Object[] getParameters() { return new Object[] { new Double(alpha), new Double(beta) }; }
 
     private void setGammas(RandomNumber rng) {
         gammaVariate1 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", new Object[] {new Double(alpha)}, rng);
         gammaVariate2 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", new Object[] {new Double(beta)}, rng);
     }
 
-    public double getAlpha() {return ((Number)getParameters()[0]).doubleValue();}
-    public double getBeta() {return ((Number)getParameters()[1]).doubleValue();}
+    public double getAlpha() {return alpha; }
+    public double getBeta() { return beta; }
 
     public String toString() { return "Beta (" + getAlpha() + ", " + getBeta() + ")"; }
 

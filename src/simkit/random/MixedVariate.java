@@ -71,6 +71,7 @@ public class MixedVariate extends simkit.random.RandomVariateBase {
     public String toString() {
         java.text.DecimalFormat df = new java.text.DecimalFormat("0.000");
         StringBuffer buf = new StringBuffer("Mixed Distribution");
+        buf.append(System.getProperty("line.separator"));
         double[] prob = mixing.getProbabilities();
         for (int i = 0; i < prob.length; i++ ) {
             buf.append(df.format(prob[i]));

@@ -11,6 +11,8 @@ public class TraceVariate extends RandomVariateBase {
     public void setTraceValues(double[] values) {
         traceValues = (double[]) values.clone() ; 
     }
+    
+    public double[] getTraceValues() { return (double[]) traceValues.clone(); }
 
     public void setParameters(Object[] params) {
         if (params.length != 1) {
@@ -24,6 +26,8 @@ public class TraceVariate extends RandomVariateBase {
         }
     }
 
+    public Object[] getParameters() { return new Object[] { getTraceValues() }; }
+    
     public double generate() {
         double value = (rng.getSeed() < traceValues.length) ? traceValues[(int) rng.getSeed() ] : Double.NaN;
         rng.draw();

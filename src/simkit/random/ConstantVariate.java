@@ -29,5 +29,5 @@ public class ConstantVariate extends RandomVariateBase {
 
     public double generate() {return value;}
 
-    public String toString() { return "Constant: " + value; }
+    public String toString() { return "Constant (" + value + ")"; }
 }

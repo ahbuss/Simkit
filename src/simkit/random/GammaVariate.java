@@ -2,9 +2,6 @@ package simkit.random;
 
 public class GammaVariate extends RandomVariateBase {
 
-    private static final double DEFAULT_ALPHA = 1.0;
-    private static final double DEFAULT_BETA = 1.0;
-
     private double alpha;
     private double beta;
 
@@ -25,22 +22,29 @@ public class GammaVariate extends RandomVariateBase {
     }
 
     public void setParameters(Object[] params) {
-        if (params == null) {
-            super.setParameters(new Object[]{new Double(DEFAULT_ALPHA), new Double(DEFAULT_BETA)});
+        if (params.length != 2) {
+            throw new IllegalArgumentException("Must have 2 parameters for GammaVariate");
+        }
+        else if (params[0] instanceof Number && params[1] instanceof Number) {
+             ((Number) params[0]).doubleValue();
+            
+            beta = ((Number) params[1]).doubleValue();
+            this.setConvenienceParameters();
         }
         else {
-        switch(params.length) {
-            case 1:
-                super.setParameters(new Object[]{params[0], new Double(DEFAULT_BETA)});
-                break;
-            case 2:
-                super.setParameters(params);
-                break;
-            default:
-                throw new IllegalArgumentException(this.getClass().getName() + " must have two arguments: " + params.length +
-                                             " passed");
+            throw new IllegalArgumentException("Parameters for GammaVariate must be of type Number");
         }
-        setConvenienceParameters();
+    }
+    
+    public Object[] getParameters() { return new Object[] { new Double(alpha), new Double(beta) }; }
+    
+    public void setbeta(double beta) {
+        if (beta <= 0.0) {
+            throw new IllegalArgumentException("Parameter beta must be positive");
+        }
+        else {
+            this.beta = beta;
+            setConvenienceParameters();
         }
     }
 
@@ -97,8 +101,8 @@ public class GammaVariate extends RandomVariateBase {
         }
     }
 
-    public double getAlpha() {return ((Number)getParameters()[0]).doubleValue();}
-    public double getBeta() {return ((Number)getParameters()[1]).doubleValue();}
+    public double getAlpha() {return alpha;}
+    public double getBeta() {return beta;}
 
     public String toString() { return "Gamma (" + getAlpha() + ", " + getBeta() + ")"; }
 }
