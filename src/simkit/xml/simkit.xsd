@@ -63,8 +63,15 @@
           <xs:element ref="Schedule"/>
           <xs:element ref="Cancel"/>
         </xs:choice>
+        <xs:element minOccurs="0" ref="Coordinate"/>
       </xs:sequence>
       <xs:attribute name="name" use="required" type="xs:ID"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Coordinate">
+    <xs:complexType>
+      <xs:attribute name="x" use="required"/>
+      <xs:attribute name="y" use="required"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="Operation">
@@ -88,7 +95,7 @@
   </xs:element>
   <xs:element name="EdgeParameter">
     <xs:complexType>
-      <xs:attribute name="value" use="required"/>
+      <xs:attribute name="value" use="required" type="xs:IDREF"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="Schedule">

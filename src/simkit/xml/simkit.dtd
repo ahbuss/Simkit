@@ -15,7 +15,7 @@
 
 <!ELEMENT Argument ( Comment )* >
 <!ATTLIST Argument
-        type        CDATA       #REQUIRED
+	type	    CDATA	#REQUIRED
         name        ID          #REQUIRED
 >
 
@@ -33,9 +33,15 @@
         value       CDATA       #REQUIRED
 >
 
-<!ELEMENT Event	( Comment*, Argument*, LocalVariable*, StateTransition*, (Schedule|Cancel)* ) > 
+<!ELEMENT Event	( Comment*, Argument*, LocalVariable*, StateTransition*, (Schedule|Cancel)*, Coordinate? ) > 
 <!ATTLIST Event
 	name		ID	#REQUIRED
+>
+
+<!ELEMENT Coordinate EMPTY >
+<!ATTLIST Coordinate 
+	x	CDATA	#REQUIRED
+	y	CDATA	#REQUIRED
 >
 
 <!ELEMENT Operation EMPTY >
@@ -55,7 +61,7 @@
   
 <!ELEMENT EdgeParameter EMPTY >
 <!ATTLIST EdgeParameter
-        value   CDATA   #REQUIRED
+        value   IDREF	#REQUIRED
 >
 
 <!ELEMENT Schedule ( EdgeParameter )* >
