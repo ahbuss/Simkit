@@ -113,7 +113,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     }
     
     public BasicSimEntity(String name, double priority) {
-        this(name, priority, 0);
+        this(name, priority, Schedule.getDefaultEventList().getID());
     }
     
    /**
