@@ -43,4 +43,6 @@ public interface RandomNumber extends java.io.Serializable, Cloneable {
     public double draw();
     
     public Object clone();
+    
+    public long drawLong();
 }
