@@ -1,14 +1,4 @@
 package simkit;
-/////////////////////////// Copyright Notice //////////////////////////
-//                                                                   //
-// This simkit package or sub-package and this file is Copyright (c) //
-// 1997, 1998, 1999 by Kirk A. Stork and Arnold H. Buss.             //
-//                                                                   //
-// Please forward any changes, comments or suggestions to:           //
-//   abuss@nps.navy.mil                                              //
-//                                                                   //
-///////////////////////////////////////////////////////////////////////
-
 /**
  *  This class has nothing but "factory" methods for creating SimEvents based
  *  on the type of data needed for the event.
@@ -39,35 +29,6 @@ public class SimEventFactory {
         verbose = false;
     }
 
-/*
-    public static SimEvent createSimEvent(
-                       SimEntity source,
-                       String theMethodName,
-                       Object[] params,
-                       double schTime,
-                       double priority,
-                       String name) {
-         return new SimEventImpl(source, theMethodName, params, schTime, priority, name);
-    }
-
-   public static SimEvent createSimEvent(
-                       SimEntity source,
-                       String theMethodName,
-                       double schTime,
-                       double priority,
-                       String name) {
-     return createSimEvent(source, theMethodName, new Object[]{}, schTime, priority, name);
-   }
-
-    public static SimEvent createSimEvent(
-                       SimEntity source,
-                       String theMethodName,
-                       Object[] params,
-                       double schTime,
-                       String name) {
-     return createSimEvent(source, theMethodName, params, schTime, SimEvent.DEFAULT_PRIORITY, name);
-   }
-*/   
     public static SimEvent createSimEvent(
                        SimEntity source,
                        String eventName,
