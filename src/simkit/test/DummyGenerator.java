@@ -55,4 +55,8 @@ public class DummyGenerator implements simkit.random.RandomNumber {
         return copy;
     }
     
+    public double getMultiplier() {
+        return 0;
+    }
+    
 }
