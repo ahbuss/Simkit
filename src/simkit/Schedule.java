@@ -548,7 +548,7 @@ if (isReallyVerbose()) {
     public static void addRerun(SimEntity se) {
         reRun.put(se, null);
         if (se.isReRunnable()) {
-            se.waitDelay("Run", 0.0, null, SimEvent.DEFAULT_PRIORITY);
+            se.waitDelay("Run", 0.0, null, se.getPriority());
         }
     }
     public static void removeRerun(SimEntity se) {reRun.remove(se);}
