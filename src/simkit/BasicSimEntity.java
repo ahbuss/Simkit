@@ -497,6 +497,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         property.firePropertyChange(propertyName, oldValue, newValue);
     }
     
+
 /**
 * Notify registered PropertChangeListeners that the given boolean property has changed.
 * This version does not report the previous value.
@@ -525,6 +526,16 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
 **/
     public void firePropertyChange(String propertyName, double newValue) {
         property.firePropertyChange(propertyName, null, new Double(newValue));    }
+    
+/**
+* Notify registered PropertChangeListeners that the given double property has changed.
+* @param propertyName The property that changed.
+* @param oldValue The value of the property prior to this change.
+* @param newValue The value of the property after this change.
+**/
+    public void firePropertyChange(String propertyName, double oldValue, double newValue) {
+		property.firePropertyChange(propertyName, new Double(oldValue), new Double(newValue));
+    }
     
 /**
 * Notify registered PropertChangeListeners that the given Object property has changed.

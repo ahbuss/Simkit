@@ -1,10 +1,17 @@
 package simkit.xml;
-import org.jdom.*;
-import org.jdom.input.*;
-import org.jdom.output.*;
-import java.lang.reflect.*;
-import java.beans.*;
-import java.util.*;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.output.XMLOutputter;
 /**
  * Serializes an Object to xml using javabean Introspection.
  * <br/>Note that this Class is not yet complete.
