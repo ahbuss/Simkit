@@ -1,6 +1,6 @@
 package simkit.random;
 
-public class DiscreteUniformVariate extends RandomVariateBase {
+public class DiscreteUniformVariate extends RandomVariateBase implements DiscreteRandomVariate {
 
     private int minimum;
     private int maximum;
@@ -28,11 +28,15 @@ public class DiscreteUniformVariate extends RandomVariateBase {
     }
 
     public double generate() {
-        return (int) Math.floor(minimum + range * rng.draw());
+        return (double) generateInt();
     }
 
     public String toString() {
         return "Discrete Uniform (" + minimum + ", " + maximum + ")";
     }
 
+    public int generateInt() {
+        return (int) Math.floor(minimum + range * rng.draw());
+    }
+    
 }
