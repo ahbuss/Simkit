@@ -14,7 +14,7 @@ import java.awt.geom.*;
  * @author  Arnold Buss
  * @version 
  */
-public interface Mover extends Moveable, SimEntity {
+public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
 
     public void doStartMove(Moveable mover);
     

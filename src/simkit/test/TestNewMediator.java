@@ -26,7 +26,7 @@ public class TestNewMediator {
     public static void main(String args[]) {
         MediatorFactory mediatorFactory = SensorTargetMediatorFactory.getInstance();
         mediatorFactory.addMediatorFor(simkit.smdx.CookieCutterSensor.class,
-            simkit.smdx.UniformLinearMover.class, simkit.smdx.CookieCutterMediator.class);
+        simkit.smdx.UniformLinearMover.class, simkit.smdx.CookieCutterMediator.class);
         System.out.println(mediatorFactory.getMediators());
         
         Mover[] mover =
@@ -38,6 +38,10 @@ public class TestNewMediator {
             new CookieCutterSensor(10.0, mover[0]),
             new CookieCutterSensor(20.0, mover[1])
         };
+        
+//        for (int i = 0; i < sensor.length; i++) {
+//            ((SimEntityBase)sensor[i]).setVerbose(true);
+//        }
         Mediator mediator = mediatorFactory.getMediatorFor(sensor[0].getClass(), mover[0].getClass());
         System.out.println(mediator);
         
@@ -46,7 +50,8 @@ public class TestNewMediator {
             referee.register(mover[i]);
             referee.register(sensor[i]);
         }
-        System.out.println(referee);
+        referee.setVerbose(true);
+        System.out.println(referee);        
         
         mediatorFactory.clear();
         System.out.println(mediatorFactory.getMediators());
@@ -61,7 +66,7 @@ public class TestNewMediator {
             new PathMoverManager(mover[0]),
             new PathMoverManager(mover[1])
         };
-            
+        
         List[] wayPoints = new List[2];
         for (int i = 0; i < wayPoints.length; i++) {
             wayPoints[i] = new ArrayList();
@@ -80,7 +85,8 @@ public class TestNewMediator {
         }
         
         Schedule.reset();
-        Schedule.setSingleStep(true);
+        Schedule.setSingleStep(false);
+        Schedule.setVerbose(true);
         for (int i = 0; i < pmm.length; i++) {
             pmm[i].start();
         }

@@ -17,8 +17,8 @@ import simkit.smdx.*;
  */
 public class SensorTargetReferee extends SimEntityBase implements PropertyChangeListener {
 
-    protected WeakHashMap sensors;
-    protected WeakHashMap targets;
+    protected Map sensors;
+    protected Map targets;
     
     private boolean clearOnReset;
     
@@ -66,7 +66,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
     public void doStartMove(Mover target) {
-        System.out.println("Heard StartMove(" + target +")");
+        
     }
     
     public void doStartMove(Sensor sensor) {
@@ -74,7 +74,6 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
     public void doEndMove(Mover target) {
-        System.out.println("Heard EndMove(" + target +")");
     }
     
     public void doEndMove(Sensor sensor) {

@@ -12,7 +12,7 @@ import simkit.*;
  * @author  Arnold Buss
  * @version 
  */
-public interface Sensor extends Moveable, SimEntity {
+public interface Sensor extends Moveable, SimEntity, PropertyChangeSource {
     
     public double getMaxRange();
     
