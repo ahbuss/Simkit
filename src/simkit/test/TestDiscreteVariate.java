@@ -30,7 +30,7 @@ public class TestDiscreteVariate {
         RandomVariate rv =
         RandomVariateFactory.getInstance(
         "simkit.random.DiscreteVariate",
-        new Object[] { new double[] {0, 1}, new double[] { 0.5, 0.5}},
+        new Object[] { new double[] {0, 1}, new double[] { 20, 20}},
         12345L
         );
         
@@ -39,7 +39,9 @@ public class TestDiscreteVariate {
         Histogram h = new Histogram("discrete", 1);
         PropertyChangeSupport pcs = new PropertyChangeSupport(rv);
         pcs.addPropertyChangeListener("discrete", h);
-        
+        for (int i = 0; i < 10; i++) {
+            System.out.println(rv.generate());
+        }
         
         for (int i = 0; i < 10000; i++) {
             pcs.firePropertyChange("discrete", null, new Double(rv.generate()));
