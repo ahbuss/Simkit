@@ -18,6 +18,8 @@ public class Math2D {
     
     public static final Point2D ZERO = new Point2D.Double(0.0, 0.0);
     
+    public static final double TINY = 1.0E-10;
+    
     public static final AffineTransform IDENTITY_TRANSFORM = new AffineTransform();
     
     public static Point2D add(Point2D first, Point2D second) {
@@ -334,10 +336,14 @@ public class Math2D {
     }
     
     public static double smallestPositive(double[] data, int num) {
+        return smallestPositive(data, num, TINY);
+    }
+    
+    public static double smallestPositive(double[] data, int num, double tolerance) {
         double smallest = Double.POSITIVE_INFINITY;
         if (num <= data.length && num > 0) {
             for (int i = 0; i < num; i++) {
-                if (data[i] > 0.0 && data[i] < smallest){
+                if (data[i] > tolerance && data[i] < smallest){
                     smallest = data[i];
                 }
             }
@@ -345,8 +351,12 @@ public class Math2D {
         return smallest;
     }
     
+    public static double smallestPositive(double[] data, double tolerance) {
+        return smallestPositive(data, data.length, tolerance);
+    }
+    
     public static double smallestPositive(double[] data) {
-        return smallestPositive(data, data.length);
+        return smallestPositive(data, data.length, TINY);
     }
     
     public static Point2D[] getCoefficients(Line2D line) {
