@@ -1,7 +1,8 @@
 package simkit.random;
 
 /** Generates Normal(mean, std) random variate using the
- * Box-Muller algorithm.
+ * Box-Muller algorithm.  The parameters are the mean and standard
+ * deviation.
  * <p>Uses a constant number of RandomNumbers per draw.</p>
  * <p> Removed saved value "feature" for better synchronization.
  *
@@ -83,19 +84,6 @@ public class NormalVariate extends RandomVariateBase {
         }
         else {
             throw new IllegalArgumentException("Standard Deviation must be > 0.0");
-        }
-    }
-    
-/**
-* Sets the variance of this NormalVariate.
-* @throws IllegalArgumentException If the variance is negative.
-**/
-    public void setVariance(double var) {
-        if (var >= 0.0) {
-            sigma = Math.sqrt(var);
-        }
-        else {
-            throw new IllegalArgumentException("Variance must be > 0.0");
         }
     }
     
