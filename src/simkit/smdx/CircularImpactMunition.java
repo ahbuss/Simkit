@@ -51,7 +51,7 @@ public class CircularImpactMunition extends UniformLinearMover implements Muniti
     public void doEndMove(CircularImpactMunition m) {
         if (this == m) {
             stop();
-            firePropertyChange("impact", getImpact());
+            waitDelay("Impact", 0.0, this);
         }
     }
     
@@ -72,4 +72,9 @@ public class CircularImpactMunition extends UniformLinearMover implements Muniti
     public String toString() {
         return super.toString() + (!isExpended() ? " Not Expended" : " Expended");
     }
+    
+    public void doImpact(Munition munition) {
+        firePropertyChange("impact", getImpact());
+    }
+    
 }
