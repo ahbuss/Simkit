@@ -51,14 +51,14 @@ public class Congruential implements RandomNumber {
         if ( currentSeed == startingSeed ) {
             System.err.println("WARNING: Random seed repetition detected.");
         }
-        return Math.abs(currentSeed);
+        return currentSeed;
     }
     
 /**
   * @return  The next Uniform(0, 1) random number
 **/
     public double draw() {
-        return (double) drawLong() * MULT;
+        return Math.abs((double) drawLong() * MULT);
     }
     
     /**
