@@ -10,11 +10,11 @@ import java.beans.*;
  */
 public interface Munition extends Moveable, SimEntity {
     
-    public void doEndMove(Mover m) ;
-    
     public Point2D getAimPoint() ;
     
     public double getImpactRange() ;
     
     public Shape getImpact() ;
+    
+    public boolean isExpended();
 }
