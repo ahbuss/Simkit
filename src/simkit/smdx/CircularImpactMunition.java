@@ -10,46 +10,50 @@ import simkit.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.beans.*;
+import java.text.*;
 /**
  *
  * @author  ahbuss
  */
-public class CircularImpactMunition extends SimEntityBase implements Munition {
+public class CircularImpactMunition extends UniformLinearMover implements Munition {
     
-    private Mover propulsion;
     private Point2D aimPoint;
     private double range;
+    private boolean expended;
     
-    public CircularImpactMunition(Mover prop, double range) {
-        propulsion = prop;
-        propulsion.addSimEventListener(this);
+    private static DecimalFormat df;
+    static {
+        df = new DecimalFormat("-0.000; 0.000");
+    }
+    
+    public CircularImpactMunition(String name, Point2D location, double speed, double range) {
+        this(location, speed, range);
+        setName(name);
+    }
+    
+    public CircularImpactMunition(Point2D location, double speed, double range) {
+        super(location, speed);
         this.range = range;
     }
     
-    public Point2D getAcceleration() {
-        return propulsion.getAcceleration();
-    }
-    
-    public Point2D getLocation() {
-        return propulsion.getLocation();
-    }
-    
-    public Point2D getVelocity() {
-        return propulsion.getVelocity();
+    public void reset() {
+        super.reset();
+        expended = false;
     }
     
     public void doFire(Point2D aimPoint) {
         this.aimPoint = aimPoint;
-        propulsion.moveTo(aimPoint);
+        expended = true;
+        firePropertyChange("expended", Boolean.FALSE, Boolean.TRUE);
+        moveTo(aimPoint);
     }
     
-    public void doEndMove(Mover m) {
-        if (m == propulsion) {
-            firePropertyChange("impact", this);
-            propulsion.removeSimEventListener(this);
+    public void doEndMove(CircularImpactMunition m) {
+        if (this == m) {
+            stop();
+            firePropertyChange("impact", getImpact());
         }
     }
-    
     
     public Point2D getAimPoint() { return (Point2D) aimPoint.clone(); }
     
@@ -61,5 +65,11 @@ public class CircularImpactMunition extends SimEntityBase implements Munition {
         Point2D corner = Math2D.add(center, new Point2D.Double(range, range));
         impact.setFrameFromCenter(center, corner);
         return impact;
+    }
+    
+    public boolean isExpended() { return expended; }
+    
+    public String toString() {
+        return super.toString() + (!isExpended() ? " Not Expended" : " Expended");
     }
 }
