@@ -14,7 +14,7 @@ package simkit.random;
  * @author Arnold Buss
 **/
 
-public interface RandomVariate extends java.io.Serializable {
+public interface RandomVariate extends java.io.Serializable, Cloneable {
 
 /**
  *  Generate a random variate having this class's distribution.
