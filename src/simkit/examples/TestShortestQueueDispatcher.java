@@ -11,7 +11,7 @@ public class TestShortestQueueDispatcher {
     public static void main(String[] args) {
         RandomVariate iat = RandomVariateFactory.getInstance("Exponential",
             new Object[] { new Double(1.0) }, CongruentialSeeds.SEED[0]);
-        RandomVariate[] servTime = new RandomVariate[2];
+        RandomVariate[] servTime = new RandomVariate[5];
         RandomNumber rng = RandomNumberFactory.getInstance(CongruentialSeeds.SEED[1]);
         Server[] server = new Server[servTime.length];
         for (int i = 0; i < servTime.length; ++i) {
