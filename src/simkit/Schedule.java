@@ -102,7 +102,14 @@ public class Schedule  {
     public static void pause() {
         defaultEventList.pause();
     }
-    
+
+/**
+ * Same as pause()
+ * @deprecated use Schedule.pause() instead
+ */
+    public static void pauseSimulation() {
+        pause();
+    }
 /**
 * Wait for user input before continuing. <P>
 * 's' will stop the simulation.<BR>
