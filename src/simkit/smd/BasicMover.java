@@ -201,7 +201,7 @@ public class BasicMover extends SimEntityBase implements Mover {
 /**
  *  Order the BasicMover to begin moving to the given destination at the given
  *  speed (or the maximum speed, whichever is smaller).
- *  @param destination The current destination of the BasicMover.
+ *  @param dest The current destination of the BasicMover.
  *  @param atSpeed The speed at which the BasicMover is to travel or maxSpeed,
  *        whichever is smaller).
 **/
