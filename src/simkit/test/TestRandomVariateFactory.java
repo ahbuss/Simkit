@@ -74,7 +74,7 @@ public class TestRandomVariateFactory {
         }
         
         RandomVariateFactory.addSearchPackage("simkit.test");
-        RandomVariate seq = RandomVariateFactory.getInstance("SequenceVariate", new Object[] {});
+        RandomVariate seq = RandomVariateFactory.getInstance("Sequence", new Object[] {});
         for (int i = 0; i < 5; i++) {
             System.out.println(seq.generate());
         }
@@ -85,6 +85,20 @@ public class TestRandomVariateFactory {
         }
         
         System.out.println(RandomVariateFactory.getCache());
+        
+        System.out.println("Testing copy method for " + rand[0]);
+        RandomVariate indCopy = RandomVariateFactory.getInstance(rand[0]);
+        RandomVariate depCopy = RandomVariateFactory.getInstance(
+            rand[0].getClass(), rand[0].getParameters(), 
+            RandomNumberFactory.getInstance((RandomNumber) rand[0].getRandomNumber())
+        );
+        System.out.println("Independent Copy is: " + indCopy);
+        System.out.println("Dependent) Copy is: " + depCopy);
+        System.out.println("Live\t\t\tDependent\t\tIndependent");
+        for (int i = 0; i < 4; ++i) {
+            System.out.println(rand[0].generate() + "\t" + 
+                depCopy.generate() + "\t" + indCopy.generate());
+        }
     }
 
 }
