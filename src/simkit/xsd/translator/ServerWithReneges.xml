@@ -9,7 +9,7 @@
         Advanced Simkit application.
 -->
 
-<!DOCTYPE SimkitModule PUBLIC '-//NPS Simkit//DTD Web Application//EN' 'simkit.dtd'>
+<!DOCTYPE SimkitModule PUBLIC '-//NPS Simkit//DTD Web Application//EN' 'file:/home/rmgold/CVS/Simkit/simkit/xsd/translator/simkit.dtd'>
 <SimkitModule
     name="ServerWithReneges"
     version="0.1.3" >
