@@ -28,7 +28,13 @@ public class ParameterDialog extends JDialog
   
   /** Text field that holds the parameter name */
   private JTextField parameterNameField;
-  
+
+  /** Text field that holds the expression */
+  private JTextField expressionField;
+
+  /** Text field that holds the comment */
+  private JTextField commentField;
+
   /** Editable combo box that lets us select a type */
   private JComboBox  parameterTypeCombo;
   
@@ -104,11 +110,17 @@ public class ParameterDialog extends JDialog
     topPanel.add(buttonPanel, BorderLayout.SOUTH);
     
     fieldsPanel = new JPanel();
+    fieldsPanel.setLayout(new BoxLayout(fieldsPanel,BoxLayout.Y_AXIS));
+
     fieldsPanel.add(new JLabel("Parameter Name"));
     parameterNameField = new JTextField(15);
     fieldsPanel.add(parameterNameField);
+
+    fieldsPanel.add(new JLabel("Expression"));
+    expressionField = new JTextField(25);
+    fieldsPanel.add(expressionField);
+
     fieldsPanel.add(new JLabel("Type"));
-    
     parameterTypeCombo = new JComboBox();
     parameterTypeCombo.setEditable(true);
     parameterTypeCombo.addItem("int");
@@ -116,13 +128,18 @@ public class ParameterDialog extends JDialog
     parameterTypeCombo.addItem("double");
     parameterTypeCombo.addItem("short");
     parameterTypeCombo.addItem("java.lang.String");
-    
     fieldsPanel.add(parameterTypeCombo);
-    
+
+    fieldsPanel.add(new JLabel("Comment"));
+    commentField = new JTextField(25);
+    fieldsPanel.add(commentField);
+
     topPanel.add(fieldsPanel, BorderLayout.CENTER);
     
     this.setContentPane(topPanel);
-    
+    pack(); 
+    this.setLocationRelativeTo(parentFrame);
+
   }
   
   /**

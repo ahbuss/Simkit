@@ -34,7 +34,10 @@ public class StateVariableDialog extends JDialog
   
   /** Text field that holds initial value */
   private JTextField initialValueField;
-  
+
+  /** Text field for comment */
+  private JTextField commentField;
+
   /** The button the user picked */
   private int buttonChosen = CANCEL_CHOSEN;
   
@@ -107,6 +110,7 @@ public class StateVariableDialog extends JDialog
     
     // Variable name
     fieldsPanel = new JPanel();
+    fieldsPanel.setLayout(new BoxLayout(fieldsPanel,BoxLayout.Y_AXIS));
     fieldsPanel.add(new JLabel("Parameter Name"));
     nameField = new JTextField(15);
     fieldsPanel.add(nameField);
@@ -126,11 +130,18 @@ public class StateVariableDialog extends JDialog
     fieldsPanel.add(new JLabel("Initial Value"));
     initialValueField = new JTextField(15);
     fieldsPanel.add(initialValueField);
-    
+
+    fieldsPanel.add(new JCheckBox("Array"));
+
+    fieldsPanel.add(new JLabel("Comment"));
+    commentField = new JTextField(25);
+    fieldsPanel.add(commentField);
+
     topPanel.add(fieldsPanel, BorderLayout.CENTER);
     
     this.setContentPane(topPanel);
-    
+    pack();
+    this.setLocationRelativeTo(parentFrame);
   }
   
   /**
