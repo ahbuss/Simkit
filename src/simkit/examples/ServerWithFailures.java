@@ -2,33 +2,70 @@ package simkit.examples;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 
+/**
+* An implementation of a single queue single-server processes with server
+* failures. This Class models both the arrival process and the server process.
+**/
 public class ServerWithFailures extends MultipleServerQueue {
     
+/**
+* The RandomVariate used to generate the failure times.
+*/
     private RandomVariate timeToFailure;
+
+/**
+* The RandomVariate used to generate the repair times.
+**/
     private RandomVariate repairTime;
     
+/**
+* The number of servers that are currently failed.
+**/
     protected int numberFailedMachines;
     
-    public ServerWithFailures(RandomVariate iat, RandomVariate st,
-    RandomVariate ft, RandomVariate rt) {
-        super(1, iat, st);
-        timeToFailure = RandomVariateFactory.getInstance(ft);
-        repairTime = RandomVariateFactory.getInstance(rt);
+/**
+* Creates a single server system with the given time distributions.
+* Note: Copies are made of the RandomVariates.
+* @param arrivalTime The RandomVariate used to generate the interarrival times.
+* @param serviveTime The RandomVariate used to generate the service times.
+* @param timeToFailure The RandomVariate used to generate the time to failure.
+* @param repairTime The RandomVariate used to generate the time to repair.
+**/
+    public ServerWithFailures(RandomVariate arrivalTime,
+                               RandomVariate serviceTime,
+                               RandomVariate timeToFailure,
+                               RandomVariate repairTime) {
+        super(1, arrivalTime, serviceTime);
+        this.timeToFailure = RandomVariateFactory.getInstance(timeToFailure);
+        this.repairTime = RandomVariateFactory.getInstance(repairTime);
     }
     
+/**
+* Resets the system to its initial state.
+**/
     public void reset() {
         super.reset();
         numberFailedMachines = 0;
     }
     
+/**
+* Schedules the first Arrival and first server Failure. Fires property changes
+* for numberInQueue and numberAvailableServers.
+**/
     public void doRun() {
         super.doRun();
         waitDelay("Failure", timeToFailure.generate());
     }
     
+/**
+* Schedules the EndRepair event and cancels the next EndService event. Fires property
+* changes for numberFailedMachines, numberInQueue, numberAvailableServers. If
+* the server is busy when it fails, pushes the object being served back to the queue.
+**/
     public void doFailure() {
         firePropertyChange("numberFailedMachines", numberFailedMachines, ++numberFailedMachines);
         int oldNIQ = numberInQueue;
+ //I think this next line limits us to a single server - JLR
         numberInQueue += 1 - numberAvailableServers;
         firePropertyChange("numberInQueue", oldNIQ, numberInQueue);
         int oldNAS = numberAvailableServers;
@@ -39,6 +76,10 @@ public class ServerWithFailures extends MultipleServerQueue {
         waitDelay("EndRepair", repairTime.generate());
     }
     
+/**
+* Schedules the next Failure event and if the queue is not empty, schedules StartService for
+* now. Fires property changes for numberFailedMachines and numberAvailableServers.
+**/
     public void doEndRepair() {
         firePropertyChange("numberFailedMachines", numberFailedMachines, --numberFailedMachines);
         numberAvailableServers = 1;
@@ -49,15 +90,24 @@ public class ServerWithFailures extends MultipleServerQueue {
         }
     }
     
+/**
+* Returns a String containing information about this process.
+**/
     public String paramString() {
         return toString();
     }
     
+/**
+* Returns a String containing information about this process.
+**/
     public String toString() {
         return super.toString() + "\nFailure time distribution " + timeToFailure +
         "\nRepair time distribution " + repairTime;
     }
     
+/**
+* Returns a String containing a brief description of this Class.
+**/
     public static String description() {
         return "Server With Failures";
     }

@@ -7,6 +7,7 @@ import simkit.random.RandomVariateFactory;
  *  <P>Simplest non-trivial Event Graph.  A basic arrival process that can have any
  *  interarrival probability distribution.
  *  @author Arnold Buss
+ *  @version $Id$
  **/
 public class ArrivalProcess extends SimEntityBase {
     /**
@@ -48,34 +49,50 @@ public class ArrivalProcess extends SimEntityBase {
         waitDelay("Arrival", interArrivalTime.generate());
     }
     
+   /**
+   * Cancels the pending Arrival event, stopping the arrival process.
+   **/
     public void doStopArrivals() {
         interrupt("Arrival");
     }
     
     /**
+     *  Returns the current number of arrivals.
      *  @return number of arrivals (state variable)
      **/
     public int getNumberArrivals() { return numberArrivals; }
+
     /**
+     *  Sets the Interarrival time distribution to a copy of the given
+     *  RandomVariate.
      *  @param iat Interarrival distribution (parameter)
      **/
     public void setInterArrivalTime(RandomVariate iat) {
         interArrivalTime = RandomVariateFactory.getInstance(iat);
     }
     /**
+     *  Returns a copy of the Interarrival time distribution.
      *  @return Interarrival distribution (parameter)
      **/
     public RandomVariate getInterArrivalTime() {
         return RandomVariateFactory.getInstance(interArrivalTime);
     }
+
+   /**
+     * Returns a String containing information about this ArrivalProcess.
+     */
     public String paramString() { return toString(); }
+
     /**
+     * Returns a String containing information about this ArrivalProcess.
      *  @return String suitable for part of report
      **/
     public String toString() {
         return "Arrival Process\n\tInterarrival times: " + interArrivalTime;
     }
+
     /**
+     * Returns a String containing usage information for the main method.
      *  @return Usage String (uses Exponential interarrival times)
      **/
     public static String usage() {
@@ -83,6 +100,7 @@ public class ArrivalProcess extends SimEntityBase {
         " <stop time> [single-step (true|false)]";
     }
     /**
+     * Returns a String containing a description of this class.
      *  @return A short description of this class
      **/
     public static String description() {

@@ -6,19 +6,38 @@ import simkit.SimEntityBase;
 import simkit.random.RandomVariate;
 
 /**
- *
+ * Implements a Multi-server single queue server for Customers.
+ * After instatiating a CustomerServer, register it as a SimEventListener
+ * with a {@link CustomerCreator}.
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class CustomerServer extends SimEntityBase {
     
+/**
+* The total number of servers in the system
+**/
     private int numberServers;
+
+/**
+* The RandomVariate used to generate service times.
+**/
     private RandomVariate serviceTime;
     
+/**
+* The queue of waiting Customers.
+**/
     protected LinkedList queue;
+
+/**
+* The number of available servers.
+**/
     protected int numberAvailableServers;
     
-    
-    /** Creates a new instance of CustomerServer */
+/**
+* Creates a new CustomerServer with the given number of servers, and service
+* time distribution.
+**/
     public CustomerServer(int numberServers, RandomVariate serviceTime) {
         queue = new LinkedList();
         setNumberServers(numberServers);
@@ -34,13 +53,18 @@ public class CustomerServer extends SimEntityBase {
         queue.clear();
     }
     
+/**
+* Fire property changes for the number in the queue (numberInQueue) and the number of available
+* servers (numberAvailableServers).
+**/
     public void doRun() {
         firePropertyChange("numberInQueue", queue.size());
         firePropertyChange("numberAvailableServers", numberAvailableServers);
     }
     
-    /** Add arriving customer to queue.  If there is an available
-     * server, schedule StartService event.
+    /** Adds arriving customer to queue.  If there is an available
+     * server, schedules StartService event.
+     * Fires a property change for the number in the queue. (numberInQueue)
      * @param customer Arriving Customer
      */    
     public void doArrival(Customer customer) {
@@ -52,9 +76,10 @@ public class CustomerServer extends SimEntityBase {
         }
     }
     
-    /** Remove first Customer from queue; decrement number of
+    /** Removes first Customer from queue; decrements number of
      * available servers.
-     * Schedule EndService event with delay of service time.
+     * Schedules EndService event with delay of service time.
+     * Fires property changes for delayInQueue, numberInQueue, and numberAvailableServers.
      */    
     public void doStartService() {
         Customer customer = (Customer) queue.removeFirst();
@@ -66,9 +91,11 @@ public class CustomerServer extends SimEntityBase {
         waitDelay("EndService", serviceTime.generate(), customer);
     }
     
-    /** Increment number of available servers.  If there are
-     * still customer(s) in the queue, schedule a StartService
+    /** Increments number of available servers.  If there are
+     * still customer(s) in the queue, schedules a StartService
      * event.
+     * Fires property changes for timeInSystem (The total time since the Customer's
+     * arrival) and numberAvailableServers.
      * @param customer Customer finishing service
      */    
     public void doEndService(Customer customer) {
@@ -81,41 +108,50 @@ public class CustomerServer extends SimEntityBase {
     }
     
     /**
+     * Sets the RandomVariate used to generate the service times.
      * @param st Service time RandomVariate
      */    
     public void setServiceTime(RandomVariate st) { serviceTime = st; }
     
     /**
+     * Returns the RandomVariate used to generate the service times.
      * @return Service time RandomVariate instance
      */    
     public RandomVariate getServiceTime() { return serviceTime; }
     
     /**
+     * Sets the total number of servers.
      * @param ns Total number of servers for this instance
      */    
     public void setNumberServers(int ns) { numberServers = ns; }
     
     /**
+     * Returns the total number of servers.
      * @return Total number of servers for this instance
      */    
     public int getNumberServers() { return numberServers; }
     
     /**
+     * Returns the number of Customers in the queue.
      * @return Number in queue
      */    
     public int getNumberInQueue() { return queue.size(); }
     
     /**
+     * Returns a copy of the queue.
      * @return Shallow copy of queue
      */    
     public List getQueue() { return new LinkedList(queue); }
     
     /**
+     * Returns the number of servers that are not busy.
      * @return Number available servers at this point in time
      */    
     public int getNumberAvailableServers() { return numberAvailableServers; }
     
     /**
+     * Returns a String containing the number of servers and the service time
+     * distribution.
      * @return Short description
      */    
     public String toString() {

@@ -5,8 +5,10 @@ import simkit.stat.*;
 import simkit.util.*;
 import java.text.*;
 /**
- *
+ * Simulates a system consisting of a 2 server single queue system for Customers. Uses an 
+ * {@link ArrivalProcess}, a {@link CustomerCreator}, and a {@link CustomerServer}.
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class TestCustomerServer {
     

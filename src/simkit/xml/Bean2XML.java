@@ -7,13 +7,23 @@ import java.beans.*;
 import java.util.*;
 /**
  * Serializes an Object to xml using javabean Introspection.
+ * <br/>Note that this Class is not yet complete.
  * @author  Arnold Buss
  * @version $Id$
  */
 public class Bean2XML {
     
+/**
+* A single element array containing the String Class.
+**/
     public static final Class[] stringClassArray = new Class[] { java.lang.String.class };
     
+/**
+* Return an XML Element containing the Class of the given Object and the name, type, and
+* value of all attributes. Uses java bean Introspection to discover the properties.
+* Note that properties that are references to an Object have shallow values; the
+* value is the Class and a hash value.
+**/
     public static Element createElementFromBean(Object bean) {
         Element beanElement = new Element("Bean");
         Element classElement = new Element("class");
@@ -42,6 +52,9 @@ public class Bean2XML {
         return beanElement;
     }
     
+/**
+* Not yet complete.
+**/
     public static Object createBeanFromElement(Element element) {
         Object bean = null;
         Element classElement = element.getChild("class");
@@ -61,6 +74,7 @@ public class Bean2XML {
         return bean;
     }
     
+
     public static Object createProperty(String name, String value) {
         Object propertyValue = null;
         try {
@@ -79,6 +93,9 @@ public class Bean2XML {
         return propertyValue;
     }
     
+/**
+* Returns the wrapper Class for the given primative.
+**/
     public static Class getObjectWrapperClassFor(Class primitiveClass) {
         if (primitiveClass.equals(Integer.TYPE)) { return java.lang.Integer.class; }
         if (primitiveClass.equals(Double.TYPE)) { return java.lang.Double.class; }
@@ -91,6 +108,9 @@ public class Bean2XML {
         return primitiveClass;
     }
     
+/**
+* Tests the createElementFromBean method.
+**/
     public static void main(String[] args) throws Throwable {
         simkit.stat.SimpleStatsTally test = new simkit.stat.SimpleStatsTally("foo");
         simkit.random.RandomNumber rng = simkit.random.RandomNumberFactory.getInstance();

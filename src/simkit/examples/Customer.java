@@ -8,42 +8,60 @@ import java.text.DecimalFormat;
  * has the capability of marking points in time for later retreival via the
  * stampTime() method and the timeStamp instance variable.
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class Customer {
     
+/**
+* Holds formating information for outputting times.
+**/
     public static final DecimalFormat form = new DecimalFormat("0.000");
     
+/**
+* The simulation time when this Customer was created.
+**/
     private double createdTime;
+
+/**
+* A saved time.
+**/
     private double timeStamp;
     
-    /** Creates a new instance of Customer */
+/**
+* Creates a new Customer at the current simulation time.
+**/
     public Customer() {
         reset();
     }
     
-    /** This method is so that instances of Customer may be
-     * reused.
-     */    
+/** 
+* Resets this Customer to its initial state setting the creation time to
+* the current simulation time. This method is so that instances of Customer may be
+* reused.
+*/    
     public void reset() {
         createdTime = Schedule.getSimTime();
         stampTime();
     }
     
-    /** Mark the current time.
+    /** Saves the current time overwriting any previously saved time.
      */    
     public void stampTime() { timeStamp = Schedule.getSimTime(); }
     
     /**
+     * Returns the last saved time.
      * @return The value of the last time stamp.
      */    
     public double getTimeStamp() { return timeStamp; }
     
     /**
+     * Returns the simulation time when this Customer was created.
      * @return The time the Customer was created
      */    
     public double getCreatedTime() { return createdTime; }
     
     /**
+     * Returns the elapsed time since this Customer was created.
      * @return Elapsed simTime since this instance was created
      */    
     public double getTimeSinceCreated() { 
@@ -51,6 +69,7 @@ public class Customer {
     }
     
     /**
+     * Returns the elapsed time since the last time stamp.
      * @return Elapsed simTime since last time stamp.
      */    
     public double getTimeSinceStamp() {
@@ -58,6 +77,7 @@ public class Customer {
     }
     
     /**
+     * Returns a String containing the creation time and the last time stamp.
      * @return Short description of this instance
      */    
     public String toString() {

@@ -3,8 +3,9 @@ import simkit.*;
 import simkit.random.*;
 import simkit.util.*;
 /**
- *
+ * Tests the ShortestQueueDispatcher.
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class TestShortestQueueDispatcher {
     

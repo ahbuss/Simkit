@@ -13,13 +13,26 @@ import java.util.*;
 
 public class Simtrospector {
 
+/**
+* The list of prefixes that indicate an event method in addition to <code>prefix<code/>
+**/
     private static ArrayList additionalPrefixes;
+
+/**
+* The primary prefix that indicates an event method (Default is "do").
+**/
     private static String prefix;
 
     static {
         setPrefix("do");
     }
 
+/**
+* Returns a Hashtable containing all of the public event methods for the given
+* Class. Event methods are methods that begin with prefixes as determined by
+* <code>setPrefix, addPrefix<code/> and other similar methods. The default prefix
+* is "do"
+**/
     public static Hashtable getEventMethods(Class c) {
         Method[] allMethods = c.getMethods();
         ArrayList eventMethods = new ArrayList(allMethods.length);
@@ -44,6 +57,9 @@ public class Simtrospector {
         return table;
     }
 
+/**
+* Adds the given prefix to the list of prefixes that indicate an event method.
+**/
     public static void addPrefix(String newPrefix) {
        if (additionalPrefixes == null) {
             additionalPrefixes = new ArrayList();
@@ -53,6 +69,10 @@ public class Simtrospector {
        }
     }
 
+/**
+* Removes the given prefix from the list of event method prefixes. If the
+* given prefix was not in the list, does nothing.
+**/
     public static void removePrefix(String prefix) {
         if (additionalPrefixes != null) {
             additionalPrefixes.remove(prefix);
@@ -62,14 +82,27 @@ public class Simtrospector {
         }
     }
 
+/**
+* Removes all additional prefixes.
+**/
     public static void removeAdditionalPrefixes() {
          additionalPrefixes.clear();
          additionalPrefixes = null;
     }
 
+/**
+* Sets the primary event method prefix. The default is "do"
+**/
     public static void setPrefix(String p) { prefix = p; }
+
+/**
+* Returns the primary event method prefix.
+**/
     public static String getPrefix() { return prefix; }
 
+/**
+* Returns an array containing the Classes of the given Obejects.
+**/
     public static Class[] getSignature(Object[] params) {
         if (params == null) {return new Class[]{};}
 
@@ -80,6 +113,11 @@ public class Simtrospector {
         return sig;
     }
 
+/**
+* Returns a String containing the names of the given Classes separated by 
+* commas and enclosed in parenthesis.</br>
+* For example: (Class1, Class2,)
+**/
     public static String createParameterKey(Class[] c) {
         if (c == null) {return "()";}
         StringBuffer buf = new StringBuffer();

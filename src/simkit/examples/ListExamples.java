@@ -4,9 +4,13 @@ import java.lang.reflect.Method;
  *  <P> Lists examples in the <CODE>simkit.examples</CODE> package along with their
  *  Usage statements.
  *  @author Arnold Buss
+ *  @version $Id$
 **/
 public class ListExamples {
 
+/**
+* Contains a list of the example classes.
+**/
     public static final String[] EXAMPLES =
         {
             "ListExamples",
@@ -22,10 +26,16 @@ public class ListExamples {
 
     public static String EOL = System.getProperty("line.separator", "\n");
 
+/**
+* Print out information about SimKit examples.
+**/
     public static void main(String[] args) throws Throwable {
         System.out.println(listExamples());
     }
 
+/**
+* List information about the example Classes.
+**/
     public static String listExamples() throws Throwable{
         StringBuffer buf = new StringBuffer("Contents of Package simkit.examples");
         buf.append(EOL);
@@ -71,12 +81,14 @@ public class ListExamples {
         return buf.toString();
     }
 /**
+ * Returns a String containing a description of this Class.
  *  @return A short description of this class
 **/
     public static String description() {
         return "Lists all the examples in the simkit.examples package";
     }
 /**
+ * Returns a String containing the usage of the main method.
  *  @return Usage string.
 **/
     public static String usage() {
