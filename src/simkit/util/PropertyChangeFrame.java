@@ -14,8 +14,8 @@ import simkit.*;
  *  <P> Usage:
  *  <PRE>
  *      PropertyChangeFrame pcf = new PropertyChangeFrame();
- *      <object 1>.addPropertyChangeListener(pcf);
- *      <object 2>.addPropertyChangeListener(pcf);
+ *      &#60;object 1&#62;.addPropertyChangeListener(pcf);
+ *      &#60;object 2&#62;.addPropertyChangeListener(pcf);
  *           ...
  *      pcf.setVisible(true);
  *  </PRE>

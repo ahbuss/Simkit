@@ -445,6 +445,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      * Get the value of the given property.
      * @param name The name of the property to be retrieved
      * @return The value of the property
+     * @throws NullPointerException If the property doesn't exist
      */
     public Object getProperty(String name) {
         return property.getProperty(name);
@@ -456,6 +457,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      * @param defaultValue The default value -- returned if property's value cannot
      *        be returned or is null.
      * @return The value of the property.
+     * @throws NullPointerException If the property doesn't exist
      */
     public Object getProperty(String name, Object defaultValue) {
         return property.getProperty(name, defaultValue);
@@ -465,6 +467,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      * Set the property to the given value.
      * @param name The name of the property to be set
      * @param value The new value of the property
+     * @throws NullPointerException If the property doesn't exist
      */
     public void setProperty(String name, Object value) {
         property.setProperty(name, value);

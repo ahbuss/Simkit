@@ -10,9 +10,13 @@ import javax.swing.*;
 **/
 public class JButtonListener implements PropertyChangeListener {
 
+/**
+* The JButton that this JButtonListener controls the enabled property of.
+**/
     private JButton button;
 
 /**
+ *  Creates a new listener to enable/disable the given JButton.
  *  @param b The button to be enabled/disabled
 **/    public  JButtonListener(JButton b) {
         super();
@@ -20,6 +24,8 @@ public class JButtonListener implements PropertyChangeListener {
     }
 
 /**
+ *  If the Property is "enabled" enables or disables the JButton based
+ *  on its value.
  *  @param e The PropertyChangeEvent that may enable/disable the JButton.
 **/
     public void propertyChange(PropertyChangeEvent e) {

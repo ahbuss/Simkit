@@ -5,11 +5,14 @@ import java.beans.*;
 import java.util.*;
 import java.lang.reflect.*;
 
+/**
+* Holds a static method used to create an "action button".
+**/
 public class Utilities {
 
 /**
- *  Creates and returns a JButton with the given action listening.  Additionally,
- *  an instance of  actions.JButtonListener is added as a PropertyChangeListener
+ *  Creates and returns a JButton with the given action set as a listener.  Additionally,
+ *  an instance of  JButtonListener is added as a PropertyChangeListener
  *  to enable and disable the button from its action.
  *  @param action The action from which to create the JButton.
 **/

@@ -4,36 +4,77 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+/**
+* Used to hold Properties that can be accessed using a block name and 
+* property name. Supports reading and writing the properties to 
+* a text file. Access to the properties is via the <CODE>get<CODE/>
+* and <CODE>put<CODE/> methods inherited from <CODE>Hashtable2<CODE/>.
+* <BR/>The format of the file is as follows:<BR/><BR/>
+* <CODE>[Block name]<BR/>
+* Property Name=value<BR/>
+* .<BR/>
+* [Block name]<BR/>
+* #Comment<BR/>
+* ;Comment (Comments are ignored on load and not stored.)<BR/>
+* etc.<CODE/><P/>
+* Note: This class is similar to java.util.Properties, but adds
+* blocks so that the file format mimics Windows ini file format.
+* @see Properties
+**/
 public class INIFileProperties extends Hashtable2 {
 
+/**
+* Holds the new line character for the current operating system.
+**/
     private static final String NL = System.getProperty("line.separator");
 
+/**
+* Creates an empty properties table.
+**/
     public INIFileProperties() {
         super();
     }
 
+/**
+* Creates a properties table loading the values from the given InputStream.
+*  @throws IOException If the file cannot be read.
+**/
     public INIFileProperties(InputStream instream) throws IOException  {
         super();
         this.load(instream);
     }
 
+/**
+* Creates a properties table loading the values from the given URL.
+*  @throws IOException If the file cannot be read.
+**/
     public INIFileProperties(URL url) throws IOException {
         super();
         this.load(url);
     }
 
+/**
+* Creates a properties table loading the values from the given File.
+*  @throws IOException If the file cannot be read.
+**/
     public INIFileProperties(File file) throws IOException {
         super();
         this.load(file);
     }
 
+/**
+* Creates a properties table loading the values from the file specified.
+* @param fileName The path to the file.
+**/
     public INIFileProperties(String fileName) {
         super();
         this.load(fileName);
     }
 /**
- *  Load an ini file from the given InputStream. 
+ *  Loads an ini file from the given InputStream. 
  *  @param inStream The InputStream from which to load the ini file.
+ *  @throws IOException If the file cannot be read.
+*   @throws RuntimeException If the file contains format errors.
 **/
     public void load(InputStream inStream)
             throws IOException {
@@ -83,9 +124,11 @@ public class INIFileProperties extends Hashtable2 {
     }
 
 /**
- *  Load an ini file from the given filename -- note, does thot throw a checked
- *  exception!
+ *  Loads an ini file from the given filename. Note: This version
+ *  of load does not throw on IOException, it simply prints a warning 
+ *  to stderr.
  *  @param iniFileName the name of the ini file to be loaded.
+*   @throws RuntimeException If the file contains format errors.
 **/
     public void load(String iniFileName) {
         try {
@@ -96,8 +139,10 @@ public class INIFileProperties extends Hashtable2 {
     }
 
 /**
- *  Load an ini file from the given URL. 
+ *  Loads an ini file from the given URL. 
  *  @param file The URL from which to load the ini file.
+ *  @throws IOException If the file cannot be read.
+*   @throws RuntimeException If the file contains format errors.
 **/
     public void load(URL file)
             throws IOException {
@@ -106,8 +151,10 @@ public class INIFileProperties extends Hashtable2 {
     }
 
 /**
- *  Load an ini file from the given File.  Simply invokes the Load(URL) method.
+ *  Loads an ini file from the given File.  Simply invokes the Load(URL) method.
  *  @param file The File object from which to load the ini file.
+ *  @throws IOException If the file cannot be read.
+*   @throws RuntimeException If the file contains format errors.
 **/
     public void load(File file)
             throws IOException {
@@ -115,9 +162,10 @@ public class INIFileProperties extends Hashtable2 {
     }
 
 /**
- *  Save the Hashtable2 as an ini file to File outFile.  Note that all comments
+ *  Saves the Hashtable2 as an ini file to File outFile.  Note that all comments
  *  are lost.
  *  @param outFile The File object to write the ini file to.
+ *  @throws IOException If the file cannot be written.
 **/
     public void save(File outFile) throws IOException {
         PrintWriter outWriter = new PrintWriter(new FileOutputStream(outFile));
@@ -127,8 +175,7 @@ public class INIFileProperties extends Hashtable2 {
     }
 
 /**
- *  Overrides toString() to print out the Hashtable2 as an ini file String.
- *  @return The stringification of the Hashtable2 in an "ini" format.
+ *  Creates a String containing the properties in output file format.
 **/
     public String toString() {
         StringBuffer buf = new StringBuffer();

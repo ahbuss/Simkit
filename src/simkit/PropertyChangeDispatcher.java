@@ -71,6 +71,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
 /**
 * Set the specified property to the given value, firing a PropertyChangeEvent
 * to inform any registered listeners of the change.
+* @throws NullPointerException If the property doesn't exist.
 **/
     public void setProperty(String propertyName, Object propertyValue) {
         PropertyDescriptor pd = (PropertyDescriptor) properties.get(source.getClass(), propertyName);
@@ -90,6 +91,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
 * Get the value of the given property, firing a PropertyChangeEvent
 * to inform any registered listeners of the current value of the 
 * property.
+* @throws NullPointerException If the property doesn't exist.
 **/
     public Object getProperty(String propertyName) {
         PropertyDescriptor pd = (PropertyDescriptor) properties.get(source.getClass(), propertyName);
@@ -111,6 +113,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
 * Get the value of the given property or return the given default.
 * @return The value of the property if found and not null, otherwise the 
 * default value.
+* @throws NullPointerException If the property doesn't exist.
 **/
     public Object getProperty(String propertyName, Object defaultValue) {
         Object prop = getProperty(propertyName);

@@ -10,14 +10,18 @@ package simkit.stat;
  *  as there is currently a "gap" of approximately 0.02 between 100 df (the last
  *  row) and the normal limit.
  *
- *  <P>Nevertheless, if produces the right quantiles for 94%, 95%, 96%, 97%, 98%, and 99%
- *  confidence intervals for 1-100 degrees of freedom, which is better than nothing. 
 **/
-
 public class StudentT {
 
+/**
+* Holds the pvalues corresponding to the columns of the array quantiles.
+**/
 public static final double[] pvalues = {0.970, 0.975, 0.980, 0.985, 0.990, 0.995};
 
+/**
+* Holds the quantiles for the Student t. Columns correspond to the
+* pvalues contained in pvalues, rows correspond to degrees of freedom from 1-100.
+**/
 public static final double[][] quantiles =
 {{10.57889, 12.7062, 15.89454, 21.20495, 31.82052, 63.65674}, 
 {3.896425, 4.302653, 4.848732, 5.642778, 6.964557, 9.924843}, 
@@ -120,12 +124,31 @@ public static final double[][] quantiles =
 {1.90259, 1.984217, 2.081162, 2.201819, 2.364606, 2.626405}, 
 {1.90237, 1.983972, 2.080884, 2.201497, 2.364217, 2.625891}};
 
+/**
+* Holds the quantiles of the normal distribution corresponding to
+* the pvalues in pvalues.
+**/
 public static double[] normal = {1.880794, 1.959964, 2.053749, 2.170090, 2.326348, 2.575829};
 
+/**
+* Holds the difference between the pvalues contained in pvalues. Currently = 0.005
+**/
 private static double delta = (pvalues[pvalues.length-1] - pvalues[0]) / (pvalues.length - 1);
 
+/**
+* Should never be instantiated.
+**/
     protected StudentT() { }
 
+/**
+* Gets the quantile for the given degrees of freedom and pvalue. 
+* p is rounded off to the nearest pvalue in the internal table.
+* The pvalues in the table are: 0.970, 0.975, 0.980, 0.985,
+* 0.990, 0.995.
+* If df is greater than 100, then uses the normal approximation.
+* @param p The desired pvalue.
+* @param df The degrees of freedom.
+**/
     public static double getQuantile(double p, int df) {
         if (df <= 0) { return Double.NaN; }
         int row = df - 1;

@@ -5,6 +5,12 @@ package simkit.stat;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+* A simple class for displaying a window. The window created is 
+* at position (5,5) and is 275 by 300 pixels. When the
+* window is closed, the program will exit.
+* @see simkit.util.CloseableDataWindow
+**/
 public class   DataWindow
        extends Frame
 {
@@ -16,6 +22,11 @@ public class   DataWindow
    
    private int myx, myy, myw, myh;
    
+/**
+* Creates a new DataWindow. Located at position (5,5)
+* that is 275 by 300 pixels.
+* @param title The title for the window.
+**/
    public DataWindow(String title) {
       super(title);
       myx = winPosX;
@@ -52,6 +63,9 @@ public class   DataWindow
 	}
 */
 	
+/**
+* Simply calls super.show().
+**/
 	public void show() {
 	   super.show();
 	}

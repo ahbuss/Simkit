@@ -4,9 +4,12 @@ import java.lang.reflect.*;
 import java.beans.*;
 import simkit.*;
 
+/**
+* A location for a number of useful static methods.
+**/
 public class Misc {
     /**
-     *  Given an <CODE>Object[]</CODE> array, return the corresponding <CODE>Class[]</CODE>
+     *  Given an <CODE>Object[]</CODE> array, returns the corresponding <CODE>Class[]</CODE>
      *  array.
      *  @since Simkit 1.0
      *  @param args The <CODE>Object[]</CODE> array we want the signature for.
@@ -20,6 +23,9 @@ public class Misc {
         return signature;
     }
     
+/**
+* Returns the method name with the class names of the arguments appended.
+**/
     public static String getFullMethodName(String methodName, Object[] arguments) {
         StringBuffer buf = new StringBuffer(methodName);
         buf.append('(');
@@ -30,7 +36,16 @@ public class Misc {
         buf.append(')');
         return buf.toString();
     }
-    
+
+/**
+* Returns the method name followed by the class names of the arguments. 
+* Only works for <CODE>public void<CODE/> methods.
+* @param theClass The Class that contains the method.
+* @param name The name of the method.
+* @param args An array containing the arguments for the method.
+* @return The method name followed by the classes of the arguments.
+* @throws NoSuchMethodException If the method doesn't exist or isn't public.
+**/    
     public static String getFullMethodName(Class theClass, String name, Object[] args) {
         String fullName = null;
         try {
@@ -41,6 +56,10 @@ public class Misc {
         return fullName;
     }
     
+/**
+* Removes all of the SimEventListners currently registers with 
+* the given SimEventSource.
+**/
     public static void removeAllSimEventListeners(SimEventSource source) {
         SimEventListener[] listeners = source.getSimEventListeners();
         for (int i = 0; i < listeners.length; i++) {
@@ -48,6 +67,10 @@ public class Misc {
         }
     }
     
+/**
+* Removes all of the PropertyChangeListners currently registers with 
+* the given PropertChangeSource.
+**/
     public static void removeAllPropertyChangeListeners(PropertyChangeSource source) {
         PropertyChangeListener[] listeners = source.getPropertyChangeListeners();
         for (int i = 0; i < listeners.length; i++) {

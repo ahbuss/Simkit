@@ -4,12 +4,7 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 
-/**
- *  <P>A two-dimensional Hashtable, implemented as a Hashtable of Hashtables.
- *  Each item is accessible using two keys.  The first points to a Hashtable
- *  and the second is the key of that Hashtable that references the desired
- *  value.
- *  <P> 3 Nov 1999: Removed load() and save() methods -- now in a subclass called
+/*  <P> 3 Nov 1999: Removed load() and save() methods -- now in a subclass called
  *      INIFileProperties.
  *  <P> Added remove() method. 
  *  <P>ToDo:
@@ -19,22 +14,26 @@ import java.net.*;
  *       input.
  *  <LI> Also, enable alphabetical or lexical ordering of keys.
  *  </UL>
- *
- * @version 0.4
+ */
+/**
+ *  <P>A two-dimensional Hashtable, implemented as a Hashtable of Hashtables.
+ *  Each item is accessible using two keys.  The first points to a "Block" 
+ *  and the second is the key that references the desired
+ *  property.
+ * 
  * @author Arnold Buss
 **/
-
 public class Hashtable2 extends HashMap {
 
 /**
- *  Construct an empty Hashtable2
+ *  Constructs an empty Hashtable2.
 **/
 	public Hashtable2() {
 		super();
 	}
 	
 /**
- *  Put a value into the Hashtable2 with given keys.  If the inner Hashtable
+ *  Puts a value into the Hashtable2 with given keys.  If the inner Hashtable
  *  does not exist, it is created.  If there is no corresponding property, it is
  *  created.  If the property already exists, it is overwritten.
  *  @param firstKey The first key of the property, normally the Block name
@@ -54,10 +53,11 @@ public class Hashtable2 extends HashMap {
 	}
 
 /**
- *  Overrides the put(Object, Object) method of Properties.  The value must be
- *  a Map or else things will not work properly.
+ *  Puts an existing Map into the outer HashTable.
+ *  The value must be a Map.
  *  @param key The outer key, normally the block name.
  *  @param value The value of the property, must be an instance of Map.
+ *  @throws IllegalArgumentException If the value is not a Map.
 **/
     public Object put(Object key, Object value) {
         if (value instanceof Map) {
@@ -69,6 +69,7 @@ public class Hashtable2 extends HashMap {
     }
 
 /**
+ *  Gets the value of the property.
  *  @param firstKey The block name.
  *  @param secondKey The key of the property.
  *  @return The value of the property with key secondKey in block firstKey.
@@ -84,9 +85,10 @@ public class Hashtable2 extends HashMap {
 	}
 
 /**
+ *  Removes the property specified by the given keys.
  *  @param firstKey Key to Map for removed value
  *  @param secondKey Key to removed value
- *  @return The removed value or null.
+ *  @return The removed value or null if the property doesn't exist.
 **/
     public Object remove(String firstKey, String secondKey) {
         Object removedValue = null;
@@ -97,6 +99,11 @@ public class Hashtable2 extends HashMap {
         return removedValue;
     }
 
+/**
+* Converts the Hashtable2 to a n by 2 array of Objects.
+* Where n is the number of entries in the outer HashTable.
+* The array contains pairs of outer keys and inner Maps.
+**/
     public Object[][] toArray() {
         Object[][] temp = new Object[this.size()][];
         int k = -1;
