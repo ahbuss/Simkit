@@ -3,6 +3,7 @@
 <!--
     Document   : ServerWithReneges.xml
     Created on : March 10, 2004, 1:19 PM
+    Author     : Arnie Buss
     Author     : Rick Goldberg
     Description:
         Advanced Simkit application.
@@ -31,10 +32,6 @@
             <Assignment value="getNumberServers()" />
         </StateTransition>
     
-        <!-- new translation tool:
-        if StateTransition has no transition attribute, this is a one-or-more line operation,
-        use the firePropertyChange with the state variable name instead of a parenthetical -->
-        
         <StateTransition state="queue" >
             <Operation method="clear()"/>
         </StateTransition>
