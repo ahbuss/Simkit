@@ -26,9 +26,9 @@ public interface Sensor extends Moveable, SimEntity {
     
     public void doUndetection(Moveable contact);
     
-    public void doStartMove(Sensor sensor);
+    public void doStartMove(Mover mover);
     
-    public void doEndMove(Sensor sensor);
+    public void doEndMove(Mover mover);
     
 }
 

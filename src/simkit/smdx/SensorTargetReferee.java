@@ -39,9 +39,11 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     public void register(SimEntity entity) {
         if (entity instanceof simkit.smdx.Sensor) {
             sensors.put(entity, null);
+            entity.addSimEventListener(this);
         }
         else if (entity instanceof Mover) {
             targets.put(entity, null);
+            entity.addSimEventListener(this);
         }
         else {
             throw new IllegalArgumentException(entity.getClass().getName() +
@@ -52,9 +54,11 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     public void unregister(SimEntity entity) {
         if (entity instanceof simkit.smdx.Sensor) {
             sensors.remove(entity);
+            entity.removeSimEventListener(this);            
         }
         else if (entity instanceof Mover) {
             targets.remove(entity);
+            entity.removeSimEventListener(this);            
         }
     }
     
@@ -62,15 +66,19 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
     public void doStartMove(Mover target) {
+        System.out.println("Heard StartMove(" + target +")");
     }
     
     public void doStartMove(Sensor sensor) {
+        System.out.println("Heard StartMove(" + sensor +")");
     }
     
     public void doEndMove(Mover target) {
+        System.out.println("Heard EndMove(" + target +")");
     }
     
     public void doEndMove(Sensor sensor) {
+        System.out.println("Heard EndMove(" + sensor +")");
     }
     
     public void doEnterRange(Sensor sensor, Mover target) {
