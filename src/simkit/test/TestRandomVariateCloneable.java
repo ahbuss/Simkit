@@ -29,12 +29,24 @@ public class TestRandomVariateCloneable {
         
         RandomVariate memorex2 = (RandomVariate) live.clone();
         
-        System.out.println("Live: " +live + "\tDeep : " + memorex1 + "\tShallow" + memorex2);
+        System.out.println("Live: " +live + "\tDeep : " + memorex1 + "\tShallow: " + memorex2);
         
         for (int i = 0; i < 10; i++) {
             System.out.println(live.generate() + "\t" + memorex1.generate() + "\t" + memorex2.generate());
         }
         
+        live = RandomVariateFactory.getInstance("simkit.random.GammaVariate",
+            new Object[] { new Double(1.7), new Double(3.3) }, 123456L);
+        memorex1 = RandomVariateFactory.getInstance(live);
+        
+        memorex2 = (RandomVariate) live.clone();
+        
+        System.out.println("Live: " +live + "\tDeep : " + memorex1 + "\tShallow: " + memorex2);
+        
+        for (int i = 0; i < 10; i++) {
+            System.out.println(live.generate() + "\t" + memorex1.generate() + "\t" + memorex2.generate());
+        }
+                
         RandomNumber live2 = RandomNumberFactory.getInstance(12345L);
         RandomNumber mem1 = (RandomNumber) live2.clone();
         System.out.println("live: " + live2 + "\tMemorex: " + mem1);
