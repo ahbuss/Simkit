@@ -22,7 +22,9 @@ public class Normal03Variate extends Normal02Variate {
 
     public double generate() {
         double y = Double.NaN;
+        double u = Double.NaN;
         do {
+            u = rng.draw();
             double v = rng.draw();
             double w = rng.draw();
             if (w < ONE_THIRD) {
@@ -35,8 +37,8 @@ public class Normal03Variate extends Normal02Variate {
                 y = 0.5 - Math.log(v);
             }
         } while (
-            (Math.abs(y) < 0.5 && rng.draw() > Math.exp(0.5 * y * y)) ||
-            (Math.abs(y) >= 0.5 && rng.draw() > Math.exp(-0.5 * Math.pow(Math.abs(y) - 1.0, 2)))
+            (Math.abs(y) < 0.5 && u > Math.exp(-0.5 * y * y)) ||
+            (Math.abs(y) >= 0.5 && u > Math.exp(-0.5 * Math.pow(Math.abs(y) - 1.0, 2)))
         );
         return getMean() + y * getStandardDeviation();
     }
