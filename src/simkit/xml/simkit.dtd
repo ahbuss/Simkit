@@ -20,6 +20,7 @@
 <!ATTLIST SimkitModule
         name            CDATA   #REQUIRED
 	version		CDATA	#REQUIRED
+	extends 	(SimEntityBase|BasicSimEntity) "SimEntityBase"
 >
 
 <!ELEMENT Comment ( #PCDATA ) >
