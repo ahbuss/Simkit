@@ -102,6 +102,8 @@ public class Mother implements RandomNumber {
         return null;
     }
     
+    public String toString() { return "Mother of All Generators"; }
+    
     /**
      * @param args the command line arguments
      */
