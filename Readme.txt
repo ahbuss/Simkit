@@ -16,7 +16,7 @@ Uninstallation Instructions
 
 Open the Control Panel (e.g. click Start | Settings | Control Panel).
 Double-click "Add/Remove Programs" icon.  Scroll to "Simkit" and 
-click on it.  Click Add/Remove.
+click on it.  Click Add/Remove and follow the dialogs.
 
 When you uninstall Simkit the AUTOEXEC.BAT entry or the environment variables
 will not be removed; you should remove them manually.
@@ -24,7 +24,8 @@ will not be removed; you should remove them manually.
 Compilation Instructions
 ----------- ------------
 
-If you have the source files, there sould be a file called build.bat (for Windows)
-or a file called build.sh (for Unix and Unix-like systems).  Executing this script will
-compile and build a simsystem.zip file in a dierctory called simsystem.  After executing
-the script, put the simsystem.zip file on your classpath.
+If you have the source files, there sould be an Ant build file called build.xml.  
+Executing the compile task will create a shiny new simkit.jar file in a
+build directory.  The source files should be supplied with the distribution
+in a file called simkit-src.jar, and can be unpacked with the jar tool or 
+with any zip application (e.g. WinZip).
