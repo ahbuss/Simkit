@@ -693,12 +693,24 @@ if (isDebug()) {
         psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, new Integer(newValue), index));
     }
 
+    public void fireIndexedPropertyChange(int index, String propertyName, int oldValue, int newValue) {
+        psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, new Integer(oldValue), new Integer(newValue), index));
+    }
+
     public void fireIndexedPropertyChange(int index, String propertyName, double newValue) {
         psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, new Double(newValue), index));
     }
 
+    public void fireIndexedPropertyChange(int index, String propertyName, double oldValue, double newValue) {
+        psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, new Double(oldValue), new Double(newValue), index));
+    }
+
     public void fireIndexedPropertyChange(int index, String propertyName, boolean newValue) {
         psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, new Boolean(newValue), index));
+    }
+
+    public void fireIndexedPropertyChange(int index, String propertyName, boolean oldValue, boolean newValue) {
+        psp.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, new Boolean(oldValue), new Boolean(newValue), index));
     }
 
     public void setProperty(String property, Object value) {
