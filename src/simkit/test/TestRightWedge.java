@@ -39,12 +39,12 @@ public class TestRightWedge {
             new Double(1.5)
         };
  */
-        double left = 0.0;
-        double right = 0.1;
-        double little = 0.1/(right-left);
+        double left = 0;
+        double right = 1;
+        double little =.5/(right-left);
        String name = "simkit.random.RightWedge";
-       Object[] params = new Object[] {
-           new Double(left), new Double(right), new Double(little)
+       Object[] params = new Object[] { 
+           new Double(left),new Double(right),new Double(little)
        };
         
         long seed = CongruentialSeeds.SEED[4];
