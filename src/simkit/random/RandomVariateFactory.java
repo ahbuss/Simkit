@@ -112,8 +112,8 @@ public class RandomVariateFactory {
     }
     
     /** 
-     * Creates a <CODE>RandomVariate</CODE> instance with 
-     * the default seed. 
+     * Creates a <CODE>RandomVariate</CODE> instance supported by the
+     * <CODE>RandomNumber</CODE> instance passed in. 
      * @param className The fully-qualified class name of the desired instance
      * @param parameters The desired parameters for the instance
      * @param rng An instance of <CODE>RandomNumber</CODE> to support this
@@ -147,14 +147,15 @@ public class RandomVariateFactory {
     }
     
 /**
-* Gets a new instance of the given RandomVariate. The random number stream
-* starts at the current value of the RandomNumber instance supporting the copied
-* RandomVariate, however the newly created RandomVariate is independent of the
-* original.
+ * Gets a new instance of the given RandomVariate. The random number stream
+ * of the new instance should be the same reference to the one supporting
+ * the RandomVariate passed in.  Therefore (unlike previous implementations)
+ * the new instance is independent of the original, since it draws from
+ * the same RandomNumber source.
 **/
     public static RandomVariate getInstance(RandomVariate rv) {
-        RandomVariate newInstance = (RandomVariate) rv.clone();
-        newInstance.setRandomNumber((RandomNumber) rv.getRandomNumber().clone());
+        RandomVariate newInstance = 
+            getInstance(rv.getClass(), rv.getParameters(), rv.getRandomNumber());
         return newInstance;
     }
     
@@ -210,6 +211,24 @@ public class RandomVariateFactory {
         }
         catch (IllegalAccessException e) {System.err.println(e);}
         catch (InstantiationException e) {System.err.println(e);}
+        return instance;
+    }
+    
+    /** 
+     * Creates a <CODE>RandomVariate</CODE> instance supported by the
+     * <CODE>RandomNumber</CODE> instance passed in. 
+     * @param rvClass The class object of the desired instance
+     * @param parameters The desired parameters for the instance
+     * @param rng An instance of <CODE>RandomNumber</CODE> to support this
+     * RandomVariate.
+     * @return Instance of <CODE>RandomVariate</CODE> based on the 
+     * class and the parameters.  
+     * @throws IllegalArgumentException If the className is <CODE>null</CODE> or
+     * a class with that name cannot be found.
+     */
+    public static RandomVariate getInstance(Class rvClass, Object[] params, RandomNumber rng) {
+        RandomVariate instance = getInstance(rvClass, params);
+        instance.setRandomNumber(rng);
         return instance;
     }
     
