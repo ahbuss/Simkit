@@ -2,7 +2,6 @@ package simkit.smdx;
 import simkit.smd.Mover;
 import simkit.smd.Coordinate;
 import simkit.SimEntity;
-import java.awt.geom.*;
 
 public interface Weapon extends Moveable, SimEntity {
 
@@ -22,10 +21,4 @@ public interface Weapon extends Moveable, SimEntity {
     
     public WeaponFireType getFireType();
 
-    public Point2D getAcceleration();
-    
-    public Point2D getCurrentLocation();
-    
-    public Point2D getVelocity();
-    
 }

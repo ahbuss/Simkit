@@ -43,4 +43,3 @@ public interface Distribution extends simkit.Named, Cloneable {
     
     public double ccdf(double x);
 }
-
