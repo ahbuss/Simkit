@@ -460,22 +460,23 @@ public class Math2D {
     // Doesn't work (yet).
     public static Point2D getIntercept(Mover pursuer, double speed, double range, Mover target) {
         Point2D relativePursuerLocation = Math2D.subtract(target.getLocation(), pursuer.getLocation());
+//        If in range already, the "intercept" is the current location
         if (Math2D.norm(relativePursuerLocation) <= range) {
+            return pursuer.getLocation();
+        }
+        Point2D interceptVelocity = getInterceptVelocity(pursuer, speed, target);
+        Point2D relativeInterceptVelocity = subtract(target.getVelocity(), interceptVelocity);
+        double[] coeff = new double[3];
+        coeff[0] = Math2D.normSquared(relativePursuerLocation) - range * range;
+        coeff[1] = 2.0 * Math2D.innerProduct(relativePursuerLocation, relativeInterceptVelocity);
+        coeff[2] = Math2D.normSquared(relativeInterceptVelocity);
+        
+        double[] sol = new double[2];
+        int numSol = QuadCurve2D.solveQuadratic(coeff, sol);
+        if (numSol == 0) {
             return null;
         }
-        Point2D relativeInterceptVelocity = subtract(target.getVelocity(), 
-            getInterceptVelocity(pursuer, speed, target));
-        double velocitySquared = normSquared(relativeInterceptVelocity);
-        double locationSquared = normSquared(relativePursuerLocation);
-        double vDotX = - innerProduct(relativePursuerLocation, relativeInterceptVelocity);
-        double det = velocitySquared * (range * range - locationSquared) + vDotX * vDotX;
-        if (det < 0.0) {
-            return null;
-        }
-        double time = vDotX - Math.sqrt(det);
-        if (time < 0.0) {
-            return null;
-        }
-        return add(pursuer.getLocation(), scalarMultiply(time, pursuer.getVelocity()));
+        double time = Math2D.smallestPositive(sol);
+        return add(pursuer.getLocation(), scalarMultiply(time, interceptVelocity));
     }
 }
