@@ -3,10 +3,13 @@ import simkit.*;
 import simkit.random.*;
 
 /**
- * Multiple server queue using BasicSimEntity as superclass.  This approach
+ * Multiple server queue using BasicSimEntity as superclass. This inplementation
+ * does not generate its own arrivals. It listens to another SimEntity's arrival and
+ * endService events which cause an arrival in this Server2.
+ *  <p>This approach
  * does not use reflection, but implicitly relies on the moral equivalent of a "switch"
  * statement to decide which event to execute when it is called back from Schedule (the
- * handleSimEvent() method).
+ * handleSimEvent() method).<p/>
  * @author Arnold Buss
  * @version $Id$
  */
@@ -186,7 +189,9 @@ public class Server2 extends BasicSimEntity {
     
 /**
 * Processes events for which this Server2 is a listener. If the event is Arrival
-* or EndService, schedules Arrival for now.
+* or EndService, schedules Arrival for now. This allows this Server2 to get
+* arrivals either from a SimEntity which generates arrivals or by "chaining"
+* to a preceeding SimEntity.
 * @param event "Listened-to" event.
   */    
     public void processSimEvent(SimEvent event) {
