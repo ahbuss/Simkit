@@ -3,6 +3,21 @@
   <title>Package Information.</title>
   <body>
     <p>Contains basic classes to represent the entities in a combat simulation.</p>
+   This package contains 3 groups of Classes:<UL>
+   <LI>The first group of Classes deals with the interaction between
+Munitions and Targets. The Weapon interface represents a weapon system that
+can fire a Munition. A Munition is an Object that can interact with a Target
+and either kill or damage the Target. A Target is an Object that can be 
+killed or damaged. The effect of a Weapon on a Target is determined
+by a MunitionTargetRefeee and Adjudicators.</LI>
+
+   <LI>The second group of Classes deals with the interaction between
+Sensors and Movers. These include the SensorTargetReferee, which determines when
+a Target is inside of a Sensors detection volume and a SensorTargetMediator that
+determines when a detection occurs.</LI>
+
+   <LI>The last group deals with entity motion.</LI>
+   </UL>
  </body>
 </html>
 

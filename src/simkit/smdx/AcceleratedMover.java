@@ -9,7 +9,7 @@ import simkit.*;
 import java.awt.geom.*;
 
 /**
- * A Mover whose movement is controled by specifying an acceleration vector.
+ * A Mover whose movement is controlled by specifying an acceleration vector.
  * @deprecated Not yet fully implemented.
  * @author  ahbuss
  * @version $Id$

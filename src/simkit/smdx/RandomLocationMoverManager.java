@@ -73,8 +73,7 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
         }
     }
 /**
-* Cancels all pending events for this MoverManager and if startOnReset is true,
-* starts the Mover's motion.
+* Causes the Mover to start moving to a random point.
 **/
     
     public void doStart() {
@@ -131,7 +130,7 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
 * @param rv A 2-dimensional array containing the RandomVariate for the x and y
 * coordinates.
 * @throws NullPointerException If the array or either of its contents
-* are null.
+* is null.
 * @throws IllegalArgumentException If the array does not contain at least 2
 * elements.
 **/ 
@@ -173,7 +172,8 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
     }
 
 /**
-* Sets the Mover that this MoverManager controls.
+* Sets the Mover that this MoverManager controls. Takes care of ensuring
+* that this MoverManager is a SimEventListener for the Mover.
 **/    
     public void setMover(Mover newMover) {
         if (mover != null) {

@@ -43,7 +43,7 @@ public class MovementState {
     public static MovementState getState(String name) { return (MovementState) states.get(name); }
         
 /**
-* The name of this MovementState. (Case sensative.)
+* The name of this MovementState. (Case sensitive.)
 **/
     private String name;
     
@@ -60,7 +60,7 @@ public class MovementState {
     }
     
 /**
-* Returts the name of this MovementState.
+* Returns the name of this MovementState.
 **/
     public String toString() { return name; }
     

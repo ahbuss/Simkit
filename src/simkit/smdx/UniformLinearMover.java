@@ -168,7 +168,6 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     
     /**
      * Command issued to move to given destination at the maximum speed.
-     * @param destination
      */
     public void moveTo(Point2D destination) {
         moveTo(destination, maxSpeed);
@@ -260,7 +259,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     
     /**
      * Move with the desired velocity.  Scales to maximum speed if
-     * desireVelocity has greater magnitude.
+     * desiredVelocity has greater magnitude.
      * @param desiredVelocity
      */
     public void move(Point2D desiredVelocity) {
@@ -280,7 +279,8 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     /**
      * Instantly moves this Mover to the given location.
      * @param location The new location of magic mover
-     * @throws MagicMoveException if Magic Moves are not enabled.
+     * @throws MagicMoveException if Magic Moves are not allowed. Note:
+     * Magic moves are only allowed at the beginning of the simulation.
      */
     public void magicMove(Point2D location) throws MagicMoveException {
         if (MoverMaster.allowsMagicMove()) {
@@ -304,14 +304,14 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     public MovementState getMovementState() { return movementState; }
     
     /**
-     * Does nothing in this implemntation.
+     * Does nothing in this implementation.
      * @param acceleration
      */
     public void accelerate(Point2D acceleration) {
     }
     
     /**
-     * Does nothing in this implemntation
+     * Does nothing in this implementation
      * @param acceleration
      * @param speed
      */
@@ -327,7 +327,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     /**
      * Gives nicer view of a Point2D
      * @param point desired Point2D to format
-     * @param form fomatting String
+     * @param form formatting String
      * @return formatted String of Point2D as "[x,y]"
      */
     public static String formatPoint(Point2D point, DecimalFormat form) {

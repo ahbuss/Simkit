@@ -35,7 +35,7 @@ import java.awt.*;
  * event, depending on whether the Mover is currently inside the coverage or not.</LI>
  * <LI>The EnterRange event in this referee schedules an ExitRange event at the time
  * when the Mover exits the Sensor's coverage area. (Note: The coverage area is
- * assumed to be convex, therefore ExitRange does not schedule EnterRange.</LI>
+ * assumed to be convex, therefore ExitRange does not schedule EnterRange.)</LI>
  * <LI>The appropriate SensorTargetMediator is listening for the ExitRange
  * and EnterRange events. It is up to the implementation of those events in the
  * mediators that determine the effects of entering or leaving the 
@@ -67,7 +67,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     protected MediatorFactory sensorTargetMediatorFactory;
     
 /**
-* If true, all enitities will be unregistered if <CODE>reset<CODE/>
+* If true, all entities will be unregistered if <CODE>reset<CODE/>
 * is called.
 * @see #reset()
 **/
@@ -103,7 +103,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 /**
 * Registers the given SimEntity with this referee. Prior to adding any
 * SimEntities, SensorTargetMediators must be added to the 
-* SensorTargetMeditorFactory for each Sensor-Mover pair that will added
+* SensorTargetMeditorFactory for each Sensor-Mover pair that will be added
 * to the referee.
 * @throws NoMediatorDefinedException If there is not a SensorTargetMediator
 * added to the SensorTargetMediatorFactory for each combination of Sensor/Mover
@@ -171,10 +171,10 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
 /**
-* Processess property changes for "movementState" of the registered SimEntities.
+* Processes property changes for "movementState" of the registered SimEntities.
 * Causes the referee to recalculate the detection windows for the entity
 * that fired the change.
-* @throws RuntimeException If the MovementState of the enity is <CODE>ACCELERATING</CODE>
+* @throws RuntimeException If the MovementState of the entity is <CODE>ACCELERATING</CODE>
 * since this feature is not yet implemented.
 **/
     public void propertyChange(PropertyChangeEvent e) {
@@ -245,7 +245,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
 /**
-* Finds the next time the the Mover intersects the detection volume of
+* Finds the next time the Mover intersects the detection volume of
 * the Sensor.
 **/
     public double findIntersectionTime(Sensor sensor, Mover target) {
@@ -278,7 +278,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
 /**
-* Schedules an EnterRange event for time 0, for any Movers that are
+* Schedules an EnterRange event for time 0 for any Movers that are
 * currently inside the detection volume of any Sensors.
 **/
     public void doRun() {
@@ -333,7 +333,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
 /**
-* Unregister all Sensors from this referee. 
+* Unregisters all Sensors from this referee. 
 **/
     public void clearSensors() {
         sensors.clear();
@@ -355,14 +355,14 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
 /**
-* If true, all enitities will be unregistered if <CODE>reset<CODE/>
+* If true, all entities will be unregistered if <CODE>reset<CODE/>
 * is called.
 * @see #reset()
 **/
     public void setClearOnReset(boolean b) { clearOnReset = b; }
     
 /**
-* If true, all enitities will be unregistered if <CODE>reset<CODE/>
+* If true, all entities will be unregistered if <CODE>reset<CODE/>
 * is called.
 * @see #reset()
 **/

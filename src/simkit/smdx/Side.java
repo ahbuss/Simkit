@@ -6,6 +6,7 @@ import java.util.HashMap;
  * in its toString() and getSide() methods.  Thus, an instance of Side has
  * a String property called "Side"
  * @author Arnold Buss
+ * @version $Id$
  **/
 
 public class Side {
@@ -39,19 +40,20 @@ public class Side {
     }
     /**
      * Gets the name of this Side.
-     *  @return the name of this Side
+     *  @return The name of this Side
      **/
     public String getSide() {return side;}
+
     /**
      * Returns a String containing the name of this Side.
-     *  @return the name of this Side
+     *  @return The name of this Side
      **/
     public String toString() {return side;}
     
     /**
      * Find the Side with the given name. The argument can either
      * be exactly as the Side was constructed or all lower case.
-     * @return Side corrseponding to the name of the side passed in
+     * @return Side corresponding to the name of the side passed in
      * or null if there is no such side.
      */    
     public static Side getSideFor(String sideName) {

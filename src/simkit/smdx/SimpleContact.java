@@ -10,35 +10,40 @@ import simkit.smdx.*;
 import java.awt.geom.*;
 
 /**
- *
+ * Contains detection information about a Moveable. When a detection
+ * is made, a SimpleContact should be passed to the Sensor to avoid
+ * passing the Sensor a reference to the actual entity that was detected.
+ * A SimpleContact reports ground truth information about the target.
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class SimpleContact implements Moveable {
 
-    /** A delegate that actually maintains the state of location,
-     * velocity, and acceleration.
+    /** 
+     * The Moveable for which this SimpleContact maintains information.
      */    
     protected Moveable target;
     
     /** 
-     * Creates new SimpleContact
+     * Creates a new SimpleContact with information about the given
+     * Moveable.
      */
     public SimpleContact(Moveable mover) {
         target = mover;
     }
     
     /**
-     * @return Location of the delegate
+     * Returns the location of the underlying Moveable.
      */    
     public Point2D getLocation() { return target.getLocation(); }    
 
     /**
-     * @return Acceleration of the delegate
+     * Returns the acceleration vector of the underlying Moveable.
      */    
     public Point2D getAcceleration() { return target.getAcceleration(); }
     
     /**
-     * @return Velocity of the delegate
+     * Returns the velocity vector of the underlying Moveable.
      */    
     public Point2D getVelocity() { return target.getVelocity(); }
     

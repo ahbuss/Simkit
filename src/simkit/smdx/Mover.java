@@ -10,21 +10,24 @@ import simkit.*;
 import java.awt.geom.*;
 
 /**
- *
+ * A SimEntity whose movement can be controlled and that can interact
+ * with Sensors.
+ * @see Sensor
+ * @see MoverManager
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
 
 /**
-* Event that signals the start a move to a previoustly set destination.
+* Event that signals the start of a move to a previously set destination.
 * Should set the MovementState to "CRUISING." Movers should not
 * normally respond to other entities StartMove events.
 **/
     public void doStartMove(Moveable mover);
     
 /**
-* Event that signals that this Mover has stopped at it current location.
+* Event that signals that this Mover has reached its desired location.
 * Should set the MovementState to "PAUSED." Movers should not
 * normally respond to other entities EndMove events.
 **/
@@ -38,8 +41,8 @@ public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
     public void moveTo(Point2D destination);
     
 /**
-* Causes this Mover to move to the given desitnation at the 
-* given speed. Noramally schedules the StartMove event.
+* Causes this Mover to move to the given destination at the 
+* given speed. Normally schedules the StartMove event.
 **/
     public void moveTo(Point2D destination, double cruisingSpeed);
     
@@ -50,7 +53,7 @@ public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
     
 /**
 * Instantly move to the given location.
-* @throws MagicMoveException If this Movers is not allowed to magic move.
+* @throws MagicMoveException If this Mover is not allowed to magic move.
 **/
     public void magicMove(Point2D location) throws MagicMoveException;
     
@@ -61,7 +64,7 @@ public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
     
 /**
 * Accelerate in the direction of the given acceleration vector
-* at the given speed.
+* to the given speed.
 **/
     public void accelerate(Point2D acceleration, double speed);
     
@@ -87,7 +90,6 @@ public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
     
 /**
 * Returns the current MovementState of this Mover.
-* @see MovementState
 **/
     public MovementState getMovementState();
     

@@ -8,7 +8,7 @@ package simkit.smdx;
 import java.util.*;
 /**
  * Holds instances of Mediators indexed by the two Classes 
- * that this Mediator is used for.
+ * that the Mediator is used for.
  * @author  Arnold Buss
  * @version $Id$
  */

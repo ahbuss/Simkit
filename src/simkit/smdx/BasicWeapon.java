@@ -12,9 +12,9 @@ import simkit.smd.*;
 import simkit.*;
 
 /**
- *
+ * @deprecated Not yet fully implemented.
  * @author  ahbuss
- * @version
+ * @version $Id$
  */
 public class BasicWeapon extends SimEntityBase implements Weapon {
     

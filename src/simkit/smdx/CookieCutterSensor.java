@@ -12,22 +12,40 @@ import java.beans.*;
 import java.util.*;
 
 /** Models a Cookie Cutter Sensor.  Instances of this class delegate
- * their movement state to a Mover.  Responibilities are to maintain
+ * their movement state to a Mover.  Responsibilities are to maintain
  * a range (so the "cookie" is always a circle) and a list of contacts.
  * The Detection and Undetection events should also fire PropertyChangeEvents
  * signaling these state changes.
  *
  * @author Arnold Buss
+ * @version $Id$
  */
 public class CookieCutterSensor extends SimEntityBase implements Sensor {
     
+/**
+* The Mover on which this Sensor resides.
+**/
     protected Mover mover;
+
+/**
+* The circular coverage area for this Sensor.
+**/
     protected Ellipse2D footprint;
+
     protected AffineTransform locationTransform;
+
+/**
+* The Contacts currently being tracked by this Sensor.
+**/
     protected Set contacts;
+
+/**
+* The range of this Sensor.
+**/
     protected double maxRange;
     
-    /** Creates new CookieCutterSensor not associated with a Mover.
+    /** 
+     * Creates a new CookieCutterSensor not associated with a Mover.
      * @param maxRange Radius of "cookie"
      */
     
@@ -36,6 +54,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     /**
+     * Creates a new CookieCutterSensor.
      * @param maxRange Radius of "cookie"
      * @param mover The Mover this sensor delegates its position to
      */    
@@ -47,11 +66,18 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
         contacts = new HashSet();
     }
 
+    /**
+     * Creates a new CookieCutterSensor.
+     * @param maxRange Radius of "cookie"
+     * @param mover The Mover this sensor delegates its position to
+     */    
     public CookieCutterSensor(Mover mover, double maxRange) {
         this(maxRange, mover);
     }
     
-    /** Add contact to list.  Note that in general the Contact will
+    /** 
+     * Adds the contact to the list of currently sensed contacts.
+     * Note that in general the Contact will
      * not be a reference to the actual target.
      * @param contact Mover that is passed by the Mediator
      */    
@@ -60,7 +86,8 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
         firePropertyChange("detection", contact);
     }
     
-    /** Remove from contacts list
+    /** 
+     * Removes the given contact from the contacts list.
      * @param contact The contact that was lost
      */    
     public void doUndetection(Moveable contact) {
@@ -69,6 +96,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     /**
+     * Returns the velocity of this Sensor.
      * @return Velocity of Mover delegate
      */    
     public Point2D getVelocity() {
@@ -76,13 +104,17 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     /**
-     * @return Maximum rand of sensor
+     * Returns the radius of detection for this Sensor.
+     * @return Maximum radius of sensor
      */    
     public double getMaxRange() {
         return maxRange;
     }
     
     /**
+     * Returns the detection area for this Sensor. The Shape is
+     * a circle centered on the Sensor with a radius equal to the maximum
+     * range.
      * @return Shape that is the circle of the "cookie" centered
      * at its location
      */    
@@ -94,20 +126,23 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     /**
+     * Returns the acceleration vector for this Sensor.
      * @return Acceleration of mover delegate
      */    
     public Point2D getAcceleration() {
         return mover != null ? mover.getAcceleration() : null;
     }
     
-    /** Schedule EndMove for this Sensor
+    /** 
+     * Schedules EndMove for this Sensor.
      * @param mover Mover sensor is on
      */    
     public void doEndMove(Mover mover) {
         waitDelay("EndMove", 0.0, new Object[] { this }, 1.0);
     }
     
-    /** Schedule StartMove for this sensor
+    /** 
+     * Schedules StartMove for this sensor
      * @param mover Mover this Sensor is on
      */    
     public void doStartMove(Mover mover) {
@@ -115,20 +150,24 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     /**
-     * @return Loaction of Mover delegate
+     * The current location of this Sensor.
+     * @return Location of Mover delegate
      */    
     public Point2D getLocation() {
         return mover != null ? mover.getLocation() : (Point2D) Math2D.ZERO.clone();
     }
     
     /**
+     * The Mover on which this Sensor is located.
      * @return The Mover this Sensor is "on" (i.e. its location delegate)
      */    
     public Mover getMover() {
         return mover;
     }
     
-    /** Setting the Mover delegate involves unregistering as a
+    /**
+     * Places this Sensor on the given Mover. 
+     * Setting the Mover delegate involves unregistering as a
      * SimEventListener and PropertyChangeListener to the old Mover (if necessary);
      * then listening to the new Mover.
      * @param mover The new Mover this sensor is on
@@ -145,7 +184,8 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
         }
     }    
     
-    /** Need to clear contact list for next run.
+    /** 
+     * Clears all pending events for this Sensor and clears the contact list.
      */    
     public void reset() {
         super.reset();
@@ -157,6 +197,8 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     /**
+     * Determine if the given point is inside the detection area for 
+     * this Sensor.
      * @param point Point to test
      * @return true if point is inside "cookie"
      */    
@@ -165,13 +207,14 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
     }
     
     /**
-     * @return String form of Sensor
+     * Returns a String containing the range of this Sensor and the information on the Mover
+     * for this Sensor.
      */    
     public String toString() {
         return "CookieCutterSensor (" +  getMaxRange() + ") [" + getMover() +"]";
     }
     
-    /** If from this Sensor's mover, re-braodcast it.
+    /** If from this Sensor's mover, re-broadcast the event.
      * @param e Heard PropertyChangeEvent
      */    
     public void propertyChange(PropertyChangeEvent e) {
@@ -180,6 +223,9 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
         }
     }
     
+/**
+* Returns this Set of contacts currently held by this Sensor.
+**/
     public Set getContacts() {
         return new HashSet(contacts);
     }

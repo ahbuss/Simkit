@@ -32,7 +32,7 @@ public class SensorTargetMediatorFactory implements MediatorFactory {
 * Constructs and adds a Mediator to the MediatorFactory.
 * @param sensorClass The Class of the Sensor for the added Mediator
 * @param targetClass The Class of the target for the added Mediator (Must be a
-* Moveable
+* Moveable)
 * @param mediatorClass The Class of the Mediator to add.
 * @throws IllegalArgumentException if the sensorClass is not a Sensor, the
 * targetClass is not a Moveable or the mediatorClass is not a Mediator
@@ -44,7 +44,7 @@ public class SensorTargetMediatorFactory implements MediatorFactory {
     
 /**
 * Gets the Mediator for the given Sensor Class and Moveable Class.
-* @param sensorClass the Sensor Class for which to retreve the Mediator.
+* @param sensorClass the Sensor Class for which to retrieve the Mediator.
 * @param targetClass the Moveable Class for which to retrieve the Mediator.
 * @throws IllegalArgumentException if there is no Mediator set for the 
 * given Sensor-target pair.

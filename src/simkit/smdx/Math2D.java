@@ -10,23 +10,38 @@ import java.awt.geom.*;
 import java.util.*;
 
 /**
- *
+ * Contains a library of useful calculations in 2-dimensional space.
  * @author  ahbuss
- * @version
+ * @version $Id$
  */
 public class Math2D {
     
+/**
+* The origin (0.0, 0.0).
+**/
     public static final Point2D ZERO = new Point2D.Double(0.0, 0.0);
     
+/**
+* A very small number, currently 1.0E-10.
+**/
     public static final double TINY = 1.0E-10;
     
+/**
+* Holds an instance of an Identity AffineTransform.
+**/
     public static final AffineTransform IDENTITY_TRANSFORM = new AffineTransform();
     
+/**
+* Performs a vector addition of the two points.
+**/
     public static Point2D add(Point2D first, Point2D second) {
         return new Point2D.Double(
         first.getX() + second.getX(), first.getY() + second.getY()  );
     }
     
+/**
+* Computes the vector total of all of the points in the given array.
+**/
     public static Point2D add(Point2D[] points) {
         switch (points.length) {
             case 0:
@@ -44,6 +59,13 @@ public class Math2D {
         }
     }
     
+/**
+* Computes the inner product of each of the points in the array with the 
+* given point.
+* @return An array containing the inner product of each member of 
+* <B><CODE>points</CODE></B> with 
+* <B><CODE>by</CODE></B>.
+**/
     public static double[] innerProduct(Point2D[] points, Point2D by) {
         double[] ip = new double[points.length];
         for (int i = 0; i < points.length; i++) {
@@ -52,27 +74,51 @@ public class Math2D {
         return ip;
     }
     
+/**
+* Conputes the vector difference between the two points.
+**/
     public static Point2D subtract(Point2D first, Point2D second) {
         return new Point2D.Double(
         first.getX() - second.getX(), first.getY() - second.getY()  );
     }
     
+/**
+* Computes the scalar multiplication of the point by the given value.
+**/
     public static Point2D scalarMultiply(double value, Point2D point) {
         return new Point2D.Double( value * point.getX(), value * point.getY());
     }
     
+/**
+* Computes the inner product of the two points.
+**/
     public static double innerProduct(Point2D first, Point2D second) {
         return first.getX() * second.getX() + first.getY() * second.getY();
     }
     
+/**
+* Returns a vector that is orthogonal to the given vector.
+**/
+
     public static Point2D orthogonal(Point2D point) {
         return new Point2D.Double(-point.getY(), point.getX());
     }
     
+/**
+* Computes the norm (distance from the origin) of the given point.
+**/
     public static double norm(Point2D point) { return Math.sqrt(normSq(point)); }
     
+/**
+* Computes the norm squared (the inner product of the point with itself)
+* of the given point.
+**/ 
     public static double normSq(Point2D point) { return innerProduct(point, point); }
     
+/**
+* Computes the norm squared (the inner product of the point with itself)
+* of the given point.
+**/ 
     public static double normSquared(Point2D point) { return point.distanceSq(ZERO); }
     
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, Line2D line) {
@@ -101,6 +147,9 @@ public class Math2D {
         return new AffineTransform(new double[] { p1.getX(), p1.getY(), p2.getX(), p2.getY()});
     }
     
+/**
+* Returns the center of the given rectangle.
+**/
     public static Point2D getCenter(RectangularShape shape) {
         return new Point2D.Double(shape.getX() + 0.5 * shape.getWidth(), shape.getY() + 0.5 * shape.getHeight());
     }
@@ -265,6 +314,14 @@ public class Math2D {
         return add(pts);
     }
     
+/**
+* Takes the given Shape and breaks it up into the individual segments that
+* make up the Shape. 
+* @param shape The Shape to break up into segments.
+* @param transform An optional AffineTransform to apply to the segments of the Shape.
+* If <CODE>null</CODE> then no transform is applied.
+* @return An array containing each segment of the original Shape.
+**/
     public static Shape[] getSegments(Shape shape, AffineTransform transform) {
         double[] coords = new double[6];
         ArrayList segments = new ArrayList();
@@ -307,6 +364,10 @@ public class Math2D {
         return (Shape[]) segments.toArray(new Shape[segments.size()]);
     }
     
+/**
+* Returns a String containing the comma separated toStrings of each
+* Object in the given array.
+**/
     public static String arrayToString(Object[] array) {
         StringBuffer buf = new StringBuffer();
         buf.append('{');
@@ -321,6 +382,10 @@ public class Math2D {
         return buf.toString();
     }
     
+/**
+* Returns a String containing the comma separated values of the
+* elements of the given array.
+**/
     public static String arrayToString(double[] array) {
         StringBuffer buf = new StringBuffer();
         buf.append('{');
@@ -335,10 +400,17 @@ public class Math2D {
         return buf.toString();
     }
     
+/**
+* Returns the smallest positive value of the first num members of the given array.
+**/
     public static double smallestPositive(double[] data, int num) {
         return smallestPositive(data, num, TINY);
     }
     
+/**
+* Returns the smallest positive value of the first num members of the given array, 
+* where any number less than the tolerance is concidered to be non-positive.
+**/
     public static double smallestPositive(double[] data, int num, double tolerance) {
         double smallest = Double.POSITIVE_INFINITY;
         if (num <= data.length && num > 0) {
@@ -351,14 +423,24 @@ public class Math2D {
         return smallest;
     }
     
+/**
+* Returns the smallest positive value of the members of the given array, 
+* where any number less than the tolerance is concidered to be non-positive.
+**/
     public static double smallestPositive(double[] data, double tolerance) {
         return smallestPositive(data, data.length, tolerance);
     }
     
+/**
+* Returns the smallest positive value of the members of the given array.
+**/
     public static double smallestPositive(double[] data) {
         return smallestPositive(data, data.length, TINY);
     }
     
+/**
+* Returns the index of the member of the given array with the largest value.
+**/
     public static int getMaxIndex(double[] data) {
         int index = -1;
         double max = Double.NEGATIVE_INFINITY;
@@ -463,7 +545,9 @@ public class Math2D {
     public static Point2D getInterceptVelocity(Mover pursuer, Mover target) {
         return getInterceptVelocity(pursuer, pursuer.getMaxSpeed(), target);
     }
-    // Doesn't work (yet).
+/**
+* @deprecated Doesn't work (yet).
+**/
     public static Point2D getIntercept(Mover pursuer, double speed, double range, Mover target) {
         Point2D relativePursuerLocation = Math2D.subtract(target.getLocation(), pursuer.getLocation());
 //        If in range already, the "intercept" is the current location

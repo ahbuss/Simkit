@@ -8,8 +8,8 @@ package simkit.smdx;
 import java.util.*;
 /**
  * Stores Adjudicators indexed by the Munition and Target they should be used for. 
- * The Adjudicators can either be created by the factory or instatiated and then added
- * If a Adjudicator was not
+ * The Adjudicators can either be created by the factory or instantiated and then added.
+ * If an Adjudicator was not
  * added to the container for a Munition-Target pair, then the get methods will
  * return the default Adjudicator. 
  * @author  Arnold Buss
@@ -40,7 +40,7 @@ public class MunitionTargetAdjudicatorFactory {
     private MunitionTargetAdjudicatorFactory() {}
 
 /**
-* Creates and adds to the caontainer an Adjudicator of the specified Class.
+* Creates and adds to the container an Adjudicator of the specified Class.
 * @param munitionClass The Class of the Munition that the Adjudicator is associated with.
 * @param targetClass The Class of the Target that the Adjudicator is associated with.
 * @param adjudicatorClass The Class of Adjudicator to create.

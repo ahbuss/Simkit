@@ -39,7 +39,7 @@ public class HitPointDamage implements Damage {
 * Sets the numerical value representing the amount that a hit
 * damages a Target. 
 * @param damage The Number representing the damage. If not a Number, then
-* then the value of <CODE>damage</CODE> is left unchanged.
+* the value of <CODE>damage</CODE> is left unchanged.
 **/
     public void setDamage(Object damage) { 
         if (damage instanceof Number) { 

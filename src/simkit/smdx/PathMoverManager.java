@@ -11,15 +11,35 @@ import java.awt.geom.*;
  */
 public class PathMoverManager extends SimEntityBase implements MoverManager {
     
+/**
+* When comparing the location of waypoints, distances
+* less than EPSILON are considered zero.
+**/
     private static final double EPSILON = 1.0E-10;
     
+/**
+* The path for the Mover to follow.
+**/
     protected List wayPoints;
+
+/**
+* The Movers controlled by this MoverManager.
+**/
     private Mover mover;
+
+/**
+* Iterates over the wayPoints.
+**/
     protected Iterator nextWayPoint;
+
+/**
+* If true, then when reset is called on this MoverManager,
+* the Mover will be restarted on the path.
+**/
     private boolean startOnReset;
     
     /**
-     * Contructs a new PathMoverManager.
+     * Constructs a new PathMoverManager.
      * @param m Mover this instance is managing
      * @param path Array of WayPoints for mover to follow
      */
@@ -31,7 +51,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
-     * Contructs a new PathMoverManager.
+     * Constructs a new PathMoverManager.
      * @param m Mover this instance is managing
      * @param path Array of waypoints
      */
@@ -43,7 +63,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
-     * Contructs a new PathMoverManager.
+     * Constructs a new PathMoverManager.
      * @param m Mover this instance is managing
      * @param path List of WayPoints
      */
@@ -52,7 +72,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
-     * Contructs a new PathMoverManager with no path specified.
+     * Constructs a new PathMoverManager with no path specified.
      * @param m Mover this instance is managing
      */
     public PathMoverManager(Mover m) {
@@ -74,14 +94,15 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
         }
     }
     
-    /** Stop moving
+    /** 
+     * Stops the Mover at its current location.
      */
     public void stop() {
         mover.stop();
     }
     
     /** When an EndMove event is heard, move to next WayPoint, if there
-     * are any remaning; else, stop.
+     * are any remaining; else, stop.
      * @param m Should be this instance's Mover
      */
     public void doEndMove(Mover m) {
@@ -97,12 +118,23 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
-     * @return Whether Mover is moving along its path
+     * Returns true if the Mover is currently moving.
      */
     public boolean isMoving() {return mover.isMoving();}
     
-    /** Note: make a deep copy and check for bad data
+    /** 
+     * Takes the given list of waypoints and makes them the path
+     * for this MoverManager. The Mover is first stopped at its current
+     * location. Any of the points that are not either 
+     * a <CODE>Point2D</CODE> or a <CODE>WayPoint</CODE> are
+     * ignored and not added as part of the new path.
+     * If a point in the path is a <CODE>Point2D</CODE>, then the 
+     * speed for that segment is set to the maximum speed of the Mover.
+     * <CODE>WayPoints</CODE> contain speed information.
      * @param path List of WayPoints
+     * @throws IllegalArgumentException If the given path is <CODE>null</CODE>
+     * @see WayPoint
+     * @see Point2D
      */
     public void setWayPoints(List path) {
         if (path == null) {
@@ -122,7 +154,8 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
         }
     }
     
-    /** Clear waypoint list
+    /** 
+     * Stops the Mover and clears the waypoint list.
      */
     public void clearPath() {
         if (isMoving()) { stop(); }
@@ -130,6 +163,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
+     * Adds the given WayPoint to the end of the current path.
      * @param wayPoint The WayPoint added to end of path - WayPoint includes
      * the Point2D and the desired speed
      */
@@ -138,6 +172,8 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
+     * Adds the given Point2D to the end of the current path with the
+     * given speed.
      * @param point The next destination, added to end of current path
      * @param speed The desired speed to move to this point
      */
@@ -146,13 +182,18 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
-     * @param point Location added to end of path - speed is assumed to be maximun speed.
+     * Adds the Point2D to the end of the path with the Mover's maximum speed.
+     * @param point Location added to end of path - speed is assumed to be maximum speed.
      */
     public void addWayPoint(Point2D point) {
         addWayPoint(point, mover.getMaxSpeed());
     }
     
     /**
+     * Removes the given point from the path. Removes the
+     * first point in the path that has the same location.
+     * If there are no points in the path with the same location
+     * as the point to remove, then does nothing.
      * @param point Point to be removed
      */
     public void removeWayPoint(Point2D point) {
@@ -166,6 +207,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
+     * Creates a shallow copy of the current path
      * @return Shallow copy of WayPoints
      */
     public List getWayPoints() {
@@ -173,21 +215,28 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     }
     
     /**
+     * The Mover controlled by this PathMoverManager
      * @return My Mover
      */
     public Mover getMover() {return mover;}
     
     /**
+     * If true, when reset, the PathMoverManger will start the Mover
+     * on the current path.
      * @param b Whether to invoke start() in reset().
      */
     public void setStartOnReset(boolean b) { startOnReset = b; }
     
     /**
+     * If true, when reset, the PathMoverManger will start the Mover
+     * on the current path.
      * @return Whether start() is invoked in reset().
      */
     public boolean isStartOnReset() { return startOnReset; }
     
-    /** If startOnReset is true, schedule Start event
+    /**  
+     * Cancels all pending events for this MoverManager and
+     * if startOnReset is true, schedule Start event.
      */
     public void reset() {
         super.reset();
@@ -196,14 +245,15 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
         }
     }
     
-    /** Starts Mover on path
+    /** 
+     * Starts Mover on the current path.
      */
     public void doStart() {
         start();
     }
     
-    /** Must remove as SimEventListener from old Mover (if it exists)
-     * and add self to new one.
+    /** 
+     * Sets the Mover that this MoverManager controls. 
      * @param newMover The new Mover to manage
      */
     public void setMover(Mover newMover) {
