@@ -1,13 +1,17 @@
 package simkit.xml;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
-
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
+
+
 /**
  * Creates instances of RandomVariates from xml Elements.
  * @author  ahbuss
