@@ -1,6 +1,8 @@
 package simkit.util;
 
 import java.lang.reflect.*;
+import java.beans.*;
+import simkit.*;
 
 public class Misc {
     /**
@@ -37,5 +39,19 @@ public class Misc {
         }
         catch (NoSuchMethodException e) {System.err.println(e);}
         return fullName;
+    }
+    
+    public static void removeAllSimEventListeners(SimEventSource source) {
+        SimEventListener[] listeners = source.getSimEventListeners();
+        for (int i = 0; i < listeners.length; i++) {
+            source.removeSimEventListener(listeners[i]);
+        }
+    }
+    
+    public static void removeAllPropertyChangeListeners(PropertyChangeSource source) {
+        PropertyChangeListener[] listeners = source.getPropertyChangeListeners();
+        for (int i = 0; i < listeners.length; i++) {
+            source.removePropertyChangeListener(listeners[i]);
+        }
     }
 }

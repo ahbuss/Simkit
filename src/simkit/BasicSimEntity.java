@@ -378,4 +378,10 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         return this.getName() + ' ' + '(' + getPriority() + ')';
     }
         
+    /**  @return array of PropertyChangeListeners
+     */
+    public PropertyChangeListener[] getPropertyChangeListeners() {
+        return property.getPropertyChangeListeners();
+    }
+    
 }

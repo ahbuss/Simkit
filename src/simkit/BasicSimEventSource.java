@@ -50,4 +50,14 @@ public class BasicSimEventSource implements SimEventSource {
         }
     }
     
+    /**  @return Array of SimEventListeners
+     */
+    public SimEventListener[] getSimEventListeners() {
+        SimEventListener[] listenerArray = new SimEventListener[0];
+        synchronized (listeners) {
+            listenerArray = (SimEventListener[]) listeners.toArray(listenerArray);
+        }
+        return listenerArray;
+    }
+    
 }

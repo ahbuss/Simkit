@@ -58,5 +58,10 @@ public interface PropertyChangeSource {
     public void removePropertyChangeListener(PropertyChangeListener listener);
     
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
+ 
+/**
+ *  @return array of PropertyChangeListeners
+ */
+    public PropertyChangeListener[] getPropertyChangeListeners();
     
 }

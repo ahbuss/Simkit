@@ -40,4 +40,8 @@ public interface SimEventSource  {
   * @param SimEvent event
 **/
    public void notifyListeners(SimEvent event);
+/**
+ *  @return Array of SimEventListeners
+ */   
+   public SimEventListener[] getSimEventListeners();
 }
