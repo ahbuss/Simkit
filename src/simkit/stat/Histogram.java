@@ -45,7 +45,7 @@ public class Histogram implements PropertyChangeListener {
             buf.append(frequency[i]);
             buf.append('\t');
             buf.append(prop[i]);
-            buf.append('\n');
+            buf.append(SampleStatistics.EOL);
         }
         return buf.toString();
 
