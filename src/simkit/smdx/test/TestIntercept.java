@@ -35,6 +35,7 @@ public class TestIntercept extends SimEntityBase {
         Point2D intercept = Math2D.getIntercept(pursuer, pursuer.getMaxSpeed(), target);
         System.out.println("Intercept: " + intercept);
         System.out.println("Velocity: " + Math2D.getInterceptVelocity(pursuer, target));
+        System.out.println("Range Intercept: " + Math2D.getIntercept(pursuer, pursuer.getMaxSpeed(), sensor.getMaxRange(), target));
         if (intercept != null) {
             pursuer.moveTo(intercept);
         }
