@@ -353,5 +353,12 @@ public class Schedule  {
     public static void coldReset() {
         defaultEventList.coldReset();
     }
-
+    
+    /**
+     * @deprecated Use Schedule.stopAtTime(double) instead
+     * @param stopTime time to stop simulation
+     */    
+    public static void stopOnTime(double stopTime) {
+        stopAtTime(stopTime);
+    }
 } // class Schedule
