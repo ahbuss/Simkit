@@ -305,11 +305,10 @@ public class SimkitXML2Java {
 	    LocalVariable local = (LocalVariable) lci.next();
 	    pw.print(sp8 + local.getType() + sp + local.getName() + sp + eq);
 	    pw.print(sp + lp + local.getType() + rp);
-	    //pw.print(eq + sp + lp + local.getType() + rp);
 	    pw.println(sp + local.getValue() + sc);
 	}
 	
-	pw.println();
+	if ( locs.size() > 0 ) pw.println();
 
 	while ( sli.hasNext() ) {
    	    StateTransition st = (StateTransition) sli.next();
