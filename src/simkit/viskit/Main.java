@@ -1,5 +1,9 @@
 package simkit.viskit;
 
+import javax.swing.*;
+import java.util.Enumeration;
+import java.awt.*;
+
 /**
  * OPNAV N81 - NPS World Class Modeling (WCM) 2004 Projects
  * MOVES Institute
@@ -19,6 +23,20 @@ public class Main
 {
   public static void main(String[] args)
   {
+
+
+    try {
+      //String GTK = "com.sun.java.swing.plaf.gtk.GTKLookAndFeel";
+      String GTK = "javax.swing.plaf.metal.MetalLookAndFeel";
+      UIManager.setLookAndFeel(GTK);
+      UIManager.installLookAndFeel("GTK",GTK);
+      UIDefaults def = UIManager.getDefaults();
+      def.put("Tree.font", new Font("Verdana",Font.PLAIN,12));
+    }
+    catch (Exception e) {
+      System.err.println("Could not install GTK");
+    }
+
     Controller controller = new Controller();
     Model model = new Model();
     EventGraphViewFrame view = new EventGraphViewFrame(model,controller);
