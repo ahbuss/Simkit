@@ -28,20 +28,25 @@ public class TestJava2D extends JPanel{
     private QuadCurve2D[] curve;
     private JTextField mouseLocation;
     private double size;   // size of intersection dots and control points
+    private Point2D sizePt;
     private boolean showControlPoints;
+    
+    private Point2D[] cubicIntersections;
+    private boolean verbose;
     
     /** Creates new TestJava2D */
     public TestJava2D() {
         
         setBackground(Color.white);
         setOpaque(true);
-        size = 8;
+        size = 9;
+        sizePt = new Point2D.Double(size/2, size/2);
         shape = new Shape[2];
         shape[0] = new Ellipse2D.Double(100.0, 100.0, 300.0, 400.0);
         
         CubicCurve2D[] seg = getSegments((Ellipse2D) shape[0]);
         for (int i = 0; i < seg.length; i++) {
-            System.out.println(cubicToString(seg[i]));
+            print(cubicToString(seg[i]));
         }
         
         rect = shape[0].getBounds2D();
@@ -49,11 +54,12 @@ public class TestJava2D extends JPanel{
         point = new Point2D[] {
             new Point2D.Double(0.0, 300.0),
             new Point2D.Double(450.0, 100.0),
+            new Point2D.Double(250.0, 400.0),
             new Point2D.Double(500.0, 300.0),
             new Point2D.Double(450.0, 600.0),
         };
         
-        System.out.println(Math2D.add(point));
+        print(Math2D.add(point));
         
         line = new Line2D[point.length];
         for (int i = 0; i < line.length; i++) {
@@ -72,7 +78,13 @@ public class TestJava2D extends JPanel{
             new QuadCurve2D.Double(100.0, 100.0, 300.0, 300.0, 400.0, 100.0)
         };
         
+        Ellipse2D ellipse = (Ellipse2D) shape[0];
+        
+        CubicCurve2D segment  = (CubicCurve2D) Math2D.getSegments(ellipse, null)[0];
+        print("Cubic segment: " + cubicToString(segment));
+        
         ArrayList intersections = new ArrayList();
+        ArrayList cubicInts = new ArrayList();
         
         for (int j = 0; j < point.length; j++) {
             
@@ -81,9 +93,9 @@ public class TestJava2D extends JPanel{
             
             for (int i = 0; i < face.length; i++) {
                 int outCode = rect.outcode(point[j]);
-                System.out.println(point[j] + ": " + outCode);
+                print(point[j] + ": " + outCode);
                 intersect[i] = Math2D.findIntersection(point[j], Math2D.subtract(point[(j+1) % point.length], point[j]), face[i]);
-                System.out.println(intersect[i]);
+                print(intersect[i]);
                 if (intersect[i] != null) {
                     intersections.add(new Ellipse2D.Double(intersect[i].getX() - size/2, intersect[i].getY() - size/2, size, size));
                 }
@@ -96,9 +108,20 @@ public class TestJava2D extends JPanel{
                     intersections.add(new Ellipse2D.Double(inters[k].getX() - size/2, inters[k].getY() - size/2, size, size));
                 }
             }
+            for (int m = 0; m < seg.length; m++) {
+                Point2D velocity = Math2D.subtract(point[(j+1) % point.length], point[j]);
+                Point2D[] cubicIntersect = Math2D.findIntersection(point[j], velocity, seg[m]);
+                for (int k = 0; k < cubicIntersect.length; k++) {
+                    double t = Math2D.innerProduct(velocity, Math2D.subtract(cubicIntersect[k], point[j]))/Math2D.normSq(velocity);
+                    if (t >= 0.0) {
+                        cubicInts.add(cubicIntersect[k]);
+                    }
+                }
+            }
         }
-        Ellipse2D ellipse = (Ellipse2D) shape[0];
         circle = (Shape[]) intersections.toArray(new Shape[0]);
+        cubicIntersections = (Point2D[]) cubicInts.toArray(new Point2D[cubicInts.size()]);
+        
     }
     
     public void paintComponent(Graphics g) {
@@ -130,15 +153,39 @@ public class TestJava2D extends JPanel{
             }
         }
         
-        for (int i = 0; i < line.length; i++) {
+        for (int i = 0; i < point.length; i++) {
             if (shape[0].getBounds2D().intersectsLine(line[i])) {
                 g2d.setColor(Color.green);
             }
             else {
                 g2d.setColor(Color.orange);
             }
-            
             g2d.draw(line[i]);
+            Point2D[] intersect = Math2D.findIntersection(point[i], Math2D.subtract(point[(i + 1) % point.length], point[i]), (Ellipse2D) shape[0]);
+            g2d.setColor(Color.blue);
+            for (int k = 0; k < intersect.length; k++) {
+                if (point[i].distance(intersect[k]) <= point[i].distance(point[ (i + 1) % point.length])) {
+                    g2d.fill(new Ellipse2D.Double(intersect[k].getX() - size/2, intersect[k].getY() - size/2, size, size));
+                }
+            }
+            
+            g2d.setColor(Color.red);
+            for (int k = 0; k < cubicIntersections.length; k++) {
+                g2d.draw(new Rectangle2D.Double(cubicIntersections[k].getX() - size/2,
+                cubicIntersections[k].getY() - size/2, size, size));
+            }
+/*
+            g2d.setColor(Color.red);
+            Shape[] segment = Math2D.getSegments(shape[0], null);
+            for (int k = 0; k < segment.length; k++) {
+                if (segment[k] instanceof CubicCurve2D) {
+                    Point2D[] inter = Math2D.findIntersection(point[i], Math2D.subtract(point[ (i+1) % point.length], point[i]), (CubicCurve2D) segment[k]);
+                    for (int m = 0; m < inter.length; i++) {
+                        g2d.draw(new Rectangle2D.Double(inter[m].getX() - size/2, inter[m].getY() - size/2, size, size));
+                    }
+                }
+            }
+ */
         }
         
         for (int i = 0; i < curve.length; i++) {
@@ -147,7 +194,7 @@ public class TestJava2D extends JPanel{
             if (showControlPoints) {
                 g2d.setColor(Color.black);
                 g2d.draw(new Rectangle2D.Double(curve[i].getCtrlX() - size/2,
-                    curve[i].getCtrlY() - size/2, size, size));
+                curve[i].getCtrlY() - size/2, size, size));
                 g2d.setColor(Color.lightGray);
                 g2d.draw(new Line2D.Double(curve[i].getCtrlPt(), curve[i].getP1()));
                 g2d.draw(new Line2D.Double(curve[i].getCtrlPt(), curve[i].getP2()));
@@ -190,12 +237,16 @@ public class TestJava2D extends JPanel{
         for (int i = 0; i < 4; i++) {
             iter.currentSegment(coord);
             segments[i] = new CubicCurve2D.Double(lastPoint.getX(), lastPoint.getY(),
-                coord[0], coord[1], coord[2], coord[3], coord[4], coord[5]);
+            coord[0], coord[1], coord[2], coord[3], coord[4], coord[5]);
             lastPoint = new Point2D.Double(coord[4], coord[5]);
             iter.next();
         }
         return segments;
     }
+    
+    public void setVerbose(boolean v) { verbose = v; }
+    
+    public boolean isVerbose() { return verbose; }
     
     /**
      * @param args the command line arguments
@@ -219,6 +270,12 @@ public class TestJava2D extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(550, 700);
         frame.setVisible(true);
+    }
+    
+    public void print(Object msg) {
+        if (isVerbose()) {
+            System.out.println(msg);
+        }
     }
     
 }
