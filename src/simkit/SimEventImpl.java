@@ -242,7 +242,12 @@ public class SimEventImpl implements SimEvent, Serializable {
         buf.append('(');
         if (parameters != null) {
             for (int i = 0; i < parameters.length; i++) {
-                buf.append(parameters[i].getClass().getName());
+                if (parameters[i] != null) {
+                    buf.append(parameters[i].getClass().getName());
+                }
+                else {
+                    buf.append("null");
+                }
                 if (i < parameters.length - 1) {buf.append(',');}
             }
         }

@@ -184,7 +184,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
                                 }  // if
                             }  // if
                             else {
-                                match = match && signature[i].isAssignableFrom(params[i].getClass());
+                                match = match && ( params[i] == null ||  signature[i].isAssignableFrom(params[i].getClass()));
                             }  // else
                             if (isVerbose()) {
                                 System.out.println(signature[i].getName() + " ?=? " +
