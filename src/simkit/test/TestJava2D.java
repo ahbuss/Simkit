@@ -65,7 +65,7 @@ public class TestJava2D extends JPanel{
                 System.out.println(point[j] + ": " + outCode);
                 intersect[i] = Math2D.findIntersection(point[j], Math2D.subtract(point[(j+1) % point.length], point[j]), face[i]);
                 System.out.println(intersect[i]);
-                int size = 10;
+                double size = 8;
                 if (intersect[i] != null) {
                     intersections.add(new Ellipse2D.Double(intersect[i].getX() - size/2, intersect[i].getY() - size/2, size, size));
                 }
