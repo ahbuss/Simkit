@@ -471,7 +471,7 @@ public class Schedule  {
     public static void stopAtTime(double atTime) {
         interrupt("Stop");
         endingTime = atTime;
-        new Stop().waitDelay("Stop", endingTime - getSimTime() );
+        new Stop().waitDelay("Stop", endingTime - getSimTime(), Double.NEGATIVE_INFINITY );
         stopOnEvent = false;
         stopOnTime = true;
     }
