@@ -18,7 +18,7 @@ public class MunitionTargetAdjudicatorFactory {
     
     static {
         adjudicators = Collections.synchronizedMap(new HashMap());
-        
+        setDefaultAdjudicator(new DefaultAdjudicator());
     }
     
     public static void addAdjudicator(Class munitionClass, Class targetClass,
