@@ -707,9 +707,6 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     
     public void setPersistant(boolean persist) {
         persistant = persist;
-        if (!persistant) {
-            eventList.removeRerun(this);
-        }
     }
     
     public void setEventListID(int id) {
