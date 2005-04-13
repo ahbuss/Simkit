@@ -19,7 +19,7 @@ public class Adapter extends BasicSimEntity {
     
     /**
      * @param heard The name of the heard event
-     * @param passed Thge name of the passed event
+     * @param passed The name of the passed event
      */    
     public Adapter(String heard, String passed) {
         setHeardEvent(heard);
@@ -69,6 +69,16 @@ public class Adapter extends BasicSimEntity {
             );
             notifyListeners(se);
         }
+    }
+    
+    public void connect(SimEventSource source, SimEventListener listener) {
+        source.addSimEventListener(this);
+        this.addSimEventListener(listener);
+    }
+    
+    public void disconnect(SimEventSource source, SimEventListener listener) {
+        source.removeSimEventListener(this);
+        this.removeSimEventListener(listener);
     }
     
 }
