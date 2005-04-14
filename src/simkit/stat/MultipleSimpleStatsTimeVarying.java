@@ -210,6 +210,11 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
                 this.newObservation((Number) e.getNewValue(),
                     ((IndexedPropertyChangeEvent) e).getIndex() );
             }
+            else if (e.getNewValue() instanceof Boolean) {
+                this.newObservation(
+                    ( ((Boolean) e.getNewValue()).booleanValue() ? 1 : 0),
+                    ((IndexedPropertyChangeEvent) e).getIndex());
+            }
         }
     }
 
