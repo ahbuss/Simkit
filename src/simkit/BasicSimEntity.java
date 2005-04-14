@@ -107,7 +107,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         serial = ++nextSerial;
         setName(name);
         setPriority(priority);
-        property = new PropertyChangeDispatcher(this);
+        property = new PropertyChangeDispatcher(this, BasicSimEntity.class);
         setPersistant(true);                    //TODO add constructor with persistant
         eventList = Schedule.getEventList(eventListID);
         eventList.addRerun(this);
@@ -667,7 +667,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
                 Method writeMethod = descriptors[i].getWriteMethod();
                 if (writeMethod != null && readMethod != null) {
                     Object value = readMethod.invoke(this, (Object[])null);
-                    if (!value.getClass().isArray()) {
+                    if (value == null || !value.getClass().isArray()) {
                         buf.append(System.getProperty("line.separator"));
                         buf.append('\t');
                         buf.append( descriptors[i].getName() );
