@@ -152,10 +152,12 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     }
     
    /**
-   * Resets this BasicSimEntity by canceling all of its pending SimEvents.
+    * Resets this BasicSimEntity by canceling all of its pending SimEvents.
+    * Clears all added properties in the PropertyChangeDispatcher instance
    **/
     public void reset() {
         interruptAll();
+        property.clearAddedProperties();
     }
 /*
   Four-parameter methods
