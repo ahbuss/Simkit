@@ -274,7 +274,18 @@ public abstract class SimEntityBase extends BasicSimEntity {
         }  //shouldn't happen
         catch(IllegalArgumentException e) {e.printStackTrace();} //shouldn't happen
         catch(InvocationTargetException e) {
-            e.getTargetException().printStackTrace();
+            System.err.println("SimEntityBase.processSimEvent: " 
+                + "The event method threw an Exception.");
+            Throwable cause = e.getCause();
+            if (cause instanceof RuntimeException) {
+                throw (RuntimeException)cause;
+            } else if (cause instanceof Error) {
+                throw (Error)cause;
+            } else {
+                System.err.println("The cause was a checked Exception, "
+                    + "rethrowing as RuntimeException.");
+                throw new RuntimeException(cause);
+            }
         }
         finally {
         }
