@@ -32,6 +32,13 @@ public class RandomVariateFactory {
 **/
     protected static boolean verbose;
 
+    /**
+     * Default RandomNumber instance.  If none specified in getInstance(),
+     * this one instance is used for all RandomVariates obtained, ensuring
+     * independence.
+     */    
+    protected static RandomNumber DEFAULT_RNG;
+    
 /**
 * If true, print out information while searching for RandomVariate
 * Classes.
@@ -49,9 +56,24 @@ public class RandomVariateFactory {
 **/
     public static Map getCache() { return new WeakHashMap(cache); }
     
+    /**
+     *
+     * @param rng New default RandomNumber instance
+     */    
+    public static void setDefaultRandomNumber(RandomNumber rng) {
+        DEFAULT_RNG = rng;
+    }
+    
+    /**
+     *
+     * @return Default RandomNumber instance
+     */    
+    public static RandomNumber getDefaultRandomNumber() { return DEFAULT_RNG; }
+    
     static {
         setSearchPackages(new String[] {"simkit.random"});
         cache = new WeakHashMap();
+        setDefaultRandomNumber(RandomNumberFactory.getInstance());
     }
 
 /**
@@ -209,6 +231,7 @@ public class RandomVariateFactory {
         try {
             instance = (RandomVariate) rvClass.newInstance();
             instance.setParameters(params);
+            instance.setRandomNumber(DEFAULT_RNG);
         }
         catch (IllegalAccessException e) {System.err.println(e);}
         catch (InstantiationException e) {System.err.println(e);}
