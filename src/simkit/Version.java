@@ -24,6 +24,7 @@ import simkit.util.GenericAction;
 * This class is used to display version and copyright information about SimKit. Constructing a 
 * Version object will cause a dialog box to pop-up containing information about the program.
 * @version $Id$
+ *@author ahbuss
 **/
 public class Version {
     
@@ -44,6 +45,12 @@ public class Version {
 * file gnu.txt
 **/
     private static String SIMKIT_MESSAGE = "";
+    
+    private static final int VERSION_NUMBER;
+    
+    private static final int SUBVERSION_NUMBER;
+    
+    private static final int SUBSUBVERSION_NUMBER;
     
     static {
         InputStream is = null;
@@ -78,8 +85,39 @@ public class Version {
             SIMKIT_MESSAGE = buf.toString();
             br.close();
         } catch (IOException e) {}
+        
+        String[] ver = getVersion().split("\\.");
+        if (ver.length != 3) {
+            throw new RuntimeException("Bad Version: " + getVersion() + 
+                " token length = " + ver.length);
+        }
+        VERSION_NUMBER = Integer.parseInt(ver[0]);
+        SUBVERSION_NUMBER = Integer.parseInt(ver[1]);
+        SUBSUBVERSION_NUMBER = Integer.parseInt(ver[2]);
     }
    
+    public static int getVersionNumber() { return VERSION_NUMBER; }
+    
+    public static int getSubVersionNumber() { return SUBVERSION_NUMBER; }
+    
+    public static int getSubSubVersionNumber() { return SUBSUBVERSION_NUMBER; }
+    
+    public static boolean isAtLeastVersion(String otherVersion) {
+        String[] split = otherVersion.split("\\.");
+        if (split.length > 3 || split.length == 0) {
+            throw new IllegalArgumentException("Not legitimate version string: " +
+                otherVersion);
+        }
+        if (Integer.parseInt(split[0]) > Version.getVersionNumber()) { return false; }
+        else if (split.length >= 2 && Integer.parseInt(split[1]) > Version.getSubVersionNumber()) {
+            return false;
+        }
+        else if (split.length == 3 && Integer.parseInt(split[1]) > Version.getSubSubVersionNumber()) {
+            return false;
+        }
+        return true;
+    }
+    
 /**
 * Cause the program to exit, closing the information box.
 **/ 
