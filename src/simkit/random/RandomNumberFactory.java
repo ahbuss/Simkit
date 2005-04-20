@@ -16,7 +16,7 @@ public class RandomNumberFactory {
 * Holds a String with the initial setting of the default Class. Currently
 * "simkit.random.Congruential"
 **/
-    protected static final String DEFAULT_CLASS = "simkit.random.Congruential";
+    protected static final String DEFAULT_CLASS = "simkit.random.MersenneTwister";
 
 /**
 * The default Class that will be generated if one is not specified by the user.
