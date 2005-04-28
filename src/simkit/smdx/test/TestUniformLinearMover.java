@@ -78,6 +78,8 @@ public class TestUniformLinearMover {
         PropertyChangeFrame pcf = new PropertyChangeFrame();
         for (int i = 0; i < mover.length; i++ ){
             mover[i].addPropertyChangeListener("movementState", pcf);
+            mover[i].addPropertyChangeListener("destination", pcf);
+            mover[i].addPropertyChangeListener("velocity", pcf);
             sensor[i].addPropertyChangeListener(pcf);
         }
         pcf.setVisible(true);
