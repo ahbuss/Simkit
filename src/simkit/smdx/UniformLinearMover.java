@@ -242,11 +242,16 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
             pause();
         }
         cruisingSpeed = Math.min(cruisingSpeed, maxSpeed);
+        Point2D oldDestination = this.destination;
         this.destination = destination;
+        firePropertyChange("destination", oldDestination, 
+            new Point2D.Double(destination.getX(), destination.getY()));
         double distance = destination.distance(this.getLocation());
         moveTime = distance / cruisingSpeed;
+        Point2D oldVelocity = getVelocity();
         velocity.setLocation((destination.getX() - lastStopLocation.getX()) / moveTime,
         (destination.getY() - lastStopLocation.getY())/moveTime);
+        firePropertyChange("velocity", oldVelocity, getVelocity());
         startMoveTime = eventList.getSimTime();
         waitDelay("StartMove", 0.0, new Object[] { this });
     }
@@ -289,7 +294,9 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         destination = null;
         lastStopLocation = getLocation();
         startMoveTime = eventList.getSimTime();
+        Point2D oldVelocity = getVelocity();
         velocity = desiredVelocity;
+        firePropertyChange("velocity", oldVelocity, getVelocity());
         waitDelay("StartMove", 0.0, param);
         setMovementState(MovementState.STARTING);
     }
