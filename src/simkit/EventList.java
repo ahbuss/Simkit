@@ -446,7 +446,7 @@ public class EventList {
     public void scheduleEvent(SimEvent event) throws InvalidSchedulingException {
         if (event.getScheduledTime()  + precision < getSimTime() ) {
             throw new InvalidSchedulingException("Attempt to reverse time!: " +
-            event.getScheduledTime() + " > " + getSimTime() );
+            event.getScheduledTime() + " < " + getSimTime() );
         }
         else if (!Double.isNaN(event.getScheduledTime())) {
             boolean success = eventList.add(event);
