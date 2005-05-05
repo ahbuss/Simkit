@@ -590,13 +590,15 @@ public class EventList {
      */    
     public void interrupt(SimEntity simEntity, String eventName) {
         clearDeadEvents();
-        for (Iterator i = eventList.iterator(); i.hasNext(); ) {
-            SimEvent event = (SimEvent) i.next();
-            if ((event.getSource() == simEntity) &&
-                (event.getEventName().equals(eventName)) &&
-                (event.isPending())) {
-                    i.remove();
-                    break;
+        synchronized(eventList) {
+            for (Iterator i = eventList.iterator(); i.hasNext(); ) {
+                SimEvent event = (SimEvent) i.next();
+                if ((event.getSource() == simEntity) &&
+                    (event.getEventName().equals(eventName)) &&
+                    (event.isPending())) {
+                        i.remove();
+                        break;
+                }
             }
         }
     }
@@ -610,14 +612,16 @@ public class EventList {
     public void interrupt(SimEntity simEntity, String eventName,
             Object[] parameters) {
         clearDeadEvents();
-        for (Iterator i = eventList.iterator(); i.hasNext(); ) {
-            SimEvent event = (SimEvent) i.next();
-            if ((event.getSource() == simEntity) &&
-                (event.getEventName().equals(eventName)) &&
-                (event.interruptParametersMatch(parameters)) &&
-                (event.isPending())) {
-                    i.remove();
-                    break;
+        synchronized(eventList) {
+            for (Iterator i = eventList.iterator(); i.hasNext(); ) {
+                SimEvent event = (SimEvent) i.next();
+                if ((event.getSource() == simEntity) &&
+                    (event.getEventName().equals(eventName)) &&
+                    (event.interruptParametersMatch(parameters)) &&
+                    (event.isPending())) {
+                        i.remove();
+                        break;
+                }
             }
         }
     }
@@ -628,10 +632,12 @@ public class EventList {
      */    
     public void interruptAll(SimEntity simEntity) {
         clearDeadEvents();
-        for (Iterator i = eventList.iterator(); i.hasNext(); ) {
-            SimEvent simEvent = (SimEvent) i.next();
-            if (simEvent.getSource() == simEntity) {
-                i.remove();
+        synchronized(eventList) {
+            for (Iterator i = eventList.iterator(); i.hasNext(); ) {
+                SimEvent simEvent = (SimEvent) i.next();
+                if (simEvent.getSource() == simEntity) {
+                    i.remove();
+                }
             }
         }
     }
@@ -643,16 +649,18 @@ public class EventList {
      */    
     public void interruptAll(SimEntity simEntity, String eventName) {
         clearDeadEvents();
-        for (Iterator i = eventList.iterator(); i.hasNext(); ) {
-            SimEvent simEvent = (SimEvent) i.next();
-            if ((simEvent.getSource() == simEntity) &&
-                (simEvent.getEventName().equals(eventName)) ){
-                i.remove();
+        synchronized(eventList) {
+            for (Iterator i = eventList.iterator(); i.hasNext(); ) {
+                SimEvent simEvent = (SimEvent) i.next();
+                if ((simEvent.getSource() == simEntity) &&
+                    (simEvent.getEventName().equals(eventName)) ){
+                    i.remove();
+                }
             }
         }
     }
     
-    /** Cancle all events owned by this SimEntity
+    /** Cancel all events owned by this SimEntity
      * of the givene name whos parameters exactly
      * match the given array.
      * @param simEntity SimEntity to have event cancelled
@@ -662,12 +670,14 @@ public class EventList {
     public void interruptAll(SimEntity simEntity, String eventName,
         Object[] parameters) {
         clearDeadEvents();
-        for (Iterator i = eventList.iterator(); i.hasNext(); ) {
-            SimEvent simEvent = (SimEvent) i.next();
-            if ((simEvent.getSource() == simEntity) &&
-                (simEvent.getEventName().equals(eventName)) &&
-                (simEvent.interruptParametersMatch(parameters)) ){
-                i.remove();
+        synchronized(eventList) {
+            for (Iterator i = eventList.iterator(); i.hasNext(); ) {
+                SimEvent simEvent = (SimEvent) i.next();
+                if ((simEvent.getSource() == simEntity) &&
+                    (simEvent.getEventName().equals(eventName)) &&
+                    (simEvent.interruptParametersMatch(parameters)) ){
+                    i.remove();
+                }
             }
         }
     }
