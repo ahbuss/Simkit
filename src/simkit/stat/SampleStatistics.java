@@ -1,12 +1,14 @@
 package simkit.stat;
+import simkit.Named;
 /**
  *  Common interface for classes collecting statistics.  Note that they necessarily
  *  implement <CODE>PropertyChangeListener</CODE> so they can respond to
  *  data fired in <CODE>PropertyChangeEvent</CODE>s.
- *  @author Arnold Buss
+ *
  *  @version $Id$
+ *  @author Arnold Buss
 **/
-public interface SampleStatistics extends java.beans.PropertyChangeListener {
+public interface SampleStatistics extends java.beans.PropertyChangeListener, Named {
 /**
  *   String for line separator on the platform we are running on.
 **/
