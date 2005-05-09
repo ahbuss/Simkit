@@ -9,6 +9,8 @@ import simkit.stat.SimpleStatsTimeVarying;
  * The size() value is passed to the super class.  The
  * end result is that the size of a Collection property
  * has time-varying statistics collected.
+ *
+ * @version $Id$
  * @author ahbuss
  */
 public class CollectionSizeTimeVaryingStats extends SimpleStatsTimeVarying {
@@ -22,6 +24,10 @@ public class CollectionSizeTimeVaryingStats extends SimpleStatsTimeVarying {
         super(name + ".size");
     }
     
+    /**
+     * If this constructor is used, a separate call to setName(String) 
+     * must be made to make it at all useful.
+     */
     public CollectionSizeTimeVaryingStats() {
         super();
     }
