@@ -54,22 +54,4 @@ public class   DataWindow
         }
       );
    }
-   
-/*
-   public boolean handleEvent(Event evt) {
-	   if ( evt.id == Event.WINDOW_DESTROY) {
-         this.dispose();            // AB
-         this.setVisible(false);    // AB
-         System.exit(0);            // AB
-		}
-		return super.handleEvent(evt);
-	}
-*/
-	
-/**
-* Simply calls super.show().
-**/
-	public void show() {
-	   super.show();
-	}
 }
