@@ -270,6 +270,11 @@ public class EventList {
      * @return Name of stop event
      */    
     public String getStopEventName() { return stopEventName; }
+
+    /**
+    * Returns true if there are no Events scheduled.
+    **/
+    public boolean isFinished() {return eventList.isEmpty();}
     
     /**
      * @return Current SimEvent being processed
