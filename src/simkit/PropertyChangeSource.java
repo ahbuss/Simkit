@@ -88,4 +88,9 @@ public interface PropertyChangeSource {
  */
     public PropertyChangeListener[] getPropertyChangeListeners();
     
+    /**
+     * @return an array of the names of all added properties
+     */ 
+    public String[] getAddedProperties();
+    
 }
