@@ -1,10 +1,12 @@
 package simkit;
 
 import java.beans.*;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.*;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Iterator;
 
-import java.util.*;
 
 /**
  *  <P> A delegate for handling properties for an entity.
@@ -127,10 +129,16 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
         return (prop != null) ? prop : defaultValue;
     }
     
+    /**
+     * Removes all added properties
+     */
     public void clearAddedProperties() {
         addedProperties.clear();
     }
     
+    /**
+     * @return a String listing of all 
+     */
     public String toString() {
         StringBuffer buf = new StringBuffer();
         for (Iterator i = getters.keySet().iterator(); i.hasNext(); ) {
@@ -139,6 +147,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
             Object value = getProperty(property.toString());
             if (value == null || !value.getClass().isArray() ) {
                 buf.append(System.getProperty("line.separator"));
+                buf.append('\t');
                 buf.append(property);
                 buf.append(" = ");
                 buf.append(value);
@@ -146,6 +155,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
             else {
                 for (int j = 0; j < Array.getLength(value); ++j) {
                     buf.append(System.getProperty("line.separator"));
+                    buf.append('\t');
                     buf.append(property);
                     buf.append('[');
                     buf.append(j);
@@ -159,6 +169,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
             Object value = addedProperties.get(property);
             if (value == null || !value.getClass().isArray() ) {
                 buf.append(System.getProperty("line.separator"));
+                buf.append('\t');
                 buf.append(property);
                 buf.append(" = ");
                 buf.append(value);
@@ -166,6 +177,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
             else {
                 for (int j = 0; j < Array.getLength(value); ++j) {
                     buf.append(System.getProperty("line.separator"));
+                    buf.append('\t');
                     buf.append(property);
                     buf.append('[');
                     buf.append(j);
@@ -175,6 +187,10 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
             }
         }
         return buf.toString();
+    }
+    
+    public String[] getAddedProperties() {
+        return (String[]) addedProperties.keySet().toArray(new String[0]);
     }
     
 }
