@@ -658,42 +658,11 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     /**
      * A default string description of this entity,
      * name (Entity Priority)
+     *  &lt;list of all properties as key = value pairs&gt;
+     * @return String description of object's name and properties
      **/ 
     public String toString() {
-        StringBuffer buf = new StringBuffer(this.getName());
-        try {
-            BeanInfo info = Introspector.getBeanInfo( this.getClass(), simkit.BasicSimEntity.class );
-            PropertyDescriptor[] descriptors = info.getPropertyDescriptors();
-            for (int i = 0; i < descriptors.length; ++i) {
-                Method readMethod = descriptors[i].getReadMethod();
-                Method writeMethod = descriptors[i].getWriteMethod();
-                if (writeMethod != null && readMethod != null) {
-                    Object value = readMethod.invoke(this, (Object[])null);
-                    if (value == null || !value.getClass().isArray()) {
-                        buf.append(System.getProperty("line.separator"));
-                        buf.append('\t');
-                        buf.append( descriptors[i].getName() );
-                        buf.append(" = ");
-                        buf.append(value);
-                    }
-                    else {
-                        for (int j = 0; j < Array.getLength(value); ++j) {
-                            buf.append(System.getProperty("line.separator"));
-                            buf.append('\t');
-                            buf.append( descriptors[i].getName() );
-                            buf.append('[');
-                            buf.append(j);
-                            buf.append("] = ");
-                            buf.append(Array.get(value, j));
-                        }
-                    }
-                }
-            }
-        } 
-        catch (IntrospectionException e) { throw new RuntimeException(e); }
-        catch (IllegalAccessException e) { throw new RuntimeException(e); }
-        catch (InvocationTargetException e) { throw new RuntimeException(e.getTargetException()); }
-        return buf.toString();
+        return getName() + property;
     }        
     /**  
      * Gets an array of all registered PropertyChangeListeners.
@@ -727,4 +696,8 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         return eventList;
     }
     
+    public String[] getAddedProperties() {
+        return property.getAddedProperties();
+    }
+
 }
