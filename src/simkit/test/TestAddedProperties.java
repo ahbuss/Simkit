@@ -20,6 +20,12 @@ public class TestAddedProperties extends SimEntityBase {
         taps.setProperty("array", new double[] { 1, 2, 3.4 });
         
         System.out.println(taps);
+        
+        String[] added = taps.getAddedProperties();
+        
+        for (int i = 0; i < added.length; ++i) {
+            System.out.println(added[i] + " -> " + taps.getProperty(added[i]));
+        }
     }
     
 }
