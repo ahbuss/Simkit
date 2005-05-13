@@ -41,6 +41,11 @@ public class SensorTargetMediatorFactory implements MediatorFactory {
         getInstance().addMediatorFor(sensorClass, targetClass, mediatorClass);
     }
     
+    public static void addMediator(Class sensorClass, Class targetClass,
+            SensorTargetMediator mediatorInstance) {
+        getInstance().addMediatorFor(sensorClass, targetClass, mediatorInstance);
+    }
+    
 /**
 * Gets the Mediator for the given Sensor Class and Moveable Class.
 * @param sensorClass the Sensor Class for which to retrieve the Mediator.
@@ -84,13 +89,33 @@ public class SensorTargetMediatorFactory implements MediatorFactory {
         if (!(simkit.smdx.SensorTargetMediator.class.isAssignableFrom(mediatorClass))) {
             throw new IllegalArgumentException(mediatorClass + " is not a SensorTargetMediator");
         }
-        Object mediatorInstance = null;
+        SensorTargetMediator mediatorInstance = null;
         try {
-            mediatorInstance = mediatorClass.newInstance();
+            mediatorInstance = (SensorTargetMediator) mediatorClass.newInstance();
         }
         catch (InstantiationException e) {System.err.println(e);}
         catch (IllegalAccessException e) {System.err.println(e);}
         
+        addMediatorFor(sensorClass, targetClass, mediatorInstance);
+//        
+//        if (!cache.containsKey(sensorClass)) {
+//            cache.put(sensorClass, new WeakHashMap());
+//        }
+//        Map targetClasses = (Map) cache.get(sensorClass);
+//        targetClasses.put(targetClass, mediatorInstance);
+    }
+    
+    public void addMediatorFor(Class sensorClass, Class targetClass,
+            Object mediatorInstance) {
+        if (!(simkit.smdx.Sensor.class.isAssignableFrom(sensorClass))) {
+            throw new IllegalArgumentException(sensorClass + " is not a Sensor class");
+        }
+        if (!(simkit.smdx.Moveable.class.isAssignableFrom(targetClass))) {
+            throw new IllegalArgumentException(targetClass + " is not a Moveable class");
+        }
+        if ( !(mediatorInstance instanceof SensorTargetMediator)) {
+            throw new IllegalArgumentException(mediatorInstance + " is not a SensorTargetMediator instance");
+        }
         if (!cache.containsKey(sensorClass)) {
             cache.put(sensorClass, new WeakHashMap());
         }
