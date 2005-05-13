@@ -41,6 +41,8 @@ public interface MediatorFactory {
     public void addMediatorFor(String first, String second, String mediator)
         throws ClassNotFoundException;
     
+    public void addMediatorFor(Class first, Class second, Object instance);
+    
 /**
 * Gets the Mediator for the given Objects.
 **/
