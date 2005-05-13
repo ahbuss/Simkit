@@ -8,47 +8,39 @@ package simkit.smdx.test;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 
 import simkit.Schedule;
-import simkit.smdx.CookieCutterSensor;
-import simkit.smdx.Math2D;
-import simkit.smdx.Mover;
-import simkit.smdx.PathMoverManager;
-import simkit.smdx.Sensor;
-import simkit.smdx.SensorTargetMediatorFactory;
-import simkit.smdx.SensorTargetReferee;
-import simkit.smdx.UniformLinearMover;
+import simkit.smdx.*;
+
 /**
- *
+ * @version $Id$
  * @author  Arnold Buss
  */
 public class TestSensorTargetReferee {
     
     static {
         SensorTargetMediatorFactory.addMediator(
-            simkit.smdx.CookieCutterSensor.class,
-            simkit.smdx.UniformLinearMover.class,
-            simkit.smdx.CookieCutterMediator.class
+            CookieCutterSensor.class,
+            UniformLinearMover.class,
+            new CookieCutterMediator()
         );
     }
     
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-/**/        
-        Shape ellipse2 = new Ellipse2D.Double(100.0, 100.0, 300.0, 300.0);
+
+        Shape ellipse2 = new java.awt.geom.Ellipse2D.Double(100.0, 100.0, 300.0, 300.0);
         
-        Point2D center = new Point2D.Double(250, 250);
-        Point2D corner = new Point2D.Double(center.getX() + 150, center.getY() + 150);
+        Point2D center = new Double(250, 250);
+        Point2D corner = new Double(center.getX() + 150, center.getY() + 150);
         
-        Ellipse2D ellipse = new Ellipse2D.Double();
+        Ellipse2D ellipse = new java.awt.geom.Ellipse2D.Double();
         ellipse.setFrameFromCenter(center, corner);
         
         System.out.println(ellipse.getFrame());
         System.out.println("(" + ellipse.getCenterX() + ", " + ellipse.getCenterY() + ")");
-        Point2D start = new Point2D.Double(0.0, 250.0);
-        Point2D end = new Point2D.Double(450.0, 250.0);
+        Point2D start = new Double(0.0, 250.0);
+        Point2D end = new Double(450.0, 250.0);
         Point2D velocity = Math2D.subtract(end, start);
         velocity = Math2D.scaleTo(velocity, 20.0);
         
