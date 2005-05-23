@@ -43,5 +43,10 @@ public interface Displayable extends Named, PropertyChangeSource, Moveable, Side
 * An unique id for this Displayable.
 **/
     public int getSerial();
+    
+    /**
+     * @return the properties that have been dynamically added.
+     */
+    public String[] getAddedProperties();
 }
 
