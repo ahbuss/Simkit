@@ -12,7 +12,7 @@ package simkit.random;
  * @version $Id$
 **/
 
-public interface RandomVector extends java.io.Serializable {
+public interface RandomVector {
 
 /**
  * Returns an array containing a vector having this class's distribution.

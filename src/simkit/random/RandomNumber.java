@@ -14,7 +14,7 @@ package simkit.random;
  * @author Arnold Buss
  * @version $Id$
 **/
-public interface RandomNumber extends java.io.Serializable {
+public interface RandomNumber {
 
 /**
   * Set the random number seed for this RandomNumber.

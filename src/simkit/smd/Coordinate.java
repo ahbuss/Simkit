@@ -14,7 +14,7 @@ package simkit.smd;
 import java.text.DecimalFormat;
 import java.util.StringTokenizer;
 
-public class Coordinate implements java.io.Serializable {
+public class Coordinate {
 
 // instance variables
    /**
