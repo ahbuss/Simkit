@@ -114,7 +114,7 @@
     
 <!-- === TARGET: jar.source === -->
     <target depends="build.init" name="jar.source">
-        <jar excludes="**/*.class" jarfile="${dir.build}/simkit-src.jar">
+        <jar excludes="**/*.class" jarfile="${dir.build}/simkit-src.zip">
             <fileset dir="${dir.src}">
                 <exclude name="build/**/*"/>
                 <exclude name="dist/**/*"/>
@@ -123,6 +123,7 @@
                 <exclude name="Simkitlocales/**/*" />
                 <exclude name="Simkit_Build_Output/**/*" />
                 <exclude name="**/*.class"/>
+                <exclude name ="lib/**.*" />
             </fileset>
             
         </jar>
@@ -133,19 +134,24 @@
 
 	<target depends="jar, doc, jar.source" name="dist">
 	    <mkdir dir="${dir.dist}"/>
-	    <mkdir dir="${dir.dist}/doc"/>
+<!--	    <mkdir dir="${dir.dist}/doc"/> -->
 	    <mkdir dir="${dir.dist}/lib"/>
 	    <mkdir dir="${dir.dist}/gnu"/>
-		<copy todir="${dir.dist}">
+		<copy todir="${dir.dist}/lib">
 			<fileset dir="${dir.build.lib}"/>
 		</copy>
+<!--  -->              
 		<copy todir="${dir.dist}/doc">
 			<fileset dir="${dir.build.doc}"/>
 		</copy>
+<!-- -->
+                <jar jarfile="${dir.dist}/simkit-doc.zip">
+                    <fileset dir="${dir.build}/doc" />
+                </jar>
 		<copy todir="${dir.dist}/lib">
 			<fileset dir="${dir.lib}"/>
 		</copy>
-                <copy file="${dir.build}/simkit-src.jar" todir="${dir.dist}"/>
+                <copy file="${dir.build}/simkit-src.zip" todir="${dir.dist}"/>
                 <copy todir="${dir.dist}/gnu">
                     <fileset dir="${dir.src}/gnu"/>
                 </copy>
