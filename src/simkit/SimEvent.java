@@ -1,6 +1,5 @@
 package simkit;
 
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 /**
@@ -13,7 +12,7 @@ import java.text.NumberFormat;
  * @version $Id$
  *
  **/
-public class SimEvent implements Serializable {
+public class SimEvent {
     
     // static variables
     
