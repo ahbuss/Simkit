@@ -46,6 +46,20 @@ public class Version {
 **/
     private static String SIMKIT_MESSAGE = "";
     
+    private static String NOTE = "This is just information about the Simkit version and license.  " +
+                SimEntity.NL +
+                "Simkit is not an IDE or graphical environment.  " +
+                SimEntity.NL +
+                "To create a Simkit model, you must create Java classes to " +
+                SimEntity.NL +
+                "represent the components of your model.  See the documentation " +
+                SimEntity.NL +
+                "or the simkit.examples for examples of this.  " +
+                SimEntity.NL +
+                "Simkit's web site is: http://diana.cs.nps.navy.mil/Simkit.  " +
+                SimEntity.NL +
+                "You can post bugs here: https://diana.cs.nps.navy.mil/bugzilla";
+    
     private static final int VERSION_NUMBER;
     
     private static final int SUBVERSION_NUMBER;
@@ -139,11 +153,12 @@ public class Version {
         
         JTextArea text = new JTextArea();
         text.setText("Simkit version " + getVersion() + SimEntity.NL +
-        getCopyright() + SimEntity.NL + getMessage());
+            SimEntity.NL + NOTE + SimEntity.NL + SimEntity.NL + 
+            getCopyright() + getMessage());
         
         JPanel panel = new JPanel();
         JButton button = new JButton(new GenericAction(this, "exit"));
-        button.setText("OK");
+        button.setText("Close");
         panel.add(button);
         panel.setBackground(Color.white);
         
