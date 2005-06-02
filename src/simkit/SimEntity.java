@@ -1,33 +1,22 @@
 package simkit;
-/*
-* <P>Changes
-* <UL>
-* <LI> 22 Oct 1998 - SimEntity now extends SimEventSource and SimEventListener.
-* This should not impact anything, but will make references to SimEntity
-* full-featured.  That is, they will now be able to dispatch and listen to
-* other SimEntitys' SimEvents. [AB]
-* </UL>
-*/
 
 /**
-* Base interface for simulation entities.
-*
-* This interface defines the basic event scheduling
-* behavior of simulation entities in the simkit
-* structure.  The default implementation is in
-* SimEntityBase.
-*
-*
-* @author K. A. Stork
-* @author Arnold Buss
-* @version $Id$
-*
+ * Base interface for simulation entities.
+ *
+ * This interface defines the basic event scheduling
+ * behavior of simulation entities in the simkit
+ * structure.  The reference implementations are BasicSimEntity and
+ * SimEntityBase.
+ *
+ * @author K. A. Stork
+ * @author Arnold Buss
+ * @version $Id$
+ *
 **/
 public interface SimEntity extends Named,
                                    SimEventSource,
                                    SimEventListener,
-                                   PropertyChangeSource,
-                                   java.io.Serializable
+                                   PropertyChangeSource
 {
 
    public static final double DEFAULT_PRIORITY    = 0.0;
