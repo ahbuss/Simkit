@@ -88,6 +88,8 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
 
     protected EventList eventList;
     
+    private boolean justDefinedProperties;
+    
    /**
    * Construct a new BasicSimEntity with the given name and a default priority.
    * @param name The name of the BasicSimEntity.
@@ -111,6 +113,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         setPersistant(true);                    //TODO add constructor with persistant
         eventList = Schedule.getEventList(eventListID);
         eventList.addRerun(this);
+        setJustDefinedProperties(true);
     }
     
     public BasicSimEntity(String name, double priority) {
@@ -448,6 +451,10 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         property.firePropertyChange(e);
     }
     
+    public void setJustDefinedProperties(boolean b) { justDefinedProperties = b; }
+    
+    public boolean isJustDefinedProperties() { return justDefinedProperties; }
+    
     /**
      * Get the value of the given property.
      * @param name The name of the property to be retrieved
@@ -662,7 +669,12 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      * @return String description of object's name and properties
      **/ 
     public String toString() {
-        return getName() + property;
+        if (isJustDefinedProperties()) {
+            return getName() + getPropertiesString();
+        }
+        else {
+            return getName() + property;
+        }
     }        
     /**  
      * Gets an array of all registered PropertyChangeListeners.
@@ -698,6 +710,43 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     
     public String[] getAddedProperties() {
         return property.getAddedProperties();
+    }
+    
+    protected String getPropertiesString() {
+        StringBuffer buf = new StringBuffer(this.getName());
+        try {
+            BeanInfo info = Introspector.getBeanInfo( this.getClass(), simkit.BasicSimEntity.class );
+            PropertyDescriptor[] descriptors = info.getPropertyDescriptors();
+            for (int i = 0; i < descriptors.length; ++i) {
+                Method readMethod = descriptors[i].getReadMethod();
+                Method writeMethod = descriptors[i].getWriteMethod();
+                if (writeMethod != null && readMethod != null) {
+                    Object value = readMethod.invoke(this, (Object[])null);
+                    if (value == null || !value.getClass().isArray()) {
+                        buf.append(System.getProperty("line.separator"));
+                        buf.append('\t');
+                        buf.append( descriptors[i].getName() );
+                        buf.append(" = ");
+                        buf.append(value);
+                    }
+                    else {
+                        for (int j = 0; j < Array.getLength(value); ++j) {
+                            buf.append(System.getProperty("line.separator"));
+                            buf.append('\t');
+                            buf.append( descriptors[i].getName() );
+                            buf.append('[');
+                            buf.append(j);
+                            buf.append("] = ");
+                            buf.append(Array.get(value, j));
+                        }
+                    }
+                }
+            }
+        } 
+        catch (IntrospectionException e) { throw new RuntimeException(e); }
+        catch (IllegalAccessException e) { throw new RuntimeException(e); }
+        catch (InvocationTargetException e) { throw new RuntimeException(e.getTargetException()); }
+        return buf.toString();
     }
 
 }
