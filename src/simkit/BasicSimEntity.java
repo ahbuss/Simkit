@@ -670,7 +670,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      **/ 
     public String toString() {
         if (isJustDefinedProperties()) {
-            return getName() + getPropertiesString();
+            return getPropertiesString();
         }
         else {
             return getName() + property;
