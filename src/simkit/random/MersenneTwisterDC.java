@@ -2,6 +2,13 @@ package simkit.random;
 
 /**
  * A clean port of the Mersenne Twister from the C code.
+ * Caution: setSeed(long) does <i>not</i> have the effect probably
+ * intended.  It essentially re-initializes the state array starting
+ * with the argument.  To synchronize with where another instance
+ * left off, for example, use setSeeds(long[]), passing tn the result of
+ * getSeeds() from the other instance.  So setSeed(getSeed()) is not the
+ * identity, but setSeeds(getSeeds()) is.
+ *
  * @version $Id$
  * @author  ahbuss
  */
@@ -33,8 +40,8 @@ public class MersenneTwisterDC implements RandomNumber {
     
     public MersenneTwisterDC() {
     }
-
-    protected void sgenrand(long seed) {
+    
+    public void sgenrand(long seed) {
         state = new int[nn];
         state[0] = (((int) seed * 69069 + 0x1) & wmask) ;
         for (int i = 1; i < state.length; ++i) {
@@ -47,7 +54,7 @@ public class MersenneTwisterDC implements RandomNumber {
         
         return (double) drawLong() * MULTIPLIER;
     }
-
+    
     public long drawLong() {
         
         int x = state[i];
@@ -80,7 +87,6 @@ public class MersenneTwisterDC implements RandomNumber {
     
     public long getSeed() { return (long) state[i]; }
     
-    //        TODO: return entire parameter/state combination
     public long[] getSeeds() {
         long[] data = new long[16 + nn];
         data[1] = aaa;
@@ -113,7 +119,8 @@ public class MersenneTwisterDC implements RandomNumber {
     }
     
     /**
-     * if data.length == 15, use sgenrand to initialize state data[0] must be > 0).
+     * If data.length == 15, use sgenrand to initialize state data[0] must be > 0).
+     * Otherwise, use data[16..data.length] as the state array.
      */
     public void setSeeds(long[] data) {
         if (data.length < 15) {
@@ -144,12 +151,18 @@ public class MersenneTwisterDC implements RandomNumber {
                 state[k] = (int) data[16 + k] & UNSIGNED_MASK;
             }
         }
-        else if (seed > 0) {
-            setSeed(seed);
+        else if (data.length == 15) {
+            if (seed > 0) {
+                setSeed(seed);
+            }
+            else {
+                throw new IllegalArgumentException("Seed must be > 0: " + seed);
+            }
         }
         else {
-            throw new IllegalArgumentException("Seed must be > 0: " + seed);
+            throw new IllegalArgumentException("data[] must be 15 or 16 + data[3]: " + data.length );
         }
+        
         
     }
     
@@ -184,6 +197,8 @@ public class MersenneTwisterDC implements RandomNumber {
         buf.append("maskB = " + Integer.toHexString(maskB));
         buf.append(NL);
         buf.append("maskC = " + Integer.toHexString(maskC));
+        buf.append(NL);
+        buf.append("i = " + i);
         for (int k = 0; k < state.length; ++k) {
             buf.append(NL);
             buf.append("state[" + k +"] = " + state[k]);
@@ -192,6 +207,6 @@ public class MersenneTwisterDC implements RandomNumber {
         return buf.toString();
     }
     
-    public String toString() { return "MersennTwister (Dynamic Creator)\n" + paramString(); }
+    public String toString() { return "Mersenne Twister (Dynamic Creator)\n" + paramString(); }
     
 }
