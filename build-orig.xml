@@ -83,6 +83,10 @@
         	<exclude name="build/"/>
         	<include name="**/*.xml"/>
         	<include name="**/*.dtd"/>
+                <exclude name="Simkitlocales/" />
+                <exclude name="Simkit_Build_Output/" />
+                <exclude name="nbproject/" />
+                <exclude name="simkit/nss/" />
             </fileset>
         </copy>
         <copy todir="${dir.build}">
