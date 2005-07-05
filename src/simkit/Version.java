@@ -101,7 +101,7 @@ public class Version {
         } catch (IOException e) {}
         
         String[] ver = getVersion().split("\\.");
-        if (ver.length != 3) {
+        if (ver.length < 3) {
             throw new RuntimeException("Bad Version: " + getVersion() + 
                 " token length = " + ver.length);
         }
@@ -118,7 +118,7 @@ public class Version {
     
     public static boolean isAtLeastVersion(String otherVersion) {
         String[] split = otherVersion.split("\\.");
-        if (split.length > 3 || split.length == 0) {
+        if (split.length < 3) {
             throw new IllegalArgumentException("Not legitimate version string: " +
                 otherVersion);
         }
