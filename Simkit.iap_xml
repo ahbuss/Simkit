@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using Zero G's InstallAnywhere 5.5.1 Now, Build 2032
      STATUS: Fully Functional LICENSED Edition
-     DATE:   Fri Jun 17 16:23:40 PDT 2005 -->
-<InstallAnywhere_Deployment_Project increments="1287">
+     DATE:   Fri Jul 01 14:42:33 PDT 2005 -->
+<InstallAnywhere_Deployment_Project increments="1334">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
 		<versionID major="5" minor="5" revision="1"/>
@@ -10,9 +10,9 @@
 		<scriptID>12,42,11,90,83,49,48,52,53,76,81,66,70,67,78,72</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,51,46,49,95,48,56,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,83,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,0,-120,-104,97,32,80,112,112,97,87,98,113,97,113,65,81,51,74,65,78,68,71,68,64,69,66,69,48,79,87,5,2,9,0,29,124,4,1,0,0</authorizationID>
+		<authorizationID>1,0,0,0,-40,90,-47,-80,80,112,112,97,87,98,113,97,113,65,81,51,74,65,78,68,71,68,64,69,66,69,48,79,87,5,2,11,1,25,116,4,1,0,0</authorizationID>
 	</essentialScriptInfo>
-	<installationObjects uniqueObjects="67">
+	<installationObjects uniqueObjects="69">
 		<object class="com.zerog.ia.installer.Installer" objectID="4f3be2e786b3">
 			<property name="wizardME">
 				<object class="com.zerog.ia.installer.actions.MakeExecutable" objectID="532c88d889a5">
@@ -166,7 +166,7 @@ it will search for ones in this list]]></string>
 								</object>
 							</method>
 							<method name="addElement">
-								<object class="com.zerog.ia.installer.util.LAXPropertyData" objectID="9effcbab86a2">
+								<object class="com.zerog.ia.installer.util.LAXPropertyData" objectID="e7d0b9fa86a4">
 									<property name="propertyValue">
 										<string><![CDATA[simkit.Version]]></string>
 									</property>
@@ -244,7 +244,7 @@ and any path to a file to read from that file]]></string>
 								<string><![CDATA[simkit.jar]]></string>
 							</property>
 							<property name="fileSize">
-								<long>332127</long>
+								<long>336253</long>
 							</property>
 							<property name="macBinary">
 								<boolean>false</boolean>
@@ -311,6 +311,9 @@ and any path to a file to read from that file]]></string>
 						<string><![CDATA[Choose $SHORTCUT_NAME$ Folder]]></string>
 					</method>
 					<method name="addElement">
+						<string><![CDATA[Choose Java Virtual Machine]]></string>
+					</method>
+					<method name="addElement">
 						<string><![CDATA[Pre-Installation Summary]]></string>
 					</method>
 					<method name="addElement">
@@ -322,7 +325,7 @@ and any path to a file to read from that file]]></string>
 				</object>
 			</property>
 			<property name="installProgressLabelIndex">
-				<int>4</int>
+				<int>5</int>
 			</property>
 			<property name="installProgressLabelOption">
 				<int>2</int>
@@ -492,6 +495,44 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 						</object>
 					</method>
 					<method name="addElement">
+						<object class="com.zerog.ia.installer.actions.ChooseJavaVMAction" objectID="e6cbb06a873f">
+							<property name="imageOption">
+								<int>1</int>
+							</property>
+							<property name="userHasVMChoice">
+								<boolean>true</boolean>
+							</property>
+							<property name="title">
+								<string><![CDATA[Choose Java Virtual Machine]]></string>
+							</property>
+							<property name="header">
+								<string><![CDATA[Please Choose a Java VM for Use by the Installed Application]]></string>
+							</property>
+							<property name="canUseJRE">
+								<boolean>true</boolean>
+							</property>
+							<property name="canUseMicrosoft">
+								<boolean>true</boolean>
+							</property>
+							<property name="canUseJDK">
+								<boolean>true</boolean>
+							</property>
+							<property name="labelOption">
+								<int>2</int>
+							</property>
+							<property name="labelIndex">
+								<int>3</int>
+							</property>
+							<property name="help">
+								<object class="com.zerog.ia.installer.util.Help" objectID="e6cbb06b873f">
+									<property name="showHelp">
+										<boolean>false</boolean>
+									</property>
+								</object>
+							</property>
+						</object>
+					</method>
+					<method name="addElement">
 						<object class="com.zerog.ia.installer.actions.InstallSummary" objectID="4f3be2e786c0">
 							<property name="imageOption">
 								<int>1</int>
@@ -530,7 +571,7 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 								<int>2</int>
 							</property>
 							<property name="labelIndex">
-								<int>3</int>
+								<int>4</int>
 							</property>
 							<property name="fieldList">
 								<object class="java.util.Vector"/>
@@ -557,7 +598,7 @@ You may cancel this installation at any time by clicking the 'Cancel' button.]]>
 								<int>2</int>
 							</property>
 							<property name="labelIndex">
-								<int>5</int>
+								<int>6</int>
 							</property>
 							<property name="help">
 								<object class="com.zerog.ia.installer.util.Help" objectID="4f3be2e886c1">
@@ -679,7 +720,7 @@ Press "Done" to quit the installer.]]></string>
 				<object class="java.util.Properties">
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[Fri Jun 17 16:23:40 PDT 2005]]></string>
+						<string><![CDATA[Fri Jul 01 14:42:33 PDT 2005]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.merge]]></string>
@@ -719,7 +760,7 @@ Press "Done" to quit the installer.]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.build.last.date]]></string>
-						<string><![CDATA[Fri Jun 17 16:23:40 PDT 2005]]></string>
+						<string><![CDATA[Fri Jul 01 14:42:33 PDT 2005]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.installer.options.heap.size.initial]]></string>
@@ -1393,7 +1434,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[simkit-doc.zip]]></string>
 											</property>
 											<property name="fileSize">
-												<long>920932</long>
+												<long>918643</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -1422,39 +1463,13 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[simkit-src.zip]]></string>
 											</property>
 											<property name="fileSize">
-												<long>472681</long>
+												<long>478384</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
 											</property>
 											<property name="targetCheckKind">
 												<int>0</int>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="52d4650a8738">
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[C:\tmp\Simkit\dist\gnu]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[gnu]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
 											</property>
 										</object>
 										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="a0140db58707">
@@ -1475,6 +1490,32 @@ and any path to a file to read from that file]]></string>
 											</property>
 											<property name="destinationName">
 												<string><![CDATA[doc]]></string>
+											</property>
+											<property name="removeRecursively">
+												<boolean>false</boolean>
+											</property>
+											<property name="macBinary">
+												<boolean>false</boolean>
+											</property>
+										</object>
+										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="52d4650a8738">
+											<property name="unixPermissions">
+												<string><![CDATA[775]]></string>
+											</property>
+											<property name="sourceName">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="overrideUnixPermissions">
+												<boolean>false</boolean>
+											</property>
+											<property name="sourcePath">
+												<string><![CDATA[C:\tmp\Simkit\dist\gnu]]></string>
+											</property>
+											<property name="shouldUninstall">
+												<boolean>true</boolean>
+											</property>
+											<property name="destinationName">
+												<string><![CDATA[gnu]]></string>
 											</property>
 											<property name="removeRecursively">
 												<boolean>false</boolean>
@@ -1534,7 +1575,7 @@ and any path to a file to read from that file]]></string>
 		</object>
 	</installationObjects>
 	<restorationObjects count="2">
-		<object refID="52d4650a8738"/>
 		<object refID="a0140db58707"/>
+		<object refID="52d4650a8738"/>
 	</restorationObjects>
 </InstallAnywhere_Deployment_Project>
