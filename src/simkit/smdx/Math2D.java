@@ -357,7 +357,7 @@ public class Math2D {
                     
                 case PathIterator.SEG_LINETO:
                     segments.add(new Line2D.Double(lastPoint.getX(), lastPoint.getY(), coords[0], coords[1]));
-                    lastPoint.setLocation(coords[1], coords[1]);
+                    lastPoint.setLocation(coords[0], coords[1]);
                     break;
                     
                 case PathIterator.SEG_CLOSE:
