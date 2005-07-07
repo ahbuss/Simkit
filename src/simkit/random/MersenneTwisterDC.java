@@ -56,22 +56,15 @@ public class MersenneTwisterDC implements RandomNumber {
     }
     
     public long drawLong() {
-        
-        int x = state[i];
-        i += 1;
-        
-        x ^= (x >>> shift0);
-        x ^= (x << shiftB) & maskB;
-        x ^= (x << shiftC) & maskC;
-        x ^= (x >>> shift1);
+        int x; 
         
         if (i >= nn) {
             int k;
-            for (k = 0; k < nn - mm; ++k) {
+            for (k = 0; k < nn - mm; k++) {
                 x = (state[k] & umask) | (state[k+1] & lmask);
                 state[k] = state[k + mm] ^ (x >>> 1) ^ ((x & 0x1) == 0x1 ? aaa : 0x0);
             }
-            for ( ; k < nn - 1; ++k) {
+            for ( ; k < nn - 1; k++) {
                 x = (state[k] & umask) | (state[k+1] & lmask);
                 state[k] = state[k + mm - nn] ^ (x >>> 1) ^ ((x & 0x1) == 0x1 ? aaa : 0x0);
             }
@@ -79,6 +72,13 @@ public class MersenneTwisterDC implements RandomNumber {
             state[nn - 1] = state[mm - 1] ^ ( x >>> 1) ^ ((x & 0x1) == 0x1 ? aaa : 0x0);
             i = 0;
         }
+        x = state[i];
+        i += 1;
+        
+        x ^= (x >>> shift0);
+        x ^= (x << shiftB) & maskB;
+        x ^= (x << shiftC) & maskC;
+        x ^= (x >>> shift1);
         
         return (long) x & wmask;
     }
