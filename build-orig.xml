@@ -35,6 +35,13 @@
 	<property description="Location of class files resulting from operations of this build file." location="${dir.build}/classes" name="dir.build.classes"/>
 	          
 	<property description="Root of the javadoc tree for Simkit." location="${dir.build}/doc" name="dir.build.doc"/>
+
+    <property description="The location of junit Test source." location="${basedir}/tests" name="dir.tests"/>
+
+    <property description="The location of junit test class files." location="${dir.build}/tests" name="dir.build.tests"/>
+
+    <property environment="ENV"/>
+    <property description="The location of junit.jar." location="${ENV.JUNITJAR}" name="junitJar"/>
                   
 
 <!--  === TARGET: help === -->
@@ -59,6 +66,11 @@
 		<mkdir dir="${dir.build.classes}"/>
                 <mkdir dir="${dir.build.doc}"/>
 	</target>
+
+<!-- === TARGET: test.init === -->
+    <target depends="init" name="test.init">
+        <mkdir dir="${dir.build.tests}"/>
+    </target>
 	
 <!--  === TARGET: clean === -->
     <target depends="init" description="Deletes build directory, javadoc directory and dist directory" name="clean">
@@ -165,4 +177,28 @@
                     </fileset>
                 </copy>
 	</target>
+
+<!-- === TARGET: buildTests === -->
+    <target depends="test.init, compile" name="buildTests">
+        <javac srcdir="${dir.tests}" destdir="${dir.build.tests}" debug="true">
+            <classpath>
+                <pathelement path="${dir.build.classes}"/>
+                <pathelement path="${junitJar}"/>
+            </classpath>
+        </javac>
+    </target>
+
+<!-- === TARGET: test === -->
+    <target depends="buildTests" name="test" description="Run junit tests">
+       <junit printsummary="withOutAndErr" haltonfailure="no" fork="yes">
+           <test name="TestAll"/>
+           <formatter type="plain"/>
+           <classpath>
+                <pathelement path="${dir.build.classes}"/>
+                <pathelement path="${dir.build.tests}"/>
+                <pathelement path="${junitJar}"/>
+           </classpath>
+            <jvmarg value="-Djava.util.logging.config.file=logging.properties"/>
+       </junit>
+    </target>
 </project>
