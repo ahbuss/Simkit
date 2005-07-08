@@ -352,7 +352,9 @@ public class MersenneTwisterFactory {
         
         cur = mn0;
         for (i=0; i<LIMIT_V_BEST_OPT; i++) {
-            log.info("i= " + i + "The MaskNode contains " + countMaskNodeLevels(cur));
+            if (log.isLoggable(Level.FINE)) {
+                log.finer("i= " + i + "The MaskNode contains " + countMaskNodeLevels(cur));
+            }
             next = optimize_v_hard(i, cur);
             if (i > 0) 
                 delete_MaskNodes(cur);
@@ -403,7 +405,9 @@ public class MersenneTwisterFactory {
         for( i=0; i<WORD_LEN; i++) {
             bitmask[i] = (0x80000000 >>> i) & MAX_VALUE;
             cur_bitmask[i] = (0x80000000 >>> i) & MAX_VALUE;
-            log.info("bitmask["+i+"]=" + bitmask[i]);
+            if (log.isLoggable(Level.FINE)) {
+                log.finer("bitmask["+i+"]=" + bitmask[i]);
+            }
         }
 
         for( i=0, glower_mask=0; i<rrr; i++)
