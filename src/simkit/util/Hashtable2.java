@@ -96,7 +96,7 @@ public class Hashtable2 extends HashMap {
         Object removedValue = null;
         Object map = get(firstKey);
         if (map != null) {
-            removedValue = ((Map) map).get(secondKey);
+            removedValue = ((Map) map).remove(secondKey);
         }
         return removedValue;
     }

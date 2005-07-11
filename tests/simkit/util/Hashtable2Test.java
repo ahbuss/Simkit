@@ -31,7 +31,7 @@ public class Hashtable2Test extends TestCase {
     public void testRemoval() {
         loadTable();
         assertEquals("1_1", table.remove("first_1", "second_1"));
-        assertEquals("Fails due to bug 513", null, table.get("first_1", "second_1"));
+        assertEquals(null, table.get("first_1", "second_1"));
     }
 
     public void testToArray() {
