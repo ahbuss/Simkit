@@ -6,7 +6,7 @@
 
 package simkit.smdx;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 /**
  * Stores Adjudicators indexed by the Munition and Target they should be used for. 
@@ -33,7 +33,7 @@ public class MunitionTargetAdjudicatorFactory {
     protected static Adjudicator defaultAdjudicator;
     
     static {
-        adjudicators = Collections.synchronizedMap(new HashMap());
+        adjudicators = Collections.synchronizedMap(new LinkedHashMap());
         setDefaultAdjudicator(new DefaultAdjudicator());
     }
 
@@ -68,7 +68,7 @@ public class MunitionTargetAdjudicatorFactory {
     public static void addAdjudicator(Class munitionClass, Class targetClass, Adjudicator adjudicator) {
         Map targetAdjudicators = (Map) adjudicators.get(munitionClass);
         if (targetAdjudicators == null) {
-            targetAdjudicators = new HashMap();
+            targetAdjudicators = new LinkedHashMap();
             adjudicators.put(munitionClass, targetAdjudicators);
         }
         targetAdjudicators.put(targetClass, adjudicator);

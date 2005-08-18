@@ -8,7 +8,7 @@ package simkit.smdx;
 
 import java.awt.Shape;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -39,7 +39,7 @@ public class MunitionTargetReferee extends SimEntityBase {
     
     /** Creates a new instance of MunitionTargetReferee */
     public MunitionTargetReferee() {
-        targets = Collections.synchronizedSet(new HashSet());
+        targets = Collections.synchronizedSet(new LinkedHashSet());
     }
     
 /**
@@ -96,7 +96,7 @@ public class MunitionTargetReferee extends SimEntityBase {
     public Set getTargets() {
         Set copy = null;
         synchronized(targets) {
-            copy = new HashSet(targets);
+            copy = new LinkedHashSet(targets);
         }
         return copy;
     }

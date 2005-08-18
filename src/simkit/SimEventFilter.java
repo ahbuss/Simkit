@@ -24,7 +24,7 @@ public class SimEventFilter extends simkit.BasicSimEntity {
      * @param ev Collection of event names
      */    
     public SimEventFilter(Collection ev) {
-        events = new HashSet(ev);
+        events = new LinkedHashSet(ev);
         setAllButTheseEvents(false);
     }
     
@@ -60,7 +60,7 @@ public class SimEventFilter extends simkit.BasicSimEntity {
     }
     
     public SimEventFilter() {
-        this(new HashSet());
+        this(new LinkedHashSet());
     }
     
     /** Add an event to be filtered

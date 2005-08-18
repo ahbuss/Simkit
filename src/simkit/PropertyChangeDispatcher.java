@@ -4,6 +4,7 @@ import java.beans.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -45,8 +46,8 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
         try {
             BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass(), stopClass);
             PropertyDescriptor[] pd = beanInfo.getPropertyDescriptors();
-            setters = new HashMap(pd.length);
-            getters = new HashMap(pd.length);
+            setters = new LinkedHashMap(pd.length);
+            getters = new LinkedHashMap(pd.length);
             for (int i = 0; i < pd.length; i++) {
                 Method setter = pd[i].getWriteMethod();
                 if (setter != null) {
@@ -61,7 +62,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
         catch (IntrospectionException e) {
             throw new RuntimeException(e);
         }
-        addedProperties = new HashMap();
+        addedProperties = new LinkedHashMap();
     }
     
     /**

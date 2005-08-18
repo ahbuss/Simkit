@@ -3,7 +3,7 @@ package simkit;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +77,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
         
         Map namesAndSignatures = (Map) allNamesAndSignatures.get(this.getClass());
         if (namesAndSignatures == null) {
-            namesAndSignatures = new HashMap();
+            namesAndSignatures = new LinkedHashMap();
             for (Iterator i = doMethods.keySet().iterator(); i.hasNext(); ) {
                 Method nextDoMethod = (Method) doMethods.get(i.next());
                 List v = null;
@@ -90,7 +90,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
                 }
                 v.add(nextDoMethod.getParameterTypes());
             }
-            namesAndSignatures = new HashMap(namesAndSignatures);
+            namesAndSignatures = new LinkedHashMap(namesAndSignatures);
             allNamesAndSignatures.put(this.getClass(), namesAndSignatures);
         }
     }
@@ -128,7 +128,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 * protected events defined anywhere in the inheritence. 
 */
     protected Map getDoMethods() {
-        Map doMethods = new HashMap();
+        Map doMethods = new LinkedHashMap();
         // I really wanted to handle this with recursion, but couldn't.
         // Walk up the inheritance adding any method+signatures we haven't added yet.
         // When getClass() is called on Object we get a null and stop.

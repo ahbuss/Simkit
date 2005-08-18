@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import simkit.SimEntityBase;
@@ -67,7 +67,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
         locationTransform = new AffineTransform();
         footprint = new Ellipse2D.Double();
         this.maxRange = maxRange;
-        contacts = new HashSet();
+        contacts = new LinkedHashSet();
     }
 
     /**
@@ -231,7 +231,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
 * Returns this Set of contacts currently held by this Sensor.
 **/
     public Set getContacts() {
-        return new HashSet(contacts);
+        return new LinkedHashSet(contacts);
     }
     
 }

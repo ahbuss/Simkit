@@ -156,9 +156,9 @@ public class EventList {
         eventList = Collections.synchronizedSortedSet(new TreeSet(new SimEventComp()));
         simTime = 0.0;
         running = false;
-        eventCounts = new HashMap();
+        eventCounts = new LinkedHashMap();
         reRun = Collections.synchronizedSortedSet(new TreeSet(new SimEntityComparator()));
-        ignoreOnDump = new HashSet();
+        ignoreOnDump = new LinkedHashSet();
         this.id = id;
         setFormat("0.0000");
         setSimEventPrecision(0.0);
@@ -714,7 +714,7 @@ public class EventList {
      * @return Copy of reRun list
      */    
     public Set getRerun() {
-        return new HashSet(reRun);
+        return new LinkedHashSet(reRun);
     }
     
     /** Events of this name will not be printed in verbose mode.
@@ -736,7 +736,7 @@ public class EventList {
      * @return Copy of ignored events
      */    
     public Set getIgnoredEvents() {
-        return new HashSet(ignoreOnDump);
+        return new LinkedHashSet(ignoreOnDump);
     }
 
     /** Resets instance to pristine condition, as if it were

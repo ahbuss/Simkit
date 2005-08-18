@@ -2,7 +2,7 @@
 package simkit.smdx;
 
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.logging.*;
 /**
 * Represents the battle dimension or operating medium of an object.<br/>
@@ -30,7 +30,7 @@ public class BattleDimension {
 /**
 * Holds a mapping from Strings to the values.
 **/
-    protected static Map validValues = new HashMap();
+    protected static Map validValues = new LinkedHashMap();
 
 /**
 * The name of this battle dimension.

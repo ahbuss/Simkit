@@ -5,7 +5,7 @@
  */
 
 package simkit.smdx;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * A java enumeration for the various states of motion for a Mover.<BR/>
@@ -34,7 +34,7 @@ public class MovementState {
 /**
 * A HashMap of all of the allowed MovementStates keyed by name.
 **/
-    private static HashMap states;
+    private static LinkedHashMap states;
 
 /**
 * Get the MovementState for the given name. Returns <CODE>null</CODE> if
@@ -54,7 +54,7 @@ public class MovementState {
     protected MovementState(String name) {
         this.name = name;
         if (states == null) {
-            states = new HashMap(8);
+            states = new LinkedHashMap(8);
         }
         states.put(name, this);
     }

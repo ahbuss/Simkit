@@ -3,7 +3,7 @@ package simkit;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,7 +30,7 @@ public class Schedule  {
     
     static {
         nextEventListID = 0;
-        allEventLists = new HashMap();
+        allEventLists = new LinkedHashMap();
         defaultEventList = getEventList(0);
         setDecimalFormat("0.0000");
     }

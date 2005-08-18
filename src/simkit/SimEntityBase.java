@@ -3,7 +3,7 @@ package simkit;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +58,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
         
         Map doMethods = (Map) allDoMethods.get(this.getClass());
         if (doMethods == null) {
-            doMethods = new HashMap();
+            doMethods = new LinkedHashMap();
             Method[] methods = this.getClass().getMethods();
             for (int i = 0; i < methods.length; i++) {
                 if (methods[i].getName().startsWith(EVENT_METHOD_PREFIX)) {
@@ -66,13 +66,13 @@ public abstract class SimEntityBase extends BasicSimEntity {
                     String methodName = methods[i].getName();
                 } // if
             }  // for
-            doMethods = new HashMap(doMethods);
+            doMethods = new LinkedHashMap(doMethods);
             allDoMethods.put(this.getClass(), doMethods);
         } // if
         
         Map namesAndSignatures = (Map) allNamesAndSignatures.get(this.getClass());
         if (namesAndSignatures == null) {
-            namesAndSignatures = new HashMap();
+            namesAndSignatures = new LinkedHashMap();
             for (Iterator i = doMethods.keySet().iterator(); i.hasNext(); ) {
                 Method nextDoMethod = (Method) doMethods.get(i.next());
                 List v = null;
@@ -85,7 +85,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
                 }
                 v.add(nextDoMethod.getParameterTypes());
             }
-            namesAndSignatures = new HashMap(namesAndSignatures);
+            namesAndSignatures = new LinkedHashMap(namesAndSignatures);
             allNamesAndSignatures.put(this.getClass(), namesAndSignatures);
         }
     }

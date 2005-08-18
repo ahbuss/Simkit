@@ -2,8 +2,8 @@ package simkit.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Iterator;
 import java.util.Set;
 import simkit.BasicSimEntity;
@@ -21,10 +21,10 @@ public class Resetter extends BasicSimEntity {
      */    
     public static final String DEFAULT_RESETTER_NAME = "reset";
     
-    private HashMap resetters;
+    private LinkedHashMap resetters;
     
     public Resetter() {
-        resetters = new HashMap();
+        resetters = new LinkedHashMap();
     }
     
     /**
@@ -96,7 +96,7 @@ public class Resetter extends BasicSimEntity {
      * @return All registered resetters in a Set
      */    
     public Set getResetters() {
-        return new HashSet(resetters.keySet());
+        return new LinkedHashSet(resetters.keySet());
     }
     
     /**

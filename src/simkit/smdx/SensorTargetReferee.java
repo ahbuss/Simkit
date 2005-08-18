@@ -60,11 +60,6 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     protected Map targets;
 
 /**
-* Not currently used.
-**/
-    protected Map mediators;
-
-/**
 * Holds the instance of the SensorTargetMediatorFactory.
 **/
     protected MediatorFactory sensorTargetMediatorFactory;
@@ -80,9 +75,8 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 * Creates new SensorTargetReferee 
 **/
     public SensorTargetReferee() {
-        sensors = new WeakHashMap();
-        targets = new WeakHashMap();
-        mediators = new WeakHashMap();
+        sensors = new LinkedHashMap();
+        targets = new LinkedHashMap();
         setClearOnReset(false);
         sensorTargetMediatorFactory = SensorTargetMediatorFactory.getInstance();
     }
@@ -92,7 +86,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 * referee.
 **/
     public Set getSensors() {
-        return new HashSet(sensors.keySet());
+        return new LinkedHashSet(sensors.keySet());
     }
     
 /**
@@ -100,7 +94,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 * referee.
 **/
     public Set getTargets() {
-        return new HashSet(targets.keySet());
+        return new LinkedHashSet(targets.keySet());
     }
     
 /**

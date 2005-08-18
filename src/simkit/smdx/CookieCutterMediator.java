@@ -1,7 +1,7 @@
 package simkit.smdx;
 
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.LinkedHashMap;
 
 import simkit.SimEntityBase;
 
@@ -19,7 +19,7 @@ public class CookieCutterMediator extends SimEntityBase implements SensorTargetM
     
     /** Creates new CookieCutterMediator */
     public CookieCutterMediator() {
-        contacts = new WeakHashMap();
+        contacts = new LinkedHashMap();
     }
     
     /** When this event is heard, schedules a Detection event for the Sensor
@@ -64,5 +64,12 @@ public class CookieCutterMediator extends SimEntityBase implements SensorTargetM
      */    
     public void propertyChange(java.beans.PropertyChangeEvent propertyChangeEvent) {
     }
-    
+
+/**
+* Clears the list of contacts and calls super.
+**/
+    public void reset() {
+        super.reset();
+        contacts.clear();
+    }
 }

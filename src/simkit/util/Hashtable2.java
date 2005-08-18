@@ -1,7 +1,6 @@
 package simkit.util;
 
-import java.util.HashMap;
-import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ import java.util.Map;
  * @author Arnold Buss
  * @version $Id$
 **/
-public class Hashtable2 extends HashMap {
+public class Hashtable2 extends LinkedHashMap {
 
 /**
  *  Constructs an empty Hashtable2.
@@ -43,12 +42,12 @@ public class Hashtable2 extends HashMap {
  *  @param value The value of the property. 
 **/
 	public void put(Object firstKey, Object secondKey, Object value) {
-		Hashtable values;
+		Map values;
 		if (this.containsKey(firstKey)) {
-			values = (Hashtable) this.get(firstKey);
+			values = (Map) this.get(firstKey);
 		}
 		else {
-			values = new Hashtable(10);
+			values = new LinkedHashMap(10);
             this.put(firstKey, values);
 		}
 		values.put(secondKey, value);

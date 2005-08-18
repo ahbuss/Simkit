@@ -1,6 +1,6 @@
 package simkit;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -17,6 +17,7 @@ import java.util.Map;
  * entry is created in the Map.  If an old event is heard, the <CODE>int[]</CODE>
  * array is retreived from the Map and the the first (and only) value incremented.
  *
+ * @version $Id$
  * @author  ahbuss
  */
 public class EventCounter extends BasicSimEntity {
@@ -27,7 +28,7 @@ public class EventCounter extends BasicSimEntity {
      * Instantiate the Map of event names and counts
      */
     public EventCounter() {
-        eventCounts = new HashMap();
+        eventCounts = new LinkedHashMap();
     }
     
     /**
@@ -67,7 +68,7 @@ public class EventCounter extends BasicSimEntity {
      *
      * @return Copy of the entire Map of event names and counts
      */    
-    public Map getEventCounts() { return new HashMap(eventCounts); }
+    public Map getEventCounts() { return new LinkedHashMap(eventCounts); }
     
     /**
      *

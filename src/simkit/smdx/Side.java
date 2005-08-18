@@ -1,5 +1,5 @@
 package simkit.smdx;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * A Java "Enumeration" to represent the sides. The side's name is returned
@@ -15,7 +15,7 @@ public class Side {
      *  These are the only instances of <CODE>Side</CODE> that can ever exist in an
      *  application.  To add more, subclass <CODE>Side</CODE>.
      **/
-    protected static HashMap allSides = new HashMap(12);
+    protected static LinkedHashMap allSides = new LinkedHashMap(12);
 
     public static final Side RED = new Side("Red");
     public static final Side BLUE = new Side("Blue");
