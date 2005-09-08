@@ -80,7 +80,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         hookupSimEventListeners();
         hookupReplicationListeners();
         createDesignPointStats();
-        hookupOuterStatsListeners();
+        hookupDesignPointListeners();
         hookupPropertyChangeListeners();
         hookupsCalled = true;
     }
@@ -103,7 +103,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
     
     /** Set up all outer stats propertyChangeListeners
      */
-    protected void hookupOuterStatsListeners() {
+    protected void hookupDesignPointListeners() {
         for (int i = 0; i < designPointStats.length; ++i) {
             this.addPropertyChangeListener(designPointStats[i]);
         }
@@ -218,6 +218,9 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         for (int i = 0; i < replicationStats.length; ++i) {
             buf.append(System.getProperty("line.separator"));
             buf.append(replicationStats[i].getName());
+            buf.append('[');
+            buf.append(i);
+            buf.append(']');
             buf.append('\t');
             buf.append(replicationStats[i].getCount());
             buf.append('\t');
@@ -239,9 +242,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
     protected String getSummaryReport() {
         StringBuffer buf = new StringBuffer("Summary Output Report");
         buf.append(System.getProperty("line.separator"));
-        buf.append("StopTime: " + getStopTime());
-        buf.append(System.getProperty("line.separator"));
-        buf.append("Number Replications: " + getNumberReplications());
+        buf.append(this.toString());
         for (int i = 0; i < designPointStats.length; ++i) {
             buf.append(System.getProperty("line.separator"));
             buf.append(designPointStats[i].getName());
@@ -286,7 +287,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
             Schedule.startSimulation();
             for (int i = 0; i < replicationStats.length; ++i) {
                 fireIndexedPropertyChange(i, replicationStats[i].getName(), replicationStats[i]);
-                firePropertyChange( replicationStats[i].getName() + ".mean" , replicationStats[i].getMean());
+                fireIndexedPropertyChange(i, replicationStats[i].getName() + ".mean", replicationStats[i].getMean());
             }
             if (isPrintReplicationReports()) {
                 System.out.println(getReplicationReport(replication));
