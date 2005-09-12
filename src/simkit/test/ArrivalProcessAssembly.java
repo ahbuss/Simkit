@@ -25,24 +25,18 @@ public class ArrivalProcessAssembly extends BasicAssembly {
      * array.
      */
     public ArrivalProcessAssembly() {
-        simEntity = new SimEntity[] {
-            new ArrivalProcess(
-                    RandomVariateFactory.getInstance(
-                    "Exponential", new Object[] { new Double(2.1) })
-                    )
-        };
-        
+    }
+    
+    protected void createReplicationStats() {
         replicationStats = new SampleStatistics[] {
             new SimpleStatsTimeVarying("numberArrivals")
         };
-        
-        
+    }
+    
+    protected void createPropertyChangeListeners() {
         propertyChangeListener = new PropertyChangeListener[] {
             new SimplePropertyDumper()
         };
-        
-        performHookups();
-        
     }
     
     /**
@@ -56,13 +50,23 @@ public class ArrivalProcessAssembly extends BasicAssembly {
     /**
      * Hookup the stats object - this doesn't mean much, but illustrates how.
      */
-    protected void hookupReplicationListeners() {
+    public void hookupReplicationListeners() {
         simEntity[0].addPropertyChangeListener(replicationStats[0]);
     }
-
+    
     /** Does nothing since there are no SimEventListeners
      */
-    protected void hookupSimEventListeners() {
+    public void hookupSimEventListeners() {
+    }
+    
+    protected void createSimEntities() {
+        simEntity = new SimEntity[] {
+            new ArrivalProcess(
+                    RandomVariateFactory.getInstance(
+                    "Exponential", new Object[] { new Double(2.1) })
+                    )
+        };
+        
     }
     
     /**
@@ -84,4 +88,5 @@ public class ArrivalProcessAssembly extends BasicAssembly {
 //        Run in a separate thread.
         new Thread(arrivalProcessAssembly).start();
     }
+    
 }

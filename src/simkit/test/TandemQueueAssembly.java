@@ -54,7 +54,7 @@ public class TandemQueueAssembly extends BasicAssembly {
     /**
      * Set up adapter listening
      */
-    protected void hookupSimEventListeners() {
+    public void hookupSimEventListeners() {
         simEntity[0].addSimEventListener(simEntity[1]);
         for (int i = 1; i < simEntity.length - 1; ++i) {
             simEntity[i].addSimEventListener(adapter[i - 1]);
@@ -66,7 +66,7 @@ public class TandemQueueAssembly extends BasicAssembly {
      * indexing must be kept straight for the Stats objects to be receiving
      * the correct data.
      */
-    protected void hookupReplicationListeners() {
+    public void hookupReplicationListeners() {
         for (int i = 0; i < 3; ++i) {
             simEntity[1 + i].addPropertyChangeListener(replicationStats[i]);
             simEntity[1 + i].addPropertyChangeListener(replicationStats[3 + i]);
@@ -113,6 +113,9 @@ public class TandemQueueAssembly extends BasicAssembly {
         
         new Thread(tandemQueueAssembly).start();
         
+    }
+
+    protected void createSimEntities() {
     }
     
 }

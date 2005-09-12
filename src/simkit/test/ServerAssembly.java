@@ -62,7 +62,7 @@ public class ServerAssembly extends BasicAssembly {
      * The identities of simEntity[0] and simEntity[1] are from their
      * definition in the constructor.
      */
-    protected void hookupSimEventListeners() {
+    public void hookupSimEventListeners() {
         simEntity[0].addSimEventListener(simEntity[1]);
     }
 
@@ -71,7 +71,7 @@ public class ServerAssembly extends BasicAssembly {
      * means for each run, and those means will be the inputs to
      * the designPoint stats objects.
      */
-    protected void hookupReplicationListeners() {
+    public void hookupReplicationListeners() {
         for (int i = 0; i < replicationStats.length; ++i) {
             simEntity[1].addPropertyChangeListener(replicationStats[i].getName(), replicationStats[i]);
         }
@@ -101,6 +101,9 @@ public class ServerAssembly extends BasicAssembly {
             }
         }
 //        
+    }
+
+    protected void createSimEntities() {
     }
     
 }
