@@ -64,6 +64,9 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         propertyChangeListener = new PropertyChangeListener[0];
         setNumberReplications(1);
         hookupsCalled = false;
+        
+        createObjects();
+        performHookups();
     }
     
     /** <p>Resets all inner stats.  State resetting for SimEntities is their
@@ -76,15 +79,33 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         }
     }
     
+    /**
+     * Create all the objects used.  This is called from the constructor.
+     * The <code>createSimEntities()</code> method is abstract and will
+     * be implemented in the concrete subclass.  The others are empty by
+     * default.  The <code>createReplicationStats()</code> method must be
+     * overridden if any replications stats are needed.
+     */
+    protected void createObjects() {
+        createSimEntities();
+        createReplicationStats();
+        createDesignPointStats();
+        createPropertyChangeListeners();
+    }
+    
+    /**
+     * Call all the hookup methods.
+     */
     protected void performHookups() {
         hookupSimEventListeners();
         hookupReplicationListeners();
-        createDesignPointStats();
         hookupDesignPointListeners();
         hookupPropertyChangeListeners();
         hookupsCalled = true;
     }
    
+    protected abstract void createSimEntities();
+    
     protected abstract void hookupSimEventListeners();
     
     protected abstract void hookupReplicationListeners();
@@ -94,12 +115,21 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
      */
     protected void hookupPropertyChangeListeners() {  }
     
+    /**
+     * The default behavior is to create a <code>SimplStatsTally</code>
+     * instance for each element in <code>replicationStats</code> with the
+     * corresponding name + "mean".
+     */
     protected void createDesignPointStats() {
         designPointStats = new SampleStatistics[replicationStats.length];
         for (int i = 0; i < designPointStats.length; ++i) {
             designPointStats[i] = new SimpleStatsTally(replicationStats[i].getName() + ".mean");
         }
     }
+    
+    protected void createReplicationStats() { }
+    
+    protected void createPropertyChangeListeners() { }
     
     /** Set up all outer stats propertyChangeListeners
      */
@@ -240,26 +270,14 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
      * standard deviation.  This can be done generically.
      */
     protected String getSummaryReport() {
-        StringBuffer buf = new StringBuffer("Summary Output Report");
+         StringBuffer buf = new StringBuffer("Summary Output Report:");
         buf.append(System.getProperty("line.separator"));
-        buf.append(this.toString());
+        buf.append(super.toString());
         for (int i = 0; i < designPointStats.length; ++i) {
             buf.append(System.getProperty("line.separator"));
-            buf.append(designPointStats[i].getName());
-            buf.append('\t');
-            buf.append(designPointStats[i].getCount());
-            buf.append('\t');
-            buf.append(form.format(designPointStats[i].getMinObs()));
-            buf.append('\t');
-            buf.append(form.format(designPointStats[i].getMaxObs()));
-            buf.append('\t');
-            buf.append(form.format(designPointStats[i].getMean()));
-            buf.append('\t');
-            buf.append(form.format(designPointStats[i].getVariance()));
-            buf.append('\t');
-            buf.append(form.format(designPointStats[i].getStandardDeviation()));
+            buf.append(designPointStats[i]);
         }
-        return buf.toString();
+       return buf.toString();
     }
     
     public void run() {
