@@ -280,6 +280,18 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
        return buf.toString();
     }
     
+    /**
+     * These are the actual SimEnties in the array, but the array itself is 
+     * a copy.
+     * @return the SimEntities in this scenario in a copy of the array.
+     */
+    public SimEntity[] getSimEntities() { 
+        return (SimEntity[]) simEntity.clone(); 
+    }
+    
+    /**
+     * Execute the simulation for the desired number of replications.
+     */
     public void run() {
         if (!hookupsCalled) {
             throw new RuntimeException("performHookups() hasn't been called!");
