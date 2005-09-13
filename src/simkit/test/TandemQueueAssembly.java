@@ -28,26 +28,21 @@ import simkit.stat.SimpleStatsTimeVarying;
  */
 public class TandemQueueAssembly extends BasicAssembly {
     
-    protected SimEntity[] adapter;
-    
     public TandemQueueAssembly() {
     }
     
     /**
      * Create the SimEntities and the adapters.  Note that the adapters are
-     * kept in a separate array because no statistics willbe collected
-     * on them.
+     * interspersed between the stations they are adapting.
      */
     protected void createSimEntities() {
-        simEntity = new SimEntity[4];
+        simEntity = new SimEntity[6];
         simEntity[0] = new ArrivalProcess(RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(1.1) }));
         simEntity[1] = new Server(1, RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(1.0) }));
-        simEntity[2] = new Server(3, RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(3.0) }));
-        simEntity[3] = new Server(2, RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(2.0) }));
-
-        adapter = new SimEntity[2];
-        adapter[0] = new Adapter("EndService", "Arrival");
-        adapter[1] = new Adapter("EndService", "Arrival");
+        simEntity[2] = new Adapter("EndService", "Arrival");
+        simEntity[3] = new Server(3, RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(3.0) }));
+        simEntity[4] = new Adapter("EndService", "Arrival");
+        simEntity[5] = new Server(2, RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(2.0) }));
     }
 
     /**
@@ -63,13 +58,14 @@ public class TandemQueueAssembly extends BasicAssembly {
     }
     
     /**
-     * Set up SimEventListeners, including adapters.
+     * Set up SimEventListeners, including adapters.  The simple for loop
+     * is made possible by interspersing the adapters at the correct
+     * "locations" in the line.
      */
     protected void hookupSimEventListeners() {
         simEntity[0].addSimEventListener(simEntity[1]);
         for (int i = 1; i < simEntity.length - 1; ++i) {
-            simEntity[i].addSimEventListener(adapter[i - 1]);
-            adapter[i - 1].addSimEventListener(simEntity[i + 1]);
+            simEntity[i].addSimEventListener(simEntity[i + 1]);
         }
     }
     /**
@@ -79,8 +75,8 @@ public class TandemQueueAssembly extends BasicAssembly {
      */
     public void hookupReplicationListeners() {
         for (int i = 0; i < 3; ++i) {
-            simEntity[1 + i].addPropertyChangeListener(replicationStats[i]);
-            simEntity[1 + i].addPropertyChangeListener(replicationStats[3 + i]);
+            simEntity[2 * i + 1].addPropertyChangeListener(replicationStats[i]);
+            simEntity[2 * i + 1].addPropertyChangeListener(replicationStats[3 + i]);
         }
     }
     
