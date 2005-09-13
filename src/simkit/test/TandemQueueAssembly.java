@@ -31,30 +31,41 @@ public class TandemQueueAssembly extends BasicAssembly {
     protected SimEntity[] adapter;
     
     public TandemQueueAssembly() {
+    }
+    
+    /**
+     * Create the SimEntities and the adapters.  Note that the adapters are
+     * kept in a separate array because no statistics willbe collected
+     * on them.
+     */
+    protected void createSimEntities() {
         simEntity = new SimEntity[4];
         simEntity[0] = new ArrivalProcess(RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(1.1) }));
         simEntity[1] = new Server(1, RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(1.0) }));
         simEntity[2] = new Server(3, RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(3.0) }));
         simEntity[3] = new Server(2, RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(2.0) }));
 
-        adapter = new SimEntity[2]; 
+        adapter = new SimEntity[2];
         adapter[0] = new Adapter("EndService", "Arrival");
         adapter[1] = new Adapter("EndService", "Arrival");
-        
+    }
+
+    /**
+     * Create the replicationStats array.  Note that the indices must be
+     * carefully done.
+     */
+    protected void createReplicationStats() {
         replicationStats = new SampleStatistics[6];
         for (int i = 0; i < 3; ++i) {
             replicationStats[i] = new SimpleStatsTimeVarying("numberInQueue");
             replicationStats[i + 3] = new SimpleStatsTimeVarying("numberAvailableServers");
         }
-        
-        performHookups();
-                                        
     }
     
     /**
-     * Set up adapter listening
+     * Set up SimEventListeners, including adapters.
      */
-    public void hookupSimEventListeners() {
+    protected void hookupSimEventListeners() {
         simEntity[0].addSimEventListener(simEntity[1]);
         for (int i = 1; i < simEntity.length - 1; ++i) {
             simEntity[i].addSimEventListener(adapter[i - 1]);
@@ -85,20 +96,6 @@ public class TandemQueueAssembly extends BasicAssembly {
     }
     
     /**
-     * The summary report must be overridden to see the individual statistics.
-     */
-    public String getSummaryReport() {
-        StringBuffer buf = new StringBuffer("Summary Output Report:");
-        buf.append(System.getProperty("line.separator"));
-        buf.append(super.toString());
-        for (int i = 0; i < designPointStats.length; ++i) {
-            buf.append(System.getProperty("line.separator"));
-            buf.append(designPointStats[i]);
-        }
-       return buf.toString();
-    }
-    
-    /**
      * Use the form of setting parameters in main, leaving the unset parameters
      * to their defaults.
      * @param args the command line arguments
@@ -112,10 +109,5 @@ public class TandemQueueAssembly extends BasicAssembly {
         tandemQueueAssembly.setPrintReplicationReports(true);
         
         new Thread(tandemQueueAssembly).start();
-        
     }
-
-    protected void createSimEntities() {
-    }
-    
 }

@@ -7,15 +7,14 @@ import simkit.examples.Server;
 import simkit.random.RandomVariateFactory;
 import simkit.stat.SampleStatistics;
 import simkit.stat.SimpleStatsTimeVarying;
-import simkit.util.SimplePropertyDumper;
-import java.beans.PropertyChangeListener;
+
 
 /**
  * Prototypical subclass of BasicAssembly.  This is the basic queueing model
  * with an ArrivalProcess and a Server instance.  Statistics on numberInQueue
  * and numberAvailableServers are kept as replicationStats.  The designPointStats
  * are suto-generated from the replicatoonStats.
- * 
+ *
  * @version $Id$
  * @author ahbuss
  */
@@ -32,23 +31,6 @@ public class ServerAssembly extends BasicAssembly {
      * to instantiate one and run it.
      */
     public ServerAssembly() {
-        simEntity = new SimEntity[] {
-            new ArrivalProcess(
-                    RandomVariateFactory.getInstance(
-                    "Exponential", new Object[] { new Double(1.7) })
-                    ),
-             new Server(
-                    2,
-                    RandomVariateFactory.getInstance(
-                    "Gamma", new Object[] { new Double(2.5), new Double(1.2) })
-                    )
-        };
-        replicationStats = new SampleStatistics[] {
-            new SimpleStatsTimeVarying("numberInQueue"),
-            new SimpleStatsTimeVarying("numberAvailableServers")
-        };
-        
-        this.performHookups();
         
         setStopTime(10000.0);
         setNumberReplications(10);
@@ -57,7 +39,25 @@ public class ServerAssembly extends BasicAssembly {
         setSaveReplicationData(true);
     }
     
-    /** 
+    
+    protected void createSimEntities() {
+        simEntity = new SimEntity[] {
+            new ArrivalProcess(
+                    RandomVariateFactory.getInstance(
+                    "Exponential", new Object[] { new Double(1.7) })
+                    ),
+            new Server(
+                    2,
+                    RandomVariateFactory.getInstance(
+                    "Gamma", new Object[] { new Double(2.5), new Double(1.2) }) )
+        };
+        replicationStats = new SampleStatistics[] {
+            new SimpleStatsTimeVarying("numberInQueue"),
+                    new SimpleStatsTimeVarying("numberAvailableServers")
+        };
+    }
+    
+    /**
      * All SimEventListening is connected here.
      * The identities of simEntity[0] and simEntity[1] are from their
      * definition in the constructor.
@@ -65,7 +65,7 @@ public class ServerAssembly extends BasicAssembly {
     public void hookupSimEventListeners() {
         simEntity[0].addSimEventListener(simEntity[1]);
     }
-
+    
     /**
      * Hook up the replication stats objects - these will be computing
      * means for each run, and those means will be the inputs to
@@ -76,7 +76,10 @@ public class ServerAssembly extends BasicAssembly {
             simEntity[1].addPropertyChangeListener(replicationStats[i].getName(), replicationStats[i]);
         }
     }
-    
+    /**
+     * Note: Normally most of this would not be done, it is just for 
+     * testing and illustrative purposes.
+     */
     public static void main(String[] args) {
         ServerAssembly serverAssembly = new ServerAssembly();
         System.out.println(serverAssembly);
@@ -100,10 +103,6 @@ public class ServerAssembly extends BasicAssembly {
                 System.out.println(repStats[j]);
             }
         }
-//        
-    }
-
-    protected void createSimEntities() {
     }
     
 }
