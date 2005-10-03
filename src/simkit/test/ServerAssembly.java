@@ -31,12 +31,6 @@ public class ServerAssembly extends BasicAssembly {
      * to instantiate one and run it.
      */
     public ServerAssembly() {
-        
-        setStopTime(10000.0);
-        setNumberReplications(10);
-        setPrintReplicationReports(true);
-        setPrintSummaryReport(true);
-        setSaveReplicationData(true);
     }
     
     
@@ -82,6 +76,11 @@ public class ServerAssembly extends BasicAssembly {
      */
     public static void main(String[] args) {
         ServerAssembly serverAssembly = new ServerAssembly();
+        serverAssembly.setStopTime(10000.0);
+        serverAssembly.setNumberReplications(10);
+        serverAssembly.setPrintReplicationReports(true);
+        serverAssembly.setPrintSummaryReport(true);
+        serverAssembly.setSaveReplicationData(true);
         System.out.println(serverAssembly);
 //        If running threaded, use this construct:
 //        new Thread(serverAssembly1).start();
