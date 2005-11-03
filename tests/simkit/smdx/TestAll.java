@@ -7,6 +7,7 @@ public class TestAll extends TestCase {
         TestSuite suite = new TestSuite("TestAll");
         suite.addTest(new TestSuite(CookieCutterMediatorTest.class));
         suite.addTest(new TestSuite(SensorTargetRefereeTest.class));
+        suite.addTest(new TestSuite(Math2DTest.class));
         return suite;
     }
 }

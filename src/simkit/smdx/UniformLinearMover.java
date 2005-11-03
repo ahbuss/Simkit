@@ -249,8 +249,12 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         double distance = destination.distance(this.getLocation());
         moveTime = distance / cruisingSpeed;
         Point2D oldVelocity = getVelocity();
-        velocity.setLocation((destination.getX() - lastStopLocation.getX()) / moveTime,
-        (destination.getY() - lastStopLocation.getY())/moveTime);
+        if (moveTime <= 0.0) {
+            velocity.setLocation(0.0, 0.0);
+        } else {
+            velocity.setLocation((destination.getX() - lastStopLocation.getX()) / moveTime,
+            (destination.getY() - lastStopLocation.getY())/moveTime);
+        }
         firePropertyChange("velocity", oldVelocity, getVelocity());
         startMoveTime = eventList.getSimTime();
         waitDelay("StartMove", 0.0, new Object[] { this });
