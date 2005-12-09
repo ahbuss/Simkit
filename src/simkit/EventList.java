@@ -309,6 +309,7 @@ public class EventList {
      * </UL>
      */    
     public void reset() {
+        System.out.println(getSimTime() + ": reset() called");
         clearEventList();
         currentSimEvent = null;
         simTime = 0.0;
@@ -317,8 +318,8 @@ public class EventList {
             for (Iterator i = reRun.iterator(); i.hasNext(); ) {
                 SimEntity simEntity = (SimEntity) i.next();
                 if (isReallyVerbose()) {
-                    System.out.println("Checking rerun " + 
-                        simEntity + "[rerunnable?] " + 
+                    System.out.println(getSimTime() + ": Checking rerun " + 
+                        simEntity + " [rerunnable?] " + 
                         simEntity.isReRunnable());
                 }
                 if (simEntity.isPersistant()) {
@@ -461,9 +462,9 @@ public class EventList {
             }
         }
         if (isReallyVerbose()) {
-            System.out.println("Event " + event + " Scheduled by " + 
+            System.out.println("\n" + getSimTime() + ": Event " + event + " Scheduled by " + 
                 event.getSource());
-            dump();
+            //dump();
         }
     }
     
@@ -490,8 +491,8 @@ public class EventList {
             currentSimEvent = (SimEvent) eventList.first();
             eventList.remove(currentSimEvent);
             if (reallyVerbose) {
-                System.out.println("Processing " + currentSimEvent + 
-                    " from Event List");
+                System.out.println(getSimTime() + ": Processing " + currentSimEvent + 
+                    "  source=" + currentSimEvent.getSource());
             }
             simTime = currentSimEvent.getScheduledTime();
             
@@ -601,6 +602,10 @@ public class EventList {
                 if ((event.getSource() == simEntity) &&
                     (event.getEventName().equals(eventName)) &&
                     (event.isPending())) {
+                        if (reallyVerbose) {
+                            System.out.println("\n" + getSimTime() 
+                                                + ": Cancelling " + event); 
+                        }
                         i.remove();
                         break;
                 }
@@ -624,6 +629,10 @@ public class EventList {
                     (event.getEventName().equals(eventName)) &&
                     (event.interruptParametersMatch(parameters)) &&
                     (event.isPending())) {
+                        if (reallyVerbose) {
+                            System.out.println("\n" + getSimTime() 
+                                                + ": Cancelling " + event); 
+                        }
                         i.remove();
                         break;
                 }
@@ -641,6 +650,10 @@ public class EventList {
             for (Iterator i = eventList.iterator(); i.hasNext(); ) {
                 SimEvent simEvent = (SimEvent) i.next();
                 if (simEvent.getSource() == simEntity) {
+                    if (reallyVerbose) {
+                        System.out.println("\n" + getSimTime() 
+                                            + ": Cancelling " + simEvent); 
+                    }
                     i.remove();
                 }
             }
@@ -659,6 +672,10 @@ public class EventList {
                 SimEvent simEvent = (SimEvent) i.next();
                 if ((simEvent.getSource() == simEntity) &&
                     (simEvent.getEventName().equals(eventName)) ){
+                    if (reallyVerbose) {
+                        System.out.println("\n" + getSimTime() 
+                                            + ": Cancelling " + simEvent); 
+                    }
                     i.remove();
                 }
             }
@@ -681,6 +698,10 @@ public class EventList {
                 if ((simEvent.getSource() == simEntity) &&
                     (simEvent.getEventName().equals(eventName)) &&
                     (simEvent.interruptParametersMatch(parameters)) ){
+                        if (reallyVerbose) {
+                            System.out.println("\n" + getSimTime() 
+                                                + ": Cancelling " + simEvent); 
+                        }
                     i.remove();
                 }
             }
