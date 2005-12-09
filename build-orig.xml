@@ -148,7 +148,8 @@
     
 <!-- === TARGET: dist === -->
 
-	<target depends="jar, doc, jar.source" name="dist">
+	<target depends="jar, doc, jar.source" name="dist" 
+            description="Package Simkit for Distribution">
 	    <mkdir dir="${dir.dist}"/>
 <!--	    <mkdir dir="${dir.dist}/doc"/> -->
 	    <mkdir dir="${dir.dist}/lib"/>
