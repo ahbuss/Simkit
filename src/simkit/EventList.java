@@ -490,11 +490,11 @@ public class EventList {
         while (!eventList.isEmpty() && isRunning()) {
             currentSimEvent = (SimEvent) eventList.first();
             eventList.remove(currentSimEvent);
+            simTime = currentSimEvent.getScheduledTime();
             if (reallyVerbose) {
-                System.out.println(getSimTime() + ": Processing " + currentSimEvent + 
+                System.out.println(simTime + ": Processing " + currentSimEvent + 
                     "  source=" + currentSimEvent.getSource());
             }
-            simTime = currentSimEvent.getScheduledTime();
             
             if (currentSimEvent.isPending()) {
                 updateEventCounts(currentSimEvent);
