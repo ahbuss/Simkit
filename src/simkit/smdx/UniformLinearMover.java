@@ -257,6 +257,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         }
         firePropertyChange("velocity", oldVelocity, getVelocity());
         startMoveTime = eventList.getSimTime();
+        interrupt("StartMove", new Object[] {this});
         waitDelay("StartMove", 0.0, new Object[] { this });
     }
 /**
@@ -301,6 +302,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         Point2D oldVelocity = getVelocity();
         velocity = desiredVelocity;
         firePropertyChange("velocity", oldVelocity, getVelocity());
+        interrupt("StartMove", param); 
         waitDelay("StartMove", 0.0, param);
         setMovementState(MovementState.STARTING);
     }
