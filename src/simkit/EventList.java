@@ -309,7 +309,9 @@ public class EventList {
      * </UL>
      */    
     public void reset() {
-        System.out.println(getSimTime() + ": reset() called");
+        if (isReallyVerbose()) {
+            System.out.println(getSimTime() + ": reset() called");
+        }
         clearEventList();
         currentSimEvent = null;
         simTime = 0.0;
