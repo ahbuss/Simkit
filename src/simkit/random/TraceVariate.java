@@ -44,7 +44,7 @@ public class TraceVariate extends RandomVariateBase {
 * output in order. The default value is NaN. 
 **/
     public TraceVariate() {
-        this.setRandomNumber(new Sequential());
+        rng = new Sequential();
         this.setDefaultValue(DEFAULT_DEFAULT_VALUE);
         this.setAllDataInToString(false);
     }
@@ -125,8 +125,12 @@ public class TraceVariate extends RandomVariateBase {
     }
     
     public double generate() {
-        double value = (rng.getSeed() < traceValues.length) ? traceValues[(int) rng.getSeed() ] : getDefaultValue();
-        rng.draw();
+        long theIndex = rng.getSeed();
+        double value = getDefaultValue();
+        if (theIndex < traceValues.length) {
+            value = traceValues[(int) theIndex ];
+            rng.draw();
+        }
         return value;
     }
     
@@ -158,5 +162,9 @@ public class TraceVariate extends RandomVariateBase {
         buf.append(traceValues.length);
         buf.append(" values)");
         return buf.toString();
+    }
+    
+    public void setRandomNumber(RandomNumber rng) { 
+        System.out.println("RandomNumber not set");
     }
 }
