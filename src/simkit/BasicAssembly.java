@@ -29,6 +29,8 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
     
     protected boolean hookupsCalled;
     
+    protected boolean stopped;
+    
     private double stopTime;
     private boolean verbose;
     private boolean singleStep;
@@ -77,6 +79,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         for (int i = 0; i < replicationStats.length; ++i) {
             replicationStats[i].reset();
         }
+        stopped = true;
     }
     
     /**
@@ -290,6 +293,21 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
     }
     
     /**
+     * A means to stop the simulation in mid-run.  This is irreversable
+     * and the simulation must be restarted from scratch.
+     * @return true of simulation is stopped, false otherwise
+     */
+    public boolean isStopped() { return stopped; }
+    
+    /**
+     * Stops simulation wherever it is in the loop.
+     */
+    public void stop() {
+        stopped = true;
+        Schedule.stopSimulation();
+    }
+    
+    /**
      * Execute the simulation for the desired number of replications.
      */
     public void run() {
@@ -312,7 +330,9 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
             }
         }
         
-        for (int replication = 0; replication < getNumberReplications(); ++replication) {
+        stopped = false;
+        
+        for (int replication = 0; replication < getNumberReplications() && !stopped ; ++replication) {
             Schedule.reset();
             Schedule.startSimulation();
             for (int i = 0; i < replicationStats.length; ++i) {
