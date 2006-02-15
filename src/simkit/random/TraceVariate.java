@@ -164,7 +164,11 @@ public class TraceVariate extends RandomVariateBase {
         return buf.toString();
     }
     
+    /**
+     * This is a no-op because the TraceVariate must use a Sequantial
+     * instance to successively generate values
+     * @param rng The RandomNumber instance
+     */
     public void setRandomNumber(RandomNumber rng) { 
-        System.out.println("RandomNumber not set");
     }
 }
