@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import simkit.Schedule;
+import simkit.stat.SimpleStatsTimeVarying;
 
 /**
  * Listens for states of a given name and computes the percentage of time
@@ -55,7 +56,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
         currentState = getInitialState();
         lastTime = Schedule.getSimTime();
         stateStats.put(currentState, new Double(0.0));
-        stateNameLength = 4;
+        stateNameLength = 5;
     }
     
     /**
@@ -86,6 +87,8 @@ public class PercentageInStateStat implements PropertyChangeListener {
             stateStats.put(currentState, newTimeInState);
             stateNameLength = Math.max(stateNameLength, currentState.toString().length());
         }
+//        System.out.println(Schedule.getSimTimeStr() + ": " + oldState + " => " +
+//                currentState + '\n'   + stateString());
     }
     
     public Object getInitialState() {
@@ -100,23 +103,38 @@ public class PercentageInStateStat implements PropertyChangeListener {
      * @return a String representation of all the data so far
      */
     public String stateString() {
-        StringBuffer stringBuffer = new StringBuffer("State\t% In State");
-        stringBuffer.append(System.getProperty("line.separator"));
-        double sum = 0.0;
+        newObservation(getCurrentState());
         String tabs = "\t";
         for (int i = 0; i < getStateNameLength() / 8; ++i) {
             tabs += "\t";
         } 
+        StringBuffer stringBuffer = new StringBuffer("State");
+        stringBuffer.append(tabs);
+        stringBuffer.append("% In State");
+        stringBuffer.append(System.getProperty("line.separator"));
+        double sum = 0.0;
+
         for (Iterator i = stateStats.keySet().iterator(); i.hasNext(); ) {
             Object state = i.next();
             stringBuffer.append(state);
-            stringBuffer.append(tabs);
+            int extra = getStateNameLength() - state.toString().length();
+            int extraTabs = (int) Math.ceil(extra / 8.0);
+            stringBuffer.append('\t');
+            for (int j = 0; j < extraTabs; ++j) {
+                stringBuffer.append('\t');
+            }
             double mean = getPercentageFor(state);
             stringBuffer.append(decimalFormat.format(mean));
             stringBuffer.append(System.getProperty("line.separator"));
             sum += mean;
         }
-        stringBuffer.append("Total\t");
+        stringBuffer.append("Total");
+        int extra = getStateNameLength() - 5;
+        int extraTabs = (int) Math.ceil(extra / 8.0);
+        stringBuffer.append('\t');
+        for (int j = 0; j < extraTabs; ++j) {
+            stringBuffer.append('\t');
+        }
         stringBuffer.append(decimalFormat.format(sum));
         return stringBuffer.toString();
     }
