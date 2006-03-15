@@ -12,7 +12,7 @@ package simkit.stat;
  *  <P> A frequent use is as a PropertyChangeListener.  In this capacity, an instance
  *  listens for a single property name and adds a new observation if the newValue
  *  is of type <CODE>Number</CODE>
- *  @author Arnold Buss
+ *  @author ahbuss
  *  @version $Id$
  **/
 public class SimpleStatsTally extends AbstractSimpleStats {
