@@ -40,9 +40,9 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats {
 /**
 * The time of the first observation.
 **/
-    private double startTime;
+    protected double startTime;
     
-    private EventList eventList;
+    protected EventList eventList;
     
 /**
 * Constructs a new SimpleStatsTimeVarying with the given name.
@@ -69,7 +69,7 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats {
             mean = diff;
             variance = 0.0;
         } else if (eventList.getSimTime() > lastTime) {
-            double factor = 1.0 - (lastTime - startTime) / (eventList.getSimTime() - this.startTime);
+            double factor = 1.0 - (lastTime - getStartTime()) / (eventList.getSimTime() - this.getStartTime());
             mean += diff * factor;
             variance +=  factor * ( (1.0 - factor) * diff * diff - variance );
         }
@@ -119,4 +119,8 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats {
     }
     
     public int getEventListID() { return eventList.getID(); }
+
+    public double getStartTime() {
+        return startTime;
+    }
 }
