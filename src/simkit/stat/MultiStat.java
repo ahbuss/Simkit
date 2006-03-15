@@ -10,13 +10,14 @@ import simkit.SimEntity;
 
 /**
  * Listens for PropertyChangeEvents that are associated with state changes
- * to be collected in a Tally manner.  A new SimpleStatsTally and a
- * new SimpleStatsTimeVarying will be created on-the-fly for each unique property name.
+ * to be collected in a Tally or Time-Varying manner.  A new SimpleStatsTally 
+ * and a new SimpleStatsTimeVarying will be created on-the-fly for each 
+ * unique property name.
  * Thus, the user will have a choice as to whether to see Tally or
  * Time-Varying statistics.  Typically, of course, only one will
  * make any sense.
  *
- * @author  Arnold Buss
+ * @author ahbuss
  * @version $Id$
  */
 public class MultiStat implements PropertyChangeListener {
