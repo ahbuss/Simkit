@@ -5,6 +5,8 @@ import simkit.stat.SampleStatistics;
 import simkit.stat.SamplingType;
 
 /**
+ * A lightweight, read-only SimpleStats that is meant for saving the
+ * values of SimpleStats results.  Can contain any kind of SimpleStats.
  * @version $Id$
  * @author ahbuss
  */
