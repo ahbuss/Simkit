@@ -1,12 +1,13 @@
 package simkit.stat;
 import simkit.Named;
+import java.text.NumberFormat;
 /**
  *  Common interface for classes collecting statistics.  Note that they necessarily
  *  implement <CODE>PropertyChangeListener</CODE> so they can respond to
  *  data fired in <CODE>PropertyChangeEvent</CODE>s.
  *
  *  @version $Id$
- *  @author Arnold Buss
+ *  @author ahbuss
 **/
 public interface SampleStatistics extends java.beans.PropertyChangeListener, Named {
 /**
@@ -74,11 +75,11 @@ public interface SampleStatistics extends java.beans.PropertyChangeListener, Nam
  *  @return The current running maximum observation.
 **/
     public double getMaxObs();
-/**
- * Sets the format for any Strings created.
- *  @param format The <CODE>DecimalFormat</CODE> String for default reporting
-**/
-    public void setFormat(String format);
+    /**
+     * Sets the NumberFormat
+     * @param numberFormat the new DecimalFormat instance
+     */
+    public void setNumberFormat(NumberFormat numberFormat);
 /**
  * Sets the sampling type to either TALLY or TIME_VARYING.
  *  This should normally have no effect, since each class should only implement
