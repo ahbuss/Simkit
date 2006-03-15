@@ -1,13 +1,8 @@
-/*
- * AbstractSimpleStats.java
- *
- * Created on November 21, 2001, 2:14 PM
- */
-
 package simkit.stat;
 
+import java.text.NumberFormat;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-import java.text.DecimalFormat;
 
 /**
  * Abstract base class implementation of the SampleStatistics interface.
@@ -27,10 +22,10 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
 **/
     protected  static String DEFAULT_NAME = "%unnamed%";
 
-/**
-* The default DecimalFormat. <!-- End. First Sentence--> " 0.0000;-0.0000"
-**/
-    protected static String DEFAULT_FORMAT = " 0.0000;-0.0000";
+    /**
+     */
+    private static final NumberFormat DEFAULT_NUMBER_FORMAT =
+            NumberFormat.getInstance();
     
 /**
 * The total number of observations recorded.
@@ -56,7 +51,7 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
 /**
 * The DecimalFormat used for Strings.
 **/
-    protected DecimalFormat df;
+    protected NumberFormat numberFormat;
     
 /**
 * Creates a new instance with the default name "%unnamed%"
@@ -70,8 +65,7 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
 **/    
     public AbstractSimpleStats(String name) {
         this.setName(name);
-        this.setFormat(DEFAULT_FORMAT);
-//        this.reset();
+        numberFormat = DEFAULT_NUMBER_FORMAT;
     }
 
 // Javadoc inherited from SampleStatistics.    
@@ -155,10 +149,11 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
     }
     
     /**
-     * Sets the format of Strings created.
-     * @param format The <CODE>DecimalFormat</CODE> String for default reporting
+     * @param numberFormat the new DecimalFormat instance
      */
-    public void setFormat(String format) { df = new DecimalFormat(format); }
+    public void setNumberFormat(NumberFormat numberFormat) {
+        this.numberFormat = numberFormat;
+    }
 
 // Javadoc inherited from SampleStatistics.
     public void newObservation(Boolean newObs) {
@@ -220,15 +215,15 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
         StringBuffer buf = new StringBuffer();
         buf.append(getCount());
         buf.append(' ');
-        buf.append(df.format(getMinObs()));
+        buf.append(numberFormat.format(getMinObs()));
         buf.append(' ');
-        buf.append(df.format(getMaxObs()));
+        buf.append(numberFormat.format(getMaxObs()));
         buf.append(' ');
-        buf.append(df.format(getMean()));
+        buf.append(numberFormat.format(getMean()));
         buf.append(' ');
-        buf.append(df.format(getVariance()));
+        buf.append(numberFormat.format(getVariance()));
         buf.append(' ');
-        buf.append(df.format(getStandardDeviation()));
+        buf.append(numberFormat.format(getStandardDeviation()));
         
         return buf.toString();
     }
