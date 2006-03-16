@@ -20,7 +20,7 @@
 
 <!-- Project directories             -->
 
-	<property description="Root of the Simkit source tree." location="." name="dir.src"/>
+	<property description="Root of the Simkit source tree." location="src" name="dir.src"/>
 	
 	<property description="Root of the Simkit binary tree." location="${basedir}/build" name="dir.build"/>
 	          
@@ -170,7 +170,7 @@
 		</copy>
                 <copy file="${dir.build}/simkit-src.zip" todir="${dir.dist}"/>
                 <copy todir="${dir.dist}/gnu">
-                    <fileset dir="${dir.src}/gnu"/>
+                    <fileset dir="${dir.src}/../gnu"/>
                 </copy>
                 <copy todir="${dir.dist}">
                     <fileset dir="${dir.build}">
