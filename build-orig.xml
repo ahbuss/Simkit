@@ -46,7 +46,18 @@
 
 <!--  === TARGET: help === -->
 	<target name="help">
-		<echo message="This is the Ant build file for the NPS Simkit and associated libraries. Third-party jar files are not compiled from source here, but they are copied as necessary for the simkit distribution.  This buildfile was created and tested using Ant version 1.5.1 on the Mac OSX 10.3 platform, where it works from the command line as well as within the NetBeans IDE version 3.5.1 from Sun Microsystems. Suggestions and comments should be forwarded to Kirk Stork (kirk@kastork.org), or posted on the Simkit discussion boards at http://diana.nps.navy.mil/simkit.  Work on integrating Ant and this buildfile within Apple's XCode IDE is in progress."/>
+		<echo message="This is the Ant build file for the Simkit and associated libraries."/>
+                <echo message="Third-party jar files are not compiled from source here,"/>
+                <echo message="but they are copied as necessary for the simkit distribution."/>
+                <echo message="This buildfile was created and tested using Ant version 1.5.1"/>
+                <echo message="on the Mac OSX 10.3 platform, where it works from the command line"/>
+                <echo message="as well as within the NetBeans IDE versions 3.x and 4.x"/>
+                <echo message="from Sun Microsystems."/>
+                <echo message="Suggestions and comments should be forwarded to"/>
+                <echo message="Arnold Buss (abuss@nps.edu) or posted on the"/>
+                <echo message="Simkit discussion boards at http://diana.nps.navy.mil/simkit."/>
+                <echo/>
+                <echo message="Simkit is copyright under the Lesser GNU Public License (LGPL)"/>
     </target>
 
 <!--  === TARGET: init === -->
