@@ -19,23 +19,23 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats {
 /**
 * The time weighted mean of the statistic.
 **/
-    private double mean;
+    protected double mean;
 
 /**
 * The time weighted variance of the statistic.
 **/
-    private double variance;
+    protected double variance;
 
 /**
 * The difference between the current observation and
 * the mean.
 **/
-    private double diff;
+    protected double diff;
     
 /**
 * The time of the last observation.
 **/
-    private double lastTime;
+    protected double lastTime;
 
 /**
 * The time of the first observation.
