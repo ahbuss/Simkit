@@ -24,8 +24,12 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
 
     /**
      */
-    private static final NumberFormat DEFAULT_NUMBER_FORMAT =
-            NumberFormat.getInstance();
+    public static final NumberFormat DEFAULT_NUMBER_FORMAT ;
+    
+    static {
+        DEFAULT_NUMBER_FORMAT = NumberFormat.getInstance();
+        DEFAULT_NUMBER_FORMAT.setMinimumFractionDigits(3);
+    }
     
 /**
 * The total number of observations recorded.
