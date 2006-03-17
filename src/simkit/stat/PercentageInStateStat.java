@@ -3,10 +3,13 @@ package simkit.stat;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import simkit.Schedule;
-import simkit.stat.SimpleStatsTimeVarying;
+
 
 /**
  * Listens for states of a given name and computes the percentage of time
@@ -20,13 +23,13 @@ import simkit.stat.SimpleStatsTimeVarying;
  */
 public class PercentageInStateStat implements PropertyChangeListener {
     
-    private DecimalFormat decimalFormat;
+    private NumberFormat numberFormat;
     
     private Object initialState;
     
     private String propertyName;
     
-    protected LinkedHashMap stateStats;
+    protected Map stateStats;
     
     protected Object currentState;
     
@@ -42,13 +45,13 @@ public class PercentageInStateStat implements PropertyChangeListener {
     public PercentageInStateStat(String propertyName, Object initialState) {
         setPropertyName(propertyName);
         setInitialState(initialState);
-        setDecimalFormat(new DecimalFormat("0.0000"));
-        stateStats = new LinkedHashMap();
+        setNumberFormat(AbstractSimpleStats.DEFAULT_NUMBER_FORMAT);
+        stateStats = new TreeMap();
         reset();
     }
     
     /**
-     * Should be calls after Schedule.reset().  Sets currentState to
+     * Should be called after Schedule.reset().  Sets currentState to
      * initialState, total time to 0.0, and last time to simTime
      */
     public void reset() {
@@ -124,7 +127,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
                 stringBuffer.append('\t');
             }
             double mean = getPercentageFor(state);
-            stringBuffer.append(decimalFormat.format(mean));
+            stringBuffer.append(numberFormat.format(mean));
             stringBuffer.append(System.getProperty("line.separator"));
             sum += mean;
         }
@@ -135,16 +138,8 @@ public class PercentageInStateStat implements PropertyChangeListener {
         for (int j = 0; j < extraTabs; ++j) {
             stringBuffer.append('\t');
         }
-        stringBuffer.append(decimalFormat.format(sum));
+        stringBuffer.append(numberFormat.format(sum));
         return stringBuffer.toString();
-    }
-    
-    public DecimalFormat getDecimalFormat() {
-        return decimalFormat;
-    }
-    
-    public void setDecimalFormat(DecimalFormat decimalFormat) {
-        this.decimalFormat = decimalFormat;
     }
     
     public LinkedHashMap getStateStats() {
@@ -185,6 +180,14 @@ public class PercentageInStateStat implements PropertyChangeListener {
 
     public int getStateNameLength() {
         return stateNameLength;
+    }
+
+    public NumberFormat getNumberFormat() {
+        return numberFormat;
+    }
+
+    public void setNumberFormat(NumberFormat numberFormat) {
+        this.numberFormat = numberFormat;
     }
     
 }
