@@ -15,7 +15,7 @@ public class TruncatingSimpleStatsTally extends SimpleStatsTally {
     
     /**
      * Create a TruncatingSimpleStatsTally with given truncation point.
-     * @param number Truncation point.
+     * @param truncationPoint Truncation point.
      */
     public TruncatingSimpleStatsTally(int truncationPoint) {
         this(DEFAULT_NAME, truncationPoint);
@@ -25,7 +25,7 @@ public class TruncatingSimpleStatsTally extends SimpleStatsTally {
      * Create a TruncatingSimpleStatsTally with given property name and
      * with given truncation point.
      * @param propertyName Name of property to listen to
-     * @param number Truncation point
+     * @param truncationPoint Truncation point
      */
     public TruncatingSimpleStatsTally(String propertyName, int truncationPoint) {
         super(propertyName);
