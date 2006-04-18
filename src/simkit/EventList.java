@@ -3,7 +3,16 @@ package simkit;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 /** <P>Replacement for original static <CODE>Schedule</CODE>
  * implementation of event list.  Now multiple instances
  * of <CODE>EventList</CODE> may exist so that the
@@ -842,6 +851,14 @@ public class EventList {
         SortedSet temp = Collections.synchronizedSortedSet(new TreeSet(new SimEventComp(precision)));
         temp.addAll(eventList);
         eventList = temp;
+    }
+    
+    /**
+     * @return shallow copy of actual events.  To be used by subclasses only
+     * for debugging purposes.
+     */
+    protected SortedSet getEventList() {
+        return new TreeSet(eventList);
     }
     
 }
