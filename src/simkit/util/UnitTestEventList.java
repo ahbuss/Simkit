@@ -128,10 +128,12 @@ public class UnitTestEventList extends EventList {
         if (simTime < this.simTime) {
             throw new InvalidSchedulingException("Attempt to reverse time!");
         }
-        SimEvent lastEvent = (SimEvent) eventList.last();
-        if (simTime > lastEvent.getScheduledTime()) {
-            throw new InvalidSchedulingException("Attempt to advance time beyond last event: " +
-                    simTime + " > " + lastEvent.getScheduledTime());
+        if (!eventList.isEmpty()) {
+            SimEvent lastEvent = (SimEvent) eventList.last();
+            if (simTime > lastEvent.getScheduledTime()) {
+                throw new InvalidSchedulingException("Attempt to move time past a " +
+                        "scheduled event: " + simTime + " > " + lastEvent.getScheduledTime());
+            }
         }
         this.simTime = simTime;
     }
