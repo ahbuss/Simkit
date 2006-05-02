@@ -45,7 +45,7 @@ public class EventList {
 /**
  * Holds the pending events.
  */
-    private SortedSet eventList;
+    protected SortedSet eventList;
     
 /**
  * The current simulation time.
@@ -776,7 +776,7 @@ public class EventList {
      * and various booleans are set to their default
      * values (typically <CODE>false</CODE>).
      */    
-    public void coldReset() {
+    public synchronized void coldReset() {
         stopSimulation();
         clearRerun();
         simTime = 0.0;
@@ -794,7 +794,7 @@ public class EventList {
      * @param reason User message to be appended to event list
      * @return String version of current event and event list
      */    
-    public String getEventListAsString(String reason) {
+    public synchronized String getEventListAsString(String reason) {
         clearDeadEvents();
         StringBuffer buf = new StringBuffer();
         if (currentSimEvent != null) {
@@ -857,8 +857,8 @@ public class EventList {
      * @return shallow copy of actual events.  To be used by subclasses only
      * for debugging purposes.
      */
-    protected SortedSet getEventList() {
-        return new TreeSet(eventList);
+    protected synchronized SortedSet getEventList() {
+        return Collections.synchronizedSortedSet(new TreeSet(eventList));
     }
     
 }
