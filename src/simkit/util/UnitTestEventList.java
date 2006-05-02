@@ -1,11 +1,9 @@
 package simkit.util;
-
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import simkit.EventList;
-import simkit.SimEntity;
+import simkit.InvalidSchedulingException;
 import simkit.SimEvent;
 import simkit.SimEventComp;
 
@@ -41,7 +39,7 @@ public class UnitTestEventList extends EventList {
     public UnitTestEventList(int id) {
         super(id);
     }
-
+    
     /**
      * Gets the SimEvent of the given name that would occur first in the
      * current event list's state.
@@ -119,5 +117,22 @@ public class UnitTestEventList extends EventList {
             }
         }
         return simEvents;
-    }   
+    }
+    
+    /**
+     * @throws InvalidSchedulingException if argument < current simTime
+     * @throws InvalidSchedulingException if argument > time of last scheduled event
+     * @param the desired simTime
+     */
+    public synchronized void setSimTime(double simTime) {
+        if (simTime < this.simTime) {
+            throw new InvalidSchedulingException("Attempt to reverse time!");
+        }
+        SimEvent lastEvent = (SimEvent) eventList.last();
+        if (simTime > lastEvent.getScheduledTime()) {
+            throw new InvalidSchedulingException("Attempt to advance time beyond last event: " +
+                    simTime + " > " + lastEvent.getScheduledTime());
+        }
+        this.simTime = simTime;
+    }
 }
