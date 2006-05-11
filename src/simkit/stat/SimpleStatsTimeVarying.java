@@ -1,6 +1,7 @@
 package simkit.stat;
 
-import simkit.*;
+import simkit.EventList;
+import simkit.Schedule;
 
 /**
 * Basic class for collecting statistics on time varying properties.
@@ -50,7 +51,7 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats {
 **/
     public SimpleStatsTimeVarying(String name) {
         super(name);
-        setEventListID(0);
+        setEventListID(Schedule.getDefaultEventList().getID());
         reset();
     }
     
