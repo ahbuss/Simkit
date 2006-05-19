@@ -50,7 +50,7 @@ public class TestPrimitiveArraySignature extends SimEntityBase {
 /**
  * Helper method to dump int[] arrays to a String.  The format is
  * "{array[0], array[1], ..., array[length -1]}"
- * @param srray The array to be dumped.
+ * @param array The array to be dumped.
  */    
     protected static String intArrayToString(int[] array) {
         StringBuffer buf = new StringBuffer("{");

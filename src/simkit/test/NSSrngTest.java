@@ -1,4 +1,3 @@
-
 package simkit.test;
 import simkit.random.RandomNumber;
 import simkit.random.RandomNumberFactory;
@@ -15,8 +14,10 @@ public class NSSrngTest {
     }
  /**
   * Tests NSSrng.
-  * @param args[0] Starting seed, default 12
-  * @param args[1] Number to generate, default 10
+  * 
+  * args[1] Number to generate, default 10
+  * @param args args[0] = optional Starting seed, default 12; 
+  *   args[1] = optional Number to generate, default 10
   */   
     
     public static void main(String[] args) {

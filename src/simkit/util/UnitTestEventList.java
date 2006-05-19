@@ -34,7 +34,7 @@ public class UnitTestEventList extends EventList {
     
     /**
      * Instantiate a UnitTestEventList with the given id number.
-     * @param the id of this UnitTestEventList instance
+     * @param id the id of this UnitTestEventList instance
      */
     public UnitTestEventList(int id) {
         super(id);
@@ -122,7 +122,7 @@ public class UnitTestEventList extends EventList {
     /**
      * @throws InvalidSchedulingException if argument < current simTime
      * @throws InvalidSchedulingException if argument > time of last scheduled event
-     * @param the desired simTime
+     * @param simTime the desired simTime
      */
     public synchronized void setSimTime(double simTime) {
         if (simTime < this.simTime) {
