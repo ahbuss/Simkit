@@ -16,12 +16,11 @@ public class RandomPointGenerator {
 * Creates a new RandomPointGenerator with the specified corner points.
 * By default the x and y values will be uniformly distributed between
 * the min and max x (or y) values of the 2 points.
-* @param cornerPts A two element array. The first point is the minimum x and y;
+* @param cornerPoints A two element array. The first point is the minimum x and y;
 * the second point is the maximum x and y.
 **/
-    public RandomPointGenerator(Point2D[] cornerPts) {
-        this(new double[] {cornerPts[0].getX(), cornerPts[0].getY(),
-            cornerPts[1].getX(), cornerPts[1].getY()});
+    public RandomPointGenerator(Point2D[] cornerPoints) {
+        setCornerPoints(cornerPoints);
     }
     
 /**
@@ -35,13 +34,7 @@ public class RandomPointGenerator {
         if (corners.length != 4) {
             throw new IllegalArgumentException("Need 4 corners: " + corners.length);
         }
-        RandomVariate[] rand = new RandomVariate[2];
-        rand[0] = RandomVariateFactory.getInstance("Uniform",
-            new Object[] { new Double(corners[0]), new Double(corners[2]) });
-        rand[1] = RandomVariateFactory.getInstance("Uniform",
-            new Object[] { new Double(corners[1]), new Double(corners[3]) },
-            rand[0].getRandomNumber());
-        setRandomVariate(rand);
+        setCorners(corners);
     }
     
 /**
@@ -53,9 +46,8 @@ public class RandomPointGenerator {
     }
     
 /** 
-* Creates a new instance of RandomPointGenerator with the given RandomVariates.
-* @param rv A 2 element array containing the RandomVariate for x and y.
-* @throws IllegalArgumentException If the array is not exactly 2 elements.
+ * Creates a new instance of RandomPointGenerator with the given RandomVariates.
+ * @param rv A 2 element array containing the RandomVariate for x and y.
  */
     public RandomPointGenerator(RandomVariate[] rv) {
         setRandomVariate(rv);
@@ -76,43 +68,55 @@ public class RandomPointGenerator {
 /**
 * Returns a copy of a two element array containing the x and y RandomVariates.
 **/
-    public RandomVariate[] getRandomVariate() { return (RandomVariate[]) rv.clone(); }
+    public RandomVariate[] getRandomVariate() { 
+        return (RandomVariate[]) rv.clone(); 
+    }
     
 /**
-* Generates the next point.
-**/
+ * Generates the next point.
+ * @return randomly generated Point2D
+ */
     public Point2D generatePoint() {
         return new Point2D.Double(rv[0].generate(), rv[1].generate());
     }
     
+    /**
+     * @param corners 2-dimentional array specifying corners of region
+     * @throws IllegalArgumentException If the array is not exactly 2 elements.
+     */
+    public void setCornerPoints(Point2D[] corners) {
+        if (rv.length != 2) {
+            throw new IllegalArgumentException("Need array of length 2: " + 
+                    corners.length);
+        }
+        setCorners(new double[] {corners[0].getX(), corners[0].getY(),
+            corners[1].getX(), corners[1].getY()});
+    }
+    
+    /**
+     * Values are {minX, minY, maxX, maxY}
+     * @param corners 4-dimensional array specifying corners
+     * @throws IllegalArgumentException If the array is not exactly 4 elements.
+     */
+    public void setCorners(double[] corners) {
+        if (rv.length != 4) {
+            throw new IllegalArgumentException("Need array of length 4: " + 
+                    corners.length);
+        }
+        RandomVariate[] rand = new RandomVariate[2];
+        rand[0] = RandomVariateFactory.getInstance("Uniform",
+            new Object[] { new Double(corners[0]), new Double(corners[2]) });
+        rand[1] = RandomVariateFactory.getInstance("Uniform",
+            new Object[] { new Double(corners[1]), new Double(corners[3]) },
+            rand[0].getRandomNumber());
+        setRandomVariate(rand);
+    }
+    
 /**
-* Returns a String with the name of this RandomVariate and information
+* @return a String with the name of this RandomVariate and information
 * about the x and y RandomVariate.
-**/
+*/
     public String toString() {
         return "RandomPointGenerator " + rv[0] + " - " + rv[1];
     }
-//    
-//    public static void main(String[] args) {
-//        double[] c = new double[] { 0, 0, 50, 250 };
-//            
-//        RandomPointGenerator rpg = new RandomPointGenerator(c);
-//        
-//        System.out.println(rpg);
-//        for (int i = 0; i < 5; ++i) {
-//            System.out.println(rpg.generatePoint());
-//        }
-//        
-//        Point2D[] pts = new Point2D[2];
-//        pts[0] = new Point2D.Double(0.0, 0.0);
-//        pts[1] = new Point2D.Double(30.0, 350.0);
-//        
-//        rpg = new RandomPointGenerator(pts);
-//        System.out.println(rpg);
-//        for (int i = 0; i < 5; ++i) {
-//            System.out.println(rpg.generatePoint());
-//        }
-//        
-//    }
-//    
 }
