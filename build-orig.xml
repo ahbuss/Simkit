@@ -91,9 +91,7 @@
 
 <!--  === TARGET: compile === -->
     <target depends="build.init" description="Compile the Simkit classes and copy resource files to the binary tree." name="compile">
-        <javac destdir="${dir.build.classes}" source="1.4" target="1.4" debug="false">
-        	<src path="${dir.src}/simkit"/>
-        	<src path="${dir.src}/graph"/>
+        <javac destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.4" target="1.4" debug="false">
         </javac>
         
         <copy todir="${dir.build.classes}">
