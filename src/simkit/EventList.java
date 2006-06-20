@@ -651,9 +651,8 @@ public class EventList {
         }
     }
     
-    /** Cancel the next event of this SimEntity.
-     * (Note: this is probably not very useful).
-     * @param simEntity SimEntity to have event cancelled
+    /** Cancel the all events of this SimEntity.
+     * @param simEntity SimEntity to have events cancelled
      */    
     public void interruptAll(SimEntity simEntity) {
         clearDeadEvents();
