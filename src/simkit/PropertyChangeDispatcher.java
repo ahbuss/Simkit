@@ -4,6 +4,7 @@ import java.beans.PropertyChangeSupport;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -91,6 +92,9 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
             for (Class clazz = source.getClass(); clazz != stopClass; clazz = clazz.getSuperclass()) {
                 Method[] method = clazz.getDeclaredMethods();
                 for (int i = 0; i < method.length; ++i) {
+                    if (!Modifier.isPublic(method[i].getModifiers())) {
+                        continue;
+                    }
                     String name = method[i].getName();
                     if (name.startsWith("get") && isGetterSignature(method[i])) {
                         name = getPropertyName(name, 3);
