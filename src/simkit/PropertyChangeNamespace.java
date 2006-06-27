@@ -35,7 +35,7 @@ public class PropertyChangeNamespace extends PropertyChangeDispatcher implements
 * @see PropertyChangeDispatcher
 **/
     public PropertyChangeNamespace(Object source, String name) {
-        super(source);
+        super(source, Object.class);
         setNamespace(name);
     }
     

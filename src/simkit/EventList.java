@@ -3,8 +3,10 @@ package simkit;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.logging.*;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -41,6 +43,13 @@ import java.util.TreeSet;
  */
 
 public class EventList {
+
+    public static Logger log = Logger.getLogger("simkit");
+
+/**
+* The default setting for fastInterrupts (TRUE).
+**/
+    public static final boolean DEFAULT_FAST_INTERRUPTS = true;
     
 /**
  * Holds the pending events.
@@ -156,6 +165,26 @@ public class EventList {
  * <code>startSimulation()</CODE>
  */
     private boolean pauseAfterEachEvent;
+
+/**
+* If true, then pending SimEvents will be stored in a secondary hash table
+* to make them easier to find when interrupting. For simulations that
+* do not interrupt events, the added overhead from storing and removing
+* events in the secondary table could add to run time.
+**/
+    private boolean fastInterrupts = false;
+//even though the default is true, this needs to be set to false to 
+//force setFastInterrupts to initialize correctly.
+
+/**
+* A Map a SimEntity to an OrderedSet of its pending SimEvents.
+**/
+    protected Map entityEventMap;
+
+/**
+* A Map from a SimEvent.getEventHash() (an Integer) to an OrderSet of pending events.
+**/
+    protected Map hashEventMap;
     
 /**
  * Instantiate an <CODE>EventList</CODE> with given id.
@@ -171,6 +200,7 @@ public class EventList {
         this.id = id;
         setFormat("0.0000");
         setSimEventPrecision(0.0);
+        setFastInterrupts(true);
     }
     
     /**
@@ -384,6 +414,10 @@ public class EventList {
             SimEvent simEvent = (SimEvent) eventList.first();
             if (!simEvent.isPending()) {
                 eventList.remove(simEvent);
+                if (fastInterrupts) {
+                    removeFromEntityEventMap(simEvent);
+                    removeFromHashEventMap(simEvent);
+                }
             }
             else {
                 break;
@@ -471,6 +505,10 @@ public class EventList {
                 throw new InvalidSchedulingException("Problem adding event to " +
                 "Event List: " + event);
             }
+            if (fastInterrupts) {
+                addToEntityEventMap(event);
+                addToHashEventMap(event);
+            }
         }
         if (isReallyVerbose()) {
             System.out.println("\n" + getSimTime() + ": Event " + event + " Scheduled by " + 
@@ -501,6 +539,10 @@ public class EventList {
         while (!eventList.isEmpty() && isRunning()) {
             currentSimEvent = (SimEvent) eventList.first();
             eventList.remove(currentSimEvent);
+            if (fastInterrupts) {
+                removeFromEntityEventMap(currentSimEvent);
+                removeFromHashEventMap(currentSimEvent);
+            }
             simTime = currentSimEvent.getScheduledTime();
             if (reallyVerbose) {
                 System.out.println(simTime + ": Processing " + currentSimEvent + 
@@ -608,7 +650,16 @@ public class EventList {
     public void interrupt(SimEntity simEntity, String eventName) {
         clearDeadEvents();
         synchronized(eventList) {
-            for (Iterator i = eventList.iterator(); i.hasNext(); ) {
+            Set events = null;
+            if (fastInterrupts) {
+                events = (Set)entityEventMap.get(simEntity);
+            } else {
+                events = eventList;
+            }
+            if (events == null) {
+                return;
+            }
+            for (Iterator i = events.iterator(); i.hasNext(); ) {
                 SimEvent event = (SimEvent) i.next();
                 if ((event.getSource() == simEntity) &&
                     (event.getEventName().equals(eventName)) &&
@@ -618,10 +669,15 @@ public class EventList {
                                                 + ": Cancelling " + event); 
                         }
                         i.remove();
+                        if (fastInterrupts) {
+                            eventList.remove(event);
+                            //removeFromEntityEventMap(event);
+                            removeFromHashEventMap(event);
+                        }
                         break;
-                }
-            }
-        }
+                }//if matches
+            }//next i
+        }//synch
     }
     
     /** Cancel next event of given name matching the
@@ -634,7 +690,17 @@ public class EventList {
             Object[] parameters) {
         clearDeadEvents();
         synchronized(eventList) {
-            for (Iterator i = eventList.iterator(); i.hasNext(); ) {
+            Set events = null;
+            if (fastInterrupts) {
+                Integer hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
+                events = (Set)hashEventMap.get(hash);
+            } else {
+                events = eventList;
+            }
+            if (events == null) {
+                return;
+            }
+            for (Iterator i = events.iterator(); i.hasNext(); ) {
                 SimEvent event = (SimEvent) i.next();
                 if ((event.getSource() == simEntity) &&
                     (event.getEventName().equals(eventName)) &&
@@ -645,6 +711,11 @@ public class EventList {
                                                 + ": Cancelling " + event); 
                         }
                         i.remove();
+                        if (fastInterrupts) {
+                            eventList.remove(event);
+                            removeFromEntityEventMap(event);
+                            //removeFromHashEventMap(event);
+                        }
                         break;
                 }
             }
@@ -657,14 +728,27 @@ public class EventList {
     public void interruptAll(SimEntity simEntity) {
         clearDeadEvents();
         synchronized(eventList) {
-            for (Iterator i = eventList.iterator(); i.hasNext(); ) {
-                SimEvent simEvent = (SimEvent) i.next();
-                if (simEvent.getSource() == simEntity) {
-                    if (reallyVerbose) {
-                        System.out.println("\n" + getSimTime() 
-                                            + ": Cancelling " + simEvent); 
+            if (fastInterrupts) {
+                Set events = (Set)entityEventMap.get(simEntity);
+                if (events == null) {
+                    return;
+                }
+                eventList.removeAll(events);
+                for (Iterator itt = events.iterator(); itt.hasNext();) {
+                    SimEvent event = (SimEvent)itt.next();
+                    removeFromHashEventMap(event);
+                }
+                entityEventMap.put(simEntity, null);
+            } else {
+                for (Iterator i = eventList.iterator(); i.hasNext(); ) {
+                    SimEvent simEvent = (SimEvent) i.next();
+                    if (simEvent.getSource() == simEntity) {
+                        if (reallyVerbose) {
+                            System.out.println("\n" + getSimTime() 
+                                                + ": Cancelling " + simEvent); 
+                        }
+                        i.remove();
                     }
-                    i.remove();
                 }
             }
         }
@@ -678,7 +762,16 @@ public class EventList {
     public void interruptAll(SimEntity simEntity, String eventName) {
         clearDeadEvents();
         synchronized(eventList) {
-            for (Iterator i = eventList.iterator(); i.hasNext(); ) {
+            Set events = null;
+            if (fastInterrupts) {
+                events = (Set)entityEventMap.get(simEntity);
+            } else {
+                events = eventList;
+            }
+            if (events == null) {
+                return;
+            }
+            for (Iterator i = events.iterator(); i.hasNext(); ) {
                 SimEvent simEvent = (SimEvent) i.next();
                 if ((simEvent.getSource() == simEntity) &&
                     (simEvent.getEventName().equals(eventName)) ){
@@ -687,6 +780,11 @@ public class EventList {
                                             + ": Cancelling " + simEvent); 
                     }
                     i.remove();
+                    if (fastInterrupts) {
+                        eventList.remove(simEvent);
+                        //removeFromEntityEventMap(simEvent);
+                        removeFromHashEventMap(simEvent);
+                    }
                 }
             }
         }
@@ -703,7 +801,17 @@ public class EventList {
         Object[] parameters) {
         clearDeadEvents();
         synchronized(eventList) {
-            for (Iterator i = eventList.iterator(); i.hasNext(); ) {
+            Set events = null;
+            if (fastInterrupts) {
+                Integer hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
+                events = (Set)hashEventMap.get(hash);
+            } else {
+                events = eventList;
+            }
+            if (events == null) {
+                return;
+            }
+            for (Iterator i = events.iterator(); i.hasNext(); ) {
                 SimEvent simEvent = (SimEvent) i.next();
                 if ((simEvent.getSource() == simEntity) &&
                     (simEvent.getEventName().equals(eventName)) &&
@@ -713,6 +821,11 @@ public class EventList {
                                                 + ": Cancelling " + simEvent); 
                         }
                     i.remove();
+                    if (fastInterrupts) {
+                        eventList.remove(simEvent);
+                        removeFromEntityEventMap(simEvent);
+                        //removeFromHashEventMap(simEvent);
+                    }
                 }
             }
         }
@@ -786,6 +899,7 @@ public class EventList {
         setReallyVerbose(false);
         setSingleStep(false);
         setPauseAfterEachEvent(false);
+        setFastInterrupts(true);
     }
     
     /** For debugging purposes - returns a String depicting the
@@ -859,5 +973,133 @@ public class EventList {
     protected synchronized SortedSet getEventList() {
         return Collections.synchronizedSortedSet(new TreeSet(eventList));
     }
-    
+
+/**
+* If true, then pending SimEvents will be stored in a secondary hash table
+* to make them easier to find when interrupting. For simulations that
+* do not interrupt events, the added overhead from storing and removing
+* events in the secondary table could add to run time.
+**/
+    public boolean isFastInterrupts() {return fastInterrupts;}
+
+/**
+* If true, then pending SimEvents will be stored in a secondary hash table
+* to make them easier to find when interrupting (defaults to true). For simulations that
+* do not interrupt events, the added overhead from storing and removing
+* events in the secondary table could add to run time.
+* If going from false to true, add any pending events to the secondary hash tables.
+* If going from true to false, clear the secondary hash tables.
+**/
+    public void setFastInterrupts(boolean value) {
+        if (value == fastInterrupts) {
+            return;
+        }
+        this.fastInterrupts = value;
+        if (fastInterrupts) {
+            entityEventMap = Collections.synchronizedMap(new LinkedHashMap());
+            hashEventMap = Collections.synchronizedMap(new LinkedHashMap());
+            synchronized(eventList) {
+                for (Iterator itt = eventList.iterator(); itt.hasNext();) {
+                    SimEvent event = (SimEvent)itt.next();
+                    addToEntityEventMap(event);
+                    addToHashEventMap(event);
+                }
+            }
+        } else {
+            entityEventMap = null;
+            hashEventMap = null;
+        }
+    }
+
+/**
+* Adds the given SimEvent to the entity event Map.
+* @return True if the SimEvent was not already in the Map.
+**/
+    protected boolean addToEntityEventMap(SimEvent event) {
+        if (!fastInterrupts) {
+            throw new InvalidSchedulingException("addToEntityEventMap called when "
+                + "fastInterrupts was false");
+        }
+        SimEntity source = event.getSource();
+        SortedSet events = (SortedSet) entityEventMap.get(source);
+        if (events == null) {
+            events = new TreeSet(new SimEventComp());
+            entityEventMap.put(source, events);
+        }
+        boolean temp = events.add(event);
+        if (!temp) {
+            log.warning(getSimTime() + ": The following SimEvent was already in the entity hash "
+                + event);
+        }
+        return temp;
+    }
+
+/**
+* Removes the given SimEvent from the entity event Map.
+* @return True if the SimEvent was found in the Map.
+**/
+    protected boolean removeFromEntityEventMap(SimEvent event) {
+        if (!fastInterrupts) {
+            throw new InvalidSchedulingException("removeFromEntityEventMap called when "
+                + "fastInterrupts was false");
+        }
+        SimEntity source = event.getSource();
+        SortedSet events = (SortedSet) entityEventMap.get(source);
+        if (events == null) {
+            log.warning(getSimTime() + ": There are no events for the owner of the SimEvent "
+                + " in the entity hash. The event was " + event);
+            return false;
+        }
+        boolean temp = events.remove(event);
+        if (!temp) {
+            log.warning(getSimTime() + ": The following SimEvent was not found in the entity hash "
+                + event);
+        }
+        return temp;
+    }
+
+/**
+* Adds the given SimEvent to the event hash event Map.
+* @return True if the SimEvent was not already in the Map.
+**/
+    protected boolean addToHashEventMap(SimEvent event) {
+        if (!fastInterrupts) {
+            throw new InvalidSchedulingException("addToHashEventMap called when "
+                + "fastInterrupts was false");
+        }
+        Integer hash = event.getEventHash();
+        SortedSet events = (SortedSet)hashEventMap.get(hash);
+        if (events == null) {
+            events = new TreeSet(new SimEventComp());
+            hashEventMap.put(hash, events);
+        }
+        boolean temp = events.add(event);
+        if (!temp) {
+            log.warning(getSimTime() + ": The following SimEvent was already in the Integer hash "
+                + event);
+        }
+        return temp;
+    }
+
+/**
+* Removes the given SimEvent from the hash event Map.
+* @return True if the SimEvent was found in the Map.
+**/
+    protected boolean removeFromHashEventMap(SimEvent event) {
+        if (!fastInterrupts) {
+            throw new InvalidSchedulingException("removeFromHashEventMap called when "
+                + "fastInterrupts was false");
+        }
+        Integer hash = event.getEventHash();
+        SortedSet events = (SortedSet)hashEventMap.get(hash);
+        boolean temp = false;
+        if (events != null) {
+            temp = events.remove(event);
+        }
+        if (!temp) {
+            log.warning(getSimTime() + ": The following SimEvent was not found in the "
+                + " hash event Map." + event);
+        }
+        return temp;
+    }
 }

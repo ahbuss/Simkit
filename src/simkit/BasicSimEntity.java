@@ -1,14 +1,6 @@
 package simkit;
-
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
 
 import simkit.util.IndexedPropertyChangeEvent;
 
@@ -109,7 +101,8 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         serial = ++nextSerial;
         setName(name);
         setPriority(priority);
-        property = new PropertyChangeDispatcher(this, BasicSimEntity.class);
+        Class stopClass = (this instanceof SimEntityBase) ? SimEntityBase.class : BasicSimEntity.class;
+        property = new PropertyChangeDispatcher(this, stopClass);
         setPersistant(true);                    //TODO add constructor with persistant
         eventList = Schedule.getEventList(eventListID);
         eventList.addRerun(this);
@@ -670,7 +663,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      **/ 
     public String toString() {
         if (isJustDefinedProperties()) {
-            return getPropertiesString();
+            return getName() + getPropertiesString();
         }
         else {
             return getName() + property;
@@ -713,40 +706,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     }
     
     protected String getPropertiesString() {
-        StringBuffer buf = new StringBuffer(this.getName());
-        try {
-            BeanInfo info = Introspector.getBeanInfo( this.getClass(), simkit.BasicSimEntity.class );
-            PropertyDescriptor[] descriptors = info.getPropertyDescriptors();
-            for (int i = 0; i < descriptors.length; ++i) {
-                Method readMethod = descriptors[i].getReadMethod();
-                Method writeMethod = descriptors[i].getWriteMethod();
-                if (writeMethod != null && readMethod != null) {
-                    Object value = readMethod.invoke(this, (Object[])null);
-                    if (value == null || !value.getClass().isArray()) {
-                        buf.append(System.getProperty("line.separator"));
-                        buf.append('\t');
-                        buf.append( descriptors[i].getName() );
-                        buf.append(" = ");
-                        buf.append(value);
-                    }
-                    else {
-                        for (int j = 0; j < Array.getLength(value); ++j) {
-                            buf.append(System.getProperty("line.separator"));
-                            buf.append('\t');
-                            buf.append( descriptors[i].getName() );
-                            buf.append('[');
-                            buf.append(j);
-                            buf.append("] = ");
-                            buf.append(Array.get(value, j));
-                        }
-                    }
-                }
-            }
-        } 
-        catch (IntrospectionException e) { throw new RuntimeException(e); }
-        catch (IllegalAccessException e) { throw new RuntimeException(e); }
-        catch (InvocationTargetException e) { throw new RuntimeException(e.getTargetException()); }
-        return buf.toString();
+        return property.paramString();
     }
 
 }

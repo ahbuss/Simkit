@@ -91,7 +91,35 @@
 
 <!--  === TARGET: compile === -->
     <target depends="build.init" description="Compile the Simkit classes and copy resource files to the binary tree." name="compile">
-        <javac destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.4" target="1.4" debug="false">
+        <javac destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.4" target="1.4" debug="true">
+        </javac>
+        
+        <copy todir="${dir.build.classes}">
+            <fileset dir="${dir.src}">
+            	<include name="**/*.txt"/>
+            	<include name="**/*.png"/>
+            	<include name="**/*.gif"/>
+            	<include name="**/*.jpg"/>
+        	<include name="*.txt"/>
+        	<exclude name="build/"/>
+        	<include name="**/*.xml"/>
+        	<include name="**/*.dtd"/>
+                <exclude name="Simkitlocales/" />
+                <exclude name="Simkit_Build_Output/" />
+                <exclude name="nbproject/" />
+                <exclude name="simkit/nss/" />
+            </fileset>
+        </copy>
+        <copy todir="${dir.build}">
+            <fileset dir="${dir.src}">
+                <include name="*.txt" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target depends="clean, build.init" description="Compile the Simkit classes with lint" name="lint">
+        <javac destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.4" target="1.4" debug="true">
+            <compilerarg line="-Xlint"/>
         </javac>
         
         <copy todir="${dir.build.classes}">

@@ -104,6 +104,11 @@ public class SimEvent {
      * A unique identifier for this SimEntity.
      **/
     private int id;
+
+/**
+* A hash value that depends on the owner, event name, and parameters.
+**/
+    protected Integer eventHash = null;
     
     // constructors
     
@@ -352,16 +357,21 @@ public class SimEvent {
      * @return true if the parameters match, false otherwise.
      **/
     public boolean interruptParametersMatch(Object[] params) {
-        boolean isMatch = true;
         if (params.length != parameters.length) {
-            isMatch = false;
+            return false;
         }
-        else {
-            for (int i = 0; i < parameters.length; i++) {
-                isMatch &= parameters[i].equals(params[i]);
+        for (int i = 0; i < parameters.length; i++) {
+            if (parameters[i] == null ^ params[i] == null) {//xor
+                return false;
+            }
+            if ((parameters[i] == null && params[i] == null) ||
+                    (parameters[i].equals(params[i]))) {
+                continue;
+            } else {
+                return false;
             }
         }
-        return isMatch;
+        return true;
     }
     
     /**
@@ -409,6 +419,31 @@ public class SimEvent {
     public static void resetID() {
         nextID = 0;
     }
-    
+
+/**
+* Returns a hash based on owner, event name, and the parameters.
+**/
+    public Integer getEventHash() {
+        if (eventHash == null) {
+            eventHash = calculateEventHash(getSource(), getEventName(), parameters);
+        }
+        return eventHash;
+    }
+
+/**
+* Returns a hash based on owner, event name, and the parameters.
+**/
+    public static Integer calculateEventHash(SimEntity source, 
+                                            String eventName, 
+                                            Object[] params) {
+        int temp = source.hashCode();
+        temp = 31 * temp + eventName.hashCode();
+        for (int i = 0; i < params.length; i++) {
+            if (params[i] != null) {
+                temp = 31 * temp + params[i].hashCode();
+            }
+        }
+        return new Integer(temp);
+    }
 } // class SimEvent
 

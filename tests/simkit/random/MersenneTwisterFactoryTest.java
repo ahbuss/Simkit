@@ -72,7 +72,7 @@ public class MersenneTwisterFactoryTest extends TestCase {
     }
 */
         
-
+/*
     public void testMultiple1() {
         factory = new MersenneTwisterFactory(4172);
         MersenneTwisterDC[] mt = factory.createMTArray(521, new int[] {1234, 9823, 23438});
@@ -84,7 +84,12 @@ public class MersenneTwisterFactoryTest extends TestCase {
             }
         }
     }
+*/
 
+/**
+* This test is currently commented out since it takes too long to run.
+**/
+/*
     public void testMultiple2() {
         factory = new MersenneTwisterFactory(4172);
         MersenneTwisterDC[] mt = factory.createMTArray(1279, new int[] {1234, 9823, 23438});
@@ -96,6 +101,7 @@ public class MersenneTwisterFactoryTest extends TestCase {
             }
         }
     }
+*/
 
     protected long[][] example1 = {
 

@@ -59,6 +59,6 @@ public class SimExec implements Runnable {
     public int getNumberRuns() { return numberRuns; }
     
     public String toString() {
-        return simkit.util.DefaultToStringer.getToString(this, java.lang.Object.class);
+        return simkit.util.DefaultToStringer.getToString(this);
     }
 }

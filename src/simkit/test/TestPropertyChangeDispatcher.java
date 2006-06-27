@@ -27,7 +27,7 @@ public class TestPropertyChangeDispatcher extends SimEntityBase {
      */
     public static void main(String[] args) {
         TestPropertyChangeDispatcher test = new TestPropertyChangeDispatcher();
-        PropertyChangeDispatcher pcd = new PropertyChangeDispatcher(test, BasicSimEntity.class);
+        PropertyChangeDispatcher pcd = new PropertyChangeDispatcher(test, SimEntityBase.class);
         SimplePropertyDumper dumper = new SimplePropertyDumper();
         pcd.addPropertyChangeListener(dumper);
         test.addPropertyChangeListener(dumper);
