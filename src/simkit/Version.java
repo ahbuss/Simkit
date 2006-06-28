@@ -71,17 +71,13 @@ public class Version {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(
             Version.class.getResourceAsStream("version.txt")));
-            StringBuffer buf = new StringBuffer();
-            for (String nextLine = br.readLine(); nextLine != null; nextLine = br.readLine()) {
-                buf.append(nextLine);
-                buf.append(SimEntity.NL);
-            }
-            SIMKIT_VERSION = buf.toString().trim();
+
+            SIMKIT_VERSION = br.readLine().trim();
             br.close();
             
             br = new BufferedReader(new InputStreamReader(
             Version.class.getResourceAsStream("copyright.txt")));
-            buf = new StringBuffer();
+            StringBuffer buf = new StringBuffer();
             for (String nextLine = br.readLine(); nextLine != null; nextLine = br.readLine()) {
                 buf.append(nextLine);
                 buf.append(SimEntity.NL);
