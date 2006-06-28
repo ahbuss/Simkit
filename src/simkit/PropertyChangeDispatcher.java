@@ -318,7 +318,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
     
     /**
      * Is the signature empty or has an int (for indexed getter)?
-     * @param Method to be checked
+     * @param method Method to be checked
      * @return true if the signature of the method is consistent with a getter
      */
     public static boolean isGetterSignature(Method method) {
@@ -329,7 +329,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
     
     /**
      * Is the signature of length 1 (scaler setter) or 2 (for indexed getter)?
-     * @param Method to be checked
+     * @param method Method to be checked
      * @return true if the signature of the method is consistent with a setter
      */
     public static boolean isSetterSignature(Method method) {
