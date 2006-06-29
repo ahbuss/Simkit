@@ -114,6 +114,14 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
     }
     
     /**
+     * Instantiate a PropertyChangeDispatcher with default STOP_CLASS (currently Object).
+     * @param bean The Object this dispatcher will manage properties for
+     */
+    public PropertyChangeDispatcher(Object bean) {
+        this(bean, STOP_CLASS);
+    }
+    
+    /**
      * Set the specified property to the given value, firing a PropertyChangeEvent
      * to inform any registered listeners of the change.
      * If property is not in the class, it is added to the addedProperties
