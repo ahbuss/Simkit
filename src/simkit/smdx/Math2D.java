@@ -40,6 +40,10 @@ public class Math2D {
 **/
     public static final AffineTransform IDENTITY_TRANSFORM = new AffineTransform();
     
+    public static Point2D getZero() {
+        return (Point2D) ZERO.clone();
+    }
+    
 /**
 * Performs a vector addition of the two points.
 **/
