@@ -11,7 +11,7 @@ import simkit.SimEntityBase;
  * default the default EventList is used.
  *
  * <p>Care must be used if there are more than one EventLists in the JVM.
- * @version $ID$
+ * @version $Id$
  * @author ahbuss
  */
 public class PauseAfterZero extends SimEntityBase {
