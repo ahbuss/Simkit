@@ -368,7 +368,7 @@ public class EventListTest extends TestCase {
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
-        assertEquals(1, events.size());
+        assertEquals("events=" + events, 1, events.size());
         assertTrue(events.contains(event1));
         assertFalse(events.contains(event2));
         assertFalse(events.contains(event3));
@@ -1842,6 +1842,42 @@ public class EventListTest extends TestCase {
 
     }
 
+    public void testBadReset() {
+        EvilResetter resetter = new EvilResetter();
+        Schedule.reset();
+        resetter.waitDelay("Reset", 1.0);
+        try {
+            Schedule.startSimulation();
+            fail("Should have thrown a SimkitConcurrencyException");
+        } catch (SimkitConcurrencyException e) {
+            assertEquals(1.0, Schedule.getSimTime(), 0.0);
+        }
+    }
+
+    public void testBadColdReset() {
+        EvilResetter resetter = new EvilResetter();
+        Schedule.reset();
+        resetter.waitDelay("ColdReset", 1.0);
+        try {
+            Schedule.startSimulation();
+            fail("Should have thrown a SimkitConcurrencyException");
+        } catch (SimkitConcurrencyException e) {
+            assertEquals(1.0, Schedule.getSimTime(), 0.0);
+        }
+    }
+
+    public void testBadStartSimulation() {
+        EvilResetter resetter = new EvilResetter();
+        Schedule.reset();
+        resetter.waitDelay("StartAgain", 1.0);
+        try {
+            Schedule.startSimulation();
+            fail("Should have thrown a SimkitConcurrencyException");
+        } catch (SimkitConcurrencyException e) {
+            assertEquals(1.0, Schedule.getSimTime(), 0.0);
+        }
+    }
+
 /**
 * Stores the events it hears in a List in the order it heard them.
 **/
@@ -1853,5 +1889,24 @@ public class EventListTest extends TestCase {
             events.add(event);
         }
     }
+
+/**
+* Attempts to call startSimulation(), reset() and coldReset() from a events.
+**/
+    public class EvilResetter extends SimEntityBase {
+
+        public void doReset() {
+            Schedule.reset();
+        }
+
+        public void doColdReset() {
+            Schedule.coldReset();
+        }
+
+        public void doStartAgain() {
+            Schedule.startSimulation();
+        }
+    }
+    
 }
 

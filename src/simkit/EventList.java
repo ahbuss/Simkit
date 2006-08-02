@@ -177,14 +177,31 @@ public class EventList {
 //force setFastInterrupts to initialize correctly.
 
 /**
-* A Map a SimEntity to an OrderedSet of its pending SimEvents.
+* A Map a SimEntity to a SortedSet of its pending SimEvents.
 **/
     protected Map entityEventMap;
 
 /**
-* A Map from a SimEvent.getEventHash() (an Integer) to an OrderSet of pending events.
+* A Map from a SimEvent.getEventHash() (an Integer) to a SortedSet of pending events.
 **/
     protected Map hashEventMap;
+
+/**
+* A count of the number of threads in startSimulation, reset(), and coldReset().
+* The total number of Threads in these methods should be <= 1. 
+**/
+    protected int entryCounter = 0;
+
+/**
+* An Object used to synchronize access to entryCounter.
+**/
+    protected Object entryCounterMutex = new Object();
+
+/**
+* If true, the event list will be cleared at the start of the next iteration
+* of the simulation loop in startSimulation().
+**/
+    protected boolean stoppingSimulation = false;
     
 /**
  * Instantiate an <CODE>EventList</CODE> with given id.
@@ -199,7 +216,7 @@ public class EventList {
         ignoreOnDump = new LinkedHashSet();
         this.id = id;
         setFormat("0.0000");
-        setSimEventPrecision(0.0);
+        this.precision = 0.0; 
         setFastInterrupts(true);
     }
     
@@ -318,7 +335,7 @@ public class EventList {
     /**
      * @return Current SimEvent being processed
      */    
-    public synchronized SimEvent getCurrentSimEvent() { return currentSimEvent; }
+    public SimEvent getCurrentSimEvent() { return currentSimEvent; }
     
     /** If true, then  simulation will pausde after each
      * event and resume only on another call to
@@ -348,10 +365,18 @@ public class EventList {
      * </UL>
      */    
     public void reset() {
+        synchronized(entryCounterMutex) {
+            if (entryCounter > 0) {
+                entryCounter--;
+                throw new SimkitConcurrencyException();
+            }
+            entryCounter++;
+        }
         if (isReallyVerbose()) {
             System.out.println(getSimTime() + ": reset() called");
         }
         clearEventList();
+        running = false;
         currentSimEvent = null;
         simTime = 0.0;
         SimEvent.resetID();
@@ -379,6 +404,12 @@ public class EventList {
         if (isStopAtTime()) {
             stopAtTime(getStopTime());
         }
+        synchronized(entryCounterMutex) {
+            entryCounter--;
+            if (entryCounter < 0) {
+                entryCounter = 0;
+            }
+        }
     }
     
     /** Removes all SimEventListeners and PropertyChangelisteners
@@ -397,8 +428,8 @@ public class EventList {
         }
     }
     
-    /** Empties event list and returns each <CODE>SimEvent</CODE>
-     * to the pool.
+    /** 
+     * Empties event list.
      */    
     protected void clearEventList() {
         eventList.clear();
@@ -408,9 +439,10 @@ public class EventList {
     /** Removes all cancelled events from the front of the
      * Event List.  This should not be as necessary
      * as it once was.
+     * Should only be called from inside a block synchronized on "eventList"
      */    
     protected void clearDeadEvents() {
-        while ( !eventList.isEmpty() ) {
+        while (!eventList.isEmpty()) {
             SimEvent simEvent = (SimEvent) eventList.first();
             if (!simEvent.isPending()) {
                 eventList.remove(simEvent);
@@ -525,8 +557,18 @@ public class EventList {
      * notify its listeners of the event.
      */    
     public void startSimulation() {
-        if (isRunning()) {
-            throw new RuntimeException("Simulation already running!");
+        synchronized(entryCounterMutex) {
+            if (entryCounter > 0) {
+                entryCounter--;
+                throw new SimkitConcurrencyException();
+            }
+            entryCounter++;
+            if (isRunning()) {
+                if (entryCounter > 0) {
+                    entryCounter--;
+                }
+                throw new RuntimeException("Simulation already running!");
+            }
         }
         running = true;
         
@@ -536,9 +578,18 @@ public class EventList {
             System.err.println("Press [Enter] for next step; (s)top, (g)o or (f)inish");
         }
         
-        while (!eventList.isEmpty() && isRunning()) {
-            currentSimEvent = (SimEvent) eventList.first();
-            eventList.remove(currentSimEvent);
+        while (isRunning()) {
+            synchronized(eventList) {
+                if (stoppingSimulation) {
+                    eventList.clear();
+                    stoppingSimulation = false;
+                }
+                if (eventList.isEmpty()) {
+                    break;
+                } 
+                currentSimEvent = (SimEvent) eventList.first();
+                eventList.remove(currentSimEvent);
+            }
             if (fastInterrupts) {
                 removeFromEntityEventMap(currentSimEvent);
                 removeFromHashEventMap(currentSimEvent);
@@ -563,6 +614,12 @@ public class EventList {
             currentSimEvent = null;
         }
         running = false;
+        synchronized(entryCounterMutex) {
+            entryCounter--;
+            if (entryCounter < 0) {
+                entryCounter = 0;
+            }
+        }
     }
     
     /** Processed events one at a time based on
@@ -601,6 +658,8 @@ public class EventList {
     
     /** Adds one to the number of this event that have occured.
      * Used for <CODE>stopOnEvent</CODE>
+     * This method is not synchronized since it is only called from startSimulation(),
+     * which is protected from being entered multiple times.
      * @param event event to update counts
      */    
     protected void updateEventCounts(SimEvent event) {
@@ -609,10 +668,8 @@ public class EventList {
             serial = new int[] { 0 };
             eventCounts.put(event.getFullMethodName(), serial);
         }
-        synchronized(serial) {
-            serial[0]++;
-            event.setSerial(serial[0]);
-        }
+        serial[0]++;
+        event.setSerial(serial[0]);
     }
 
     /** Stops simulation if the number of stop events
@@ -636,10 +693,11 @@ public class EventList {
         }
     }
     
-    /** Clear event list and set running to false. */    
+/**
+* Sets a flag to cause the startSimulation() loop to clear the event list and exit.
+**/
     public void stopSimulation() {
-        clearEventList();
-        running = false;
+        stoppingSimulation = true;
     }
     
     /** Cancel next event of given name (regardless of
@@ -648,8 +706,8 @@ public class EventList {
      * @param eventName Name of event to cancel
      */    
     public void interrupt(SimEntity simEntity, String eventName) {
-        clearDeadEvents();
         synchronized(eventList) {
+            clearDeadEvents();
             Set events = null;
             if (fastInterrupts) {
                 events = (Set)entityEventMap.get(simEntity);
@@ -688,8 +746,8 @@ public class EventList {
      */    
     public void interrupt(SimEntity simEntity, String eventName,
             Object[] parameters) {
-        clearDeadEvents();
         synchronized(eventList) {
+            clearDeadEvents();
             Set events = null;
             if (fastInterrupts) {
                 Integer hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
@@ -726,8 +784,8 @@ public class EventList {
      * @param simEntity SimEntity to have events cancelled
      */    
     public void interruptAll(SimEntity simEntity) {
-        clearDeadEvents();
         synchronized(eventList) {
+            clearDeadEvents();
             if (fastInterrupts) {
                 Set events = (Set)entityEventMap.get(simEntity);
                 if (events == null) {
@@ -760,8 +818,8 @@ public class EventList {
      * @param eventName Name of event
      */    
     public void interruptAll(SimEntity simEntity, String eventName) {
-        clearDeadEvents();
         synchronized(eventList) {
+            clearDeadEvents();
             Set events = null;
             if (fastInterrupts) {
                 events = (Set)entityEventMap.get(simEntity);
@@ -799,8 +857,8 @@ public class EventList {
      */    
     public void interruptAll(SimEntity simEntity, String eventName,
         Object[] parameters) {
-        clearDeadEvents();
         synchronized(eventList) {
+            clearDeadEvents();
             Set events = null;
             if (fastInterrupts) {
                 Integer hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
@@ -888,8 +946,16 @@ public class EventList {
      * and various booleans are set to their default
      * values (typically <CODE>false</CODE>).
      */    
-    public synchronized void coldReset() {
-        stopSimulation();
+    public void coldReset() {
+        synchronized(entryCounterMutex) {
+            if (entryCounter > 0) {
+                entryCounter--;
+                throw new SimkitConcurrencyException();
+            }
+            entryCounter++;
+        }
+        clearEventList();
+        running = false;
         clearRerun();
         simTime = 0.0;
         ignoreOnDump.clear();
@@ -900,6 +966,12 @@ public class EventList {
         setSingleStep(false);
         setPauseAfterEachEvent(false);
         setFastInterrupts(true);
+        synchronized(entryCounterMutex) {
+            entryCounter--;
+            if (entryCounter < 0) {
+                entryCounter = 0;
+            }
+        }
     }
     
     /** For debugging purposes - returns a String depicting the
@@ -907,8 +979,7 @@ public class EventList {
      * @param reason User message to be appended to event list
      * @return String version of current event and event list
      */    
-    public synchronized String getEventListAsString(String reason) {
-        clearDeadEvents();
+    public String getEventListAsString(String reason) {
         StringBuffer buf = new StringBuffer();
         if (currentSimEvent != null) {
             buf.append("Time: ");
@@ -928,12 +999,13 @@ public class EventList {
         buf.append(" **");
 
         buf.append(SimEntity.NL);
-        if (eventList.isEmpty()) {
-            buf.append("            << empty >>");
-            buf.append(SimEntity.NL);
-        }
-        else {
-            synchronized(eventList) {
+        synchronized(eventList) {
+            clearDeadEvents();
+            if (eventList.isEmpty()) {
+                buf.append("            << empty >>");
+                buf.append(SimEntity.NL);
+            }
+            else {
                 for (Iterator i = eventList.iterator(); i.hasNext(); ) {
                     SimEvent simEvent = (SimEvent) i.next();
                     if (ignoreOnDump.contains(simEvent.getEventName())) {
@@ -959,6 +1031,12 @@ public class EventList {
         return buf.toString();
     }
     
+/**
+* @deprecated No replacement. Can cause 2 problems: 1) The Comparator used is not
+* consistent with equals, which can cause problems with the underlying TreeSet.
+* 2) Changes the underlying eventList SortedSet, which can cause problems
+* with syncrhonizing in a multi-threaded environment.
+**/
     public void setSimEventPrecision(double precision) {
         this.precision = precision;
         SortedSet temp = Collections.synchronizedSortedSet(new TreeSet(new SimEventComp(precision)));
@@ -970,7 +1048,7 @@ public class EventList {
      * @return shallow copy of actual events.  To be used by subclasses only
      * for debugging purposes.
      */
-    protected synchronized SortedSet getEventList() {
+    protected SortedSet getEventList() {
         return Collections.synchronizedSortedSet(new TreeSet(eventList));
     }
 
