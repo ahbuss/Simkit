@@ -9,10 +9,16 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
+import java.util.logging.*;
 
 import simkit.SimEntity;
 import simkit.SimEntityBase;
+import simkit.Schedule;
 
 /**
  * A referee to manage interactions between Sensors and Movers (targets).<P/>
@@ -48,6 +54,10 @@ import simkit.SimEntityBase;
  * @version $Id$
  */
 public class SensorTargetReferee extends SimEntityBase implements PropertyChangeListener {
+
+    public static final String _VERSION_ = "$Id";
+
+    public static Logger log = Logger.getLogger("simkit.smdx");
     
 /**
 * Holds the Sensors registered with this referee.
@@ -63,6 +73,13 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 * Holds the instance of the SensorTargetMediatorFactory.
 **/
     protected MediatorFactory sensorTargetMediatorFactory;
+
+/**
+* Indicates whether the Mover is in range of the Sensor. The
+* value will be changed by the EnterRange and ExitRange events.
+* Map<Sensor, Map<Mover, Boolean>>
+**/
+    protected Map inRangeMap;
     
 /**
 * If true, all entities will be unregistered if <CODE>reset<CODE/>
@@ -77,6 +94,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     public SensorTargetReferee() {
         sensors = new LinkedHashMap();
         targets = new LinkedHashMap();
+        inRangeMap = new LinkedHashMap();
         setClearOnReset(false);
         sensorTargetMediatorFactory = SensorTargetMediatorFactory.getInstance();
     }
@@ -197,10 +215,21 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         Point2D targetVelocity = target.getVelocity();
         for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
             Sensor sensor = (Sensor) i.next();
+            Map targetInside = (Map)inRangeMap.get(sensor);//Map<Mover, Boolean>
+            if (targetInside == null) {
+                targetInside = new LinkedHashMap();
+                inRangeMap.put(sensor, targetInside);
+                log.warning(Schedule.getSimTime() + ": Processing a Sensor that may not have "
+                        + "been registered with this referee. Sensor=" + sensor);
+            }
             if (target == sensor.getMover()) { continue; }
             Object[] pair = new Object[] { sensor, target };
+            Boolean inRange = (Boolean)targetInside.get(target);
+            if (inRange == null) {//if its not in the map, use the geometry to determine
+                inRange = Boolean.valueOf(sensor.getFootprint().contains(target.getLocation()));
+            }
             double time = findIntersectionTime(sensor, target);
-            if (sensor.getFootprint().contains(targetLocation)) {
+            if (inRange.booleanValue()) {
                 interrupt("ExitRange", pair);
                 if (time < Double.POSITIVE_INFINITY) {
                     waitDelay("ExitRange", time, pair);
@@ -221,12 +250,23 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     protected void processSensor(Sensor sensor) {
         Point2D sensorLocation = sensor.getLocation();
         Point2D sensorVelocity = sensor.getVelocity();
+        Map targetInside = (Map)inRangeMap.get(sensor);//Map<Mover, Boolean>
+        if (targetInside == null) {
+            targetInside = new LinkedHashMap();
+            inRangeMap.put(sensor, targetInside);
+            log.warning(Schedule.getSimTime() + ": Processing a Sensor that may not have "
+                    + "been registered with this referee. Sensor=" + sensor);
+        }
         for (Iterator i = targets.keySet().iterator(); i.hasNext(); ) {
             Mover target = (Mover) i.next();
             if (target == sensor.getMover()) { continue; }
+            Boolean inRange = (Boolean)targetInside.get(target);
+            if (inRange == null) {//if its not in the map, use the geometry to determine
+                inRange = Boolean.valueOf(sensor.getFootprint().contains(target.getLocation()));
+            }
             Object[] pair = new Object[] { sensor, target };
             double time = findIntersectionTime(sensor, target);
-            if (sensor.getFootprint().contains(target.getLocation())) {
+            if (inRange.booleanValue()) {
                 interrupt("ExitRange", pair);
                 if (time < Double.POSITIVE_INFINITY) {
                     waitDelay("ExitRange", time, pair);
@@ -319,14 +359,30 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 * of the Sensor.
 **/
     public void doEnterRange(Sensor sensor, Mover target) {
+        Map targetInRange = (Map)inRangeMap.get(sensor);
+        if (targetInRange == null) {
+            targetInRange= new LinkedHashMap();
+            inRangeMap.put(sensor, targetInRange);
+            log.warning(Schedule.getSimTime() + ": Processing a Sensor that may not have "
+                    + "been registered with this referee. Sensor=" + sensor);
+        }
+        targetInRange.put(target, Boolean.TRUE);
         double exitTime = findIntersectionTime(sensor, target);
         waitDelay("ExitRange", exitTime, new Object[] { sensor, target} );
     }
     
 /**
-* Does nothing.
+* Sets the in range state of the pair to false.
 **/
     public void doExitRange(Sensor sensor, Mover target) {
+        Map targetInRange = (Map)inRangeMap.get(sensor);
+        if (targetInRange == null) {
+            targetInRange= new LinkedHashMap();
+            inRangeMap.put(sensor, targetInRange);
+            log.warning(Schedule.getSimTime() + ": Processing a Sensor that may not have "
+                    + "been registered with this referee. Sensor=" + sensor);
+        }
+        targetInRange.put(target, Boolean.FALSE);
     }
     
 /**
@@ -349,6 +405,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     public void clearAll() {
         sensors.clear();
         targets.clear();
+        inRangeMap.clear();
     }
     
 /**
