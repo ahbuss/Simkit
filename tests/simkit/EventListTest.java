@@ -1878,6 +1878,66 @@ public class EventListTest extends TestCase {
         }
     }
 
+    public void testBug1205() {
+        eventList.scheduleEvent(event1);
+        eventList.scheduleEvent(event2);
+        eventList.scheduleEvent(event3);
+        eventList.scheduleEvent(event4);
+        eventList.scheduleEvent(event5);
+        eventList.scheduleEvent(event1a);
+        eventList.scheduleEvent(event2a);
+        eventList.scheduleEvent(event3a);
+        eventList.scheduleEvent(event4a);
+        eventList.scheduleEvent(event5a);
+        assertFalse(eventList.eventList.isEmpty());
+        assertFalse(eventList.entityEventMap.isEmpty());
+        assertFalse(eventList.hashEventMap.isEmpty());
+        eventList.clearEventList();
+        assertTrue(eventList.eventList.isEmpty());
+        assertTrue(eventList.entityEventMap.isEmpty());
+        assertTrue(eventList.hashEventMap.isEmpty());
+    }
+
+    public void testBug1205a() {
+        eventList.scheduleEvent(event1);
+        eventList.scheduleEvent(event2);
+        eventList.scheduleEvent(event3);
+        eventList.scheduleEvent(event4);
+        eventList.scheduleEvent(event5);
+        eventList.scheduleEvent(event1a);
+        eventList.scheduleEvent(event2a);
+        eventList.scheduleEvent(event3a);
+        eventList.scheduleEvent(event4a);
+        eventList.scheduleEvent(event5a);
+        assertFalse(eventList.eventList.isEmpty());
+        assertFalse(eventList.entityEventMap.isEmpty());
+        assertFalse(eventList.hashEventMap.isEmpty());
+        eventList.reset();
+        assertTrue(eventList.eventList.isEmpty());
+        assertTrue(eventList.entityEventMap.isEmpty());
+        assertTrue(eventList.hashEventMap.isEmpty());
+    }
+
+    public void testBug1205b() {
+        eventList.scheduleEvent(event1);
+        eventList.scheduleEvent(event2);
+        eventList.scheduleEvent(event3);
+        eventList.scheduleEvent(event4);
+        eventList.scheduleEvent(event5);
+        eventList.scheduleEvent(event1a);
+        eventList.scheduleEvent(event2a);
+        eventList.scheduleEvent(event3a);
+        eventList.scheduleEvent(event4a);
+        eventList.scheduleEvent(event5a);
+        assertFalse(eventList.eventList.isEmpty());
+        assertFalse(eventList.entityEventMap.isEmpty());
+        assertFalse(eventList.hashEventMap.isEmpty());
+        eventList.coldReset();
+        assertTrue(eventList.eventList.isEmpty());
+        assertTrue(eventList.entityEventMap.isEmpty());
+        assertTrue(eventList.hashEventMap.isEmpty());
+    }
+
 /**
 * Stores the events it hears in a List in the order it heard them.
 **/

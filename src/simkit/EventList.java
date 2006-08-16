@@ -434,6 +434,12 @@ public class EventList {
     protected void clearEventList() {
         eventList.clear();
         eventCounts.clear();
+        if (entityEventMap != null) {
+            entityEventMap.clear();
+        }
+        if (hashEventMap != null) {
+            hashEventMap.clear();
+        }
     }
     
     /** Removes all cancelled events from the front of the
