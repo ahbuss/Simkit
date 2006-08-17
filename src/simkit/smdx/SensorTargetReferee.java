@@ -219,8 +219,6 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             if (targetInside == null) {
                 targetInside = new LinkedHashMap();
                 inRangeMap.put(sensor, targetInside);
-                log.warning(Schedule.getSimTime() + ": Processing a Sensor that may not have "
-                        + "been registered with this referee. Sensor=" + sensor);
             }
             if (target == sensor.getMover()) { continue; }
             Object[] pair = new Object[] { sensor, target };
@@ -254,8 +252,6 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         if (targetInside == null) {
             targetInside = new LinkedHashMap();
             inRangeMap.put(sensor, targetInside);
-            log.warning(Schedule.getSimTime() + ": Processing a Sensor that may not have "
-                    + "been registered with this referee. Sensor=" + sensor);
         }
         for (Iterator i = targets.keySet().iterator(); i.hasNext(); ) {
             Mover target = (Mover) i.next();
@@ -363,8 +359,6 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         if (targetInRange == null) {
             targetInRange= new LinkedHashMap();
             inRangeMap.put(sensor, targetInRange);
-            log.warning(Schedule.getSimTime() + ": Processing a Sensor that may not have "
-                    + "been registered with this referee. Sensor=" + sensor);
         }
         targetInRange.put(target, Boolean.TRUE);
         double exitTime = findIntersectionTime(sensor, target);
@@ -379,8 +373,6 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         if (targetInRange == null) {
             targetInRange= new LinkedHashMap();
             inRangeMap.put(sensor, targetInRange);
-            log.warning(Schedule.getSimTime() + ": Processing a Sensor that may not have "
-                    + "been registered with this referee. Sensor=" + sensor);
         }
         targetInRange.put(target, Boolean.FALSE);
     }
