@@ -590,7 +590,7 @@ public class Math2D {
         
         double[] sol = new double[2];
         int numSol = QuadCurve2D.solveQuadratic(coeff, sol);
-        if (numSol == 0) {
+        if (numSol <= 0) {
             return null;
         }
         double time = Math2D.smallestPositive(sol);
