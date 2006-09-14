@@ -7,6 +7,7 @@
 package simkit.random;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import simkit.BasicSimEntity;
 
 /**
  * Generates interarrival times for a Non-homogenious (non-stationary) Poisson Process.
@@ -18,12 +19,12 @@ import java.lang.reflect.Method;
  * @author  Arnold Buss
  * @version $Id$
  */
-public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
+public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVariate {
     
 /**
 * The time to start the process.
 **/
-    private double startTime;
+    protected double startTime;
 
 /**
 * The instance of the supporting RandomNumber.
@@ -43,12 +44,12 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
 /**
 * The last unit rate arrival time.
 **/
-    private double lastUnitRatePoisson;
+    protected double lastUnitRatePoisson;
 
 /**
 * The last actual arrival time.
 **/
-    private double lastGeneratedTime;
+    protected double lastGeneratedTime;
 
 /**
 * Holds the argument for the inverse expectation function.
@@ -62,6 +63,13 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
         rng = RandomNumberFactory.getInstance();
         arg = new Object[1];
     }
+    
+    public void reset() {
+        super.reset();
+        startTime = getEventList().getSimTime();
+        lastUnitRatePoisson = getStartTime();
+        lastGeneratedTime = getStartTime();
+    }
 
     /**
      * Generate a random variate having this class's distribution.
@@ -69,10 +77,10 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
      */
     public double generate() {
         lastUnitRatePoisson -= Math.log(rng.draw());
-        arg[0] = new Double(lastUnitRatePoisson);
+        arg[0] = new Double(getLastUnitRatePoisson());
         try {
             Number num = (Number) this.inverseIntegratedRate.invoke(rateInvoker, arg ); 
-            double inter = num.doubleValue() - this.lastGeneratedTime;
+            double inter = num.doubleValue() - this.getLastGeneratedTime();
             lastGeneratedTime = num.doubleValue();
             return inter;
         }
@@ -87,7 +95,7 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
       * the Object in which the inverse function exists, and the start time.
      */
     public Object[] getParameters() {
-        return new Object[] { inverseIntegratedRate, rateInvoker, new Double(startTime) };
+        return new Object[] { getInverseIntegratedRate(), getRateInvoker() };
     }
     
     /**
@@ -107,17 +115,26 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
       * 3 elements.
      */
     public void setParameters(Object[] params) {
-        if (params.length != 3)  {
+        if (params.length != 2)  {
             throw new IllegalArgumentException(
-                "NHPoissonProcessVariate requires 3 parameters: " +
-                "(<reference to Lambda-inverse Method>, <object method belongs to>, "+
-                " (start time)");
+                "NHPoissonProcessVariate requires 2 parameters: " +
+                "(<Lambda-inverse Method>, <object method belongs to>");
         }
-        this.setInverseIntegratedRate((Method) params[0] );
         this.setRateInvoker(params[1]);
-        if (params.length == 3) {
-           this.setStartTime(((Number) params[2]).doubleValue());
-        } 
+        Method method = null;
+        if (params[0] instanceof Method) {
+            method = (Method) params[0];
+        }
+        else if (params[0] instanceof String) {
+            Class clazz = getRateInvoker().getClass();
+            try {
+                method = clazz.getMethod(params[0].toString(), new Class[] { double.class } );
+            }
+            catch (NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        this.setInverseIntegratedRate(method );
     }
     
     /** Sets the supporting RandomNumber object
@@ -148,20 +165,6 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
     public Object getRateInvoker() { return rateInvoker; }
     
 /**
-* Sets the time to start the process.
-**/
-    public void setStartTime(double time) { 
-        if (time >= 0.0) {
-            this.startTime = time;
-            this.lastUnitRatePoisson = getStartTime();
-            this.lastGeneratedTime = getStartTime();
-        } else {
-           throw new IllegalArgumentException("Start time must be non-negative: " + 
-               time);
-        }
-    }
-
-/**
 * Returns the time the process started.
 **/
     public double getStartTime() { return startTime; }
@@ -172,10 +175,30 @@ public class NHPoissonProcessVariate implements simkit.random.RandomVariate {
 * invoked, and the start time.
 **/
     public String toString() {
-        return "Non-Homogeneous Poisson Interarrival Times (" +
+        return "Non-Homogeneous Poisson - Inverse Transform (" +
             this.getInverseIntegratedRate().getName() + ", " +
-            this.getRateInvoker() + ", " +
-            this.getStartTime() + ")";
+            this.getRateInvoker() +  ")";
     }
-        
+
+    public String stateString() {
+        return "State: " +
+                "startTime = " + getStartTime() + " lastUnitRatePoisson = " +
+                getLastUnitRatePoisson() + " lastGenerateTime = " +
+                getLastGeneratedTime() ;
+    }
+    
+    public void handleSimEvent(simkit.SimEvent event) {
+    }
+
+    public void processSimEvent(simkit.SimEvent event) {
+    }
+
+    public double getLastUnitRatePoisson() {
+        return lastUnitRatePoisson;
+    }
+
+    public double getLastGeneratedTime() {
+        return lastGeneratedTime;
+    }
+    
 }
