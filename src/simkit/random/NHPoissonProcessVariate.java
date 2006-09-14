@@ -84,10 +84,8 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
             lastGeneratedTime = num.doubleValue();
             return inter;
         }
-        catch (IllegalAccessException e) { System.err.println(e);}
-        catch (InvocationTargetException e) { System.err.println(e.getTargetException());}
-        finally{}
-        return Double.NaN;
+        catch (IllegalAccessException e) { throw new RuntimeException(e);}
+        catch (InvocationTargetException e) { throw new RuntimeException(e.getTargetException());}
     }
     
     /**
