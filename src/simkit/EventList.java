@@ -752,11 +752,12 @@ public class EventList {
      */    
     public void interrupt(SimEntity simEntity, String eventName,
             Object[] parameters) {
+        Integer hash = null;
         synchronized(eventList) {
             clearDeadEvents();
             Set events = null;
             if (fastInterrupts) {
-                Integer hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
+                hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
                 events = (Set)hashEventMap.get(hash);
             } else {
                 events = eventList;
@@ -782,6 +783,9 @@ public class EventList {
                         }
                         break;
                 }
+            }
+            if (fastInterrupts) {
+                cleanUpHashEventMap(hash);
             }
         }
     }
@@ -863,11 +867,12 @@ public class EventList {
      */    
     public void interruptAll(SimEntity simEntity, String eventName,
         Object[] parameters) {
+        Integer hash = null;
         synchronized(eventList) {
             clearDeadEvents();
             Set events = null;
             if (fastInterrupts) {
-                Integer hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
+                hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
                 events = (Set)hashEventMap.get(hash);
             } else {
                 events = eventList;
@@ -891,6 +896,9 @@ public class EventList {
                         //removeFromHashEventMap(simEvent);
                     }
                 }
+            }
+            if (fastInterrupts) {
+                cleanUpHashEventMap(hash);
             }
         }
     }
@@ -1179,11 +1187,25 @@ public class EventList {
         boolean temp = false;
         if (events != null) {
             temp = events.remove(event);
+            if (events.isEmpty()) {
+                hashEventMap.remove(hash);
+            }
         }
         if (!temp) {
             log.warning(getSimTime() + ": The following SimEvent was not found in the "
                 + " hash event Map." + event);
         }
         return temp;
+    }
+
+/**
+* Removes the entry for the given hash code if there are no more
+* events.
+**/
+    protected void cleanUpHashEventMap(Integer hash) {
+        SortedSet events = (SortedSet)hashEventMap.get(hash);
+        if (events != null && events.isEmpty()) {
+            hashEventMap.remove(hash);
+        }
     }
 }
