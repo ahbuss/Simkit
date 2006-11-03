@@ -12,7 +12,7 @@ import java.text.NumberFormat;
  * @version $Id$
  *
  **/
-public class SimEvent {
+public class SimEvent implements Comparable {
     
     // static variables
     
@@ -444,6 +444,44 @@ public class SimEvent {
             }
         }
         return new Integer(temp);
+    }
+
+/**
+* Compares this SimEvent to another SimEvent.
+* The order of importance regarding scheduling is
+* as follows:
+*
+* <br>
+*
+* 1. Scheduled time of the events (Earlier time is a higher priority.) <br>
+* 2. Priority of the SimEvents. (A larger number is a higher priority.) <BR>
+* 3. Priorities of the SimEntities that own the SimEvents (A larger number
+* is a higher priority.) <br>
+* 4. The SimTime the SimEvents were instantiated. (An earlier creation time
+* is a higher priority.) <br>
+* 5. The ID number of the event. (A lower ID number is a higher priority.) <BR/>
+**/
+
+    public int compareTo(Object snd) {
+//Copied from SimEventComp 1.6
+        Object fst = this;
+        if (fst.equals(snd)) {return 0;}
+        if (snd.equals(fst)) {return 0;}
+
+        SimEvent a = (SimEvent)fst;
+        SimEvent b = (SimEvent)snd;
+
+        if ( a.getScheduledTime() > b.getScheduledTime()) return 1;
+        if ( a.getScheduledTime() < b.getScheduledTime() ) return -1;
+        if ( a.getEventPriority() < b.getEventPriority() ) return 1;
+        if ( a.getEventPriority() > b.getEventPriority() ) return -1;
+        if ( a.getOwnerPriority() > b.getOwnerPriority() ) return -1;
+        if ( a.getOwnerPriority() < b.getOwnerPriority() ) return 1;
+        if ( a.getCreationTime()  > b.getCreationTime() )  return 1;
+        if ( a.getCreationTime()  < b.getCreationTime() )  return -1;
+        if ( a.getID()        > b.getID() )        return 1;
+        if ( a.getID()        < b.getID() )        return -1;
+        return 0;
     }
 } // class SimEvent
 

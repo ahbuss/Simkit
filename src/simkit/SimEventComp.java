@@ -4,6 +4,8 @@ import java.util.Comparator;
 
 /**
  * Binary predicate (comparator) for simkit SimEvents.
+ * Should only be used if the precision is needed since SimEvents are
+ * comparable.
  *
  * This functor is used to prioritize events on the
  * Schedule, and in the individual SimEntities active

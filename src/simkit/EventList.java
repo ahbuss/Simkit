@@ -208,7 +208,7 @@ public class EventList {
  * @param id The id number for this <CODE>EventGraph</CODE> instance
  */
     public EventList(int id) {
-        eventList = Collections.synchronizedSortedSet(new TreeSet(new SimEventComp()));
+        eventList = Collections.synchronizedSortedSet(new TreeSet());
         simTime = 0.0;
         running = false;
         eventCounts = new LinkedHashMap();
@@ -1050,6 +1050,7 @@ public class EventList {
 * consistent with equals, which can cause problems with the underlying TreeSet.
 * 2) Changes the underlying eventList SortedSet, which can cause problems
 * with syncrhonizing in a multi-threaded environment.
+* <p/>If precision is used, make sure fastInterrupts is false.
 **/
     public void setSimEventPrecision(double precision) {
         this.precision = precision;
@@ -1115,7 +1116,7 @@ public class EventList {
         SimEntity source = event.getSource();
         SortedSet events = (SortedSet) entityEventMap.get(source);
         if (events == null) {
-            events = new TreeSet(new SimEventComp());
+            events = new TreeSet();
             entityEventMap.put(source, events);
         }
         boolean temp = events.add(event);
@@ -1162,7 +1163,7 @@ public class EventList {
         Integer hash = event.getEventHash();
         SortedSet events = (SortedSet)hashEventMap.get(hash);
         if (events == null) {
-            events = new TreeSet(new SimEventComp());
+            events = new TreeSet();
             hashEventMap.put(hash, events);
         }
         boolean temp = events.add(event);

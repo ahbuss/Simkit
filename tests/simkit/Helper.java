@@ -6,7 +6,7 @@ import java.util.SortedSet;
 * Used to access protected things for testing.
 *
 * @author John Ruck (Rolands and Associates Corporation)
-* @version $Id
+* @version $Id$
 **/
 public class Helper {
 
