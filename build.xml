@@ -4,8 +4,8 @@
 <!-- (If you delete it and reopen the project it will be recreated.) -->
 <project default="help">
     <description>Builds, tests, and runs the project NewSimkit.</description>
-    <import file="nbproject/build-impl.xml"/>
     <import file="build-orig.xml"/>
+    <import file="nbproject/build-impl.xml"/>
     <!--
 
     There exist several targets which are by default empty and which can be 
