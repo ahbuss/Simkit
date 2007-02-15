@@ -3,7 +3,7 @@ package simkit;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.logging.*;
+import java.util.logging.Logger;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +45,8 @@ import java.util.TreeSet;
 public class EventList {
 
     public static Logger log = Logger.getLogger("simkit");
+    
+    public static final String _VERSION_ = "$Id$";
 
 /**
 * The default setting for fastInterrupts (TRUE).
@@ -54,7 +56,7 @@ public class EventList {
 /**
  * Holds the pending events.
  */
-    protected SortedSet eventList;
+    protected SortedSet<SimEvent> eventList;
     
 /**
  * The current simulation time.
@@ -69,7 +71,7 @@ public class EventList {
 /**
  * Holds the number of times each type of event has been processed.
  */
-    private HashMap eventCounts;
+    private HashMap<String, int[]> eventCounts;
     
 /**
  * If true causes the event list to be printed prior
@@ -99,7 +101,7 @@ public class EventList {
  * Note: It is up to the SimEntity to add itself. (This is
  * implemented in BasicSimEntity.)
  */
-    private SortedSet reRun;
+    private SortedSet<SimEntity> reRun;
     
 /**
  * The name of the event to stop on after it
@@ -142,7 +144,7 @@ public class EventList {
 /**
  * List of events that are not dumped in Event List
  */
-    private HashSet ignoreOnDump;
+    private HashSet<String> ignoreOnDump;
     
 /**
  * The identifying number of this <CODE>EventList</CODE> instance.  It is 
@@ -179,12 +181,12 @@ public class EventList {
 /**
 * A Map a SimEntity to a SortedSet of its pending SimEvents.
 **/
-    protected Map entityEventMap;
+    protected Map<SimEntity, SortedSet<SimEvent>> entityEventMap;
 
 /**
 * A Map from a SimEvent.getEventHash() (an Integer) to a SortedSet of pending events.
 **/
-    protected Map hashEventMap;
+    protected Map<Integer, SortedSet<SimEvent>> hashEventMap;
 
 /**
 * A count of the number of threads in startSimulation, reset(), and coldReset().
@@ -208,12 +210,13 @@ public class EventList {
  * @param id The id number for this <CODE>EventGraph</CODE> instance
  */
     public EventList(int id) {
-        eventList = Collections.synchronizedSortedSet(new TreeSet());
+        eventList = Collections.synchronizedSortedSet(
+                new TreeSet<SimEvent>());
         simTime = 0.0;
         running = false;
-        eventCounts = new LinkedHashMap();
-        reRun = Collections.synchronizedSortedSet(new TreeSet(new SimEntityComparator()));
-        ignoreOnDump = new LinkedHashSet();
+        eventCounts = new LinkedHashMap<String, int[]>();
+        reRun = Collections.synchronizedSortedSet(new TreeSet<SimEntity>());
+        ignoreOnDump = new LinkedHashSet<String>();
         this.id = id;
         setFormat("0.0000");
         this.precision = 0.0; 
@@ -373,7 +376,7 @@ public class EventList {
             entryCounter++;
         }
         if (isReallyVerbose()) {
-            System.out.println(getSimTime() + ": reset() called");
+            log.info(getSimTime() + ": reset() called");
         }
         clearEventList();
         running = false;
@@ -384,15 +387,15 @@ public class EventList {
             for (Iterator i = reRun.iterator(); i.hasNext(); ) {
                 SimEntity simEntity = (SimEntity) i.next();
                 if (isReallyVerbose()) {
-                    System.out.println(getSimTime() + ": Checking rerun " + 
+                    log.info(getSimTime() + ": Checking rerun " + 
                         simEntity + " [rerunnable?] " + 
                         simEntity.isReRunnable());
                 }
                 if (simEntity.isPersistant()) {
                     simEntity.reset();
                     if (simEntity.isReRunnable()) {
-                        simEntity.waitDelay("Run", 0.0, null,
-                        Double.POSITIVE_INFINITY);
+                        simEntity.waitDelay("Run", 0.0,
+                        Priority.HIGHEST);
                     }
                 }
                 else {
@@ -477,7 +480,7 @@ public class EventList {
         else {
             stopInstance.interruptAll("Stop", new Object[0]);
         }
-        stopInstance.waitDelay("Stop", getStopTime() - getSimTime(), null, Double.NEGATIVE_INFINITY);
+        stopInstance.waitDelay("Stop", getStopTime() - getSimTime(), Priority.LOWEST);
     }
     
     /** Sets stopOnEvent to true and other modes false.
@@ -549,7 +552,7 @@ public class EventList {
             }
         }
         if (isReallyVerbose()) {
-            System.out.println("\n" + getSimTime() + ": Event " + event + " Scheduled by " + 
+            log.info("\n" + getSimTime() + ": Event " + event + " Scheduled by " + 
                 event.getSource());
             //dump();
         }
@@ -602,7 +605,7 @@ public class EventList {
             }
             simTime = currentSimEvent.getScheduledTime();
             if (reallyVerbose) {
-                System.out.println(simTime + ": Processing " + currentSimEvent + 
+                log.info(simTime + ": Processing " + currentSimEvent + 
                     "  source=" + currentSimEvent.getSource());
             }
             
@@ -669,7 +672,7 @@ public class EventList {
      * @param event event to update counts
      */    
     protected void updateEventCounts(SimEvent event) {
-        int[] serial = (int[]) eventCounts.get(event.getFullMethodName());
+        int[] serial = eventCounts.get(event.getFullMethodName());
         if (serial == null) {
             serial = new int[] { 0 };
             eventCounts.put(event.getFullMethodName(), serial);
@@ -695,7 +698,7 @@ public class EventList {
     public void pause() {
         running = false;
         if (isVerbose()) {
-            System.out.println("Simulation is paused");
+            log.info("Simulation is paused");
         }
     }
     
@@ -714,17 +717,17 @@ public class EventList {
     public void interrupt(SimEntity simEntity, String eventName) {
         synchronized(eventList) {
             clearDeadEvents();
-            Set events = null;
+            Set<SimEvent> events = null;
             if (fastInterrupts) {
-                events = (Set)entityEventMap.get(simEntity);
+                events = entityEventMap.get(simEntity);
             } else {
                 events = eventList;
             }
             if (events == null) {
                 return;
             }
-            for (Iterator i = events.iterator(); i.hasNext(); ) {
-                SimEvent event = (SimEvent) i.next();
+            for (Iterator<SimEvent> i = events.iterator(); i.hasNext(); ) {
+                SimEvent event = i.next();
                 if ((event.getSource() == simEntity) &&
                     (event.getEventName().equals(eventName)) &&
                     (event.isPending())) {
@@ -751,28 +754,28 @@ public class EventList {
      * @param parameters edge parameters of cancelled event
      */    
     public void interrupt(SimEntity simEntity, String eventName,
-            Object[] parameters) {
+            Object... parameters) {
         Integer hash = null;
         synchronized(eventList) {
             clearDeadEvents();
-            Set events = null;
+            Set<SimEvent> events = null;
             if (fastInterrupts) {
                 hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
-                events = (Set)hashEventMap.get(hash);
+                events = hashEventMap.get(hash);
             } else {
                 events = eventList;
             }
             if (events == null) {
                 return;
             }
-            for (Iterator i = events.iterator(); i.hasNext(); ) {
-                SimEvent event = (SimEvent) i.next();
+            for (Iterator<SimEvent> i = events.iterator(); i.hasNext(); ) {
+                SimEvent event = i.next();
                 if ((event.getSource() == simEntity) &&
                     (event.getEventName().equals(eventName)) &&
                     (event.interruptParametersMatch(parameters)) &&
                     (event.isPending())) {
                         if (reallyVerbose) {
-                            System.out.println("\n" + getSimTime() 
+                            log.info("\n" + getSimTime() 
                                                 + ": Cancelling " + event); 
                         }
                         i.remove();
@@ -797,22 +800,21 @@ public class EventList {
         synchronized(eventList) {
             clearDeadEvents();
             if (fastInterrupts) {
-                Set events = (Set)entityEventMap.get(simEntity);
+                Set<SimEvent> events = entityEventMap.get(simEntity);
                 if (events == null) {
                     return;
                 }
                 eventList.removeAll(events);
-                for (Iterator itt = events.iterator(); itt.hasNext();) {
-                    SimEvent event = (SimEvent)itt.next();
+                for (SimEvent event : events) {
                     removeFromHashEventMap(event);
                 }
                 entityEventMap.put(simEntity, null);
             } else {
-                for (Iterator i = eventList.iterator(); i.hasNext(); ) {
-                    SimEvent simEvent = (SimEvent) i.next();
+                for (Iterator<SimEvent> i = eventList.iterator(); i.hasNext(); ) {
+                    SimEvent simEvent = i.next();
                     if (simEvent.getSource() == simEntity) {
                         if (reallyVerbose) {
-                            System.out.println("\n" + getSimTime() 
+                            log.info("\n" + getSimTime() 
                                                 + ": Cancelling " + simEvent); 
                         }
                         i.remove();
@@ -830,21 +832,21 @@ public class EventList {
     public void interruptAll(SimEntity simEntity, String eventName) {
         synchronized(eventList) {
             clearDeadEvents();
-            Set events = null;
+            Set<SimEvent> events = null;
             if (fastInterrupts) {
-                events = (Set)entityEventMap.get(simEntity);
+                events = entityEventMap.get(simEntity);
             } else {
                 events = eventList;
             }
             if (events == null) {
                 return;
             }
-            for (Iterator i = events.iterator(); i.hasNext(); ) {
-                SimEvent simEvent = (SimEvent) i.next();
+            for (Iterator<SimEvent> i = events.iterator(); i.hasNext(); ) {
+                SimEvent simEvent = i.next();
                 if ((simEvent.getSource() == simEntity) &&
                     (simEvent.getEventName().equals(eventName)) ){
                     if (reallyVerbose) {
-                        System.out.println("\n" + getSimTime() 
+                        log.info("\n" + getSimTime() 
                                             + ": Cancelling " + simEvent); 
                     }
                     i.remove();
@@ -859,34 +861,34 @@ public class EventList {
     }
     
     /** Cancel all events owned by this SimEntity
-     * of the givene name whos parameters exactly
+     * of the given name whos parameters exactly
      * match the given array.
      * @param simEntity SimEntity to have event cancelled
      * @param eventName Name of event to cancel
      * @param parameters edge parameters that must match
      */    
     public void interruptAll(SimEntity simEntity, String eventName,
-        Object[] parameters) {
+        Object... parameters) {
         Integer hash = null;
         synchronized(eventList) {
             clearDeadEvents();
-            Set events = null;
+            Set<SimEvent> events = null;
             if (fastInterrupts) {
                 hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
-                events = (Set)hashEventMap.get(hash);
+                events = hashEventMap.get(hash);
             } else {
                 events = eventList;
             }
             if (events == null) {
                 return;
             }
-            for (Iterator i = events.iterator(); i.hasNext(); ) {
-                SimEvent simEvent = (SimEvent) i.next();
+            for (Iterator<SimEvent> i = events.iterator(); i.hasNext(); ) {
+                SimEvent simEvent = i.next();
                 if ((simEvent.getSource() == simEntity) &&
                     (simEvent.getEventName().equals(eventName)) &&
                     (simEvent.interruptParametersMatch(parameters)) ){
                         if (reallyVerbose) {
-                            System.out.println("\n" + getSimTime() 
+                            log.info("\n" + getSimTime() 
                                                 + ": Cancelling " + simEvent); 
                         }
                     i.remove();
@@ -929,8 +931,8 @@ public class EventList {
      * current reRun list.
      * @return Copy of reRun list
      */    
-    public Set getRerun() {
-        return new LinkedHashSet(reRun);
+    public Set<SimEntity> getRerun() {
+        return new LinkedHashSet<SimEntity>(reRun);
     }
     
     /** Events of this name will not be printed in verbose mode.
@@ -951,8 +953,8 @@ public class EventList {
     /** For debugging purposes - returns a copy of the ignored events
      * @return Copy of ignored events
      */    
-    public Set getIgnoredEvents() {
-        return new LinkedHashSet(ignoreOnDump);
+    public Set<String> getIgnoredEvents() {
+        return new LinkedHashSet<String>(ignoreOnDump);
     }
 
     /** Resets instance to pristine condition, as if it were
@@ -972,6 +974,8 @@ public class EventList {
         running = false;
         clearRerun();
         simTime = 0.0;
+        SimEntityBase.coldReset();
+        SimEntityBaseProtected.coldReset();
         ignoreOnDump.clear();
         setDumpEventSources(false);
         setUserDefinedStop();
@@ -1045,26 +1049,12 @@ public class EventList {
         return buf.toString();
     }
     
-/**
-* @deprecated No replacement. Can cause 2 problems: 1) The Comparator used is not
-* consistent with equals, which can cause problems with the underlying TreeSet.
-* 2) Changes the underlying eventList SortedSet, which can cause problems
-* with syncrhonizing in a multi-threaded environment.
-* <p/>If precision is used, make sure fastInterrupts is false.
-**/
-    public void setSimEventPrecision(double precision) {
-        this.precision = precision;
-        SortedSet temp = Collections.synchronizedSortedSet(new TreeSet(new SimEventComp(precision)));
-        temp.addAll(eventList);
-        eventList = temp;
-    }
-    
     /**
      * @return shallow copy of actual events.  To be used by subclasses only
      * for debugging purposes.
      */
-    protected SortedSet getEventList() {
-        return Collections.synchronizedSortedSet(new TreeSet(eventList));
+    protected SortedSet<SimEvent> getEventList() {
+        return Collections.synchronizedSortedSet(new TreeSet<SimEvent>(eventList));
     }
 
 /**
@@ -1089,11 +1079,11 @@ public class EventList {
         }
         this.fastInterrupts = value;
         if (fastInterrupts) {
-            entityEventMap = Collections.synchronizedMap(new LinkedHashMap());
-            hashEventMap = Collections.synchronizedMap(new LinkedHashMap());
+            entityEventMap = 
+                    Collections.synchronizedMap(new LinkedHashMap<SimEntity, SortedSet<SimEvent>>());
+            hashEventMap = Collections.synchronizedMap(new LinkedHashMap<Integer, SortedSet<SimEvent>>());
             synchronized(eventList) {
-                for (Iterator itt = eventList.iterator(); itt.hasNext();) {
-                    SimEvent event = (SimEvent)itt.next();
+                for (SimEvent event : eventList) {
                     addToEntityEventMap(event);
                     addToHashEventMap(event);
                 }
@@ -1114,9 +1104,9 @@ public class EventList {
                 + "fastInterrupts was false");
         }
         SimEntity source = event.getSource();
-        SortedSet events = (SortedSet) entityEventMap.get(source);
+        SortedSet<SimEvent> events = entityEventMap.get(source);
         if (events == null) {
-            events = new TreeSet();
+            events = new TreeSet<SimEvent>();
             entityEventMap.put(source, events);
         }
         boolean temp = events.add(event);
@@ -1137,7 +1127,7 @@ public class EventList {
                 + "fastInterrupts was false");
         }
         SimEntity source = event.getSource();
-        SortedSet events = (SortedSet) entityEventMap.get(source);
+        SortedSet<SimEvent> events = entityEventMap.get(source);
         if (events == null) {
             log.warning(getSimTime() + ": There are no events for the owner of the SimEvent "
                 + " in the entity hash. The event was " + event);
@@ -1161,9 +1151,9 @@ public class EventList {
                 + "fastInterrupts was false");
         }
         Integer hash = event.getEventHash();
-        SortedSet events = (SortedSet)hashEventMap.get(hash);
+        SortedSet<SimEvent> events = hashEventMap.get(hash);
         if (events == null) {
-            events = new TreeSet();
+            events = new TreeSet<SimEvent>();
             hashEventMap.put(hash, events);
         }
         boolean temp = events.add(event);
@@ -1184,7 +1174,7 @@ public class EventList {
                 + "fastInterrupts was false");
         }
         Integer hash = event.getEventHash();
-        SortedSet events = (SortedSet)hashEventMap.get(hash);
+        SortedSet<SimEvent> events = hashEventMap.get(hash);
         boolean temp = false;
         if (events != null) {
             temp = events.remove(event);

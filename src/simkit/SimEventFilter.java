@@ -1,5 +1,10 @@
 package simkit;
-import java.util.*;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 /** <P>This class filters events by name.  A list of the names of
  * filtered events is kept, and selected events dispatched directly
  * to listeners to an instance of this class.
@@ -18,13 +23,13 @@ public class SimEventFilter extends simkit.BasicSimEntity {
     /** List of event names to either be passed through
      * or not passed through.
      */    
-    private Set events;
+    private Set<String> events;
     
     /** Construct an instance with the Collection's events filtered
      * @param ev Collection of event names
      */    
-    public SimEventFilter(Collection ev) {
-        events = new LinkedHashSet(ev);
+    public SimEventFilter(Collection<String> ev) {
+        events = new LinkedHashSet<String>(ev);
         setAllButTheseEvents(false);
     }
     
@@ -60,7 +65,7 @@ public class SimEventFilter extends simkit.BasicSimEntity {
     }
     
     public SimEventFilter() {
-        this(new LinkedHashSet());
+        this(new LinkedHashSet<String>());
     }
     
     /** Add an event to be filtered

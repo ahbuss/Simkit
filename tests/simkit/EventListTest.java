@@ -364,7 +364,7 @@ public class EventListTest extends TestCase {
         eventList.setFastInterrupts(true);
         assertTrue(eventList.addToHashEventMap(event1));
         Collection eventSets = (Collection)eventList.hashEventMap.values();
-        Set events = new TreeSet(new SimEventComp());
+        Set events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -378,7 +378,7 @@ public class EventListTest extends TestCase {
 //Try to add duplicate event.
         assertFalse(eventList.addToHashEventMap(event1));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -392,7 +392,7 @@ public class EventListTest extends TestCase {
 //Try to remove one that has never been added
         assertFalse(eventList.removeFromHashEventMap(event5));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -405,7 +405,7 @@ public class EventListTest extends TestCase {
 
         assertTrue(eventList.addToHashEventMap(event2));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -418,7 +418,7 @@ public class EventListTest extends TestCase {
 
         assertTrue(eventList.addToHashEventMap(event3));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -431,7 +431,7 @@ public class EventListTest extends TestCase {
 
         assertTrue(eventList.addToHashEventMap(event4));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -444,7 +444,7 @@ public class EventListTest extends TestCase {
 
         assertTrue(eventList.addToHashEventMap(event5));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -457,7 +457,7 @@ public class EventListTest extends TestCase {
 
         assertTrue(eventList.removeFromHashEventMap(event5));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -470,7 +470,7 @@ public class EventListTest extends TestCase {
 //Try to remove again.
         assertFalse(eventList.removeFromHashEventMap(event5));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -483,7 +483,7 @@ public class EventListTest extends TestCase {
 
         assertTrue(eventList.removeFromHashEventMap(event1));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -496,7 +496,7 @@ public class EventListTest extends TestCase {
 
         assertTrue(eventList.removeFromHashEventMap(event2));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -509,7 +509,7 @@ public class EventListTest extends TestCase {
 
         assertTrue(eventList.removeFromHashEventMap(event3));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -522,7 +522,7 @@ public class EventListTest extends TestCase {
 
         assertTrue(eventList.removeFromHashEventMap(event4));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -546,7 +546,7 @@ public class EventListTest extends TestCase {
         assertNull(eventList.entityEventMap);
         eventList.setFastInterrupts(true);
         Collection eventSets = (Collection)eventList.hashEventMap.values();
-        Set events = new TreeSet(new SimEventComp());
+        Set events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -600,7 +600,7 @@ public class EventListTest extends TestCase {
         assertFalse(eventList.eventList.contains(event4));
         assertFalse(eventList.eventList.contains(event5));
         Collection eventSets = (Collection)eventList.hashEventMap.values();
-        Set events = new TreeSet(new SimEventComp());
+        Set events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -635,7 +635,7 @@ public class EventListTest extends TestCase {
         assertFalse(eventList.eventList.contains(event4));
         assertFalse(eventList.eventList.contains(event5));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -670,7 +670,7 @@ public class EventListTest extends TestCase {
         assertFalse(eventList.eventList.contains(event4));
         assertFalse(eventList.eventList.contains(event5));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -710,7 +710,7 @@ public class EventListTest extends TestCase {
         assertTrue(eventList.eventList.contains(event4));
         assertFalse(eventList.eventList.contains(event5));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }
@@ -750,7 +750,7 @@ public class EventListTest extends TestCase {
         assertTrue(eventList.eventList.contains(event4));
         assertTrue(eventList.eventList.contains(event5));
         eventSets = (Collection)eventList.hashEventMap.values();
-        events = new TreeSet(new SimEventComp());
+        events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
             events.addAll((Set)itt.next());
         }

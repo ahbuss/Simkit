@@ -50,7 +50,7 @@ public class ConvolutionVariate extends RandomVariateBase {
      * @throws IllegalArgumentException If the array doesn't have 1 element, or if
      * the element is not an array of RandomVariates.
      */    
-    public void setParameters(Object[] obj) {
+    public void setParameters(Object... obj) {
         if (obj.length != 1) {
             throw new IllegalArgumentException("Require 1 parameter: " + obj.length);
         }

@@ -38,7 +38,7 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
      * @throws IllegalArgumentException If the array does not contain 2 elements
      * or the elements are not Integers.
    **/
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Two parameters needed, " +
                 params.length + " given");

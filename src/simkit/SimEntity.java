@@ -16,10 +16,11 @@ package simkit;
 public interface SimEntity extends Named,
                                    SimEventSource,
                                    SimEventListener,
-                                   PropertyChangeSource
+                                   PropertyChangeSource,
+                                   Comparable<SimEntity>
 {
 
-   public static final double DEFAULT_PRIORITY    = 0.0;
+   public static final Priority DEFAULT_PRIORITY    = Priority.DEFAULT;
    public static final String DEFAULT_ENTITY_NAME = "SimEntity";
    public static final String DEFAULT_EVENT_NAME  = "SimEvent";
    public static final String EVENT_METHOD_PREFIX = "do";
@@ -33,47 +34,31 @@ public interface SimEntity extends Named,
  * @see simkit.SimEvent
  * @param eventName The name of the scheduled event (prefixed by "do" for method name).
  * @param delay The amount of time before the event is scheduled
+ * @param priority The priority of this event (higher is better).
  * @param parameters The parameters passed to the scheduled event.
- * @param eventPriority The priority of this event (higher is better).
 **/
-    public SimEvent waitDelay(
-              String      eventName,
-              double      delay,
-              Object[]    parameters,
-              double      eventPriority
-            );
+   public SimEvent waitDelay( String eventName, double delay, Priority priority, 
+           Object... parameters  );
 /**
  * Schedule an event with no parameters and a default priority after a delay from
  * the current simulation time.
  * @param eventName The name of the scheduled event (prefixed by "do" for method name).
  * @param delay The amount of time before the event is scheduled
 **/
-   public SimEvent waitDelay( String eventName, double delay  );
-
-/**
- * Schedule an event with a default priority after a delay from
- * the current simulation time.
- * @param eventName The name of the scheduled event (prefixed by "do" for method name).
- * @param delay The amount of time before the event is scheduled
- * @param param The array of parameters passed.
-**/
-   public SimEvent waitDelay( String eventName, double delay, Object[] param  );
-   
-
+   public SimEvent waitDelay( String eventName, double delay, Object... parameters  );
 
 /**
  * Interrupt (cancel) the next pending event with name eventName
  * and interruption parameter array "parameters"
  * belonging to this object.
 **/   
-   public void interrupt(String eventName, Object[] parameters);
-   
+   public void interrupt(String eventName, Object... parameters);  
 /**
  * Interrupt (cancel) all pending events with name eventName
  * and interruption parameter array "parameters"
  * belonging to this object.
 **/   
-   public void interruptAll(String eventName, Object[] parameters);
+   public void interruptAll(String eventName, Object... parameters);
    
 /**
  * Interrupt (cancel) all pending events for this entity.
@@ -91,13 +76,13 @@ public interface SimEntity extends Named,
  * If two events occur at the same time with the same event priority,
  * the one with the highest entity priority will be processed first.
 **/
-   public double getPriority ();
+   public Priority getPriority ();
    
 /**
  * If two events occur at the same time with the same event priority,
  * the one with the highest entity priority will be processed first.
 **/
-   public void setPriority (double d);
+   public void setPriority (Priority d);
 
 /**
  * Reset SimEntity to its pristine state.

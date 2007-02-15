@@ -49,7 +49,7 @@ public class BetaVariate extends RandomVariateBase {
      * contain exactly two parameters, or either of the parameters is not a Number
      * greater than zero.
      */    
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 2) {
             throw new IllegalArgumentException(this.getClass().getName() + " must have two arguments: " + params.length +
                                              " passed");
@@ -74,8 +74,8 @@ public class BetaVariate extends RandomVariateBase {
 * @param rng The supporting instance of RandomNumber for both GammVariates.
 **/
     private void setGammas(RandomNumber rng) {
-        gammaVariate1 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", new Object[] {new Double(alpha), new Double(1.0)}, rng);
-        gammaVariate2 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", new Object[] {new Double(beta), new Double(1.0)}, rng);
+        gammaVariate1 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", getRandomNumber(), getAlpha(), 1.0);
+        gammaVariate2 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", getRandomNumber(), getBeta(), 1.0);
     }
 
 /**

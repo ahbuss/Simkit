@@ -31,7 +31,7 @@ public interface RandomVariate {
      *  in additional methods provided in the implementation.
      * @param params the array of parameters, wrapped in objects.
      **/
-    public void setParameters(Object[] params);
+    public void setParameters(Object... params);
     
     /**
      * Returns the array of parameters as an Object[].

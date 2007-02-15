@@ -14,7 +14,8 @@ import java.util.WeakHashMap;
  * @author  Arnold Buss
  * @version $Id$
  */
-public class SensorTargetMediatorFactory implements MediatorFactory {
+public class SensorTargetMediatorFactory implements 
+        MediatorFactory<Sensor, Moveable, SensorTargetMediator> {
     
 /**
 * Holds the instance of SensorTargetMediatorFactory.
@@ -61,13 +62,13 @@ public class SensorTargetMediatorFactory implements MediatorFactory {
 * Holds the Mediators that have been added to this factory, key by
 * Sensor and Moveable (target)
 **/
-    private WeakHashMap cache;
+    private WeakHashMap<Class, Map<Class, SensorTargetMediator>>  cache;
     
 /** 
 * Creates new empty SensorTargetMediatorFactory
 **/
     protected SensorTargetMediatorFactory() {
-        cache = new WeakHashMap();
+        cache = new WeakHashMap<Class, Map<Class, SensorTargetMediator>>();
     }
     
 /**
@@ -105,8 +106,14 @@ public class SensorTargetMediatorFactory implements MediatorFactory {
 //        targetClasses.put(targetClass, mediatorInstance);
     }
     
+    public void addMediatorFor(Sensor sensor, Moveable target,
+            SensorTargetMediator mediatorInstance) {
+        addMediatorFor(sensor.getClass(), target.getClass(),
+                mediatorInstance);
+    }
+    
     public void addMediatorFor(Class sensorClass, Class targetClass,
-            Object mediatorInstance) {
+            SensorTargetMediator mediatorInstance) {
         if (!(simkit.smdx.Sensor.class.isAssignableFrom(sensorClass))) {
             throw new IllegalArgumentException(sensorClass + " is not a Sensor class");
         }
@@ -117,9 +124,10 @@ public class SensorTargetMediatorFactory implements MediatorFactory {
             throw new IllegalArgumentException(mediatorInstance + " is not a SensorTargetMediator instance");
         }
         if (!cache.containsKey(sensorClass)) {
-            cache.put(sensorClass, new WeakHashMap());
+            cache.put(sensorClass, new WeakHashMap<Class, SensorTargetMediator>());
         }
-        Map targetClasses = (Map) cache.get(sensorClass);
+        Map<Class, SensorTargetMediator> targetClasses = 
+                cache.get(sensorClass);
         targetClasses.put(targetClass, mediatorInstance);
     }
     
@@ -134,8 +142,9 @@ public class SensorTargetMediatorFactory implements MediatorFactory {
     public Mediator getMediatorFor(Class sensorClass, Class targetClass) {
         SensorTargetMediator mediator = null;
         if (cache.containsKey(sensorClass)) {
-            Map targetClasses = (Map) cache.get(sensorClass);
-            mediator = (SensorTargetMediator) targetClasses.get(targetClass);
+            Map<Class, SensorTargetMediator> targetClasses = 
+                    cache.get(sensorClass);
+            mediator = targetClasses.get(targetClass);
         }
         if (mediator == null) {
             throw new IllegalArgumentException("Mediator not set for (" +
@@ -148,14 +157,13 @@ public class SensorTargetMediatorFactory implements MediatorFactory {
 * Returns a copy of the HashMap of Mediators that have been added to this
 * MediatorFactory.
 **/
-    public Map getMediators() {
-        Map copy = null;
+    public Map<Class, Map<Class, SensorTargetMediator>> getMediators() {
+        Map<Class, Map<Class, SensorTargetMediator>> copy = null;
         synchronized(cache) {
-            copy = new WeakHashMap(cache);
-            for (Iterator i = copy.keySet().iterator(); i.hasNext(); ) {
-                Object key = i.next();
-                copy.put(key, new WeakHashMap((Map) copy.get(key)));
-            }
+            copy = new WeakHashMap<Class, Map<Class, SensorTargetMediator>>(cache);
+        }
+        for (Class key : copy.keySet() ) {
+            copy.put(key, new WeakHashMap<Class, SensorTargetMediator>(copy.get(key)));
         }
         return copy;
     }
@@ -186,7 +194,7 @@ public class SensorTargetMediatorFactory implements MediatorFactory {
 * given Sensor-target pair or if first is not a Sensor or second is
 * not a Moveable.
 **/
-    public Mediator getMeditorFor(Object first, Object second) {
+    public Mediator getMeditorFor(Sensor first, Moveable second) {
         return getMediatorFor(first.getClass(), second.getClass());
     }
     

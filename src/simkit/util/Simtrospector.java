@@ -16,7 +16,7 @@ public class Simtrospector {
 /**
 * The list of prefixes that indicate an event method in addition to <code>prefix<code/>
 **/
-    private static ArrayList additionalPrefixes;
+    private static Set<String> additionalPrefixes;
 
 /**
 * The primary prefix that indicates an event method (Default is "do").
@@ -25,6 +25,7 @@ public class Simtrospector {
 
     static {
         setPrefix("do");
+        additionalPrefixes = null;
     }
 
 /**
@@ -33,26 +34,25 @@ public class Simtrospector {
 * <code>setPrefix, addPrefix<code/> and other similar methods. The default prefix
 * is "do"
 **/
-    public static Hashtable getEventMethods(Class c) {
+    public static Map<String, Method> getEventMethods(Class c) {
         Method[] allMethods = c.getMethods();
-        ArrayList eventMethods = new ArrayList(allMethods.length);
+        List<Method> eventMethods = new ArrayList<Method>(allMethods.length);
         for (int i = 0; i < allMethods.length; i++) {
             if (allMethods[i].getName().startsWith(prefix)) {
                  eventMethods.add(allMethods[i]);
             }
             if (additionalPrefixes != null) {
-                for (Iterator iter = additionalPrefixes.iterator(); iter.hasNext();) {
-                    if (allMethods[i].getName().startsWith(iter.next().toString())) {
+                for (String prefix : additionalPrefixes) {
+                    if (allMethods[i].getName().startsWith(prefix)) {
                          eventMethods.add(allMethods[i]);
                          break;
                     }
                 }
             }
         }
-        Hashtable table = new Hashtable(eventMethods.size());
-        for (Iterator i = eventMethods.iterator(); i.hasNext();) {
-              Method m = (Method) i.next();
-              table.put(m.getName(), m);
+        Map<String, Method> table = new LinkedHashMap<String, Method>(eventMethods.size());
+        for (Method method : eventMethods) {
+              table.put(method.getName(), method);
         }
         return table;
     }
@@ -61,12 +61,10 @@ public class Simtrospector {
 * Adds the given prefix to the list of prefixes that indicate an event method.
 **/
     public static void addPrefix(String newPrefix) {
-       if (additionalPrefixes == null) {
-            additionalPrefixes = new ArrayList();
-       }
-       if (!additionalPrefixes.contains(newPrefix)) {
-           additionalPrefixes.add(newPrefix);
-       }
+        if (additionalPrefixes == null) {
+            additionalPrefixes = new LinkedHashSet<String>();
+        }
+        additionalPrefixes.add(newPrefix);
     }
 
 /**
@@ -74,12 +72,7 @@ public class Simtrospector {
 * given prefix was not in the list, does nothing.
 **/
     public static void removePrefix(String prefix) {
-        if (additionalPrefixes != null) {
-            additionalPrefixes.remove(prefix);
-        }
-        if (additionalPrefixes.size() == 0) {
-            additionalPrefixes = null;
-        }
+        additionalPrefixes.remove(prefix);
     }
 
 /**
@@ -87,7 +80,6 @@ public class Simtrospector {
 **/
     public static void removeAdditionalPrefixes() {
          additionalPrefixes.clear();
-         additionalPrefixes = null;
     }
 
 /**

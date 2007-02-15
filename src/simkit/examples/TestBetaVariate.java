@@ -38,12 +38,15 @@ public class TestBetaVariate {
         RandomVariate rv = RandomVariateFactory.getInstance(rvName, rvParams);
 //        The toString() of a RandomVariate instance should give the name of 
 //        the distribution and its parameter values.
-        System.out.println(rv);
+        System.out.println("Using Object[]: " + rv);
         
         double mean = alpha / (alpha + beta);
         double var = alpha * beta / ( Math.pow(alpha + beta, 2) * (alpha + beta + 1.0) );
         
         DecimalFormat form = new DecimalFormat("0.0000");
+        
+        rv = RandomVariateFactory.getInstance(rvName, alpha, beta);
+        System.out.println("Using varargs: " + rv);
         
 //        The theoretical values of the Beta(alpha, beta)
         System.out.println("Mean = " + form.format(mean));

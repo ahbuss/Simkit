@@ -94,7 +94,7 @@ public class TraceVariate extends RandomVariateBase {
 * element is not an array of <code>doubles</code>, or if the 2nd element (if present)
 * is not a Number.
 **/
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 1 && params.length != 2) {
             throw new IllegalArgumentException("Need parameters length 1: " + params.length);
         }

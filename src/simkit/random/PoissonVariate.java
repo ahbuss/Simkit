@@ -53,7 +53,7 @@ public class PoissonVariate implements DiscreteRandomVariate {
       * @throws IllegalArgumentException If the array does not have exactly 1 element,
       * if the element is not a Number, or if the mean if not positive.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params == null) { 
             throw new NullPointerException(); 
         }

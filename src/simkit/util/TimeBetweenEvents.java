@@ -1,6 +1,7 @@
 package simkit.util;
 
 import java.util.LinkedList;
+import java.util.List;
 import simkit.BasicSimEntity;
 import simkit.Schedule;
 import simkit.SimEvent;
@@ -24,7 +25,7 @@ public class TimeBetweenEvents extends BasicSimEntity {
     private String secondEvent;
     private String propertyName;
 
-    protected LinkedList times = new LinkedList();
+    protected LinkedList<Double> times;
 
     /**
      * Creates a new instance of TimeBetweenEvents
@@ -34,10 +35,10 @@ public class TimeBetweenEvents extends BasicSimEntity {
      */
 
     public TimeBetweenEvents(String fe,  String se, String pn) {
-
         setFirstEvent(fe);
         setSecondEvent(se);
         setPropertyName(pn);
+        times = new LinkedList<Double>();
     }
     
     /**
@@ -59,11 +60,11 @@ public class TimeBetweenEvents extends BasicSimEntity {
      */    
     public void processSimEvent(SimEvent event) {
         if (event.getEventName().equals(getFirstEvent())) {
-            times.add(new Double(Schedule.getSimTime()));
+            times.add(Schedule.getSimTime());
         }
         else if (event.getEventName().equals(getSecondEvent())) {
-            Double firstTime = (Double) times.removeFirst();
-            firePropertyChange(getPropertyName(), Schedule.getSimTime() - firstTime.doubleValue());
+            double firstTime = times.removeFirst();
+            firePropertyChange(getPropertyName(), Schedule.getSimTime() - firstTime);
         }
     }    
 
@@ -124,8 +125,8 @@ public class TimeBetweenEvents extends BasicSimEntity {
     /**
      * @return Shallow copy of the current list of times.
      */    
-    public LinkedList getTimes() {
-        return (LinkedList) times.clone();
+    public List<Double> getTimes() {
+        return new LinkedList<Double>(times);
     }
 
 

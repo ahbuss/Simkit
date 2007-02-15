@@ -21,10 +21,10 @@ public class Resetter extends BasicSimEntity {
      */    
     public static final String DEFAULT_RESETTER_NAME = "reset";
     
-    private LinkedHashMap resetters;
+    private LinkedHashMap<Object, Method> resetters;
     
     public Resetter() {
-        resetters = new LinkedHashMap();
+        resetters = new LinkedHashMap<Object, Method>();
     }
     
     /**
@@ -33,9 +33,8 @@ public class Resetter extends BasicSimEntity {
      */    
     public void reset() {
         super.reset();
-        for (Iterator i = resetters.keySet().iterator(); i.hasNext(); ) {
-            Object resetter = i.next();
-            Method resetMethod = (Method) resetters.get(resetter);
+        for (Object resetter : resetters.keySet()) {
+            Method resetMethod = resetters.get(resetter);
             try {
                 resetMethod.invoke(resetter, (Object[]) null);
             }
@@ -95,8 +94,8 @@ public class Resetter extends BasicSimEntity {
      * Shallow copy of keyset for resetters Map.
      * @return All registered resetters in a Set
      */    
-    public Set getResetters() {
-        return new LinkedHashSet(resetters.keySet());
+    public Set<Object> getResetters() {
+        return new LinkedHashSet<Object>(resetters.keySet());
     }
     
     /**

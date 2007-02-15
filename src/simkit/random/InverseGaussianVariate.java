@@ -62,7 +62,7 @@ public class InverseGaussianVariate extends RandomVariateBase {
  * @throws IllegalArgumentException If the array does not contain exactly two Numbers
  * or if lambda is not positive.
  */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("InverseGaussianVariate requires two parameters " +
                 params.length + " given");

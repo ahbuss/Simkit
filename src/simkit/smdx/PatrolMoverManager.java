@@ -24,7 +24,7 @@ public class PatrolMoverManager extends PathMoverManager {
      * @param mover Mover to be managed
      * @param wayPoints List containing Waypoints to be visited
      */    
-    public PatrolMoverManager(Mover mover, List wayPoints) {
+    public PatrolMoverManager(Mover mover, List<WayPoint> wayPoints) {
         super(mover, wayPoints);
     }
     
@@ -54,7 +54,7 @@ public class PatrolMoverManager extends PathMoverManager {
     public void doEndMove(Mover m) {
         if (getMover() == m) {
             if (nextWayPoint.hasNext()) {
-                WayPoint nextWP = (WayPoint) nextWayPoint.next();
+                WayPoint nextWP = nextWayPoint.next();
                 getMover().moveTo(nextWP.getWayPoint(), nextWP.getSpeed());
             }
             else {

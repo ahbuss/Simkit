@@ -45,9 +45,7 @@ public class TestGenerate {
            new Double(1.0), new Double(2.5), new Double(1.5)
        };
         
-        long seed = CongruentialSeeds.SEED[4];
-        RandomVariate rv = RandomVariateFactory.getInstance(
-        name, params, seed);
+        RandomVariate rv = RandomVariateFactory.getInstance(name, params);
         
         System.out.println(rv);
 /*        

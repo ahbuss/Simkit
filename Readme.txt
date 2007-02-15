@@ -1,11 +1,9 @@
-Simkit version 1.2.20
-Copyright (C) 1997-2005 Kirk Stork and Arnold Buss
+Simkit Copyright (C) 1997-2007 Kirk Stork and Arnold Buss
 
 Installation Instructions
 ------------ ------------
-First install the Java Developer Kit version 1.4 (Java 2) or greater.  
-For Windows 95/98, make sure your CLASSPATH variable is correctly set in the
-AUTOEXEC.BAT file (located in C:\).  For Windows NT 4.0/Windows 2000/Windows XP, you will need to
+First install the Java Developer Kit version 1.5 (Java 2) or greater.  
+For Windows 2000/Windows XP, you will need to
 edit the environment, located in the System icon of the Conrol Panel.
 
 Any questions regarding Simkit may be addressed by e-mail to
@@ -18,7 +16,7 @@ Open the Control Panel (e.g. click Start | Settings | Control Panel).
 Double-click "Add/Remove Programs" icon.  Scroll to "Simkit" and 
 click on it.  Click Add/Remove and follow the dialogs.
 
-When you uninstall Simkit the AUTOEXEC.BAT entry or the environment variables
+When you uninstall Simkit the environment variables
 will not be removed; you should remove them manually.
 
 Compilation Instructions

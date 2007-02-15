@@ -112,7 +112,7 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
       * @throws IllegalArgumentException If the array does not contain exactly
       * 3 elements.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 2)  {
             throw new IllegalArgumentException(
                 "NHPoissonProcessVariate requires 2 parameters: " +

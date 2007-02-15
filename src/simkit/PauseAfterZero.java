@@ -17,7 +17,7 @@ import simkit.SimEntityBase;
 public class PauseAfterZero extends SimEntityBase {
     
     public void doRun() {
-        waitDelay("Pause", 0.0, Double.NEGATIVE_INFINITY);
+        waitDelay("Pause", 0.0, Priority.LOWEST);
     }
     
     public void doPause() {

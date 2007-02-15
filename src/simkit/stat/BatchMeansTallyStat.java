@@ -22,7 +22,7 @@ public class BatchMeansTallyStat extends SimpleStatsTally {
     protected int nextBatchID;
     protected SampleStatistics currentBatch;
     protected SampleStatistics transientStats;
-    protected Map batches;
+    protected Map<Integer, SampleStatistics> batches;
     
     /**
      * @param name The property to be listened to
@@ -35,7 +35,7 @@ public class BatchMeansTallyStat extends SimpleStatsTally {
         setBatchSize(batchSize);
         currentBatch = new SimpleStatsTally("Transient");
         transientStats = currentBatch;
-        batches = new LinkedHashMap();
+        batches = new LinkedHashMap<Integer, SampleStatistics>();
         nextBatchID = 0;
     }
     
@@ -124,7 +124,7 @@ public class BatchMeansTallyStat extends SimpleStatsTally {
 
     /** @return shallow copy of currently saved batch stats
      */
-    public Map getBatches() {
-        return new LinkedHashMap(batches);
+    public Map<Integer, SampleStatistics> getBatches() {
+        return new LinkedHashMap<Integer, SampleStatistics>(batches);
     }   
 }

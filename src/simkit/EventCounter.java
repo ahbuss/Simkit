@@ -22,13 +22,13 @@ import java.util.Map;
  */
 public class EventCounter extends BasicSimEntity {
     
-    protected Map eventCounts;
+    protected Map<String, int[]> eventCounts;
     
     /**
      * Instantiate the Map of event names and counts
      */
     public EventCounter() {
-        eventCounts = new LinkedHashMap();
+        eventCounts = new LinkedHashMap<String, int[]>();
     }
     
     /**
@@ -54,7 +54,7 @@ public class EventCounter extends BasicSimEntity {
         String eventName = simEvent.getEventName();
         if (!eventName.equals("Run")) {
             
-            int[] count = (int[]) eventCounts.get(eventName);
+            int[] count = eventCounts.get(eventName);
             if (count == null) {
                 count = new int[1];
                 eventCounts.put(eventName, count);
@@ -68,14 +68,16 @@ public class EventCounter extends BasicSimEntity {
      *
      * @return Copy of the entire Map of event names and counts
      */    
-    public Map getEventCounts() { return new LinkedHashMap(eventCounts); }
+    public Map<String, int[]> getEventCounts() { 
+        return new LinkedHashMap<String, int[]>(eventCounts); 
+    }
     
     /**
      *
      * @return Array of all events that have been heard so far
      */    
     public String[] getHeardEvents() {
-        return (String[]) eventCounts.keySet().toArray(new String[0]);
+        return eventCounts.keySet().toArray(new String[0]);
     }
     
     /**
@@ -84,7 +86,7 @@ public class EventCounter extends BasicSimEntity {
      * @return event count for name, if exists.
      */    
     public int getEventCount(String eventName) {
-        int[] count = (int[]) eventCounts.get(eventName);
+        int[] count = eventCounts.get(eventName);
         return count != null ? count[0] : -1;
     }
 }

@@ -56,9 +56,9 @@ public class Version {
                 SimEntity.NL +
                 "or the simkit.examples for examples of this.  " +
                 SimEntity.NL +
-                "Simkit's web site is: http://diana.cs.nps.navy.mil/Simkit.  " +
+                "Simkit's web site is: http://diana.nps.edu/Simkit.  " +
                 SimEntity.NL +
-                "You can post bugs here: https://diana.cs.nps.navy.mil/bugzilla";
+                "You can post bugs here: https://diana.nps.edu/bugzilla";
     
     private static final int VERSION_NUMBER;
     

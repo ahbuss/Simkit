@@ -55,7 +55,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
       * elements, if all three are not Numbers, or if the following relationship
       * is not true: a &#60;&#61; c &#60;&#61; b.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params == null) { throw new NullPointerException(); }
         if (params.length != 3) {
             throw new IllegalArgumentException("TriangleVariate needs 2 parameters: " + params.length);

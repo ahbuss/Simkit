@@ -24,13 +24,13 @@ public class Schedule  {
     
     private static EventList defaultEventList;
     
-    private static Map allEventLists;
+    private static Map<Integer, EventList> allEventLists;
     
     private static DecimalFormat form;
     
     static {
         nextEventListID = 0;
-        allEventLists = new LinkedHashMap();
+        allEventLists = new LinkedHashMap<Integer, EventList>();
         defaultEventList = getEventList(0);
         setDecimalFormat("0.0000");
     }
@@ -309,7 +309,7 @@ public class Schedule  {
      * @return EventList instance
      */    
     public static EventList getEventList(int index) {
-        EventList eventList = (EventList) allEventLists.get(new Integer(index));
+        EventList eventList = allEventLists.get(index);
         if (eventList == null) {
             eventList = new EventList(index);
             allEventLists.put(new Integer(index), eventList);

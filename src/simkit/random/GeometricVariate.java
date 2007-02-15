@@ -61,7 +61,7 @@ public class GeometricVariate implements DiscreteRandomVariate {
      * inclusive.
      * @throws ClassCastException If the element cannot be cast to a Number.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params == null) {
             throw new NullPointerException("Parameterst to GeometricVariate null");
         }

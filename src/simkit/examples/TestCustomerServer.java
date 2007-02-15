@@ -16,10 +16,8 @@ public class TestCustomerServer {
     
     public static void main(String[] args) {
         RandomVariate[] rv = new RandomVariate[2];
-        rv[0] = RandomVariateFactory.getInstance("Exponential", 
-            new Object[] { new Double(1.7) }, 12345L);
-        rv[1] = RandomVariateFactory.getInstance("Gamma", 
-            new Object[] { new Double(2.5), new Double(1.2) }, 54321L);
+        rv[0] = RandomVariateFactory.getInstance("Exponential", 1.7);
+        rv[1] = RandomVariateFactory.getInstance("Gamma", 2.5, 1.2);
         int numberServers = 2;
         
         ArrivalProcess arrival = new ArrivalProcess(rv[0]);

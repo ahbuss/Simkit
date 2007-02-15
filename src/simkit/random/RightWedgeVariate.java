@@ -63,7 +63,7 @@ public class RightWedgeVariate implements RandomVariate {
 * elements are not Numbers, the left is not smaller than the right, or the product of
 * the height and the difference between right and left is greater than one.
 **/
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 3) {
             throw new IllegalArgumentException("Need 3 parameters: " + params.length);
         }

@@ -104,7 +104,7 @@ public class MixedVariate extends simkit.random.RandomVariateBase {
      * or the first element is not a double[], or the second element is not
      * a RandomVariate[], or the two arrays are not the same length.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Need 2 arguments: " + params.length);
         }

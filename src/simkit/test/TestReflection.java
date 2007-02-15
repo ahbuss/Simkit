@@ -34,7 +34,7 @@ public class TestReflection {
         name = Misc.getFullMethodName("bar", arg);
         System.out.println(name);
 
-        Class intClass = int.class;
+        Class<?> intClass = int.class;
         int x = 1;
         Integer y = new Integer(x);
         

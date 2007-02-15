@@ -30,7 +30,7 @@ public class MunitionTargetReferee extends SimEntityBase {
 /**
 * The Targets that are registered with this referee.
 **/
-    private Set targets;
+    private Set<Target> targets;
 
 /**
 * If true registered Targets will be cleared if this referee is reset.
@@ -39,7 +39,7 @@ public class MunitionTargetReferee extends SimEntityBase {
     
     /** Creates a new instance of MunitionTargetReferee */
     public MunitionTargetReferee() {
-        targets = Collections.synchronizedSet(new LinkedHashSet());
+        targets = Collections.synchronizedSet(new LinkedHashSet<Target>());
     }
     
 /**
@@ -62,8 +62,7 @@ public class MunitionTargetReferee extends SimEntityBase {
 **/
     public void doImpact(Munition munition) {
         Shape impact = munition.getImpact();
-        for (Iterator i = targets.iterator(); i.hasNext(); ) {
-            Target target = (Target) i.next();
+        for (Target target : targets ) {
             if (impact.contains( target.getLocation())) {
                 Adjudicator adjudicator = MunitionTargetAdjudicatorFactory.getAdjudicator(munition, target);
                 adjudicator.adjudicate(munition, target);
@@ -93,10 +92,10 @@ public class MunitionTargetReferee extends SimEntityBase {
 /**
 * Returns a copy of the list of registered Targets.
 **/
-    public Set getTargets() {
-        Set copy = null;
+    public Set<Target> getTargets() {
+        Set<Target> copy = null;
         synchronized(targets) {
-            copy = new LinkedHashSet(targets);
+            copy = new LinkedHashSet<Target>(targets);
         }
         return copy;
     }

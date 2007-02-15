@@ -74,7 +74,7 @@ public class TwoStateMarkovVariate extends RandomVariateBase implements Discrete
 * with a value of 0 or 1.
 *
 **/
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 1 && params.length != 2) {
             throw new IllegalArgumentException("A 1 or 2 element array is required.");
         }

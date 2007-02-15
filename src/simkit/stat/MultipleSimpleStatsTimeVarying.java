@@ -2,6 +2,7 @@ package simkit.stat;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Iterator;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import simkit.util.IndexedPropertyChangeEvent;
@@ -25,7 +26,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
 /**
 * Holds the table of indexed statistics.
 **/
-    protected TreeMap indexedStats;
+    protected SortedMap<Integer, SimpleStatsTimeVarying> indexedStats;
 
 /**
 * Creates a new instance with the default name. The name can be
@@ -33,7 +34,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
 **/
     public MultipleSimpleStatsTimeVarying() {
         super();
-        indexedStats = new TreeMap();
+        indexedStats = new TreeMap<Integer, SimpleStatsTimeVarying>();
     }
 
 /**
@@ -49,12 +50,11 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
 // Javadoc inherited.
     public void newObservation(double x, int index) {
         this.newObservation(x);
-        Integer key = new Integer(index);
-        SimpleStatsTimeVarying stat = (SimpleStatsTimeVarying) indexedStats.get(key);
+        SimpleStatsTimeVarying stat = indexedStats.get(index);
         if (stat == null) {
             stat = new SimpleStatsTimeVarying();
             stat.setName(this.getName());
-            indexedStats.put(key, stat);
+            indexedStats.put(index, stat);
         }
         stat.newObservation(x);
     }
@@ -71,27 +71,27 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
     }
 // Javadoc inherited.
     public double getVariance(int index) {
-        SimpleStatsTally stat = (SimpleStatsTally) indexedStats.get(new Integer(index));
+        SimpleStatsTimeVarying stat = indexedStats.get(new Integer(index));
         return (stat == null) ? Double.NaN : stat.getVariance();  
     }
 // Javadoc inherited.
     public double getStandardDeviation(int index) {
-        SimpleStatsTimeVarying stat = (SimpleStatsTimeVarying) indexedStats.get(new Integer(index));
+        SimpleStatsTimeVarying stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getStandardDeviation();  
     }
 // Javadoc inherited.
     public int getCount(int index) {
-        SimpleStatsTimeVarying stat = (SimpleStatsTimeVarying) indexedStats.get(new Integer(index));
+        SimpleStatsTimeVarying stat = indexedStats.get(index);
         return (stat == null) ? 0 : stat.getCount();  
     }
 // Javadoc inherited.
     public double getMinObs(int index) {
-        SimpleStatsTimeVarying stat = (SimpleStatsTimeVarying) indexedStats.get(new Integer(index));
+        SimpleStatsTimeVarying stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getMinObs();  
     }
 // Javadoc inherited.
     public double getMaxObs(int index) {
-        SimpleStatsTimeVarying stat = (SimpleStatsTimeVarying) indexedStats.get(new Integer(index));
+        SimpleStatsTimeVarying stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getMaxObs();  
     }
 
@@ -99,7 +99,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
     public double[] getAllMean() {
         double[] means = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             means = new double[length];
             for (int i = 0; i < means.length; i++) {
@@ -113,7 +113,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
     public double[] getAllVariance() {
         double[] variance = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             variance = new double[length];
             for (int i = 0; i < variance.length; i++) {
@@ -127,7 +127,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
     public double[] getAllStandardDeviation() {
         double[] std = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             std = new double[length];
             for (int i = 0; i < std.length; i++) {
@@ -142,11 +142,11 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         SampleStatistics[] allStats = null;
         SimpleStatsTimeVarying temp;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             allStats = new SampleStatistics[length];
             for (int i = 0; i < allStats.length; i++) {
-                temp = (SimpleStatsTimeVarying) indexedStats.get(new Integer(i));
+                temp =  indexedStats.get(i);
                 allStats[i] = temp != null ? (SampleStatistics) temp.clone() :
                     new SimpleStatsTimeVarying(this.getName());
             }
@@ -158,7 +158,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
     public double[] getAllMaxObs() {
         double[] max = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             max = new double[length];
             for (int i = 0; i < max.length; i++) {
@@ -172,7 +172,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
     public double[] getAllMinObs() {
         double[] min = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             min = new double[length];
             for (int i = 0; i < min.length; i++) {
@@ -186,7 +186,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
     public int[] getAllCount() {
         int[] count = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             count = new int[length];
             for (int i = 0; i < count.length; i++) {
@@ -222,8 +222,8 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
     public void reset() {
         super.reset();
         if (indexedStats == null) { return; }
-        for (Iterator i = indexedStats.values().iterator(); i.hasNext(); ) {
-            ((SimpleStatsTimeVarying) i.next()).reset();
+        for (SimpleStatsTimeVarying stats : indexedStats.values()) {
+            stats.reset();
         }
     }
 /**
@@ -245,9 +245,8 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         buf.append(getSamplingType());
         buf.append(')');
         buf.append(EOL);
-        for (Iterator i = indexedStats.keySet().iterator(); i.hasNext(); ) {
-            Object key = i.next();
-            SimpleStatsTimeVarying stat = (SimpleStatsTimeVarying) indexedStats.get(key);
+        for (Integer key : indexedStats.keySet()) {
+            SimpleStatsTimeVarying stat =  indexedStats.get(key);
             buf.append(key);
             buf.append(' ');
             buf.append(' ');

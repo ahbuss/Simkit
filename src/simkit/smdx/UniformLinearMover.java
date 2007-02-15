@@ -1,6 +1,7 @@
 package simkit.smdx;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
+import simkit.Priority;
 
 import simkit.SimEntityBase;
 
@@ -166,7 +167,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     public void doStartMove(Moveable mover) {
         if (mover == this) {
             if (destination != null) {
-                waitDelay("EndMove", moveTime, param, 1.0);
+                waitDelay("EndMove", moveTime, Priority.HIGH, param);
             }
             setMovementState(MovementState.CRUISING);
         }

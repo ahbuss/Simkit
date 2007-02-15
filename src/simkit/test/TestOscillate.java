@@ -22,7 +22,7 @@ import simkit.util.PropertyDataLogger;
 public class TestOscillate extends SimEntityBase {
 
     public static RandomVariate exp = RandomVariateFactory.getInstance(
-        "simkit.random.ExponentialVariate", new Double[] { new Double(1.0) });
+        "simkit.random.ExponentialVariate", 1.0 );
     
     private double deltaT;
     private RandomVariate rv;

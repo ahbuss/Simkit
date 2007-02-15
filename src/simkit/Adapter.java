@@ -65,7 +65,7 @@ public class Adapter extends BasicSimEntity {
                 getPassedEvent(),
                 event.getParameters(),
                 0.0,
-                event.getEventPriority()
+                event.getPriority()
             );
             notifyListeners(se);
         }

@@ -81,7 +81,7 @@ public class OscillatingExponentialVariate implements simkit.random.RandomVariat
       * @throws IllegalArgumentException If the array does not contain exactly 4 elements, or
       * if any of the elements is not a Number.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params == null) {
             throw new NullPointerException("Null parameters sent to OscillatingExponentialVariate");
         }

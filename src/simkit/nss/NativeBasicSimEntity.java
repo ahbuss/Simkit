@@ -1,6 +1,7 @@
 package simkit.nss;
 
 import simkit.BasicSimEntity;
+import simkit.Priority;
 import simkit.SimEvent;
 
 /**
@@ -36,7 +37,7 @@ public class NativeBasicSimEntity extends BasicSimEntity {
     /**
      * @param priority The priority of the NativeBasicSimEntity instance
      */    
-    public NativeBasicSimEntity(double priority) {
+    public NativeBasicSimEntity(Priority priority) {
         super(priority);
     }
     
@@ -44,7 +45,7 @@ public class NativeBasicSimEntity extends BasicSimEntity {
      * @param name The name of the NativeBasicSimEntity
      * @param priority The priority of the NativeBasicSimEntity
      */    
-    public NativeBasicSimEntity(String name, double priority) {
+    public NativeBasicSimEntity(String name, Priority priority) {
         super(name, priority);
     }
     

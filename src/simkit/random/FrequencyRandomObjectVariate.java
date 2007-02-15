@@ -44,7 +44,7 @@ public class FrequencyRandomObjectVariate implements RandomObjectVariate {
         return discreteVariate.getRandomNumber();
     }
     
-    public void setParameters(Object[] obj) {
+    public void setParameters(Object... obj) {
         if (obj.length != 2) {
             throw new IllegalArgumentException("Must have 2 arguments: " + obj.length);
         }

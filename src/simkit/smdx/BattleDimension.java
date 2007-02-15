@@ -30,7 +30,8 @@ public class BattleDimension {
 /**
 * Holds a mapping from Strings to the values.
 **/
-    protected static Map validValues = new LinkedHashMap();
+    protected static Map<String, BattleDimension> validValues = 
+            new LinkedHashMap<String, BattleDimension>();
 
 /**
 * The name of this battle dimension.
@@ -92,7 +93,7 @@ public class BattleDimension {
 * @return The BattleDimension for the given name or null if it does not exist.
 **/
     public static BattleDimension findBattleDimension(String name) {
-        return (BattleDimension) validValues.get(name.toLowerCase());
+        return validValues.get(name.toLowerCase());
     }
 
 /**

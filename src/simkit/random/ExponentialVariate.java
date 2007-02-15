@@ -30,7 +30,7 @@ public class ExponentialVariate extends RandomVariateBase implements RandomVaria
      * @throws IllegalArgumentException If the array is not a single element,
      * if the element is not a Number, or if the mean is not positive.
      */    
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 1) {
             throw new IllegalArgumentException("Should be only one parameter for Exponential: " +
             params.length + " passed.");

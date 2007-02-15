@@ -1,5 +1,6 @@
 package simkit.examples;
 
+import simkit.Priority;
 import simkit.SimEntityBase;
 import simkit.random.RandomVariate;
 
@@ -71,7 +72,7 @@ public class Server extends SimEntityBase {
     public void doArrival() {
         firePropertyChange("numberInQueue", numberInQueue, ++numberInQueue);
         if (getNumberAvailableServers() > 0) {
-            waitDelay("StartService", 0.0);
+            waitDelay("StartService", 0.0, Priority.HIGH);
         }
     }
     
@@ -94,7 +95,7 @@ public class Server extends SimEntityBase {
         firePropertyChange("numberAvailableServers", numberAvailableServers, ++numberAvailableServers);
         firePropertyChange("numberServed", numberServed, ++numberServed);
         if (getNumberInQueue() > 0) {
-            waitDelay("StartService", 0.0);
+            waitDelay("StartService", 0.0, Priority.HIGH);
         }
     }
     

@@ -61,7 +61,7 @@ public class Normal02Variate implements RandomVariate {
      * elements, if either of the elements is not a Number, or if the standard
      * deviation is not positive.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params == null) { throw new NullPointerException(); }
         else if (params.length == 2) {
             if (params[0] instanceof Number && params[1] instanceof Number) {

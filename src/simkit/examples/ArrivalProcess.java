@@ -145,16 +145,15 @@ At time 100.0 there have been 2 arrivals
      **/
     public static void main(String[] args) {
         if (args.length < 2 || args.length > 3) {
+            args = new String[] { "40.0", "100.0"};
             System.out.println(usage());
-            return;
         }
-        Double meanIAT = Double.valueOf(args[0]);
+        double meanIAT = Double.parseDouble(args[0]);
         double stopTime = Double.parseDouble(args[1]);
         boolean singleStep = (args.length == 2) ? false : Boolean.valueOf(args[2]).booleanValue();
         
         RandomVariate interarrivalTime = 
-            RandomVariateFactory.getInstance("Exponential",
-                new Object[] {meanIAT}, simkit.random.CongruentialSeeds.SEED[0]);
+            RandomVariateFactory.getInstance("Exponential", meanIAT);
         ArrivalProcess arrivals =
             new ArrivalProcess(interarrivalTime);
         

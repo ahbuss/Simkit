@@ -37,7 +37,7 @@ public class TestArcIntersection extends JPanel {
     protected Shape[] arc;
     
     protected Line2D line[];
-    protected ArrayList intersections;
+    protected ArrayList<Point2D> intersections;
     protected static final int SIZE = 9;
     
     /** Creates new TestArcIntersection */
@@ -54,7 +54,7 @@ public class TestArcIntersection extends JPanel {
         Area obstacle = new Area(new Rectangle2D.Double(360, 230, 100, 70));
         area.subtract(obstacle);
         arc[1] = new GeneralPath(area);
-        intersections = new ArrayList();
+        intersections = new ArrayList<Point2D>();
         
         line = new Line2D[] {
             new Line2D.Double(80, 30, 300, 180),

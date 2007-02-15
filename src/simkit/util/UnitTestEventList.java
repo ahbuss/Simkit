@@ -5,7 +5,6 @@ import java.util.TreeSet;
 import simkit.EventList;
 import simkit.InvalidSchedulingException;
 import simkit.SimEvent;
-import simkit.SimEventComp;
 
 /**
  * <p>This EventList implementation is for Unit Testing purposes only.
@@ -49,9 +48,8 @@ public class UnitTestEventList extends EventList {
      */
     public SimEvent getScheduledEvent(String eventName) {
         SimEvent simEvent = null;
-        SortedSet eventListCopy = getEventList();
-        for (Iterator i = eventListCopy.iterator(); i.hasNext(); ) {
-            SimEvent nextEvent = (SimEvent) i.next();
+        SortedSet<SimEvent> eventListCopy = getEventList();
+        for (SimEvent nextEvent : eventListCopy) {
             if (nextEvent.getEventName().equals(eventName)) {
                 simEvent = nextEvent;
                 break;
@@ -88,16 +86,19 @@ public class UnitTestEventList extends EventList {
      * @param eventName Name of the desired SimEvent
      * @return Array of all scheduled SimEvents of the given name
      */
-    public SortedSet getScheduledEvents(String eventName) {
-        SortedSet simEvents = new TreeSet(new SimEventComp());
-        SortedSet eventListCopy = getEventList();
-        for (Iterator i = eventListCopy.iterator(); i.hasNext(); ) {
-            SimEvent nextEvent = (SimEvent) i.next();
+    public SortedSet<SimEvent> getScheduledEvents(String eventName) {
+        SortedSet<SimEvent> simEvents = new TreeSet<SimEvent>();
+        SortedSet<SimEvent> eventListCopy = getEventList();
+        for (SimEvent nextEvent : eventListCopy ) {
             if (nextEvent.getEventName().equals(eventName)) {
                 simEvents.add(nextEvent);
             }
         }
         return simEvents;
+    }
+    
+    public SortedSet<SimEvent> getScheduledEvents() {
+        return getEventList();
     }
     
     /**
@@ -107,10 +108,9 @@ public class UnitTestEventList extends EventList {
      * @return Array of all scheduled SimEvents of the given name
      */
     public SortedSet getScheduledEvents(String eventName, Object[] params) {
-        SortedSet simEvents = new TreeSet(new SimEventComp());
-        SortedSet eventListCopy = getEventList();
-        for (Iterator i = eventListCopy.iterator(); i.hasNext(); ) {
-            SimEvent nextEvent = (SimEvent) i.next();
+        SortedSet<SimEvent> simEvents = new TreeSet<SimEvent>();
+        SortedSet<SimEvent> eventListCopy = getEventList();
+        for (SimEvent nextEvent : eventListCopy) {
             if (nextEvent.getEventName().equals(eventName) &&
                     nextEvent.interruptParametersMatch(params)) {
                 simEvents.add(nextEvent);

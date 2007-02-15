@@ -22,7 +22,7 @@ public class MunitionTargetAdjudicatorFactory {
 /**
 * A HashMap containing the Adjudicators.
 **/
-    protected static final Map adjudicators;
+    protected static final Map<Class, Map<Class, Adjudicator>> adjudicators;
     
 /**
 * The Adjudicator that is returned if none for a Munition-Target pair
@@ -33,7 +33,9 @@ public class MunitionTargetAdjudicatorFactory {
     protected static Adjudicator defaultAdjudicator;
     
     static {
-        adjudicators = Collections.synchronizedMap(new LinkedHashMap());
+        adjudicators = 
+                Collections.synchronizedMap(
+                new LinkedHashMap<Class, Map<Class, Adjudicator>>());
         setDefaultAdjudicator(new DefaultAdjudicator());
     }
 
@@ -66,9 +68,9 @@ public class MunitionTargetAdjudicatorFactory {
 * @param adjudicator An instance of an Adjudicator to add to the container.
 **/
     public static void addAdjudicator(Class munitionClass, Class targetClass, Adjudicator adjudicator) {
-        Map targetAdjudicators = (Map) adjudicators.get(munitionClass);
+        Map<Class, Adjudicator> targetAdjudicators = adjudicators.get(munitionClass);
         if (targetAdjudicators == null) {
-            targetAdjudicators = new LinkedHashMap();
+            targetAdjudicators = new LinkedHashMap<Class, Adjudicator>();
             adjudicators.put(munitionClass, targetAdjudicators);
         }
         targetAdjudicators.put(targetClass, adjudicator);

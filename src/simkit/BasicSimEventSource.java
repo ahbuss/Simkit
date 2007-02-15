@@ -1,6 +1,8 @@
 package simkit;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *  A basic implementation of a SimEventSource that is potentially useful for
@@ -8,6 +10,7 @@ import java.util.ArrayList;
  *  pattern.  It does attempt to be somewhat thread safe.
  * 
  * 23 May 2004 - kas - added <code>isMyEvent()</code> method.
+ * 27 October 2006 - ab - removed isMyEvent()
  * 
  *  @author Arnold Buss
  *  @author Kirk Stork
@@ -18,13 +21,13 @@ public class BasicSimEventSource implements SimEventSource {
    /**
    * The SimEventListeners who have registered.
    **/
-    private ArrayList listeners;
+    private List<SimEventListener> listeners;
     
    /**
    * Construct a new BasicSimEventSource. 
    **/
     public BasicSimEventSource() {
-        listeners = new ArrayList();
+        listeners = Collections.synchronizedList(new ArrayList<SimEventListener>());
     }
     
     /**
@@ -57,12 +60,12 @@ public class BasicSimEventSource implements SimEventSource {
      * @param event The SimEvent that all SimEventListeners are notified has occured.
      **/
     public void notifyListeners(SimEvent event) {
-        ArrayList listenersCopy = null;
+        ArrayList<SimEventListener> listenersCopy = null;
         synchronized(listeners) {
-            listenersCopy = (ArrayList) listeners.clone();
+            listenersCopy = new ArrayList<SimEventListener>(listeners);
         }
         for (int i = 0; i < listenersCopy.size(); i++) {
-            ((SimEventListener) listenersCopy.get(i)).processSimEvent(event);
+            listenersCopy.get(i).processSimEvent(event);
         }
     }
     
@@ -73,24 +76,8 @@ public class BasicSimEventSource implements SimEventSource {
     public SimEventListener[] getSimEventListeners() {
         SimEventListener[] listenerArray = new SimEventListener[0];
         synchronized (listeners) {
-            listenerArray = (SimEventListener[]) listeners.toArray(listenerArray);
+            listenerArray = listeners.toArray(listenerArray);
         }
         return listenerArray;
     }
-    
-    /**
-     * Returns whether or not the current <code>SimEvent</code> being processed
-     * was scheduled by this <code>SimEventSource</code>.  This is useful, for example,
-     * when you have many entities firing events of the same name that are all listening
-     * to each other, but you need to discriminate between your own events and those of
-     * other entities.
-     * 
-     * 23 May 2004 - kas - added method.
-     */
-	protected boolean isMyEvent() {
-		if (Schedule.getCurrentEvent().getSource() == this)
-			return true;
-		return false;
-	}
-
 }

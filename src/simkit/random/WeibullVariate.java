@@ -28,7 +28,7 @@ public class WeibullVariate extends RandomVariateBase{
 * @throws IllegalArgumentException If the array does not contain exactly 2 elements,
 * if either element is not a Number, or if either element is not positive.
 **/
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Must bave two parameters for Weibull, "
             + params.length + " given");

@@ -16,10 +16,10 @@ import java.util.Map;
  */
 public class MultipleBooleanCounters implements PropertyChangeListener {
     
-    protected Map counters;
+    protected Map<String, BooleanCounter> counters;
     
     public MultipleBooleanCounters() {
-        counters = new HashMap();
+        counters = new HashMap<String, BooleanCounter>();
     }
     
     /**
@@ -60,10 +60,10 @@ public class MultipleBooleanCounters implements PropertyChangeListener {
      * Returns copy of Map and of counters
      * @return Copy of all counters
      */    
-    public Map getCounters() {
-        Map copy = new HashMap(counters.size());
-        for (Iterator i = counters.keySet().iterator(); i.hasNext(); ) {
-            Object key = i.next();
+    public Map<String, BooleanCounter> getCounters() {
+        Map<String, BooleanCounter> copy = 
+                new HashMap<String, BooleanCounter>(counters.size());
+        for (String key : counters.keySet()) {
             BooleanCounter value = (BooleanCounter) counters.get(key);
             copy.put(key, new BooleanCounter(value));
         }
@@ -76,7 +76,7 @@ public class MultipleBooleanCounters implements PropertyChangeListener {
      * @return Copy of BooleanCounter for property name, or null if none exists
      */    
     public BooleanCounter getCounter(String name) {
-        BooleanCounter counter = (BooleanCounter) counters.get(name);
+        BooleanCounter counter = counters.get(name);
         if (counter!= null) {
             counter = new BooleanCounter(counter);
         }
@@ -89,10 +89,10 @@ public class MultipleBooleanCounters implements PropertyChangeListener {
      */    
     public String toString() {
         StringBuffer buf = new StringBuffer("MultipleBooleanCounter");
-        for (Iterator i = counters.keySet().iterator(); i.hasNext(); ) {
+        for (String counter : counters.keySet()) {
             buf.append(System.getProperty("line.separator"));
             buf.append('\t');
-            buf.append(counters.get(i.next()));
+            buf.append(counter);
         }
         return buf.toString();
     }

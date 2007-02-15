@@ -1,5 +1,6 @@
 package simkit.examples;
 
+import simkit.Priority;
 import simkit.SimEntityBase;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
@@ -147,7 +148,7 @@ public class TransferLine extends SimEntityBase {
             ++numberAvailableServers[station]);
 
         if (numberInQueue[station] > 0) {
-            waitDelay("StartService", 0.0, new Object[] { new Integer(station) },  1.0);
+            waitDelay("StartService", 0.0, Priority.HIGH, new Object[] { new Integer(station) });
         }
 
         if (station < numberServersAtStation.length - 1) {

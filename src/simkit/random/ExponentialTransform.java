@@ -51,7 +51,7 @@ public class ExponentialTransform implements RandomVariate {
 /**
 * Sets the parameters of the underlying RandomVariate.
 **/
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 1) {
             throw new IllegalArgumentException("Need 1 parameter: " + params.length);
         }

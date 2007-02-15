@@ -21,14 +21,17 @@ public class TestWeibull {
         params[1] = new Double(3.0);
         
         RandomVariate rv = RandomVariateFactory.getInstance("simkit.random.WeibullVariate",
-            params, 12345L);
+            params);
         
         System.out.println(rv);
         System.out.println(rv.generate());
-        rv = RandomVariateFactory.getInstance(simkit.random.WeibullVariate.class,
-            params, 12345L);
+        rv = RandomVariateFactory.getInstance(rv);
         
         System.out.println(rv);
+        System.out.println(rv.generate());
+        
+        rv.getRandomNumber().resetSeed();
+        System.out.println("After resetting RandomNumber:");
         System.out.println(rv.generate());
     }
 

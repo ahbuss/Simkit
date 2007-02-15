@@ -1,5 +1,4 @@
-Simkit version 1.2.20
-Copyright (C) 1997-2006 Kirk Stork and Arnold Buss
+Simkit Copyright (C) 1997-2007 Kirk Stork and Arnold Buss
 
 Simkit is copyright under the GNU General Public License.
 

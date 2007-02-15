@@ -26,13 +26,13 @@ public class RandomNumberFactory {
 /**
 * A cache of RandomNumber Classes that have already been found.
 **/
-    protected static Map cache;
+    protected static Map<String, Class> cache;
 
 /**
 * A list of packages to search when the Class name is not fully qualified.
 * Initially set to "simkit.random"
 **/
-    protected static ArrayList searchPackages;
+    protected static List<String> searchPackages;
 
 /**
 * If true, print debug/trace information (not yet implemented)
@@ -55,11 +55,13 @@ public class RandomNumberFactory {
      * @return Map containing unqualified names with corresponding
      * Class objects.
      */    
-    public static Map getCache() { return new WeakHashMap(cache); }
+    public static Map<String, Class> getCache() { 
+        return new WeakHashMap<String, Class>(cache); 
+    }
     
     static {
-        cache = new WeakHashMap();
-        searchPackages = new ArrayList();
+        cache = new WeakHashMap<String, Class>();
+        searchPackages = new ArrayList<String>();
         setDefaultClass(DEFAULT_CLASS);
         addSearchPackage("simkit.random");
     }

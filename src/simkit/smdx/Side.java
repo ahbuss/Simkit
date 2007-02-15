@@ -15,7 +15,8 @@ public class Side {
      *  These are the only instances of <CODE>Side</CODE> that can ever exist in an
      *  application.  To add more, subclass <CODE>Side</CODE>.
      **/
-    protected static LinkedHashMap allSides = new LinkedHashMap(12);
+    protected static LinkedHashMap<String, Side> allSides = 
+            new LinkedHashMap<String, Side>(12);
 
     public static final Side RED = new Side("Red");
     public static final Side BLUE = new Side("Blue");
@@ -57,6 +58,6 @@ public class Side {
      * or null if there is no such side.
      */    
     public static Side getSideFor(String sideName) {
-        return (Side) allSides.get(sideName);
+        return allSides.get(sideName);
     }
 }

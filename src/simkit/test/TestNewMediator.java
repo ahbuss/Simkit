@@ -19,6 +19,7 @@ import simkit.smdx.Sensor;
 import simkit.smdx.SensorTargetMediatorFactory;
 import simkit.smdx.SensorTargetReferee;
 import simkit.smdx.UniformLinearMover;
+import simkit.smdx.WayPoint;
 /**
  *
  * @author  Arnold Buss
@@ -77,21 +78,22 @@ public class TestNewMediator {
             new PathMoverManager(mover[1])
         };
         
-        List[] wayPoints = new List[2];
-        for (int i = 0; i < wayPoints.length; i++) {
-            wayPoints[i] = new ArrayList();
+        List<List<WayPoint>> wayPoints = new ArrayList<List<WayPoint>>();
+        for (int i = 0; i < pmm.length; ++i) {
+            wayPoints.add(new ArrayList<WayPoint>());
         }
-        wayPoints[0].add(new Point2D.Double(20, 30));
-        wayPoints[0].add(new Point2D.Double(30, 50));
-        wayPoints[0].add(new Point2D.Double(50, 50));
         
-        wayPoints[1].add(new Point2D.Double(80.0, 70.0));
-        wayPoints[1].add(new Point2D.Double(40.0, 70.0));
-        wayPoints[1].add(new Point2D.Double(40.0, 30.0));
-        wayPoints[1].add(new Point2D.Double(45.0, 50.0));
+        wayPoints.get(0).add(new WayPoint(new Point2D.Double(20, 30)));
+        wayPoints.get(0).add(new WayPoint(new Point2D.Double(30, 50)));
+        wayPoints.get(0).add(new WayPoint(new Point2D.Double(50, 50)));
         
-        for (int i = 0; i < wayPoints.length; i++) {
-            pmm[i].setWayPoints(wayPoints[i]);
+        wayPoints.get(1).add(new WayPoint(new Point2D.Double(80.0, 70.0)));
+        wayPoints.get(1).add(new WayPoint(new Point2D.Double(40.0, 70.0)));
+        wayPoints.get(1).add(new WayPoint(new Point2D.Double(40.0, 30.0)));
+        wayPoints.get(1).add(new WayPoint(new Point2D.Double(45.0, 50.0)));
+        
+        for (int i = 0; i < pmm.length; ++i) {
+            pmm[i].setWayPoints(wayPoints.get(i));
         }
         
         Schedule.reset();

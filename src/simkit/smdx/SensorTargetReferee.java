@@ -18,7 +18,7 @@ import java.util.logging.*;
 
 import simkit.SimEntity;
 import simkit.SimEntityBase;
-import simkit.Schedule;
+import simkit.util.LinkedHashMap2;
 
 /**
  * A referee to manage interactions between Sensors and Movers (targets).<P/>
@@ -62,12 +62,12 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 /**
 * Holds the Sensors registered with this referee.
 **/
-    protected Map sensors;
+    protected Set<Sensor> sensors;
 
 /**
 * Holds the targets (Movers) registered with this referee.
 **/
-    protected Map targets;
+    protected Set<Mover> targets;
 
 /**
 * Holds the instance of the SensorTargetMediatorFactory.
@@ -79,7 +79,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 * value will be changed by the EnterRange and ExitRange events.
 * Map<Sensor, Map<Mover, Boolean>>
 **/
-    protected Map inRangeMap;
+    protected Map<Sensor, Map<Mover, Boolean>> inRangeMap;
     
 /**
 * If true, all entities will be unregistered if <CODE>reset<CODE/>
@@ -92,27 +92,27 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 * Creates new SensorTargetReferee 
 **/
     public SensorTargetReferee() {
-        sensors = new LinkedHashMap();
-        targets = new LinkedHashMap();
-        inRangeMap = new LinkedHashMap();
+        sensors = new LinkedHashSet<Sensor>();
+        targets = new LinkedHashSet<Mover>();
+        inRangeMap = new LinkedHashMap<Sensor, Map<Mover, Boolean>>();
         setClearOnReset(false);
         sensorTargetMediatorFactory = SensorTargetMediatorFactory.getInstance();
     }
     
 /**
-* Returns a HashSet containing the Sensors currently registered to this
+* @return a LinkedHashSet containing the Sensors currently registered to this
 * referee.
 **/
-    public Set getSensors() {
-        return new LinkedHashSet(sensors.keySet());
+    public Set<Sensor> getSensors() {
+        return new LinkedHashSet<Sensor>(sensors);
     }
     
 /**
-* Returns a HashSet containing the Movers (targets) currently registered to this
+* @return a LinkedHashSet containing the Movers (targets) currently registered to this
 * referee.
 **/
-    public Set getTargets() {
-        return new LinkedHashSet(targets.keySet());
+    public Set<Mover> getTargets() {
+        return new LinkedHashSet<Mover>(targets);
     }
     
 /**
@@ -126,11 +126,10 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 **/
     public void register(SimEntity entity) {
         if (entity instanceof simkit.smdx.Sensor) {
-            sensors.put(entity, null);
+            sensors.add((Sensor) entity);
             //            entity.addSimEventListener(this);
             entity.addPropertyChangeListener("movementState", this);
-            for (Iterator i = targets.keySet().iterator(); i.hasNext(); ) {
-                Object target = i.next();
+            for (Mover target : targets ) {
                 Mediator mediator = sensorTargetMediatorFactory.getMediatorFor(
                 entity.getClass(), target.getClass());
                 if (mediator == null) {
@@ -146,11 +145,10 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             }
         }
         else if (entity instanceof Mover) {
-            targets.put(entity, null);
+            targets.add((Mover) entity);
             //            entity.addSimEventListener(this);
             entity.addPropertyChangeListener("movementState", this);
-            for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
-                Object sensor = i.next();
+            for (Sensor sensor :  sensors ) {
                 Mediator mediator = sensorTargetMediatorFactory.getMediatorFor(
                 sensor.getClass(), entity.getClass() );
                 if (mediator == null) {
@@ -176,10 +174,10 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 **/
     public void unregister(SimEntity entity) {
         if (entity instanceof simkit.smdx.Sensor) {
-            sensors.remove(entity);
+            sensors.remove((Sensor) entity);
         }
         else if (entity instanceof Mover) {
-            targets.remove(entity);
+            targets.remove((Mover) entity);
         }
         entity.removeSimEventListener(this);
         entity.removePropertyChangeListener(this);
@@ -213,16 +211,15 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     protected void processTarget(Mover target) {
         Point2D targetLocation = target.getLocation();
         Point2D targetVelocity = target.getVelocity();
-        for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
-            Sensor sensor = (Sensor) i.next();
-            Map targetInside = (Map)inRangeMap.get(sensor);//Map<Mover, Boolean>
+        for (Sensor sensor : sensors) {
+            Map<Mover, Boolean> targetInside = inRangeMap.get(sensor);//Map<Mover, Boolean>
             if (targetInside == null) {
-                targetInside = new LinkedHashMap();
+                targetInside = new LinkedHashMap<Mover, Boolean>();
                 inRangeMap.put(sensor, targetInside);
             }
             if (target == sensor.getMover()) { continue; }
             Object[] pair = new Object[] { sensor, target };
-            Boolean inRange = (Boolean)targetInside.get(target);
+            Boolean inRange = targetInside.get(target);
             if (inRange == null) {//if its not in the map, use the geometry to determine
                 inRange = Boolean.valueOf(sensor.getFootprint().contains(target.getLocation()));
             }
@@ -248,15 +245,14 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     protected void processSensor(Sensor sensor) {
         Point2D sensorLocation = sensor.getLocation();
         Point2D sensorVelocity = sensor.getVelocity();
-        Map targetInside = (Map)inRangeMap.get(sensor);//Map<Mover, Boolean>
+        Map<Mover, Boolean> targetInside = inRangeMap.get(sensor);
         if (targetInside == null) {
-            targetInside = new LinkedHashMap();
+            targetInside = new LinkedHashMap<Mover, Boolean>();
             inRangeMap.put(sensor, targetInside);
         }
-        for (Iterator i = targets.keySet().iterator(); i.hasNext(); ) {
-            Mover target = (Mover) i.next();
+        for (Mover target : targets) {
             if (target == sensor.getMover()) { continue; }
-            Boolean inRange = (Boolean)targetInside.get(target);
+            Boolean inRange = targetInside.get(target);
             if (inRange == null) {//if its not in the map, use the geometry to determine
                 inRange = Boolean.valueOf(sensor.getFootprint().contains(target.getLocation()));
             }
@@ -355,9 +351,9 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 * of the Sensor.
 **/
     public void doEnterRange(Sensor sensor, Mover target) {
-        Map targetInRange = (Map)inRangeMap.get(sensor);
+        Map<Mover, Boolean> targetInRange = inRangeMap.get(sensor);
         if (targetInRange == null) {
-            targetInRange= new LinkedHashMap();
+            targetInRange= new LinkedHashMap<Mover, Boolean>();
             inRangeMap.put(sensor, targetInRange);
         }
         targetInRange.put(target, Boolean.TRUE);
@@ -369,9 +365,9 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 * Sets the in range state of the pair to false.
 **/
     public void doExitRange(Sensor sensor, Mover target) {
-        Map targetInRange = (Map)inRangeMap.get(sensor);
+        Map<Mover, Boolean> targetInRange = inRangeMap.get(sensor);
         if (targetInRange == null) {
-            targetInRange= new LinkedHashMap();
+            targetInRange= new LinkedHashMap<Mover, Boolean>();
             inRangeMap.put(sensor, targetInRange);
         }
         targetInRange.put(target, Boolean.FALSE);
@@ -440,14 +436,14 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     public String toString() {
         StringBuffer buf = new StringBuffer(this.getClass().getName());
         buf.append("\nSensors:");
-        for (Iterator i = sensors.keySet().iterator(); i.hasNext(); ) {
+        for (Sensor sensor : sensors ) {
             buf.append('\n');
-            buf.append(i.next());
+            buf.append(sensor);
         }
         buf.append("\n\nTargets:");
-        for (Iterator i = targets.keySet().iterator(); i.hasNext(); ) {
+        for (Mover target : targets ) {
             buf.append('\n');
-            buf.append(i.next());
+            buf.append(target);
         }
         
         return buf.toString();

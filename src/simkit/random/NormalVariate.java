@@ -34,7 +34,7 @@ public class NormalVariate extends RandomVariateBase {
      * @throws IllegalArgumentException If the array doesn't have exactly 2 elements,
      * either element is not a number, or if the standard deviation is negative.
      */    
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Need (mean, std. dev.), received " +
             params.length + " parameters");

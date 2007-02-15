@@ -67,7 +67,7 @@ public class BinomialVariate implements DiscreteRandomVariate {
      * elements, if the elements are not Numbers, if n is not positive, or if
      * the probability is not between 0 and 1.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 2 ){
             throw new IllegalArgumentException("Binomial needs 2 parameters: " + params.length);
         }

@@ -18,8 +18,10 @@ public class TestBetaVariate {
     public static void main (String args[]) {
         double alpha = 2.0;
         double beta = 3.0;
-        RandomVariate rv = RandomVariateFactory.getInstance("simkit.random.BetaVariate",
-            new Double[] { new Double(alpha), new Double(beta) } );
+        RandomVariate rv = RandomVariateFactory.getInstance("Beta",
+             alpha, beta  );
+        
+        System.out.println(rv);
             
         int numberReps = args.length > 0 ? Integer.parseInt(args[0]) : 10000;
         SimpleStatsTally sst = new SimpleStatsTally("Beta Variate Test");

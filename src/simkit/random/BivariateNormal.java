@@ -36,7 +36,7 @@ public class BivariateNormal implements RandomVector {
 * while required is currently ignored (correlation).
 **/
 
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         boolean goodData = true;
         if (params.length != 3) {
             throw new IllegalArgumentException("Need 3 elements; " +

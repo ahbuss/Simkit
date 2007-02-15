@@ -7,9 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import simkit.util.Hashtable2;
-
+import simkit.util.LinkedHashMap2;
 
 /**
  *  A modified version of SimEntityBase that allows the use of protected
@@ -27,14 +25,15 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 * A two dimensional Hash table used to cache doMethods
 * for all SimEntityBases. Keyed by Class and Method.
 **/
-    private static Hashtable2 allDoMethods;
+    private static LinkedHashMap2<Class, String, Method> allDoMethods;
 
 /**
 * A two dimensional Hash table used to hold the
 * names and signatures of all doMethods of all SimEntityBases.
 * Keyed by Class and Method name.
 **/
-    private static Hashtable2 allNamesAndSignatures;
+    private static LinkedHashMap2<Class, String, List<Class<?>[]>> 
+            allNamesAndSignatures;
 
     /**
      * True if the entity has a doRun method.
@@ -50,8 +49,8 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     }
     
     static {
-        allDoMethods = new Hashtable2();
-        allNamesAndSignatures = new Hashtable2();
+        allDoMethods = new LinkedHashMap2<Class, String, Method>();
+        allNamesAndSignatures = new LinkedHashMap2<Class, String, List<Class<?>[]>>();
         System.out.println("??? Warning: SimEntityBaseProtected is still a prototype and may not work.");
     }
     
@@ -66,31 +65,36 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
      * @param name The name of the entity.
      * @param priority The default priority for processing this entity's events.
      **/
-    public SimEntityBaseProtected(String name, double priority) {
+    public SimEntityBaseProtected(String name, Priority priority) {
         super(name, priority);
         
-        Map doMethods = (Map) allDoMethods.get(this.getClass());
+        Map<String, Method> doMethods = allDoMethods.get(this.getClass());
         if (doMethods == null) {
-            doMethods = getDoMethods();
+            doMethods = new LinkedHashMap<String, Method>();
+            Method[] methods = this.getClass().getMethods();
+            for (int i = 0; i < methods.length; i++) {
+                if (methods[i].getName().startsWith(EVENT_METHOD_PREFIX)) {
+                    doMethods.put(getFullMethodName(methods[i]), methods[i]);
+                    String methodName = methods[i].getName();
+                } // if
+            }  // for
             allDoMethods.put(this.getClass(), doMethods);
         } // if
         
-        Map namesAndSignatures = (Map) allNamesAndSignatures.get(this.getClass());
+        Map<String, List<Class<?>[]>> namesAndSignatures = allNamesAndSignatures.get(this.getClass());
         if (namesAndSignatures == null) {
-            namesAndSignatures = new LinkedHashMap();
-            for (Iterator i = doMethods.keySet().iterator(); i.hasNext(); ) {
-                Method nextDoMethod = (Method) doMethods.get(i.next());
-                List v = null;
+            namesAndSignatures = new LinkedHashMap<String, List<Class<?>[]>>();
+            for (Method nextDoMethod : doMethods.values()) {
+                List<Class<?>[]> v = null;
                 if (namesAndSignatures.containsKey(nextDoMethod.getName())) {
-                    v = (List)namesAndSignatures.get(nextDoMethod.getName());
+                    v = namesAndSignatures.get(nextDoMethod.getName());
                 }
                 else {
-                    v = new ArrayList();
+                    v = new ArrayList<Class<?>[]>();
                     namesAndSignatures.put(nextDoMethod.getName(), v);
                 }
                 v.add(nextDoMethod.getParameterTypes());
             }
-            namesAndSignatures = new LinkedHashMap(namesAndSignatures);
             allNamesAndSignatures.put(this.getClass(), namesAndSignatures);
         }
     }
@@ -118,7 +122,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 * The name is the class name plus a unique serial number.
 * @param priority The priority for processing this entity's events.
 **/
-    public SimEntityBaseProtected(double priority) {
+    public SimEntityBaseProtected(Priority priority) {
         this(DEFAULT_ENTITY_NAME, priority);
         setName(getClass().getName() + '.' + getSerial());
     }
@@ -127,8 +131,8 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 * Gets all the do Methods for this entity. This includes public, private, and
 * protected events defined anywhere in the inheritence. 
 */
-    protected Map getDoMethods() {
-        Map doMethods = new LinkedHashMap();
+    protected Map<String, Method> getDoMethods() {
+        Map<String, Method> doMethods = new LinkedHashMap<String, Method>();
         // I really wanted to handle this with recursion, but couldn't.
         // Walk up the inheritance adding any method+signatures we haven't added yet.
         // When getClass() is called on Object we get a null and stop.
@@ -178,7 +182,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
             return;
         } // if
         // If no method of that name, then there is no hope.
-        Map namesAndSignatures = (Map) allNamesAndSignatures.get(this.getClass());
+        Map<String, List<Class<?>[]>> namesAndSignatures = allNamesAndSignatures.get(this.getClass());
         if (!namesAndSignatures.containsKey(methodName)) {
             if (debug) {
                 System.out.println("No method of name " + methodName + " -- giving up...");
@@ -190,7 +194,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
         } // if
         
         try {
-            Map doMethods = (Map) allDoMethods.get(this.getClass());
+            Map<String, Method> doMethods = allDoMethods.get(this.getClass());
             // This method has either happened before or matches one in method exactly
             if (isDebug()) {
                 System.out.println("doMethods hashcode = " + doMethods.hashCode());
@@ -199,7 +203,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
             }
 
             if (doMethods.containsKey(event.getFullMethodName())) {
-                m = (Method) doMethods.get(event.getFullMethodName());
+                m = doMethods.get(event.getFullMethodName());
                 m.setAccessible(true);
                 m.invoke(this, event.getParameters());
                 //                updateEventCounts(event);
@@ -214,11 +218,11 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
                 // Now, we are here only because there is some chance that there will be a match.
                 // First
                 Object[] params = event.getParameters();
-                for (Iterator iter = ( (List) namesAndSignatures.get(methodName)).iterator(); iter.hasNext(); ) {
+                for (Iterator<Class<?>[]> iter = namesAndSignatures.get(methodName).iterator(); iter.hasNext(); ) {
                     if (isDebug()) {
                         System.out.println("namesAndSignatures: " + namesAndSignatures.hashCode());
                     }
-                    Class[] signature = (Class[]) iter.next();
+                    Class<?>[] signature = iter.next();
                     if (debug) {
                         System.out.print("  Signature: (");
                         for (int k = 0; k < signature.length; k++) {
@@ -275,7 +279,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
                                 System.out.println("Match found: " + event.getFullMethodName());
                             }
                             String key = getFullMethodName(methodName,  signature, false);
-                            m = (Method) doMethods.get(key);
+                            m = doMethods.get(key);
                             if (m != null) {
                                 m.setAccessible(true);
                                 m.invoke(this, params);
@@ -436,7 +440,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
      * @param endingTime The ending time at which all this SimEntity's events are interrupted.
      **/
     public void stopAtTime(double endingTime) {
-        new Stop().waitDelay("StopSimEntity", endingTime, this, -Double.MAX_VALUE);
+        new Stop().waitDelay("StopSimEntity", endingTime, Priority.LOWEST, this);
     }
     
     
@@ -542,7 +546,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 * @return True if the corresponding signatures are assignable from
 * the arguments and are therefore equivelent.
 **/    
-    public static boolean isAssignableFrom(Class[] signature, Object[] args) {
+    public static boolean isAssignableFrom(Class<?>[] signature, Object[] args) {
         boolean assignable = true;
         if (signature.length != args.length) {
             assignable = false;
@@ -556,6 +560,14 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
             }
         }
         return assignable;
+    }
+    
+    /**
+     * Clears cache of doMethods and namesAndSignatures
+     */
+    public static void coldReset() {
+        allDoMethods.clear();
+        allNamesAndSignatures.clear();
     }
     
 }

@@ -25,19 +25,19 @@ public class MultiStat implements PropertyChangeListener {
 /**
 * A container for the SimpleStatsTallies.
 **/
-    private Map tallyStats;
+    private Map<String, SimpleStatsTally> tallyStats;
 
 /**
 * A container for the SimpleStatsTimeVarying.
 **/
-    private Map timeVaryingStats;
+    private Map<String, SimpleStatsTimeVarying> timeVaryingStats;
     
 /**
 * Creates a new empty MultiStat.
 **/
     public MultiStat() {
-        tallyStats = new TreeMap();
-        timeVaryingStats = new TreeMap();
+        tallyStats = new TreeMap<String, SimpleStatsTally>();
+        timeVaryingStats = new TreeMap<String, SimpleStatsTimeVarying>();
     }
     
 /**
@@ -74,12 +74,12 @@ public class MultiStat implements PropertyChangeListener {
 * this is the first observation for the given property.
 **/
     protected void newObservation(String name, double value) {
-        SimpleStatsTally sst = (SimpleStatsTally) tallyStats.get(name);
+        SimpleStatsTally sst = tallyStats.get(name);
         if (sst == null) {
             sst = createNewTallyStat(name);
         }
         sst.newObservation(value);
-        SimpleStatsTimeVarying sstv = (SimpleStatsTimeVarying) timeVaryingStats.get(name);
+        SimpleStatsTimeVarying sstv = timeVaryingStats.get(name);
         if (sstv == null) {
             sstv = createNewTimeVaryingStat(name);
         }
@@ -120,7 +120,7 @@ public class MultiStat implements PropertyChangeListener {
 * <code>null<code/> if the property cannot be found.
 **/
     public SimpleStatsTally getTallyStats(String name) {
-        SimpleStatsTally sst = (SimpleStatsTally) tallyStats.get(name);
+        SimpleStatsTally sst = tallyStats.get(name);
         if (sst == null) {
            return null;
         } else {
@@ -144,7 +144,7 @@ public class MultiStat implements PropertyChangeListener {
 * Returns <code>null<code/> if the property cannot be found.
 **/
     public SimpleStatsTimeVarying getTimeVaryingStats(String name) {
-        SimpleStatsTimeVarying sst = (SimpleStatsTimeVarying) timeVaryingStats.get(name);
+        SimpleStatsTimeVarying sst = timeVaryingStats.get(name);
         if (sst == null) {
            return null;
         } else {
@@ -168,7 +168,7 @@ public class MultiStat implements PropertyChangeListener {
 * this MultiStat has collected data.
 **/
     public String[] getNames() {
-        return (String[]) tallyStats.keySet().toArray(new String[0]);
+        return tallyStats.keySet().toArray(new String[0]);
     }
     
 /**

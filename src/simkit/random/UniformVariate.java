@@ -49,7 +49,7 @@ public class UniformVariate extends RandomVariateBase {
 * @throws IllegalArgumentException If the array doesn't contain exactly 2 elements, if 
 * the elements are not Numbers, or if the low is larger than the high.
 **/
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         double newLow = 0.0;
         double newHigh = 1.0;
         if (params.length != 2) {

@@ -41,7 +41,7 @@ public class DiscreteVariate extends RandomVariateBase {
 * @throws IllegalArgumentException If any of the probabilities/frequencies are 
 * negative or they're sums are zero.
 */    
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Must have Object[] {double[], double[]}");
         }

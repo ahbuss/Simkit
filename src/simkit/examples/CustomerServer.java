@@ -2,6 +2,7 @@ package simkit.examples;
 
 import java.util.LinkedList;
 import java.util.List;
+import simkit.Priority;
 
 import simkit.SimEntityBase;
 import simkit.random.RandomVariate;
@@ -28,7 +29,7 @@ public class CustomerServer extends SimEntityBase {
 /**
 * The queue of waiting Customers.
 **/
-    protected LinkedList queue;
+    protected LinkedList<Customer> queue;
 
 /**
 * The number of available servers.
@@ -40,7 +41,7 @@ public class CustomerServer extends SimEntityBase {
 * time distribution.
 **/
     public CustomerServer(int numberServers, RandomVariate serviceTime) {
-        queue = new LinkedList();
+        queue = new LinkedList<Customer>();
         setNumberServers(numberServers);
         setServiceTime(serviceTime);
     }
@@ -73,7 +74,7 @@ public class CustomerServer extends SimEntityBase {
         queue.add(customer);
         firePropertyChange("numberInQueue", queue.size() - 1, queue.size());
         if (getNumberAvailableServers() > 0) {
-            waitDelay("StartService", 0.0, 1.0);
+            waitDelay("StartService", 0.0, Priority.HIGH);
         }
     }
     
@@ -104,7 +105,7 @@ public class CustomerServer extends SimEntityBase {
         firePropertyChange("numberAvailableServers", numberAvailableServers,
             ++numberAvailableServers);
         if (getNumberInQueue() > 0) {
-            waitDelay("StartService", 0.0, -1.0);
+            waitDelay("StartService", 0.0, Priority.HIGH);
         }
     }
     
@@ -142,7 +143,9 @@ public class CustomerServer extends SimEntityBase {
      * Returns a copy of the queue.
      * @return Shallow copy of queue
      */    
-    public List getQueue() { return new LinkedList(queue); }
+    public List getQueue() { 
+        return new LinkedList<Customer>(queue); 
+    }
     
     /**
      * Returns the number of servers that are not busy.

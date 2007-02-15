@@ -2,6 +2,7 @@ package simkit.examples;
 
 import java.util.LinkedList;
 import java.util.List;
+import simkit.Priority;
 
 import simkit.SimEntityBase;
 import simkit.random.RandomVariate;
@@ -13,6 +14,7 @@ import simkit.random.RandomVariate;
  * time has elapsed without receiving service, that customer
  * exits the queue ("reneges") without receiving service.
  *
+ * @version $Id$
  * @author  Arnold Buss
  */
 public class ServerWithReneges extends SimEntityBase {
@@ -22,7 +24,7 @@ public class ServerWithReneges extends SimEntityBase {
     private RandomVariate renegeTime;
     
     protected int numberAvailableServers;
-    protected LinkedList queue;
+    protected LinkedList<Integer> queue;
     
     protected int numberServed;
     protected int numberReneges;
@@ -32,7 +34,7 @@ public class ServerWithReneges extends SimEntityBase {
         setNumberServers(servers);
         setServiceTime(service);
         setRenegeTime(renege);
-        queue = new LinkedList();
+        queue = new LinkedList<Integer>();
     }
     
     /** Set initial values of all state variables. */    
@@ -65,7 +67,7 @@ public class ServerWithReneges extends SimEntityBase {
         
         waitDelay("Renege", renegeTime.generate(), customer);
         if (getNumberAvailableServers() > 0) {
-            waitDelay("StartService", 0.0, 1.0);
+            waitDelay("StartService", 0.0, Priority.HIGH);
         }
     }
     
@@ -75,7 +77,7 @@ public class ServerWithReneges extends SimEntityBase {
      * Schedule EndService after a delay of a service time.
      */    
     public void doStartService() {
-        Integer customer = (Integer) queue.getFirst();
+        Integer customer = queue.getFirst();
         firePropertyChange("customer", customer);
         
         queue.removeFirst();
@@ -101,7 +103,7 @@ public class ServerWithReneges extends SimEntityBase {
         firePropertyChange("numberServed", numberServed);
 //        Needs higher priority than Arrival event in case of time ties
         if (getNumberInQueue() > 0) {
-            waitDelay("StartService", 0.0, 1.0);
+            waitDelay("StartService", 0.0, Priority.HIGH);
         }
     }
     

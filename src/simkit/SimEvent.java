@@ -2,6 +2,7 @@ package simkit;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+
 /**
  * Class for simulation events.  We will now let the garbage collector
  * do its job - i.e. no more object pooling with the SimEventFactory.
@@ -55,7 +56,7 @@ public class SimEvent implements Comparable {
      * A smaller number is a higher priority and will be processed
      * first.
      **/
-    private double eventPriority;
+    protected Priority priority;
     
     /**
      * The current state of this event. An
@@ -117,18 +118,22 @@ public class SimEvent implements Comparable {
     /**
      * Construct a new SimEvent.
      **/
-    protected SimEvent(SimEntity source,
+    public SimEvent(SimEntity source,
             String name,
             Object[] params,
             double delay,
-            double priority) {
+            Priority priority) {
         super();
         this.source = source;
         this.eventName = name;
         setScheduledTime(delay);
         creationTime = Schedule.getSimTime();
         parameters = (params != null) ? (Object[])params.clone() : new Object[]{};
-        this.eventPriority = priority;
+        if (priority == null) {
+            throw new NullPointerException("Null Priority: " +
+                    source + " " + name);
+        }
+        this.priority = priority;
         methodName = adjustEventName(name);
         StringBuffer fmn = new StringBuffer(methodName);
         fmn.append('(');
@@ -149,11 +154,11 @@ public class SimEvent implements Comparable {
     }       // SimEvent constructor
     
     public SimEvent(SimEntity source, String name, double scheduledTime) {
-        this(source, name, null, scheduledTime, DEFAULT_PRIORITY);
+        this(source, name, null, scheduledTime, Priority.DEFAULT);
     }
     
     public SimEvent(SimEntity source, String name, Object[] params, double scheduledTime) {
-        this(source, name, params, scheduledTime, DEFAULT_PRIORITY);
+        this(source, name, params, scheduledTime, Priority.DEFAULT);
     }
     
     // setters
@@ -193,7 +198,7 @@ public class SimEvent implements Comparable {
      * A smaller number is a higher priority and will be processed
      * first.
      **/
-    public double getEventPriority() { return eventPriority; }
+    public double getEventPriority() { return priority.getPriority(); }
     
     /**
      * The current state of this event. An
@@ -235,7 +240,7 @@ public class SimEvent implements Comparable {
     /**
      * Gets the priority of the SimEntity who owns this event.
      **/
-    public double getOwnerPriority() { return ((SimEntity)getSource()).getPriority();  }
+    public Priority getOwnerPriority() { return ((SimEntity)getSource()).getPriority();  }
     
     /**
      * A unique identifier for this SimEntity.
@@ -446,6 +451,10 @@ public class SimEvent implements Comparable {
         return new Integer(temp);
     }
 
+    public Priority getPriority() {
+        return priority;
+    }
+
 /**
 * Compares this SimEvent to another SimEvent.
 * The order of importance regarding scheduling is
@@ -475,13 +484,14 @@ public class SimEvent implements Comparable {
         if ( a.getScheduledTime() < b.getScheduledTime() ) return -1;
         if ( a.getEventPriority() < b.getEventPriority() ) return 1;
         if ( a.getEventPriority() > b.getEventPriority() ) return -1;
-        if ( a.getOwnerPriority() > b.getOwnerPriority() ) return -1;
-        if ( a.getOwnerPriority() < b.getOwnerPriority() ) return 1;
+        if ( a.getOwnerPriority().getPriority() > b.getOwnerPriority().getPriority() ) return -1;
+        if ( a.getOwnerPriority().getPriority() < b.getOwnerPriority().getPriority() ) return 1;
         if ( a.getCreationTime()  > b.getCreationTime() )  return 1;
         if ( a.getCreationTime()  < b.getCreationTime() )  return -1;
         if ( a.getID()        > b.getID() )        return 1;
         if ( a.getID()        < b.getID() )        return -1;
         return 0;
     }
+
 } // class SimEvent
 

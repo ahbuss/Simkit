@@ -26,7 +26,7 @@ public class ConstantVariate extends RandomVariateBase {
 * @param params A 1 element array containing the desired constant value as a Number.
 * @throws IllegalArgumentException If the first element of array is not a Number.
 **/
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params[0] instanceof Number) {
             this.setValue(((Number)params[0]).doubleValue());
         }

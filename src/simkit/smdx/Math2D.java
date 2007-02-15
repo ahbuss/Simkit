@@ -17,6 +17,7 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Contains a library of useful calculations in 2-dimensional space.
@@ -214,7 +215,7 @@ public class Math2D {
         if (shape instanceof Ellipse2D) {
             return findIntersection(start, velocity, (Ellipse2D) shape);
         }
-        ArrayList intersections = new ArrayList();
+        List<Point2D> intersections = new ArrayList<Point2D>();
         Shape[] segment = getSegments(shape, trans);
         for (int i = 0; i < segment.length; i++) {
             if (segment[i] instanceof Line2D) {
@@ -236,7 +237,7 @@ public class Math2D {
                 }
             }
         }
-        return (Point2D[]) intersections.toArray(new Point2D[intersections.size()]);
+        return intersections.toArray(new Point2D[intersections.size()]);
     }
     
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, Ellipse2D ellipse) {
@@ -297,13 +298,13 @@ public class Math2D {
         switch(numberSolutions) {
             case 1:
             case 3:
-                ArrayList list = new ArrayList();
+                List<Point2D> list = new ArrayList<Point2D>();
                 for (int i = 0; i < sol.length; i++) {
                     if (Math.abs(sol[i] - 0.5) < 0.5) {
                         list.add(getPoint(curve, sol[i]));
                     }
                 }
-                return (Point2D[]) list.toArray(new Point2D[list.size()]);
+                return list.toArray(new Point2D[list.size()]);
             case -1:
             default:
         }
@@ -337,7 +338,7 @@ public class Math2D {
 **/
     public static Shape[] getSegments(Shape shape, AffineTransform transform) {
         double[] coords = new double[6];
-        ArrayList segments = new ArrayList();
+        List<Shape> segments = new ArrayList<Shape>();
         Point2D firstPoint = null;
         Point2D lastPoint = null;
         for (PathIterator path = shape.getPathIterator(transform); !path.isDone(); path.next()) {
@@ -374,7 +375,7 @@ public class Math2D {
                     break;
             }
         }
-        return (Shape[]) segments.toArray(new Shape[segments.size()]);
+        return segments.toArray(new Shape[segments.size()]);
     }
     
 /**

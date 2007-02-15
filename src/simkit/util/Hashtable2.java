@@ -23,8 +23,10 @@ import java.util.Map;
  * 
  * @author Arnold Buss
  * @version $Id$
+ * @deprecated Use simkit.util.LinkedHashMap2 instead
+ * @see LinkedHashMap2
 **/
-public class Hashtable2 extends LinkedHashMap {
+public class Hashtable2<K1, K2, V> extends LinkedHashMap<K1, Map<K2, V>> {
 
 /**
  *  Constructs an empty Hashtable2.
@@ -41,13 +43,13 @@ public class Hashtable2 extends LinkedHashMap {
  *  @param secondKey The second key, normally the key of the property.
  *  @param value The value of the property. 
 **/
-	public void put(Object firstKey, Object secondKey, Object value) {
-		Map values;
+	public void put(K1 firstKey, K2 secondKey, V value) {
+		Map<K2, V> values;
 		if (this.containsKey(firstKey)) {
-			values = (Map) this.get(firstKey);
+			values = this.get(firstKey);
 		}
 		else {
-			values = new LinkedHashMap(10);
+			values = new LinkedHashMap<K2, V>(10);
             this.put(firstKey, values);
 		}
 		values.put(secondKey, value);
@@ -60,13 +62,8 @@ public class Hashtable2 extends LinkedHashMap {
  *  @param value The value of the property, must be an instance of Map.
  *  @throws IllegalArgumentException If the value is not a Map.
 **/
-    public Object put(Object key, Object value) {
-        if (value instanceof Map) {
-            return super.put(key, value);
-        }
-        else {
-            throw new IllegalArgumentException("Hashtable2 can only accept Maps as values.");
-        }
+    public Map<K2, V> put(K1 key, Map<K2, V> value) {
+        return super.put(key, value);
     }
 
 /**
@@ -75,11 +72,11 @@ public class Hashtable2 extends LinkedHashMap {
  *  @param secondKey The key of the property.
  *  @return The value of the property with key secondKey in block firstKey.
 **/
-	public Object get(Object firstKey, Object secondKey) {
-		Map values;
-		Object returnValue = null;
+	public V get(K1 firstKey, K2 secondKey) {
+		Map<K2, V> values;
+		V returnValue = null;
 		if (this.containsKey(firstKey)) {
-			values = (Map) this.get(firstKey);
+			values = this.get(firstKey);
 			returnValue = values.get(secondKey);
 		}
 		return returnValue;
@@ -91,11 +88,11 @@ public class Hashtable2 extends LinkedHashMap {
  *  @param secondKey Key to removed value
  *  @return The removed value or null if the property doesn't exist.
 **/
-    public Object remove(String firstKey, String secondKey) {
-        Object removedValue = null;
-        Object map = get(firstKey);
+    public V remove(K1 firstKey, K2 secondKey) {
+        V removedValue = null;
+        Map<K2, V> map = get(firstKey);
         if (map != null) {
-            removedValue = ((Map) map).remove(secondKey);
+            removedValue = map.remove(secondKey);
         }
         return removedValue;
     }

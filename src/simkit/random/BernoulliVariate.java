@@ -55,7 +55,7 @@ public class BernoulliVariate extends RandomVariateBase implements DiscreteRando
      * one element or the element is not a Number with a value between 0 and 1
      * inclusive.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 1) {
             throw new IllegalArgumentException("One parameter needed for Bernoulli");
         }

@@ -15,11 +15,11 @@ public class CookieCutterMediator extends SimEntityBase implements SensorTargetM
 /**
 * A cache of Contact objects for each Mover processed by this mediator.
 **/
-    protected Map contacts;
+    protected Map<Mover, Contact> contacts;
     
     /** Creates new CookieCutterMediator */
     public CookieCutterMediator() {
-        contacts = new LinkedHashMap();
+        contacts = new LinkedHashMap<Mover, Contact>();
     }
     
     /** When this event is heard, schedules a Detection event for the Sensor
@@ -35,7 +35,7 @@ public class CookieCutterMediator extends SimEntityBase implements SensorTargetM
     public void doEnterRange(Sensor sensor, Mover target) {
         if (this == SensorTargetMediatorFactory.getInstance().getMediatorFor(
                 sensor.getClass(), target.getClass())) {
-            Object contact = contacts.get(target);
+            Contact contact = contacts.get(target);
             if (contact == null) {
                 contact = new Contact(target);
                 contacts.put(target, contact);

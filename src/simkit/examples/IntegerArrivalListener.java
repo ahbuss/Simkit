@@ -6,8 +6,10 @@
 
 package simkit.examples;
 
+import simkit.Priority;
+
 /**
- *
+ * @version $Id$
  * @author  Arnold Buss
  */
 public class IntegerArrivalListener extends simkit.SimEntityBase {
@@ -20,7 +22,14 @@ public class IntegerArrivalListener extends simkit.SimEntityBase {
     }
     
     public void doArrival() {
-        waitDelay("Arrival", 0.0,  new Integer(++nextCustomer), 1.0);
+        int oldNextCustomer = getNextCustomer();
+        nextCustomer += 1;
+        firePropertyChange("nextCustomer", oldNextCustomer, getNextCustomer());
+        waitDelay("Arrival", 0.0, Priority.HIGH, getNextCustomer());
+    }
+
+    public int getNextCustomer() {
+        return nextCustomer;
     }
     
 }

@@ -1,6 +1,8 @@
 package simkit.random;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.WeakHashMap;
 /**
  * Factory for creating <CODE>RandomVector</CODE> instances from "orders".
@@ -18,13 +20,13 @@ public class RandomVectorFactory {
      * Holds a cache of the RandomVector Classes that have already been
      * found indexed by their name.
      **/
-    protected static Map cache;
+    protected static Map<String, Class> cache;
     
     /**
      * A list of packages to search for RandomVector if the
      * class name given is not fully qualified.
      **/
-    protected static String[] searchPackages;
+    protected static Set<String> searchPackages;
     
     /**
      * If true, print out information while searching for RandomVector
@@ -47,11 +49,14 @@ public class RandomVectorFactory {
      * If true, print out information while searching for RandomVector
      * Classes.
      **/
-    public static Map getCache() { return new WeakHashMap(cache); }
+    public static Map<String, Class> getCache() { 
+        return new WeakHashMap<String, Class>(cache); 
+    }
     
     static {
-        setSearchPackages(new String[] {"simkit.random"});
-        cache = new WeakHashMap();
+        searchPackages = new LinkedHashSet<String>();
+        searchPackages.add("simkit.random");
+        cache = new WeakHashMap<String, Class>();
     }
     
     /**
@@ -76,7 +81,7 @@ public class RandomVectorFactory {
             throw new IllegalArgumentException("null class name");
         }
         // First check cache
-        Class randomVectorClass = (Class) cache.get(className);
+        Class randomVectorClass = cache.get(className);
         if (randomVectorClass == null) {
             randomVectorClass = findFullyQualifiedNameFor(className);
             if (randomVectorClass == null) {
@@ -238,27 +243,24 @@ public class RandomVectorFactory {
      * that will be searched when attempting to find RandomVectors by name.
      **/
     public static void addSearchPackage(String newPackage) {
-        ArrayList temp = new ArrayList();
-        for (int i = 0; i < searchPackages.length; i++) {
-            temp.add(searchPackages[i]);
-        }
-        temp.add(newPackage);
-        searchPackages = (String[]) temp.toArray(new String[temp.size()]);
+        searchPackages.add(newPackage);
     }
     
     /**
      * Sets the list of packages that will be searched when attempting to find
      * a RandomVector by name.
      **/
-    public static void setSearchPackages(String[] packages) {
-        searchPackages = (String[]) packages.clone();
+    public static void setSearchPackages(Set<String> packages) {
+        searchPackages = new LinkedHashSet<String>(packages);
     }
     
     /**
      * Returns a copy of the list of packages that will be searched when attempting to find
      * a RandomVector by name.
      **/
-    public static String[] getSearchPackages() { return (String[]) searchPackages.clone(); }
+    public static Set<String> getSearchPackages() { 
+        return new LinkedHashSet<String>(searchPackages); 
+    }
     
     /**
      * Finds the RandomVector Class corresponding to the given name. First
@@ -266,7 +268,7 @@ public class RandomVectorFactory {
      * Then searches the "search packages." The search path defaults to "simit.random"
      * but additional search packages can be added.
      * @see #addSearchPackage(String)
-     * @see #setSearchPackages(String[])
+     * @see #setSearchPackages(Set)
      **/
     public static Class findFullyQualifiedNameFor(String className) {
         Class theClass = null;
@@ -277,13 +279,13 @@ public class RandomVectorFactory {
         }
         //        If not, then try the search path
         catch (ClassNotFoundException e) {}
-        for (int i = 0; i < searchPackages.length; i++) {
+        for (String searchPackage : searchPackages) {
             if (verbose) {
-                System.out.println("Checking " + searchPackages[i] + "." + className);
+                System.out.println("Checking " + searchPackage + "." + className);
             }
             try {
                 theClass = Thread.currentThread().getContextClassLoader().loadClass(
-                searchPackages[i] + "." + className );
+                searchPackage + "." + className );
                 if (!simkit.random.RandomVector.class.isAssignableFrom(theClass)) {
                     continue;
                 }

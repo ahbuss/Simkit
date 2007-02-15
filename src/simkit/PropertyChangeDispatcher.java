@@ -8,6 +8,7 @@ import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 
 /**
@@ -33,18 +34,18 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * setter map keyed by a Class reference
      * Signature of map is <Class, HashMap<String, Method>>
      */
-    private static HashMap allSetters;
+    private static Map<Class, Map<String, Method>> allSetters;
     
     /** 
      * Holds references to getter methods keyed by property name, each
      * setter map keyed by a Class reference
      * Signature of map is <Class, HashMap<String, Method>>
      */
-    private static HashMap allGetters;
+    private static Map<Class, Map<String, Method>> allGetters;
     
     static {
-        allSetters = new LinkedHashMap();
-        allGetters = new LinkedHashMap();
+        allSetters = new LinkedHashMap<Class, Map<String, Method>>();
+        allGetters = new LinkedHashMap<Class, Map<String, Method>>();
     }
     
     /**
@@ -56,19 +57,19 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * Contains properties to be added on-the-fly.  Signature of Map is
      * <String, Object>
      */
-    private HashMap addedProperties;
+    private Map<String, Object> addedProperties;
     
     /**
      * Local reference to setters for the class ofthis instance.  Signature
      * is <String, Method>
      */
-    private HashMap setters;
+    private Map<String, Method> setters;
     
     /**
      * Local reference to getters for the class ofthis instance.  Signature
      * is <String, Method>
      */
-    private HashMap getters;
+    private Map<String, Method> getters;
     
     /**
      * Create a new PropertyChangeDispatcher to manage properties for the given
@@ -82,12 +83,12 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
         super(bean);
         source = bean;
         
-        setters = (HashMap) allSetters.get(bean.getClass());
-        getters = (HashMap) allGetters.get(bean.getClass());
+        setters = allSetters.get(bean.getClass());
+        getters = allGetters.get(bean.getClass());
         if (setters == null || getters == null) {
-            setters = new LinkedHashMap();
+            setters = new LinkedHashMap<String, Method>();
             allSetters.put(bean.getClass(), setters);
-            getters = new LinkedHashMap();
+            getters = new LinkedHashMap<String, Method>();
             allGetters.put(bean.getClass(), getters);
             for (Class clazz = source.getClass(); clazz != stopClass; clazz = clazz.getSuperclass()) {
                 Method[] method = clazz.getDeclaredMethods();
@@ -110,7 +111,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
                 }
             }
         }
-        addedProperties = new LinkedHashMap();
+        addedProperties = new LinkedHashMap<String, Object>();
     }
     
     /**
@@ -131,7 +132,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * @param propertyValue new value of the property
      **/
     public void setProperty(String propertyName, Object propertyValue) {
-        Method setter = (Method) setters.get(propertyName);
+        Method setter = setters.get(propertyName);
         if (setter != null ) {
             try {
                 setter.invoke(source, new Object[] {propertyValue});
@@ -158,7 +159,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      **/
     public Object getProperty(String propertyName) {
         Object result = null;
-        Method getter = (Method) getters.get(propertyName);
+        Method getter = getters.get(propertyName);
         if (getter != null) {
             try {
                 result = getter.invoke(source, (Object[]) null);
@@ -199,17 +200,16 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      */
     public String paramString() {
         StringBuffer buf = new StringBuffer();
-        for (Iterator i = getters.keySet().iterator(); i.hasNext(); ) {
-            Object property = i.next();
-            Object setter = setters.get(property);
+        for (String propertyName : getters.keySet()) {
+            Object setter = setters.get(propertyName);
             if (setter == null) {
                 continue;
             }
-            Object value = getProperty(property.toString());
+            Object value = getProperty(propertyName);
             if (value == null || !value.getClass().isArray() ) {
                 buf.append(System.getProperty("line.separator"));
                 buf.append('\t');
-                buf.append(property);
+                buf.append(propertyName);
                 buf.append(" = ");
                 buf.append(value);
             }
@@ -217,7 +217,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
                 for (int j = 0; j < Array.getLength(value); ++j) {
                     buf.append(System.getProperty("line.separator"));
                     buf.append('\t');
-                    buf.append(property);
+                    buf.append(propertyName);
                     buf.append('[');
                     buf.append(j);
                     buf.append("] = ");
@@ -225,13 +225,12 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
                 }
             }
         }
-        for (Iterator i = addedProperties.keySet().iterator(); i.hasNext(); ) {
-            Object property = i.next();
-            Object value = addedProperties.get(property);
+        for (String propertyName : addedProperties.keySet()) {
+            Object value = addedProperties.get(propertyName);
             if (value == null || !value.getClass().isArray() ) {
                 buf.append(System.getProperty("line.separator"));
                 buf.append('\t');
-                buf.append(property);
+                buf.append(propertyName);
                 buf.append(" = ");
                 buf.append(value);
             }
@@ -239,7 +238,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
                 for (int j = 0; j < Array.getLength(value); ++j) {
                     buf.append(System.getProperty("line.separator"));
                     buf.append('\t');
-                    buf.append(property);
+                    buf.append(propertyName);
                     buf.append('[');
                     buf.append(j);
                     buf.append("] = ");
@@ -255,14 +254,12 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      */
     public String toString() {
         StringBuffer buf = new StringBuffer();
-        for (Iterator i = getters.keySet().iterator(); i.hasNext(); ) {
-            Object property = i.next();
-            
-            Object value = getProperty(property.toString());
+        for (String propertyName : getters.keySet()) {
+            Object value = getProperty(propertyName);
             if (value == null || !value.getClass().isArray() ) {
                 buf.append(System.getProperty("line.separator"));
                 buf.append('\t');
-                buf.append(property);
+                buf.append(propertyName);
                 buf.append(" = ");
                 buf.append(value);
             }
@@ -270,7 +267,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
                 for (int j = 0; j < Array.getLength(value); ++j) {
                     buf.append(System.getProperty("line.separator"));
                     buf.append('\t');
-                    buf.append(property);
+                    buf.append(propertyName);
                     buf.append('[');
                     buf.append(j);
                     buf.append("] = ");
@@ -278,13 +275,12 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
                 }
             }
         }
-        for (Iterator i = addedProperties.keySet().iterator(); i.hasNext(); ) {
-            Object property = i.next();
-            Object value = addedProperties.get(property);
+        for (String propertyName : addedProperties.keySet()) {
+            Object value = addedProperties.get(propertyName);
             if (value == null || !value.getClass().isArray() ) {
                 buf.append(System.getProperty("line.separator"));
                 buf.append('\t');
-                buf.append(property);
+                buf.append(propertyName);
                 buf.append(" = ");
                 buf.append(value);
             }
@@ -292,7 +288,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
                 for (int j = 0; j < Array.getLength(value); ++j) {
                     buf.append(System.getProperty("line.separator"));
                     buf.append('\t');
-                    buf.append(property);
+                    buf.append(propertyName);
                     buf.append('[');
                     buf.append(j);
                     buf.append("] = ");
@@ -307,7 +303,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * @return array of added properties
      */
     public String[] getAddedProperties() {
-        return (String[]) addedProperties.keySet().toArray(new String[0]);
+        return addedProperties.keySet().toArray(new String[0]);
     }
     
     /**

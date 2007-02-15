@@ -13,15 +13,15 @@ import java.util.HashMap;
 import simkit.SimEntityBase;
 
 /**
- *
  * @author  Arnold Buss
+ * @version $Id$
  */
 public class TimeListener extends SimEntityBase implements PropertyChangeListener {
     
-    protected HashMap arrivalTimes;
+    protected HashMap<Integer, Double> arrivalTimes;
     
     public TimeListener() {
-        arrivalTimes = new HashMap();
+        arrivalTimes = new HashMap<Integer, Double>();
     }
     
     public void reset() {
@@ -30,14 +30,14 @@ public class TimeListener extends SimEntityBase implements PropertyChangeListene
     }
     
     public void doArrival(Integer customer) {
-        arrivalTimes.put(customer, new Double(eventList.getSimTime()));
+        arrivalTimes.put(customer, eventList.getSimTime());
     }
     
     public void doEndService(Integer customer) {
-        Double arrivalTime = (Double) arrivalTimes.remove(customer);
+        Double arrivalTime = arrivalTimes.remove(customer);
         if (arrivalTime != null) {
             firePropertyChange("timeInSystem", 
-                eventList.getSimTime() - arrivalTime.doubleValue() );
+                eventList.getSimTime() - arrivalTime.doubleValue());
         }
     }
     

@@ -52,23 +52,19 @@ public class TestRandomVariateFactory {
             new Object[] { new Double(1.0), new Double(2.0) }
         };
         
-        long seed = 12345L;
-        long[] seeds = new long[] { seed };
-        
         RandomVariate[] rand = new RandomVariate[name.length];
         RandomVariate[] rand2 = new RandomVariate[name.length];
+        
+        rand[0] = RandomVariateFactory.getInstance(name[0], 1.0);
+        rand[1] = RandomVariateFactory.getInstance(name[1], 1.0, 2.0);
+        rand[2] = RandomVariateFactory.getInstance(name[2], 1.0, 2.0);
+        rand[3] = RandomVariateFactory.getInstance(name[3], 1.0, 2.0);
+        
         for (int i = 0; i < classes.length; i++) {
-            rand[i] = RandomVariateFactory.getInstance(classes[i], param[i]);
+            rand[i] = RandomVariateFactory.getInstance(name[i], param[i]);
             System.out.println(rand[i] + "\t" + rand[i].generate());
-            rand2[i] = RandomVariateFactory.getInstance(classes[i], param[i]);
-            System.out.println(rand2[i] + "\t" + rand2[i].generate());
         }
-        for (int i = 0; i < classes.length; i++) {
-            rand[i] = RandomVariateFactory.getInstance(classes[i], param[i], seed);
-            System.out.println(rand[i] + "\t" + rand[i].generate());
-            rand2[i] = RandomVariateFactory.getInstance(classes[i], param[i], seeds);
-            System.out.println(rand2[i] + "\t" + rand2[i].generate());
-        }
+
         for (int i = 0; i < classes.length; i++) {
             rand2[i] = RandomVariateFactory.getInstance(rand[i]);
             System.out.println(rand[i] + "\t" + rand[i].generate());
@@ -91,16 +87,12 @@ public class TestRandomVariateFactory {
         
         System.out.println("Testing copy method for " + rand[0]);
         RandomVariate indCopy = RandomVariateFactory.getInstance(rand[0]);
-        RandomVariate depCopy = RandomVariateFactory.getInstance(
-            rand[0].getClass(), rand[0].getParameters(), 
-            RandomNumberFactory.getInstance((RandomNumber) rand[0].getRandomNumber())
-        );
+
         System.out.println("Independent Copy is: " + indCopy);
-        System.out.println("Dependent) Copy is: " + depCopy);
         System.out.println("Live\t\t\tDependent\t\tIndependent");
         for (int i = 0; i < 4; ++i) {
             System.out.println(rand[0].generate() + "\t" + 
-                depCopy.generate() + "\t" + indCopy.generate());
+                indCopy.generate());
         }
     }
 

@@ -63,7 +63,7 @@ public class ScaledVariate implements RandomVariate {
 * if the first element is not a RandomVariate, if either the 2nd or 3rd (if 
 * specified) is not a Number, or if the scale is not positive.
 **/
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length != 2 && params.length != 3) {
             throw new IllegalArgumentException("Needs 2 or 3 parameters: " + params.length);
         }

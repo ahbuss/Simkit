@@ -12,6 +12,7 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import simkit.Priority;
 
 import simkit.SimEntityBase;
 
@@ -41,7 +42,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
 /**
 * The Contacts currently being tracked by this Sensor.
 **/
-    protected Set contacts;
+    protected Set<Moveable> contacts;
 
 /**
 * The range of this Sensor.
@@ -67,7 +68,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
         locationTransform = new AffineTransform();
         footprint = new Ellipse2D.Double();
         this.maxRange = maxRange;
-        contacts = new LinkedHashSet();
+        contacts = new LinkedHashSet<Moveable>();
     }
 
     /**
@@ -142,7 +143,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
      * @param mover Mover sensor is on
      */    
     public void doEndMove(Mover mover) {
-        waitDelay("EndMove", 0.0, new Object[] { this }, 1.0);
+        waitDelay("EndMove", 0.0, Priority.HIGH, new Object[] { this });
     }
     
     /** 
@@ -230,8 +231,8 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
 /**
 * Returns this Set of contacts currently held by this Sensor.
 **/
-    public Set getContacts() {
-        return new LinkedHashSet(contacts);
+    public Set<Moveable> getContacts() {
+        return new LinkedHashSet<Moveable>(contacts);
     }
     
 }

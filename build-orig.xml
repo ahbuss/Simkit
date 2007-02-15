@@ -91,7 +91,7 @@
 
 <!--  === TARGET: compile === -->
     <target depends="build.init" description="Compile the Simkit classes and copy resource files to the binary tree." name="compile">
-        <javac destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.4" target="1.4" debug="true">
+        <javac destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.5" target="1.5" debug="true">
         </javac>
         
         <copy todir="${dir.build.classes}">
@@ -118,7 +118,7 @@
     </target>
 
     <target depends="clean, build.init" description="Compile the Simkit classes with lint" name="lint">
-        <javac destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.4" target="1.4" debug="true">
+        <javac destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.5" target="1.5" debug="true">
             <compilerarg line="-Xlint"/>
         </javac>
         
@@ -155,7 +155,6 @@
         
         <javadoc access="private" author="true" destdir="${dir.build.doc}" excludepackagenames="*.test.*" sourcepath="${dir.src}" version="true">
             <package name="simkit"/>
-            <package name="simkit.examples"/>
             <package name="simkit.random"/>
             <package name="simkit.smd"/>
             <package name="simkit.smdx"/>
@@ -204,6 +203,7 @@
                 </jar>
 		<copy todir="${dir.dist}/lib">
 			<fileset dir="${dir.lib}"/>
+                        <fileset dir="${dir.build.lib}" />
 		</copy>
                 <copy file="${dir.build}/simkit-src.zip" todir="${dir.dist}"/>
                 <copy todir="${dir.dist}/gnu">

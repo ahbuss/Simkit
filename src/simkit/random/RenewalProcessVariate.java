@@ -62,7 +62,7 @@ public class RenewalProcessVariate implements RandomVariate {
       * @throws IllegalArgumentException If the array does not contain exactly 1
       * element or if the element is not a RandomVariate.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params == null) {
             throw new NullPointerException("RenewalProcess params cannot be null");
         }

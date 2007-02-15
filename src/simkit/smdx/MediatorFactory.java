@@ -12,7 +12,7 @@ import java.util.Map;
  * @author  Arnold Buss
  * @version $Id$
  */
-public interface MediatorFactory {
+public interface MediatorFactory<T1, T2, T3> {
     
 /**
 * Returns a Map containing the Mediators currently held by this
@@ -41,12 +41,14 @@ public interface MediatorFactory {
     public void addMediatorFor(String first, String second, String mediator)
         throws ClassNotFoundException;
     
-    public void addMediatorFor(Class first, Class second, Object instance);
+    public void addMediatorFor(Class first, Class second, T3 mediatorInstance);
+    
+    public void addMediatorFor(T1 first, T2 second, T3 mediatorInstance);
     
 /**
 * Gets the Mediator for the given Objects.
 **/
-    public Mediator getMeditorFor(Object first, Object second);
+    public Mediator getMeditorFor(T1 first, T2 second);
     
 /**
 * Gets the Mediator for the given Classes.

@@ -18,7 +18,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
 /**
 * Holds the collection of statistics.
 **/
-    private TreeMap indexedStats;
+    private TreeMap<Integer, SimpleStatsTally> indexedStats;
 
 /**
 * Creates a new instance with the default name. Note: The name
@@ -26,7 +26,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
 **/
     public MultipleSimpleStatsTally() {
         super();
-        indexedStats = new TreeMap();
+        indexedStats = new TreeMap<Integer, SimpleStatsTally>();
     }
 
 /**
@@ -41,12 +41,11 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
 //Javadoc inherited.
     public void newObservation(double x, int index) {
         this.newObservation(x);
-        Integer key = new Integer(index);
-        SimpleStatsTally stat = (SimpleStatsTally) indexedStats.get(key);
+        SimpleStatsTally stat = indexedStats.get(index);
         if (stat == null) {
             stat = new SimpleStatsTally();
             stat.setName(this.getName());
-            indexedStats.put(key, stat);
+            indexedStats.put(index, stat);
         }
         stat.newObservation(x);
     }
@@ -58,32 +57,32 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
 
 //Javadoc inherited.
     public double getMean(int index) {
-        SimpleStatsTally stat = (SimpleStatsTally) indexedStats.get(new Integer(index));
+        SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getMean();  
     }
 //Javadoc inherited.
     public double getVariance(int index) {
-        SimpleStatsTally stat = (SimpleStatsTally) indexedStats.get(new Integer(index));
+        SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getVariance();  
     }
 //Javadoc inherited.
     public double getStandardDeviation(int index) {
-        SimpleStatsTally stat = (SimpleStatsTally) indexedStats.get(new Integer(index));
+        SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getStandardDeviation();  
     }
 //Javadoc inherited.
     public int getCount(int index) {
-        SimpleStatsTally stat = (SimpleStatsTally) indexedStats.get(new Integer(index));
+        SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? 0 : stat.getCount();  
     }
 //Javadoc inherited.
     public double getMinObs(int index) {
-        SimpleStatsTally stat = (SimpleStatsTally) indexedStats.get(new Integer(index));
+        SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getMinObs();  
     }
 //Javadoc inherited.
     public double getMaxObs(int index) {
-        SimpleStatsTally stat = (SimpleStatsTally) indexedStats.get(new Integer(index));
+        SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getMaxObs();  
     }
 
@@ -91,7 +90,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     public double[] getAllMean() {
         double[] means = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             means = new double[length];
             for (int i = 0; i < means.length; i++) {
@@ -105,7 +104,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     public double[] getAllVariance() {
         double[] variance = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             variance = new double[length];
             for (int i = 0; i < variance.length; i++) {
@@ -119,7 +118,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     public double[] getAllStandardDeviation() {
         double[] std = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             std = new double[length];
             for (int i = 0; i < std.length; i++) {
@@ -134,7 +133,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
         SampleStatistics[] allStats = null;
         SimpleStatsTally temp;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             allStats = new SampleStatistics[length];
             for (int i = 0; i < allStats.length; i++) {
@@ -150,7 +149,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     public double[] getAllMaxObs() {
         double[] max = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             max = new double[length];
             for (int i = 0; i < max.length; i++) {
@@ -164,7 +163,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     public double[] getAllMinObs() {
         double[] min = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             min = new double[length];
             for (int i = 0; i < min.length; i++) {
@@ -178,7 +177,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     public int[] getAllCount() {
         int[] count = null;
         if (indexedStats.size() > 0) {
-            int high = ((Integer) indexedStats.lastKey()).intValue();
+            int high = indexedStats.lastKey();
             int length = high + 1;
             count = new int[length];
             for (int i = 0; i < count.length; i++) {
@@ -208,8 +207,8 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     public void reset() {
         super.reset();
         if (indexedStats == null) { return; }
-        for (Iterator i = indexedStats.values().iterator(); i.hasNext(); ) {
-            ((SimpleStatsTally) i.next()).reset();
+        for (SimpleStatsTally stats : indexedStats.values()) {
+            stats.reset();
         }
     }
 /**
@@ -224,9 +223,8 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
         buf.append(getSamplingType());
         buf.append(')');
         buf.append(EOL);
-        for (Iterator i = indexedStats.keySet().iterator(); i.hasNext(); ) {
-            Object key = i.next();
-            SimpleStatsTally stat = (SimpleStatsTally) indexedStats.get(key);
+        for (Integer key : indexedStats.keySet()) {
+            SimpleStatsTally stat = indexedStats.get(key);
             buf.append(key);
             buf.append(' ');
             buf.append(' ');

@@ -26,7 +26,7 @@ public interface RandomVector {
  *  in additional methods provided by the programmer.
  * @param params the array of parameters, wrapped in objects.
 **/
-    public void setParameters(Object[] params);
+    public void setParameters(Object... params);
 
 /**
  * Returns an array containing the parameters of this RandomVector.

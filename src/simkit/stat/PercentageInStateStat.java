@@ -29,7 +29,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
     
     private String propertyName;
     
-    protected Map stateStats;
+    protected Map<Object, Double> stateStats;
     
     protected Object currentState;
     
@@ -46,7 +46,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
         setPropertyName(propertyName);
         setInitialState(initialState);
         setNumberFormat(AbstractSimpleStats.DEFAULT_NUMBER_FORMAT);
-        stateStats = new TreeMap();
+        stateStats = new TreeMap<Object, Double>();
         reset();
     }
     
@@ -58,7 +58,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
         stateStats.clear();
         currentState = getInitialState();
         lastTime = Schedule.getSimTime();
-        stateStats.put(currentState, new Double(0.0));
+        stateStats.put(currentState, 0.0);
         stateNameLength = 5;
     }
     
@@ -78,13 +78,13 @@ public class PercentageInStateStat implements PropertyChangeListener {
      */
     public void newObservation(Object newState) {
         Object oldState = getCurrentState();
-        double oldTimeInState = ((Double)stateStats.get(oldState)).doubleValue();
+        double oldTimeInState = stateStats.get(oldState);
         double timeInThisState = Schedule.getSimTime() - getLastTime();
-        stateStats.put(oldState, new Double(oldTimeInState + timeInThisState));
+        stateStats.put(oldState, oldTimeInState + timeInThisState);
         lastTime = Schedule.getSimTime();
         
         currentState = newState;
-        Double newTimeInState = (Double)stateStats.get(currentState);
+        Double newTimeInState = stateStats.get(currentState);
         if (newTimeInState == null) {
             newTimeInState = new Double(0.0);
             stateStats.put(currentState, newTimeInState);
@@ -142,8 +142,8 @@ public class PercentageInStateStat implements PropertyChangeListener {
         return stringBuffer.toString();
     }
     
-    public LinkedHashMap getStateStats() {
-        return new LinkedHashMap(stateStats);
+    public Map<Object, Double> getStateStats() {
+        return new LinkedHashMap<Object, Double>(stateStats);
     }
     
     public Object getCurrentState() {
@@ -171,7 +171,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
             newObservation(state);
         }
         double percentage = 0.0;
-        Double timeInThisState = (Double) stateStats.get(state);
+        Double timeInThisState = stateStats.get(state);
         if (timeInThisState != null) {
             percentage = timeInThisState.doubleValue() / Schedule.getSimTime();
         }

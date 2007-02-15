@@ -14,7 +14,7 @@ package simkit;
 public class RunAndPause extends SimEntityBase {
     
     public void doRun() {
-        waitDelay("Pause", 0.0, Double.POSITIVE_INFINITY);
+        waitDelay("Pause", 0.0, Priority.HIGHEST);
     }
     
     public void doPause() {

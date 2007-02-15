@@ -61,7 +61,7 @@ public class NPPoissonProcessThinned extends BasicSimEntity implements RandomVar
         };
     }
 
-    public void setParameters(Object[] obj) {
+    public void setParameters(Object... obj) {
         if (obj.length != 3) {
             throw new IllegalArgumentException(
                 "NHPoissonProcessVariate requires 3 parameters: " +

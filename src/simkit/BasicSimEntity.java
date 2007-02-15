@@ -35,7 +35,8 @@ import simkit.util.IndexedPropertyChangeEvent;
  *  @author Arnold Buss
  *  @version $Id$
  **/
-public abstract class BasicSimEntity extends BasicSimEventSource implements SimEntity {
+public abstract class BasicSimEntity extends BasicSimEventSource 
+        implements SimEntity {
     
 /**
 * The unique number to be assigned to the next BasicSimEntity created.
@@ -56,7 +57,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
 * the same event priority, the one whose owner has a higher
 * priority will occur first.
 **/
-    private double priority;
+    private Priority priority;
 
 /**
 * A unique identifier for this SimEntity.
@@ -87,16 +88,16 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
    * @param name The name of the BasicSimEntity.
    **/
     public BasicSimEntity(String name) {
-        this(name, DEFAULT_PRIORITY);
+        this(name, Priority.DEFAULT);
     }
     
    /**
    * Construct a new BasicSimEntity with the given name and priority.
    * @param name The name of the BasicSimEntity.
    * @param priority The priority assigned this BasicSimEntity. 
-   * @see #setPriority(double)
+   * @see #setPriority(Priority)
    **/
-    public BasicSimEntity(String name, double priority, int eventListID) {
+    public BasicSimEntity(String name, Priority priority, int eventListID) {
         super();
         serial = ++nextSerial;
         setName(name);
@@ -109,7 +110,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
         setJustDefinedProperties(true);
     }
     
-    public BasicSimEntity(String name, double priority) {
+    public BasicSimEntity(String name, Priority priority) {
         this(name, priority, Schedule.getDefaultEventList().getID());
     }
     
@@ -117,9 +118,9 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
    * Construct a new BasicSimEntity with a default name and the given priority.
    * The name will be the class name plus a unique serial number.
    * @param priority The priority assigned this BasicSimEntity. 
-   * @see #setPriority(double)
+   * @see #setPriority(Priority)
    **/
-    public BasicSimEntity(double priority) {
+    public BasicSimEntity(Priority priority) {
         this(DEFAULT_ENTITY_NAME, priority);
         setName(getClass().getName() + '.' + getSerial());
     }
@@ -129,7 +130,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
    * The name will be the class name plus a unique serial number.
    **/
     public BasicSimEntity() {
-        this(DEFAULT_ENTITY_NAME, DEFAULT_PRIORITY);
+        this(DEFAULT_ENTITY_NAME, Priority.DEFAULT);
         setName(getClass().getName() + '.' + getSerial());
     }
     
@@ -160,129 +161,24 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
  */
    /**
    * Schedules a SimEvent for an event that has multiple parameters.
-   * @param methodName The name of the event to be scheduled. (The "do" is optional.
+   * @param name The name of the event to be scheduled. (The "do" is optional.
    * "doArrive" and "Arrive" are equivalent.)
    * @param delay The amount of time between now and when the event will occur.
-   * @param parameters The parameters for the event. Primitives must be wrapped in an Object.
-   * @param eventPriority If two events occur at the same time, the one with the highest number
+   * @param priority If two events occur at the same time, the one with the highest number
    * will be executed first.
-   **/
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay,
-    Object[]    parameters,
-    double      eventPriority) {
-        
-        SimEvent event = new SimEvent(this, methodName, parameters, delay, eventPriority);
-        attemptSchedule(event);
-        return event;
-    }
-    
-   /**
-   * Schedules a SimEvent for an event that has a single parameter.
-   * @param methodName The name of the event to be scheduled. (The "do" is optional.
-   * "doArrive" and "Arrive" are equivalent.)
-   * @param delay The amount of time between now and when the event will occur.
-   * @param parameter The parameter for the event. Primitives must be wrapped in an Object.
-   * @param eventPriority If two events occur at the same time, the one with the highest number
-   * will be executed first.
-   **/
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay,
-    Object      parameter,
-    double      eventPriority) {
-        SimEvent event = new SimEvent(this, methodName, new Object[] {parameter}, delay, eventPriority);
-        attemptSchedule(event);
-        return event;
-    }
-    
-/*
-  Three parameter methods
- */
-    
-   /**
-   * Schedules a SimEvent for an event that has multiple parameters with a default priority. 
-   * @param methodName The name of the event to be scheduled. (The "do" is optional.
-   * "doArrive" and "Arrive" are equivalent.)
-   * @param delay The amount of time between now and when the event will occur.
    * @param parameters The parameters for the event. Primitives must be wrapped in an Object.
    **/
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay,
-    Object[]    parameters) {
-        SimEvent event =  new SimEvent(this, methodName, parameters, delay, DEFAULT_PRIORITY);
-        attemptSchedule(event);
-        return event;
-    }
-    
-   /**
-   * Schedules a SimEvent for an event that has no parameters.
-   * @param methodName The name of the event to be scheduled. (The "do" is optional.
-   * "doArrive" and "Arrive" are equivalent.)
-   * @param delay The amount of time between now and when the event will occur.
-   * @param eventPriority If two events occur at the same time, the one with the highest number
-   * will be executed first.
-   **/
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay,
-    double      eventPriority) {
-        SimEvent event = new SimEvent(this, methodName, new Object[] {}, delay, eventPriority);
-        attemptSchedule(event);
-        return event;
-    }
-    
-   /**
-   * Schedules a SimEvent for an event that has a single parameter with a default priority.
-   * @param methodName The name of the event to be scheduled. (The "do" is optional.
-   * "doArrive" and "Arrive" are equivalent.)
-   * @param delay The amount of time between now and when the event will occur.
-   * @param parameter The parameter for the event. Primitives must be wrapped in an Object.
-   **/
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay,
-    Object      parameter ) {
+    public SimEvent waitDelay(String name, double delay, Priority priority, Object... parameters) {
         
-        SimEvent event = new SimEvent(this, methodName, new Object[] {parameter}, delay );
+        SimEvent event = new SimEvent(this, name, parameters, delay, priority);
         attemptSchedule(event);
         return event;
     }
     
-/*
-  Two parameter method
- */
-    
-   /**
-   * Schedules a SimEvent for an event that has no parameters with a default priority.
-   * @param methodName The name of the event to be scheduled. (The "do" is optional.
-   * "doArrive" and "Arrive" are equivalent.)
-   * @param delay The amount of time between now and when the event will occur.
-   **/
-    public SimEvent waitDelay(
-    String      methodName,
-    double      delay )  {
-        SimEvent event = new SimEvent(this, methodName, new Object[] {}, delay, DEFAULT_PRIORITY);
-        attemptSchedule(event);
-        return event;
+    public SimEvent waitDelay(String name, double delay, Object... parameters) {
+        return this.waitDelay(name, delay, Priority.DEFAULT, parameters);
     }
     
-/**
-* @deprecated No replacement.
-* Allowed the method name and event name to be different.
- */
-    public SimEvent waitDelay(
-    String      methodName,
-    Object      parameter,
-    double      delay,
-    String      eventName ) {
-        SimEvent event = new SimEvent(this, methodName, new Object[] {parameter}, delay, DEFAULT_PRIORITY);
-        attemptSchedule(event);
-        return event;
-    }
-
 /**
 * Schedules an event.
 **/    
@@ -294,16 +190,8 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      * Cancels the next event for this entity that matches the event name and
      * value of the parameters. 
      **/
-    public void interrupt(String eventName, Object[] parameters) {
+    public void interrupt(String eventName, Object... parameters) {
         eventList.interrupt(this, eventName, parameters);
-    }
-    
-    /**
-     * Cancels the next event for this entity that matches the event name and
-     * value of the parameter. 
-     **/
-    public void interrupt(String eventName, Object parameter) {
-        interrupt(eventName, new Object[] {parameter});
     }
     
     /**
@@ -317,17 +205,10 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
      * Cancels all events for this entity that match the event name and
      * value of the parameters. 
      **/
-    public void interruptAll(String eventName, Object[] parameters) {
+    public void interruptAll(String eventName, Object... parameters) {
         eventList.interruptAll(this, eventName, parameters);
     }
     
-    /**
-     * Cancels all events for this entity that match the event name and
-     * value of the parameter. 
-     **/
-    public void interruptAll(String eventName, Object parameter) {
-        interruptAll(eventName, new Object[] {parameter});
-    }
     
     /**
      * Cancels all events for this entity that match the event name.
@@ -356,14 +237,14 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
 * are scheduled at the same time and have the same event priority,
 * the one whose owner has the highest priority will be processed first.
 **/
-    public void setPriority(double p) {priority = p;}
+    public void setPriority(Priority p) {priority = p;}
 
 /**
 * The scheduling priority for this entity. If two events
 * are scheduled at the same time and have the same event priority,
 * the on whose owner has the highest priority will be processed first.
 **/
-    public double getPriority() {return priority;}
+    public Priority getPriority() {return priority;}
     
 /**
 * If true causes debug/trace information to be output.
@@ -708,5 +589,15 @@ public abstract class BasicSimEntity extends BasicSimEventSource implements SimE
     protected String getPropertiesString() {
         return property.paramString();
     }
-
+    
+    /**
+     * This SimEntity has higher priority if its Priority instance has
+     * higher priority or it has a smaller serial.
+     * @param other Other SimEntity to compare to
+     */
+    public int compareTo(SimEntity other) {
+        int priorityComp = this.getPriority().compareTo(other.getPriority());
+        return priorityComp != 0 ? priorityComp : 
+            this.getSerial() - other.getSerial();
+    }
 }

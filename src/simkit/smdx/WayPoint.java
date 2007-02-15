@@ -39,7 +39,19 @@ public class WayPoint implements Cloneable {
     public WayPoint(Point2D point) {
         this(point, DEFAULT_SPEED);
     }
+
+    /**
+     * Copy Constructor
+     * @param wayPoint The WayPoint instance to copy
+     */
+    public WayPoint(WayPoint wayPoint) {
+        this(wayPoint.getPoint(), wayPoint.getSpeed());
+    }
     
+    public Point2D getPoint() {
+        return point;
+    }
+
 /**
 * Returns the 2-dimensional point associated with this WayPoint.
 **/

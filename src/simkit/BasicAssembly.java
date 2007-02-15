@@ -4,11 +4,8 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import simkit.BasicSimEntity;
-import simkit.Schedule;
-import simkit.SimEntity;
-import simkit.SimEvent;
 import simkit.stat.SavedStats;
 import simkit.stat.SampleStatistics;
 import simkit.stat.SimpleStatsTally;
@@ -20,7 +17,7 @@ import simkit.stat.SimpleStatsTally;
  */
 public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
     
-    protected LinkedHashMap replicationData;
+    protected LinkedHashMap<Integer, List<SampleStatistics>> replicationData;
     
     protected SampleStatistics[] replicationStats;
     protected SampleStatistics[] designPointStats;
@@ -59,7 +56,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         form = new DecimalFormat("0.0000");
         setPrintReplicationReports(false);
         setPrintSummaryReport(true);
-        replicationData = new LinkedHashMap();
+        replicationData = new LinkedHashMap<Integer, List<SampleStatistics>>();
         simEntity= new SimEntity[0];
         replicationStats = new SampleStatistics[0];
         designPointStats = new SampleStatistics[0];
@@ -200,9 +197,9 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
     
     public SampleStatistics[] getReplicationStats(int id) {
         SampleStatistics[] stats = null;
-        ArrayList reps = (ArrayList) replicationData.get(new Integer(id));
+        List<SampleStatistics> reps = replicationData.get(id);
         if (reps != null) {
-            stats = (SampleStatistics[]) reps.toArray(new SampleStatistics[0]);
+            stats = reps.toArray(new SampleStatistics[0]);
         }
         return stats;
     }
@@ -227,8 +224,8 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         return id;
     }
     
-    public Map getReplicationData() {
-        return new LinkedHashMap(replicationData);
+    public Map<Integer, List<SampleStatistics>> getReplicationData() {
+        return new LinkedHashMap<Integer, List<SampleStatistics>>(replicationData);
     }
     
     /** Save all replicationStats for a given iteration.  This assumes that the
@@ -236,7 +233,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
      */
     protected void saveReplicationStats() {
         for (int i = 0; i < replicationStats.length; ++i) {
-            ArrayList reps = (ArrayList) replicationData.get(new Integer(i));
+            List<SampleStatistics> reps = replicationData.get(new Integer(i));
             reps.add(new SavedStats(replicationStats[i]));
         }
     }
@@ -326,7 +323,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         if (isSaveReplicationData()) {
             replicationData.clear();
             for (int i = 0; i < replicationStats.length; ++i) {
-                replicationData.put(new Integer(i), new ArrayList());
+                replicationData.put(new Integer(i), new ArrayList<SampleStatistics>());
             }
         }
         

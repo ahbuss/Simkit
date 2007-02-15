@@ -58,21 +58,21 @@ public class Stop extends SimEntityBase {
 * Schedule the simulation to stop at the given time.
 **/
     public void stopAtTime(double time) {
-        new Stop().waitDelay("Stop", time);
+        new Stop().waitDelay("Stop", time, Priority.LOWEST);
     }
 
 /**
 * Schedule the given SimEntity to be stopped at the given time.
 **/
     public static void stopSimEntityAtTime(SimEntity entity, double time) {
-        new Stop().waitDelay("StopSimEntity", time, entity);
+        new Stop().waitDelay("StopSimEntity", time, entity, Priority.LOWEST);
     }
 
 /**
 * Schedule the given SimEntity to be stopped and reset at the given time.
 **/
     public static void stopAndResetSimEntityAtTime(SimEntity entity, double time) {
-        new Stop().waitDelay("StopAndResetSimEntity", time, entity);
+        new Stop().waitDelay("StopAndResetSimEntity", time, entity, Priority.LOWEST);
     }
 
 

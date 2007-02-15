@@ -24,7 +24,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
 /**
 * The path for the Mover to follow.
 **/
-    protected List wayPoints;
+    protected List<WayPoint> wayPoints;
 
 /**
 * The Movers controlled by this MoverManager.
@@ -34,7 +34,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
 /**
 * Iterates over the wayPoints.
 **/
-    protected Iterator nextWayPoint;
+    protected Iterator<WayPoint> nextWayPoint;
 
 /**
 * If true, then when reset is called on this MoverManager,
@@ -71,8 +71,8 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
      * @param m Mover this instance is managing
      * @param path List of WayPoints
      */
-    public PathMoverManager(Mover m, List path) {
-        this(m, (WayPoint[]) path.toArray(new WayPoint[path.size()]));
+    public PathMoverManager(Mover m, List<WayPoint> path) {
+        this(m, path.toArray(new WayPoint[path.size()]));
     }
     
     /**
@@ -82,7 +82,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     public PathMoverManager(Mover m) {
         setMover(m);
         mover.addSimEventListener(this);
-        wayPoints = new ArrayList();
+        wayPoints = new ArrayList<WayPoint>();
     }
     
     /** 
@@ -93,7 +93,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
     public void start() {
         nextWayPoint = wayPoints.iterator();
         if (nextWayPoint.hasNext()) {
-            WayPoint nextWP = (WayPoint) nextWayPoint.next();
+            WayPoint nextWP = nextWayPoint.next();
             mover.moveTo(nextWP.getWayPoint(), nextWP.getSpeed());
         }
     }
@@ -140,22 +140,14 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
      * @see WayPoint
      * @see Point2D
      */
-    public void setWayPoints(List path) {
+    public void setWayPoints(List<WayPoint> path) {
         if (path == null) {
             throw new IllegalArgumentException("PathMoverManager needs a non-null path.");
         }
-        if (isMoving()) { stop(); }
-        this.wayPoints = new Vector(path.size());
-        // Check that every element is a Coordinate.
-        for (Iterator e = path.iterator(); e.hasNext();) {
-            Object nextPoint = e.next() ;
-            if (nextPoint instanceof Point2D) {
-                addWayPoint((Point2D) nextPoint);
-            }
-            else if (nextPoint instanceof WayPoint) {
-                addWayPoint( (WayPoint) nextPoint);
-            }
+        if (isMoving()) { 
+            throw new RuntimeException("Cannot set path while moving");
         }
+        this.wayPoints = new ArrayList<WayPoint>(path);
     }
     
     /** 
@@ -172,7 +164,7 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
      * the Point2D and the desired speed
      */
     public void addWayPoint(WayPoint wayPoint) {
-        wayPoints.add(wayPoint.clone());
+        wayPoints.add(new WayPoint(wayPoint));
     }
     
     /**
@@ -214,8 +206,8 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
      * Creates a shallow copy of the current path
      * @return Shallow copy of WayPoints
      */
-    public List getWayPoints() {
-        return new ArrayList(wayPoints);
+    public List<WayPoint> getWayPoints() {
+        return new ArrayList<WayPoint>(wayPoints);
     }
     
     /**

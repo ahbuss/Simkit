@@ -37,7 +37,7 @@ public class ResampleVariate extends RandomVariateBase {
      * @throws IllegalArgumentException If the array does not have exactly 1
      * element or if the element is not an array of <code>doubles</code>.
      */    
-    public void setParameters(Object[] obj) {
+    public void setParameters(Object... obj) {
         if (obj.length != 1) {
             throw new IllegalArgumentException("Need 1 element: " + obj.length);
         }

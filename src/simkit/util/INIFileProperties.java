@@ -1,8 +1,19 @@
 package simkit.util;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 /**
 * Used to hold Properties that can be accessed using a block name and 
@@ -22,13 +33,15 @@ import java.util.*;
 * @see Properties
 * @version $Id$
 **/
-public class INIFileProperties extends Hashtable2 {
+public class INIFileProperties extends LinkedHashMap2<String, String, String> {
 
 /**
 * Holds the new line character for the current operating system.
 **/
     private static final String NL = System.getProperty("line.separator");
 
+    private static final Logger log = Logger.getLogger("simkit.util");
+    
 /**
 * Creates an empty properties table.
 **/
@@ -75,7 +88,7 @@ public class INIFileProperties extends Hashtable2 {
  *  Loads an ini file from the given InputStream. 
  *  @param inStream The InputStream from which to load the ini file.
  *  @throws IOException If the file cannot be read.
-*   @throws RuntimeException If the file contains format errors.
+*   @throws IllegalINIFormatException If the file contains format errors.
 **/
     public void load(InputStream inStream)
             throws IOException {
@@ -84,7 +97,7 @@ public class INIFileProperties extends Hashtable2 {
         BufferedReader input = new BufferedReader(new InputStreamReader(inStream));
 
         StringTokenizer tokens = null;
-        Properties currentBlock = new Properties();
+        Map<String, String> currentBlock = new LinkedHashMap<String, String>();
         String currentBlockName = "";
         for (String nextLine = input.readLine(); nextLine != null; nextLine = input.readLine()) {
             lineNumber++;
@@ -95,12 +108,14 @@ public class INIFileProperties extends Hashtable2 {
                 tokens = new StringTokenizer(nextLine, "[]");
                 if (tokens.countTokens() == 1) {
                     currentBlockName = tokens.nextToken();
-                    currentBlock = new Properties();
+                    currentBlock = new LinkedHashMap<String, String>();
                     this.put(currentBlockName, currentBlock);
                 }
                 else {
-                    throw new RuntimeException(" on line " + lineNumber +":" + NL +
-                        nextLine + "[# tokens = " + tokens.countTokens() + "]");
+                    String message = " on line " + lineNumber +":" + NL +
+                        nextLine + "[# tokens = " + tokens.countTokens() + "]";
+                    log.severe(message);
+                    throw new IllegalINIFormatException(message);
                 }
             }
             else {
@@ -115,9 +130,10 @@ public class INIFileProperties extends Hashtable2 {
                         currentBlock.put(tokens.nextToken().trim(), tokens.nextToken().trim());
                         break;
                     default:
-                        throw new RuntimeException (
-                            "Improper format in ini file at line " + lineNumber +":" + NL +
-                                nextLine + "[# tokens = " + tokens.countTokens() + "]");
+                        String message = "Improper format in ini file at line " + lineNumber +":" + NL +
+                                nextLine + "[# tokens = " + tokens.countTokens() + "]";
+                        log.severe(message);
+                        throw new IllegalINIFormatException(message);
                 }
             }
         }
@@ -135,7 +151,10 @@ public class INIFileProperties extends Hashtable2 {
         try {
             this.load(new File(iniFileName));
         }
-        catch (IOException e) { System.err.println(e); }
+        catch (IOException e) {
+            log.severe(e.toString());
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -180,22 +199,22 @@ public class INIFileProperties extends Hashtable2 {
 **/
     public String toString() {
         StringBuffer buf = new StringBuffer();
-        for (Iterator block = this.keySet().iterator(); block.hasNext(); ) {
-            Object blockName = block.next();
+        boolean first = true;
+        for (String blockName : this.keySet() ) {
+            if (!first) { buf.append(NL); }
+            else { first = false; }
             buf.append('[');
             buf.append(blockName);
             buf.append(']');
             buf.append(NL);
-            Map blockProperties = (Map)this.get(blockName);
-            for (Iterator key = blockProperties.keySet().iterator(); key.hasNext();) {
-                Object keyName = key.next();
-                Object value = blockProperties.get(keyName);
+            Map<String, String> blockProperties = this.get(blockName);
+            for (String keyName : blockProperties.keySet()) {
+                String value = blockProperties.get(keyName);
                 buf.append(keyName);
-                buf.append('=');
+                buf.append(" = ");
                 buf.append(value);
                 buf.append(NL);
             }
-            if (block.hasNext()) {buf.append(NL);}
         }
         return buf.toString();
     }

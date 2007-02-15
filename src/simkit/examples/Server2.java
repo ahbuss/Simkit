@@ -1,5 +1,6 @@
 package simkit.examples;
 import simkit.BasicSimEntity;
+import simkit.Priority;
 import simkit.SimEvent;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
@@ -75,7 +76,7 @@ public class Server2 extends BasicSimEntity {
         firePropertyChange("numberInQueue", numberInQueue, ++numberInQueue);
 
         if (numberAvailableServers > 0) {
-            waitDelay("StartService", 0.0);
+            waitDelay("StartService", 0.0, Priority.HIGH);
         }
     }
 
@@ -100,7 +101,7 @@ public class Server2 extends BasicSimEntity {
         firePropertyChange("numberServed", 0, ++numberServed);
 
         if (numberInQueue > 0 ) {
-            waitDelay("StartService", 0.0);
+            waitDelay("StartService", 0.0, Priority.HIGH);
         }
     }
 
@@ -175,7 +176,7 @@ public class Server2 extends BasicSimEntity {
     public void processSimEvent(SimEvent event) {
         String thisEvent = event.getEventName();
         if (thisEvent.equals("Arrival") || thisEvent.equals("EndService")) {
-            waitDelay("Arrival", 0.0);;
+            waitDelay("Arrival", 0.0);
         }
     }
     

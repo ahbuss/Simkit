@@ -46,7 +46,7 @@ public class SequenceVariate implements RandomVariate {
      * in additional methods provided by the programmer.
      * @param params the array of parameters, wrapped in objects.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
     }
     
     /**

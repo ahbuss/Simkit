@@ -100,8 +100,8 @@ public class TestJava2D extends JPanel{
         CubicCurve2D segment  = (CubicCurve2D) Math2D.getSegments(ellipse, null)[0];
         print("Cubic segment: " + cubicToString(segment));
         
-        ArrayList intersections = new ArrayList();
-        ArrayList cubicInts = new ArrayList();
+        ArrayList<Shape> intersections = new ArrayList<Shape>();
+        ArrayList<Point2D> cubicInts = new ArrayList<Point2D>();
         
         for (int j = 0; j < point.length; j++) {
             
@@ -140,7 +140,7 @@ public class TestJava2D extends JPanel{
             }
         }
         circle = (Shape[]) intersections.toArray(new Shape[0]);
-        cubicIntersections = (Point2D[]) cubicInts.toArray(new Point2D[cubicInts.size()]);
+        cubicIntersections = cubicInts.toArray(new Point2D[cubicInts.size()]);
         
     }
     

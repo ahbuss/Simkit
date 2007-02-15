@@ -46,7 +46,7 @@ public class AR1Variate extends RandomVariateBase {
      * value is unchanged. If the first parameter is not a
      * Number, then it is ignored.
      */
-    public void setParameters(Object[] params) {
+    public void setParameters(Object... params) {
         if (params.length > 2) {
             throw new IllegalArgumentException("Need 1 or 2 parameters, " + 
                 params.length + " given.");
