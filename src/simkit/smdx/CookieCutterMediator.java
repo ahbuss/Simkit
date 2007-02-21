@@ -40,7 +40,7 @@ public class CookieCutterMediator extends SimEntityBase implements SensorTargetM
                 contact = new Contact(target);
                 contacts.put(target, contact);
             }
-            sensor.waitDelay("Detection", 0.0, new Object[] { contact } );
+            sensor.waitDelay("Detection", 0.0, contact  );
         }
     }
     
@@ -55,7 +55,7 @@ public class CookieCutterMediator extends SimEntityBase implements SensorTargetM
         if (this == SensorTargetMediatorFactory.getMediator(
                 sensor.getClass(), target.getClass())) {
             Object contact = contacts.get(target);
-            sensor.waitDelay("Undetection", 0.0, new Object[] { contact });
+            sensor.waitDelay("Undetection", 0.0,  contact );
         }
     }
     
