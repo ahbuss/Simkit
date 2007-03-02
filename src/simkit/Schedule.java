@@ -136,34 +136,50 @@ public class Schedule  {
         defaultEventList.setUserDefinedStop();
     }
     
-    /** Causes the simulation to stop after the given event (which takes no arguments) has been processed the
-     * given number of times. Cancels any previous stopOnEvent or stopAtTime.
-     * @param eventName Name of stopping event
-     * @param number Number of events until stop
-     */
-    public static void stopOnEvent(String eventName, int number) {
-        defaultEventList.stopOnEvent(eventName, new Class[0], number);
-    }
-    
-    /** Causes the simulation to stop after the given event with the given signature
-     * has been processed the
-     * given number of times. Cancels any previous stopOnEvent, but does not cancel stopAtTime.
+    /** Causes the simulation to stop after the given event with the given 
+     * signature has been processed the given number of times. Overrides any 
+     * previous stopOnEvent, but does not cancel stopAtTime.
+     * @param numberEvents Number of events until stopping
      * @param eventName Name of event to stop on
      * @param eventSignature Signature of stopping event
-     * @param number Number of events until stopping
      */
-    public static void stopOnEvent(String eventName, Class[] eventSignature, int number) {
-        defaultEventList.stopOnEvent(eventName, eventSignature, number);
+    public static void stopOnEvent(int numberEvents, String eventName,
+            Class... eventSignature) {
+        defaultEventList.stopOnEvent(numberEvents, eventName, eventSignature);
     }
     
-/**
-* Stops the simulation, which cannot be resumed.
-**/
+    /**
+     * Causes the simulation to stop after the given event (which takes no arguments) has been processed the
+     * given numberEvents of times. Cancels any previous stopOnEvent or stopAtTime.
+     * 
+     * @param eventName Name of stopping event
+     * @param numberEvents Number of events until stop
+     * @deprecated Use stopOnEvent(int, String, Class...) instead
+     */
+    public static void stopOnEvent(String eventName, int numberEvents) {
+        defaultEventList.stopOnEvent(numberEvents, eventName);
+    }
+    
+    /**
+     * @deprecated Use stopOnEvent(int, String, Class...) instead
+    */
+    public static void stopOnEvent(String eventName, Class[] eventSignature, int numberEvents) {
+        defaultEventList.stopOnEvent(numberEvents, eventName, eventSignature);
+    }
+    
+    /**
+     * Stops the simulation and clears the event list.  The current replication
+     * therefore cannot be resumed, but calling reset() followed by 
+     * startSimulation() will start a new run to start with everything 
+     * re-initialized.
+     **/
     public static synchronized void stopSimulation() {
         defaultEventList.stopSimulation();
     }
     
-    /**  Returns currently executing event; null if simulation is not currently running.
+    /**  
+     * Returns currently executing event; null if simulation is not currently 
+     * running.
      * @return SimEvent currently being processed
      */
     public static synchronized SimEvent getCurrentEvent() {
@@ -273,10 +289,10 @@ public class Schedule  {
      * @param clazz The class of the EventList to be added
      * @return The id number of the new EventList instance
      */    
-    public static int addNewEventList(Class clazz) {
+    public static int addNewEventList(Class<?> clazz) {
         Integer key = getNextAvailableID();
         try {
-            Constructor construct = clazz.getConstructor( new Class[] { int.class } );
+            Constructor construct = clazz.getConstructor( new Class<?>[] { int.class } );
             EventList newEventList = (EventList) construct.newInstance(new Object[] { key });
             allEventLists.put(key, newEventList);
         } 

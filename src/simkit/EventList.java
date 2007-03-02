@@ -486,21 +486,22 @@ public class EventList {
     /** Sets stopOnEvent to true and other modes false.
      * The simulation will end after the given number of
      * events have occurred.
-     * @param eventName Name of event to top at
+     * @deprecated Use stopOnEvent(int, String, Class...) instead
      * @param numberEvents Number of times stop event will occur
+     * @param eventName Name of event to top at
      */    
     public void stopOnEvent(String eventName, int numberEvents) {
-        stopOnEvent(eventName, new Class[0], numberEvents);
+        stopOnEvent(numberEvents, eventName);
     }
-    
+
     /** Sets stopOnEvent to true and other modes false.
      * The simulation will end after the given number of
      * events with this signature have occurred.
+     * @param numberEvents Number of events to occur
      * @param eventName Name of stop event
      * @param signature Signature of stop event
-     * @param numberEvents Number of events to occur
      */    
-    public void stopOnEvent(String eventName, Class[] signature, int numberEvents) {
+    public void stopOnEvent(int numberEvents, String eventName, Class... signature) {
         if (numberEvents > 0) {
             stopOnEvent = true;
             stopAtTime = false;
@@ -519,6 +520,12 @@ public class EventList {
         }
     }
     
+    /**
+     * @deprecated Use stopOnEvent(int, String, Class...) instead
+     */
+    public void stopOnEvent(String eventName, Class[] signature, int numberEvents) {
+        stopOnEvent(numberEvents, eventName, signature);
+    }
     /** Sets all stop modes to false.  This is used
      * if the user will terminate the run based on
      * other criteria.
