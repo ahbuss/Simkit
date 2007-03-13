@@ -20,29 +20,29 @@ public class SimEventTest extends TestCase {
 
     protected void makeSimEvents() {
         SimEntityBase highPri = new simkit.smdx.CookieCutterMediator();
-        highPri.setPriority(100.0);
+        highPri.setPriority(Priority.HIGHER);
         SimEntityBase loPri = new simkit.smdx.CookieCutterMediator();
-        loPri.setPriority(0.0);
+        loPri.setPriority(Priority.DEFAULT);
         Helper.setSimTime(0.0);
         
         se = new SimEvent[14];
 
-        se[1] = loPri.waitDelay("1", 1.0, 0.0);
-        se[2] = loPri.waitDelay("2", 1.0, 1.0);
-        se[3] = highPri.waitDelay("3", 0.0, 1.0);
-        se[4] = highPri.waitDelay("4", 0.0, 0.0);
-        se[5] = loPri.waitDelay("5", 0.0, 0.0);
-        se[6] = loPri.waitDelay("6", 0.0, 1.0);
-        se[7] = highPri.waitDelay("7", 1.0, 1.0);
-        se[8] = highPri.waitDelay("8", 1.0, 0.0);
+        se[1] = loPri.waitDelay("1", 1.0, Priority.DEFAULT);
+        se[2] = loPri.waitDelay("2", 1.0, Priority.HIGH);
+        se[3] = highPri.waitDelay("3", 0.0, Priority.HIGH);
+        se[4] = highPri.waitDelay("4", 0.0, Priority.DEFAULT);
+        se[5] = loPri.waitDelay("5", 0.0, Priority.DEFAULT);
+        se[6] = loPri.waitDelay("6", 0.0, Priority.HIGH);
+        se[7] = highPri.waitDelay("7", 1.0, Priority.HIGH);
+        se[8] = highPri.waitDelay("8", 1.0, Priority.DEFAULT);
 
         Helper.setSimTime(1.0);
 
-        se[9] = highPri.waitDelay("9", 0.0, 1.0);
-        se[10] = loPri.waitDelay("10", 0.0, 0.0);
-        se[11] = highPri.waitDelay("11", 0.0, 0.0);
-        se[12] = loPri.waitDelay("12", 0.0, 1.0);
-        se[13] = loPri.waitDelay("13", 0.0, 1.0);
+        se[9] = highPri.waitDelay("9", 0.0, Priority.HIGH);
+        se[10] = loPri.waitDelay("10", 0.0, Priority.DEFAULT);
+        se[11] = highPri.waitDelay("11", 0.0, Priority.DEFAULT);
+        se[12] = loPri.waitDelay("12", 0.0, Priority.HIGH);
+        se[13] = loPri.waitDelay("13", 0.0, Priority.HIGH);
     }
 
     public void testGetEventHash() {
