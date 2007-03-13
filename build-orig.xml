@@ -239,4 +239,36 @@
             <jvmarg value="-Djava.util.logging.config.file=logging.properties"/>
        </junit>
     </target>
+
+    <path id="nb.test.class.path">
+        <pathelement path="${dir.build.classes}"/>
+        <pathelement path="${dir.build.tests}"/>
+        <pathelement path="${junitJar}"/>
+    </path>
+
+    <target name="debugTests"
+            depends="buildTests"
+            description="Runs junit tests in debug (Only inside of Netbeans)">
+        <fail unless="netbeans.home">Debug only works inside of Netbeans</fail>
+        <nbjpdastart name="Simkit"
+                    addressproperty="jpda.address"
+                    transport="dt_socket">
+            <classpath>
+                <path refid="nb.test.class.path"/>
+            </classpath>
+            <sourcepath path="${dir.src};${dir.tests}"/>
+        </nbjpdastart>
+        <java fork="true" classname="junit.textui.TestRunner" output="TEST-TestAll.txt">
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xnoagent"/>
+            <jvmarg value="-Djava.compiler=none"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>
+            <jvmarg value="-Djava.library.path=${dafs.shared.lib.dir};${path}"/>
+            <jvmarg value="-Xmx1024M"/>
+            <arg value="TestAll"/>
+            <classpath>
+                <path refid="nb.test.class.path"/>
+            </classpath>
+        </java>
+    </target>
 </project>
