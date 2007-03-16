@@ -64,9 +64,17 @@ public class Entity implements Named {
     }
     
     /**
+     * @deprecated Use getElapsedTime() instead
      * @return the time since stampTime() was last invoked.
      */
     public double getElapedTime() {
+        return Schedule.getSimTime() - getTimeStamp();
+    }
+    
+    /**
+     * @return the time since stampTime() was last invoked.
+     */
+    public double getElapsedTime() {
         return Schedule.getSimTime() - getTimeStamp();
     }
     
