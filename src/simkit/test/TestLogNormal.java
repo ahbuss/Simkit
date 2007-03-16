@@ -34,7 +34,7 @@ public class TestLogNormal {
         logNormal = RandomVariateFactory.getInstance("LogNormal", 0.0, 1.0);
         
         simpleStatsTally = new SimpleStatsTally(logNormal.toString());
-        for (int i = 0; i < 10000; ++i) {
+        for (int i = 0; i < numberObservations; ++i) {
             simpleStatsTally.newObservation(logNormal.generate());
         }
         System.out.println(simpleStatsTally);
@@ -46,7 +46,7 @@ public class TestLogNormal {
                 meanAndStd[0], meanAndStd[1])));
         
         simpleStatsTally = new SimpleStatsTally(logNormal.toString());
-        for (int i = 0; i < 10000; ++i) {
+        for (int i = 0; i < numberObservations; ++i) {
             simpleStatsTally.newObservation(logNormal.generate());
         }
         System.out.println(simpleStatsTally);
