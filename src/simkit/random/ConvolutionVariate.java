@@ -1,4 +1,6 @@
 package simkit.random;
+
+import java.util.ArrayList;
 /**
  * Generates the convolution (sum) of a number of RandomVariates. An
  * array of instances
@@ -51,14 +53,23 @@ public class ConvolutionVariate extends RandomVariateBase {
      * the element is not an array of RandomVariates.
      */    
     public void setParameters(Object... obj) {
-        if (obj.length != 1) {
-            throw new IllegalArgumentException("Require 1 parameter: " + obj.length);
-        }
-        if (!(obj[0] instanceof RandomVariate[])) {
-            throw new IllegalArgumentException("Require RandomVariate[]: " + obj[0].getClass().getName());
+        System.out.println(obj.getClass());
+        ArrayList<Integer> badArgs = new ArrayList<Integer>(obj.length);
+        RandomVariate[] variates = new RandomVariate[obj.length];
+        for (int i = 0; i < obj.length; ++i) {
+            if (!(obj[i] instanceof RandomVariate)) {
+                badArgs.add(i);
+            } else {
+                variates[i] = (RandomVariate) obj[i];
+            }
         }
         
-        setRandomVariates( (RandomVariate[]) obj[0] );
+        if (badArgs.size() > 0) {
+            throw new IllegalArgumentException(
+                    "Non-RandomVariates passed in indices: " +
+                    badArgs);
+        }
+        setRandomVariates( (RandomVariate[]) variates );
     }
     
     /**
