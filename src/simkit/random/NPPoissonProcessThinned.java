@@ -78,7 +78,7 @@ public class NPPoissonProcessThinned extends BasicSimEntity implements RandomVar
         }
         else if (obj[2] instanceof String) {
             try {
-                Class clazz = obj[1].getClass();
+                Class<?> clazz = obj[1].getClass();
                 setRateMethod(clazz.getMethod(obj[2].toString(), 
                         new Class[] { double.class } ));
             } catch (NoSuchMethodException e) {

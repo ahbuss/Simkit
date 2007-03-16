@@ -12,7 +12,7 @@ public class RandomVariateType {
 /**
 * The Class of the RandomVariate.
 **/
-    private Class typeClass;
+    private Class<?> typeClass;
 
 /** 
 * Creates a new RandomVariateType for the given class name.

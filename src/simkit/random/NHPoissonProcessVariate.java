@@ -124,7 +124,7 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
             method = (Method) params[0];
         }
         else if (params[0] instanceof String) {
-            Class clazz = getRateInvoker().getClass();
+            Class<?> clazz = getRateInvoker().getClass();
             try {
                 method = clazz.getMethod(params[0].toString(), new Class[] { double.class } );
             }
