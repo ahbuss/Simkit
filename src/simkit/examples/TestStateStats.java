@@ -27,7 +27,7 @@ public class TestStateStats {
         arrival.addSimEventListener(creator);
         creator.addSimEventListener(server);
         
-        PercentageInStateStat percentageInStateStat = new PercentageInStateStat("numberAvailableServers", new Integer(0));
+        PercentageInStateStat percentageInStateStat = new PercentageInStateStat("numberAvailableServers", numberServers);
         server.addPropertyChangeListener(percentageInStateStat);
 
         SimpleStatsTimeVarying niqStat = new SimpleStatsTimeVarying("numberInQueue");
