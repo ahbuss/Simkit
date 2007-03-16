@@ -4,32 +4,31 @@ package simkit.random;
  * @version $Id$
  * @author ahbuss
  */
-public class LogNormalVariate extends RandomVariateBase {
-    
-    private RandomVariate normalVariate;
+public class LogNormalVariate extends NormalVariate {
     
     public LogNormalVariate() {
     }
 
-    public Object[] getParameters() {
-        Object[] params = new Object[2];
-        
-        return params;
-    }
-    
-    public RandomVariate getNormalVariate() {
-        return normalVariate;
-    }
-
-    public void setNormalVariate(RandomVariate normalVariate) {
-        this.normalVariate = normalVariate;
-    }
-
     public double generate() {
-        return 0.0;
-    }
-
-    public void setParameters(Object... params) {
+        return Math.exp(super.generate());
     }
     
+    public static double[] getNormalParameters(double mean, double stdDeviation) {
+        return new double[]{
+            Math.log(mean) - 0.5 * Math.log(Math.pow(stdDeviation/mean, 2) + 1.0),
+            Math.sqrt(Math.log(Math.pow(stdDeviation/mean, 2) + 1.0))
+        };
+    }
+    
+    public static double[] getLogNormalParameters(double mean, double stdDeviation) {
+        return new double[] {
+            Math.exp(mean + 0.5 * Math.pow(stdDeviation, 2)),
+            Math.sqrt(Math.exp(2.0 * mean + Math.pow(stdDeviation, 2)) *
+                    (Math.exp(0.5 * Math.pow(stdDeviation, 2)) - 1.0))
+        };
+    }
+
+    public String toString() {
+        return super.toString().replaceAll("Normal", "Log Normal");
+    }
 }
