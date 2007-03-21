@@ -27,7 +27,7 @@ public interface MediatorFactory<T1, T2, T3> {
 * @param mediator The Class of the Mediator to construct and add to this
 * factory.
 **/
-    public void addMediatorFor(Class first, Class second, Class mediator);
+    public void addMediatorFor(Class<?> first, Class<?> second, Class<?> mediator);
     
 /**
 * Construct and adds a Mediator to this factory.
@@ -41,7 +41,7 @@ public interface MediatorFactory<T1, T2, T3> {
     public void addMediatorFor(String first, String second, String mediator)
         throws ClassNotFoundException;
     
-    public void addMediatorFor(Class first, Class second, T3 mediatorInstance);
+    public void addMediatorFor(Class<?> first, Class<?> second, T3 mediatorInstance);
     
     public void addMediatorFor(T1 first, T2 second, T3 mediatorInstance);
     
@@ -53,7 +53,7 @@ public interface MediatorFactory<T1, T2, T3> {
 /**
 * Gets the Mediator for the given Classes.
 **/
-    public Mediator getMediatorFor(Class firstClass, Class secondClass);
+    public Mediator getMediatorFor(Class<?> firstClass, Class<?> secondClass);
     
 /**
 * Removes all of the Mediators from this factory.

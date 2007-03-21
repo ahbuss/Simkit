@@ -31,7 +31,7 @@ public class TestObjectArray {
         String[] data = {"one", "two", "buckle my", "shoe"};
         String className = args.length > 0 ? args[0] : "simkit.test.TestObjectArray";
 //          Get class object for contents of array.
-        Class classObject = Class.forName(className);
+        Class<?> classObject = Class.forName(className);
         System.out.println(classObject);
 //          Assumes that the data array will populate the array, so that's 
 //          how big the array will be.

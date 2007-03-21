@@ -97,7 +97,7 @@ public class Bean2XML {
     public static Object createProperty(String name, String value) {
         Object propertyValue = null;
         try {
-            Class propertyClass = Thread.currentThread().getContextClassLoader().loadClass(name);
+            Class<?> propertyClass = Thread.currentThread().getContextClassLoader().loadClass(name);
             if (propertyClass.isPrimitive()) {
                 propertyClass = getObjectWrapperClassFor(propertyClass);
             }

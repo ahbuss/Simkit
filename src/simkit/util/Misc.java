@@ -47,7 +47,7 @@ public class Misc {
 * @return The method name followed by the classes of the arguments.
 * @throws NoSuchMethodException If the method doesn't exist or isn't public.
 **/    
-    public static String getFullMethodName(Class theClass, String name, Object[] args) {
+    public static String getFullMethodName(Class<?> theClass, String name, Object[] args) {
         String fullName = null;
         try {
             Method m = theClass.getMethod(name, getSignatureFromArguments(args));

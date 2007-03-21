@@ -23,9 +23,9 @@ import java.util.Vector;
 public class   TablePanel
        extends Panel
 {   
-   private Vector       labels,
-                        values,
-                        valueBoxes;
+   private Vector<Label>       labels;
+   private Vector       values;
+   private Vector<TextField>  valueBoxes;
    private GridLayout   layout;
    private Font         labelFont,
                         valueFont;
@@ -42,9 +42,9 @@ public class   TablePanel
 **/
    public TablePanel() {
 //      super(title);
-      labels     = new Vector();
+      labels     = new Vector<Label>();
       values     = new Vector();
-      valueBoxes = new Vector();
+      valueBoxes = new Vector<TextField>();
       layout     = new GridLayout(0,2,4, 2);
       this.setLayout(layout);
       labelFont  = new Font("Helvetica", Font.BOLD, 10);

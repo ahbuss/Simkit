@@ -37,7 +37,7 @@ public class RandomVariateBuilder {
             Element parameter = (Element) parameters.item(i);
             String paramClassName = parameter.getAttribute("class");
             try {
-                Class paramClass = Thread.currentThread().getContextClassLoader().loadClass(paramClassName);
+                Class<?> paramClass = Thread.currentThread().getContextClassLoader().loadClass(paramClassName);
                 Constructor construct = paramClass.getConstructor(new Class[] { java.lang.String.class });
                 String arg = parameter.getAttribute("value");
                 params[i] = construct.newInstance(new Object[] { arg });

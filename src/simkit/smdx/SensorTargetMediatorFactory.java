@@ -37,12 +37,12 @@ public class SensorTargetMediatorFactory implements
 * @throws IllegalArgumentException if the sensorClass is not a Sensor, the
 * targetClass is not a Moveable or the mediatorClass is not a Mediator
 **/
-    public static void addMediator(Class sensorClass, Class targetClass,
-            Class mediatorClass) {
+    public static void addMediator(Class<?> sensorClass, Class<?> targetClass,
+            Class<?> mediatorClass) {
         getInstance().addMediatorFor(sensorClass, targetClass, mediatorClass);
     }
     
-    public static void addMediator(Class sensorClass, Class targetClass,
+    public static void addMediator(Class<?> sensorClass, Class<?> targetClass,
             SensorTargetMediator mediatorInstance) {
         getInstance().addMediatorFor(sensorClass, targetClass, mediatorInstance);
     }
@@ -54,7 +54,7 @@ public class SensorTargetMediatorFactory implements
 * @throws IllegalArgumentException if there is no Mediator set for the 
 * given Sensor-target pair.
 **/
-    public static Mediator getMediator(Class sensorClass, Class targetClass) {
+    public static Mediator getMediator(Class<?> sensorClass, Class<?> targetClass) {
         return getInstance().getMediatorFor(sensorClass, targetClass);
     }
     
@@ -80,7 +80,7 @@ public class SensorTargetMediatorFactory implements
 * @throws IllegalArgumentException if the sensorClass is not a Sensor, the
 * targetClass is not a Moveable or the mediatorClass is not a Mediator
 **/
-    public void addMediatorFor(Class sensorClass, Class targetClass, Class mediatorClass) {
+    public void addMediatorFor(Class<?> sensorClass, Class<?> targetClass, Class<?> mediatorClass) {
         if (!(simkit.smdx.Sensor.class.isAssignableFrom(sensorClass))) {
             throw new IllegalArgumentException(sensorClass + " is not a Sensor class");
         }
@@ -112,7 +112,7 @@ public class SensorTargetMediatorFactory implements
                 mediatorInstance);
     }
     
-    public void addMediatorFor(Class sensorClass, Class targetClass,
+    public void addMediatorFor(Class<?> sensorClass, Class<?> targetClass,
             SensorTargetMediator mediatorInstance) {
         if (!(simkit.smdx.Sensor.class.isAssignableFrom(sensorClass))) {
             throw new IllegalArgumentException(sensorClass + " is not a Sensor class");

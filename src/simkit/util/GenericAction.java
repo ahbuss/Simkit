@@ -51,7 +51,7 @@ public class GenericAction extends AbstractAction {
 * @param theTargetClass The Class in which the static method exists.
 * @param methodName The name of the class method to execute.
 **/
-   public GenericAction (Class theTargetClass, String methodName) {
+   public GenericAction (Class<?> theTargetClass, String methodName) {
       super(methodName);
       target = null;
       try {
