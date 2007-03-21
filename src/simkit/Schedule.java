@@ -1,5 +1,6 @@
 package simkit;
 
+import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
@@ -383,5 +384,21 @@ public class Schedule  {
      */    
     public static void stopOnTime(double stopTime) {
         stopAtTime(stopTime);
+    }
+    
+    /**
+     * The default PrintStream is System.out.
+     * @param printStream the PrintStream instance for the default
+     * EventList to dump to.
+     */
+    public static void setOutputStream(PrintStream printStream) {
+        defaultEventList.setOutputStream(printStream);
+    }
+    
+    /**
+     * @return the default EventList's outputStream
+     */
+    public static PrintStream getOutputStream() {
+        return defaultEventList.getOutputStream();
     }
 } // class Schedule

@@ -2,6 +2,7 @@ package simkit;
 
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.text.DecimalFormat;
 import java.util.logging.Logger;
 import java.util.Collections;
@@ -31,13 +32,6 @@ import java.util.TreeSet;
  * also helps protect from rogue models that do bad things
  * to the event list, affecting other running models.</P>
  *
- * <P>Unlike the previous <CODE>Schedule</CODE>, separate
- * references to input and output objects are not maintained.
- * Instead, "dumping" and input is vis <CODE>System.out</CODE>
- * and <CODE>System.in</CODE>.  If it is desired that
- * i/o comes from different sources, then change the
- * default streams via <CODE>System.setOut()</CODE> and
- * <CODE>System.setIn()</CODE>.
  * @version $Id$
  * @author Arnold Buss
  */
@@ -153,6 +147,11 @@ public class EventList {
  */
     private int id;
     
+    /**
+     * PrintStream that dumps will be directed to.  
+     */
+    private PrintStream outputStream;
+    
 /**
  * Holds the default format for outputting times.
  */
@@ -221,6 +220,7 @@ public class EventList {
         setFormat("0.0000");
         this.precision = 0.0; 
         setFastInterrupts(true);
+        setOutputStream(System.out);
     }
     
     /**
@@ -660,11 +660,11 @@ public class EventList {
         }    
     }
 
-    /** Dumps current event list to the <CODE>System.out</CODE>
+    /** Dumps current event list to <CODE>outputStream</CODE>
      * @param reason Short message to add to dump
      */    
     public void dump(String reason) {
-        System.out.println(getEventListAsString(reason));
+        outputStream.println(getEventListAsString(reason));
     }
     
     /** Dump without an additional user message */    
@@ -739,7 +739,7 @@ public class EventList {
                     (event.getEventName().equals(eventName)) &&
                     (event.isPending())) {
                         if (reallyVerbose) {
-                            System.out.println("\n" + getSimTime() 
+                            outputStream.println("\n" + getSimTime() 
                                                 + ": Cancelling " + event); 
                         }
                         i.remove();
@@ -1205,5 +1205,13 @@ public class EventList {
         if (events != null && events.isEmpty()) {
             hashEventMap.remove(hash);
         }
+    }
+
+    public PrintStream getOutputStream() {
+        return outputStream;
+    }
+
+    public void setOutputStream(PrintStream outputStream) {
+        this.outputStream = outputStream;
     }
 }
