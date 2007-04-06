@@ -419,6 +419,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         if (isClearOnReset()) {
             clearAll();
         }
+        inRangeMap.clear();
     }
     
 /**

@@ -392,4 +392,39 @@ public class SensorTargetRefereeTest extends TestCase {
         SimEvent event = (SimEvent)events.first();
         assertEquals("events=" + events, "doEnterRange", event.getMethodName());
     }
+
+/**
+* Tests the referee for proper resetting.
+* Initializing out moving in. Should schedule EnterRange.
+* Then resets, and repeats.
+**/
+    public void testReset1() {
+        Mover sensorMover = new SimpleTarget(new java.awt.geom.Point2D.Double(0,0),0.0);
+        CookieCutterSensor sensor = new CookieCutterSensor(100.0, sensorMover);
+        SimpleTarget mover = new SimpleTarget(new java.awt.geom.Point2D.Double(200.0,0.0),100.0);
+        referee.register(sensor);
+        referee.register(mover);
+        sensorMover.reset();
+        sensor.reset();
+        mover.reset();
+        referee.reset();
+        mover.velocity = new Point2D.Double(-100.0, 0.0);
+        referee.processTarget(mover);
+        SortedSet events = simkit.Helper.getEventSet();
+        assertEquals(1, events.size());
+        SimEvent event = (SimEvent)events.first();
+        assertEquals("doEnterRange", event.getMethodName());
+        referee.doEnterRange(sensor, mover);
+//reset and try again
+        sensorMover.reset();
+        sensor.reset();
+        mover.reset();
+        referee.reset();
+        mover.velocity = new Point2D.Double(-100.0, 0.0);
+        referee.processTarget(mover);
+        events = simkit.Helper.getEventSet();
+        assertEquals(1, events.size());
+        event = (SimEvent)events.first();
+        assertEquals("doEnterRange", event.getMethodName());
+    }
 }
