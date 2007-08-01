@@ -307,6 +307,15 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
     }
     
     /**
+     * Removes the added property of the given name.  If no such property
+     * exists, then there is no error or warning.
+     * @param propertyName The name of the property to be cleared.
+     */
+    public void clearAddedProperty(String propertyName) {
+        addedProperties.remove(propertyName);
+    }
+    
+    /**
      * Changes set/get/is method name to corresponding property name by
      * deleting the first <code>offset</code> characters and making the
      * first character of the result lower case.
