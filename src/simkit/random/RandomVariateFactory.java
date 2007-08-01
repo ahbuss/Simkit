@@ -234,7 +234,7 @@ public class RandomVariateFactory {
      */
     public static DiscreteRandomVariate getDiscreteRandomVariateInstance(String className, Object... params ) {
         RandomVariate instance = getInstance(className, params);
-        if (instance instanceof DiscreteVariate) {
+        if (instance instanceof DiscreteRandomVariate) {
             return (DiscreteRandomVariate) instance;
         } else {
             throw new RuntimeException( className + " is not an instance of " +
