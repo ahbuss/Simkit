@@ -83,6 +83,12 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     
     private boolean justDefinedProperties;
     
+    /**
+     * If true (default) then all added properties are cleared in the reset() 
+     * method.
+     */
+    private boolean clearAddedPropertiesOnReset;
+    
    /**
    * Construct a new BasicSimEntity with the given name and a default priority.
    * @param name The name of the BasicSimEntity.
@@ -108,6 +114,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
         eventList = Schedule.getEventList(eventListID);
         eventList.addRerun(this);
         setJustDefinedProperties(true);
+        this.setClearAddedPropertiesOnReset(true);
     }
     
     public BasicSimEntity(String name, Priority priority) {
@@ -152,9 +159,12 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     * Resets this BasicSimEntity by canceling all of its pending SimEvents.
     * Clears all added properties in the PropertyChangeDispatcher instance
    **/
+    
     public void reset() {
         interruptAll();
-        property.clearAddedProperties();
+        if (isClearAddedPropertiesOnReset()) {
+            property.clearAddedProperties();
+        }
     }
 /*
   Four-parameter methods
@@ -591,6 +601,14 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     }
     
     /**
+     * Clears the added property of the given name.
+     * @param propertyName the name of the added property to be cleared.
+     */
+    public void clearAddedProperty(String propertyName) {
+        property.clearAddedProperty(propertyName);
+    }
+    
+    /**
      * This SimEntity has higher priority if its Priority instance has
      * higher priority or it has a smaller serial.
      * @param other Other SimEntity to compare to
@@ -599,5 +617,13 @@ public abstract class BasicSimEntity extends BasicSimEventSource
         int priorityComp = this.getPriority().compareTo(other.getPriority());
         return priorityComp != 0 ? priorityComp : 
             this.getSerial() - other.getSerial();
+    }
+
+    public boolean isClearAddedPropertiesOnReset() {
+        return clearAddedPropertiesOnReset;
+    }
+
+    public void setClearAddedPropertiesOnReset(boolean clearAddedPropertiesOnReset) {
+        this.clearAddedPropertiesOnReset = clearAddedPropertiesOnReset;
     }
 }
