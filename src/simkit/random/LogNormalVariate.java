@@ -46,7 +46,7 @@ public class LogNormalVariate extends NormalVariate {
             throw new IllegalArgumentException("Log normal distribution must" +
                     " have a positive mean: " + mean);
         }
-        double ratioSquared = mean * mean / (stdDeviation * stdDeviation);
+        double ratioSquared = (stdDeviation * stdDeviation) / (mean * mean) ;
         double log = Math.log(ratioSquared + 1.0);
         return new double[]{
             Math.log(mean) - 0.5 * log, Math.sqrt(log)
