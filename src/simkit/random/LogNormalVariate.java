@@ -2,7 +2,7 @@ package simkit.random;
 
 /**
  *
- * <p>Generates random variates from the Log Normal(&mu;, &sigme;) distribution
+ * <p>Generates random variates from the Log Normal(&mu;, &sigma;) distribution
  * based on the exponential transformation of a Normal.  Note that the
  * parameters &mu; and &sigma; are the corresponding Normal parameters
  * and not the mean and standard deviation of the distribution itself.
