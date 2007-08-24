@@ -17,13 +17,24 @@ public class TestLogNormal {
         double mean = 0.0;
         double stdDev = 1.0;
         
-        int numberObservations = 100000;
+        int numberObservations = 1000000;
         
         System.out.println("[0.0, 1.0] => " +
-                Arrays.toString(LogNormalVariate.getLogNormalParameters(0.0, 1.0)));
+                Arrays.toString(LogNormalVariate.getLogNormalParameters(mean, stdDev)));
+        
+        double[] desiredParams = new double[] { 2.5, 1.6 };
+        double[] normalParams = LogNormalVariate.getNormalParameters(desiredParams[0], 
+                desiredParams[1]);
+        double[] roundTrip = LogNormalVariate.getLogNormalParameters(normalParams[0], 
+                normalParams[1]);
+        
+        System.out.println("Desired: " + Arrays.toString(desiredParams) );
+        System.out.println("Derived Normal params: " + Arrays.toString(normalParams) );
+        System.out.println("Transformed back: " + Arrays.toString(roundTrip) );
+        
         
         RandomVariate norm = RandomVariateFactory.getInstance("simkit.random.NormalVariate",
-                mean, stdDev );
+                normalParams[0], normalParams[1] );
         RandomVariate logNormal = RandomVariateFactory.getInstance("ExponentialTransform",
                 norm );
         SimpleStatsTally simpleStatsTally = new SimpleStatsTally(logNormal.toString());//        for (int i = 0 ; i <100; i++) {
@@ -39,7 +50,7 @@ public class TestLogNormal {
         }
         System.out.println(simpleStatsTally);
         
-        double[] meanAndStd = LogNormalVariate.getNormalParameters(1.0, 2.0);
+        double[] meanAndStd = LogNormalVariate.getNormalParameters(1.5, 2.5);
         logNormal.setParameters(meanAndStd[0], meanAndStd[1]);
         
         System.out.println(Arrays.toString(LogNormalVariate.getLogNormalParameters(
@@ -50,6 +61,5 @@ public class TestLogNormal {
             simpleStatsTally.newObservation(logNormal.generate());
         }
         System.out.println(simpleStatsTally);
-    }
-    
+    }    
 }
