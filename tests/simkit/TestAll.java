@@ -8,6 +8,7 @@ public class TestAll extends TestCase {
         suite.addTest(simkit.random.TestAll.suite());
         suite.addTest(simkit.util.TestAll.suite());
         suite.addTest(simkit.smdx.TestAll.suite());
+        suite.addTest(simkit.stat.TestAll.suite());
         suite.addTest(new TestSuite(SimEventTest.class));
         suite.addTest(new TestSuite(EventListTest.class));
         suite.addTest(new TestSuite(PropertyChangeDispatcherTest.class));
