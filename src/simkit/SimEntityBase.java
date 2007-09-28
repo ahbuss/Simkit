@@ -463,11 +463,11 @@ public abstract class SimEntityBase extends BasicSimEntity {
     }
     
     /**
-     * Clears cache of doMethods and namesAndSignatures
+     * Does <i>not</i> clear cache of doMethods and namesAndSignatures
      */
     public static void coldReset() {
-        allDoMethods.clear();
-        allNamesAndSignatures.clear();
+//        allDoMethods.clear();
+//        allNamesAndSignatures.clear();
     }
     
 }
