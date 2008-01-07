@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This script was automatically generated using Zero G's InstallAnywhere 5.5.1 Now, Build 2032
      STATUS: Fully Functional LICENSED Edition
-     DATE:   Thu Sep 20 13:15:45 PDT 2007 -->
+     DATE:   Mon Jan 07 09:58:09 PST 2008 -->
 <InstallAnywhere_Deployment_Project increments="2491">
 	<!-- ** DO NOT EDIT ** Essential authorization and configuration data ** DO NOT EDIT ** -->
 	<essentialScriptInfo>
@@ -10,7 +10,7 @@
 		<scriptID>12,42,11,90,83,56,50,54,53,76,81,66,70,67,78,72</scriptID>
 		<buildID>3,13,71,87,105,110,100,111,119,115,32,88,80,44,32,53,46,49,44,32,120,56,54,59,32,74,97,118,97,32,49,46,54,46,48,44,32,83,117,110,32,77,105,99,114,111,115,121,115,116,101,109,115,32,73,110,99,46,44,32,104,116,116,112,58,47,47,106,97,118,97,46,115,117,110,46,99,111,109,47,59,32,101,110,44,32,85,110,107,110,111,119,110,59,32,67,112,49,50,53,50</buildID>
 		<!-- The authorizationID may change between project saves and builds.  This does not effect the integrity of the project, nor do changes in this value represent changes in the actual InstallAnywhere project. -->
-		<authorizationID>1,0,0,16,40,-123,-63,-80,80,112,112,97,87,98,113,97,113,65,81,51,74,65,78,68,71,68,64,69,66,69,48,79,87,5,2,8,15,-33,116,5,1,0,0</authorizationID>
+		<authorizationID>1,0,0,16,88,102,1,48,80,112,112,97,87,98,113,97,113,65,81,51,74,65,78,68,71,68,64,69,66,69,48,79,87,5,2,12,1,7,117,7,1,0,0</authorizationID>
 	</essentialScriptInfo>
 	<installationObjects uniqueObjects="122">
 		<object class="com.zerog.ia.installer.Installer" objectID="4f3be2e786b3">
@@ -166,7 +166,7 @@ it will search for ones in this list]]></string>
 								</object>
 							</method>
 							<method name="addElement">
-								<object class="com.zerog.ia.installer.util.LAXPropertyData" objectID="38103b43b1fc">
+								<object class="com.zerog.ia.installer.util.LAXPropertyData" objectID="68e7b1cf80bc">
 									<property name="propertyValue">
 										<string><![CDATA[simkit.Version]]></string>
 									</property>
@@ -244,7 +244,7 @@ and any path to a file to read from that file]]></string>
 								<string><![CDATA[simkit.jar]]></string>
 							</property>
 							<property name="fileSize">
-								<long>448558</long>
+								<long>445765</long>
 							</property>
 							<property name="macBinary">
 								<boolean>false</boolean>
@@ -720,7 +720,7 @@ Press "Done" to quit the installer.]]></string>
 				<object class="java.util.Properties">
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.save.last.date]]></string>
-						<string><![CDATA[Thu Sep 20 13:15:45 PDT 2007]]></string>
+						<string><![CDATA[Mon Jan 07 09:58:09 PST 2008]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.options.optimization.platform.merge]]></string>
@@ -764,7 +764,7 @@ Press "Done" to quit the installer.]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.project.build.last.date]]></string>
-						<string><![CDATA[Thu Sep 20 13:15:45 PDT 2007]]></string>
+						<string><![CDATA[Mon Jan 07 09:58:09 PST 2008]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.installer.options.heap.size.initial]]></string>
@@ -804,7 +804,7 @@ Press "Done" to quit the installer.]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.build.vmpack.windows.path]]></string>
-						<string><![CDATA[SunJRE160_00iWin32.vm]]></string>
+						<string><![CDATA[SunJRE160_01iWin32.vm]]></string>
 					</method>
 					<method name="put">
 						<string><![CDATA[com.zerog.ia.installer.options.valid.vm.list]]></string>
@@ -950,7 +950,7 @@ Press "Done" to quit the installer.]]></string>
 						<string><![CDATA[Simkit]]></string>
 					</property>
 					<property name="installerName">
-						<string><![CDATA[simkit-1.3.2]]></string>
+						<string><![CDATA[simkit-1.3.4]]></string>
 					</property>
 					<property name="productName">
 						<string><![CDATA[Simkit]]></string>
@@ -1447,7 +1447,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[simkit-doc.zip]]></string>
 											</property>
 											<property name="fileSize">
-												<long>911886</long>
+												<long>911938</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -1476,7 +1476,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[simkit-src.zip]]></string>
 											</property>
 											<property name="fileSize">
-												<long>467467</long>
+												<long>467125</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -1563,7 +1563,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[constant-values.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>50965</long>
+												<long>50946</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -1650,7 +1650,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[index-all.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>811170</long>
+												<long>811185</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -1853,7 +1853,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[Adapter.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>28951</long>
+												<long>28947</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -1882,7 +1882,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[BasicAssembly.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>58616</long>
+												<long>58612</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -1911,7 +1911,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[BasicSimEntity.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>92641</long>
+												<long>92636</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -1940,7 +1940,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[BasicSimEventSource.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>16469</long>
+												<long>16464</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -1969,7 +1969,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[Bridge.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>27183</long>
+												<long>27178</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -1998,7 +1998,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[EndingCondition.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>13026</long>
+												<long>13021</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2027,7 +2027,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[EventCounter.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>27405</long>
+												<long>27401</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2056,7 +2056,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[EventList.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>82237</long>
+												<long>82232</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2085,7 +2085,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[InvalidSchedulingException.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>10914</long>
+												<long>10909</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2114,7 +2114,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[Named.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>15475</long>
+												<long>15470</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2230,7 +2230,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[PauseAfterZero.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>22908</long>
+												<long>22904</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2259,7 +2259,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[Priority.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>17419</long>
+												<long>17415</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2288,7 +2288,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[PropertyChangeDispatcher.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>31373</long>
+												<long>31368</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2317,7 +2317,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[PropertyChangeNamespace.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>19356</long>
+												<long>19351</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2346,7 +2346,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[PropertyChangeSource.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>22083</long>
+												<long>22078</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2375,7 +2375,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[RunAndPause.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>22924</long>
+												<long>22920</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2404,7 +2404,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[Schedule.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>45293</long>
+												<long>45288</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2433,7 +2433,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[SimEntity.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>33147</long>
+												<long>33142</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2462,7 +2462,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[SimEntityBase.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>40693</long>
+												<long>40718</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2491,7 +2491,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[SimEntityBaseProtected.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>44688</long>
+												<long>44683</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2520,7 +2520,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[SimEvent.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>46855</long>
+												<long>46851</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2549,7 +2549,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[SimEventFilter.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>31504</long>
+												<long>31500</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2578,7 +2578,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[SimEventListener.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>12633</long>
+												<long>12628</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2607,7 +2607,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[SimEventSource.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>15187</long>
+												<long>15182</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2636,7 +2636,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[SimEventState.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>14489</long>
+												<long>14484</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2665,7 +2665,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[SimExec.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>16812</long>
+												<long>16807</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2694,7 +2694,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[SimkitConcurrencyException.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>14550</long>
+												<long>14545</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2723,7 +2723,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[Stop.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>27750</long>
+												<long>27746</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2752,7 +2752,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[StopType.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>15345</long>
+												<long>15341</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2781,7 +2781,7 @@ and any path to a file to read from that file]]></string>
 												<string><![CDATA[Version.html]]></string>
 											</property>
 											<property name="fileSize">
-												<long>18984</long>
+												<long>18979</long>
 											</property>
 											<property name="macBinary">
 												<boolean>false</boolean>
@@ -2819,7 +2819,7 @@ and any path to a file to read from that file]]></string>
 												<int>0</int>
 											</property>
 										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="52d4650a8738">
+										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="df44a098b1d8">
 											<property name="unixPermissions">
 												<string><![CDATA[775]]></string>
 											</property>
@@ -2830,117 +2830,13 @@ and any path to a file to read from that file]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\tmp\Simkit\dist\gnu]]></string>
+												<string><![CDATA[C:\tmp\Simkit\dist\doc\simkit\xml]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
 											</property>
 											<property name="destinationName">
-												<string><![CDATA[gnu]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="df449fdeb16a">
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[C:\tmp\Simkit\dist\doc\resources]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[resources]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="df44a00cb17e">
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[C:\tmp\Simkit\dist\doc\simkit\random]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[random]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="df44a04bb1a5">
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[C:\tmp\Simkit\dist\doc\simkit\smdx]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[smdx]]></string>
-											</property>
-											<property name="removeRecursively">
-												<boolean>false</boolean>
-											</property>
-											<property name="macBinary">
-												<boolean>false</boolean>
-											</property>
-										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="df44a069b1bc">
-											<property name="unixPermissions">
-												<string><![CDATA[775]]></string>
-											</property>
-											<property name="sourceName">
-												<string><![CDATA[]]></string>
-											</property>
-											<property name="overrideUnixPermissions">
-												<boolean>false</boolean>
-											</property>
-											<property name="sourcePath">
-												<string><![CDATA[C:\tmp\Simkit\dist\doc\simkit\stat]]></string>
-											</property>
-											<property name="shouldUninstall">
-												<boolean>true</boolean>
-											</property>
-											<property name="destinationName">
-												<string><![CDATA[stat]]></string>
+												<string><![CDATA[xml]]></string>
 											</property>
 											<property name="removeRecursively">
 												<boolean>false</boolean>
@@ -2975,7 +2871,7 @@ and any path to a file to read from that file]]></string>
 												<boolean>false</boolean>
 											</property>
 										</object>
-										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="df44a098b1d8">
+										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="df44a069b1bc">
 											<property name="unixPermissions">
 												<string><![CDATA[775]]></string>
 											</property>
@@ -2986,13 +2882,65 @@ and any path to a file to read from that file]]></string>
 												<boolean>false</boolean>
 											</property>
 											<property name="sourcePath">
-												<string><![CDATA[C:\tmp\Simkit\dist\doc\simkit\xml]]></string>
+												<string><![CDATA[C:\tmp\Simkit\dist\doc\simkit\stat]]></string>
 											</property>
 											<property name="shouldUninstall">
 												<boolean>true</boolean>
 											</property>
 											<property name="destinationName">
-												<string><![CDATA[xml]]></string>
+												<string><![CDATA[stat]]></string>
+											</property>
+											<property name="removeRecursively">
+												<boolean>false</boolean>
+											</property>
+											<property name="macBinary">
+												<boolean>false</boolean>
+											</property>
+										</object>
+										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="df44a04bb1a5">
+											<property name="unixPermissions">
+												<string><![CDATA[775]]></string>
+											</property>
+											<property name="sourceName">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="overrideUnixPermissions">
+												<boolean>false</boolean>
+											</property>
+											<property name="sourcePath">
+												<string><![CDATA[C:\tmp\Simkit\dist\doc\simkit\smdx]]></string>
+											</property>
+											<property name="shouldUninstall">
+												<boolean>true</boolean>
+											</property>
+											<property name="destinationName">
+												<string><![CDATA[smdx]]></string>
+											</property>
+											<property name="removeRecursively">
+												<boolean>false</boolean>
+											</property>
+											<property name="macBinary">
+												<boolean>false</boolean>
+											</property>
+										</object>
+										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="df44a00cb17e">
+											<property name="unixPermissions">
+												<string><![CDATA[775]]></string>
+											</property>
+											<property name="sourceName">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="overrideUnixPermissions">
+												<boolean>false</boolean>
+											</property>
+											<property name="sourcePath">
+												<string><![CDATA[C:\tmp\Simkit\dist\doc\simkit\random]]></string>
+											</property>
+											<property name="shouldUninstall">
+												<boolean>true</boolean>
+											</property>
+											<property name="destinationName">
+												<string><![CDATA[random]]></string>
 											</property>
 											<property name="removeRecursively">
 												<boolean>false</boolean>
@@ -3067,6 +3015,32 @@ and any path to a file to read from that file]]></string>
 												<object refID="df44a098b1d8"/>
 											</visualChildren>
 										</object>
+										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="df449fdeb16a">
+											<property name="unixPermissions">
+												<string><![CDATA[775]]></string>
+											</property>
+											<property name="sourceName">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="overrideUnixPermissions">
+												<boolean>false</boolean>
+											</property>
+											<property name="sourcePath">
+												<string><![CDATA[C:\tmp\Simkit\dist\doc\resources]]></string>
+											</property>
+											<property name="shouldUninstall">
+												<boolean>true</boolean>
+											</property>
+											<property name="destinationName">
+												<string><![CDATA[resources]]></string>
+											</property>
+											<property name="removeRecursively">
+												<boolean>false</boolean>
+											</property>
+											<property name="macBinary">
+												<boolean>false</boolean>
+											</property>
+										</object>
 										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="a0140db58707">
 											<property name="unixPermissions">
 												<string><![CDATA[775]]></string>
@@ -3109,6 +3083,32 @@ and any path to a file to read from that file]]></string>
 												<object refID="df449fddb16c"/>
 												<object refID="df44a099b1db"/>
 											</visualChildren>
+										</object>
+										<object class="com.zerog.ia.installer.actions.InstallDirectory" objectID="52d4650a8738">
+											<property name="unixPermissions">
+												<string><![CDATA[775]]></string>
+											</property>
+											<property name="sourceName">
+												<string><![CDATA[]]></string>
+											</property>
+											<property name="overrideUnixPermissions">
+												<boolean>false</boolean>
+											</property>
+											<property name="sourcePath">
+												<string><![CDATA[C:\tmp\Simkit\dist\gnu]]></string>
+											</property>
+											<property name="shouldUninstall">
+												<boolean>true</boolean>
+											</property>
+											<property name="destinationName">
+												<string><![CDATA[gnu]]></string>
+											</property>
+											<property name="removeRecursively">
+												<boolean>false</boolean>
+											</property>
+											<property name="macBinary">
+												<boolean>false</boolean>
+											</property>
 										</object>
 									</installChildren>
 								</object>
@@ -3161,12 +3161,12 @@ and any path to a file to read from that file]]></string>
 		</object>
 	</installationObjects>
 	<restorationObjects count="7">
-		<object refID="52d4650a8738"/>
-		<object refID="df449fdeb16a"/>
-		<object refID="df44a00cb17e"/>
-		<object refID="df44a04bb1a5"/>
-		<object refID="df44a069b1bc"/>
-		<object refID="df44a07ab1cc"/>
 		<object refID="df44a098b1d8"/>
+		<object refID="df44a07ab1cc"/>
+		<object refID="df44a069b1bc"/>
+		<object refID="df44a04bb1a5"/>
+		<object refID="df44a00cb17e"/>
+		<object refID="df449fdeb16a"/>
+		<object refID="52d4650a8738"/>
 	</restorationObjects>
 </InstallAnywhere_Deployment_Project>
