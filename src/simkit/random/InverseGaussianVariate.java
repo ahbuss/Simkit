@@ -28,7 +28,7 @@ public class InverseGaussianVariate extends RandomVariateBase {
 **/
     public InverseGaussianVariate() {
         normal = new NormalVariate();
-        normal.setRandomNumber(super.rng);
+        normal.setParameters(0.0, 1.0);
     }
 
 /**
