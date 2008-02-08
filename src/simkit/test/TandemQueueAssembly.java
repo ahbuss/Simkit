@@ -4,7 +4,7 @@ import simkit.Adapter;
 import simkit.BasicAssembly;
 import simkit.SimEntity;
 import simkit.examples.ArrivalProcess;
-import simkit.examples.Server;
+import simkit.examples.SimpleServer;
 import simkit.random.RandomVariateFactory;
 import simkit.stat.MultipleSimpleStatsTally;
 import simkit.stat.SampleStatistics;
@@ -37,12 +37,12 @@ public class TandemQueueAssembly extends BasicAssembly {
      */
     protected void createSimEntities() {
         simEntity = new SimEntity[6];
-        simEntity[0] = new ArrivalProcess(RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(1.1) }));
-        simEntity[1] = new Server(1, RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(1.0) }));
+        simEntity[0] = new ArrivalProcess(RandomVariateFactory.getInstance("Exponential", 1.1));
+        simEntity[1] = new SimpleServer(1, RandomVariateFactory.getInstance("Exponential", 1.0));
         simEntity[2] = new Adapter("EndService", "Arrival");
-        simEntity[3] = new Server(3, RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(3.0) }));
+        simEntity[3] = new SimpleServer(3, RandomVariateFactory.getInstance("Exponential", 3.0));
         simEntity[4] = new Adapter("EndService", "Arrival");
-        simEntity[5] = new Server(2, RandomVariateFactory.getInstance("Exponential", new Object[] { new Double(2.0) }));
+        simEntity[5] = new SimpleServer(2, RandomVariateFactory.getInstance("Exponential", 2.0));
     }
 
     /**

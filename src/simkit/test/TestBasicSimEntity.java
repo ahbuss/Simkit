@@ -8,6 +8,7 @@ package simkit.test;
 import simkit.BasicSimEntity;
 import simkit.Schedule;
 import simkit.examples.ArrivalProcess2;
+import simkit.examples.SimpleServer;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 import simkit.util.PropertyChangeFrame;
@@ -32,8 +33,8 @@ public class TestBasicSimEntity {
         rv[1] = RandomVariateFactory.getInstance(serviceDist, serviceParam);
         BasicSimEntity arrival = new ArrivalProcess2(rv[0]);
 
-        BasicSimEntity server = new Server(2, rv[1]);
-        BasicSimEntity server2 = new Server(1, rv[0]);
+        BasicSimEntity server = new SimpleServer(2, rv[1]);
+        BasicSimEntity server2 = new SimpleServer(1, rv[0]);
         arrival.addSimEventListener(server);
         server.addSimEventListener(server2);
         

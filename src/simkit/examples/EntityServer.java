@@ -2,6 +2,7 @@ package simkit.examples;
 
 import java.util.LinkedList;
 import java.util.List;
+import simkit.Entity;
 import simkit.Priority;
 
 import simkit.SimEntityBase;
@@ -9,12 +10,12 @@ import simkit.random.RandomVariate;
 
 /**
  * Implements a Multi-server single queue server for Customers.
- * After instantiating a CustomerServer, register it as a SimEventListener
+ * After instantiating a EntityServer, register it as a SimEventListener
  * with a {@link CustomerCreator}.
  * @author  Arnold Buss
  * @version $Id$
  */
-public class CustomerServer extends SimEntityBase {
+public class EntityServer extends SimEntityBase {
     
 /**
 * The total number of servers in the system
@@ -29,7 +30,7 @@ public class CustomerServer extends SimEntityBase {
 /**
 * The queue of waiting Customers.
 **/
-    protected LinkedList<Customer> queue;
+    protected LinkedList<Entity> queue;
 
 /**
 * The number of available servers.
@@ -37,11 +38,11 @@ public class CustomerServer extends SimEntityBase {
     protected int numberAvailableServers;
     
 /**
-* Creates a new CustomerServer with the given number of servers, and service
+* Creates a new EntityServer with the given number of servers, and service
 * time distribution.
 **/
-    public CustomerServer(int numberServers, RandomVariate serviceTime) {
-        queue = new LinkedList<Customer>();
+    public EntityServer(int numberServers, RandomVariate serviceTime) {
+        queue = new LinkedList<Entity>();
         setNumberServers(numberServers);
         setServiceTime(serviceTime);
     }
@@ -60,7 +61,7 @@ public class CustomerServer extends SimEntityBase {
 * servers (numberAvailableServers).
 **/
     public void doRun() {
-        firePropertyChange("numberInQueue", queue.size());
+        firePropertyChange("queue", getQueue());
         firePropertyChange("numberAvailableServers", numberAvailableServers);
     }
     
@@ -69,10 +70,12 @@ public class CustomerServer extends SimEntityBase {
      * Fires a property change for the number in the queue. (numberInQueue)
      * @param customer Arriving Customer
      */    
-    public void doArrival(Customer customer) {
+    public void doArrival(Entity customer) {
         customer.stampTime();
+        List<Entity> oldQueue = getQueue();
         queue.add(customer);
-        firePropertyChange("numberInQueue", queue.size() - 1, queue.size());
+        firePropertyChange("queue", oldQueue, getQueue());
+        
         if (getNumberAvailableServers() > 0) {
             waitDelay("StartService", 0.0, Priority.HIGH);
         }
@@ -84,12 +87,17 @@ public class CustomerServer extends SimEntityBase {
      * Fires property changes for delayInQueue, numberInQueue, and numberAvailableServers.
      */    
     public void doStartService() {
-        Customer customer = (Customer) queue.removeFirst();
-        firePropertyChange("delayInQueue", customer.getTimeSinceStamp());
-        firePropertyChange("numberInQueue", queue.size() + 1, queue.size());
-        firePropertyChange("numberAvailableServers", numberAvailableServers,
-            --numberAvailableServers);
-        
+        List<Entity> oldQueue = getQueue();
+        Entity customer = queue.removeFirst();
+        firePropertyChange("queue", oldQueue, getQueue());
+
+        firePropertyChange("delayInQueue", customer.getElapsedTime());
+
+        int OldNumberAvailableServers = getNumberAvailableServers();
+        numberAvailableServers -= 1;
+        firePropertyChange("numberAvailableServers", OldNumberAvailableServers,
+                getNumberAvailableServers());
+
         waitDelay("EndService", serviceTime.generate(), customer);
     }
     
@@ -100,10 +108,14 @@ public class CustomerServer extends SimEntityBase {
      * arrival) and numberAvailableServers.
      * @param customer Customer finishing service
      */    
-    public void doEndService(Customer customer) {
-        firePropertyChange("timeInSystem", customer.getTimeSinceStamp());
-        firePropertyChange("numberAvailableServers", numberAvailableServers,
-            ++numberAvailableServers);
+    public void doEndService(Entity customer) {
+        firePropertyChange("timeInSystem", customer.getElapsedTime());
+        
+        int OldNumberAvailableServers = getNumberAvailableServers();
+        numberAvailableServers += 1;
+        firePropertyChange("numberAvailableServers", OldNumberAvailableServers,
+                getNumberAvailableServers());
+        
         if (getNumberInQueue() > 0) {
             waitDelay("StartService", 0.0, Priority.HIGH);
         }
@@ -143,8 +155,8 @@ public class CustomerServer extends SimEntityBase {
      * Returns a copy of the queue.
      * @return Shallow copy of queue
      */    
-    public List getQueue() { 
-        return new LinkedList<Customer>(queue); 
+    public LinkedList<Entity> getQueue() { 
+        return new LinkedList<Entity>(queue); 
     }
     
     /**

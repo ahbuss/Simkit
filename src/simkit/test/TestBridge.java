@@ -9,6 +9,7 @@ import simkit.Bridge;
 import simkit.PropertyChangeNamespace;
 import simkit.Schedule;
 import simkit.examples.ArrivalProcess;
+import simkit.examples.SimpleServer;
 import simkit.random.CongruentialSeeds;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
@@ -33,39 +34,38 @@ public class TestBridge {
                 new Object[] { new Double(1.4) },
                 new Object[] { new Double(2.6) }
             };
-        int[] servers = new int[] { 1, 2 };
-        long[] seeds =  (long[]) CongruentialSeeds.SEED.clone();
+        int[] SimpleServers = new int[] { 1, 2 };
         
-        RandomVariate interArrivals = RandomVariateFactory.getInstance( arrivalDistribution, arrivalParam, seeds[0]);
+        RandomVariate interArrivals = RandomVariateFactory.getInstance( arrivalDistribution, arrivalParam);
         
         ArrivalProcess arrival = new ArrivalProcess(interArrivals);
         
         RandomVariate[] serviceTimes = new RandomVariate[2];
-        Server[] server = new Server[2];
+        SimpleServer[] SimpleServer = new SimpleServer[2];
         
         for (int i = 0; i < serviceTimes.length; i++) {
             serviceTimes[i] = RandomVariateFactory.getInstance(arrivalDistribution,
-                serviceParam[i], seeds[i+1]);
-            server[i] = new Server(servers[i], serviceTimes[i]);
+                serviceParam[i]);
+            SimpleServer[i] = new SimpleServer(SimpleServers[i], serviceTimes[i]);
         }
         
         Bridge bridge = new Bridge("EndService", "Arrival");
         
-        arrival.addSimEventListener(server[0]);
-        server[0].addSimEventListener(bridge);
-        bridge.addSimEventListener(server[1]);
+        arrival.addSimEventListener(SimpleServer[0]);
+        SimpleServer[0].addSimEventListener(bridge);
+        bridge.addSimEventListener(SimpleServer[1]);
         
-        System.out.println(arrival.paramString());
-        System.out.println(server[0].paramString());
+        System.out.println(arrival);
+        System.out.println(SimpleServer[0]);
         System.out.println(bridge);
-        System.out.println(server[1].paramString());
+        System.out.println(SimpleServer[1]);
         
         SimplePropertyDumper dump = new SimplePropertyDumper();
-        server[1].addPropertyChangeListener(dump);
+        SimpleServer[1].addPropertyChangeListener(dump);
         
         PropertyChangeNamespace namespace = new PropertyChangeNamespace(new Object[] {}, "tandem");
-        server[0].addPropertyChangeListener(namespace);
-        server[1].addPropertyChangeListener(namespace);
+        SimpleServer[0].addPropertyChangeListener(namespace);
+        SimpleServer[1].addPropertyChangeListener(namespace);
         
         PropertyChangeFrame pcf = new PropertyChangeFrame();
         namespace.addPropertyChangeListener(pcf);

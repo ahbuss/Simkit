@@ -8,7 +8,7 @@ import simkit.random.RandomVariateFactory;
 /**
  * Multiple server queue using BasicSimEntity as superclass. This inplementation
  * does not generate its own arrivals. It listens to another SimEntity's arrival and
- * endService events which cause an arrival in this Server2.
+ * endService events which cause an arrival in this SimpleServer2.
  *  <p>This approach
  * does not use reflection, but implicitly relies on the moral equivalent of a "switch"
  * statement to decide which event to execute when it is called back from Schedule (the
@@ -16,7 +16,7 @@ import simkit.random.RandomVariateFactory;
  * @author Arnold Buss
  * @version $Id$
  */
-public class Server2 extends BasicSimEntity {
+public class SimpleServer2 extends BasicSimEntity {
 
 /**
 * The RandomVariate used to generate service times.
@@ -44,10 +44,10 @@ public class Server2 extends BasicSimEntity {
     protected int numberServed;
 
 /**
-* Creates a new Server2 with the given number of servers and the given service
+* Creates a new SimpleServer2 with the given number of servers and the given service
 * time distribution.
 **/
-    public Server2(int numServ, RandomVariate rv) {
+    public SimpleServer2(int numServ, RandomVariate rv) {
         serviceTime = RandomVariateFactory.getInstance(rv);
         totalNumberServers = numServ;
     }
@@ -167,8 +167,8 @@ public class Server2 extends BasicSimEntity {
     }
     
 /**
-* Processes events for which this Server2 is a listener. If the event is Arrival
-* or EndService, schedules Arrival for now. This allows this Server2 to get
+* Processes events for which this SimpleServer2 is a listener. If the event is Arrival
+* or EndService, schedules Arrival for now. This allows this SimpleServer2 to get
 * arrivals either from a SimEntity which generates arrivals or by "chaining"
 * to a preceeding SimEntity.
 * @param event "Listened-to" event.

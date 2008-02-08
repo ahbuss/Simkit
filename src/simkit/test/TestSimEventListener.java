@@ -9,11 +9,12 @@ import java.beans.PropertyChangeListener;
 
 import simkit.SimEventListener;
 import simkit.examples.ArrivalProcess;
+import simkit.examples.SimpleServer;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 import simkit.stat.SimpleStatsTally;
 /**
- *
+ * @version $Id$
  * @author  ahbuss
  */
 public class TestSimEventListener {
@@ -27,7 +28,7 @@ public class TestSimEventListener {
         ArrivalProcess arrival = new ArrivalProcess(rv);
         
         for (int i = 0; i < 5; i++) {
-            arrival.addSimEventListener(new Server(1, rv));
+            arrival.addSimEventListener(new SimpleServer(1, rv));
         }
         
         SimEventListener[] listeners = arrival.getSimEventListeners();

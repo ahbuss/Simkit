@@ -10,7 +10,7 @@ public class TestSimpleStatsTally {
     public static void main(String[] args) {
         SimpleStatsTally sst = new SimpleStatsTally();
 //        SimpleStats ss = new SimpleStats();
-        for (int i = 1; i < 100001; i++) {
+        for (int i = 0; i <= 10; i++) {
             sst.newObservation(i);
 //            ss.newObservation(i);
         }
@@ -25,11 +25,7 @@ public class TestSimpleStatsTally {
         ArrivalProcess ap =
             new ArrivalProcess(
                 RandomVariateFactory.getInstance(
-                    "simkit.random.ExponentialVariate",
-                    new Object[] { new Double(1.7) },
-                    12345L
-                )
-            );
+                    "Exponential",1.7) );
 //        ap.addPropertyChangeListener(ss);
         ap.addPropertyChangeListener(sst);
 

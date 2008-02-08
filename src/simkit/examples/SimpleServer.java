@@ -9,9 +9,9 @@ import simkit.random.RandomVariate;
  * should be registered as a SimEventListener for a source of arrival events (like
  * {@link ArrivalProcess2}.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: Server.java 1000 2007-02-15 19:43:11Z ahbuss $
  */
-public class Server extends SimEntityBase {
+public class SimpleServer extends SimEntityBase {
     
 /**
 * The total number of servers in the system.
@@ -42,7 +42,7 @@ public class Server extends SimEntityBase {
 * Creates a new Server with the given number of servers and the given service time
 * distribution.
 **/
-    public Server(int servers, RandomVariate time) {
+    public SimpleServer(int servers, RandomVariate time) {
         totalNumberServers = servers;
         serviceTime = time;
     }
@@ -63,6 +63,7 @@ public class Server extends SimEntityBase {
     public void doRun() {
         firePropertyChange("numberInQueue", numberInQueue);
         firePropertyChange("numberAvailableServers", numberAvailableServers);
+        firePropertyChange("numberServed", getNumberServed());
     }
     
 /**

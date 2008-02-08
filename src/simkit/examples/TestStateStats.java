@@ -9,7 +9,7 @@ import simkit.stat.SimpleStatsTally;
 import simkit.stat.SimpleStatsTimeVarying;
 /**
  * Simulates a system consisting of a 2 server single queue system for Customers. Uses an 
- * {@link ArrivalProcess}, a {@link CustomerCreator}, and a {@link CustomerServer}.
+ * {@link ArrivalProcess}, a {@link EntityCreator}, and a {@link EntityServer}.
  * @author  Arnold Buss
  * @version $Id$
  */
@@ -22,8 +22,8 @@ public class TestStateStats {
         int numberServers = 2;
         
         ArrivalProcess arrival = new ArrivalProcess(rv[0]);
-        CustomerCreator creator = new CustomerCreator();
-        CustomerServer server = new CustomerServer(numberServers, rv[1]);
+        EntityCreator creator = new EntityCreator();
+        EntityServer server = new EntityServer(numberServers, rv[1]);
         arrival.addSimEventListener(creator);
         creator.addSimEventListener(server);
         

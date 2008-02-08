@@ -17,10 +17,10 @@ public class TestShortestQueueDispatcher {
         RandomVariate iat = 
                 RandomVariateFactory.getInstance("Exponential", 1.0);
         RandomVariate[] servTime = new RandomVariate[5];
-        Server[] server = new Server[servTime.length];
+        SimpleServer[] server = new SimpleServer[servTime.length];
         for (int i = 0; i < servTime.length; ++i) {
             servTime[i] = RandomVariateFactory.getInstance("Exponential", 4.5);
-            server[i] = new Server(1, servTime[i]);
+            server[i] = new SimpleServer(1, servTime[i]);
         }
         
         ArrivalProcess arrival = new ArrivalProcess(iat);        

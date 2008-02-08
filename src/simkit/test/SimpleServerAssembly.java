@@ -3,7 +3,7 @@ package simkit.test;
 import simkit.BasicAssembly;
 import simkit.SimEntity;
 import simkit.examples.ArrivalProcess;
-import simkit.examples.Server;
+import simkit.examples.SimpleServer;
 import simkit.random.RandomVariateFactory;
 import simkit.stat.SampleStatistics;
 import simkit.stat.SimpleStatsTimeVarying;
@@ -11,14 +11,14 @@ import simkit.stat.SimpleStatsTimeVarying;
 
 /**
  * Prototypical subclass of BasicAssembly.  This is the basic queueing model
- * with an ArrivalProcess and a Server instance.  Statistics on numberInQueue
+ * with an ArrivalProcess and a SimpleServer instance.  Statistics on numberInQueue
  * and numberAvailableServers are kept as replicationStats.  The designPointStats
  * are suto-generated from the replicatoonStats.
  *
  * @version $Id$
  * @author ahbuss
  */
-public class ServerAssembly extends BasicAssembly {
+public class SimpleServerAssembly extends BasicAssembly {
     
     /**
      * <p>Instantiate SimEntities and Stats objects in arrays (defined in
@@ -30,7 +30,7 @@ public class ServerAssembly extends BasicAssembly {
      * in the constructor.  This is less flexible for reuse, but makes it easier
      * to instantiate one and run it.
      */
-    public ServerAssembly() {
+    public SimpleServerAssembly() {
     }
     
     
@@ -40,7 +40,7 @@ public class ServerAssembly extends BasicAssembly {
                     RandomVariateFactory.getInstance(
                     "Exponential", new Object[] { new Double(1.7) })
                     ),
-            new Server(
+            new SimpleServer(
                     2,
                     RandomVariateFactory.getInstance(
                     "Gamma", new Object[] { new Double(2.5), new Double(1.2) }) )
@@ -75,7 +75,7 @@ public class ServerAssembly extends BasicAssembly {
      * testing and illustrative purposes.
      */
     public static void main(String[] args) {
-        ServerAssembly serverAssembly = new ServerAssembly();
+        SimpleServerAssembly serverAssembly = new SimpleServerAssembly();
         serverAssembly.setStopTime(10000.0);
         serverAssembly.setNumberReplications(10);
         serverAssembly.setPrintReplicationReports(true);

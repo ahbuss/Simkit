@@ -4,11 +4,13 @@ import java.text.DecimalFormat;
 import simkit.Schedule;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
+import simkit.stat.CollectionSizeTimeVaryingStats;
 import simkit.stat.SimpleStatsTally;
 import simkit.stat.SimpleStatsTimeVarying;
+import simkit.util.SimplePropertyDumper;
 /**
  * Simulates a system consisting of a 2 server single queue system for Customers. Uses an 
- * {@link ArrivalProcess}, a {@link CustomerCreator}, and a {@link CustomerServer}.
+ * {@link ArrivalProcess}, a {@link EntityCreator}, and a {@link EntityServer}.
  * @author  Arnold Buss
  * @version $Id$
  */
@@ -21,13 +23,14 @@ public class TestCustomerServer {
         int numberServers = 2;
         
         ArrivalProcess arrival = new ArrivalProcess(rv[0]);
-        CustomerCreator creator = new CustomerCreator();
-        CustomerServer server = new CustomerServer(numberServers, rv[1]);
+        EntityCreator creator = new EntityCreator();
+        EntityServer server = new EntityServer(numberServers, rv[1]);
         arrival.addSimEventListener(creator);
         creator.addSimEventListener(server);
         
 
-        SimpleStatsTimeVarying niqStat = new SimpleStatsTimeVarying("numberInQueue");
+        CollectionSizeTimeVaryingStats niqStat = 
+                new CollectionSizeTimeVaryingStats("queue");
         SimpleStatsTimeVarying nasStat = new SimpleStatsTimeVarying("numberAvailableServers");
         SimpleStatsTally diqStat = new SimpleStatsTally("delayInQueue");
         SimpleStatsTally tisStat = new SimpleStatsTally("timeInSystem");
@@ -36,6 +39,7 @@ public class TestCustomerServer {
         arrival.setEventListID(eventListID);
         creator.setEventListID(eventListID);
         server.setEventListID(eventListID);
+        Schedule.setDefaultEventList(Schedule.getEventList(eventListID));
         
         niqStat.setEventListID(eventListID);
         nasStat.setEventListID(eventListID);
@@ -71,7 +75,7 @@ public class TestCustomerServer {
         
         System.out.println("Avg Utilization:\t" + form.format(1.0 - 
             nasStat.getMean() / server.getNumberServers()));
-        
+                
     }
     
 }
