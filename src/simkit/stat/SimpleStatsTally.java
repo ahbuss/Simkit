@@ -52,11 +52,13 @@ public class SimpleStatsTally extends AbstractSimpleStats {
  *  @param x The new (primitive) observation.
  **/
     public void newObservation(double x) {
-        super.newObservation(x);
-        
-        diff = x - mean;
-        variance += (count == 1) ? 0.0 : diff * diff / count - 1.0 / (count - 1) * variance;
-        mean += diff / count;
+        if (!Double.isNaN(x)) {
+            super.newObservation(x);
+
+            diff = x - mean;
+            variance += (count == 1) ? 0.0 : diff * diff / count - 1.0 / (count - 1) * variance;
+            mean += diff / count;
+        }
     }
 
 /** 

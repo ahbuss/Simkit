@@ -65,17 +65,19 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats {
 
 // Javadoc inherited.
     public void newObservation(double x) {
-        super.newObservation(x);
-        if (count == 1 ) {
-            mean = diff;
-            variance = 0.0;
-        } else if (eventList.getSimTime() > lastTime) {
-            double factor = 1.0 - (lastTime - getStartTime()) / (eventList.getSimTime() - this.getStartTime());
-            mean += diff * factor;
-            variance +=  factor * ( (1.0 - factor) * diff * diff - variance );
+        if (!Double.isNaN(x)) {
+            super.newObservation(x);
+            if (count == 1) {
+                mean = diff;
+                variance = 0.0;
+            } else if (eventList.getSimTime() > lastTime) {
+                double factor = 1.0 - (lastTime - getStartTime()) / (eventList.getSimTime() - this.getStartTime());
+                mean += diff * factor;
+                variance += factor * ((1.0 - factor) * diff * diff - variance);
+            }
+            diff = x - mean;
+            this.lastTime = eventList.getSimTime();
         }
-        diff = x - mean;
-        this.lastTime = eventList.getSimTime();
     }
     
 // Javadoc inherited.
