@@ -7,13 +7,11 @@ import simkit.random.*;
 public class TestLogTransform {
     
     public static void main(String[] args) {
-        RandomVariate rv = RandomVariateFactory.getInstance("Exponential",
-            new Object[] { new Double(1.2) });
+        RandomVariate rv = RandomVariateFactory.getInstance("Exponential", 1.2);
+
         System.out.println(rv);
         RandomVariate logRV = RandomVariateFactory.getInstance(
-            "LogTransform",
-            new Object[] { rv }
-        );
+            "LogTransform", rv );
         
         System.out.println(logRV);
         
@@ -22,8 +20,7 @@ public class TestLogTransform {
         }
         
         RandomVariate norm = RandomVariateFactory.getInstance(
-            "Normal", new Object[] { new Double(0.0), new Double(2.0) }
-        );
+            "Normal", 0.0, 2.0 );
         
         ((LogTransform) logRV).setRandomVariate(norm);
         System.out.println(logRV);

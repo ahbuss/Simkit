@@ -94,8 +94,10 @@ public class ConvolutionVariate extends RandomVariateBase {
      */    
     public void setRandomNumber(RandomNumber rand) {
         super.setRandomNumber(rand);
-        for (int i = 0; i < rv.length; ++i) {
-            rv[i].setRandomNumber(rng);
+        if (rv != null) {
+            for (int i = 0; i < rv.length; ++i) {
+                rv[i].setRandomNumber(rng);
+            }
         }
     }
     

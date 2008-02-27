@@ -1,11 +1,9 @@
 package simkit.random;
 
-import simkit.random.RandomVariate;
-
 /**
  * @version $Id$
  * @author ahbuss
  */
-public interface RandomObjectVariate extends RandomVariate {
-    public Object generateObject();
+public interface RandomObjectVariate<T> extends RandomVariate {
+    public T generateObject();
 }

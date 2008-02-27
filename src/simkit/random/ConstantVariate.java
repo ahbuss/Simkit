@@ -18,7 +18,7 @@ public class ConstantVariate extends RandomVariateBase {
 * Creates a new ConstantVariate with a value of 0.0.
 **/
     public ConstantVariate() {
-        this.setParameters(new Object[] { new Double(0.0)});
+        this.setParameters(0.0);
     }
 
 /**
@@ -39,7 +39,7 @@ public class ConstantVariate extends RandomVariateBase {
 * Returns a 1 element array containing the constant value.
 **/
     public Object[] getParameters() {
-        return new Object[] { new Double(value) };
+        return new Object[] { value };
     }
 
 /**

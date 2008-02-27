@@ -27,7 +27,7 @@ public abstract class RandomVariateBase implements RandomVariate {
 * Creates a new RandomVariateBase with the default RandomNumber.
 **/
     public RandomVariateBase() {
-        rng = RandomNumberFactory.getInstance();
+        setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
     }
     
     /**

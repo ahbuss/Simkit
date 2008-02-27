@@ -43,13 +43,9 @@ public class TestRightWedge {
         double right = 1;
         double little =.5/(right-left);
        String name = "simkit.random.RightWedge";
-       Object[] params = new Object[] { 
-           new Double(left),new Double(right),new Double(little)
-       };
         
-        long seed = CongruentialSeeds.SEED[4];
         RandomVariate rv = RandomVariateFactory.getInstance(
-        name, params, seed);
+        name, left, right, little);
         
         System.out.println(rv);
 /*        

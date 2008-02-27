@@ -28,7 +28,7 @@ public class GeometricVariate implements DiscreteRandomVariate {
 * The value of <code>p</code> must be set prior to generating.
 **/
     public GeometricVariate() {
-        rng = RandomNumberFactory.getInstance();
+        setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
     }
 
     /**

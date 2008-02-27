@@ -28,7 +28,7 @@ public class Normal02Variate implements RandomVariate {
 **/
 
     public Normal02Variate() {
-        rng = RandomNumberFactory.getInstance();
+        setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
     }
     
     /**

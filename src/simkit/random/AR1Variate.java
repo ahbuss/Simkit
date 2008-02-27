@@ -21,8 +21,8 @@ public class AR1Variate extends RandomVariateBase {
 * Creates new AR1Variate with a normal(0,1) error distribution.
 */
     public AR1Variate() {
-        error = RandomVariateFactory.getInstance("simkit.random.NormalVariate",
-            new Object[] { new Double(0.0), new Double(1.0) }, rng);
+        error = RandomVariateFactory.getInstance(
+                "simkit.random.NormalVariate", 0.0, 1.0);
     }
 
     /**
@@ -32,7 +32,7 @@ public class AR1Variate extends RandomVariateBase {
      * @return The array of parameters as an Object[].
      */
     public Object[] getParameters() {
-        return new Object[] { new Double(alpha), new Double(lastValue) };
+        return new Object[] { getAlpha(), getLastValue() };
     }
     
     /**
@@ -89,4 +89,8 @@ public class AR1Variate extends RandomVariateBase {
 **/
     public double getLastValue() { return lastValue; }
         
+    
+    public String toString() {
+        return "AR(1) Variate (alpha = " + getAlpha() + ")";
+    }
 }

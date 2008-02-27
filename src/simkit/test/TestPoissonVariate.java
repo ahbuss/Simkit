@@ -31,7 +31,9 @@ public class TestPoissonVariate {
         String dist = "Poisson";
         double lambda = 1.5;
         Object[] params = new Object[] { new Double(lambda) };
-        DiscreteRandomVariate poiss = (DiscreteRandomVariate) RandomVariateFactory.getInstance(dist, params);
+        DiscreteRandomVariate poiss = 
+                (DiscreteRandomVariate) RandomVariateFactory.getInstance(
+                dist, lambda);
 
         int number = args.length > 0 ? Integer.parseInt(args[0]) : 1000000;
         SimpleStatsTally stat = new SimpleStatsTally(poiss.toString());

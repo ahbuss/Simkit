@@ -29,10 +29,7 @@ public class TestDiscreteVariate {
     public static void main(String args[]) {
         RandomVariate rv =
         RandomVariateFactory.getInstance(
-        "simkit.random.DiscreteVariate",
-        new Object[] { new double[] {0, 1}, new double[] { 20, 20}},
-        12345L
-        );
+        "simkit.random.DiscreteVariate", new double[] {0, 1}, new double[] { 20, 20} );
         
         System.out.println(rv);
         

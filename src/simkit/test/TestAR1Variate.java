@@ -20,16 +20,12 @@ public class TestAR1Variate {
     
     public static void main(String[] args) {
         
-        RandomNumber rng = RandomNumberFactory.getInstance();
-        
         RandomVariate rv1 =
         RandomVariateFactory.getInstance("simkit.random.AR1Variate",
-        new Object[] { new Double(0.0), new Double(2.0), new Double(0.0) },
-        rng);
+        2.0, 0.0);
         RandomVariate rv2 =
         RandomVariateFactory.getInstance("simkit.random.NormalVariate",
-        new Object[] { new Double(0.0), new Double(2.0) },
-        rng);
+            0.0, 2.0);
         
         System.out.println(rv1);
         System.out.println(rv2);

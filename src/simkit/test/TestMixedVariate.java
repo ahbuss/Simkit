@@ -25,17 +25,17 @@ public class TestMixedVariate extends Object {
     public static void main (String args[]) {
         RandomVariate[] rv = 
             new RandomVariate[] {
-                RandomVariateFactory.getInstance("simkit.random.ConstantVariate",
-                new Object[] { new Double(0.0) } ),
-                RandomVariateFactory.getInstance("simkit.random.GammaVariate",
-                new Object[] { new Double(2.0), new Double(1.5) } ),
-                RandomVariateFactory.getInstance("Normal",
-                new Object[] { new Double(-3.1), new Double(4.2) } )
+                RandomVariateFactory.getInstance(
+                        "simkit.random.ConstantVariate", 0.0),
+                RandomVariateFactory.getInstance(
+                        "simkit.random.GammaVariate", 2.0, 1.5),
+                RandomVariateFactory.getInstance(
+                        "Normal", -3.1, 4.2)
             };
             double[] prob = new double[] { 4.0, 6.0, 2.0 };
             
-        RandomVariate mixed = RandomVariateFactory.getInstance("simkit.random.MixedVariate",
-        new Object[] { prob, rv } );
+        RandomVariate mixed = RandomVariateFactory.getInstance(
+                "simkit.random.MixedVariate", prob, rv  );
         System.out.println(mixed);
         for (int i = 0; i < 10; i++) {
             System.out.println(mixed.generate());

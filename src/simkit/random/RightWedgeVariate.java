@@ -30,7 +30,7 @@ public class RightWedgeVariate implements RandomVariate {
       * to use.
     */
     public RightWedgeVariate() {
-        rng = RandomNumberFactory.getInstance();
+        setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
     }
 
 //javadoc inherited    

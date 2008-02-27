@@ -44,9 +44,8 @@ public class MixedVariate extends simkit.random.RandomVariateBase {
         for (int i = 0; i < values.length; i++) {
             values[i] = i;
         }
-        mixing = (DiscreteVariate)
-        RandomVariateFactory.getInstance("simkit.random.DiscreteVariate",
-        new Object[] { values, mixProbs } , rng);
+        mixing = (DiscreteVariate) RandomVariateFactory.getInstance(
+                "simkit.random.DiscreteVariate", rng, values, mixProbs );
     }
     
     /**

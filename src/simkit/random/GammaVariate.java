@@ -106,7 +106,7 @@ public class GammaVariate extends RandomVariateBase {
      * Returns a two element array containing the alpha and beta.
      * @return (&alpha;, &beta;) as elements
      */
-    public Object[] getParameters() { return new Object[] { new Double(alpha), new Double(beta) }; }
+    public Object[] getParameters() { return new Object[] { getAlpha(), getBeta() }; }
     
     //Javadoc inherited
     public double generate() {

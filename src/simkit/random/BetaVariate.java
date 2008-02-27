@@ -57,7 +57,7 @@ public class BetaVariate extends RandomVariateBase {
         else if (params[0] instanceof Number && params[1] instanceof Number) {
             this.setAlpha(((Number) params[0]).doubleValue());
             this.setBeta(((Number) params[1]).doubleValue());
-            this.setGammas(rng);
+            this.setGammas();
         }
         else {
             throw new IllegalArgumentException("Parameters both must be of type Number");
@@ -73,9 +73,9 @@ public class BetaVariate extends RandomVariateBase {
 * Creates the two instances of GammaVariate used to generate this BetaVariate.
 * @param rng The supporting instance of RandomNumber for both GammVariates.
 **/
-    private void setGammas(RandomNumber rng) {
-        gammaVariate1 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", getRandomNumber(), getAlpha(), 1.0);
-        gammaVariate2 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", getRandomNumber(), getBeta(), 1.0);
+    private void setGammas() {
+        gammaVariate1 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", getAlpha(), 1.0);
+        gammaVariate2 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", getBeta(), 1.0);
     }
 
 /**
@@ -119,7 +119,6 @@ public class BetaVariate extends RandomVariateBase {
 **/
     public void setRandomNumber(RandomNumber rng) {
         super.setRandomNumber(rng);
-        setGammas(rng);
     }
     
 /**

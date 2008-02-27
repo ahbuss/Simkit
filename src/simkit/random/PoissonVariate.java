@@ -26,7 +26,7 @@ public class PoissonVariate implements DiscreteRandomVariate {
       * Creates new PoissonVariate; the mean must be set prior to use.
     */
     public PoissonVariate() {
-        rng = RandomNumberFactory.getInstance();
+        setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
     }
     
     /**

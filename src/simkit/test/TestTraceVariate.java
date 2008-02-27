@@ -15,8 +15,7 @@ public class TestTraceVariate {
         System.out.println("Testing Trace Variate");
         
         String rvName = "Trace";
-        Object[] param = new Object[] {
-            new double[] {1.2, 2.5, 3.4, 1.0, 7.4} };
+        double[] param = new double[] {1.2, 2.5, 3.4, 1.0, 7.4};
             RandomVariate rv = RandomVariateFactory.getInstance(
                     rvName, param
                     );

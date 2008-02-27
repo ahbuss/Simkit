@@ -17,8 +17,7 @@ public class TestTwoStateMarkov {
         ss[1] = (1.0 - tp[0]) / (2.0 - tp[0] - tp[1]);
                
         DiscreteRandomVariate rv = (DiscreteRandomVariate) 
-            RandomVariateFactory.getInstance("TwoStateMarkov",
-            new Object[] { tp, new Double(1.2) } );
+            RandomVariateFactory.getInstance("TwoStateMarkov", tp, 1.2);
             
         System.out.println(rv);
         int numberObs = args.length > 0 ? Integer.parseInt(args[0]) : 100000;

@@ -51,7 +51,7 @@ public class OscillatingExponentialVariate implements simkit.random.RandomVariat
 
     /** Creates new OscillatingExponentialVariate, parameters must be set prior to use. */
     public OscillatingExponentialVariate() {
-        rng = RandomNumberFactory.getInstance();
+        setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
     }
 
     /**
