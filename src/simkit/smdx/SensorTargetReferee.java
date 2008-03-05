@@ -55,7 +55,7 @@ import simkit.util.LinkedHashMap2;
  */
 public class SensorTargetReferee extends SimEntityBase implements PropertyChangeListener {
 
-    public static final String _VERSION_ = "$Id";
+    public static final String _VERSION_ = "$Id$";
 
     public static Logger log = Logger.getLogger("simkit.smdx");
     
