@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import simkit.util.LinkedHashMap2;
 
 /**
@@ -22,6 +24,8 @@ import simkit.util.LinkedHashMap2;
  *
  **/
 public abstract class SimEntityBase extends BasicSimEntity {
+
+    public static Logger log = Logger.getLogger("simkit");
     
 /**
 * A two dimensional Hash table used to cache doMethods
@@ -141,13 +145,13 @@ public abstract class SimEntityBase extends BasicSimEntity {
                 allNamesAndSignatures.get(this.getClass());
         if (!namesAndSignatures.containsKey(methodName)) {
             if (debug) {
-                System.out.println("No method of name " + methodName + " -- giving up...");
+                log.info("No method of name " + methodName + " -- giving up...");
             } // if
             return;
         } // if
 //        TODO: put logging here
         if (isVerbose()) {
-            System.out.println("Event processed by " + this + ": " + event);
+            log.info("Event processed by " + this + ": " + event);
         } // if
         
         try {
@@ -155,9 +159,9 @@ public abstract class SimEntityBase extends BasicSimEntity {
             // This method has either happened before or matches one in method exactly
 //            TODO: put logging here
             if (isDebug()) {
-                System.out.println("doMethods hashcode = " + doMethods.hashCode());
-                System.out.println("namesAndSignatures hashcode = " + namesAndSignatures.hashCode());
-                System.out.println("doMethods: " + doMethods);
+                log.info("doMethods hashcode = " + doMethods.hashCode() + NL + 
+                "namesAndSignatures hashcode = " + namesAndSignatures.hashCode() + NL + 
+                "doMethods: " + doMethods);
             }
             if (doMethods.containsKey(event.getFullMethodName())) {
                 m = doMethods.get(event.getFullMethodName());
@@ -166,7 +170,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
             else {
 //                TODO: put logging here
                 if (isVerbose()) {
-                    System.out.println(
+                    log.info(
                     "Master lookup failed, trying namesAndSignatures..." +
                     " Method Name = " + event.getFullMethodName());
                 }
@@ -175,24 +179,26 @@ public abstract class SimEntityBase extends BasicSimEntity {
                 Object[] params = event.getParameters();
                 for (Class<?>[] signature : namesAndSignatures.get(methodName) ) {
                     if (isDebug()) {
-                        System.out.println("namesAndSignatures: " + namesAndSignatures.hashCode());
+                        log.info("namesAndSignatures: " + namesAndSignatures.hashCode());
                     }
                     if (debug) {
-                        System.out.print("  Signature: (");
+                        String msg = "  Signature: (";
                         for (int k = 0; k < signature.length; k++) {
-                            System.out.print(signature[k]);
-                            if (k < signature.length - 1) {System.out.print(", ");}
+                            msg += signature[k];
+                            if (k < signature.length - 1) {msg += ", ";}
                         } // for
-                        System.out.println(")");
+                        msg += ")";
+                        log.info(msg);
                     }  // if
                     if (signature.length == params.length) {
                         boolean match = true;
                         if (debug) {
-                            System.out.println("There are " + signature.length + " arguments to check...");
+                            log.info("There are " + signature.length 
+                                        + " arguments to check...");
                         } // if
                         for (int i = 0; i < signature.length; i++) {
                             if (debug) {
-                                System.out.println("\tChecking: " + signature[i]);
+                                log.info("\tChecking: " + signature[i]);
                             }  // if
                             if (signature[i].isPrimitive()) {
                                 if (signature[i].equals(Float.TYPE)) {
@@ -224,65 +230,66 @@ public abstract class SimEntityBase extends BasicSimEntity {
                                 match = match && ( params[i] == null ||  signature[i].isAssignableFrom(params[i].getClass()));
                             }  // else
                             if (isVerbose()) {
-                                System.out.println(signature[i].getName() + " ?=? " +
+                                log.info(signature[i].getName() + " ?=? " +
                                 params[i].getClass().getName());
                             } // if
                         } // for
                         if (match) {
                             try {
                                 if (debug) {
-                                    System.out.println("Match found: " + event.getFullMethodName());
+                                    log.info("Match found: " + event.getFullMethodName());
                                 }
                                 m = getClass().getMethod(methodName, signature);
                                 m.invoke(this, params);
                                 doMethods.put(event.getFullMethodName(), m);
                             }
-                            catch (NoSuchMethodException f) {f.printStackTrace(System.err);}
+                            catch (NoSuchMethodException f) {
+                                log.log(Level.SEVERE, "", f);
+                            }
                         }  //if
                     }
                 }
             }
         }
-//        TODO: put logging here
         catch (NullPointerException e) {
-            System.out.println("Attempted method: " + event.getFullMethodName());
-            e.printStackTrace();
+            log.log(Level.SEVERE, "Attempted method: " + event.getFullMethodName(), e);
         }
         catch(IllegalAccessException e) {
-            System.out.println("Attempted method: " + m );
-            System.out.println("  [key = " + event.getFullMethodName() +"]");
-            System.out.println("  [name = " + event.getMethodName() + "]");
-            System.out.print  ("  [params = (");
+            String msg = "Attempted method: " + m + NL;
+            msg += "  [key = " + event.getFullMethodName() +"]" + NL;
+            msg += "  [name = " + event.getMethodName() + "]" + NL;
+            msg += "  [params = (";
             for (int i = 0; i < event.getParameters().length; i++) {
-                System.out.print(event.getParameters()[i].getClass().getName());
-                if (i < event.getParameters().length - 1) {System.out.print(",");}
+                msg += event.getParameters()[i].getClass().getName();
+                if (i < event.getParameters().length - 1) {msg += ",";}
             }
-            System.out.println(") ]");
-            System.out.println("This object: " +
-            Integer.toHexString(this.hashCode()) );
-            System.out.print("This class: " );
+            msg += ") ]" + NL;
+            msg += "This object: " + Integer.toHexString(this.hashCode()) + NL;
+            msg += "This class: "; 
             Class c = this.getClass();
             while(!c.equals(SimEntityBase.class)) {
-                System.out.print(c);
+                msg += c;
                 c = c.getSuperclass();
             }
-            System.out.println(NL + "Method's object: " +
-            Integer.toHexString(event.getSource().hashCode()) );
-            System.out.println("Method's class: " + m.getDeclaringClass());
-            e.printStackTrace();
+            msg += NL + "Method's object: " +
+                Integer.toHexString(event.getSource().hashCode()) + NL;
+            msg += "Method's class: " + m.getDeclaringClass();
+            log.log(Level.SEVERE, msg, e);
         }  //shouldn't happen
-        catch(IllegalArgumentException e) {e.printStackTrace();} //shouldn't happen
+        catch(IllegalArgumentException e) {
+            log.log(Level.SEVERE, "IllegalArumentException ignored", e);
+        } //shouldn't happen
         catch(InvocationTargetException e) {
-            System.err.println("SimEntityBase.processSimEvent: " 
-                + "The event method threw an Exception.");
+            log.log(Level.SEVERE, "SimEntityBase.processSimEvent: " 
+                + "The event method threw an Exception.", e);
             Throwable cause = e.getCause();
             if (cause instanceof RuntimeException) {
                 throw (RuntimeException)cause;
             } else if (cause instanceof Error) {
                 throw (Error)cause;
             } else {
-                System.err.println("The cause was a checked Exception, "
-                    + "rethrowing as RuntimeException.");
+                log.log(Level.SEVERE, "The cause was a checked Exception, "
+                    + "rethrowing as RuntimeException.", cause);
                 throw new RuntimeException(cause);
             }
         }
