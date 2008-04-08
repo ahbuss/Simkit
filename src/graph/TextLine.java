@@ -489,7 +489,7 @@ public class TextLine extends Object {
    * method is called. 
    * @param g Graphics context.
    */
-
+     @SuppressWarnings("unchecked")
      public void parseText(Graphics g) {
          FontMetrics fm;
          TextState current = new TextState();

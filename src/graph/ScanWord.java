@@ -105,6 +105,7 @@ public class ScanWord extends StreamTokenizer {
  * @param s String contining the keyword
  * @param i Token to return when the keyword is encountered.
  */
+     @SuppressWarnings("unchecked")
      public void addKeyWord ( String s, int i) {
 
           if(s == null) return;

@@ -366,7 +366,7 @@ public class EventListTest extends TestCase {
         Collection eventSets = (Collection)eventList.hashEventMap.values();
         Set events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
-            events.addAll((Set)itt.next());
+            boolean addAll = events.addAll((Set) itt.next());
         }
         assertEquals("events=" + events, 1, events.size());
         assertTrue(events.contains(event1));
@@ -380,7 +380,7 @@ public class EventListTest extends TestCase {
         eventSets = (Collection)eventList.hashEventMap.values();
         events = new TreeSet();
         for (Iterator itt = eventSets.iterator(); itt.hasNext();) {
-            events.addAll((Set)itt.next());
+            boolean addAll = events.addAll((Set) itt.next());
         }
         assertEquals(1, events.size());
         assertTrue(events.contains(event1));

@@ -280,6 +280,7 @@ public class BuildGraph extends ScanWord {
   /**
    * This is THE method that parses the input file and constructs the plot.
    */
+     @SuppressWarnings("unchecked")
      public void parse() {
           int token;
           Object o;
@@ -726,6 +727,7 @@ public class BuildGraph extends ScanWord {
    * @param type Type of graph to build, Graph2D, G2Dint, Contour.
    * @return <i>true</i> if the build was successful
    */
+    @SuppressWarnings("unchecked")
      protected boolean buildGraph(int type) {
            NamedObject nobj;
            Axis axis;
@@ -878,7 +880,8 @@ public class BuildGraph extends ScanWord {
    * @return <i>true</i> if the build was successful
    */
 
-      protected boolean buildFont() {
+    @SuppressWarnings("unchecked")
+    protected boolean buildFont() {
            String name = "TimesRoman";
            int style   = Font.PLAIN;
            int size    = 20;
@@ -927,6 +930,7 @@ public class BuildGraph extends ScanWord {
   /**
    * @return <i>true</i> if the build was successful
    */
+    @SuppressWarnings("unchecked")
       protected boolean buildTitle() {
            NamedObject nobj;
            
@@ -962,6 +966,7 @@ public class BuildGraph extends ScanWord {
   /**
    * @return <i>true</i> if the build was successful
    */   
+    @SuppressWarnings("unchecked")
       protected boolean buildLabel() {
            NamedObject nobj;
            NamedObject color = null;
@@ -996,6 +1001,7 @@ public class BuildGraph extends ScanWord {
   /*
    * @return <i>true</i> if the build was successful
    */
+    @SuppressWarnings("unchecked")
       protected boolean buildMarker() {
            NamedObject nobj;
            Markers m = null;
@@ -1060,6 +1066,7 @@ public class BuildGraph extends ScanWord {
   /**         
    * @return <i>true</i> if the build was successful
    */   
+    @SuppressWarnings("unchecked")
       protected boolean buildData(int type) {
            NamedObject nobj;
            DataSet data = new DataSet();
@@ -1258,6 +1265,7 @@ public class BuildGraph extends ScanWord {
   /**
    * @return <i>true</i> if the build was successful
    */
+      @SuppressWarnings("unchecked")
       protected boolean buildAxis() {
            Stack attach = new Stack();
            NamedObject nobj;
@@ -1322,6 +1330,7 @@ public class BuildGraph extends ScanWord {
   /**
    * @return <i>true</i> if the build was successful
    */
+      @SuppressWarnings("unchecked")
       protected boolean buildGrid() {
            NamedObject nobj;
            NamedObject color = null;
@@ -1361,6 +1370,7 @@ public class BuildGraph extends ScanWord {
   /**
    * @return <i>true</i> if the build was successful
    */   
+      @SuppressWarnings("unchecked")
       protected boolean buildZero() {
            NamedObject nobj;
            NamedObject color = null;

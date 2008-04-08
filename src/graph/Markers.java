@@ -114,6 +114,7 @@ public class Markers extends Object {
  *          All positions are relative to the center of the marker.
  * @param y Integer array containing the pixel y postions of the vertices. 
  */
+      @SuppressWarnings("unchecked")
       public void AddMarker( int m, int n, boolean draw[], int x[], int y[]) {
           MarkerVertex v;
           int i;
@@ -194,6 +195,7 @@ public class Markers extends Object {
    * @exception IOException If there is an IO error
    * @deprecated StreamTokenizer(InputStream) is deprecated, no substitute
    */
+     @SuppressWarnings("unchecked")
      public void LoadMarkers(URL file) throws IOException {
          InputStream is;
          StreamTokenizer st;

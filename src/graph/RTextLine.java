@@ -626,7 +626,7 @@ class RotateTextFilter extends ImageFilter {
    * @param props The property table of the original image
    */
 
-
+     @SuppressWarnings("unchecked")
      public void setProperties(Hashtable props) {
          props = (Hashtable) props.clone();
          props.put("rotAngle", new Integer(angle) );

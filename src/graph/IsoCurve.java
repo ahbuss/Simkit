@@ -208,6 +208,7 @@ public class IsoCurve extends Object {
   /**
    * Create the vector of all cells that contain the contour.
    */    
+     @SuppressWarnings("unchecked")
      protected void createCells() {
             double bl, br, tl, tr;
             boolean bottom, top, right, left;

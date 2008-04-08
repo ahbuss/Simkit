@@ -960,6 +960,7 @@ public class Contour extends G2Dint {
 **        Calculate the contours and attach them to the graph and axes.
 */
 
+      @SuppressWarnings("unchecked")
      protected void calculateCurves() {
           int i;
           int j;

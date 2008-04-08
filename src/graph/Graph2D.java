@@ -295,7 +295,8 @@ public class Graph2D extends Canvas {
  *                 minimum length of the data array is 2*n.
  *  @return        The DataSet constructed containing the data read.
  */
-    public DataSet loadDataSet( double data[], int n ) {
+      @SuppressWarnings("unchecked")
+      public DataSet loadDataSet( double data[], int n ) {
        DataSet d;
        try { 
              d =  new DataSet(data, n);
@@ -315,7 +316,8 @@ public class Graph2D extends Canvas {
  *   can draw the data through its paint method.
  */
 
-    public void attachDataSet( DataSet d ) {
+      @SuppressWarnings("unchecked")
+      public void attachDataSet( DataSet d ) {
 
        if( d != null) {
              dataset.addElement( d );
@@ -363,6 +365,7 @@ public class Graph2D extends Canvas {
  *    @param position   Position of the axis in the drawing window.
  *
 */
+    @SuppressWarnings("unchecked")
     public Axis createAxis( int position ) {
        Axis a;
 
@@ -385,6 +388,7 @@ public class Graph2D extends Canvas {
  *
  *    @param the Axis to attach.
 */
+    @SuppressWarnings("unchecked")
     public void attachAxis( Axis a ) {
 
        if(a == null) return;

@@ -1014,8 +1014,8 @@ public class Axis extends Object {
    * Attach a DataSet to a Horizontal Axis
    * @param d dataset to attach.
    */
+@SuppressWarnings("unchecked")
       protected void attachXdata( DataSet d ) {
-
             dataset.addElement(d);
             d.xaxis = this;
 
@@ -1033,6 +1033,7 @@ public class Axis extends Object {
    * Attach a DataSet to a Vertical Axis
    * @param d dataset to attach.
    */
+      @SuppressWarnings("unchecked")
       protected void attachYdata( DataSet d ) {
 
             dataset.addElement(d);

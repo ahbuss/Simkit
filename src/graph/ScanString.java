@@ -124,6 +124,7 @@ public class ScanString extends Object {
    * @param s keyword string to scan for
    * @param i token to return when the keyword is found
    */
+    @SuppressWarnings("unchecked")
      public void addKeyWord ( String s, int i) {
 
           if(s == null) return;
