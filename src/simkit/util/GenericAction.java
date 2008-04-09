@@ -42,7 +42,9 @@ public class GenericAction extends AbstractAction {
       try {
          method = target.getClass().getMethod(methodName, (Class[]) null );
       } catch(NoSuchMethodException e) {
-           System.err.println(e); e.printStackTrace(System.err);
+          System.err.println(e);
+          e.printStackTrace(System.err);
+          throw(new RuntimeException(e));
       }
    }
 
@@ -57,7 +59,9 @@ public class GenericAction extends AbstractAction {
       try {
          method = theTargetClass.getMethod(methodName, (Class[]) null );
       } catch(NoSuchMethodException e) {
-           System.err.println(e); e.printStackTrace(System.err);
+           System.err.println(e);
+           e.printStackTrace(System.err);
+           throw(new RuntimeException(e));
       }
    }
 
@@ -71,13 +75,16 @@ public class GenericAction extends AbstractAction {
       } 
       catch( IllegalAccessException e ) {
          System.err.println(e); e.printStackTrace(System.err);
+         throw(new RuntimeException(e));
       }
       catch( IllegalArgumentException e ) {
          System.err.println(e); e.printStackTrace(System.err);
+         throw(new RuntimeException(e));
       }
       catch( InvocationTargetException e) {
          System.err.println(e.getTargetException());
          e.getTargetException().printStackTrace(System.err);
+         throw(new RuntimeException(e));
       }
    }
 }

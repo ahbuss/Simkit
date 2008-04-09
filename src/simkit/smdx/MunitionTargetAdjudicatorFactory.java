@@ -56,8 +56,14 @@ public class MunitionTargetAdjudicatorFactory {
             try {
                 addAdjudicator(munitionClass, targetClass, (Adjudicator) adjudicatorClass.newInstance());
             }
-            catch (IllegalAccessException e) { System.err.println(e); }
-            catch (InstantiationException e) { System.err.println(e); }
+            catch (IllegalAccessException e) {
+                System.err.println(e);
+                throw(new RuntimeException(e));
+            }
+            catch (InstantiationException e) {
+                System.err.println(e);
+                throw(new RuntimeException(e));
+            }
     }
     
     

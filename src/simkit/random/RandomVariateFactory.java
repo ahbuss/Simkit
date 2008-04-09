@@ -150,8 +150,12 @@ public class RandomVariateFactory {
         try {
             instance = (RandomVariate) randomVariateClass.newInstance();
         } 
-        catch (InstantiationException e) { throw new RuntimeException(e); }
-        catch (IllegalAccessException e) { throw new RuntimeException(e); }
+        catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        }
+        catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
         instance.setParameters(parameters);
         instance.setRandomNumber(rng);
         return instance;
@@ -221,6 +225,9 @@ public class RandomVariateFactory {
                 theClass = Thread.currentThread().getContextClassLoader().loadClass(
                         searchPackage + "." + className );
                 if (!simkit.random.RandomVariate.class.isAssignableFrom(theClass)) {
+                    // make sure we don't return it (could happen if this is the
+                    // last class found)
+                    theClass = null;
                     continue;
                 }
             } catch (ClassNotFoundException e) { continue; }

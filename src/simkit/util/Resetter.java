@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.Iterator;
 import java.util.Set;
 import simkit.BasicSimEntity;
 import simkit.SimEvent;
@@ -31,6 +30,7 @@ public class Resetter extends BasicSimEntity {
      * For all reigstered "resetters", invoke their declared
      * "reset" method (typically the "reset()" method)
      */    
+    @Override
     public void reset() {
         super.reset();
         for (Object resetter : resetters.keySet()) {

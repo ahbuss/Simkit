@@ -244,7 +244,8 @@ public abstract class SimEntityBase extends BasicSimEntity {
                                 doMethods.put(event.getFullMethodName(), m);
                             }
                             catch (NoSuchMethodException f) {
-                                log.log(Level.SEVERE, "", f);
+                               log.log(Level.SEVERE, "", f);
+                               throw( new RuntimeException(f));
                             }
                         }  //if
                     }
@@ -253,6 +254,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
         }
         catch (NullPointerException e) {
             log.log(Level.SEVERE, "Attempted method: " + event.getFullMethodName(), e);
+            throw(new RuntimeException(e));
         }
         catch(IllegalAccessException e) {
             String msg = "Attempted method: " + m + NL;
@@ -275,10 +277,16 @@ public abstract class SimEntityBase extends BasicSimEntity {
                 Integer.toHexString(event.getSource().hashCode()) + NL;
             msg += "Method's class: " + m.getDeclaringClass();
             log.log(Level.SEVERE, msg, e);
-        }  //shouldn't happen
+            //shouldn't happen
+            // so if it does, die
+            throw(new RuntimeException(e));
+        }
         catch(IllegalArgumentException e) {
             log.log(Level.SEVERE, "IllegalArumentException ignored", e);
-        } //shouldn't happen
+            //shouldn't happen
+            // so if it does, die
+            throw(new RuntimeException(e));
+        } 
         catch(InvocationTargetException e) {
             log.log(Level.SEVERE, "SimEntityBase.processSimEvent: " 
                 + "The event method threw an Exception.", e);

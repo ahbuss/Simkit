@@ -302,37 +302,41 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
             }
         }
         catch (NullPointerException e) {
-            System.out.println("\n*** In SimEntityBaseProtected.processSimEvent " + e);
-            System.out.println("Attempted method: " + event.getFullMethodName());
-            e.printStackTrace();
+            System.err.println("\n*** In SimEntityBaseProtected.processSimEvent " + e);
+            System.err.println("Attempted method: " + event.getFullMethodName());
+            //e.printStackTrace();
+            throw(new RuntimeException(e));
         }
         catch(IllegalAccessException e) {
-            System.out.println("\n*** In SimEntityBaseProtected.processSimEvent " + e);
-            System.out.println("Attempted method: " + m );
-            System.out.println("  [key = " + event.getFullMethodName() +"]");
-            System.out.println("  [name = " + event.getMethodName() + "]");
-            System.out.print  ("  [params = (");
+            System.err.println("\n*** In SimEntityBaseProtected.processSimEvent " + e);
+            System.err.println("Attempted method: " + m );
+            System.err.println("  [key = " + event.getFullMethodName() +"]");
+            System.err.println("  [name = " + event.getMethodName() + "]");
+            System.err.print  ("  [params = (");
             for (int i = 0; i < event.getParameters().length; i++) {
-                System.out.print(event.getParameters()[i].getClass().getName());
+                System.err.print(event.getParameters()[i].getClass().getName());
                 if (i < event.getParameters().length - 1) {System.out.print(",");}
             }
-            System.out.println(") ]");
-            System.out.println("This object: " +
+            System.err.println(") ]");
+            System.err.println("This object: " +
             Integer.toHexString(this.hashCode()) );
-            System.out.print("This class: " );
+            System.err.print("This class: " );
             Class c = this.getClass();
             while(!c.equals(SimEntityBase.class)) {
-                System.out.print(c);
+                System.err.print(c);
                 c = c.getSuperclass();
             }
-            System.out.println(NL + "Method's object: " +
+            System.err.println(NL + "Method's object: " +
             Integer.toHexString(event.getSource().hashCode()) );
-            System.out.println("Method's class: " + m.getDeclaringClass());
+            System.err.println("Method's class: " + m.getDeclaringClass());
             e.printStackTrace();
+            throw(new RuntimeException(e));
         }  //shouldn't happen
-        catch(IllegalArgumentException e) {e.printStackTrace();} //shouldn't happen
+        catch(IllegalArgumentException e) {
+            throw(new RuntimeException(e));
+        }
         catch(InvocationTargetException e) {
-            e.getTargetException().printStackTrace();
+            throw(new RuntimeException(e));
         }
         finally {
         }

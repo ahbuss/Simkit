@@ -71,7 +71,10 @@ public class PropertyDataLogger implements PropertyChangeListener {
                     output.write(delimiter);
                 }
             }
-            catch (IOException exc) { System.err.println(exc);}
+            catch (IOException exc) {
+                System.err.println(exc);
+                throw(new RuntimeException(exc));
+            }
         }
         
     }
@@ -84,6 +87,9 @@ public class PropertyDataLogger implements PropertyChangeListener {
             output.flush();
             output.close();
         }
-        catch (IOException e) {System.err.println(e);}
+        catch (IOException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
     }
 }

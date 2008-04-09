@@ -95,8 +95,14 @@ public class RandomNumberFactory {
         try {
             instance = (RandomNumber) defaultClass.newInstance();
         }
-        catch (IllegalAccessException e) { System.err.println(e); }
-        catch (InstantiationException e) { System.err.println(e); }
+        catch (IllegalAccessException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (InstantiationException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
         return instance;
     }
     
@@ -142,8 +148,14 @@ public class RandomNumberFactory {
         try {
             instance = (RandomNumber) randomNumberClass.newInstance();
         }
-        catch (IllegalAccessException e) { System.err.println(e); }
-        catch (InstantiationException e) { System.err.println(e); }
+        catch (IllegalAccessException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (InstantiationException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
         return instance;
     }
     
@@ -211,8 +223,13 @@ public class RandomNumberFactory {
             pooled.setFirst(first);
             pooled.setSecond(second);
         }
-        catch (IllegalAccessException e) {System.err.println(e);}
-        catch (InstantiationException e) {System.err.println(e);}
+        catch (IllegalAccessException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));}
+        catch (InstantiationException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
         return pooled;
     }
     

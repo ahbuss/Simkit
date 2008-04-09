@@ -656,7 +656,11 @@ public class EventList {
                 if (  response == 'f') { setSingleStep(false); setVerbose(false);}
                 if (  response == '\n') { return;}
             }
-            catch (IOException e) { System.err.println(); e.printStackTrace(System.err); }
+            catch (IOException e) {
+                System.err.println();
+                e.printStackTrace(System.err);
+                throw(new RuntimeException(e));
+            }
         }    
     }
 

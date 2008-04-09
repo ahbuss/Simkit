@@ -151,7 +151,11 @@ public abstract class BasicSimEntity extends BasicSimEventSource
             this.getClass().getMethod("doRun", (Class[])null);
             reRunnable = true;
         }
-        catch (NoSuchMethodException e) {}
+        catch (NoSuchMethodException e) {
+        //  If we are here, it is ok, the class simply isn't,
+        // in fact, rerunnable.
+            reRunnable = false;
+        }
         return reRunnable;
     }
     

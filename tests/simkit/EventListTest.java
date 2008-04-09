@@ -6,11 +6,15 @@ import junit.framework.*;
 import java.util.*;
 import java.util.logging.*;
 
+
 /**
 * These tests are currently incomplete. They only test the implemenation
 * of DAFS bug 1259.
 **/
 public class EventListTest extends TestCase {
+
+    public class EventListTestException extends RuntimeException {
+    }
 
     public static Logger log = Logger.getLogger("simkit");
 
@@ -1849,7 +1853,7 @@ public class EventListTest extends TestCase {
         try {
             Schedule.startSimulation();
             fail("Should have thrown a SimkitConcurrencyException");
-        } catch (SimkitConcurrencyException e) {
+        } catch (EventListTestException e) {
             assertEquals(1.0, Schedule.getSimTime(), 0.0);
         }
     }
@@ -1861,7 +1865,7 @@ public class EventListTest extends TestCase {
         try {
             Schedule.startSimulation();
             fail("Should have thrown a SimkitConcurrencyException");
-        } catch (SimkitConcurrencyException e) {
+        } catch (EventListTestException e) {
             assertEquals(1.0, Schedule.getSimTime(), 0.0);
         }
     }
@@ -1873,7 +1877,7 @@ public class EventListTest extends TestCase {
         try {
             Schedule.startSimulation();
             fail("Should have thrown a SimkitConcurrencyException");
-        } catch (SimkitConcurrencyException e) {
+        } catch (EventListTestException e) {
             assertEquals(1.0, Schedule.getSimTime(), 0.0);
         }
     }
@@ -1956,15 +1960,32 @@ public class EventListTest extends TestCase {
     public class EvilResetter extends SimEntityBase {
 
         public void doReset() {
-            Schedule.reset();
+            try {
+                Schedule.reset();
+            }
+            catch (SimkitConcurrencyException e) {
+                throw (new EventListTestException());
+            }
         }
 
         public void doColdReset() {
-            Schedule.coldReset();
+            try {
+                Schedule.coldReset();
+            }
+            catch (SimkitConcurrencyException e) {
+                throw (new EventListTestException());
+            }
+
         }
 
         public void doStartAgain() {
-            Schedule.startSimulation();
+            try {
+                Schedule.startSimulation();
+            }
+            catch (SimkitConcurrencyException e) {
+                throw (new EventListTestException());
+            }
+
         }
     }
     

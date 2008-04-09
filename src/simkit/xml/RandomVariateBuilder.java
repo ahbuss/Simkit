@@ -42,11 +42,26 @@ public class RandomVariateBuilder {
                 String arg = parameter.getAttribute("value");
                 params[i] = construct.newInstance(new Object[] { arg });
             }
-            catch (ClassNotFoundException e) { System.err.println(e); }
-            catch (NoSuchMethodException e) { System.err.println(e); }
-            catch (InstantiationException e) { System.err.println(e); }
-            catch (IllegalAccessException e) { System.err.println(e); }
-            catch (InvocationTargetException e) { System.err.println(e.getTargetException()); }
+            catch (ClassNotFoundException e) {
+                System.err.println(e);
+                throw(new RuntimeException(e));
+            }
+            catch (NoSuchMethodException e) {
+                System.err.println(e);
+                throw(new RuntimeException(e));
+            }
+            catch (InstantiationException e) {
+                System.err.println(e);
+                throw(new RuntimeException(e));
+            }
+            catch (IllegalAccessException e) {
+                System.err.println(e);
+                throw(new RuntimeException(e));
+            }
+            catch (InvocationTargetException e) {
+                System.err.println(e.getTargetException());
+                throw(new RuntimeException(e));
+            }
         }
 
         RandomVariate variate = RandomVariateFactory.getInstance(className, params);

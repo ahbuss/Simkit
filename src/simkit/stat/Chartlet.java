@@ -154,6 +154,7 @@ public class  Chartlet
 	           Thread.sleep(20);
 	         }
 	         catch( Exception ex) {
+                throw(new RuntimeException(ex)); 
 	         }
 		    }
 		 } 
@@ -191,6 +192,7 @@ public class  Chartlet
 	      theData = new DataSet(data, data.length/2);
 	   } catch(Exception e) {
 	      System.err.println(e);
+          throw(new RuntimeException(e));
 	   }
 	   
       if ( theData.getYmax() <= theData.getYmin() ) return;
@@ -224,6 +226,7 @@ public class  Chartlet
 	      theData = newData;
 	   } catch(Exception e) {
 	      System.err.println(e);
+          throw(new RuntimeException(e));
 	   }
 	   
       if ( theData.getYmax() <= theData.getYmin() ) return;
@@ -262,6 +265,7 @@ public class  Chartlet
            theData.append(dataBuffer, ((dataCount)/2));
         } catch (Exception ex) {
            System.err.println("Error appending data: " + ex);
+           throw(new RuntimeException(ex));
         }
         dataCount = 0;
         if ( theData.dataPoints() > 2 ) {

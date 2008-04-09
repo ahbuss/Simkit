@@ -94,7 +94,7 @@ public class Version {
             }
             SIMKIT_MESSAGE = buf.toString();
             br.close();
-        } catch (IOException e) {}
+        } catch (IOException e) {throw(new RuntimeException(e));}
         
         String[] ver = getVersion().split("\\.");
         if (ver.length < 3) {

@@ -60,9 +60,18 @@ public class Bean2XML {
                 beanElement.appendChild(propertyElement);
             }
         } 
-        catch (IntrospectionException e) {System.err.println(e); }
-        catch (IllegalAccessException e) {System.err.println(e); }
-        catch (InvocationTargetException e) {System.err.println(e.getTargetException()); }
+        catch (IntrospectionException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (IllegalAccessException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (InvocationTargetException e) {
+            System.err.println(e.getTargetException());
+            throw(new RuntimeException(e));
+        }
         
         return beanElement;
     }
@@ -85,10 +94,22 @@ public class Bean2XML {
                 BeanInfo bi = Introspector.getBeanInfo(beanClass, Object.class);
                 PropertyDescriptor[] pd = bi.getPropertyDescriptors();                
             }
-            catch (ClassNotFoundException e) {System.err.println(e);}                
-            catch (InstantiationException e) {System.err.println(e); }
-            catch (IllegalAccessException e) {System.err.println(e); }
-            catch (IntrospectionException e) {System.err.println(e); }
+            catch (ClassNotFoundException e) {
+                System.err.println(e);
+                throw(new RuntimeException(e));
+            }                
+            catch (InstantiationException e) {
+                System.err.println(e);
+                throw(new RuntimeException(e));
+            }
+            catch (IllegalAccessException e) {
+                System.err.println(e);
+                throw(new RuntimeException(e));
+            }
+            catch (IntrospectionException e) {
+                System.err.println(e);
+                throw(new RuntimeException(e));
+            }
         }
         return bean;
     }
@@ -104,11 +125,26 @@ public class Bean2XML {
             Constructor constructor = propertyClass.getConstructor(stringClassArray);
             propertyValue = constructor.newInstance(new Object[] { value } );
         } 
-        catch (ClassNotFoundException e) { System.err.println(e); }
-        catch (NoSuchMethodException e) { System.err.println(e); }
-        catch (InstantiationException e) {System.err.println(e); }
-        catch (IllegalAccessException e) {System.err.println(e); }
-        catch (InvocationTargetException e) {System.err.println(e.getTargetException()); }
+        catch (ClassNotFoundException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (NoSuchMethodException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (InstantiationException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (IllegalAccessException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (InvocationTargetException e) {
+            System.err.println(e.getTargetException());
+            throw(new RuntimeException(e));
+        }
         return propertyValue;
     }
     

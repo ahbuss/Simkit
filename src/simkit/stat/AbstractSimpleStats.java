@@ -187,11 +187,14 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
      *  Clone this instance
      *  @return A copy of this object with identical state.
      */
+    @Override
     public synchronized Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        return null;
+        } catch (CloneNotSupportedException e) {
+            throw(new RuntimeException(e));
+        }
+        //return null;
     }
     
 /**
@@ -199,6 +202,7 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
 * for this SampleStatistic.
 * @see #getDataLine()
 **/
+    @Override
     public String toString() {
         StringBuffer buf = new StringBuffer();
         buf.append(getName());

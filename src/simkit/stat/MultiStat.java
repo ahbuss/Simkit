@@ -64,7 +64,9 @@ public class MultiStat implements PropertyChangeListener {
         else {
             try {
                 newObservation(evt.getPropertyName(), Double.parseDouble(value.toString()));
-            } catch (NumberFormatException e) {}
+            } catch (NumberFormatException e) {
+                throw(new RuntimeException(e));
+            }
         }
     }
     

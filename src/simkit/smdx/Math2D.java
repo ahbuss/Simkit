@@ -143,7 +143,9 @@ public class Math2D {
                 if (result.getX() >= 0.0 && result.getY() >= 0.0 && result.getY() <= 1.0) {
                     return new Point2D[] { add( start, scalarMultiply(result.getX(), velocity)) };
                 }
-            } catch (NoninvertibleTransformException e) {}
+            } catch (NoninvertibleTransformException e) {
+                throw(new RuntimeException(e));
+            }
         }
         return new Point2D[0];
     }

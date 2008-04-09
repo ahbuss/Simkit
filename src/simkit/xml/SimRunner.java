@@ -77,7 +77,19 @@ public class SimRunner implements Runnable {
                         for (int i = 0; i < args.getLength(); ++i) {
                             try {
                                 runner.stopEventSignature[i] = Class.forName(args.item(i).getFirstChild().getNodeValue());
-                            } catch (ClassNotFoundException e) { e.printStackTrace(System.err); }
+                            } catch (ClassNotFoundException e) {
+                                //
+                                // TODO is this an error, or flow control?
+                                //
+                                // If flow control, then there's probably no
+                                // reason to dump a stack trace, if it is an
+                                // error, then there should be 
+                                // consequences, not just a log message
+                                // Assuming it is an error
+                                //
+                                e.printStackTrace(System.err);
+                                throw(new RuntimeException(e));
+                            }
                         }
                     }
                     else {

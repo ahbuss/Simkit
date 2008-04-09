@@ -45,10 +45,22 @@ public class MoverManagerFactory {
                 }
             }
         }
-        catch (ClassNotFoundException e) { System.err.println(e); }
-        catch (IllegalAccessException e) { System.err.println(e); }
-        catch (InstantiationException e) { System.err.println(e); }
-        catch (InvocationTargetException e) { System.err.println(e.getTargetException()); }
+        catch (ClassNotFoundException e) { 
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (IllegalAccessException e) { 
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (InstantiationException e) { 
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (InvocationTargetException e) { 
+            System.err.println(e.getTargetException());
+            throw(new RuntimeException(e));
+        }
         return manager;
     }
     

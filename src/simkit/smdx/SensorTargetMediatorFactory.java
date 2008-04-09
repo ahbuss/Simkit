@@ -94,8 +94,14 @@ public class SensorTargetMediatorFactory implements
         try {
             mediatorInstance = (SensorTargetMediator) mediatorClass.newInstance();
         }
-        catch (InstantiationException e) {System.err.println(e);}
-        catch (IllegalAccessException e) {System.err.println(e);}
+        catch (InstantiationException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (IllegalAccessException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
         
         addMediatorFor(sensorClass, targetClass, mediatorInstance);
 //        

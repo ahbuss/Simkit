@@ -215,8 +215,14 @@ public class RandomVectorFactory {
             instance = (RandomVector) rvClass.newInstance();
             instance.setParameters(params);
         }
-        catch (IllegalAccessException e) {System.err.println(e);}
-        catch (InstantiationException e) {System.err.println(e);}
+        catch (IllegalAccessException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
+        catch (InstantiationException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
         return instance;
     }
     
@@ -287,6 +293,9 @@ public class RandomVectorFactory {
                 theClass = Thread.currentThread().getContextClassLoader().loadClass(
                 searchPackage + "." + className );
                 if (!simkit.random.RandomVector.class.isAssignableFrom(theClass)) {
+                    // make sure the last class doesn't get returned if
+                    // it fails the criteria
+                    theClass = null;
                     continue;
                 }
             }

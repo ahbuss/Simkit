@@ -53,7 +53,10 @@ public class Misc {
             Method m = theClass.getMethod(name, getSignatureFromArguments(args));
             fullName = m.toString().substring(12);
         }
-        catch (NoSuchMethodException e) {System.err.println(e);}
+        catch (NoSuchMethodException e) {
+            System.err.println(e);
+            throw(new RuntimeException(e));
+        }
         return fullName;
     }
     

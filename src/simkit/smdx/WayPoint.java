@@ -78,6 +78,7 @@ public class WayPoint implements Cloneable {
 /**
 * Returns a String containing the coordinates of this WayPoint and the speed.
 **/
+    @Override
     public String toString() {
         return "WayPoint (" + point.getX() + ", " + point.getY() + ") " + speed;
     }
@@ -85,11 +86,14 @@ public class WayPoint implements Cloneable {
 /**
 * Creates and returns a shallow copy of this WayPoint.
 **/
+    @Override
     public Object clone() {
         try {
             return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        return null;
+        } catch (CloneNotSupportedException e) {
+            throw(new RuntimeException(e));
+        }
+        //return null;
     }
     
 /**
