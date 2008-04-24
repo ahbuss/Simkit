@@ -15,6 +15,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +53,7 @@ public class JackcessTableReadTest extends TestCase {
             System.err.println("baseDir is: " + baseDir.toString());
             String baseDirPath = baseDir.getAbsolutePath();
             System.err.println("baseDir aboslute path is: " + baseDirPath.toString());
-            File file = new File(baseDirPath + "/tests/datafiles/SampleScenario.mdb");
+            File file = new File(baseDirPath + "/tests/datafiles/SampleInput.mdb");
             db = Database.open(file);
 //            System.out.println(db.toString());
 //            t = db.getTable("SensorType");
@@ -83,25 +84,25 @@ public class JackcessTableReadTest extends TestCase {
                 throw new RuntimeException(ex);
             }
 
-            try {
-                System.out.println(t.display());
-            } catch (IOException ex) {
-                System.err.println("table display pooped out");
-            }
+//            try {
+//                System.out.println(t.display());
+//            } catch (IOException ex) {
+//                System.err.println("table display pooped out");
+//            }
         }
         
-        try{
-            Table sensorTable = db.getTable("Sensor");
-            List<Column> columns = sensorTable.getColumns();
-            System.out.println(columns);
-            
-            
-            sensorTable.addRow(nil, "KIRK_SENSOR", "ARNIE_MOVER");
-            System.out.println(sensorTable.display());
-        } catch (Exception e) {
-            System.err.println("Table add threw an exception");
-            throw new RuntimeException(e);
-        }
+//        try{
+//            Table sensorTable = db.getTable("Sensor");
+//            List<Column> columns = sensorTable.getColumns();
+//            System.out.println(columns);
+//            
+//            
+//            sensorTable.addRow(null, "KIRK_SENSOR", "ARNIE_MOVER");
+//            System.out.println(sensorTable.display());
+//        } catch (Exception e) {
+//            System.err.println("Table add threw an exception");
+//            throw new RuntimeException(e);
+//        }
         
 
     }
@@ -114,7 +115,7 @@ public class JackcessTableReadTest extends TestCase {
             System.err.println("baseDir is: " + baseDir.toString());
             String baseDirPath = baseDir.getAbsolutePath();
             System.err.println("baseDir aboslute path is: " + baseDirPath.toString());
-            File file = new File(baseDirPath + "/tests/datafiles/SampleScenario.mdb");
+            File file = new File(baseDirPath + "/tests/datafiles/SampleInput.mdb");
             db = Database.open(file);
             t = db.getTable("CVO");
         } catch (IOException ex) {
@@ -123,7 +124,24 @@ public class JackcessTableReadTest extends TestCase {
         }
     }
     
-    public void testWriteToTableWithAutonumberedColumn() {
+//    public void testWriteToTableWithAutonumberedColumn() {
+//        Database db = null;
+//        Table t = null;
+//        try {
+//            File baseDir = new File("");
+//            System.err.println("baseDir is: " + baseDir.toString());
+//            String baseDirPath = baseDir.getAbsolutePath();
+//            System.err.println("baseDir aboslute path is: " + baseDirPath.toString());
+//            File file = new File(baseDirPath + "/tests/datafiles/SampleInput.mdb");
+//            db = Database.open(file);
+//            t = db.getTable("CVO");
+//        } catch (IOException ex) {
+////          Logger.getLogger(JackcessTableReadTest.class.getName()).log(Level.SEVERE, null, ex);
+//            System.err.println(ex);
+//        }
+//    }
+            
+    public void testDeleteRow() {
         Database db = null;
         Table t = null;
         try {
@@ -131,12 +149,29 @@ public class JackcessTableReadTest extends TestCase {
             System.err.println("baseDir is: " + baseDir.toString());
             String baseDirPath = baseDir.getAbsolutePath();
             System.err.println("baseDir aboslute path is: " + baseDirPath.toString());
-            File file = new File(baseDirPath + "/tests/datafiles/SampleScenario.mdb");
+            File file = new File(baseDirPath + "/tests/datafiles/SampleInput.mdb");
             db = Database.open(file);
-            t = db.getTable("CVO");
+            t = db.getTable("Mover");
+            System.out.println(t.display());
+
         } catch (IOException ex) {
 //          Logger.getLogger(JackcessTableReadTest.class.getName()).log(Level.SEVERE, null, ex);
             System.err.println(ex);
+        }
+        
+        try {
+            System.out.println("There are " + t.getRowCount() + " rows.");
+            Iterator<Map<String,Object>> i = t.iterator();
+            while(i.hasNext()){
+                Map<String,Object> record = i.next();
+                Set<String> keys = record.keySet();
+                for (String key: keys) {
+                    System.out.println(key + "\t\t\t" + record.get(key));
+                }
+            }
+        } catch (Exception ex){
+            System.err.println(ex);
+            throw new RuntimeException(ex);
         }
     }
             
