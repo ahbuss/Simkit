@@ -1,0 +1,3 @@
+*.jar -crlf -diff -merge
+*.mdb -crlf -diff -merge
+*.MDB -crlf -diff -merge
