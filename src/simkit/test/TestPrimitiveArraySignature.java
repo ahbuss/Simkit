@@ -66,7 +66,7 @@ public class TestPrimitiveArraySignature extends SimEntityBase {
         SimEntityBase tas = new TestPrimitiveArraySignature(new int[] { 1, 2, 3 });
         tas.setVerbose(true);
         Schedule.setVerbose(true);
-        Schedule.stopOnEvent("This", new Class[] { int[].class }, 10);
+        Schedule.stopOnEvent(10, "This", int[].class );
         Schedule.reset();
         Schedule.startSimulation();
     }

@@ -123,7 +123,7 @@ public class SimRunner implements Runnable {
             Schedule.stopAtTime(stopTime);
         }
         else if (stopType == StopType.STOP_ON_EVENT) {
-            Schedule.stopOnEvent(stopEvent, stopEventSignature, stopEventCount);
+            Schedule.stopOnEvent(stopEventCount, stopEvent, stopEventSignature );
         }
         Schedule.setSingleStep(singleStep);
         Schedule.setVerbose(verbose);

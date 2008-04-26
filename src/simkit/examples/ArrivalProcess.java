@@ -195,7 +195,7 @@ At time 100.0 there have been 2 arrivals
         ap.setEventListID(newID);
         ap.getInterArrivalTime().getRandomNumber().resetSeed();
         
-        eventList2.stopOnEvent("Arrival", 5 );
+        eventList2.stopOnEvent(5, "Arrival" );
         eventList2.setVerbose(true);
         eventList2.reset();
         eventList2.startSimulation();

@@ -70,7 +70,7 @@ public class TestRenewalProcess extends SimEntityBase {
         }
         System.out.println(ap);
         Schedule.setVerbose(true);
-        Schedule.stopOnEvent("Arrival", 10);
+        Schedule.stopOnEvent(10, "Arrival");
         Schedule.reset();
         Schedule.startSimulation();
     }

@@ -178,7 +178,7 @@ public class INIFileProperties extends LinkedHashMap2<String, String, String> {
 **/
     public void load(File file)
             throws IOException {
-        this.load(file.toURL());
+        this.load(file.toURI().toURL());
     }
 
 /**
