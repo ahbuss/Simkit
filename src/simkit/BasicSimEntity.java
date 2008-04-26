@@ -162,12 +162,20 @@ public abstract class BasicSimEntity extends BasicSimEventSource
    /**
     * Resets this BasicSimEntity by canceling all of its pending SimEvents.
     * Clears all added properties in the PropertyChangeDispatcher instance
+    * Remove all SimEventListeners that are transient (not persistent)
    **/
     
     public void reset() {
         interruptAll();
         if (isClearAddedPropertiesOnReset()) {
             property.clearAddedProperties();
+        }
+        SimEventListener[] listeners = getSimEventListeners();
+        for (SimEventListener listener : listeners) {
+            if (listener instanceof BasicSimEntity  && 
+                    ! ((BasicSimEntity) listener).isPersistant()) {
+                this.removeSimEventListener(listener);
+            }
         }
     }
 /*
