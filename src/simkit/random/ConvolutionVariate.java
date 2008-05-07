@@ -1,6 +1,7 @@
 package simkit.random;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 /**
  * Generates the convolution (sum) of a number of RandomVariates. An
  * array of instances
@@ -12,6 +13,10 @@ import java.util.ArrayList;
  */
 public class ConvolutionVariate extends RandomVariateBase {
     
+    public static final String _VERSION_ = "$Id$";
+
+    public static Logger log = Logger.getLogger("simkit.random");
+
 /**
 * The array of RandomVariates that are summed.
 **/
@@ -22,6 +27,7 @@ public class ConvolutionVariate extends RandomVariateBase {
 * the parameter is set.
  */
     public ConvolutionVariate() {
+        rv = new RandomVariate[0];
     }
     
     /**
@@ -53,14 +59,22 @@ public class ConvolutionVariate extends RandomVariateBase {
      * the element is not an array of RandomVariates.
      */    
     public void setParameters(Object... obj) {
-        System.out.println(obj.getClass());
-        ArrayList<Integer> badArgs = new ArrayList<Integer>(obj.length);
-        RandomVariate[] variates = new RandomVariate[obj.length];
-        for (int i = 0; i < obj.length; ++i) {
-            if (!(obj[i] instanceof RandomVariate)) {
+        if (obj.length > 1) {
+            String msg = "The argument should be a single element array "
+                + "containing an array of RandomVariate. The length of "
+                + "the array was " + obj.length;
+            log.severe(msg);
+            throw new IllegalArgumentException(msg);
+        }
+        
+        Object[] array = (Object[])obj[0];
+        ArrayList<Integer> badArgs = new ArrayList<Integer>();
+        RandomVariate[] variates = new RandomVariate[array.length];
+        for (int i = 0; i < array.length; ++i) {
+            if (!(array[i] instanceof RandomVariate)) {
                 badArgs.add(i);
             } else {
-                variates[i] = (RandomVariate) obj[i];
+                variates[i] = (RandomVariate) array[i];
             }
         }
         
@@ -69,7 +83,7 @@ public class ConvolutionVariate extends RandomVariateBase {
                     "Non-RandomVariates passed in indices: " +
                     badArgs);
         }
-        setRandomVariates( (RandomVariate[]) variates );
+        setRandomVariates(variates);
     }
     
     /**
@@ -77,7 +91,7 @@ public class ConvolutionVariate extends RandomVariateBase {
      * @param rand Array of RandomVariate[] instances
      */    
     public void setRandomVariates(RandomVariate[] rand) {
-        rv = (RandomVariate[]) rand.clone();
+        rv = rand.clone();
         for (int i = 0; i < rv.length; ++i) {
             rv[i].setRandomNumber(rng);
         }
@@ -87,7 +101,9 @@ public class ConvolutionVariate extends RandomVariateBase {
      * Gets a clone of the array of RandomVariates.
      * @return clone of RandomVariate[] array
      */    
-    public RandomVariate[] getRandomVariates() { return (RandomVariate[]) rv.clone(); }
+    public RandomVariate[] getRandomVariates() {
+        return rv.clone();
+    }
     
     /**
      * Sets the supporting RandomNumber of each underlying RandomVariate.

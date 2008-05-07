@@ -7,6 +7,7 @@ public class TestAll extends TestCase {
         TestSuite suite = new TestSuite("TestAll");
         suite.addTest(new TestSuite(MersenneTwisterFactoryTest.class));
         suite.addTest(new TestSuite(LogNormalTest.class));
+        suite.addTest(new TestSuite(ConvolutionVariateTest.class));
         return suite;
     }
 }
