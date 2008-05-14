@@ -1,6 +1,7 @@
 
 package simkit.smdx;
 
+import simkit.smdx.*;
 import java.awt.geom.Point2D;
 /**
 * Used to gain access to protected things for testing.
