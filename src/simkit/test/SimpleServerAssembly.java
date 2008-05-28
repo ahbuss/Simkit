@@ -13,7 +13,7 @@ import simkit.stat.SimpleStatsTimeVarying;
  * Prototypical subclass of BasicAssembly.  This is the basic queueing model
  * with an ArrivalProcess and a SimpleServer instance.  Statistics on numberInQueue
  * and numberAvailableServers are kept as replicationStats.  The designPointStats
- * are suto-generated from the replicatoonStats.
+ * just use the default in BasicAssembly.
  *
  * @version $Id$
  * @author ahbuss
@@ -69,7 +69,7 @@ public class SimpleServerAssembly extends BasicAssembly {
         for (int i = 0; i < replicationStats.length; ++i) {
             simEntity[1].addPropertyChangeListener(replicationStats[i].getName(), replicationStats[i]);
         }
-    }
+    }    
     /**
      * Note: Normally most of this would not be done, it is just for 
      * testing and illustrative purposes.
@@ -82,6 +82,7 @@ public class SimpleServerAssembly extends BasicAssembly {
         serverAssembly.setPrintSummaryReport(true);
         serverAssembly.setSaveReplicationData(true);
         System.out.println(serverAssembly);
+        serverAssembly.init();
 //        If running threaded, use this construct:
 //        new Thread(serverAssembly1).start();
         

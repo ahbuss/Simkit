@@ -1,21 +1,79 @@
 package simkit;
 
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import simkit.stat.SavedStats;
 import simkit.stat.SampleStatistics;
 import simkit.stat.SimpleStatsTally;
+import simkit.util.IndexedPropertyChangeEvent;
 /**
- * Base class for creating Simkit scenarios.
+ * Abstract Base class for creating Simkit scenarios.
+ *
+ * A simkit Assembly represents a complete simulation initialized with the 
+ * parameters from a single design point of some notional design of experiments.
+ * The simulation can be run at that design point any number of times, with
+ * statistical data gathered and reported semi-automatically.
+ * 
+ * <code>BasicAssembly</code> is intended to be subclassed, and provides many
+ * template methods and hooks that allow your sublcass to provide customized
+ * behavior, while also providing the basic functionality of managing multiple
+ * simulation runs.
+ * 
+ * After instantiating your subclass, the design point it represents is run
+ * by calling <code>init()</code> and then <code>run</code>.
+ * 
+ * <code>init</code> instantiates all the objects in the simulation and connects
+ * the listener pattern connections needed by the model.  You
+ * specify what the simulation entities will be by implementing the required template
+ * method <code>createSimEntities()</code>.  You also have the opportunity to
+ * create instruments for the model in the form of
+ * <code>simkit.stat.SampleStatistics</code> instances that you create in the
+ * optional methods <code>createReplicationStats()</code> and (less frequently)
+ * <code>createDesignPointStats()</code>.  By default, anything you put into
+ * the <code>replicationStats</code> array will be summarized without doing
+ * anything in <code>createDesignPointStats</code>.
+ * 
+ * After all your creation methods are called, the hookup methods are called.
+ * In the hookup methods, you operate on all the objects previously created
+ * to set up the listening pattern.  You do this for two distinct reasons: First,
+ * to make the connections that implement your event graph, and second, for data
+ * collection (all the stats objects you created need to listen for property
+ * changes in order to gather data from the model when it runs.) 
+ * 
+ * Note. You can add a stats object (or any other PropertyChangeListener as
+ * a listener to this object via the protected instance variable
+ * <code>propertyChangeSupport</code>. Instead of saying
+ * 
+ * <code>
+ * this.addPropertyChangeListener(somePropertychangeListener);
+ * </code>
+ * 
+ * you say
+ * 
+ * <code>
+ * propertyChangeSupport.addPropertyChangeListener(somePropertychangeListener);
+ * </code>
+ * 
+ * Later, if you want to fire a PropertyChange, you invoke the firing method
+ * on <code>propertyChangeSupport</code>
+ * 
+ * <code>
+ * propertyChangeSupport.firePropertyChange(<args>);
+ * </code>
  *
  * @version $Id$
  * @author ahbuss
+ * @author Kirk Stork, The MOVES Institute <kastork@nps.edu>
  */
-public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
+public abstract class BasicAssembly implements Runnable {
+    
+    public static Logger log = Logger.getLogger("simkit");
     
     protected LinkedHashMap<Integer, List<SampleStatistics>> replicationData;
     
@@ -29,7 +87,8 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
     protected boolean stopped;
     
     private double stopTime;
-    private boolean verbose;
+    //same meaning as in simkit.Schedule.
+    private boolean reallyVerbose;
     private boolean singleStep;
     private int numberReplications;
     
@@ -39,7 +98,10 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
     
     private int designPointID;
     
+    protected PropertyChangeSupport propertyChangeSupport;
+    
     private DecimalFormat form;
+    private boolean verbose;
     
     /**
      * Default constructor sets paameters of BasicAssembly to their
@@ -54,6 +116,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
      */
     public BasicAssembly() {
         form = new DecimalFormat("0.0000");
+        propertyChangeSupport = new PropertyChangeSupport(this);
         setPrintReplicationReports(false);
         setPrintSummaryReport(true);
         replicationData = new LinkedHashMap<Integer, List<SampleStatistics>>();
@@ -63,7 +126,9 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         propertyChangeListener = new PropertyChangeListener[0];
         setNumberReplications(1);
         hookupsCalled = false;
-        
+    }
+    
+    public void init() {
         createObjects();
         performHookups();
     }
@@ -72,7 +137,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
      * responsibility.  Outer stats are not reset.
      */
     public void reset() {
-        super.reset();
+//        super.reset();
         for (int i = 0; i < replicationStats.length; ++i) {
             replicationStats[i].reset();
         }
@@ -87,9 +152,16 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
      * overridden if any replications stats are needed.
      */
     protected void createObjects() {
+        // template method
         createSimEntities();
+        
+        // optional template method
         createReplicationStats();
+        
+        // implemented locally, should not be overridden by subclasses
         createDesignPointStats();
+        
+        // optional template method
         createPropertyChangeListeners();
     }
     
@@ -97,28 +169,60 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
      * Call all the hookup methods.
      */
     protected void performHookups() {
+        // template method
         hookupSimEventListeners();
+        
+        // optional template method
         hookupReplicationListeners();
+        
+        // template method
         hookupDesignPointListeners();
+        
+        //optional template method
         hookupPropertyChangeListeners();
+
         hookupsCalled = true;
     }
    
+    /**
+     * Template method for creating the SimEntities in the model.
+     * 
+     * This is the first creation method called by createObjects().
+     */
     protected abstract void createSimEntities();
     
+    /**
+     * Template method for hooking up the listening pattern in
+     * already-instantiated SimEntities.  This is the first hookup method
+     * called by performHookups().
+     */
     protected abstract void hookupSimEventListeners();
     
+    /**
+     * Template method for hooking up listening in replications.  This is
+     * usually used for instrumentation of the model.
+     * 
+     * Called by performHookups after hookupSimEventListeners().
+     * 
+     */
     protected abstract void hookupReplicationListeners();
     
-    /** This method is left concrete so subclasses don't have to worry about
-     * it if no additional PropertyChangeListeners are desired.
+    /** 
+     * Optional method.  Implement if your Assembly has its own PropertyChangeListeners
+     * that you want to register with SimEntities that were instantiated in
+     * createSimEntities()
      */
     protected void hookupPropertyChangeListeners() {  }
     
     /**
-     * The default behavior is to create a <code>SimplStatsTally</code>
+     * The default behavior is to create a <code>SimpleStatsTally</code>
      * instance for each element in <code>replicationStats</code> with the
      * corresponding name + "mean".
+     * 
+     * When overriding this method, if you call super to retain this
+     * behavior, be sure to also call super in <code>hookupDesignPointListeners()</code>
+     * or the default hookups won't be made.
+     * 
      */
     protected void createDesignPointStats() {
         designPointStats = new SampleStatistics[replicationStats.length];
@@ -127,15 +231,44 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         }
     }
     
+    /**
+     * This hook method allows sub-classes to add instrumentation that 
+     * is accumulated during a replication.  The usual practice is to 
+     * create stats objects and add them to the protected instance
+     * vaiable <code>replicationsStats</code>.  By doing this, your stats object
+     * here will be summarized in the output data for each design point (by default).
+     * 
+     * Any object you create here should be hooked up (i.e. registered to listen
+     * for the approprate state changes) in the corresponding hook method
+     * <code>hookupReplicationListeners()</code>
+     * 
+     * Thid method is called from <code>createObjects()</code> after 
+     * <code>createSimEntities()</code> and before  <code>createDesignPointStats()</code>
+     */
     protected void createReplicationStats() { }
     
+    /** 
+     * Optional method.  Implement if your Assembly has its own PropertyChangeListeners
+     * that you want to register with SimEntities that were instantiated in
+     * createSimEntities(). 
+     * 
+     * This is the last method called by <code>createObjects()</code>
+     */
     protected void createPropertyChangeListeners() { }
     
-    /** Set up all outer stats propertyChangeListeners
+    /** 
+     * Set up all outer stats propertyChangeListeners.
+     * 
+     * Caution.  The default implementation is tied to the default implementation
+     * of <code>createDesignPointListeners()</code>.  Therefore, if you override
+     * <code>createDesignPointListeners()</code>, you will likely have to override
+     * <code>hookupDesignPointListeners()</code>.  If your implementation of
+     * <code>createDesignPointListeners()</code> calls super, then be sure to
+     * call super here as well.
      */
     protected void hookupDesignPointListeners() {
         for (int i = 0; i < designPointStats.length; ++i) {
-            this.addPropertyChangeListener(designPointStats[i]);
+            propertyChangeSupport.addPropertyChangeListener(designPointStats[i]);
         }
     }
     
@@ -148,11 +281,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
     }
     
     public double getStopTime() { return stopTime; }
-    
-    public void setVerbose(boolean b) { verbose = b; }
-    
-    public boolean isVerbose() { return verbose; }
-    
+        
     public void setSingleStep(boolean b) { singleStep = b; }
     
     public boolean isSingleStep() { return singleStep; }
@@ -182,11 +311,28 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
     
     public boolean isSaveReplicationData() { return saveReplicationData; }
     
-    /** Empty, needed to implement SimEntity
+    
+    /**
+    * Determines the value of Schedule.reallyVerbose. If true
+    * prints information about scheduling, interrupting, and handling events.
+    **/
+    public void setReallyVerbose(boolean value) {reallyVerbose = value;}
+
+    /**
+    * The value of Schedule.reallyVerbose. If true
+    * prints information about scheduling, interrupting, and handling events.
+    **/
+    public boolean isReallyVerbose() {return reallyVerbose;}
+
+    /**
+     * Empty, implemented here so subclasses don't have to implement
+     * (abstract method of BasicSimEntity)
      */
     public void handleSimEvent(SimEvent simEvent) {
     }
-    /** Empty, needed to implement SimEntity
+    /**
+     * Empty, implemented here so subclasses don't have to implement
+     * (abstract method of BasicSimEntity)
      */
     public void processSimEvent(SimEvent simEvent) {
     }
@@ -290,16 +436,24 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
     }
     
     /**
-     * A means to stop the simulation in mid-run.  This is irreversable
-     * and the simulation must be restarted from scratch.
-     * @return true of simulation is stopped, false otherwise
+     * @return true of simulation is stopped, false otherwise.
+     * 
+     * If this method  returns true, the model cannont be restarted, but must
+     * be started over from scratch.
      */
     public boolean isStopped() { return stopped; }
     
     /**
-     * Stops simulation wherever it is in the loop.
+     * Stops simulation wherever it is in the loop, providing a means to stop
+     * the simulation in mid-run.  This is irreversable and the simulation must
+     * be restarted from scratch.
+     * 
+     * Before this method does anything, the hook method simulationWillBeStopped()
+     * is called, giving sub-classes of BasicAssembly the opportunity to
+     * clean-up, dump data, close files, notify a gui,  etc.
      */
     public void stop() {
+        simulationWillBeStopped();
         stopped = true;
         Schedule.stopSimulation();
     }
@@ -316,6 +470,7 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         if (isVerbose()) {
             Schedule.setVerbose(isVerbose());
         }
+        Schedule.setReallyVerbose(isReallyVerbose());
         if (isSingleStep()) {
             Schedule.setSingleStep(isSingleStep());
         }
@@ -328,13 +483,17 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
         }
         
         stopped = false;
-        
-        for (int replication = 0; replication < getNumberReplications() && !stopped ; ++replication) {
+        double startTime = System.currentTimeMillis(); 
+        for (int replication = 0; replication < getNumberReplications() && 
+                !stopped ; ++replication) {
+            scheduleWillReset();
             Schedule.reset();
+            scheduleDidReset();
+            log.info("Starting replication " + replication);
             Schedule.startSimulation();
             for (int i = 0; i < replicationStats.length; ++i) {
-                fireIndexedPropertyChange(i, replicationStats[i].getName(), replicationStats[i]);
-                fireIndexedPropertyChange(i, replicationStats[i].getName() + ".mean", replicationStats[i].getMean());
+                propertyChangeSupport.firePropertyChange(new IndexedPropertyChangeEvent(this, replicationStats[i].getName(), null, replicationStats[i], i));
+                propertyChangeSupport.firePropertyChange(new IndexedPropertyChangeEvent(this, replicationStats[i].getName()+".mean", null, replicationStats[i].getMean(), i));
             }
             if (isPrintReplicationReports()) {
                 System.out.println(getReplicationReport(replication));
@@ -342,10 +501,69 @@ public abstract class BasicAssembly extends BasicSimEntity implements Runnable{
             if (isSaveReplicationData()) {
                 saveReplicationStats();
             }
+            replicationDidFinish();
         }
         if (isPrintSummaryReport()) {
             System.out.println(getSummaryReport());
         }
+        double endTime = System.currentTimeMillis();
+        log.info("Execution time for " + getNumberReplications() + " replications: " 
+                + (endTime - startTime) * 1.0E-3);
+        simulationDidFinish();
     }
+
+    /**
+     * Hook method that will be called prior to calling Schedule.reset().
+     * 
+     * Subclasses should place any custom resetting needed in this method
+     */
+    protected void scheduleWillReset() {}
+
+    /**
+     * Hook method that will be called just after Schedule.reset() and just
+     * prior to calling <code>Schedule.startSimlulation()</code>
+     * 
+     * This method should rarely be needed because simkit idiom is to handle all
+     * preparation for a simulation run in the various reset methods.  The
+     * notable exception is if there are objects that hold state information
+     * in static variables, or use static variables as the way to keep a
+     * strong reference to a re-usable SimEntity.  Such objects may need to
+     * have a static resetter called on them between replications.
+     * 
+     * Subclasses may use this place for any custom code that should run just
+     * before time begins to advance.
+     */
+    protected void scheduleDidReset() {}
+
+    /**
+     * Hook method called after the event list runs to completion for a replication.
+     * 
+     * (That is, when startSimulation returns).  Note that this includes situations
+     * where the event queue gets stopped and emptied by some external intervention,
+     * such as by calling the stop() method on an EventList, Schedule or on an instance
+     * of this class.
+     */          
+    protected void replicationDidFinish() {}
+    
+    /**
+     * Hook method called after all replications have completed.
+     */          
+    protected void simulationDidFinish() {}
+    
+    /**
+     * Hook method that is called when <code>stop()</code> is called on an
+     * Assembly. After this method has had a chance to run, the model will be
+     * stoped where ever it is in the loop/replication.
+     */
+    protected void simulationWillBeStopped() {}
+
+    public boolean isVerbose() {
+        return verbose;
+    }
+    public void setVerbose(boolean yn) {
+        this.verbose = yn;
+    }
+    
+
     
 }

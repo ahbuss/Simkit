@@ -83,7 +83,7 @@ public class TandemQueueAssembly extends BasicAssembly {
     /**
      * Use MultipleSimpleStatsTally to listen to the means for the replicationStats.  Only
      * two instances are needed - they will sort out the data by the index of the
-     * InexedPropertyChangeEvent.
+     * IndexedPropertyChangeEvent.
      */
     protected void createDesignPointStats() {
         designPointStats = new SampleStatistics[2];
@@ -103,7 +103,7 @@ public class TandemQueueAssembly extends BasicAssembly {
         tandemQueueAssembly.setVerbose(false);
         tandemQueueAssembly.setNumberReplications(10);
         tandemQueueAssembly.setPrintReplicationReports(true);
-        
+        tandemQueueAssembly.init();
         new Thread(tandemQueueAssembly).start();
     }
 }

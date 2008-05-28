@@ -7,21 +7,26 @@ import java.util.*;
 
 public class SimEventTest extends TestCase {
 
+    // A concrete entity class to test with
+    class SimEventTest_TestEntity extends SimEntityBase {}
+    
     protected SimEvent[] se;
     
     
+    @Override
     public void setUp() {
         Schedule.coldReset();
     }
 
+    @Override
     public void tearDown() {
         se = null;
     }
 
     protected void makeSimEvents() {
-        SimEntityBase highPri = new simkit.smdx.CookieCutterMediator();
+        SimEntityBase highPri = new SimEventTest_TestEntity();
         highPri.setPriority(Priority.HIGHER);
-        SimEntityBase loPri = new simkit.smdx.CookieCutterMediator();
+        SimEntityBase loPri = new SimEventTest_TestEntity();
         loPri.setPriority(Priority.DEFAULT);
         Helper.setSimTime(0.0);
         
@@ -46,7 +51,7 @@ public class SimEventTest extends TestCase {
     }
 
     public void testGetEventHash() {
-        SimEntity entity2 = new simkit.smdx.CookieCutterMediator();
+        SimEntity entity2 = new SimEventTest_TestEntity();
         SimEntity entity = new Adapter("heard", "passed");
         SimEvent e1 = new SimEvent(entity, "event",  new Object[] {"A string", entity2, new Integer(999)}, 1234.7);
         SimEvent e2 = new SimEvent(entity, "event",  new Object[] {"A string", entity2, new Integer(999)}, 223.4);

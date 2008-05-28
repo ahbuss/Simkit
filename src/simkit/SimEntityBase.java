@@ -3,6 +3,7 @@ package simkit;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -165,6 +166,11 @@ public abstract class SimEntityBase extends BasicSimEntity {
             }
             if (doMethods.containsKey(event.getFullMethodName())) {
                 m = doMethods.get(event.getFullMethodName());
+                if (isDebug()){
+                    log.fine("SimEntityBase will invoke " +
+                            m.toGenericString() + " on " + this.toString() + 
+                            " which was found in the allDoMethods cache.");
+                }
                 m.invoke(this, event.getParameters());
             } // if
             else {
@@ -237,9 +243,21 @@ public abstract class SimEntityBase extends BasicSimEntity {
                         if (match) {
                             try {
                                 if (debug) {
-                                    log.info("Match found: " + event.getFullMethodName());
+                                    log.info("Match found: " + 
+                                            event.getFullMethodName());
                                 }
                                 m = getClass().getMethod(methodName, signature);
+                                if (isDebug()) {
+                                    log.fine("SimEntityBase will invoke " + 
+                                        m.toGenericString() + " on " + 
+                                        this.toString() + 
+                                        " and keep the method for later");
+                                    log.fine("Placing method " + m.toString() + 
+                                        " with signature " + 
+                                        Arrays.toString(signature) + 
+                                        " under key " + 
+                                        event.getFullMethodName());
+                                }
                                 m.invoke(this, params);
                                 doMethods.put(event.getFullMethodName(), m);
                             }

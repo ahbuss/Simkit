@@ -184,6 +184,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
      * Returns a String containing the Name, current location, and current
      * velocity of this Mover, if initialized.
      */
+    @Override
     public String toString() {
         Point2D loc = getLocation();
         if (loc != null) {
@@ -208,6 +209,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
 * Cancels all pending SimEvents for this Mover and returns it to its
 * original location stopped.
 **/
+    @Override
     public void reset() {
         super.reset();
         setMovementState(MovementState.STOPPED);

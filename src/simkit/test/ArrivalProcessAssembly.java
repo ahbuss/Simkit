@@ -84,7 +84,7 @@ public class ArrivalProcessAssembly extends BasicAssembly {
         
 //        Make sure parameters are correctly set.
         System.out.println(arrivalProcessAssembly);
-        
+        arrivalProcessAssembly.init();
 //        Run in a separate thread.
         new Thread(arrivalProcessAssembly).start();
     }
