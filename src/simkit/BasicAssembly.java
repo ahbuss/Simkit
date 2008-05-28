@@ -13,22 +13,22 @@ import simkit.stat.SampleStatistics;
 import simkit.stat.SimpleStatsTally;
 import simkit.util.IndexedPropertyChangeEvent;
 /**
- * Abstract Base class for creating Simkit scenarios.
+ * <p>Abstract Base class for creating Simkit scenarios.</p>
  *
- * A simkit Assembly represents a complete simulation initialized with the 
+ * <p>A simkit Assembly represents a complete simulation initialized with the 
  * parameters from a single design point of some notional design of experiments.
  * The simulation can be run at that design point any number of times, with
- * statistical data gathered and reported semi-automatically.
+ * statistical data gathered and reported semi-automatically.</p>
  * 
- * <code>BasicAssembly</code> is intended to be subclassed, and provides many
+ * <p><code>BasicAssembly</code> is intended to be subclassed, and provides many
  * template methods and hooks that allow your sublcass to provide customized
  * behavior, while also providing the basic functionality of managing multiple
- * simulation runs.
+ * simulation runs.</p>
  * 
- * After instantiating your subclass, the design point it represents is run
- * by calling <code>init()</code> and then <code>run</code>.
+ * <p>After instantiating your subclass, the design point it represents is run
+ * by calling <code>init()</code> and then <code>run</code>.</p>
  * 
- * <code>init</code> instantiates all the objects in the simulation and connects
+ * <p><code>init</code> instantiates all the objects in the simulation and connects
  * the listener pattern connections needed by the model.  You
  * specify what the simulation entities will be by implementing the required template
  * method <code>createSimEntities()</code>.  You also have the opportunity to
@@ -37,39 +37,37 @@ import simkit.util.IndexedPropertyChangeEvent;
  * optional methods <code>createReplicationStats()</code> and (less frequently)
  * <code>createDesignPointStats()</code>.  By default, anything you put into
  * the <code>replicationStats</code> array will be summarized without doing
- * anything in <code>createDesignPointStats</code>.
+ * anything in <code>createDesignPointStats</code>.</p>
  * 
- * After all your creation methods are called, the hookup methods are called.
+ * <p>After all your creation methods are called, the hookup methods are called.
  * In the hookup methods, you operate on all the objects previously created
  * to set up the listening pattern.  You do this for two distinct reasons: First,
  * to make the connections that implement your event graph, and second, for data
  * collection (all the stats objects you created need to listen for property
- * changes in order to gather data from the model when it runs.) 
+ * changes in order to gather data from the model when it runs.)</p> 
  * 
- * Note. You can add a stats object (or any other PropertyChangeListener as
+ * <p>Note. You can add a stats object (or any other PropertyChangeListener as
  * a listener to this object via the protected instance variable
- * <code>propertyChangeSupport</code>. Instead of saying
+ * <code>propertyChangeSupport</code>. Instead of saying</p>
  * 
- * <code>
+ * <p><code>
  * this.addPropertyChangeListener(somePropertychangeListener);
- * </code>
- * 
- * you say
- * 
+ * </code><br/>
+ * you say<br/>
  * <code>
  * propertyChangeSupport.addPropertyChangeListener(somePropertychangeListener);
- * </code>
+ * </code><br/></p>
  * 
- * Later, if you want to fire a PropertyChange, you invoke the firing method
- * on <code>propertyChangeSupport</code>
+ * <p>Later, if you want to fire a PropertyChange, you invoke the firing method
+ * on <code>propertyChangeSupport</code></p>
  * 
- * <code>
+ * <p><code>
  * propertyChangeSupport.firePropertyChange(<args>);
- * </code>
+ * </code></p>
  *
  * @version $Id$
  * @author ahbuss
- * @author Kirk Stork, The MOVES Institute <kastork@nps.edu>
+ * @author Kirk Stork, The MOVES Institute
  */
 public abstract class BasicAssembly implements Runnable {
     
