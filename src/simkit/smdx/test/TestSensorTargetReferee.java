@@ -19,11 +19,38 @@ import simkit.smdx.*;
  */
 public class TestSensorTargetReferee {
     
+    static class TestMediator extends CookieCutterMediator {
+
+        @Override
+        protected void targetIsEnteringSensorRange(Sensor sensor, Mover target){
+            System.out.println(target.toString() + " is entering range of " + sensor.toString());
+            System.out.println("TestMediator does no special processing before scheduling detections");
+        }
+        
+        @Override
+        protected void targetIsExitingSensorRange(Sensor sensor, Mover target){
+            System.out.println(target.toString() + " is exitng range of " + sensor.toString());
+            System.out.println("TestMediator does no special processing before scheduling undetections");
+        }
+        
+        @Override
+        protected Contact getContactForEnterRangeEvent(Sensor sensor, Mover target) {
+            Contact contact = contacts.get(target);
+            if (contact == null) {
+                contact = new Contact((Mover)target);
+                contacts.put(target, contact);
+            }
+            System.out.println("TestMediator providing contact " + 
+                    contact.toString() + " for target " + target.toString());
+            return contact;
+        }
+    }
+    
     static {
         SensorTargetMediatorFactory.addMediator(
             CookieCutterSensor.class,
             UniformLinearMover.class,
-            new CookieCutterMediator()
+            new TestMediator()
         );
     }
     
