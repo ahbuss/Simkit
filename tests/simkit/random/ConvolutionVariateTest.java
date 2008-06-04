@@ -27,6 +27,11 @@ public class ConvolutionVariateTest extends TestCase {
         assertEquals(0.0, conv.generate(), 0.0);
     }
 
+    public void testGenerate() {
+        conv.setParameters(new Object[] {rvs});
+        assertEquals(3.3, conv.generate(), StrictMath.ulp(3.3));
+    }
+
     public void testSetGetParameters() {
         conv.setParameters(new Object[] {rvs}); 
         Object[] params = conv.getParameters();
