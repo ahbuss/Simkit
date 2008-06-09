@@ -3,6 +3,7 @@ package simkit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *  A basic implementation of a SimEventSource that is potentially useful for
@@ -17,6 +18,8 @@ import java.util.List;
  *  @version $Id$
  **/
 public class BasicSimEventSource implements SimEventSource {
+    
+    public static final Logger log = Logger.getLogger("simkit");
     
    /**
    * The SimEventListeners who have registered.
@@ -36,7 +39,12 @@ public class BasicSimEventSource implements SimEventSource {
      *  Note that the listener is added only if it is not already a listener.
      *  @param listener The SimEventListener that is the new listener.
      **/
+    @Override
     public void addSimEventListener(SimEventListener listener) {
+        if (listener == null) {
+            log.fine("addSimEventListener called with null");
+            return;
+        }
         synchronized(listeners) {
             if (!listeners.contains(listener)) {
                 listeners.add(listener);
@@ -49,6 +57,7 @@ public class BasicSimEventSource implements SimEventSource {
      * wasn't registered.
      *  @param listener The SimEventListener to be removed as a listener.
      **/
+    @Override
     public void removeSimEventListener(SimEventListener listener) {
         synchronized(listeners) {
             listeners.remove(listener);
@@ -59,6 +68,7 @@ public class BasicSimEventSource implements SimEventSource {
      * Causes all registered SimEventListeners to be notified of the given SimEvent.
      * @param event The SimEvent that all SimEventListeners are notified has occured.
      **/
+    @Override
     public void notifyListeners(SimEvent event) {
         ArrayList<SimEventListener> listenersCopy = null;
         synchronized(listeners) {
