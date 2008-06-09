@@ -110,7 +110,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
     }
     
 /**
-* Construct a new SimEntityBaseProtected with a default name and
+* Construct a new SimEntityBase with a default name and
 * the given priority.
 * The name is the class name plus a unique serial number.
 * @param priority The priority for processing this entity's events.

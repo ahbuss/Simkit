@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import simkit.util.LinkedHashMap2;
 
 /**
@@ -21,6 +22,7 @@ import simkit.util.LinkedHashMap2;
  **/
 public abstract class SimEntityBaseProtected extends BasicSimEntity {
     
+    public static Logger log = Logger.getLogger("simkit");
 /**
 * A two dimensional Hash table used to cache doMethods
 * for all SimEntityBases. Keyed by Class and Method.
@@ -51,7 +53,6 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     static {
         allDoMethods = new LinkedHashMap2<Class, String, Method>();
         allNamesAndSignatures = new LinkedHashMap2<Class, String, List<Class<?>[]>>();
-        System.out.println("??? Warning: SimEntityBaseProtected is still a prototype and may not work.");
     }
     
 /**
@@ -67,7 +68,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
      **/
     public SimEntityBaseProtected(String name, Priority priority) {
         super(name, priority);
-        
+        log.warning("??? Warning: SimEntityBaseProtected is still a prototype and may not work.");
         Map<String, Method> doMethods = allDoMethods.get(this.getClass());
         if (doMethods == null) {
             doMethods = new LinkedHashMap<String, Method>();
