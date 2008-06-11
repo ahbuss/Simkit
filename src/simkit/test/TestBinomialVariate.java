@@ -15,7 +15,7 @@ import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  Arnold Buss
- * @version $Id: TestBinomialVariate.java 643 2004-04-25 22:59:33Z kastork $
+ * @version $Id$
  */
 public class TestBinomialVariate {
 

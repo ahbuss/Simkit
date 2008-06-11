@@ -9,7 +9,7 @@ package simkit.random;
 * Note: The first seed is at index 1 of the array not 0.
 * <p>From Law and Kelton, Simulation and Modeling Analysis, 1991
 * McGraw-Hill.</p>
-* @version $Id: LKSeeds.java 476 2003-12-09 00:27:33Z jlruck $
+* @version $Id$
 */
 public interface LKSeeds {
 

@@ -13,7 +13,7 @@ import simkit.Schedule;
 * observation, therefore the value returned by <CODE>getCount</CODE> may not
 * correspond to the number of times <CODE>newObservation</CODE> has been called.
 * </P>
-* @version $Id: SimpleStatsTimeVarying.java 1050 2008-02-08 16:44:37Z ahbuss $
+* @version $Id$
 **/
 public class SimpleStatsTimeVarying extends AbstractSimpleStats {
     

@@ -33,7 +33,7 @@ package simkit;
 *
 * @author Kirk A. Stork
 * @author Arnold Buss 
-* @version $Id: Named.java 476 2003-12-09 00:27:33Z jlruck $
+* @version $Id$
 */
 public interface Named
 {

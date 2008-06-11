@@ -42,7 +42,7 @@ import java.util.Vector;
  * The build Graph class, with attached Axes and DataSets can be accessed
  * though methods in the class
  *
- * @version $Revision$, $Date: 2008-04-08 14:26:02 -0700 (Tue, 08 Apr 2008) $
+ * @version $Revision$, $Date$
  * @author Leigh Brookshaw
  */
 

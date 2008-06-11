@@ -4,7 +4,7 @@ import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  Arnold Buss
- * @version $Id: TestWeibull.java 1051 2008-02-27 00:14:47Z ahbuss $
+ * @version $Id$
  */
 public class TestWeibull {
 

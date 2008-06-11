@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import simkit.BasicSimEntity;
 
 /**
- * @version $Id: NPPoissonProcessThinned.java 1010 2007-03-16 18:38:16Z ahbuss $;
+ * @version $Id$;
  * @author ahbuss
  */
 public class NPPoissonProcessThinned extends BasicSimEntity implements RandomVariate {

@@ -12,7 +12,7 @@ package simkit.random;
  *
  *
  *  @author Arnold Buss
- *  @version $Id: RandomVariateBase.java 1051 2008-02-27 00:14:47Z ahbuss $ 
+ *  @version $Id$ 
  **/
 
 public abstract class RandomVariateBase implements RandomVariate {

@@ -10,7 +10,7 @@ package simkit.random;
  * second value in params is a Number instance representing the initial state.
  * This should be 0 or 1.  The setters check validity of the arguments.
  * @author  Arnold Buss
- * @version $Id: TwoStateMarkovVariate.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  */
 public class TwoStateMarkovVariate extends RandomVariateBase implements DiscreteRandomVariate {
     

@@ -12,7 +12,7 @@ import java.text.DecimalFormat;
  *  of the actual target. This implementation of a Contact provides ground truth
  * location and movement information about the underlying Moveable.
  *  @author  Arnold Buss
- * @version $Id: Contact.java 476 2003-12-09 00:27:33Z jlruck $
+ * @version $Id$
  */
 public class Contact implements Moveable {
     

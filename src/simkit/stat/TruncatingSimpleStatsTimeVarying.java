@@ -1,7 +1,7 @@
 package simkit.stat;
 
 /**
- * @version $Id: TruncatingSimpleStatsTimeVarying.java 852 2006-03-15 20:43:03Z ahbuss $
+ * @version $Id$
  * @author ahbuss
  */
 public class TruncatingSimpleStatsTimeVarying extends SimpleStatsTimeVarying {

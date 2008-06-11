@@ -17,11 +17,11 @@ import simkit.SimEventListener;
 * a guide point (ZZ).
 *
 * @author John Ruck (Rolands and Associates Corporation 6/7/06)
-* @version $Id: FormationMoverManager.java 1517 2008-05-09 20:12:46Z kastork $
+* @version $Id$
 **/
 public class FormationMoverManager extends SimEntityBase implements MoverManager {
 
-    public static final String _VERSION_ = "$Id: FormationMoverManager.java 1517 2008-05-09 20:12:46Z kastork $";
+    public static final String _VERSION_ = "$Id$";
 
     public static Logger log = Logger.getLogger("simkit.smdx");
 

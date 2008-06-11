@@ -12,7 +12,7 @@ import simkit.util.SimplePropertyDumper;
  * Simulates a system consisting of a 2 server single queue system for Customers. Uses an 
  * {@link ArrivalProcess}, a {@link EntityCreator}, and a {@link EntityServer}.
  * @author  Arnold Buss
- * @version $Id: TestCustomerServer.java 1049 2008-02-08 16:44:09Z ahbuss $
+ * @version $Id$
  */
 public class TestCustomerServer {
     

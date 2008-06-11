@@ -11,7 +11,7 @@ package simkit.random;
  * outcomes. A value of 0 represents failure, a value of 1 represents success. Has
  * a single parameter, the probability of success.
  * @author  Arnold Buss
- * @version $Id: BernoulliDistribution.java 466 2003-11-20 01:09:07Z jlruck $
+ * @version $Id$
  */
 public class BernoulliDistribution implements DiscreteDistribution {
     

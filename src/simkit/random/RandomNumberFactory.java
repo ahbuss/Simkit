@@ -8,7 +8,7 @@ import java.util.*;
 * create the default <CODE>RandomNumber</CODE> Class. The default Class
 * is initially set to <CODE>Congruential</CODE>.
 * @author A. Buss
-* @version $Id: RandomNumberFactory.java 1057 2008-04-09 17:15:14Z kastork $
+* @version $Id$
 **/
 public class RandomNumberFactory {
     

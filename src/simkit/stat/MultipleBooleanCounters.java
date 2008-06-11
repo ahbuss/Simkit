@@ -11,7 +11,7 @@ import java.util.Map;
  * and keeps track of each one separately.  The property names should
  * be unique.
  *
- * @version $Id: MultipleBooleanCounters.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  * @author  ahbuss
  */
 public class MultipleBooleanCounters implements PropertyChangeListener {

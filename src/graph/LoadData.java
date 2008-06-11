@@ -35,7 +35,7 @@ import java.net.URL;
  * This class will load data (as a seperate thread) into a DataSet
  * given a URL.
  *
- * @version  $Revision$, $Date: 2004-04-25 15:59:33 -0700 (Sun, 25 Apr 2004) $
+ * @version  $Revision$, $Date$
  * @author   Leigh Brookshaw
  */
 

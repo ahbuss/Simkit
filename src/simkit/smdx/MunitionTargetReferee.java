@@ -23,7 +23,7 @@ import simkit.SimEntityBase;
  * as a SimEventListener to each Munition for which it is to referee.
  * </P>
  * @author  Arnold Buss
- * @version $Id: MunitionTargetReferee.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  */
 public class MunitionTargetReferee extends SimEntityBase {
     

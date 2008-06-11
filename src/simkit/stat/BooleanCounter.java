@@ -11,7 +11,7 @@ import simkit.Named;
  * or to calculate the number true/number false or number false/number true.
  * <p>Like SimpleStats, this listens for a single property name.
  *
- * @version $Id: BooleanCounter.java 766 2005-05-09 18:57:52Z ahbuss $
+ * @version $Id$
  * @author  ahbuss
  */
 public class BooleanCounter implements PropertyChangeListener, Named {

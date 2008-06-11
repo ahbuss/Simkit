@@ -14,7 +14,7 @@ package simkit.random;
  * may choose to generate an int or some other thing.</p>
  *
  * @author Arnold Buss
- * @version $Id: RandomVariate.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  **/
 
 public interface RandomVariate {

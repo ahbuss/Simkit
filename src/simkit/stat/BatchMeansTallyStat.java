@@ -11,7 +11,7 @@ import simkit.stat.SimpleStatsTally;
 /**
  * Uses batch means method with initial transient to estimate the mean of a 
  * presumably steady-state (after the truncationpoint) measure.  
- * @version $Id: BatchMeansTallyStat.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  * @author ahbuss
  */
 public class BatchMeansTallyStat extends SimpleStatsTally {

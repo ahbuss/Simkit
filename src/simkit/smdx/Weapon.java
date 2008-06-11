@@ -6,7 +6,7 @@ import simkit.SimEntity;
 
 /**
 * Represents a weapon system that can fire Munitions.
-* @version $Id: Weapon.java 643 2004-04-25 22:59:33Z kastork $
+* @version $Id$
 **/
 public interface Weapon extends Moveable, SimEntity {
 

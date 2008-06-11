@@ -11,7 +11,7 @@ package simkit.random;
  * specify the RandomVariates to be mixed and the probability of choosing each.
  * Internally, a DiscreteVariate is created that does the actual mixing.
  * @author Arnold Buss
- * @version $Id: MixedVariate.java 1051 2008-02-27 00:14:47Z ahbuss $
+ * @version $Id$
  */
 public class MixedVariate extends simkit.random.RandomVariateBase {
     

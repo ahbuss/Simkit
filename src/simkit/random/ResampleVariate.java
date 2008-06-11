@@ -4,7 +4,7 @@ package simkit.random;
  * Generates random variates by resampling from a given data array.  A generated value is
  * equally likely to be from any value in the data array.
  * @author Arnold Buss
- * @version $Id: ResampleVariate.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  */
 public class ResampleVariate extends RandomVariateBase {
     

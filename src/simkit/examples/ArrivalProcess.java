@@ -7,7 +7,7 @@ import simkit.random.RandomVariateFactory;
  *  <P>Simplest non-trivial Event Graph.  A basic arrival process that can have any
  *  interarrival probability distribution.
  *  @author Arnold Buss
- *  @version $Id: ArrivalProcess.java 1063 2008-04-26 01:36:35Z ahbuss $
+ *  @version $Id$
  **/
 public class ArrivalProcess extends SimEntityBase {
     /**

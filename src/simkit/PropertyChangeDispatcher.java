@@ -20,7 +20,7 @@ import java.util.Map;
  * <p> Static caches keyed by class are kept for setters and getters, since 
  *  only one set is needed per class.  They are created on-the-fly as required and
  *  re-used when an instance of a previous class is created.
- *  @version $Id: PropertyChangeDispatcher.java 1027 2007-08-01 19:23:41Z ahbuss $
+ *  @version $Id$
  **/
 public class PropertyChangeDispatcher extends PropertyChangeSupport implements PropertyChangeSource {
     

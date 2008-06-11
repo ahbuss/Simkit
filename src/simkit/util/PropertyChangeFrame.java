@@ -24,7 +24,7 @@ import simkit.*;
  *  more customization if desired.
  *
  * @author Arnold Buss, based on a class by CAPT Maximo Moore, USA.
- * @version $Id: PropertyChangeFrame.java 667 2004-05-26 21:35:56Z ahbuss $
+ * @version $Id$
 **/
 
 public class PropertyChangeFrame extends JFrame implements PropertyChangeListener {

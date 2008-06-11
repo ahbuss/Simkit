@@ -15,7 +15,7 @@ import simkit.stat.SimpleStatsTimeVarying;
 /**
  *
  * @author  ahbuss
- * @version $Id: Resetter.java 723 2004-09-09 15:22:37Z ahbuss $
+ * @version $Id$
  */
 public class Resetter extends SimEntityBase {
     

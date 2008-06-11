@@ -14,7 +14,7 @@ package simkit.stat;
 * algorithm.
 *
 *  @author    Kirk A. Stork
-*  @version $Id: SummaryStat.java 643 2004-04-25 22:59:33Z kastork $
+*  @version $Id$
 */
 public class      SummaryStat
        implements DataLogging

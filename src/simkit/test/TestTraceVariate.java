@@ -6,7 +6,7 @@ import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 
 /**
- * @version $Id: TestTraceVariate.java 1051 2008-02-27 00:14:47Z ahbuss $
+ * @version $Id$
  * @author ahbuss
  */
 public class TestTraceVariate {

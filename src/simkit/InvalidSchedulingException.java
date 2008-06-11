@@ -18,7 +18,7 @@ package simkit;
 * of this class will be thrown.
 *
 * @author K. A. Stork
-* @version $Id: InvalidSchedulingException.java 728 2004-12-30 20:59:24Z ahbuss $
+* @version $Id$
 *
 **/
 

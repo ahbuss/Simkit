@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
  * A Munition that has an area of effect that is a circle centered around its
  * aimpoint.
  * @author  ahbuss
- * @version $Id: CircularImpactMunition.java 643 2004-04-25 22:59:33Z kastork $
+ * @version $Id$
  */
 public class CircularImpactMunition extends UniformLinearMover implements Munition {
 

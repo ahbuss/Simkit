@@ -19,13 +19,13 @@ import java.util.logging.*;
 * Java 1.4 JVM's.
 * 
 * @author John Ruck (Rolands and Associates Corporation)
-* @version $Id: BattleDimension.java 1000 2007-02-15 19:43:11Z ahbuss $
+* @version $Id$
 **/
 public class BattleDimension {
 
     public static Logger log = Logger.getLogger("simkit.smdx");
     
-    public static final String _VERSION_ = "$Id: BattleDimension.java 1000 2007-02-15 19:43:11Z ahbuss $";
+    public static final String _VERSION_ = "$Id$";
 
 /**
 * Holds a mapping from Strings to the values.

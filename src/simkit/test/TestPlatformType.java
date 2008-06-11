@@ -9,7 +9,7 @@ package simkit.test;
 /**
  *
  * @author  ahbuss
- * @version $Id: TestPlatformType.java 451 2003-11-19 01:04:48Z jlruck $
+ * @version $Id$
  */
 public class TestPlatformType {
 

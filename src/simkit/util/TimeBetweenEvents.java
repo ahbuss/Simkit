@@ -16,7 +16,7 @@ import simkit.SimEvent;
  * Technically, every time a time is added or removed from the
  * list, a PropertyChangeEvent should be fired.  This is not done, however.
  * 
- * @version $Id: TimeBetweenEvents.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  * @author ahbuss
  */
 public class TimeBetweenEvents extends BasicSimEntity {

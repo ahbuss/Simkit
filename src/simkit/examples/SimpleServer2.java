@@ -14,7 +14,7 @@ import simkit.random.RandomVariateFactory;
  * statement to decide which event to execute when it is called back from Schedule (the
  * handleSimEvent() method).<p/>
  * @author Arnold Buss
- * @version $Id: SimpleServer2.java 1049 2008-02-08 16:44:09Z ahbuss $
+ * @version $Id$
  */
 public class SimpleServer2 extends BasicSimEntity {
 

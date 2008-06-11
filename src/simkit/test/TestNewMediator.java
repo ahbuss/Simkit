@@ -23,7 +23,7 @@ import simkit.smdx.WayPoint;
 /**
  *
  * @author  Arnold Buss
- * @version $Id: TestNewMediator.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  */
 public class TestNewMediator {
     

@@ -65,7 +65,7 @@ import simkit.util.IndexedPropertyChangeEvent;
  * propertyChangeSupport.firePropertyChange(<args>);
  * </code></p>
  *
- * @version $Id: BasicAssembly.java 1073 2008-05-28 17:44:00Z kastork $
+ * @version $Id$
  * @author ahbuss
  * @author Kirk Stork, The MOVES Institute
  */

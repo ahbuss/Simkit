@@ -22,7 +22,7 @@ import simkit.Schedule;
  * from the container, then stampTime() invoked, and finally the instance put 
  * back on the container.
  *
- * @version $Id: Entity.java 1023 2007-04-23 18:44:51Z ahbuss $
+ * @version $Id$
  * @author ahbuss
  */
 public class Entity implements Named, Comparable<Entity> {

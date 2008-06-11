@@ -5,7 +5,7 @@ package simkit.random;
  * "Good Parameters and Implementations for Combined Multiple Recursive 
  * Random Number Generators"
  * 
- * @version $Id: MRG32k3a.java 1055 2008-03-24 23:24:12Z ahbuss $
+ * @version $Id$
  * @author ahbuss
  */
 public class MRG32k3a implements RandomNumber {

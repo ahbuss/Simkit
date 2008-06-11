@@ -16,7 +16,7 @@ import java.util.Set;
  *
  * @author K. A. Stork
  * @author Arnold Buss
- * @version $Id: Schedule.java 1015 2007-03-21 17:03:07Z ahbuss $
+ * @version $Id$
  *
  **/
 public class Schedule  {

@@ -15,7 +15,7 @@ package simkit.random;
  * <code>RandomVariateFactory</code>.
  *
  * @author Arnold Buss
- * @version $Id: BetaVariate.java 1051 2008-02-27 00:14:47Z ahbuss $
+ * @version $Id$
  */
 public class BetaVariate extends RandomVariateBase {
 

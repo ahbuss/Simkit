@@ -19,7 +19,7 @@ import simkit.util.CloseableDataWindow;
 /**
  *
  * @author  ahbuss
- * @version $Id: TestGenerate.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  */
 public class TestGenerate {
     

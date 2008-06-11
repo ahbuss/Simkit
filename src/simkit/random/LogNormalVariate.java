@@ -13,7 +13,7 @@ package simkit.random;
  * for the normal into the actual mean and standard deviation for the
  * distribution. 
  *
- * @version $Id: LogNormalVariate.java 1033 2007-08-24 17:28:42Z ahbuss $
+ * @version $Id$
  * @author ahbuss
  */
 public class LogNormalVariate extends NormalVariate {

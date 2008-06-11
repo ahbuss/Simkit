@@ -55,7 +55,7 @@ package graph;
  *   <li> Scientific notation using "e", "E", "d", "D".
  * </ul>
  *
- * @version $Revision$, $Date: 2004-04-25 15:59:33 -0700 (Sun, 25 Apr 2004) $
+ * @version $Revision$, $Date$
  * @author Leigh Brookshaw
  */
 

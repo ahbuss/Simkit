@@ -13,7 +13,7 @@ import simkit.stat.SimpleStatsTimeVarying;
  * 
  * @deprecated Covered by unit test ListenerPatterns_IntegrationTest since rev 1082 2008-06-11
  * @author  Arnold Buss
- * @version $Id: TestStateStats.java 1049 2008-02-08 16:44:09Z ahbuss $
+ * @version $Id$
  */
 public class TestStateStats {
     

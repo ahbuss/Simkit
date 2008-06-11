@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
  * A 2-dimensional point with the speed that an entity should transit to the point.
  *
  * @author  Arnold Buss
- * @version $Id: WayPoint.java 1057 2008-04-09 17:15:14Z kastork $
+ * @version $Id$
  */
 
 public class WayPoint implements Cloneable {

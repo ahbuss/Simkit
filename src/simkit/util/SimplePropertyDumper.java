@@ -10,7 +10,7 @@ import java.beans.*;
 * name of the property, the previous value of the property, the
 * new value of the property.
 * @see PropertyChangeFrame
-* @version $Id: SimplePropertyDumper.java 476 2003-12-09 00:27:33Z jlruck $
+* @version $Id$
 **/
 public class SimplePropertyDumper implements PropertyChangeListener {
     

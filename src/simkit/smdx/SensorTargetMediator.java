@@ -10,7 +10,7 @@ import java.beans.PropertyChangeListener;
 /**
  * Mediates interactions between Sensors and Movers.
  * @author  Arnold Buss
- * @version $Id: SensorTargetMediator.java 643 2004-04-25 22:59:33Z kastork $
+ * @version $Id$
  */
 public interface SensorTargetMediator extends Mediator, PropertyChangeListener {
     

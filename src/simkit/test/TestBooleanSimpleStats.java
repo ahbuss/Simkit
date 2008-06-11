@@ -15,7 +15,7 @@ import simkit.stat.SimpleStatsTimeVarying;
 /**
  *
  * @author  Arnold Buss
- * @version $Id: TestBooleanSimpleStats.java 643 2004-04-25 22:59:33Z kastork $
+ * @version $Id$
  */
 public class TestBooleanSimpleStats extends SimEntityBase {
 

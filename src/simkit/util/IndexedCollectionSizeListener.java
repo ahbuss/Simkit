@@ -23,7 +23,7 @@ import simkit.BasicSimEntity;
  * convenience of its PropertyChangeSource methods
  * (registering and unregistering PropertyChangeListeners
  * and firing PropertyChangeEvents to listeners)
- * @version $Id: IndexedCollectionSizeListener.java 722 2004-08-30 21:53:05Z ahbuss $
+ * @version $Id$
  * @author ahbuss
  */
 public class IndexedCollectionSizeListener extends BasicSimEntity implements PropertyChangeListener {

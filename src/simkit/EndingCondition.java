@@ -18,7 +18,7 @@ package simkit;
   * types requires modifying this class.
   *
   * @author Arnold Buss (revised 28 March 1999)
-  * @version $Id: EndingCondition.java 476 2003-12-09 00:27:33Z jlruck $
+  * @version $Id$
   *
 **/
 public class EndingCondition {

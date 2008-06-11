@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 /**
  * An Object that can move in 2 dimensions.
  * @author  Arnold Buss
- * @version $Id: Moveable.java 643 2004-04-25 22:59:33Z kastork $
+ * @version $Id$
  */
 public interface Moveable {
     

@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 * Note: This class is similar to java.util.Properties, but adds
 * blocks so that the file format mimics Windows ini file format.
 * @see Properties
-* @version $Id: INIFileProperties.java 1063 2008-04-26 01:36:35Z ahbuss $
+* @version $Id$
 **/
 public class INIFileProperties extends LinkedHashMap2<String, String, String> {
 

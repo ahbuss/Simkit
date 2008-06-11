@@ -10,7 +10,7 @@ package simkit;
  *
  * @author K. A. Stork
  * @author Arnold Buss
- * @version $Id: SimEntity.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  *
 **/
 public interface SimEntity extends SimEventSource,

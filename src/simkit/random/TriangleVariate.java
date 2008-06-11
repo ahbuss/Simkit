@@ -9,7 +9,7 @@ package simkit.random;
 /**
  * Generates Triangle random variates.
  * @author  Arnold Buss
- * @version $Id: TriangleVariate.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  */
 public class TriangleVariate extends RandomVariateBase implements RandomVariate {
 

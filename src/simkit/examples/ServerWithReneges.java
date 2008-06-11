@@ -14,7 +14,7 @@ import simkit.random.RandomVariate;
  * time has elapsed without receiving service, that customer
  * exits the queue ("reneges") without receiving service.
  *
- * @version $Id: ServerWithReneges.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  * @author  Arnold Buss
  */
 public class ServerWithReneges extends SimEntityBase {

@@ -55,7 +55,7 @@ package simkit.random;
  * ACM Transactions on Modeling and Computer Simulation,
  * Vol. 8, No. 1, January 1998, pp 3--30.
  *
- * @version $Id: MersenneTwister.java 503 2003-12-19 21:53:06Z ahbuss $
+ * @version $Id$
  */
 
 public class MersenneTwister implements RandomNumber {

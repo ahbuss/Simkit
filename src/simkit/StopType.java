@@ -11,7 +11,7 @@ import java.util.Map;
  * A Java enumeration for methods of stopping a simulation.
  *
  * @author  ahbuss
- * @version $Id: StopType.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  */
 public class StopType {
     

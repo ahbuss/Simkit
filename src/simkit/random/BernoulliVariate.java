@@ -6,7 +6,7 @@ package simkit.random;
  * <ul><li><code>probability</code> = P{X = 1} or the probability of
  * "success" in a single trial.</li></ul>
  *
- * @version $Id: BernoulliVariate.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  * @author  Arnold Buss
  */
 public class BernoulliVariate extends RandomVariateBase implements DiscreteRandomVariate {

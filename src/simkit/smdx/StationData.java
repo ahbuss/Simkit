@@ -5,7 +5,7 @@ package simkit.smdx;
 * An interface for holding the data needed to define a movement location
 * relative to another MoverManager.
 * 
-* @version $Id: StationData.java 1147 2006-06-07 23:20:30Z jlruck $
+* @version $Id$
 * @author John Ruck (Rolands and Associates Corporation - 6/6/06)
 **/
 public interface StationData {

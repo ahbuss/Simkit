@@ -12,7 +12,7 @@ import simkit.SimEntityBase;
  * (like max speed, etc) should not be changed after the object is instantiated.
  * <p>Modifications made per recommendations of Alistair Dickie.
  * @author  Arnold Buss
- * @version $Id: UniformLinearMover.java 1072 2008-05-28 00:17:51Z kastork $
+ * @version $Id$
  */
 public class UniformLinearMover extends SimEntityBase implements Mover {
     

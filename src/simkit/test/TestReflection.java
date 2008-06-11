@@ -12,7 +12,7 @@ import simkit.util.Misc;
 /**
  *
  * @author  ahbuss
- * @version $Id: TestReflection.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  */
 public class TestReflection {
 

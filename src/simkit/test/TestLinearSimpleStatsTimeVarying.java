@@ -8,7 +8,7 @@ import simkit.stat.LinearSimpleStatsTimeVarying;
 import simkit.util.SimplePropertyDumper;
 
 /**
- * @version $Id: TestLinearSimpleStatsTimeVarying.java 916 2006-09-14 22:49:09Z ahbuss $
+ * @version $Id$
  * @author ahbuss
  */
 public class TestLinearSimpleStatsTimeVarying extends SimEntityBase {

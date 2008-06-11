@@ -12,7 +12,7 @@ import simkit.smdx.Math2D;
 /**
  *
  * @author  Arnold Buss
- * @version $Id: TestCubic.java 643 2004-04-25 22:59:33Z kastork $
+ * @version $Id$
  */
 public class TestCubic {
 

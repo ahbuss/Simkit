@@ -2,7 +2,7 @@ package simkit.test;
 import simkit.*;
 /**
  * Tests new ability to check for minimum version.
- * @version $Id: TestVersion.java 757 2005-04-20 23:18:17Z ahbuss $
+ * @version $Id$
  * @author  ahbuss
  */
 public class TestVersion {

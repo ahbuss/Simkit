@@ -8,7 +8,7 @@ import simkit.SimEntityBase;
 import simkit.stat.SimpleStatsTally;
 
 /**
- * @version $Id: MultipleEndingStateStatTally.java 1031 2007-08-21 17:07:58Z ahbuss $
+ * @version $Id$
  * @author ahbuss
  */
 public class MultipleEndingStateStatTally extends SimEntityBase implements 

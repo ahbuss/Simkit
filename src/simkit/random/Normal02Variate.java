@@ -4,7 +4,7 @@ package simkit.random;
  * Generates a Normal random variate.
  * <p>Note: Uses a random number of RandomNumbers per draw.</p>
  * @author  Arnold Buss
- * @version $Id: Normal02Variate.java 1051 2008-02-27 00:14:47Z ahbuss $
+ * @version $Id$
  */
 public class Normal02Variate implements RandomVariate {
     

@@ -21,7 +21,7 @@ import java.awt.Label;
 Create and manage a graph.Graph2D chart in its own window.
 
 @author Kirk A. Stork
-@version $Id: Chartlet.java 1057 2008-04-09 17:15:14Z kastork $
+@version $Id$
 
 */
 

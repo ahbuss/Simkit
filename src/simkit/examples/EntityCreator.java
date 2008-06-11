@@ -7,7 +7,7 @@ import simkit.SimEntityBase;
  * must be registered as a SimEventListener with the entity scheduling the
  * arrival events (for instance {@link ArrivalProcess2})
  * @author  Arnold Buss
- * @version $Id: EntityCreator.java 1049 2008-02-08 16:44:09Z ahbuss $
+ * @version $Id$
  */
 public class EntityCreator extends SimEntityBase {
     

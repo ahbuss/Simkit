@@ -2,7 +2,7 @@ package simkit.random;
 
 /**
 * Generates Bivariate Normal random variates with zero correlation.
-* @version $Id: BivariateNormal.java 1000 2007-02-15 19:43:11Z ahbuss $
+* @version $Id$
 **/
 public class BivariateNormal implements RandomVector {
 

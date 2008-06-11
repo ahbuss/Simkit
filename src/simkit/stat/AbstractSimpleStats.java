@@ -13,7 +13,7 @@ import java.beans.PropertyChangeEvent;
  * need to implement the logic for calculating the mean and standard deviation.
  * </P>
  * @author  ahbuss
- * @version $Id: AbstractSimpleStats.java 1057 2008-04-09 17:15:14Z kastork $
+ * @version $Id$
  */
 public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable {
     

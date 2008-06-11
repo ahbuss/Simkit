@@ -8,7 +8,7 @@ import simkit.random.RandomVariateFactory;
 /**
 * Implements a transfer line with a user determined number of stations and a user
 * determined number of servers at each station.
-* @version $Id: TransferLine.java 1000 2007-02-15 19:43:11Z ahbuss $
+* @version $Id$
 */
 public class TransferLine extends SimEntityBase {
 

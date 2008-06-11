@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
  * in its toString() and getSide() methods.  Thus, an instance of Side has
  * a String property called "Side"
  * @author Arnold Buss
- * @version $Id: Side.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  **/
 
 public class Side {

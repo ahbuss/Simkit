@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Contains a library of useful calculations in 2-dimensional space.
  * @author  ahbuss
- * @version $Id: Math2D.java 1057 2008-04-09 17:15:14Z kastork $
+ * @version $Id$
  */
 public class Math2D {
     

@@ -15,7 +15,7 @@ package simkit.random;
  * <p>Note: This implementation uses the convolution method and
  * has an execution time proportional to n.</p>
  * @author  Arnold Buss
- * @version $Id: BinomialVariate.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  */
 public class BinomialVariate implements DiscreteRandomVariate {
     

@@ -22,7 +22,7 @@ import simkit.stat.SimpleStatsTimeVarying;
  * </pre>
  * 
  * @author Arnold RunSimpleServers
- * @version $Id: TestSimpleServer.java 410 2008-01-08 20:48:39Z ahbuss $
+ * @version $Id$
  */
 public class TestSimpleServer {
     

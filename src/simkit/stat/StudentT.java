@@ -9,7 +9,7 @@ package simkit.stat;
  *  not listed in the pvalues array.  There could be more degrees of freedom covered,
  *  as there is currently a "gap" of approximately 0.02 between 100 df (the last
  *  row) and the normal limit.
- *  @version $Id: StudentT.java 476 2003-12-09 00:27:33Z jlruck $
+ *  @version $Id$
  *
 **/
 public class StudentT {

@@ -35,7 +35,7 @@ import java.util.Vector;
  * This class will calculate the constant curve of a given value passing
  * through a grid of values.
  *
- * @version $Revision$, $Date: 2008-04-08 14:26:02 -0700 (Tue, 08 Apr 2008) $.
+ * @version $Revision$, $Date$.
  * @author Leigh Brookshaw
  */
 

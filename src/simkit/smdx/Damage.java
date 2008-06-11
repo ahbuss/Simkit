@@ -11,7 +11,7 @@ package simkit.smdx;
  * The type of Object returned by <CODE>getDamage()</CODE> is implementation
  * dependent as is how the Object affects the Target.
  * @author  Arnold Buss
- * @version $Id: Damage.java 439 2003-10-28 20:47:05Z jlruck $
+ * @version $Id$
  */
 public interface Damage {
     

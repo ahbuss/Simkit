@@ -9,7 +9,7 @@ import simkit.random.RandomVariate;
  * should be registered as a SimEventListener for a source of arrival events (like
  * {@link ArrivalProcess2}.
  * @author  Arnold Buss
- * @version $Id: Server.java 1000 2007-02-15 19:43:11Z ahbuss $
+ * @version $Id$
  */
 public class SimpleServer extends SimEntityBase {
     

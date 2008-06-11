@@ -13,7 +13,7 @@ package simkit;
  * with one or more SimEventSources.
  *
  * @author  Arnold Buss
- * @version $Id: Bridge.java 607 2004-03-29 21:38:45Z ahbuss $
+ * @version $Id$
  */
 public class Bridge extends simkit.BasicSimEntity {
     

@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
  * A factory used to construct MoverManagers.
  * @see MoverManager
  * @author  Arnold Buss
- * @version $Id: MoverManagerFactory.java 1057 2008-04-09 17:15:14Z kastork $
+ * @version $Id$
  */
 public class MoverManagerFactory {
 

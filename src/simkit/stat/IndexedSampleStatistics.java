@@ -2,7 +2,7 @@ package simkit.stat;
 
 /**
 * An interface for classes that collect statistics on indexed properties.
-* @version $Id: IndexedSampleStatistics.java 728 2004-12-30 20:59:24Z ahbuss $
+* @version $Id$
 **/
 public interface IndexedSampleStatistics extends SampleStatistics {
 

@@ -34,7 +34,7 @@ import java.util.Hashtable;
  * token of the StreamTokenizer is also modified so that scientific notation
  * is recognised.
  *
- * @version $Revision$, $Date: 2008-04-08 14:26:02 -0700 (Tue, 08 Apr 2008) $
+ * @version $Revision$, $Date$
  * @author Leigh Brookshaw
  */
 

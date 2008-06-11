@@ -51,11 +51,11 @@ import simkit.util.LinkedHashMap2;
  * coverage area.</LI></UL>
  *
  * @author  Arnold Buss
- * @version $Id: SensorTargetReferee.java 1052 2008-03-05 00:18:07Z ahbuss $
+ * @version $Id$
  */
 public class SensorTargetReferee extends SimEntityBase implements PropertyChangeListener {
 
-    public static final String _VERSION_ = "$Id: SensorTargetReferee.java 1052 2008-03-05 00:18:07Z ahbuss $";
+    public static final String _VERSION_ = "$Id$";
 
     public static Logger log = Logger.getLogger("simkit.smdx");
     

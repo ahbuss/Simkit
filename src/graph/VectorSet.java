@@ -41,7 +41,7 @@ import java.awt.Rectangle;
  *  It is to be used in conjunction with the Graph2D class and Axis 
  *  class for plotting 2D graphs.
  *
- * @version $Revision$, $Date: 2004-04-25 15:59:33 -0700 (Sun, 25 Apr 2004) $
+ * @version $Revision$, $Date$
  * @author Leigh Brookshaw 
  */
 public class VectorSet extends DataSet {

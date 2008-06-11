@@ -20,7 +20,7 @@ import simkit.SimEntity;
  * appropriate.
  *
  * @author  Arnold Buss
- * @version $Id: Sensor.java 1077 2008-06-06 21:10:50Z kastork $
+ * @version $Id$
  */
 public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
     

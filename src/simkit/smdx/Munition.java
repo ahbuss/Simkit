@@ -9,7 +9,7 @@ import simkit.SimEntity;
  * interaction is determined by a {@link MunitionTargetReferee} and a
  * {@link Adjudicator}.
  * @author  Arnold Buss
- * @version $Id: Munition.java 643 2004-04-25 22:59:33Z kastork $
+ * @version $Id$
  */
 public interface Munition extends Moveable, SimEntity {
     

@@ -4,7 +4,7 @@ package simkit.random;
 * Contains 10 seeds for use with the RandomNumber Congruential
 * that give non-overlapping streams. These are the 10 standard
 * streams from SIMSCRIPT.
-* @version $Id: CongruentialSeeds.java 476 2003-12-09 00:27:33Z jlruck $
+* @version $Id$
 **/
 public interface CongruentialSeeds {
 

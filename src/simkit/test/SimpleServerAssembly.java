@@ -15,7 +15,7 @@ import simkit.stat.SimpleStatsTimeVarying;
  * and numberAvailableServers are kept as replicationStats.  The designPointStats
  * just use the default in BasicAssembly.
  *
- * @version $Id: SimpleServerAssembly.java 1072 2008-05-28 00:17:51Z kastork $
+ * @version $Id$
  * @author ahbuss
  */
 public class SimpleServerAssembly extends BasicAssembly {

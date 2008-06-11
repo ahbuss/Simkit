@@ -10,7 +10,7 @@ package simkit.smdx;
  * Used to determine the result of an interaction between a
  * Target and a Munition.
  * @author  Arnold Buss
- * @version $Id: Adjudicator.java 476 2003-12-09 00:27:33Z jlruck $
+ * @version $Id$
  */
 public interface Adjudicator {
     

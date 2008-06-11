@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 * The guide point (ZZ) for a formation.
 *
 * @author John Ruck (Rolands and Associates Corporation 6/7/06)
-* @version $Id: FormationLeader.java 1147 2006-06-07 23:20:30Z jlruck $
+* @version $Id$
 **/
 public class FormationLeader extends UniformLinearMover {
 

@@ -5,7 +5,7 @@ import simkit.random.RandomVariateFactory;
 import simkit.stat.Histogram;
 
 /**
- * @version $Id: TestDiscreteIntegerVariate.java 1036 2007-09-04 18:10:34Z ahbuss $
+ * @version $Id$
  * @author ahbuss
  */
 public class TestDiscreteIntegerVariate {

@@ -18,7 +18,7 @@ import java.util.Vector;
 * <li>Display the parent Container</li>
 * <li>Call updateValues to change the data values displayed.</li>
 *
-* @version $Id: TablePanel.java 1014 2007-03-21 16:58:47Z ahbuss $
+* @version $Id$
 */
 public class   TablePanel
        extends Panel

@@ -11,7 +11,7 @@ import java.util.WeakHashMap;
  * Holds SensorTargetMediators. The Mediators can either be constructed
  * then added to the factory or constructed by the factory.
  * @author  Arnold Buss
- * @version $Id: SensorTargetMediatorFactory.java 1077 2008-06-06 21:10:50Z kastork $
+ * @version $Id$
  */
 public class SensorTargetMediatorFactory implements 
         MediatorFactory<Sensor, Moveable, SensorTargetMediator> {
