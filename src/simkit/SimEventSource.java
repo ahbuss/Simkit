@@ -38,6 +38,14 @@ public interface SimEventSource  {
 
 /**
   * Notify registered listeners by calling their processSimEvent method.
+  * <p>
+  * TODO:  should be eliminated or moved:  This is not really part of the public
+  *        contract for the listener pattern, but rather one way to implement
+  *        that contract. It should be the object's responsibility to figure out
+  *        when and how to notify its listeners, so no externally invokable
+  *        trigger should be provided.
+  *
+  * @deprecated see todo item
   * @param event the event to notify listeners of.
 **/
    public void notifyListeners(SimEvent event);

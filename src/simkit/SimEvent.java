@@ -37,7 +37,7 @@ public class SimEvent implements Comparable {
     /**
      * The SimEntity that will process this SimEvent.
      **/
-    private SimEntity source;
+    private SimEventScheduler source;
     
     /**
      * Caches the signature of the event method.
@@ -118,7 +118,7 @@ public class SimEvent implements Comparable {
     /**
      * Construct a new SimEvent.
      **/
-    public SimEvent(SimEntity source,
+    public SimEvent(SimEventScheduler source,
             String name,
             Object[] params,
             double delay,
@@ -153,11 +153,11 @@ public class SimEvent implements Comparable {
         id = ++nextID;
     }       // SimEvent constructor
     
-    public SimEvent(SimEntity source, String name, double scheduledTime) {
+    public SimEvent(SimEventScheduler source, String name, double scheduledTime) {
         this(source, name, null, scheduledTime, Priority.DEFAULT);
     }
     
-    public SimEvent(SimEntity source, String name, Object[] params, double scheduledTime) {
+    public SimEvent(SimEventScheduler source, String name, Object[] params, double scheduledTime) {
         this(source, name, params, scheduledTime, Priority.DEFAULT);
     }
     
@@ -176,9 +176,9 @@ public class SimEvent implements Comparable {
     
     // getters
     /**
-     * The SimEntity that will process this SimEvent.
+     * The SimEventScheduler that will process this SimEvent.
      **/
-    public SimEntity getSource() {return source;}
+    public SimEventScheduler getSource() {return source;}
     
     /**
      * The simulation time at which this event is
@@ -238,9 +238,9 @@ public class SimEvent implements Comparable {
     }
     
     /**
-     * Gets the priority of the SimEntity who owns this event.
+     * Gets the priority of the SimEventScheduler who owns this event.
      **/
-    public Priority getOwnerPriority() { return ((SimEntity)getSource()).getPriority();  }
+    public Priority getOwnerPriority() { return ((SimEventScheduler)getSource()).getPriority();  }
     
     /**
      * A unique identifier for this SimEntity.
@@ -391,8 +391,8 @@ public class SimEvent implements Comparable {
      */
     public static String adjustEventName(String name) {
         if (name != null) {
-            return (name.startsWith(SimEntity.EVENT_METHOD_PREFIX) ) ?
-            name : SimEntity.EVENT_METHOD_PREFIX + name;
+            return (name.startsWith(SimEventScheduler.EVENT_METHOD_PREFIX) ) ?
+            name : SimEventScheduler.EVENT_METHOD_PREFIX + name;
         }
         else {
             return null;
@@ -438,7 +438,7 @@ public class SimEvent implements Comparable {
 /**
 * Returns a hash based on owner, event name, and the parameters.
 **/
-    public static Integer calculateEventHash(SimEntity source, 
+    public static Integer calculateEventHash(SimEventScheduler source, 
                                             String eventName, 
                                             Object[] params) {
         int temp = source.hashCode();

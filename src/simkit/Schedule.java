@@ -203,6 +203,7 @@ public class Schedule  {
 
     /** If set to true causes the owner of the event to be included
      * whenever the event list is printed. Used by dump() and getEventListAsString()
+     * 
      * @param b whether event sources will be in dump
      */
     public static void setEventSourceVerbose(boolean b) {
@@ -215,17 +216,19 @@ public class Schedule  {
      * be, before each simulation run.
      * schedules the Run event at the current time.
      * (For default event list)
-     * @param se SimEntity to be added to reRun list
+     * 
+     * @param se SimEventScheduler to be added to reRun list
      */
-    public static void addRerun(SimEntity se) {
+    public static void addRerun(SimEventScheduler se) {
         defaultEventList.addRerun(se);
     }
 
-    /** Removes the SimEntity from the list of entities with Run events.
+    /** Removes the SimEventScheduler from the list of entities with Run events.
      * Note it does not interrupt its Run event.
-     * @param se SimEntity to be removed
+     * 
+     * @param se SimEventScheduler to be removed
      */
-    public static void removeRerun(SimEntity se) {defaultEventList.removeRerun(se);}
+    public static void removeRerun(SimEventScheduler se) {defaultEventList.removeRerun(se);}
 
 /**
 * Clears the list of SimEntities with Run events.
