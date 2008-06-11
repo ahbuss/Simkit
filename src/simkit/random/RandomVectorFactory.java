@@ -12,7 +12,7 @@ import java.util.WeakHashMap;
  * <P/>The default supporting RandomNumber is determined by the implementation
  * of the RandomVector. In most cases it is <CODE>Congruential</CODE>.
  * @author Arnold Buss
- * @version $Id$
+ * @version $Id: RandomVectorFactory.java 1057 2008-04-09 17:15:14Z kastork $
  */
 public class RandomVectorFactory {
     

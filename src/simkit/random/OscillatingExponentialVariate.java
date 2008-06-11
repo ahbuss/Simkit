@@ -18,7 +18,7 @@ import simkit.Schedule;
  * <li> Exp(1) is an exponential random variate with mean of 1.0</li>
  * </ul>
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: OscillatingExponentialVariate.java 1051 2008-02-27 00:14:47Z ahbuss $
  */
 public class OscillatingExponentialVariate implements simkit.random.RandomVariate {
     

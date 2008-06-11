@@ -12,7 +12,7 @@ import java.awt.geom.RectangularShape;
 /**
  * Contains a method to transform the coordinates of a rectangle.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: TransformUtilities.java 643 2004-04-25 22:59:33Z kastork $
  */
 public class TransformUtilities {
 

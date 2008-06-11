@@ -14,7 +14,7 @@ import simkit.random.RandomVariateBase;
  * must at least be non-negative.  These are normalized to be a cdf inside
  * the class.
  *
- * @version $Id$
+ * @version $Id: DiscreteIntegerVariate.java 1030 2007-08-01 22:35:41Z ahbuss $
  * @author ahbuss
  */
 public class DiscreteIntegerVariate extends RandomVariateBase

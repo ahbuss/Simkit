@@ -5,12 +5,12 @@ import java.util.logging.*;
 /**
 * Used to dynamically create instances of MersenneTwisterDC.
 *
-* @version $Id$
+* @version $Id: MersenneTwisterFactory.java 804 2005-07-08 19:12:38Z jlruck $
 * @author John Ruck (Rolands and Associates Corporation 7/1/05)
 **/
 public class MersenneTwisterFactory {
 
-    public static final String _VERSON_ = "$Id$";
+    public static final String _VERSON_ = "$Id: MersenneTwisterFactory.java 804 2005-07-08 19:12:38Z jlruck $";
 
     public static Logger log = Logger.getLogger("simkit.random");
 

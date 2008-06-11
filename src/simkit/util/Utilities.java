@@ -6,7 +6,7 @@ import javax.swing.JButton;
 
 /**
 * Holds a static method used to create an "action button".
-* @version $Id$
+* @version $Id: Utilities.java 643 2004-04-25 22:59:33Z kastork $
 **/
 public class Utilities {
 

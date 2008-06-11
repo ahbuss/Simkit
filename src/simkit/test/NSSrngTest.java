@@ -5,7 +5,7 @@ import simkit.random.RandomNumberFactory;
  * Tests NSSrng. A similar test routine exists in the NSS CVS under the branch: RNG_TESTS
  * Generates doubles to stdout.
  * @author  John Ruck
- * @version $Id$
+ * @version $Id: NSSrngTest.java 873 2006-05-19 00:37:30Z ahbuss $
  */
 public class NSSrngTest {
     
@@ -24,7 +24,7 @@ public class NSSrngTest {
         long seed = 12;
         long numberToGen =10;
         long draw = 0;
-        System.out.println( "Running NSSrngTest.main() $Id$");
+        System.out.println( "Running NSSrngTest.main() $Id: NSSrngTest.java 873 2006-05-19 00:37:30Z ahbuss $");
         if (args.length > 0) {
             seed = Long.valueOf(args[0]).longValue();
         }

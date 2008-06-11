@@ -7,11 +7,11 @@ package simkit;
 * attempting to enter reset() or coldReset() while the simulation is running.
 * 
 * @author John Ruck (Rolands and Associates Corporation)
-* @version $Id$
+* @version $Id: SimkitConcurrencyException.java 905 2006-08-03 17:10:05Z jlruck $
 **/
 public class SimkitConcurrencyException extends RuntimeException {
 
-    public static final String _VERSION_ = "$Id$";
+    public static final String _VERSION_ = "$Id: SimkitConcurrencyException.java 905 2006-08-03 17:10:05Z jlruck $";
 
     public static final String DEFAULT_MESSAGE = "Only one call to "
         + "either startSimulation, reset, or coldReset allowed at a time.";

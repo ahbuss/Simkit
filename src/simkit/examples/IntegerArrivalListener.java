@@ -9,7 +9,7 @@ package simkit.examples;
 import simkit.Priority;
 
 /**
- * @version $Id$
+ * @version $Id: IntegerArrivalListener.java 1000 2007-02-15 19:43:11Z ahbuss $
  * @author  Arnold Buss
  */
 public class IntegerArrivalListener extends simkit.SimEntityBase {

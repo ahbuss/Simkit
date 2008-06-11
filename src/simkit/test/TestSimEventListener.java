@@ -14,7 +14,7 @@ import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 import simkit.stat.SimpleStatsTally;
 /**
- * @version $Id$
+ * @version $Id: TestSimEventListener.java 1049 2008-02-08 16:44:09Z ahbuss $
  * @author  ahbuss
  */
 public class TestSimEventListener {

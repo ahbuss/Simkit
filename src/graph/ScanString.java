@@ -28,7 +28,7 @@ import java.util.Hashtable;
  * This class is similar to the ScanWord class, except it scans a string
  * for keywords rather than an input stream.
  *
- * @version $Revision$, $Date$
+ * @version $Revision$, $Date: 2008-04-08 14:26:02 -0700 (Tue, 08 Apr 2008) $
  * @author Leigh Brookshaw
  */ 
 

@@ -11,7 +11,7 @@ package simkit.random;
  * Now allows scale to be negative.  For example, scaling by -1.0
  * will flip a positive RV to a negative one.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: ScaledVariate.java 1000 2007-02-15 19:43:11Z ahbuss $
  */
 public class ScaledVariate implements RandomVariate {
     

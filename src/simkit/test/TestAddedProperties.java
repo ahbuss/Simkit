@@ -1,7 +1,7 @@
 package simkit.test;
 import simkit.*;
 /**
- * @version $Id$
+ * @version $Id: TestAddedProperties.java 777 2005-05-12 19:57:39Z ahbuss $
  * @author  ahbuss
  */
 public class TestAddedProperties extends SimEntityBase {

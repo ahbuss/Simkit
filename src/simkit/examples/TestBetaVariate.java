@@ -14,7 +14,7 @@ import simkit.stat.SimpleStatsTally;
  * registered as a PropertyChangeListener to a SimEntity that fire a 
  * PropertyChangeEvent whenever the state variable of that name changes value).</p>
  * 
- * @version $Id$
+ * @version $Id: TestBetaVariate.java 1000 2007-02-15 19:43:11Z ahbuss $
  * @author  ahbuss
  */
 public class TestBetaVariate {

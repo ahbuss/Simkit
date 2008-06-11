@@ -5,7 +5,7 @@ package simkit.random;
  * given by a set of values and a set of either probabilities or
  * frequencies.
  *
- * @version $Id$
+ * @version $Id: DiscreteVariate.java 1000 2007-02-15 19:43:11Z ahbuss $
  * @author Arnold Buss
  */
 public class DiscreteVariate extends RandomVariateBase {

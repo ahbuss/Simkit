@@ -32,7 +32,7 @@ import simkit.util.GenericAction;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: TestJava2D.java 1000 2007-02-15 19:43:11Z ahbuss $
  */
 public class TestJava2D extends JPanel{
     

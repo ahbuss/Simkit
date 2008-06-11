@@ -1,7 +1,7 @@
 package simkit.test;
 import simkit.random.*;
 /**
- * @version $Id$
+ * @version $Id: TestMersenneTwisterDC.java 793 2005-06-24 01:14:26Z ahbuss $
  * @author  ahbuss
  */
 public class TestMersenneTwisterDC {

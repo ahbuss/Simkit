@@ -16,7 +16,7 @@ import simkit.util.PropertyChangeFrame;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: TestBasicSimEntity.java 1049 2008-02-08 16:44:09Z ahbuss $
  */
 public class TestBasicSimEntity {
 

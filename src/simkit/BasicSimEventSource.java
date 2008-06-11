@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * 
  *  @author Arnold Buss
  *  @author Kirk Stork
- *  @version $Id$
+ *  @version $Id: BasicSimEventSource.java 1079 2008-06-09 21:11:47Z ahbuss $
  **/
 public class BasicSimEventSource implements SimEventSource {
     

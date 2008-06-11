@@ -5,7 +5,7 @@ import simkit.stat.SimpleStatsTally;
 /**
  * A SimpleStatsTally that resets after a truncation point has been reached.
  *
- * @version $Id$
+ * @version $Id: TruncatingSimpleStatsTally.java 857 2006-03-17 00:51:34Z ahbuss $
  * @author ahbuss
  */
 public class TruncatingSimpleStatsTally extends SimpleStatsTally {

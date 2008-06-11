@@ -17,7 +17,7 @@ import simkit.SimEntityBase;
  * class listens for PropertyChangeEvents, prepends a namespace to the
  * property name, and re-fires the event.  
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: ShortestQueueDispatcher.java 1049 2008-02-08 16:44:09Z ahbuss $
  */
 public class ShortestQueueDispatcher extends SimEntityBase {
     

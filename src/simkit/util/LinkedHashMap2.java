@@ -11,7 +11,7 @@ import java.util.Map;
  * version of, and replaces, the old Hashtable2.
  *
  * @author ahbuss
- * @version $Id$
+ * @version $Id: LinkedHashMap2.java 1000 2007-02-15 19:43:11Z ahbuss $
  **/
 public class LinkedHashMap2<K1, K2, V> extends LinkedHashMap<K1, Map<K2, V>> {
     

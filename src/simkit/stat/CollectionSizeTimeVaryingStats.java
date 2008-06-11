@@ -10,7 +10,7 @@ import simkit.stat.SimpleStatsTimeVarying;
  * end result is that the size of a Collection property
  * has time-varying statistics collected.
  *
- * @version $Id$
+ * @version $Id: CollectionSizeTimeVaryingStats.java 770 2005-05-09 19:19:17Z ahbuss $
  * @author ahbuss
  */
 public class CollectionSizeTimeVaryingStats extends SimpleStatsTimeVarying {

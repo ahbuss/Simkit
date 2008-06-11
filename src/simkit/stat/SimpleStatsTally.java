@@ -13,7 +13,7 @@ package simkit.stat;
  *  listens for a single property name and adds a new observation if the newValue
  *  is of type <CODE>Number</CODE>
  *  @author ahbuss
- *  @version $Id$
+ *  @version $Id: SimpleStatsTally.java 1050 2008-02-08 16:44:37Z ahbuss $
  **/
 public class SimpleStatsTally extends AbstractSimpleStats {
     

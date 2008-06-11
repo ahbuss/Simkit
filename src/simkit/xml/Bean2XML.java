@@ -13,7 +13,7 @@ import org.w3c.dom.*;
  * Serializes an Object to xml using javabean Introspection.
  * <br/>Note that this Class is not yet complete.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: Bean2XML.java 1072 2008-05-28 00:17:51Z kastork $
  */
 public class Bean2XML {
     

@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
  * property is not to be fired).  The newValue and oldValue of the lastEvent 
  * could also be checked.
  *
- * @version $Id$
+ * @version $Id: PropertyChangeListenerHelper.java 867 2006-04-18 16:33:32Z ahbuss $
  * @author ahbuss
  */
 public class PropertyChangeListenerHelper implements PropertyChangeListener {

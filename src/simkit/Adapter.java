@@ -7,7 +7,7 @@ package simkit;
  * priority).  In contrast to the Bridge, instances of Adapter bypass
  * the Event List and directly notify their SimEventListeners.
  *
- * @version $Id$
+ * @version $Id: Adapter.java 1000 2007-02-15 19:43:11Z ahbuss $
  * @author  ahbuss
  */
 public class Adapter extends BasicSimEntity {

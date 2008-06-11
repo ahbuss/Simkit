@@ -52,7 +52,7 @@ import java.util.Vector;
  * graph. This means that independent components like Axis and DataSets must be
  * registered with this class to be incorporated into the plot.
  *
- * @version  $Revision$, $Date$
+ * @version  $Revision$, $Date: 2008-04-08 14:26:02 -0700 (Tue, 08 Apr 2008) $
  * @author   Leigh Brookshaw
  */
 

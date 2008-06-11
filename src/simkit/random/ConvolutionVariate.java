@@ -9,11 +9,11 @@ import java.util.logging.Logger;
  * Each RandomVariate instance is passed the same RandomNumber instance, to
  * avoid seed management problems.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: ConvolutionVariate.java 1068 2008-05-07 19:34:56Z jlruck $
  */
 public class ConvolutionVariate extends RandomVariateBase {
     
-    public static final String _VERSION_ = "$Id$";
+    public static final String _VERSION_ = "$Id: ConvolutionVariate.java 1068 2008-05-07 19:34:56Z jlruck $";
 
     public static Logger log = Logger.getLogger("simkit.random");
 

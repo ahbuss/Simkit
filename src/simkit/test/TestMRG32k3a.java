@@ -6,7 +6,7 @@ import simkit.random.RandomNumberFactory;
 import simkit.stat.SimpleStatsTally;
 
 /**
- * @version $Id$
+ * @version $Id: TestMRG32k3a.java 1055 2008-03-24 23:24:12Z ahbuss $
  * @author ahbuss
  */
 public class TestMRG32k3a {

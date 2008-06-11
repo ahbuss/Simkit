@@ -14,7 +14,7 @@ package simkit.smdx;
  * <LI>aimedOrArea - The weapon can be fired by either method.</LI>
  * </UL>
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: WeaponFireType.java 441 2003-11-01 00:08:27Z jlruck $
  */
 public class WeaponFireType {
     

@@ -6,7 +6,7 @@ import java.text.NumberFormat;
  *  implement <CODE>PropertyChangeListener</CODE> so they can respond to
  *  data fired in <CODE>PropertyChangeEvent</CODE>s.
  *
- *  @version $Id$
+ *  @version $Id: SampleStatistics.java 848 2006-03-15 20:40:58Z ahbuss $
  *  @author ahbuss
 **/
 public interface SampleStatistics extends java.beans.PropertyChangeListener, Named {

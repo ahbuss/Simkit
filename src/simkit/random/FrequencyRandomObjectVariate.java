@@ -7,7 +7,7 @@ import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 
 /**
- * @version $Id$
+ * @version $Id: FrequencyRandomObjectVariate.java 1000 2007-02-15 19:43:11Z ahbuss $
  * @author ahbuss
  */
 public class FrequencyRandomObjectVariate implements RandomObjectVariate {

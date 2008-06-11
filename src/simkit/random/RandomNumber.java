@@ -12,7 +12,7 @@ package simkit.random;
  * a U(0,1).
  *
  * @author Arnold Buss
- * @version $Id$
+ * @version $Id: RandomNumber.java 783 2005-05-27 21:55:16Z ahbuss $
 **/
 public interface RandomNumber {
 

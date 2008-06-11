@@ -23,7 +23,7 @@ import simkit.SimEntityBase;
  * signaling these state changes.
  *
  * @author Arnold Buss
- * @version $Id$
+ * @version $Id: CookieCutterSensor.java 1077 2008-06-06 21:10:50Z kastork $
  */
 public class CookieCutterSensor extends SimEntityBase implements Sensor {
     

@@ -24,7 +24,7 @@ import simkit.random.RandomNumberFactory;
  * </pre>
  * 
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: TestAntithetic.java 1051 2008-02-27 00:14:47Z ahbuss $
  */
 public class TestAntithetic {
 

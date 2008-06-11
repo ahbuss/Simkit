@@ -10,7 +10,7 @@ import simkit.BasicSimEntity;
  * <p>This can be heard by a SimpleStatsTally object, for instance, that will
  * tally statistics for the time between events.
  *
- * @version $Id$
+ * @version $Id: TimeBetweenEvent.java 872 2006-05-19 00:27:39Z ahbuss $
  * @author ahbuss
  */
 public class TimeBetweenEvent extends BasicSimEntity {

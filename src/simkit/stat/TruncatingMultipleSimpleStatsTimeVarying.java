@@ -19,7 +19,7 @@ import simkit.util.IndexedPropertyChangeEvent;
 * </P>
 * The getters inherited from <code>SimplStatsTimeVarying</code> will return statistics
 * for all observations of the property independent of index.
-* @version $Id$
+* @version $Id: TruncatingMultipleSimpleStatsTimeVarying.java 1000 2007-02-15 19:43:11Z ahbuss $
 **/
 public class TruncatingMultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying implements IndexedSampleStatistics {
 

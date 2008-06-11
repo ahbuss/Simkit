@@ -7,7 +7,7 @@ package simkit.random;
 * This generator has a period of 2147483647 for any starting seed.
 * <CODE>LKSeeds</CODE> contains seeds for 100 streams spaced 100,000 apart.
 *
-* @version $Id$
+* @version $Id: Congruential.java 503 2003-12-19 21:53:06Z ahbuss $
 */
 public class Congruential implements RandomNumber {
 

@@ -43,7 +43,7 @@ import java.util.Vector;
  * Markers are stroked using the line drawing method of the class Graph.
  * This means that any stroked figure can become a marker.
  *
- * @version $Revision$, $Date$
+ * @version $Revision$, $Date: 2008-04-08 14:26:02 -0700 (Tue, 08 Apr 2008) $
  * @author  Leigh Brookshaw
  */
 

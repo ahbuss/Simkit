@@ -5,7 +5,7 @@ package simkit.random;
  * <p>The next seed is ((current seed) xor (current seed shifted 13 bits to the right) xor
  * (current seed shifted 18 bits to the left)) and 0x7FFFFFFF [31 bits]</p>
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: Tausworthe.java 503 2003-12-19 21:53:06Z ahbuss $
  */
 public class Tausworthe implements RandomNumber {
     

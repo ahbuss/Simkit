@@ -15,7 +15,7 @@ import simkit.stat.Histogram;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: TestDiscreteVariate.java 1051 2008-02-27 00:14:47Z ahbuss $
  */
 public class TestDiscreteVariate {
     

@@ -23,7 +23,7 @@ import simkit.util.GenericAction;
 /**
 * This class is used to display version and copyright information about SimKit. Constructing a 
 * Version object will cause a dialog box to pop-up containing information about the program.
-* @version $Id$
+* @version $Id: Version.java 1057 2008-04-09 17:15:14Z kastork $
  *@author ahbuss
 **/
 public class Version {

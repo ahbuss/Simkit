@@ -6,7 +6,7 @@ import simkit.examples.ArrivalProcess;
 import simkit.random.RandomVariateFactory;
 
 /**
- * @version $Id$
+ * @version $Id: TestRemoveTransientListeners.java 1062 2008-04-26 01:36:03Z ahbuss $
  * @author ahbuss
  */
 public class TestRemoveTransientListeners extends SimEntityBase {

@@ -6,7 +6,7 @@ import simkit.stat.MultipleBooleanCounters;
 import simkit.util.SimplePropertyDumper;
 
 /**
- * @version $Id$
+ * @version $Id: TestBooleanCounters.java 768 2005-05-09 19:04:46Z ahbuss $
  * @author  ahbuss
  */
 public class TestBooleanCounters extends SimEntityBase {

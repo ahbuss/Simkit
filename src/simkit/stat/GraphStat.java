@@ -12,7 +12,7 @@ import graph.HistogramDataSet;
 * weighted average vs. time.</p>
 *
 *  @author    Kirk A. Stork
-*  @version $Id$
+*  @version $Id: GraphStat.java 643 2004-04-25 22:59:33Z kastork $
 */
 
 public class      GraphStat

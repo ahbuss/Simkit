@@ -4,7 +4,7 @@ package simkit.random;
  * Generates random variates having a Geometric distribution.
  * The number of failures before the first success of iid Berboulli trials.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: GeometricVariate.java 1051 2008-02-27 00:14:47Z ahbuss $
  */
 public class GeometricVariate implements DiscreteRandomVariate {
 

@@ -14,7 +14,7 @@ import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: TestRenewalProcess.java 1063 2008-04-26 01:36:35Z ahbuss $
  */
 public class TestRenewalProcess extends SimEntityBase {
 

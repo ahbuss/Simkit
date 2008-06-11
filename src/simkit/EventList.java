@@ -32,7 +32,7 @@ import java.util.TreeSet;
  * also helps protect from rogue models that do bad things
  * to the event list, affecting other running models.</P>
  *
- * @version $Id$
+ * @version $Id: EventList.java 1057 2008-04-09 17:15:14Z kastork $
  * @author Arnold Buss
  */
 
@@ -40,7 +40,7 @@ public class EventList {
 
     public static Logger log = Logger.getLogger("simkit");
     
-    public static final String _VERSION_ = "$Id$";
+    public static final String _VERSION_ = "$Id: EventList.java 1057 2008-04-09 17:15:14Z kastork $";
 
 /**
 * The default setting for fastInterrupts (TRUE).

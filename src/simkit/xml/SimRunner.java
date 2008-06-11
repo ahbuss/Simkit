@@ -14,7 +14,7 @@ import simkit.StopType;
 /**
  * Runs a Simkit simulation as controled by an xml control file.
  * @author  ahbuss
- * @version $Id$
+ * @version $Id: SimRunner.java 1063 2008-04-26 01:36:35Z ahbuss $
  */
 public class SimRunner implements Runnable {
     

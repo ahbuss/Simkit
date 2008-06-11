@@ -79,7 +79,7 @@ import java.awt.TextField;
  *    windowing system the mouse button might have to be pressed in the
  *    popup window to ensure it has the keyboard focus.
  *
- * @version $Revision$, $Date$.
+ * @version $Revision$, $Date: 2004-04-25 15:59:33 -0700 (Sun, 25 Apr 2004) $.
  * @author Leigh Brookshaw
  */
 

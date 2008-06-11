@@ -17,7 +17,7 @@ import simkit.util.LinkedHashMap2;
  *  @author Arnold Buss
  *  @author K. A. Stork
  *  @author John Ruck, R&A
- *  @version $Id$
+ *  @version $Id: SimEntityBaseProtected.java 1078 2008-06-09 17:37:13Z ahbuss $
  *
  **/
 public abstract class SimEntityBaseProtected extends BasicSimEntity {

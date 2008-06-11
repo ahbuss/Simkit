@@ -22,7 +22,7 @@ import java.util.Map;
  *  property.
  * 
  * @author Arnold Buss
- * @version $Id$
+ * @version $Id: Hashtable2.java 1000 2007-02-15 19:43:11Z ahbuss $
  * @deprecated Use simkit.util.LinkedHashMap2 instead
  * @see LinkedHashMap2
 **/

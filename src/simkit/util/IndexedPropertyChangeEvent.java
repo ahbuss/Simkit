@@ -4,7 +4,7 @@ import java.beans.PropertyChangeEvent;
  *  Event to support indexed property changes.
  *  @see simkit.PropertyChangeDispatcher
  *  @author Arnold Buss
- *  @version $Id$
+ *  @version $Id: IndexedPropertyChangeEvent.java 476 2003-12-09 00:27:33Z jlruck $
 **/
 public class IndexedPropertyChangeEvent extends PropertyChangeEvent {
 

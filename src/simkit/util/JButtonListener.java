@@ -7,7 +7,7 @@ import javax.swing.*;
  *  A simple listener whose only job is to update a JButton's Enabled property from
  *  a PropertyChangeEvent of the "enabled" property.
  *  @author Arnold Buss
- *  @version $Id$
+ *  @version $Id: JButtonListener.java 476 2003-12-09 00:27:33Z jlruck $
 **/
 public class JButtonListener implements PropertyChangeListener {
 

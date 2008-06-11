@@ -5,7 +5,7 @@ package simkit.random;
 * random variate. The generate method simple generates the underlying
 * variate, then takes the exponential of it.
 * 
-* @version $Id$
+* @version $Id: ExponentialTransform.java 1000 2007-02-15 19:43:11Z ahbuss $
 **/
 public class ExponentialTransform implements RandomVariate {
 

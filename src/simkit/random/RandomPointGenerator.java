@@ -3,7 +3,7 @@ import java.awt.geom.Point2D;
 /**
  * Generates a random Point2D as prescribed by a pair of RandomVariates.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: RandomPointGenerator.java 874 2006-05-23 18:29:20Z ahbuss $
  */
 public class RandomPointGenerator {
     

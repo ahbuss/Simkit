@@ -14,7 +14,7 @@ import simkit.util.SimplePropertyDumper;
  * in verbose mode with a SimplePropertyDumper.
  * <p>In this form, the parameters are set in main().
  *
- * @version $Id$
+ * @version $Id: ArrivalProcessAssembly.java 1072 2008-05-28 00:17:51Z kastork $
  * @author ahbuss
  */
 public class ArrivalProcessAssembly extends BasicAssembly {

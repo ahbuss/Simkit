@@ -10,7 +10,7 @@ import simkit.random.RandomVariateFactory;
  * for the location and speed.
  * @see MoverManagerFactory
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: RandomLocationMoverManager.java 643 2004-04-25 22:59:33Z kastork $
  */
 public class RandomLocationMoverManager extends SimEntityBase implements MoverManager {
     

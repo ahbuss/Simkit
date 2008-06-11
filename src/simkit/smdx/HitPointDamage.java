@@ -12,7 +12,7 @@ package simkit.smdx;
  * The meaning of the Number depends on the implementation of the <CODE>hit</CODE>
  * method in the Target.
  * @author  Arnold Buss
- * @version $Id$ 
+ * @version $Id: HitPointDamage.java 441 2003-11-01 00:08:27Z jlruck $ 
  */
 public class HitPointDamage implements Damage {
 

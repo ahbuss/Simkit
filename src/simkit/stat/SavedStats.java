@@ -7,7 +7,7 @@ import simkit.stat.SamplingType;
 /**
  * A lightweight, read-only SimpleStats that is meant for saving the
  * values of SimpleStats results.  Can contain any kind of SimpleStats.
- * @version $Id$
+ * @version $Id: SavedStats.java 849 2006-03-15 20:41:19Z ahbuss $
  * @author ahbuss
  */
 public class SavedStats extends AbstractSimpleStats {

@@ -39,7 +39,7 @@ import java.util.Vector;
  * This class is designed to bundle together all the information required
  * to draw short Strings with subscripts and superscripts
  *
- * @version $Revision$, $Date$
+ * @version $Revision$, $Date: 2008-04-08 14:26:02 -0700 (Tue, 08 Apr 2008) $
  * @author  Leigh Brookshaw
  */
 

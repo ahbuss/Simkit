@@ -9,7 +9,7 @@ package simkit.smdx;
 /**
  * A Contact that contains Side information.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: SidedContact.java 441 2003-11-01 00:08:27Z jlruck $
  */
 public class SidedContact extends Contact implements Sided {
     

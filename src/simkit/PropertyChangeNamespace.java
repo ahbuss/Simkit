@@ -19,7 +19,7 @@ package simkit;
  * changed can be distinguished by the statistics collector.
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: PropertyChangeNamespace.java 894 2006-06-27 18:05:57Z jlruck $
  */
 public class PropertyChangeNamespace extends PropertyChangeDispatcher implements java.beans.PropertyChangeListener {
     

@@ -12,7 +12,7 @@ package simkit.random;
  * </li></ul>Note: (right-left)*height cannot be greater than one.
  * 
  * @author  ahbuss
- * @version $Id$
+ * @version $Id: RightWedgeVariate.java 1051 2008-02-27 00:14:47Z ahbuss $
  */
 public class RightWedgeVariate implements RandomVariate {
     

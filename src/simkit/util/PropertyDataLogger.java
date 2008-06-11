@@ -13,7 +13,7 @@ import java.io.*;
  * written, they are not time stamped.
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: PropertyDataLogger.java 1057 2008-04-09 17:15:14Z kastork $
  */
 public class PropertyDataLogger implements PropertyChangeListener {
     

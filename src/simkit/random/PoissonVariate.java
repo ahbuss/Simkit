@@ -3,7 +3,7 @@ package simkit.random;
 /**
  * Generates random variates having a Poisson distribution.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: PoissonVariate.java 1051 2008-02-27 00:14:47Z ahbuss $
  */
 public class PoissonVariate implements DiscreteRandomVariate {
     

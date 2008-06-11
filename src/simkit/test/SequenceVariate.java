@@ -11,7 +11,7 @@ import simkit.random.Sequential;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: SequenceVariate.java 1000 2007-02-15 19:43:11Z ahbuss $
  */
 public class SequenceVariate implements RandomVariate {
 

@@ -10,7 +10,7 @@ package simkit.random;
  * An interface for Classes that describe a random variable distribution.
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: Distribution.java 466 2003-11-20 01:09:07Z jlruck $
  */
 public interface Distribution extends simkit.Named, Cloneable {
 

@@ -1,7 +1,7 @@
 package simkit.stat;
 
 /**
- * @version $Id$
+ * @version $Id: TruncatingCollectionSizeTimeVarying.java 1000 2007-02-15 19:43:11Z ahbuss $
  * @author ahbuss
  */
 public class TruncatingCollectionSizeTimeVarying extends CollectionSizeTimeVaryingStats {

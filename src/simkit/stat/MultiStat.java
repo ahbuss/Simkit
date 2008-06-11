@@ -18,7 +18,7 @@ import simkit.SimEntity;
  * make any sense.
  *
  * @author ahbuss
- * @version $Id$
+ * @version $Id: MultiStat.java 1057 2008-04-09 17:15:14Z kastork $
  */
 public class MultiStat implements PropertyChangeListener {
     

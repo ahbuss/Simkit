@@ -20,7 +20,7 @@ import java.util.Map;
  * <LI>CRUISING (Moving at a constant velocity)</LI>
  * </UL>
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: MovementState.java 1000 2007-02-15 19:43:11Z ahbuss $
  */
 public class MovementState {
     

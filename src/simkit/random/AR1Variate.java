@@ -9,7 +9,7 @@ package simkit.random;
  *  <br/>The distribution of the random error is N(0,1).
  *
  *  @author  Arnold Buss
- *  @version $Id$
+ *  @version $Id: AR1Variate.java 1051 2008-02-27 00:14:47Z ahbuss $
  */
 public class AR1Variate extends RandomVariateBase {
     

@@ -9,7 +9,7 @@ import simkit.util.IndexedPropertyChangeEvent;
  * The size() value is passed to the super class.  The
  * end result is that the size of a Collection property
  * has time-varying statistics collected.
- * @version $Id$
+ * @version $Id: MultipleCollectionSizeTimeVarying.java 742 2005-02-11 17:12:03Z ahbuss $
  * @author ahbuss
  */
 public class MultipleCollectionSizeTimeVarying extends MultipleSimpleStatsTimeVarying {

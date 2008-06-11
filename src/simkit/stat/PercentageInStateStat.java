@@ -18,7 +18,7 @@ import simkit.Schedule;
  * The actual states are determined on-the-fly, but an initial state is
  * required to be given.
  * 
- * @version $Id$
+ * @version $Id: PercentageInStateStat.java 1000 2007-02-15 19:43:11Z ahbuss $
  * @author ahbuss
  */
 public class PercentageInStateStat implements PropertyChangeListener {

@@ -10,7 +10,7 @@ import java.text.NumberFormat;
  * @author K. A. Stork
  * @author Arnold Buss
  * @since Simkit 1.0
- * @version $Id$
+ * @version $Id: SimEvent.java 1000 2007-02-15 19:43:11Z ahbuss $
  *
  **/
 public class SimEvent implements Comparable {

@@ -9,7 +9,7 @@ package simkit.smdx;
 /**
  * An Adjudicator whose result of adjudicate is to do nothing.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: DefaultAdjudicator.java 476 2003-12-09 00:27:33Z jlruck $
  */
 public class DefaultAdjudicator implements Adjudicator {
     

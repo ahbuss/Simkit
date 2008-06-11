@@ -11,7 +11,7 @@ import simkit.util.IndexedPropertyChangeEvent;
 * <p>The getters inherited from <code>SimpleStatsTally</code> will
 * return statistics for all of the properties, independent of index.</p>
 * 
-* @version $Id$
+* @version $Id: TruncatingMultipleSimpleStatsTally.java 1000 2007-02-15 19:43:11Z ahbuss $
 **/
 public class TruncatingMultipleSimpleStatsTally extends SimpleStatsTally implements IndexedSampleStatistics {
 

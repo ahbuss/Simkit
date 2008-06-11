@@ -17,7 +17,7 @@ import java.lang.reflect.*;
 * <P/>The method specified must be public. If the method doesn't exist
 * or is not public, then the program will continue to execute, but the 
 * any button associated with this GenericAction will not function.
-* @version $Id$
+* @version $Id: GenericAction.java 1057 2008-04-09 17:15:14Z kastork $
 **/
 public class GenericAction extends AbstractAction {
 

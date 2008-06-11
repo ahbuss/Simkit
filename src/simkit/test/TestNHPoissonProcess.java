@@ -16,7 +16,7 @@ import simkit.random.RandomVariateFactory;
  *
  *  TODO: Fix this
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: TestNHPoissonProcess.java 1049 2008-02-08 16:44:09Z ahbuss $
  */
 public class TestNHPoissonProcess {
     

@@ -17,7 +17,7 @@ import simkit.BasicSimEntity;
  * 3rd edition pp486-487.</p>
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: NHPoissonProcessVariate.java 1010 2007-03-16 18:38:16Z ahbuss $
  */
 public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVariate {
     

@@ -16,7 +16,7 @@ import simkit.stat.SimpleStatsTally;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: TestPoissonVariate.java 1051 2008-02-27 00:14:47Z ahbuss $
  */
 public class TestPoissonVariate {
 

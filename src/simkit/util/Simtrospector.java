@@ -7,7 +7,7 @@ import java.util.*;
  *  A utility class to reduce the clutter in SimEntityBase and rationalize some
  *  common methods involving introspection.
  *
- *  @version $Id$
+ *  @version $Id: Simtrospector.java 1000 2007-02-15 19:43:11Z ahbuss $
  *  @author Arnold Buss
 **/
 

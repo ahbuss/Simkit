@@ -5,7 +5,7 @@ import simkit.SimEntityBase;
 import simkit.SimEntityBaseRetainedProperties;
 
 /**
- * @version $Id$
+ * @version $Id: TestSimEntityBaseRetainedProperties.java 1026 2007-07-31 23:09:03Z ahbuss $
  * @author ahbuss
  */
 public class TestSimEntityBaseRetainedProperties extends SimEntityBaseRetainedProperties{

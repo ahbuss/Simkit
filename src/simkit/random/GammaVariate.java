@@ -7,7 +7,7 @@ package simkit.random;
  * <i>f(x) = &beta;<sup>&alpha;</sup>x<sup>-(&alpha;+1)</sup>e<sup>-&beta;x</sup>/&Gamma;(&alpha;), x > 0</i>
  * (0, otherwise)
  * @author Arnold Buss
- * @version $Id$
+ * @version $Id: GammaVariate.java 1051 2008-02-27 00:14:47Z ahbuss $
  */
 public class GammaVariate extends RandomVariateBase {
     

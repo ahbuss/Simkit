@@ -10,7 +10,7 @@ package simkit.smdx;
  * A Mover that can be acted on by a Munition and is subject to being
  * killed or damaged.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: Target.java 643 2004-04-25 22:59:33Z kastork $
  */
 public interface Target extends Mover {
     

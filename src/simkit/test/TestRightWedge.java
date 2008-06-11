@@ -19,7 +19,7 @@ import simkit.util.CloseableDataWindow;
 /**
  *
  * @author  ahbuss
- * @version $Id$
+ * @version $Id: TestRightWedge.java 1051 2008-02-27 00:14:47Z ahbuss $
  */
 public class TestRightWedge {
     

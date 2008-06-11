@@ -19,7 +19,7 @@ package simkit;
   * @see SimEventListener
   *
   * @author Arnold Buss 
-  * @version $Id$
+  * @version $Id: SimEventSource.java 728 2004-12-30 20:59:24Z ahbuss $
   *
 **/
 public interface SimEventSource  {

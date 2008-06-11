@@ -14,7 +14,7 @@ import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  ahbuss
- * @version $Id$
+ * @version $Id: TestAR1Variate.java 1051 2008-02-27 00:14:47Z ahbuss $
  */
 public class TestAR1Variate {
     

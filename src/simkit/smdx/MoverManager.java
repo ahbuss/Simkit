@@ -9,7 +9,7 @@ package simkit.smdx;
 /**
  * Controls the movement of a Mover.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: MoverManager.java 441 2003-11-01 00:08:27Z jlruck $
  */
 public interface MoverManager extends simkit.SimEntity {
     

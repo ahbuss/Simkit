@@ -26,7 +26,7 @@ import simkit.SimEvent;
  * should be made.  Note that Schedule.coldReset() only resets its default
  * EventList instance.
  *
- * @version $Id$
+ * @version $Id: UnitTestEventList.java 1000 2007-02-15 19:43:11Z ahbuss $
  * @author ahbuss
  */
 public class UnitTestEventList extends EventList {

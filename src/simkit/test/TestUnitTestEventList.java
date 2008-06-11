@@ -7,7 +7,7 @@ import simkit.random.RandomVariateFactory;
 import simkit.util.UnitTestEventList;
 
 /**
- * @version $Id$
+ * @version $Id: TestUnitTestEventList.java 917 2006-10-27 17:56:47Z ahbuss $
  * @author ahbuss
  */
 public class TestUnitTestEventList {

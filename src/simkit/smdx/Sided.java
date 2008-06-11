@@ -2,7 +2,7 @@ package simkit.smdx;
 /**
  * Something that has a Side associated with it.
  * @see Side
- * @version $Id$
+ * @version $Id: Sided.java 476 2003-12-09 00:27:33Z jlruck $
  * @author  Arnold Buss
  */
 public interface Sided {

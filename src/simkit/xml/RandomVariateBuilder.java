@@ -15,7 +15,7 @@ import simkit.random.RandomVariateFactory;
 /**
  * Creates instances of RandomVariates from xml Elements.
  * @author  ahbuss
- * @version $Id$
+ * @version $Id: RandomVariateBuilder.java 1057 2008-04-09 17:15:14Z kastork $
  */
 public class RandomVariateBuilder {
     

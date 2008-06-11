@@ -27,7 +27,7 @@ import simkit.smdx.TransformUtilities;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: TestTransformUtilities.java 643 2004-04-25 22:59:33Z kastork $
  */
 public class TestTransformUtilities extends JPanel{
     

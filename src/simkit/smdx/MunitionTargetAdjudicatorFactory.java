@@ -15,7 +15,7 @@ import java.util.Map;
  * added to the container for a Munition-Target pair, then the get methods will
  * return the default Adjudicator. 
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: MunitionTargetAdjudicatorFactory.java 1057 2008-04-09 17:15:14Z kastork $
  */
 public class MunitionTargetAdjudicatorFactory {
     

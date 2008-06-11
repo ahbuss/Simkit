@@ -10,7 +10,7 @@ import java.util.Map;
  * Holds instances of Mediators indexed by the two Classes 
  * that the Mediator is used for.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: MediatorFactory.java 1014 2007-03-21 16:58:47Z ahbuss $
  */
 public interface MediatorFactory<T1, T2, T3> {
     

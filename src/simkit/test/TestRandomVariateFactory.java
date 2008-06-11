@@ -12,7 +12,7 @@ import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: TestRandomVariateFactory.java 1000 2007-02-15 19:43:11Z ahbuss $
  */
 public class TestRandomVariateFactory {
 

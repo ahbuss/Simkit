@@ -55,7 +55,7 @@ import java.util.Hashtable;
  * unless the text is large the integer mapping will blur the text. 
  * Also positioning of arbitrarily rotated text becomes problematic. 
  *
- * @version $Revision$, $Date$
+ * @version $Revision$, $Date: 2008-04-08 14:26:02 -0700 (Tue, 08 Apr 2008) $
  * @author  Leigh Brookshaw
  */
 

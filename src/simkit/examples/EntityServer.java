@@ -13,7 +13,7 @@ import simkit.random.RandomVariate;
  * After instantiating a EntityServer, register it as a SimEventListener
  * with a {@link CustomerCreator}.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: EntityServer.java 1080 2008-06-11 17:42:04Z kastork $
  */
 public class EntityServer extends SimEntityBase {
     

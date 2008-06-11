@@ -3,7 +3,7 @@ package simkit.random;
 /**
 * Generates "random" numbers that are simply the last value + 1.
 *
-* @version $Id$
+* @version $Id: Sequential.java 503 2003-12-19 21:53:06Z ahbuss $
 **/
 public class Sequential implements RandomNumber {
     

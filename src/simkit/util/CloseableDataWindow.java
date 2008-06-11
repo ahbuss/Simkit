@@ -6,7 +6,7 @@ import java.awt.event.*;
  *  A simple class for displaying windows.  As each one is created, a counter is incremented;
  *  as each is closed, the counter is decremented.  When the counter reaches zero the
  *  application is closed.
- * @version $Id$
+ * @version $Id: CloseableDataWindow.java 476 2003-12-09 00:27:33Z jlruck $
 **/
 public class CloseableDataWindow extends Frame {
 

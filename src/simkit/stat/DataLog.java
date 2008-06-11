@@ -6,7 +6,7 @@ import java.io.IOException;
 /**
 * An interface for an Object that can log information in some manner.
 * The information can be either text or numbers.
-* @version $Id$
+* @version $Id: DataLog.java 483 2003-12-11 01:05:37Z jlruck $
 */
 public interface DataLog
 {

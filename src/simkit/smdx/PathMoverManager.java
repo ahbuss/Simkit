@@ -11,7 +11,7 @@ import simkit.SimEntityBase;
 /**
  * A manager that causes a Mover to move along a specified path.
  * @author Arnold Buss
- * @version $Id$
+ * @version $Id: PathMoverManager.java 1000 2007-02-15 19:43:11Z ahbuss $
  */
 public class PathMoverManager extends SimEntityBase implements MoverManager {
     

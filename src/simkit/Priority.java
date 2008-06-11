@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- * @version $Id$
+ * @version $Id: Priority.java 1000 2007-02-15 19:43:11Z ahbuss $
  * @author ahbuss
  */
 public class Priority implements Comparable<Priority> {

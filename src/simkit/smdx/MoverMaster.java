@@ -10,7 +10,7 @@ import simkit.Schedule;
  * A delegate for determining if a magic move of a Mover should be allowed.
  * Magic moves are only allowed at the start of the simulation.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: MoverMaster.java 441 2003-11-01 00:08:27Z jlruck $
  */
 public class MoverMaster {
 

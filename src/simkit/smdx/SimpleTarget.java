@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 /**
  * A Target that is only subject to being killed, not damaged.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: SimpleTarget.java 643 2004-04-25 22:59:33Z kastork $
  */
 public class SimpleTarget extends UniformLinearMover implements Target{
     

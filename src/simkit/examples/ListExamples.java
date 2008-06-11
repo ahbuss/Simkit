@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
  *  <P> Lists examples in the <CODE>simkit.examples</CODE> package along with their
  *  Usage statements.
  *  @author Arnold Buss
- *  @version $Id$
+ *  @version $Id: ListExamples.java 727 2004-12-30 01:09:17Z ahbuss $
 **/
 public class ListExamples {
 

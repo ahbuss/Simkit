@@ -14,7 +14,7 @@ import simkit.random.RandomVariate;
  * the desired interarrival time RandomVariate, register the entity that will
  * process the arrivals as a SimEventListener.
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: ArrivalProcess2.java 678 2004-06-02 22:26:06Z ahbuss $
  */
 public class ArrivalProcess2 extends BasicSimEntity {
 

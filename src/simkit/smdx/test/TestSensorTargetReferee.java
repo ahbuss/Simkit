@@ -14,7 +14,7 @@ import simkit.Schedule;
 import simkit.smdx.*;
 
 /**
- * @version $Id$
+ * @version $Id: TestSensorTargetReferee.java 1074 2008-06-03 21:50:17Z kastork $
  * @author  Arnold Buss
  */
 public class TestSensorTargetReferee {
