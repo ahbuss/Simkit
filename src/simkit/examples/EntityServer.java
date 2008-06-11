@@ -62,6 +62,7 @@ public class EntityServer extends SimEntityBase {
 **/
     public void doRun() {
         firePropertyChange("queue", getQueue());
+        firePropertyChange("numberInQueue", getQueue().size());
         firePropertyChange("numberAvailableServers", numberAvailableServers);
     }
     
@@ -75,6 +76,7 @@ public class EntityServer extends SimEntityBase {
         List<Entity> oldQueue = getQueue();
         queue.add(customer);
         firePropertyChange("queue", oldQueue, getQueue());
+        firePropertyChange("numberInQueue", oldQueue.size(), getQueue().size());
         
         if (getNumberAvailableServers() > 0) {
             waitDelay("StartService", 0.0, Priority.HIGH);
@@ -90,7 +92,7 @@ public class EntityServer extends SimEntityBase {
         List<Entity> oldQueue = getQueue();
         Entity customer = queue.removeFirst();
         firePropertyChange("queue", oldQueue, getQueue());
-
+        firePropertyChange("numberInQueue", oldQueue.size(), getQueue().size());
         firePropertyChange("delayInQueue", customer.getElapsedTime());
 
         int OldNumberAvailableServers = getNumberAvailableServers();
