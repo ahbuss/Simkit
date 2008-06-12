@@ -3,12 +3,18 @@ package simkit;
 /**
  * Base interface for simulation entities.
  *
- * This interface defines the basic event scheduling
+ * This interface adds to the basic event scheduling
  * behavior of simulation entities in the simkit
- * structure.  The reference implementations are BasicSimEntity and
+ * structure to include the concepts of mulitple event lists, and scheduler
+ * control of mulitple replications.
+ * <p>
+ * The reference implementations are BasicSimEntity and
  * SimEntityBase.
- *
- * @author K. A. Stork
+ * <p>
+ * Objects implementing this interface are dependent upon a concrete
+ * implementation ({@code EventList} which is specifically designed to 
+ * provide support for multiple replications and thread safety.
+ * 
  * @author Arnold Buss
  * @version $Id$
  *
@@ -19,4 +25,22 @@ public interface SimEntity extends SimEventSource,
                                    PropertyChangeSource,
                                    Comparable<SimEntity>
 {
+
+    int getEventListID();
+
+    boolean isPersistant();
+
+    /**
+     * True if this SimEntity has the doRun() method.
+     */
+    boolean isReRunnable();
+
+    /**
+     * Reset SimEntity to its pristine state.
+     */
+    void reset();
+
+    void setEventListID(int id);
+
+    void setPersistant(boolean persist);
 }

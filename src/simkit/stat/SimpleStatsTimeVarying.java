@@ -1,6 +1,6 @@
 package simkit.stat;
 
-import simkit.EventList;
+import simkit.BasicEventList;
 import simkit.Schedule;
 
 /**
@@ -43,7 +43,7 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats {
 **/
     protected double startTime;
     
-    protected EventList eventList;
+    protected BasicEventList eventList;
     
 /**
 * Constructs a new SimpleStatsTimeVarying with the given name.

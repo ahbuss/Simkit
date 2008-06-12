@@ -10,7 +10,10 @@ import java.util.Set;
 
 
 /**
- * Schedule maintains the various <CODE>EventList</CODE> instances
+ * Combination factory object for {@code EventListImpl} as well as a
+ * static interface to a singleton default instance of {@code EventListImpl}.
+ * <p>
+ * Schedule maintains the various <CODE>EventListImpl</CODE> instances
  * and provides a universally available way to interact
  * with a single default instance of an <CODE>EventList</CODE>.
  *
@@ -217,18 +220,18 @@ public class Schedule  {
      * schedules the Run event at the current time.
      * (For default event list)
      * 
-     * @param se SimEventScheduler to be added to reRun list
+     * @param se SimEntity to be added to reRun list
      */
-    public static void addRerun(SimEventScheduler se) {
+    public static void addRerun(SimEntity se) {
         defaultEventList.addRerun(se);
     }
 
-    /** Removes the SimEventScheduler from the list of entities with Run events.
+    /** Removes the SimEntity from the list of entities with Run events.
      * Note it does not interrupt its Run event.
      * 
-     * @param se SimEventScheduler to be removed
+     * @param se SimEntity to be removed
      */
-    public static void removeRerun(SimEventScheduler se) {defaultEventList.removeRerun(se);}
+    public static void removeRerun(SimEntity se) {defaultEventList.removeRerun(se);}
 
 /**
 * Clears the list of SimEntities with Run events.

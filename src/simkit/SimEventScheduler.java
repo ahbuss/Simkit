@@ -14,10 +14,6 @@ public interface SimEventScheduler extends Named {
     public static final String EVENT_METHOD_PREFIX = "do";
     public static final String NL = System.getProperty("line.separator");
 
-    EventList getEventList();
-
-    int getEventListID();
-
     /**
      * If two events occur at the same time with the same event priority,
      * the one with the highest entity priority will be processed first.
@@ -32,6 +28,7 @@ public interface SimEventScheduler extends Named {
     /**
      * Typically an Event is handled (as opposed to processed, as in SimEventListener)
      * by actually executing a method.
+     * 
      * @param event The SimEvent to be handled.
      */
     void handleSimEvent(SimEvent event);
@@ -64,6 +61,7 @@ public interface SimEventScheduler extends Named {
     /**
      * Schedule an event with no parameters and a default priority after a delay from
      * the current simulation time.
+     * 
      * @param eventName The name of the scheduled event (prefixed by "do" for method name).
      * @param delay The amount of time before the event is scheduled
      */
@@ -81,20 +79,9 @@ public interface SimEventScheduler extends Named {
      */
     SimEvent waitDelay(String eventName, double delay, Priority priority, Object... parameters);
 
-    boolean isPersistant();
-
     /**
-     * True if this SimEntity has the doRun() method.
+     * Return the particular {@link EventList} on which this scheduler will
+     * schedule its events (and receive {@code handleSimEvent()} calls from).
      */
-    boolean isReRunnable();
-
-    /**
-     * Reset SimEntity to its pristine state.
-     */
-    void reset();
-
-    void setEventListID(int id);
-
-    void setPersistant(boolean persist);
-
+    BasicEventList getEventList();
 }

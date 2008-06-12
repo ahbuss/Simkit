@@ -10,10 +10,11 @@ public class TestAll extends TestCase {
         suite.addTest(simkit.smdx.TestAll.suite());
         suite.addTest(simkit.stat.TestAll.suite());
         suite.addTest(new TestSuite(SimEventTest.class));
+        suite.addTest(new TestSuite(BasicSimEventSourceTest.class));
         suite.addTest(new TestSuite(EventListTest.class));
         suite.addTest(new TestSuite(PropertyChangeDispatcherTest.class));
-//Commented out a test of DAFS bug 1315, which currently fails.
-        //suite.addTest(new TestSuite(SimEntityBaseTest.class));
+        suite.addTest(new TestSuite(SimEntityBaseTest.class));
+        suite.addTest(new TestSuite(ListenerPatterns_IntegrationTest.class));
         return suite;
     }
 }
