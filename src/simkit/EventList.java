@@ -36,16 +36,17 @@ import java.util.TreeSet;
  * @author Arnold Buss
  */
 
-public class EventList {
+public class EventList implements BasicEventList {
 
     public static Logger log = Logger.getLogger("simkit");
     
     public static final String _VERSION_ = "$Id$";
-
+    
 /**
 * The default setting for fastInterrupts (TRUE).
-**/
-    public static final boolean DEFAULT_FAST_INTERRUPTS = true;
+*/
+    boolean DEFAULT_FAST_INTERRUPTS = true;
+
     
 /**
  * Holds the pending events.
@@ -92,10 +93,10 @@ public class EventList {
     
 /**
  * Holds a list of entities with Run events.
- * Note: It is up to the SimEventScheduler to add itself. (This is
+ * Note: It is up to the SimEntity to add itself. (This is
  * implemented in BasicSimEntity.)
  */
-    private SortedSet<SimEventScheduler> reRun;
+    private SortedSet<SimEntity> reRun;
     
 /**
  * The name of the event to stop on after it
@@ -133,7 +134,7 @@ public class EventList {
 /**
  * Instance of <CODE>Stop</CODE> if <CODE>stopAtTime</CODE> is set.
  */
-    private SimEventScheduler stopInstance;
+    private SimEntity stopInstance;
     
 /**
  * List of events that are not dumped in Event List
@@ -178,7 +179,7 @@ public class EventList {
 //force setFastInterrupts to initialize correctly.
 
 /**
-* A Map a SimEventScheduler to a SortedSet of its pending SimEvents.
+* A Map a SimEntity to a SortedSet of its pending SimEvents.
 **/
     protected Map<SimEventScheduler, SortedSet<SimEvent>> entityEventMap;
 
@@ -214,7 +215,7 @@ public class EventList {
         simTime = 0.0;
         running = false;
         eventCounts = new LinkedHashMap<String, int[]>();
-        reRun = Collections.synchronizedSortedSet(new TreeSet<SimEventScheduler>());
+        reRun = Collections.synchronizedSortedSet(new TreeSet<SimEntity>());
         ignoreOnDump = new LinkedHashSet<String>();
         this.id = id;
         setFormat("0.0000");
@@ -281,7 +282,7 @@ public class EventList {
      */    
     public boolean isSingleStep() { return singleStep; }
     
-    /** If true, then the SimEventScheduler toString() is dumped
+    /** If true, then the SimEntity toString() is dumped
      * with verbose mode for each event.
      * @param b Whether this mode is on
      */    
@@ -362,9 +363,9 @@ public class EventList {
      *    <LI>Empties the event list</LI>
      *    <LI>Sets simulation time to 0.0</LI>
      *    <LI>Invokes <CODE>reset()</CODE> on each persistent
-     *        <CODE>SimEventScheduler</CODE> in <CODE>reRun</CODE></LI>
+     *        <CODE>SimEntity</CODE> in <CODE>reRun</CODE></LI>
      *    <LI>Removes all listeners for every transient
-     *        <CODE>SimEventScheduler</CODE> in reRun.
+     *        <CODE>SimEntity</CODE> in reRun.
      * </UL>
      */    
     public void reset() {
@@ -385,7 +386,7 @@ public class EventList {
         SimEvent.resetID();
         synchronized(reRun) {
             for (Iterator i = reRun.iterator(); i.hasNext(); ) {
-                SimEventScheduler simEntity = (SimEventScheduler) i.next();
+                SimEntity simEntity = (SimEntity) i.next();
                 if (isReallyVerbose()) {
                     log.info(getSimTime() + ": Checking rerun " + 
                         simEntity + " [rerunnable?] " + 
@@ -626,7 +627,7 @@ public class EventList {
             
             if (currentSimEvent.isPending()) {
                 updateEventCounts(currentSimEvent);
-                SimEventScheduler simEntity = (SimEntity) currentSimEvent.getSource();
+                SimEntity simEntity = (SimEntity) currentSimEvent.getSource();
                 simEntity.handleSimEvent(currentSimEvent);
                 
                 // TODO: Consider moving this into the handleSimEvent
@@ -735,8 +736,8 @@ public class EventList {
     }
     
     /** Cancel next event of given name (regardless of
-     * signature) owned by the given SimEventScheduler
-     * @param simEntity SimEventScheduler to have event cancelled
+     * signature) owned by the given SimEntity
+     * @param simEntity SimEntity to have event cancelled
      * @param eventName Name of event to cancel
      */    
     public void interrupt(SimEventScheduler simEntity, String eventName) {
@@ -778,7 +779,7 @@ public class EventList {
      * @param eventName Name of event to cancel
      * @param parameters edge parameters of cancelled event
      */    
-    public void interrupt(SimEntity simEntity, String eventName,
+    public void interrupt(SimEventScheduler simEntity, String eventName,
             Object... parameters) {
         Integer hash = null;
         synchronized(eventList) {
@@ -821,7 +822,7 @@ public class EventList {
     /** Cancel the all events of this SimEntity.
      * @param simEntity SimEntity to have events cancelled
      */    
-    public void interruptAll(SimEntity simEntity) {
+    public void interruptAll(SimEventScheduler simEntity) {
         synchronized(eventList) {
             clearDeadEvents();
             if (fastInterrupts) {
@@ -854,7 +855,7 @@ public class EventList {
      * @param simEntity SimEntity to have event cancelled
      * @param eventName Name of event
      */    
-    public void interruptAll(SimEntity simEntity, String eventName) {
+    public void interruptAll(SimEventScheduler simEntity, String eventName) {
         synchronized(eventList) {
             clearDeadEvents();
             Set<SimEvent> events = null;
@@ -892,7 +893,7 @@ public class EventList {
      * @param eventName Name of event to cancel
      * @param parameters edge parameters that must match
      */    
-    public void interruptAll(SimEntity simEntity, String eventName,
+    public void interruptAll(SimEventScheduler simEntity, String eventName,
         Object... parameters) {
         Integer hash = null;
         synchronized(eventList) {
@@ -930,21 +931,21 @@ public class EventList {
         }
     }
     
-    /** Add the SimEventScheduler to the reRun list.  On <CODE>Schedule.reset</CODE>
-     * the SimEventScheduler's <CODE>reset()</CODE> method is invoked and
+    /** Add the SimEntity to the reRun list.  On <CODE>Schedule.reset</CODE>
+     * the SimEntity's <CODE>reset()</CODE> method is invoked and
      * its Run event (if it has one) is scheduled at time 0.0.  This
-     * happens only if the SimEventScheduler is persistant.
+     * happens only if the SimEntity is persistant.
      * 
-     * @param SimEventScheduler SimEntity to be added as a reRun
+     * @param SimEntity SimEntity to be added as a reRun
      */    
-    public void addRerun(SimEventScheduler simEntity) {
+    public void addRerun(SimEntity simEntity) {
         reRun.add(simEntity);
     }
     
     /** Remove the given SimEntity from the reRun list
      * @param simEntity SimEntity to be removed from reRun list
      */    
-    public void removeRerun(SimEventScheduler simEntity) {
+    public void removeRerun(SimEntity simEntity) {
         reRun.remove(simEntity);
     }
     
@@ -957,8 +958,8 @@ public class EventList {
      * current reRun list.
      * @return Copy of reRun list
      */    
-    public Set<SimEventScheduler> getRerun() {
-        return new LinkedHashSet<SimEventScheduler>(reRun);
+    public Set<SimEntity> getRerun() {
+        return new LinkedHashSet<SimEntity>(reRun);
     }
     
     /** Events of this name will not be printed in verbose mode.
@@ -1047,7 +1048,7 @@ public class EventList {
             clearDeadEvents();
             if (eventList.isEmpty()) {
                 buf.append("            << empty >>");
-                buf.append(SimEventScheduler.NL);
+                buf.append(SimEntity.NL);
             }
             else {
                 for (Iterator i = eventList.iterator(); i.hasNext(); ) {
