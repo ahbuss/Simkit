@@ -502,5 +502,15 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
 
         public void setClearAddedPropertiesOnReset(boolean b) {
         }
+
+        @Override
+        public void interrupt(String eventName) {
+             throw new RuntimeException(MESSAGE);
+        }
+
+        @Override
+        public void interruptAll(String eventName) {
+             throw new RuntimeException(MESSAGE);
+       }
     }
 }

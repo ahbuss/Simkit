@@ -83,6 +83,7 @@ public class BasicSimEventSource implements SimEventSource {
      * Returns a copy of the currently registered SimEventListeners.
      * @return Array of SimEventListeners
      */
+    @Override
     public SimEventListener[] getSimEventListeners() {
         SimEventListener[] listenerArray = new SimEventListener[0];
         synchronized (listeners) {

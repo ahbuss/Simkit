@@ -41,10 +41,20 @@ public interface SimEventScheduler extends Named {
     void interrupt(String eventName, Object... parameters);
 
     /**
+     * Cancels the next event for this entity that matches the event name.
+     **/
+    public void interrupt(String eventName);
+
+    /**
      * Interrupt (cancel) all pending events for this entity.
      */
     void interruptAll();
 
+    /**
+     * Cancels all events for this entity that match the event name.
+     **/
+    public void interruptAll(String eventName);
+    
     /**
      * Interrupt (cancel) all pending events with name eventName
      * and interruption parameter array "parameters"

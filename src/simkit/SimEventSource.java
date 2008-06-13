@@ -17,7 +17,6 @@ package simkit;
   *
   * @see SimEvent
   * @see SimEventListener
-  *
   * @author Arnold Buss 
   * @version $Id$
   *
@@ -26,12 +25,14 @@ public interface SimEventSource  {
 
 /**
   * Registers a listener.
-  * @param listener 
+
+ * @param listener 
 **/
    public void addSimEventListener(SimEventListener listener);
 
  /**
   * Unregister a listener.
+  * 
   * @param listener
 **/
   public void removeSimEventListener(SimEventListener listener);
@@ -52,6 +53,7 @@ public interface SimEventSource  {
 
 /**
  * Get an array conatianing all registered listeners.
+ * 
  *  @return Array of SimEventListeners
  */   
    public SimEventListener[] getSimEventListeners();
