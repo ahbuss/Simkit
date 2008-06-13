@@ -208,9 +208,13 @@ public class ListenerPatterns_IntegrationTest extends TestCase {
     
      */
     public void testMulitpleQueueSystem() {
+        
         RandomVariate[] rv = new RandomVariate[2];
         rv[0] = RandomVariateFactory.getInstance("Exponential", 1.7);
         rv[1] = RandomVariateFactory.getInstance("Gamma", 2.5, 1.2);
+        
+        rv[0].getRandomNumber().resetSeed();
+        rv[1].getRandomNumber().resetSeed();
         int numberServers = 2;
         
         ArrivalProcess arrival = new ArrivalProcess(rv[0]);
