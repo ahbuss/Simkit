@@ -307,7 +307,10 @@ public abstract class SimEntityBase extends BasicSimEntity {
         } 
         catch(InvocationTargetException e) {
             log.log(Level.SEVERE, "SimEntityBase.processSimEvent: " 
-                + "The event method threw an Exception.", e);
+                + "The event method threw an exception during processing of" +
+                " events for a SimEventListener.  The event being processed is\n" +
+                event.toString() + "\nThe listener attempting to process the event is\n" +
+                this.toString(), e);
             Throwable cause = e.getCause();
             if (cause instanceof RuntimeException) {
                 throw (RuntimeException)cause;

@@ -73,12 +73,26 @@
             <arg value="info"/>
         </exec>
         <property prefix="svn" file="build/svn.properties"/>
+        <tstamp />
         <tstamp prefix="start"/>
         <echo message="Build ${svn.Revision} started"/>
         <filter token="build" value="${svn.Revision}"/>
         <filter token="dtg" value="${svn.Last}"/>
+        <filter token="dtg-local" value=" ${TODAY} ${TSTAMP}" />
+
         <copy file="${src.dir}/simkit/version.template" toFile="${build.classes.dir}/simkit/version.txt" filtering="on" overwrite="true"/>
 
+    </target>
+
+    <target name="clTest" depends="init,compile-test,-pre-test-run" description="Runs junit tests from ant on the command line.">
+        <junit printsummary="withOutAndErr" haltonfailure="no" fork="yes" dir="." outputtoformatters="no">
+            <test name="TestAll"/>
+            <formatter type="plain"/>
+                   <classpath>
+                       <path path="${run.test.classpath}"/>
+                   </classpath>
+             <jvmarg value="-Djava.util.logging.config.file=logging.properties"/>
+        </junit>
     </target>
 
 </project>

@@ -79,6 +79,7 @@ public class SensorTargetMediatorFactory implements
 * @throws IllegalArgumentException if the sensorClass is not a Sensor, the
 * targetClass is not a Moveable or the mediatorClass is not a Mediator
 **/
+    @Override
     public void addMediatorFor(Class<?> sensorClass, Class<?> targetClass, Class<?> mediatorClass) {
         if (!(simkit.smdx.Sensor.class.isAssignableFrom(sensorClass))) {
             throw new IllegalArgumentException(sensorClass + " is not a Sensor class");
