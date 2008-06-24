@@ -47,6 +47,7 @@ public class Schedule  {
     /** Causes a list of the pending events (and other
      * information) to be dumped to the output stream prior
      * to processing each event when set to true.
+     * 
      * @param v Whether this instance is verbose
      */    
     public static void setVerbose(boolean v) { defaultEventList.setVerbose(v); }
@@ -54,6 +55,7 @@ public class Schedule  {
     /** Causes a list of the pending events (and other
      * information) to be dumped to the output stream prior
      * to processing each event when set to true.
+     * 
      * @return Whether this instance is verbose
      */    
     public static boolean isVerbose() { return defaultEventList.isVerbose(); }
@@ -65,14 +67,17 @@ public class Schedule  {
 * 'g' will take the simulation out of single-step and continue.<BR>
 * 'f' will take the simulation out of single-step, set verbose to false, and continue.<BR>
 * Return will cause the simulation to step to the next event.
-* @param step true if single-step mode, false otherwise.
+* 
+ * @param step true if single-step mode, false otherwise.
 **/
     public static final void setSingleStep(boolean step) {
         defaultEventList.setSingleStep(step);
     }
 
-    /** If true, then Schedule is running in single-step mode and will
+    /** 
+     * If true, then Schedule is running in single-step mode and will
      * pause prior to processing each event.
+     * 
      * @return Whether this instance is in single-step mode
      */
     public static boolean isSingleStep() { return defaultEventList.isSingleStep(); }
@@ -109,6 +114,7 @@ public class Schedule  {
 
 /**
  * Same as pause()
+ * 
  * @deprecated use Schedule.pause() instead
  */
     public static void pauseSimulation() {
@@ -125,8 +131,10 @@ public class Schedule  {
         defaultEventList.step();
     }
   
-    /** Will cause the simulation to stop when it reaches the given
+    /** 
+     * Will cause the simulation to stop when it reaches the given
      * simulation time. Any previously set stop time or stop on event is cleared.
+     * 
      * @param atTime Time to stop simulation run
      */  
     public static void stopAtTime(double atTime) {
@@ -140,9 +148,11 @@ public class Schedule  {
         defaultEventList.setUserDefinedStop();
     }
     
-    /** Causes the simulation to stop after the given event with the given 
+    /** 
+     * Causes the simulation to stop after the given event with the given 
      * signature has been processed the given number of times. Overrides any 
      * previous stopOnEvent, but does not cancel stopAtTime.
+     * 
      * @param numberEvents Number of events until stopping
      * @param eventName Name of event to stop on
      * @param eventSignature Signature of stopping event
@@ -184,27 +194,33 @@ public class Schedule  {
     /**  
      * Returns currently executing event; null if simulation is not currently 
      * running.
+     *
      * @return SimEvent currently being processed
      */
     public static synchronized SimEvent getCurrentEvent() {
         return defaultEventList.getCurrentSimEvent();
     }
     
-    /** For default event list
+    /** 
+     * For default event list
+     * 
      * @return Current simulation time
      */    
     public static double getSimTime() {
         return defaultEventList.getSimTime();
     }
     
-    /** For default event list
+    /** 
+     * For default event list
+     * 
      * @return simTime as a String
      */    
     public static String getSimTimeStr() {
         return form.format(getSimTime());
     }
 
-    /** If set to true causes the owner of the event to be included
+    /** 
+     * If set to true causes the owner of the event to be included
      * whenever the event list is printed. Used by dump() and getEventListAsString()
      * 
      * @param b whether event sources will be in dump
@@ -213,7 +229,8 @@ public class Schedule  {
         defaultEventList.setPrintEventSources(b);
     }
     
-    /** Adds the entity to the list of entities with "Run" events.
+    /** 
+     * Adds the entity to the list of entities with "Run" events.
      * Note: addRerun() no longer schedules the Run event - that is
      * supposed to happen when Schedule.reset() is invoked, as it <i>should</i>
      * be, before each simulation run.
@@ -226,7 +243,8 @@ public class Schedule  {
         defaultEventList.addRerun(se);
     }
 
-    /** Removes the SimEntity from the list of entities with Run events.
+    /** 
+     * Removes the SimEntity from the list of entities with Run events.
      * Note it does not interrupt its Run event.
      * 
      * @param se SimEntity to be removed
@@ -238,7 +256,9 @@ public class Schedule  {
 **/
     public static void clearRerun() {defaultEventList.clearRerun();}
 
-    /** Returns a copy of the list of SimEntities with Run events.
+    /** 
+     * Returns a copy of the list of SimEntities with Run events.
+     * 
      * @return copy of reRuns for default event list
      */
     public static Set getReruns() {
@@ -247,7 +267,8 @@ public class Schedule  {
     
     /**
      *  When dumping event list, ignore this event.
-     *  @param ignoredEventName The name of the event to be ignored
+     *  
+     * @param ignoredEventName The name of the event to be ignored
      **/
     public static void addIgnoreOnDump(String ignoredEventName) {
         defaultEventList.addIgnoreOnDump(ignoredEventName);
@@ -261,14 +282,18 @@ public class Schedule  {
         defaultEventList.removeIgnoreOnDump(ignoredEventName);
     }
     
-    /** It true, causes Schedule to print additional debug/trace information.
+    /** 
+     * It true, causes Schedule to print additional debug/trace information.
+     * 
      * @param b whether reallyVerbose is to be set
      */
     public static void setReallyVerbose(boolean b) {
         defaultEventList.setReallyVerbose(b);
     }
 
-    /** It true, causes Schedule to print additional debug/trace information.
+    /** 
+     * It true, causes Schedule to print additional debug/trace information.
+     * 
      * @return whether reallyVerbose is set
      */
     public static boolean isReallyVerbose() {return defaultEventList.isReallyVerbose();}
@@ -280,7 +305,9 @@ public class Schedule  {
         form = new DecimalFormat(format);
     }
     
-    /** Instantiate a new Event list and return its id.
+    /** 
+     * Instantiate a new Event list and return its id.
+     * 
      * @return id of new event list
      */    
     public static int addNewEventList() {
@@ -291,8 +318,10 @@ public class Schedule  {
         return addNewEventList(simkit.EventList.class);
     }
     
-    /** Instantiates a new EventList subclass.  Assumes that the
+    /** 
+     * Instantiates a new EventList subclass.  Assumes that the
      * constructor has signature <CODE>(int)</CODE>
+     * 
      * @param clazz The class of the EventList to be added
      * @return The id number of the new EventList instance
      */    
@@ -314,7 +343,9 @@ public class Schedule  {
         return key.intValue();
     }
     
-    /** Search event lists for an unused id.
+    /** 
+     * Search event lists for an unused id.
+     * 
      * @return Next available id as Integer
      */    
     protected static Integer getNextAvailableID() {
@@ -325,9 +356,11 @@ public class Schedule  {
         return key;
     }
     
-    /** Will return an existing EventList, if one with that
+    /** 
+     * Will return an existing EventList, if one with that
      * id exists.  Otherwise, will create a new one and
      * return a reference to it.
+     *
      * @param index id of desired EventList instance
      * @return EventList instance
      */    
@@ -347,8 +380,10 @@ public class Schedule  {
         return defaultEventList;
     }
     
-    /** If not on master list, will add it with the
+    /** 
+     * If not on master list, will add it with the
      * next available id.
+     * 
      * @param eventList Desired EventList instance for default
      */    
     public static void setDefaultEventList(EventList eventList) {
@@ -363,9 +398,11 @@ public class Schedule  {
         setDefaultEventList(getEventList(0));
     }
     
-    /** If true, then only one event will be processed.
+    /** 
+     * If true, then only one event will be processed.
      * A call to <CODE>startSimulation()</CODE> is required
      * to get going again.
+     * 
      * @param b Whether default simulation will pause after each event
      */    
     public static void setPauseAfterEachEvent(boolean b ) {
@@ -394,6 +431,7 @@ public class Schedule  {
     
     /**
      * The default PrintStream is System.out.
+     * 
      * @param printStream the PrintStream instance for the default
      * EventList to dump to.
      */

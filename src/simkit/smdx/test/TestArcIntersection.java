@@ -22,12 +22,17 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import simkit.smdx.Math2D;
 import simkit.test.MouseDisplay;
 /**
+ * This test is also performed in the unit test suite, where it is verified
+ * by numerical assertions rather than the visual/manual approach taken here.
+ * We keep this class around as a debugging aid
+ * in case the unit test starts failing. {@link simkit.smdx.Math2DTest}
  *
  * @author  Arnold Buss
  * @version $Id$
@@ -72,6 +77,7 @@ public class TestArcIntersection extends JPanel {
                     double t = Math2D.innerProduct(velocity, Math2D.subtract(inter[j], start))/Math2D.normSq(velocity);
                     if (t >= 0.0 && t <= 1.0) {
                         intersections.add(inter[j]);
+                        System.out.println(Arrays.toString(inter));
                     }
                 }
             }

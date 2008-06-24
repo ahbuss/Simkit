@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
  * A Java "Enumeration" to represent the sides. The side's name is returned
  * in its toString() and getSide() methods.  Thus, an instance of Side has
  * a String property called "Side"
+ * 
  * @author Arnold Buss
  * @version $Id$
  **/
@@ -41,12 +42,14 @@ public class Side {
     }
     /**
      * Gets the name of this Side.
+     * 
      *  @return The name of this Side
      **/
     public String getSide() {return side;}
 
     /**
      * Returns a String containing the name of this Side.
+     * 
      *  @return The name of this Side
      **/
     public String toString() {return side;}
@@ -54,6 +57,7 @@ public class Side {
     /**
      * Find the Side with the given name. The argument can either
      * be exactly as the Side was constructed or all lower case.
+     * 
      * @return Side corresponding to the name of the side passed in
      * or null if there is no such side.
      */    

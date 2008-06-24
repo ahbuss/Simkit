@@ -383,6 +383,8 @@ public class Math2D {
 /**
 * Returns a String containing the comma separated toStrings of each
 * Object in the given array.
+ * 
+ * @deprecated Use java Arrays.toString() instead
 **/
     public static String arrayToString(Object[] array) {
         StringBuffer buf = new StringBuffer();
@@ -401,6 +403,8 @@ public class Math2D {
 /**
 * Returns a String containing the comma separated values of the
 * elements of the given array.
+ * 
+ * @deprecated Use java Arrays.toString() instead
 **/
     public static String arrayToString(double[] array) {
         StringBuffer buf = new StringBuffer();

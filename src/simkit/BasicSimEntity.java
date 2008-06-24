@@ -588,6 +588,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
         persistant = persist;
     }
     
+    @Override
     public void setEventListID(int id) {
         if (eventList != null) {
             eventList.removeRerun(this);
