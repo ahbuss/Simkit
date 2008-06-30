@@ -13,17 +13,39 @@ import java.util.LinkedHashMap;
 public class Side {
     
     /**
-     *  These are the only instances of <CODE>Side</CODE> that can ever exist in an
-     *  application.  To add more, subclass <CODE>Side</CODE>.
+     *  These are the default instances of <CODE>Side</CODE>. 
      **/
     protected static LinkedHashMap<String, Side> allSides = 
             new LinkedHashMap<String, Side>(12);
 
+/**
+* Red
+**/
     public static final Side RED = new Side("Red");
+
+/**
+* Blue
+**/
     public static final Side BLUE = new Side("Blue");
+
+/**
+* Orange
+**/
     public static final Side ORANGE = new Side("Orange");
+
+/**
+* Purple
+**/
     public static final Side PURPLE = new Side("Purple");
+
+/**
+* Green
+**/
     public static final Side GREEN = new Side("Green");
+
+/**
+* White
+**/
     public static final Side WHITE = new Side("White");
     
     /**
@@ -34,9 +56,14 @@ public class Side {
     /**
      *  Constructs an instance of Side.
      *  @param side The name of this Side.
+     *  @throws IllegalArgumentException if the Side already exists.
      **/
-    protected Side(String side) {
+    public Side(String side) {
         this.side = side;
+        if (allSides.containsKey(side)) {
+            throw new IllegalArgumentException("A Side named " + side
+                + " already exists.");
+        }
         allSides.put(side, this);
         allSides.put(side.toLowerCase(), this);
     }
@@ -64,4 +91,5 @@ public class Side {
     public static Side getSideFor(String sideName) {
         return allSides.get(sideName);
     }
+
 }

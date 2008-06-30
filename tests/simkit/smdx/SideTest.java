@@ -72,4 +72,15 @@ public class SideTest extends TestCase {
         assertSame(NewSide.MAGENTA, NewSide.getSideFor("Magenta"));
         assertSame(NewSide.CHARTRUESE, NewSide.getSideFor("Chartruese"));
     }
+
+    public void testConstructor() {
+        Side foo = new Side("Foo");
+        assertEquals(foo, Side.getSideFor("Foo"));
+        assertEquals(foo, Side.getSideFor("foo"));
+        try {
+            new Side("Red");
+            fail("Should have throw IllegalArguementException");
+        } catch (IllegalArgumentException e) {
+        }
+    }
 }
