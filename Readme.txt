@@ -1,8 +1,8 @@
-Simkit Copyright (C) 1997-2007 Kirk Stork and Arnold Buss
+Simkit Copyright (C) 1997-2008 Kirk Stork and Arnold Buss
 
 Installation Instructions
 ------------ ------------
-First install the Java Developer Kit version 1.5 (Java 2) or greater.  
+First install the Java Developer Kit version 1.6 (J2SE6) or greater.  
 For Windows 2000/Windows XP, you will need to
 edit the environment, located in the System icon of the Conrol Panel.
 
