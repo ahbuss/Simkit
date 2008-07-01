@@ -29,7 +29,8 @@ public class TestMunition {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        MunitionTargetAdjudicatorFactory.setDefaultAdjudicator(new SureFireKillAdjudicator());
+        MunitionTargetAdjudicatorFactory.setDefaultAdjudicator(
+                new SureFireKillAdjudicator());
         
         MunitionTargetReferee ref = new MunitionTargetReferee();
         
@@ -42,7 +43,8 @@ public class TestMunition {
         }
         System.out.println(ref);
         
-        CircularImpactMunition munition = new CircularImpactMunition("Da Bomb", new Point2D.Double(-50, -50), 100.0, 30.0);
+        CircularImpactMunition munition = new CircularImpactMunition(
+                "Da Bomb", new Point2D.Double(-50, -50), 100.0, 30.0);
         munition.addSimEventListener(ref);        
         
         SimplePropertyDumper dump = new SimplePropertyDumper(true);

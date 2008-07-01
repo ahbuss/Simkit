@@ -549,6 +549,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
 /**
 * Notify registered PropertyChangeListeners that an element of an indexed property has changed.
 * This version is for boolean values.
+ * 
 * @param index The element that has changed.
 * @param propertyName The Indexed property containing the changed element.
 * @param oldValue The value of the property prior to this change.
@@ -574,6 +575,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     }        
     /**  
      * Gets an array of all registered PropertyChangeListeners.
+     * 
      * @return array of PropertyChangeListeners
      */
     public PropertyChangeListener[] getPropertyChangeListeners() {
@@ -615,6 +617,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     
     /**
      * Clears the added property of the given name.
+     * 
      * @param propertyName the name of the added property to be cleared.
      */
     public void clearAddedProperty(String propertyName) {
@@ -624,6 +627,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     /**
      * This SimEntity has higher priority if its Priority instance has
      * higher priority or it has a smaller serial.
+     * 
      * @param other Other SimEntity to compare to
      */
     public int compareTo(SimEntity other) {

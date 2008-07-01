@@ -43,6 +43,7 @@ public class CircularImpactMunition extends UniformLinearMover implements Muniti
     
 /**
 * Contructs a new CircularImpactMunition.
+* 
 * @param name The name of this Munition.
 * @param location The initial location of this Munition.
 * @param speed The speed of this Munition.
@@ -55,6 +56,7 @@ public class CircularImpactMunition extends UniformLinearMover implements Muniti
     
 /**
 * Contructs a new CircularImpactMunition.
+* 
 * @param location The initial location of this Munition.
 * @param speed The speed of this Munition.
 * @param range The radius of the circular area of effect for this Munition.

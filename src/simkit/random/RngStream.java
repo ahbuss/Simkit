@@ -35,6 +35,9 @@ public class RngStream implements RandomNumber {
     public static final double two53 = 9007199254740992.0;
     public static final double invtwo24 = 5.9604644775390625e-8;
     
+    private int streamID;
+    private int substreamID;
+    
     private static final double InvA1[][] = { // Inverse of A1p0
         {184888585.0, 0.0, 1945170933.0},
         {1.0, 0.0, 0.0},
@@ -72,7 +75,10 @@ public class RngStream implements RandomNumber {
     
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // Private variables (fields) for each stream.
-    private static double nextSeed[] = {12345, 12345, 12345, 12345, 12345, 12345};
+    // Master seed for the RngStream system
+    private static double streamsOrigin[] = {12345, 12345, 12345, 12345, 12345, 12345};
+
+    private double nextSeed[] = {12345, 12345, 12345, 12345, 12345, 12345};
     // Default seed of the package and seed for the next stream to be created.
     private double Cg[] = new double[6];
     private double Bg[] = new double[6];
@@ -249,9 +255,86 @@ public class RngStream implements RandomNumber {
         }
     }
 
+    /**
+     * Returns an independent instance of Stream[0:0], that is, a stream that
+     * has no offsets from the system seeds {@code streamsOrigin}. This is 
+     * Stream 0, Substream 0
+     * 
+     * Unlike the L'Ecuyer implementation, the default constructor in
+     * simkit always returns the same stream.  Like other places in
+     * simkitk, streams instantiated in this way are not linked
+     * but generate the same stream of random numbers.  The seed
+     * values that define this default stream are presently hard-coded
+     * as they are in the L'Ecuyer implementation.
+     * <p>
+     * This changes the meaing of the instance variable {@code id) to
+     * one that is independent of the stream or substream the instance
+     * represents, and, rather, simply gives a unique number to the
+     * instance, which might be useful to client code or readers of
+     * output.
+     * <p>
+     * The id concept has thus been replaced with values indicating which
+     * stream and substream offsets from the default this RngStream
+     * represents.
+     * 
+     */
+    
     public RngStream() {
         anti = false;
         prec53 = false;
+        for (int i = 0; i < 6; ++i) {
+            Bg[i] = Cg[i] = Ig[i] = nextSeed[i] = streamsOrigin[i];
+        }
+        matVecModM(A1p127, nextSeed, nextSeed, m1);
+        double temp[] = new double[3];
+        for (int i = 0; i < 3; ++i) {
+            temp[i] = nextSeed[i + 3];
+        }
+        matVecModM(A2p127, temp, temp, m2);
+        for (int i = 0; i < 3; ++i) {
+            nextSeed[i + 3] = temp[i];
+        }
+        id = ++NEXT_ID;
+        streamID=0;
+        substreamID=0;
+        descriptor = "Stream[" + streamID + ":" + substreamID + "]";
+    }
+    
+    /**
+     * Creates a new independent Stream[0:0] and advances it to the stream
+     * and substream offsets given.
+     * 
+     * @param stream
+     * @param substream
+     */
+    public RngStream(int stream, int substream) {
+        // TODO Study the usefulness of caching stream states, which would be
+        // most useful if many substreams are going to be requested from a 
+        // high-index main stream.
+        this();
+        for(int i=0;i<stream;i++){
+            this.resetNextStream();
+        }
+        for(int i=0; i < substream; i++ ){
+            this.resetNextSubstream();
+        }
+        descriptor = "Stream[" + streamID + ":" + substreamID + "]";
+    }
+    
+    @Deprecated
+    public RngStream(String name) {
+        this();
+        descriptor = name;
+    }
+
+
+    /**
+     * Advances this instance to the next stream based on the current
+     * stream baseline.  That is, calling this method will position the
+     * stream at the same location regardless of the current state of
+     * the generator.
+     */
+    public void resetNextStream() {
         for (int i = 0; i < 6; ++i) {
             Bg[i] = Cg[i] = Ig[i] = nextSeed[i];
         }
@@ -264,38 +347,51 @@ public class RngStream implements RandomNumber {
         for (int i = 0; i < 3; ++i) {
             nextSeed[i + 3] = temp[i];
         }
-        id = ++NEXT_ID;
-        descriptor = "RngStream." + id;
+        streamID++;
     }
-
-    public RngStream(String name) {
-        this();
-        descriptor = name;
-    }
-
+    
+    /**
+     * Set the system stream origin.
+     * 
+     * @param seed Array of longs that will subsequently represent generator
+     * state for Stream[0:0]
+     * @return
+     */
     public static boolean setPackageSeed(long seed[]) {
         // Must use long because there is no unsigned int type.
         if (CheckSeed(seed) != 0) {
             return false;
         }                   // FAILURE     
         for (int i = 0; i < 6; ++i) {
-            nextSeed[i] = seed[i];
+            streamsOrigin[i] = seed[i];
         }
         return true;                     // SUCCESS
     }
 
+    /**
+     * Reset the stream to its own individual starting point at substream 0.
+     * <p>
+     * Warning: this always implies the generator will be returned to
+     * Stream[x:0], even if it was instantiated at Stream[x:y]
+     */
     public void resetStartStream() {
         for (int i = 0; i < 6; ++i) {
             Cg[i] = Bg[i] = Ig[i];
         }
     }
 
+    /**
+     * Reset the stream to its own individual starting point.
+     */
     public void resetStartSubstream() {
         for (int i = 0; i < 6; ++i) {
             Cg[i] = Bg[i];
         }
     }
 
+    /**
+     *advances generator to the next substream
+     */
     public void resetNextSubstream() {
         int i;
         matVecModM(A1p76, Bg, Bg, m1);
@@ -310,6 +406,7 @@ public class RngStream implements RandomNumber {
         for (i = 0; i < 6; ++i) {
             Cg[i] = Bg[i];
         }
+        substreamID++;
     }
 
     public void setAntithetic(boolean a) {
@@ -389,6 +486,17 @@ public class RngStream implements RandomNumber {
         return 0;
     }
 
+    /**
+     * Position this stream at the indicated state.  The given state will
+     * be the baseline state for this generator which is returned to if
+     * {@code resetStartStream} or {@code resetStartSubstream} is called.
+     * <p>
+     * The state of this generator loses any internal sense of its offset
+     * fromt the system Stream[0:0].
+     * 
+     * @param seed
+     * @return
+     */
     public boolean setSeed(long seed[]) {
         int i;
         if (CheckSeed(seed) != 0) {
@@ -500,6 +608,14 @@ public class RngStream implements RandomNumber {
     
     public String toString() {
         return descriptor;
+    }
+
+    public int getStreamID() {
+        return streamID;
+    }
+
+    public int getSubstreamID() {
+        return substreamID;
     }
 }
 

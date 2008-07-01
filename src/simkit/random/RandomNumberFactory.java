@@ -332,4 +332,9 @@ public class RandomNumberFactory {
         }
         return theClass;
     }
+    
+    public static RandomNumber getRngStream(int stream, int substream){
+        RngStream rs = new RngStream(stream, substream);
+        return rs;
+    }
 }
