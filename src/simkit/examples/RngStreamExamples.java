@@ -42,10 +42,17 @@ public class RngStreamExamples {
 
 
         for (int p = 0; p < 1000; p++ ) {
-            new RngStream(1000,10000);
+            new RngStream(1000,1000);
         }
-        
-        System.out.println(Calendar.getInstance().getTimeInMillis() - t0);
+        long t1 = Calendar.getInstance().getTimeInMillis();
+        System.out.println(t1 - t0);
+        t0 = t1;
+        for (int p = 0; p < 1000; p++ ) {
+            new RngStream(5,1000);
+        }
+        t1 = Calendar.getInstance().getTimeInMillis();
+        System.out.println(t1 - t0);
+                
     }
 
     private void writeStates() {

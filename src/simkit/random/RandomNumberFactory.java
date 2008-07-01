@@ -369,8 +369,11 @@ public class RandomNumberFactory {
      * @param substream
      * @return
      */
-    public static RandomNumber getRngStream(int stream, int substream){
-        RngStream rs = new RngStream(stream, substream);
+    public static RandomNumberStream getRngStream(String className, 
+            int stream, int substream){
+        
+        RandomNumberStream rs = (RandomNumberStream)getInstance(className);
+        rs.setStreamAndSubstream(stream, substream);
         return rs;
     }
 }

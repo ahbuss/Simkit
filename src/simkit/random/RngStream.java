@@ -18,7 +18,7 @@ import java.util.Arrays;
  * @version $Id$
  * @author Pierre L'Ecuyer
  */
-public class RngStream implements RandomNumber {
+public class RngStream implements RandomNumberStream {
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // Private constants.
