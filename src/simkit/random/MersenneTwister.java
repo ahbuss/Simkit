@@ -165,10 +165,12 @@ public class MersenneTwister implements RandomNumber {
      * @return  The current random number seed
      */
     public long getSeed() {
-        if (mti >= N) {
-            fill();
-        }
-        return (long) mt[mti];
+        throw new UnsupportedOperationException(
+                "The implementation of getSeed is not functional for Mersenne Twister");
+//        if (mti >= N) {
+//            fill();
+//        }
+//        return (long) mt[mti];
     }
     
     /** 

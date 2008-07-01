@@ -312,15 +312,18 @@ public class RngStream implements RandomNumber {
         // most useful if many substreams are going to be requested from a 
         // high-index main stream.
         this();
-        for(int i=0;i<stream;i++){
+        this.setStreamAndSubstream(stream, substream);
+    }
+    
+    public void setStreamAndSubstream(int stream, int substream) {
+         for(int i=0;i<stream;i++){
             this.resetNextStream();
         }
         for(int i=0; i < substream; i++ ){
             this.resetNextSubstream();
         }
         descriptor = "Stream[" + streamID + ":" + substreamID + "]";
-    }
-    
+   }
     @Deprecated
     public RngStream(String name) {
         this();
@@ -457,6 +460,11 @@ public class RngStream implements RandomNumber {
         /* Check that the seeds are legitimate values. Returns 0 if legal seeds,
         -1 otherwise. */
         int i;
+        if (seed.length != 6) {
+            throw new IllegalArgumentException(
+                        "Seed array must be of length 6 " +
+                        Arrays.toString(seed));
+        }
         for (i = 0; i < 3; ++i) {
             if (seed[i] >= m1 || seed[i] < 0) {
                 throw new IllegalArgumentException(
@@ -566,7 +574,7 @@ public class RngStream implements RandomNumber {
     public void setSeed(long arg0) {
         throw new UnsupportedOperationException("Do not use - " +
                 "use setSeed(long[]) or (preferably) " +
-                "ressetNextSubstream()");
+                "resetNextSubstream()");
     }
 
     public long getSeed() {

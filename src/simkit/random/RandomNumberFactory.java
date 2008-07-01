@@ -7,6 +7,7 @@ import java.util.*;
 * can either create a <CODE>RandomNumnber</CODE> instance specified by the user, or
 * create the default <CODE>RandomNumber</CODE> Class. The default Class
 * is initially set to <CODE>Congruential</CODE>.
+ * 
 * @author A. Buss
 * @version $Id$
 **/
@@ -16,7 +17,8 @@ public class RandomNumberFactory {
 * Holds a String with the initial setting of the default Class. Currently
 * "simkit.random.Congruential"
 **/
-    protected static final String DEFAULT_CLASS = "simkit.random.MersenneTwister";
+    protected static final String DEFAULT_CLASS = 
+            "simkit.random.MersenneTwister";
 
 /**
 * The default Class that will be generated if one is not specified by the user.
@@ -41,11 +43,13 @@ public class RandomNumberFactory {
     
     /**
      * If true, print debug/trace information (not yet implemented)
+     * 
      * @param v Sets verbose mode (not implemented yet)
      */    
     public static void setVerbose(boolean v) { verbose = v; }
     /**
      * If true, print debug/trace information (not yet implemented)
+     * 
      * @return verbose mode
      */    
     public static boolean isVerbose() { return verbose; }
@@ -68,6 +72,7 @@ public class RandomNumberFactory {
     
     /** The default class is instantiated when the user does not
      * specify a class.
+     * 
      * @param className Unqualified name of default class
      */    
     public static void setDefaultClass(String className) {
@@ -88,6 +93,7 @@ public class RandomNumberFactory {
     
     /**
      * Creates an instance of the default Class with its default seed(s).
+     * 
      * @return Instance of default class with its default seed(s)
      */    
     public static RandomNumber getInstance() {
@@ -110,6 +116,7 @@ public class RandomNumberFactory {
      * Creates an instance of the default Class with the given seed.
      * Should be used only for <CODE>RandomNumber</CODE>s that take
      * a single seed.
+     * 
      * @param seed Desired seed for instance
      * @return Instance of default class with given seed.
      */    
@@ -123,6 +130,7 @@ public class RandomNumberFactory {
     
     /**
      * Creates an instance of the default Class with the given seeds.
+     * 
      * @param seed Desired seeds for default instance
      * @return Instance of default class with seeds
      */    
@@ -136,7 +144,9 @@ public class RandomNumberFactory {
     
     /**
      * Creates an instance of the given Class with its default seed(s).
-     * @param className (Unqualified) name of desired <code>RandomNumber</code> class
+     * 
+     * @param className (Unqualified) name of desired 
+     * <code>RandomNumber</code> class
      * @return Instance of desired class with its default seed
      */    
     public static RandomNumber getInstance(String className) {
@@ -163,9 +173,11 @@ public class RandomNumberFactory {
      * Creates an instance of the given Class with the given seed.
      * Should be used only for <CODE>RandomNumber</CODE>s that take
      * a single seed.
+     * 
      * @return Instance of desired class with the given seed.
      * @param seed Desired seed
-     * @param className (Unqualified) name of desired <code>RandomNumber</code> class
+     * @param className (Unqualified) name of desired 
+     * <code>RandomNumber</code> class
      */    
     public static RandomNumber getInstance(String className, long seed) {
         RandomNumber instance = getInstance(className);
@@ -177,9 +189,11 @@ public class RandomNumberFactory {
     
     /**
      * Creates an instance of the given Class with the given seeds.
+     * 
      * @return Instance of desired class with the given seeds.
      * @param seed Desired seeds
-     * @param className (Unqualified) name of desired <code>RandomNumber</code> class
+     * @param className (Unqualified) name of desired 
+     * <code>RandomNumber</code> class
      */    
     public static RandomNumber getInstance(String className, long[] seed) {
         RandomNumber instance = getInstance(className);
@@ -190,11 +204,13 @@ public class RandomNumberFactory {
     }
     
     /**
-     * Creates an instance that has the same Class as the given <CODE>RandomNumber</CODE>
-     * and initial seed(s) equal to the current seed of the given <CODE>RandomNumber</CODE>.
-     * While immediately upon creation the new <CODE>RandomNumber</CODE> is the same
-     * as the given instance, the two are not linked. The two instances will independently
-     * generate the same sequence of numbers.
+     * Creates an instance that has the same Class as the given 
+     * <CODE>RandomNumber</CODE> and initial seed(s) equal to the current seed
+     * of the given <CODE>RandomNumber</CODE>. While immediately upon creation 
+     * the new <CODE>RandomNumber</CODE> is the same as the given instance, the
+     * two are not linked. The two instances will independently generate the 
+     * same sequence of numbers.
+     * 
      * @return Identical copy of passed-in instance
      * @param rng Instance to be copied */    
     public static RandomNumber getInstance(RandomNumber rng) {
@@ -205,17 +221,20 @@ public class RandomNumberFactory {
      * Creates an instance of a <CODE>Pooled RandomNumber</CODE> of the given
      * Class using the 2 given instances of <CODE>RandomNumber</CODE>.
      * @param className Desired class implementing <code>Pooled</code>
+     * 
      * @param first First instance to be pooled
      * @param second second instance to be pooled
      * @return <code>Pooled</code> instance pooling first and second
      * @throws IllegalArgumentException If the given Class does
      * not implement the <CODE>Pooled</CODE> interface.
      */    
-    public static Pooled getInstance(String className, RandomNumber first, RandomNumber second) {
+    public static Pooled getInstance(String className, RandomNumber first, 
+            RandomNumber second) {
         Pooled pooled = null;
         Class pooledClass = getClassFor(className);
         if (!simkit.random.Pooled.class.isAssignableFrom(pooledClass)) {
-            throw new IllegalArgumentException("Does not implement Pooled interface: " +
+            throw new IllegalArgumentException(
+                    "Does not implement Pooled interface: " +
                 className);
         }
         try {
@@ -236,6 +255,7 @@ public class RandomNumberFactory {
     /**
      * Creates an instance of a <CODE>Pooled RandomNumber</CODE> of the given
      * Class using the 2 given instances of <CODE>RandomNumber</CODE>.
+     * 
      * @param className Desired (unqualified) class
      * @param rng Array (of length 2) to be pooled
      * @return <code>Pooled</code> instance
@@ -245,8 +265,8 @@ public class RandomNumberFactory {
      */    
     public static Pooled getInstance(String className, RandomNumber[] rng) {
         if (rng.length != 2) {
-            throw new IllegalArgumentException("Need 2 RandomNumber instances: " +
-            rng.length);
+            throw new IllegalArgumentException(
+                    "Need 2 RandomNumber instances: " + rng.length);
         }
         return getInstance(className, rng[0], rng[1]);
     }
@@ -257,6 +277,7 @@ public class RandomNumberFactory {
      * antithetic instance uses the given instance to generate and does
      * not make a copy of it; therefore, if two negatively correlated streams
      * are desired, the argument should be a copy.
+     * 
      * @param rng <code>RandomNumber</code> instance to be antitheticized
      * @return <code>RandomNumber</code> instance that is antithetic
      * to one passed in.
@@ -268,6 +289,7 @@ public class RandomNumberFactory {
     
     /**
      * Adds the given package to the search path for RandomNumber Classes.
+     * 
      * @param packageName Name of package to be searched when qualifying class
      * names (Note: not checked whether package actually exists).
      */    
@@ -279,6 +301,7 @@ public class RandomNumberFactory {
     
     /**
      * Removes the given package from the search path.
+     * 
      * @param packageName Name of package to be removed from search path
      */    
     public static void removeSearchPackage(String packageName) {
@@ -296,6 +319,7 @@ public class RandomNumberFactory {
     
     /** Helper method - given an unqualified class name, searches
      * through search path for actual class, returning the first one it finds.
+     * 
      * @param className (Unqualified) name for desired class
      * @return Class object for unqualified name.
      */    
@@ -303,10 +327,12 @@ public class RandomNumberFactory {
         //        First try to load the class as-is
         Class theClass = (Class) cache.get(className);
         if (theClass == null) {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            ClassLoader loader = Thread.currentThread().
+                    getContextClassLoader();
             try {
                 theClass = loader.loadClass(className);
-                if (simkit.random.RandomNumber.class.isAssignableFrom(theClass)) {
+                if (simkit.random.RandomNumber.class.
+                        isAssignableFrom(theClass)) {
                     cache.put(className, theClass);
                 }
                 else {
@@ -318,8 +344,10 @@ public class RandomNumberFactory {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             for (int i = 0; i < searchPackages.size(); i++ ) {
                 try {
-                    theClass = loader.loadClass(searchPackages.get(i) + "." + className);
-                    if (simkit.random.RandomNumber.class.isAssignableFrom(theClass)) {
+                    theClass = loader.loadClass(searchPackages.get(i) + 
+                            "." + className);
+                    if (simkit.random.RandomNumber.class.isAssignableFrom(
+                            theClass)) {
                         cache.put(className, theClass);
                         break;
                     }
@@ -333,6 +361,14 @@ public class RandomNumberFactory {
         return theClass;
     }
     
+    /**
+     * Temporary method for experimenting with RngStream.
+     * 
+     * @deprecated use getInstance(String Map) instead
+     * @param stream
+     * @param substream
+     * @return
+     */
     public static RandomNumber getRngStream(int stream, int substream){
         RngStream rs = new RngStream(stream, substream);
         return rs;
