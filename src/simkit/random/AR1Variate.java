@@ -93,4 +93,9 @@ public class AR1Variate extends RandomVariateBase {
     public String toString() {
         return "AR(1) Variate (alpha = " + getAlpha() + ")";
     }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

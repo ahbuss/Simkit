@@ -141,4 +141,9 @@ public class BinomialVariate implements DiscreteRandomVariate {
       * of this RandomVariate.
       */
     public String toString() { return "Binomial (" + n + ", " + bernoulli.getProbability() + ")"; }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

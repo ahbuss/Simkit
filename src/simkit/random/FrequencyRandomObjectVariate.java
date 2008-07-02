@@ -1,10 +1,6 @@
 package simkit.random;
 
 import java.text.DecimalFormat;
-import simkit.random.DiscreteVariate;
-import simkit.random.RandomNumber;
-import simkit.random.RandomVariate;
-import simkit.random.RandomVariateFactory;
 
 /**
  * @version $Id$
@@ -125,6 +121,11 @@ public class FrequencyRandomObjectVariate implements RandomObjectVariate {
     
     public void setDecimalFormat(DecimalFormat decimalFormat) {
         this.decimalFormat = decimalFormat;
+    }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

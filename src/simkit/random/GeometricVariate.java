@@ -107,4 +107,15 @@ public class GeometricVariate implements DiscreteRandomVariate {
 * Returns a String containing the name of this distribution and the value of <code>p</code>.
 **/
     public String toString() { return "Geometric (" + p + ")"; }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        if(paramName.equalsIgnoreCase("p")) {
+            Number param = (Number)paramValue;
+            this.setP(param.doubleValue());
+        } else {
+            throw new IllegalArgumentException(paramName + " is not a" +
+                    " random variate parameter for " + this.getClass().getName());
+        }
+    }
 }

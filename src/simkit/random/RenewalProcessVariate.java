@@ -96,4 +96,9 @@ public class RenewalProcessVariate implements RandomVariate {
 * Returns the RandomVariate used to generate the interarrival times.
 **/
     public RandomVariate getInterarrivalTime() { return interarrivalTime; }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

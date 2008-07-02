@@ -21,6 +21,7 @@ public interface RandomVariate {
     
     /**
      * Generate a random variate having this class's distribution.
+     * 
      * @return The generated random variate
      */
     public double generate();
@@ -29,23 +30,38 @@ public interface RandomVariate {
      *  Sets the random variate's parameters.
      *  Alternatively, the parameters could be set in the constructor or
      *  in additional methods provided in the implementation.
+     * 
      * @param params the array of parameters, wrapped in objects.
      **/
     public void setParameters(Object... params);
     
     /**
+     * Sets a parameter value by name.  If the name is not a parameter for
+     * this object, an exception should be thrown.  If the parameter value cannot
+     * be cast to the correct type, and exception should be thrown.
+     * 
+     * @param paramName
+     * @param paramValue
+     * @return
+     */
+    public void setParameter(String paramName, Object paramValue);
+    
+    /**
      * Returns the array of parameters as an Object[].
+     * 
      * @return The array of parameters as an Object[].
      */
     public Object[] getParameters();
     
     /** Sets the supporting RandomNumber object
+     * 
      * @param rng The RandomNumber instance supporting the generating algorithm
      */
     public void setRandomNumber(RandomNumber rng);
     
     /**
      * Returns the instance of the supporting RandomNumber
+     * 
      * @return The underlying RandomNumber instance.
      */
     public RandomNumber getRandomNumber();

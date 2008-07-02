@@ -162,4 +162,24 @@ public class OscillatingExponentialVariate implements simkit.random.RandomVariat
         return "Oscillating Exponential Variate (" + getMean() + ", " +
             getAmplitude() + ", " + getFrequency() + ", " + getPhase() +")";
     }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        if(paramName.equalsIgnoreCase("mean")) {
+            Number p = (Number)paramValue;
+            this.setMean(p.doubleValue());
+        } else if(paramName.equalsIgnoreCase("amplitude")) {
+            Number p = (Number)paramValue;
+            this.setAmplitude(p.doubleValue());
+        } else if(paramName.equalsIgnoreCase("frequency")) {
+            Number p = (Number)paramValue;
+            this.setFrequency(p.doubleValue());
+        } else if(paramName.equalsIgnoreCase("phase")) {
+            Number p = (Number)paramValue;
+            this.setPhase(p.doubleValue());
+        } else {
+            throw new IllegalArgumentException(paramName + " is not a" +
+                    " random variate parameter for " + this.getClass().getName());
+        }
+    }
 }

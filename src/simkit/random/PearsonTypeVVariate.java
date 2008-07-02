@@ -102,5 +102,10 @@ public class PearsonTypeVVariate extends RandomVariateBase {
 * Returns the value of beta for this radom variate.
 **/
     public double getBeta() { return beta; }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

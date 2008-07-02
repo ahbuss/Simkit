@@ -155,4 +155,9 @@ public class RightWedgeVariate implements RandomVariate {
         return "RightWedge (" + getLeft() + ", " + getRight() +
         ", " + getSmallHeight() + ")";
     }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

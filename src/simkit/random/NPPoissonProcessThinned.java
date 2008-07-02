@@ -146,4 +146,9 @@ public class NPPoissonProcessThinned extends BasicSimEntity implements RandomVar
     public void processSimEvent(simkit.SimEvent event) {
     }
 
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

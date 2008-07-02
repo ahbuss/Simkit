@@ -93,4 +93,19 @@ public class WeibullVariate extends RandomVariateBase{
 * alpha and beta.
 **/    
     public String toString() { return "Weibull (" + alpha + ", " +  beta+ ")"; }
+    
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        if(paramName.equalsIgnoreCase("alpha")) {
+            Number param = (Number)paramValue;
+            this.setAlpha(param.doubleValue());
+        } else if(paramName.equalsIgnoreCase("beta")) {
+            Number param = (Number)paramValue;
+            this.setBeta(param.doubleValue());
+        } else {
+            throw new IllegalArgumentException(paramName + " is not a" +
+                    " random variate parameter for " + this.getClass().getName());
+        }
+    }
+
 }

@@ -58,7 +58,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
     public void setParameters(Object... params) {
         if (params == null) { throw new NullPointerException(); }
         if (params.length != 3) {
-            throw new IllegalArgumentException("TriangleVariate needs 2 parameters: " + params.length);
+            throw new IllegalArgumentException("TriangleVariate needs 3 parameters: " + params.length);
         }
         if (params[0] instanceof Number && params[1] instanceof Number && params[2] instanceof Number) {
             setLeft(((Number) params[0]).doubleValue());
@@ -151,6 +151,23 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
 **/
     public String toString() {
         return "Triangle (" + left + ", " + right + ", " + center + ")";
+    }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        if(paramName.equalsIgnoreCase("left")) {
+            Number p = (Number)paramValue;
+            this.setLeft(p.doubleValue());
+        } else if(paramName.equalsIgnoreCase("right")) {
+            Number p = (Number)paramValue;
+            this.setRight(p.doubleValue());
+        } else if(paramName.equalsIgnoreCase("center")) {
+            Number p = (Number)paramValue;
+            this.setCenter(p.doubleValue());
+        } else {
+            throw new IllegalArgumentException(paramName + " is not a" +
+                    " random variate parameter for " + this.getClass().getName());
+        }
     }
     
 }

@@ -171,4 +171,9 @@ public class TraceVariate extends RandomVariateBase {
      */
     public void setRandomNumber(RandomNumber rng) { 
     }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

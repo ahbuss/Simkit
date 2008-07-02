@@ -198,5 +198,10 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
     public double getLastGeneratedTime() {
         return lastGeneratedTime;
     }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

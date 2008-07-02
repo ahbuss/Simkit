@@ -64,5 +64,10 @@ public class SequenceVariate implements RandomVariate {
         } catch (CloneNotSupportedException e) {}
         return null;
     }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

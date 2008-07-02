@@ -107,4 +107,15 @@ public class PoissonVariate implements DiscreteRandomVariate {
 * Returns a String containing the name and mean of this RandomVariate.
 **/
     public String toString() { return "Poisson (" + getMean() + ")"; }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        if(paramName.equalsIgnoreCase("mean")) {
+            Number p = (Number)paramValue;
+            this.setMean(p.doubleValue());
+        } else {
+            throw new IllegalArgumentException(paramName + " is not a" +
+                    " random variate parameter for " + this.getClass().getName());
+        }
+    }
 }

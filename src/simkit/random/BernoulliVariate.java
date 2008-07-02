@@ -96,5 +96,10 @@ public class BernoulliVariate extends RandomVariateBase implements DiscreteRando
      * @return &quot;Bernoulli (p)&quot;
      */    
     public String toString() { return "Bernoulli (" + getProbability() + ")"; }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
         
 }

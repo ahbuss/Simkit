@@ -115,4 +115,18 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
      * @return smallest possible value
      */    
     public int getMinimum() { return minimum; }
+
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        if(paramName.equalsIgnoreCase("minimum")) {
+            Number p = (Number)paramValue;
+            this.setMinimum(p.intValue());
+        } else if(paramName.equalsIgnoreCase("maximum")) {
+            Number p = (Number)paramValue;
+            this.setMaximum(p.intValue());
+        } else {
+            throw new IllegalArgumentException(paramName + " is not a" +
+                    " random variate parameter for " + this.getClass().getName());
+        }
+    }
 }

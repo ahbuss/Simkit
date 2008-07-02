@@ -127,4 +127,18 @@ public class BetaVariate extends RandomVariateBase {
 **/
     public String toString() { return "Beta (" + getAlpha() + ", " + getBeta() + ")"; }
 
+    @Override
+    public void setParameter(String paramName, Object paramValue) {
+        if(paramName.equalsIgnoreCase("alpha")) {
+            Number p = (Number)paramValue;
+            this.setAlpha(p.doubleValue());
+        } else if(paramName.equalsIgnoreCase("beta")) {
+            Number p = (Number)paramValue;
+            this.setBeta(p.doubleValue());
+        } else {
+            throw new IllegalArgumentException(paramName + " is not a" +
+                    " random variate parameter for " + this.getClass().getName());
+        }
+    }
+    
 } 
