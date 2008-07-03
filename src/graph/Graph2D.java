@@ -75,14 +75,14 @@ public class Graph2D extends Canvas {
 
 /**
  *  A vector list of All the axes attached
- *  @see Graph2d#attachAxis()
+ *  @see Graph2d#attachAxis( Axis )
  */
 
     protected Vector axis          = new Vector(4);
 
 /**
  *  A vector list of All the DataSets attached
- *  @see Graph2d#attachDataSet()
+ *  @see Graph2d#attachDataSet( DataSet )
  *  @see DataSet
  */
 
@@ -90,7 +90,7 @@ public class Graph2D extends Canvas {
 
 /**
  *  The markers that may have been loaded
- *  @see Graph2D#setMarkers()
+ *  @see Graph2D#setMarkers(Markers)
  */
 
     protected Markers markers = null;
@@ -386,7 +386,7 @@ public class Graph2D extends Canvas {
  *  Attach a previously created Axis. Only Axes that have been attached will
  *  be drawn 
  *
- *    @param the Axis to attach.
+ *    @param a the Axis to attach.
 */
     @SuppressWarnings("unchecked")
     public void attachAxis( Axis a ) {
@@ -406,7 +406,7 @@ public class Graph2D extends Canvas {
 
 /**
  * Detach a previously attached Axis.
- *    @param the Axis to dettach.
+ *    @param a the Axis to dettach.
 */
     public void detachAxis( Axis a ) {
        
@@ -529,7 +529,7 @@ public class Graph2D extends Canvas {
     }
 /**
  * Set the background color for the entire canvas.
- * @params c The color to set the canvas
+ * @param c The color to set the canvas
  */
     public void setGraphBackground(Color c) {
         if(c == null) return;
@@ -540,7 +540,7 @@ public class Graph2D extends Canvas {
 
 /**
  * Set the background color for the data window.
- * @params c The color to set the data window. 
+ * @param c The color to set the data window. 
  */
     public void setDataBackground(Color c) {
         if(c == null) return;
@@ -555,7 +555,7 @@ public class Graph2D extends Canvas {
  *  This paints the entire plot. It calls the draw methods of all the
  *  attached axis and data sets.
  *  The order of drawing is - Axis first, data legends next, data last.
- *  @params g Graphics state.
+ *  @param g Graphics state.
  */
     public void paint(Graphics g) {
         int i;
@@ -619,8 +619,8 @@ public class Graph2D extends Canvas {
  *  A hook into the Graph2D.paint method. This is called before
  *  anything is plotted. The rectangle passed is the dimension of
  *  the canvas minus the border dimensions.
- *  @params g Graphics state
- *  @params r Rectangle containing the graph
+ *  @param g Graphics state
+ *  @param r Rectangle containing the graph
  */
     public void paintFirst( Graphics g, Rectangle r) {
     }
@@ -630,8 +630,8 @@ public class Graph2D extends Canvas {
  *  the data is drawn but after the axis. 
  *  The rectangle passed is the dimension of
  *  the data window.
- *  @params g Graphics state
- *  @params r Rectangle containing the data
+ *  @param g Graphics state
+ *  @param r Rectangle containing the data
  */
     public void paintBeforeData( Graphics g, Rectangle r) {
     }
@@ -641,8 +641,8 @@ public class Graph2D extends Canvas {
  *  everything has been drawn. 
  *  The rectangle passed is the dimension of
  *  the data window.
- *  @params g Graphics state
- *  @params r Rectangle containing the data
+ *  @param g Graphics state
+ *  @param r Rectangle containing the data
  */
     public void paintLast( Graphics g, Rectangle r) {
       if( lastText != null ) {
@@ -700,7 +700,7 @@ public class Graph2D extends Canvas {
  *  the method Graph2D.finishedloading() decrements the counter. When the
  *  counter is back to zero the plotting resumes.
  *  @see Graph2D#finishedloading()
- *  @see Graph2D#loadmessage()
+ *  @see Graph2D#loadmessage(String)
  *  @see LoadMessage
 */
     public void startedloading() {
@@ -720,7 +720,7 @@ public class Graph2D extends Canvas {
  * Decrement the loading Data counter by one. When it is zero resume
  * plotting.
  *  @see Graph2D#startedloading()
- *  @see Graph2D#loadmessage()
+ *  @see Graph2D#loadmessage(String)
  *  @see LoadMessage
 */
     public void finishedloading() {
@@ -1048,7 +1048,7 @@ class LoadMessage extends Thread {
         }
 /**
  *  Instantiate the class
- * @param g2d The Graph2D canvas to draw message on
+ * @param g The Graph2D canvas to draw message on
  * @param s   The string to flash on the canvas
  * @param visible Number of milliseconds the message is visible
  * @param invisible Number of milliseconds the message is invisible

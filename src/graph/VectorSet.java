@@ -165,7 +165,7 @@ public class VectorSet extends DataSet {
 
   /**
    *  Instantiate an empty data set.
-   * @param s The scaling to use when plotting the vectors.
+   * @param scale The scaling to use when plotting the vectors.
    * @exception  Exception
    *            A Generic exception if it fails to instantiate the
    *            the class with the correct stride.

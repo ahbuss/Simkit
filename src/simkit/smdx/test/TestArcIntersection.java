@@ -32,7 +32,8 @@ import simkit.test.MouseDisplay;
  * This test is also performed in the unit test suite, where it is verified
  * by numerical assertions rather than the visual/manual approach taken here.
  * We keep this class around as a debugging aid
- * in case the unit test starts failing. {@link simkit.smdx.Math2DTest}
+ * in case the unit test starts failing. 
+ * @see "simkit.smdx.Math2DTest in the tests"
  *
  * @author  Arnold Buss
  * @version $Id$

@@ -71,7 +71,7 @@ public class BetaVariate extends RandomVariateBase {
 
 /**
 * Creates the two instances of GammaVariate used to generate this BetaVariate.
-* @param rng The supporting instance of RandomNumber for both GammVariates.
+*
 **/
     private void setGammas() {
         gammaVariate1 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", getAlpha(), 1.0);

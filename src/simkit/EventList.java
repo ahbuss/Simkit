@@ -936,7 +936,7 @@ public class EventList implements BasicEventList {
      * its Run event (if it has one) is scheduled at time 0.0.  This
      * happens only if the SimEntity is persistant.
      * 
-     * @param SimEntity SimEntity to be added as a reRun
+     * @param simEntity SimEntity to be added as a reRun
      */    
     public void addRerun(SimEntity simEntity) {
         reRun.add(simEntity);

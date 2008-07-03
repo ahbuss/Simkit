@@ -11,7 +11,7 @@ import simkit.random.RandomVariate;
 /**
  * Implements a Multi-server single queue server for Customers.
  * After instantiating a EntityServer, register it as a SimEventListener
- * with a {@link CustomerCreator}.
+ * with a CustomerCreator.
  * @author  Arnold Buss
  * @version $Id$
  */

@@ -144,7 +144,7 @@ public class Markers extends Object {
  * @param draw <i>true</i> if the point is to drawn to, <i>false</i> if
  * the point is to be moved to.
  * @param x X pixel to move/draw to.
- * @param x Y pixel to move/draw to.
+ * @param y Y pixel to move/draw to.
  */
       public void AddMarker(int n, boolean draw[], int x[], int y[]) {
          AddMarker(last+1,n,draw,x,y);

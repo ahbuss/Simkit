@@ -321,7 +321,7 @@ public class TextLine extends Object {
 
   /**
    * Set the Justification to use with the class
-   * @param t Justification
+   * @param i Justification
    */
      public void setJustification( int i ) {
           switch (i) {

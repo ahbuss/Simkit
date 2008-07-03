@@ -556,7 +556,7 @@ public class Contour extends G2Dint {
 
   /**
    * Set the number of contour levels.
-   * @@param l Number of contour levels
+   * @param l Number of contour levels
    */
      public void setNLevels(int l) {
          if(l <= 0) return;
@@ -603,7 +603,7 @@ public class Contour extends G2Dint {
 
   /**
    * Set the label precision.
-   * @param s Precision
+   * @param p Precision
    */
      public void setLabelPrecision(int p) { 
                    labelPrecision = p; 

@@ -358,7 +358,7 @@ public class RngStream implements RandomNumberStream {
      * 
      * @param seed Array of longs that will subsequently represent generator
      * state for Stream[0:0]
-     * @return
+     * @return True if the operation was a success, false if not.
      */
     public static boolean setPackageSeed(long seed[]) {
         // Must use long because there is no unsigned int type.
@@ -503,7 +503,7 @@ public class RngStream implements RandomNumberStream {
      * fromt the system Stream[0:0].
      * 
      * @param seed
-     * @return
+     * @return True if the operation was a success, false if not.
      */
     public boolean setSeed(long seed[]) {
         int i;

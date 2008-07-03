@@ -367,7 +367,7 @@ public class RandomNumberFactory {
      * @deprecated use getInstance(String Map) instead
      * @param stream
      * @param substream
-     * @return
+     *
      */
     public static RandomNumberStream getRngStream(String className, 
             int stream, int substream){

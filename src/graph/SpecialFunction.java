@@ -204,7 +204,7 @@ public final class SpecialFunction extends Object {
     }
 
   /**
-   * @param x a double value
+   * @param xx a double value
    * @return the hyperbolic arc sine of the argument
    */
     static public double asinh(double xx) throws ArithmeticException {
@@ -449,7 +449,7 @@ public final class SpecialFunction extends Object {
      }
 
   /**
-   * @param x an integer value
+   * @param j an integer value
    * @return the factorial of the argument
    */
      static public int fac(int j) throws ArithmeticException {
@@ -894,7 +894,7 @@ Direct inquiries to 30 Frost Street, Cambridge, MA 02140
    }
 
   /**
-   * @param a double value
+   * @param x double value
    * @return The Error function
    * <P>
    * <FONT size=2>

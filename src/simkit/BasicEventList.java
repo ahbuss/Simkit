@@ -49,7 +49,7 @@ public interface BasicEventList {
      * Cancel next event of given name (regardless of
      * signature) owned by the given SimEntity
 
-     * @param SimEventScheduler SimEntity to have event cancelled
+     * @param simEntity SimEventScheduler to have event cancelled
      * @param eventName Name of event to cancel
      */
     void interrupt(SimEventScheduler simEntity, String eventName);
@@ -58,7 +58,7 @@ public interface BasicEventList {
      * Cancel next event of given name matching the
      * parameter list owned by the given SimEntity
      * 
-     * @param SimEventScheduler SimEventScheduler to have event cancelled
+     * @param simEntity SimEventScheduler to have event cancelled
      * @param eventName Name of event to cancel
      * @param parameters edge parameters of cancelled event
      */
@@ -67,7 +67,7 @@ public interface BasicEventList {
     /**
      * Cancel the all events scheduled by the given scheduler
      * 
-     * @param SimEventScheduler Entity whos events will be interrupted.
+     * @param scheduler SimEventScheduler whose events will be interrupted.
      */
     void interruptAll(SimEventScheduler scheduler);
 

@@ -393,7 +393,7 @@ public class RandomVariateFactory {
      * {@code RandomVariateFactory.getDefaultParameterValues()}
      * 
      * @param params a String keyed map of named parameters.
-     * @return
+     *
      */
     public static RandomVariate getInstance(String distributionName, 
             Map<String, Object> params) {

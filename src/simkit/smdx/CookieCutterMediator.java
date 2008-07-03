@@ -32,7 +32,7 @@ public abstract class CookieCutterMediator extends SimEntityBase implements Sens
      * If the subclass implementation returns null, no detection is scheduled.
      * @param sensor
      * @param target
-     * @return
+     * @return The Contact for the given sensor-target pairing.
      */
     protected abstract Contact getContactForEnterRangeEvent(Sensor sensor, Mover target);
     
@@ -61,7 +61,7 @@ public abstract class CookieCutterMediator extends SimEntityBase implements Sens
      * "source" of the SimEvent, and allows listeners to the sensor to be
      * able to hear it.
      * 
-     * @see getContactForEnterRangeEvent()
+     * @see #getContactForEnterRangeEvent(Sensor, Mover)
      * @param sensor The Sensor whose range was entered
      * @param target The Mover (target) that entered the sensor's range
      */    
