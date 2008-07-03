@@ -27,6 +27,13 @@ public class RandomVariateFactory {
             "$Id$";
     public static Logger log = Logger.getLogger("simkit.random");
 
+    public static final String RANDOM_VARIATE_CLASSNAME_KEY = "className";
+    public static final String RANDOM_INSTANCE_KEY = "rngInstance";
+
+    public static final String RANDOM_NUMBER_CLASSNAME_KEY  = "rngClassName";
+    public static final String RANDOM_NUMBER_STREAM_ID_KEY = "streamID";
+    public static final String RANDOM_NUMBER_SUBSTREAM_ID_KEY = "subStreamID";
+
     private static Map<String, Map<String, Object>> defaultsMap;
     /**
      * Holds a cache of the RandomVariate Classes that have already been
@@ -107,6 +114,7 @@ public class RandomVariateFactory {
     /**
      * Creates a <CODE>RandomVariate</CODE> instance with default seed(s) and
      * the default supporting <CODE>RandomNumber</CODE>.
+     * 
      * @param className The fully-qualified class name of the desired instance
      * @param parameters The desired parameters for the instance
      * @return Instance of <CODE>RandomVariate</CODE> based on the
@@ -115,7 +123,9 @@ public class RandomVariateFactory {
      * @throws IllegalArgumentException If the className is <CODE>null</CODE> or
      * a class with that name cannot be found.
      */
-    public static RandomVariate getInstance(String className, Object... parameters) {
+    public static RandomVariate getInstance(String className, 
+            Object... parameters) {
+        
         if (className == null) {
             throw new IllegalArgumentException("null class name");
         }
@@ -125,11 +135,13 @@ public class RandomVariateFactory {
             randomVariateClass = findFullyQualifiedNameFor(className);
             if (randomVariateClass == null) {
                 // The name may be the distribution - try appending "Variate"
-                randomVariateClass = findFullyQualifiedNameFor(className + "Variate");
+                randomVariateClass = findFullyQualifiedNameFor(className + 
+                        "Variate");
             }
             // All attempts have failed
             if (randomVariateClass == null) {
-                throw new IllegalArgumentException("RandomVariate class not found for " + className);
+                throw new IllegalArgumentException(
+                        "RandomVariate class not found for " + className);
             } else {
                 cache.put(className, randomVariateClass);
             }
@@ -140,6 +152,7 @@ public class RandomVariateFactory {
     /**
      * Creates a <CODE>RandomVariate</CODE> instance supported by the
      * <CODE>RandomNumber</CODE> instance passed in.
+     * 
      * @param className The fully-qualified class name of the desired instance
      * @param parameters The desired parameters for the instance
      * @param rng An instance of <CODE>RandomNumber</CODE> to support this
@@ -149,9 +162,11 @@ public class RandomVariateFactory {
      * @throws IllegalArgumentException If the className is <CODE>null</CODE> or
      * a class with that name cannot be found.
      */
-    public static RandomVariate getInstance(String className, RandomNumber rng, Object... parameters) {
+    public static RandomVariate getInstance(String className, RandomNumber rng,
+            Object... parameters) {
         if (className == null) {
-            throw new IllegalArgumentException("Name of RandomVariate class is null.");
+            throw new IllegalArgumentException(
+                    "Name of RandomVariate class is null.");
         }
         RandomVariate instance = null;
         Class randomVariateClass = (Class) cache.get(className);
@@ -159,10 +174,12 @@ public class RandomVariateFactory {
             randomVariateClass = findFullyQualifiedNameFor(className);
         }
         if (randomVariateClass == null) {
-            randomVariateClass = findFullyQualifiedNameFor(className + "Variate");
+            randomVariateClass = findFullyQualifiedNameFor(className + 
+                    "Variate");
         }
         if (randomVariateClass == null) {
-            throw new IllegalArgumentException("Can't find RandomVariate class for " + className);
+            throw new IllegalArgumentException(
+                    "Can't find RandomVariate class for " + className);
         } else {
             cache.put(className, randomVariateClass);
         }
@@ -187,7 +204,8 @@ public class RandomVariateFactory {
      **/
     public static RandomVariate getInstance(RandomVariate rv) {
         RandomVariate newInstance =
-                getInstance(rv.getClass().getName(), rv.getRandomNumber(), rv.getParameters());
+                getInstance(rv.getClass().getName(), rv.getRandomNumber(), 
+                rv.getParameters());
         return newInstance;
     }
 
@@ -219,9 +237,10 @@ public class RandomVariateFactory {
 
     /**
      * Finds the RandomVariate Class corresponding to the given name. First
-     * attempts to find the RandomVariate assuming the the name is fully qualified.
-     * Then searches the "search packages." The search path defaults to "simit.random"
-     * but additional search packages can be added.
+     * attempts to find the RandomVariate assuming the the name is fully 
+     * qualified. Then searches the "search packages." The search path defaults 
+     * to "simit.random" but additional search packages can be added.
+     * 
      * @see #addSearchPackage(String)
      * @see #setSearchPackages(Set)
      **/
@@ -229,19 +248,24 @@ public class RandomVariateFactory {
         Class theClass = null;
         //        First see if name passed is "fully qualified"
         try {
-            theClass = Thread.currentThread().getContextClassLoader().loadClass(className);
+            theClass = Thread.currentThread().getContextClassLoader().
+                    loadClass(className);
+            
             return theClass;
         } //        If not, then try the search path
         catch (ClassNotFoundException e) {
         }
         for (String searchPackage : searchPackages) {
             if (verbose) {
-                System.out.println("Checking " + searchPackage + "." + className);
+                System.out.println("Checking " + searchPackage + "." +
+                        className);
             }
             try {
-                theClass = Thread.currentThread().getContextClassLoader().loadClass(
-                        searchPackage + "." + className);
-                if (!simkit.random.RandomVariate.class.isAssignableFrom(theClass)) {
+                theClass = Thread.currentThread().getContextClassLoader().
+                        loadClass(searchPackage + "." + className);
+                
+                if (!simkit.random.RandomVariate.class.
+                        isAssignableFrom(theClass)) {
                     // make sure we don't return it (could happen if this is the
                     // last class found)
                     theClass = null;
@@ -260,7 +284,8 @@ public class RandomVariateFactory {
     /**
      * @return instance of DiscreteRandomVariate
      */
-    public static DiscreteRandomVariate getDiscreteRandomVariateInstance(String className, Object... params) {
+    public static DiscreteRandomVariate getDiscreteRandomVariateInstance(
+            String className, Object... params) {
         RandomVariate instance = getInstance(className, params);
         if (instance instanceof DiscreteRandomVariate) {
             return (DiscreteRandomVariate) instance;
@@ -270,8 +295,10 @@ public class RandomVariateFactory {
         }
     }
 
-    public static DiscreteRandomVariate getDiscreteRandomVariateInstance(String className, RandomNumber rng, Object... params) {
-        DiscreteRandomVariate instance = getDiscreteRandomVariateInstance(className, params);
+    public static DiscreteRandomVariate getDiscreteRandomVariateInstance(
+            String className, RandomNumber rng, Object... params) {
+        DiscreteRandomVariate instance = 
+                getDiscreteRandomVariateInstance(className, params);
         instance.setRandomNumber(rng);
         return instance;
     }
@@ -291,7 +318,8 @@ public class RandomVariateFactory {
      * object types expected for the parameters.
      * 
      */
-    public static Map<String, Class> getDefaultParameterTypes(String variateShortName) {
+    public static Map<String, Class> getDefaultParameterTypes(
+            String variateShortName) {
         parseDefaultsFile();
         Map<String, Class> parameterTypes = new HashMap();
         Map<String, Object> defaultsData = defaultsMap.get(variateShortName);
@@ -315,7 +343,8 @@ public class RandomVariateFactory {
      * object types expected for the parameters.
      * 
      */
-    public static Map<String, Object> getDefaultParameterValues(String variateShortName) {
+    public static Map<String, Object> getDefaultParameterValues(
+            String variateShortName) {
         parseDefaultsFile();
         Map<String, Object> defaultsData = defaultsMap.get(variateShortName);
         
@@ -329,23 +358,41 @@ public class RandomVariateFactory {
 
     /**
      * Creates a variate with the named distribution.  The implementation
-     * used will be either the default one specified in {@code VariateDefaults.yaml}
-     * or, one specified in the params map under the key 'className' and that class name
+     * used will be either the default one specified in 
+     * {@code VariateDefaults.yaml} or, one specified in the params map under 
+     * the key 'className' and that class name
      * resolves to a findable class.  If the class is specified and can't be
      * found, an exception is thrown.
      * <p>
-     * Additionally, an exception will be thrown if the parameter map does
-     * not contain the proper keys and values of the correct type.  The 
-     * required keys and types can also be inferred fromt the file
-     * {@code VariateDefaults.yaml} or by examining the data returned by
-     * {@code RandomVariateFactory.defaults()}.
+     * Parameter keys that match those defined in
+     * {@code VariateDefaults.yaml} (which can also be obtained by examining 
+     * the key set returned by 
+     * {@code RandomVariateFactory.getDefaultParameterTypes()}) will be applied
+     * to the random variate instance before it is returned.  Unknown keys
+     * (that is, keys not used in the VaraiateDefaults description)
+     * will be ignored.
+     * 
+     * <p>
+     * The factory and target variate instance are prepared to deal with
+     * certain keys in the parameter map.  Other keys may be present, but 
+     * will be ignored by this part of the simkit system.  This makes it
+     * possible to decorate or subclass this factory in a way that makes
+     * use of new parameterization data.  The keys used by this factory
+     * are available as static constants:
+     * <ul>
+     * <li> RANDOM_VARIATE_CLASSNAME_KEY </li>
+     * <li> RANDOM_NUMBER_CLASSNAME_KEY </li>
+     * <li> RANDOM_INSTANCE_KEY </li>
+     * <li> RANDOM_VARIATE_STREAM_ID_KEY </li>
+     * <li> RANDOM_VARIATE_SUBSTREAM_ID_KEY </li>
+     * </ul>
      * 
      * @param distributionName Short name for the distribution.  Must be found
-     * as a top level element in VaraiateDefaults.yaml, or else an exception is thrown.
-     * You can obtain the known names by calling {@code RandomVariateFactory.defaults()}
+     * as a top level element in VaraiateDefaults.yaml, or else an exception is 
+     * thrown.  You can obtain the known names by calling 
+     * {@code RandomVariateFactory.getDefaultParameterValues()}
      * 
-     * @param params a String keyed map of named parameters.  The required names
-     * can be
+     * @param params a String keyed map of named parameters.
      * @return
      */
     public static RandomVariate getInstance(String distributionName, 
@@ -415,16 +462,47 @@ public class RandomVariateFactory {
         }
 
         if (null != result) {
-//            keyset.remove("className");
-//            System.out.println("defaultVariate after maninupating the keyset:");
-//            System.out.println(defaultVariate);
+            
+            // pre-defined keys for the parameter map object passed in
+            // to getInstance(String, Map)
             
             for (String key : keyset) {
-                if(key.equalsIgnoreCase("className")) {continue;}
+                // this extra map entry is only used by the factory
+                if(key.equalsIgnoreCase(RANDOM_VARIATE_CLASSNAME_KEY)) {
+                    continue;
+                }
+                
+                // this extra map entry might be used by the factory
+                // but not by the variate itself.
+                if(key.equalsIgnoreCase(RANDOM_NUMBER_CLASSNAME_KEY)) {
+                    continue;
+                }
+                
+                // this extra map entry might be used by the factory
+                // but not by the variate itself.
+                if(key.equalsIgnoreCase(RANDOM_INSTANCE_KEY)) {
+                    continue;
+                }
+                
+                // this extra map entry might be used by the factory
+                // but not by the variate itself.
+                if(key.equalsIgnoreCase(RANDOM_NUMBER_STREAM_ID_KEY)) {
+                    continue;
+                }
+                
+                // this extra map entry might be used by the factory
+                // but not by the variate itself.
+                if(key.equalsIgnoreCase(RANDOM_NUMBER_SUBSTREAM_ID_KEY)) {
+                    continue;
+                }
+                
                 if(defaultVariate.keySet().contains(key)){
                     // if it isn't in the parameter definitions, it is
                     // 'extra', and we can't count on the variate class
-                    // to know anything about it.
+                    // to know anything about it, Otherwise, it should be
+                    // safe to call.  If this call doesn't succeed, then 
+                    // either VariateDefaults.yaml or the class being called
+                    // has an error.
                     result.setParameter(key, params.get(key));
                 }
             }
@@ -433,14 +511,6 @@ public class RandomVariateFactory {
                     "as a random variate but could not be instantiated: " +
                     params.get("className"));
         }
-//
-//        for (Object k : defaultsMap.keySet()) {
-//            Map items = (Map) defaultsMap.get(k);
-//            System.out.println(defaultsMap.get(k).getClass().getName() + ": " + items);
-//            for (Object kk : items.keySet()) {
-//                System.out.println(items.get(kk).getClass().getName() + ": " + items.get(kk));
-//            }
-//
         return result;
     }
 }

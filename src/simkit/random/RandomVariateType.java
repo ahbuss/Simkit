@@ -5,6 +5,7 @@ package simkit.random;
 * Holds the Class of a RandomVariate. Can be used to find the Class of a RandomVariate
 * from its Class name.
 * 
+* @deprecated Class appears to be experimental
 * @version  $Id$
 */
 public class RandomVariateType {

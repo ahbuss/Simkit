@@ -267,7 +267,7 @@ public class RngStream implements RandomNumberStream {
      * values that define this default stream are presently hard-coded
      * as they are in the L'Ecuyer implementation.
      * <p>
-     * This changes the meaing of the instance variable {@code id) to
+     * This changes the meaing of the instance variable {@code id} to
      * one that is independent of the stream or substream the instance
      * represents, and, rather, simply gives a unique number to the
      * instance, which might be useful to client code or readers of

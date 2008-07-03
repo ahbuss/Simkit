@@ -38,11 +38,10 @@ public interface RandomVariate {
     /**
      * Sets a parameter value by name.  If the name is not a parameter for
      * this object, an exception should be thrown.  If the parameter value cannot
-     * be cast to the correct type, and exception should be thrown.
+     * be cast to the correct type, an exception should be thrown.
      * 
      * @param paramName
      * @param paramValue
-     * @return
      */
     public void setParameter(String paramName, Object paramValue);
     
