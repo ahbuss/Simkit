@@ -1,5 +1,7 @@
 package simkit.random;
 
+import java.util.logging.Logger;
+
 /**
  * Mersenne Twister random number generator.
  * <P>
@@ -59,6 +61,9 @@ package simkit.random;
  */
 
 public class MersenneTwister implements RandomNumber {
+    
+    public static final Logger logger = Logger.getLogger("simkit.random");
+    
     // Period parameters
     private static final int N = 624;
     private static final int M = 397;
@@ -165,12 +170,12 @@ public class MersenneTwister implements RandomNumber {
      * @return  The current random number seed
      */
     public long getSeed() {
-        throw new UnsupportedOperationException(
+        logger.warning(
                 "The implementation of getSeed is not functional for Mersenne Twister");
-//        if (mti >= N) {
-//            fill();
-//        }
-//        return (long) mt[mti];
+        if (mti >= N) {
+            fill();
+        }
+        return (long) mt[mti];
     }
     
     /** 
@@ -178,7 +183,12 @@ public class MersenneTwister implements RandomNumber {
      * @return  The current array of random number seed s
      */
     public long[] getSeeds() {
-        return new long[] { getSeed() };
+        long[] seeds = new long[N + 1];
+        for (int i = 0; i < N; ++i) {
+            seeds[i] = (long) mt[i];
+        }
+        seeds[N] = mti;
+        return seeds;
     }
     
     /**  Resets seed to last setSeed() value
@@ -197,6 +207,7 @@ public class MersenneTwister implements RandomNumber {
             sgenrand( (int) seed);
         }
         else {
+            logger.severe("Seed cannot be 0");
             throw new IllegalArgumentException("Seed cannot be 0");
         }
     }
@@ -207,10 +218,26 @@ public class MersenneTwister implements RandomNumber {
      * least one element.
      */
     public void setSeeds(long[] seed) {
-        if (seed.length == 0) {
-            throw new IllegalArgumentException("Need at least one seed");
+        if (seed.length == 1) {
+            sgenrand((int) seed[0]);
+        } else if (seed.length == N) {
+            for (int i = 0; i < N; ++i) {
+                mt[i] = (int) seed[i];
+                mti = N;
+            }
+        } else if (seed.length == N + 1) {
+            for (int i = 0; i < N; ++i) {
+                mt[i] = (int) seed[i];
+            }
+            mti = (int) seed[N];
+        } else {
+            logger.severe("Seed array must be of length 1, " + N +
+                    ", or " + (N + 1) + "; was " + seed.length);
+            throw new IllegalArgumentException(
+                    "Seed array must be of length 1, " + N +
+                    ", or " + (N + 1) + "; was " + seed.length);
         }
-        setSeed(seed[0]);
+        
     }
     
 /**
