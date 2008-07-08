@@ -10,7 +10,7 @@ import simkit.random.RandomNumberFactory;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 /**
- *
+ * @deprecated Now covered by unit tests in simkit.random.RandomVariateFactoryTest
  * @author  Arnold Buss
  * @version $Id$
  */

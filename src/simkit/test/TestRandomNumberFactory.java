@@ -9,6 +9,7 @@ import simkit.random.RandomNumberFactory;
 public class TestRandomNumberFactory {
     
     /**
+     * @deprecated now in unit test suite
      * @param args the command line arguments
      */
     public static void main(String[] args) {
