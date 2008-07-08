@@ -154,9 +154,4 @@ public class MixedVariate extends simkit.random.RandomVariateBase {
         }
         return buf.toString();
     }
-
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

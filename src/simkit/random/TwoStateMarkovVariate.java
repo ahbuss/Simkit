@@ -146,9 +146,4 @@ public class TwoStateMarkovVariate extends RandomVariateBase implements Discrete
         return "Two State Markov Chain [" + getTransitionProb()[0] + ", " +
             getTransitionProb()[1] + "] - {" + getInitialState() +"}";
     }
-
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

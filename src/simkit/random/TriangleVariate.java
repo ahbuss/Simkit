@@ -152,22 +152,4 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
     public String toString() {
         return "Triangle (" + left + ", " + right + ", " + center + ")";
     }
-
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        if(paramName.equalsIgnoreCase("left")) {
-            Number p = (Number)paramValue;
-            this.setLeft(p.doubleValue());
-        } else if(paramName.equalsIgnoreCase("right")) {
-            Number p = (Number)paramValue;
-            this.setRight(p.doubleValue());
-        } else if(paramName.equalsIgnoreCase("center")) {
-            Number p = (Number)paramValue;
-            this.setCenter(p.doubleValue());
-        } else {
-            throw new IllegalArgumentException(paramName + " is not a" +
-                    " random variate parameter for " + this.getClass().getName());
-        }
-    }
-    
 }

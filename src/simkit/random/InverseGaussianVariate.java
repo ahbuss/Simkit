@@ -114,10 +114,4 @@ public class InverseGaussianVariate extends RandomVariateBase {
     public String toString() {
         return "Inverse Gaussian (" + getMu() + ", " + getLambda() + ")";
     }
-
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
 }

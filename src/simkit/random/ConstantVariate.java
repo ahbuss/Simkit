@@ -62,15 +62,4 @@ public class ConstantVariate extends RandomVariateBase {
 **/
     public String toString() { return "Constant (" + value + ")"; }
     
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        if(paramName.equalsIgnoreCase("value")) {
-            Number p = (Number)paramValue;
-            this.setValue(p.doubleValue());
-        } else {
-            throw new IllegalArgumentException(paramName + " is not a" +
-                    " random variate parameter for " + this.getClass().getName());
-        }
-    }
-
 }

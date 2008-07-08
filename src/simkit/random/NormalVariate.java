@@ -107,19 +107,5 @@ public class NormalVariate extends RandomVariateBase {
 **/
     public String toString() { return "Normal (" + mean + ", " + sigma + ")"; }
 
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        if(paramName.equalsIgnoreCase("mean")) {
-            Number p = (Number)paramValue;
-            this.setMean(p.doubleValue());
-        } else if(paramName.equalsIgnoreCase("std")) {
-            Number p = (Number)paramValue;
-            this.setStandardDeviation(p.doubleValue());
-        } else {
-            throw new IllegalArgumentException(paramName + " is not a" +
-                    " random variate parameter for " + this.getClass().getName());
-        }
-    }
-    
 }
 

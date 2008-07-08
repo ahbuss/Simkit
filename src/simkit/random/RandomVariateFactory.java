@@ -1,14 +1,10 @@
 package simkit.random;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.logging.Logger;
-import org.jvyaml.YAML;
 
 /**
  * Factory for creating <CODE>RandomVariate</CODE> instances from "orders".
@@ -303,214 +299,16 @@ public class RandomVariateFactory {
         return instance;
     }
 
-    private static void parseDefaultsFile() {
-        if (null == defaultsMap) {
-            InputStream in = Thread.currentThread().getContextClassLoader().
-                    getResourceAsStream(
-                    "simkit/random/VariateDefaults.yaml");
-            InputStreamReader r = new InputStreamReader(in);
-            defaultsMap = (Map) YAML.load(r);
-        }
-    }
-
     /**
-     * For the Variate Type short name given, returns the keys and
-     * object types expected for the parameters.
-     * 
-     */
-    public static Map<String, Class> getDefaultParameterTypes(
-            String variateShortName) {
-        parseDefaultsFile();
-        Map<String, Class> parameterTypes = new HashMap();
-        Map<String, Object> defaultsData = defaultsMap.get(variateShortName);
-        
-        if(null == defaultsData) {
-            throw new IllegalArgumentException(variateShortName +
-                    " is not a known variate type");
-        }
-        
-        Set keyset = defaultsData.keySet();
-        
-        for (Object k: keyset) {
-            parameterTypes.put((String)k, defaultsData.get(k).getClass());
-        }
-                
-        return parameterTypes;
-    }
-
-    /**
-     * For the Variate Type short name given, returns the keys and
-     * object types expected for the parameters.
-     * 
-     */
-    public static Map<String, Object> getDefaultParameterValues(
-            String variateShortName) {
-        parseDefaultsFile();
-        Map<String, Object> defaultsData = defaultsMap.get(variateShortName);
-        
-        if(null == defaultsData) {
-            throw new IllegalArgumentException(variateShortName +
-                    " is not a known variate type");
-        }
-        
-        return defaultsData;
-    }
-
-    /**
-     * Creates a variate with the named distribution.  The implementation
-     * used will be either the default one specified in 
-     * {@code VariateDefaults.yaml} or, one specified in the params map under 
-     * the key 'className' and that class name
-     * resolves to a findable class.  If the class is specified and can't be
-     * found, an exception is thrown.
-     * <p>
-     * Parameter keys that match those defined in
-     * {@code VariateDefaults.yaml} (which can also be obtained by examining 
-     * the key set returned by 
-     * {@code RandomVariateFactory.getDefaultParameterTypes()}) will be applied
-     * to the random variate instance before it is returned.  Unknown keys
-     * (that is, keys not used in the VaraiateDefaults description)
-     * will be ignored.
-     * 
-     * <p>
-     * The factory and target variate instance are prepared to deal with
-     * certain keys in the parameter map.  Other keys may be present, but 
-     * will be ignored by this part of the simkit system.  This makes it
-     * possible to decorate or subclass this factory in a way that makes
-     * use of new parameterization data.  The keys used by this factory
-     * are available as static constants:
-     * <ul>
-     * <li> RANDOM_VARIATE_CLASSNAME_KEY </li>
-     * <li> RANDOM_NUMBER_CLASSNAME_KEY </li>
-     * <li> RANDOM_INSTANCE_KEY </li>
-     * <li> RANDOM_VARIATE_STREAM_ID_KEY </li>
-     * <li> RANDOM_VARIATE_SUBSTREAM_ID_KEY </li>
-     * </ul>
-     * 
-     * @param distributionName Short name for the distribution.  Must be found
-     * as a top level element in VaraiateDefaults.yaml, or else an exception is 
-     * thrown.  You can obtain the known names by calling 
-     * {@code RandomVariateFactory.getDefaultParameterValues()}
-     * 
+     * Creates a variate with the named distribution.
+     *  
+     * @param variateClassName 
      * @param params a String keyed map of named parameters.
      *
      */
-    public static RandomVariate getInstance(String distributionName, 
+    public static RandomVariate getInstance(String variateClassName, 
             Map<String, Object> params) {
-        
-        RandomVariate result = null;
-        parseDefaultsFile();
-        
-        // next line throw exception if no such variate short name
-        // in this way we (rightly? or wrongly?) enforce keeping the 
-        // file VariateDefaults.yaml up to date with an entry for each supported
-        // variate.
-        
-        Map defaultVariate = getDefaultParameterValues(distributionName);
-        
-        if (null == params) {
-            
-            // allow getting the default variate by passing null params
-            params = new HashMap();
-            
-        }
-        Set<String> keyset = defaultVariate.keySet();
-
-        // allow the params to be incomplete, substituting default
-        // values for missing ones.  This is one way to ensure all needed
-        // info is here.  We could instead use something like this to
-        // simply flag missing parameters.
-        //
-        // kas chose this route to allow conveniences like only providing
-        // a custom class name, or, of providing parameters without
-        // providing a class name.
-        //
-        // TODO is this the right design choice?
-
-        for(String key: keyset){
-            if (!params.containsKey(key)){
-                params.put(key, defaultVariate.get(key));
-                log.warning("A parameter was missing in the user" +
-                        " specification for constructing variate '" +
-                        distributionName + "'.  The default value of " +
-                        defaultVariate.get(key) + " was" +
-                        " used for missing parameter '" + 
-                        key + "'.");
-            }
-        }
-
-        Class<?> rvClass = null;
-        try {
-            rvClass = Class.forName((String)params.get("className"));
-        } catch (ClassNotFoundException ex) {
-            String msg = "The following Class was requested as a random " +
-                    "variate but could not be found" + params.get("className");
-            throw new RuntimeException(msg); 
-        }
-
-        try {
-            result = (RandomVariate)rvClass.newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException("Unable to instantiate " +
-                    rvClass , e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("Unable to instantiate " + 
-                    rvClass , e);
-        } catch (ClassCastException e) {
-            throw new RuntimeException("The Class " + rvClass +
-                    " cannot be cast to RandomVariate." , e);
-        }
-
-        if (null != result) {
-            
-            // pre-defined keys for the parameter map object passed in
-            // to getInstance(String, Map)
-            
-            for (String key : keyset) {
-                // this extra map entry is only used by the factory
-                if(key.equalsIgnoreCase(RANDOM_VARIATE_CLASSNAME_KEY)) {
-                    continue;
-                }
-                
-                // this extra map entry might be used by the factory
-                // but not by the variate itself.
-                if(key.equalsIgnoreCase(RANDOM_NUMBER_CLASSNAME_KEY)) {
-                    continue;
-                }
-                
-                // this extra map entry might be used by the factory
-                // but not by the variate itself.
-                if(key.equalsIgnoreCase(RANDOM_INSTANCE_KEY)) {
-                    continue;
-                }
-                
-                // this extra map entry might be used by the factory
-                // but not by the variate itself.
-                if(key.equalsIgnoreCase(RANDOM_NUMBER_STREAM_ID_KEY)) {
-                    continue;
-                }
-                
-                // this extra map entry might be used by the factory
-                // but not by the variate itself.
-                if(key.equalsIgnoreCase(RANDOM_NUMBER_SUBSTREAM_ID_KEY)) {
-                    continue;
-                }
-                
-                if(defaultVariate.keySet().contains(key)){
-                    // if it isn't in the parameter definitions, it is
-                    // 'extra', and we can't count on the variate class
-                    // to know anything about it, Otherwise, it should be
-                    // safe to call.  If this call doesn't succeed, then 
-                    // either VariateDefaults.yaml or the class being called
-                    // has an error.
-                    result.setParameter(key, params.get(key));
-                }
-            }
-        } else {
-            throw new RuntimeException("The following Class was requested " +
-                    "as a random variate but could not be instantiated: " +
-                    params.get("className"));
-        }
+        RandomVariate result=null;
         return result;
     }
 }

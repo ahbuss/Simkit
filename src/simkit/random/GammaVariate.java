@@ -206,18 +206,4 @@ public class GammaVariate extends RandomVariateBase {
      * Returns the name and parameters of this RandomVariate.
      **/
     public String toString() { return "Gamma (" + getAlpha() + ", " + getBeta() + ")"; }
-
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        if(paramName.equalsIgnoreCase("alpha")) {
-            Number param = (Number)paramValue;
-            this.setAlpha(param.doubleValue());
-        } else if(paramName.equalsIgnoreCase("beta")) {
-            Number param = (Number)paramValue;
-            this.setBeta(param.doubleValue());
-        } else {
-            throw new IllegalArgumentException(paramName + " is not a" +
-                    " random variate parameter for " + this.getClass().getName());
-        }
-    }
 }

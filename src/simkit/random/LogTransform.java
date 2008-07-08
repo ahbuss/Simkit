@@ -86,10 +86,4 @@ public class LogTransform  implements RandomVariate {
     public String toString() {
         return "Log { " + getRandomVariate() + " }";
     }
-
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
 }

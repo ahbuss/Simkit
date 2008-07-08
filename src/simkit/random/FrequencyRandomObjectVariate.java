@@ -122,10 +122,4 @@ public class FrequencyRandomObjectVariate implements RandomObjectVariate {
     public void setDecimalFormat(DecimalFormat decimalFormat) {
         this.decimalFormat = decimalFormat;
     }
-
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
 }

@@ -158,10 +158,5 @@ public class DiscreteVariate extends RandomVariateBase {
         }
         return freq;
     }
-
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }
 

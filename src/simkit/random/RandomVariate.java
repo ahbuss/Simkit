@@ -36,16 +36,6 @@ public interface RandomVariate {
     public void setParameters(Object... params);
     
     /**
-     * Sets a parameter value by name.  If the name is not a parameter for
-     * this object, an exception should be thrown.  If the parameter value cannot
-     * be cast to the correct type, an exception should be thrown.
-     * 
-     * @param paramName
-     * @param paramValue
-     */
-    public void setParameter(String paramName, Object paramValue);
-    
-    /**
      * Returns the array of parameters as an Object[].
      * 
      * @return The array of parameters as an Object[].

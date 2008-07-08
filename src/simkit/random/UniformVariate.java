@@ -121,18 +121,4 @@ public class UniformVariate extends RandomVariateBase {
 * parameters.
 **/
     public String toString() { return "Uniform (" + low + ", " + high + ")"; }
-
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        if(paramName.equalsIgnoreCase("high")) {
-            Number param = (Number)paramValue;
-            this.setMaximum(param.doubleValue());
-        } else if(paramName.equalsIgnoreCase("low")) {
-            Number param = (Number)paramValue;
-            this.setMinimum(param.doubleValue());
-        } else {
-            throw new IllegalArgumentException(paramName + " is not a" +
-                    " random variate parameter for " + this.getClass().getName());
-        }
-    }
 }

@@ -79,10 +79,4 @@ public class ExponentialTransform implements RandomVariate {
     public String toString() {
         return "Exp { " + getRandomVariate() + " }";
     }
-
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }

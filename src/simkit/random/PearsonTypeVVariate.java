@@ -103,9 +103,4 @@ public class PearsonTypeVVariate extends RandomVariateBase {
 **/
     public double getBeta() { return beta; }
 
-    @Override
-    public void setParameter(String paramName, Object paramValue) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
 }
