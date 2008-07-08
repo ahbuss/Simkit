@@ -306,9 +306,11 @@ public class RandomVariateFactory {
      * @param params a String keyed map of named parameters.
      *
      */
-    public static RandomVariate getInstance(String variateClassName, 
+    public static RandomVariate getInstance(String className, 
             Map<String, Object> params) {
         RandomVariate result=null;
+        
+        
         return result;
     }
 }
