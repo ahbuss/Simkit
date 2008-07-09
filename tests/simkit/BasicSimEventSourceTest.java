@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package simkit;
 
 import junit.framework.TestCase;
@@ -69,6 +65,36 @@ public class BasicSimEventSourceTest extends TestCase {
         assertEquals(2, listeners.length);
         assertSame(listener[0], listeners[0]);
         assertSame(listener[2], listeners[1]);
+
+    }
+
+    /**
+     * Test the utilities in the Misc class related to the listener
+     * pattern.
+     */
+    public void testMiscRemoveAllSimEventListeners() {
+        System.out.println("removeSimEventListener");
+        SimEventListener[] listener = new SimEventListener[]{
+            new SimEntityBase() {
+            },
+            new SimEntityBase() {
+            },
+            new SimEntityBase() {
+            }
+        };
+
+        BasicSimEventSource instance = new BasicSimEventSource();
+        for (int i = 0; i < listener.length; ++i) {
+            instance.addSimEventListener(listener[i]);
+        }
+        SimEventListener[] listeners = instance.getSimEventListeners();
+        assertEquals(3, listeners.length);
+        simkit.util.Misc.removeAllSimEventListeners(instance);
+//        instance.removeSimEventListener(listener[1]);
+        listeners = instance.getSimEventListeners();
+        assertEquals(0, listeners.length);
+//        assertSame(listener[0], listeners[0]);
+//        assertSame(listener[2], listeners[1]);
 
     }
 

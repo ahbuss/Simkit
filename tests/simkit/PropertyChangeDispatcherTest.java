@@ -1,6 +1,8 @@
 
 package simkit;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import junit.framework.*;
 
 import java.util.*;
@@ -37,6 +39,31 @@ public class PropertyChangeDispatcherTest extends TestCase {
         assertTrue(propsList.contains("private"));
         assertTrue(propsList.contains("nothing"));
         
+    }
+    
+    class BrainDeadEntity extends SimEntityBase {
+        
+    }
+    
+    class EmptyListener implements PropertyChangeListener {
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            
+        }
+    }
+    
+    public void testMiscRemoveAllPropertyChangeListeners() {
+        SimEntity entity = new BrainDeadEntity();
+        
+        entity.addPropertyChangeListener(new EmptyListener());
+        entity.addPropertyChangeListener(new EmptyListener());
+        entity.addPropertyChangeListener(new EmptyListener());
+        entity.addPropertyChangeListener(new EmptyListener());
+        
+        assertEquals(4, entity.getPropertyChangeListeners().length);
+        simkit.util.Misc.removeAllPropertyChangeListeners(entity);
+        assertEquals(0, entity.getPropertyChangeListeners().length);
     }
 
     public static class TestClass {

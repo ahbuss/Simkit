@@ -15,6 +15,7 @@ public class TestAll extends TestCase {
         suite.addTest(new TestSuite(EventListTest.class));
         suite.addTest(new TestSuite(PropertyChangeDispatcherTest.class));
         suite.addTest(new TestSuite(SimEntityBaseTest.class));
+        suite.addTest(new TestSuite(JavaReflectionTest.class));
         suite.addTest(simkit.random.TestAll.suite());
         return suite;
     }

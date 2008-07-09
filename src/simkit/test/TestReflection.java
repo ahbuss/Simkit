@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 
 import simkit.util.Misc;
 /**
- *
+ * @deprecated Covered by unit test suite in simkit.JavaReflectionTest
  * @author  ahbuss
  * @version $Id$
  */

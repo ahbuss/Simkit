@@ -6,6 +6,10 @@ import simkit.*;
 
 /**
 * A location for a number of useful static methods.
+ * <p>
+ * Unit test JavaReflectionTest covers the reflection oriented methods
+ * in this class.
+ * 
 * @version $Id$
 **/
 public class Misc {
@@ -16,6 +20,7 @@ public class Misc {
      *  @param args The <CODE>Object[]</CODE> array we want the signature for.
      *  @return The <CODE>Class[]</CODE> representing the signature of the argument array.
      **/
+    // covered indirectly by tests on getFullMethodName
     public static Class[] getSignatureFromArguments(Object[] args) {
         Class[] signature = new Class[args.length];
         for (int i = 0; i < signature.length; i++) {
@@ -27,6 +32,7 @@ public class Misc {
 /**
 * Returns the method name with the class names of the arguments appended.
 **/
+    // covered by unit test JavaReflectionTest
     public static String getFullMethodName(String methodName, Object[] arguments) {
         StringBuffer buf = new StringBuffer(methodName);
         buf.append('(');
@@ -47,6 +53,7 @@ public class Misc {
 * @return The method name followed by the classes of the arguments.
 * @throws NoSuchMethodException If the method doesn't exist or isn't public.
 **/    
+    // covered by unit test JavaReflectionTest
     public static String getFullMethodName(Class<?> theClass, String name, Object[] args) {
         String fullName = null;
         try {
@@ -54,7 +61,8 @@ public class Misc {
             fullName = m.toString().substring(12);
         }
         catch (NoSuchMethodException e) {
-            System.err.println(e);
+//            don't need this, rethrowning RuntimException will produce a stack trace
+//            System.err.println(e);
             throw(new RuntimeException(e));
         }
         return fullName;
@@ -64,6 +72,9 @@ public class Misc {
 * Removes all of the SimEventListners currently registers with 
 * the given SimEventSource.
 **/
+    
+    // covered in test case simkit.BasicSimEventSourceTest
+    
     public static void removeAllSimEventListeners(SimEventSource source) {
         SimEventListener[] listeners = source.getSimEventListeners();
         for (int i = 0; i < listeners.length; i++) {
@@ -75,6 +86,9 @@ public class Misc {
 * Removes all of the PropertyChangeListners currently registers with 
 * the given PropertChangeSource.
 **/
+    
+    // covered in test case simkit.PropertyChangeDispatcherTest.
+    
     public static void removeAllPropertyChangeListeners(PropertyChangeSource source) {
         PropertyChangeListener[] listeners = source.getPropertyChangeListeners();
         for (int i = 0; i < listeners.length; i++) {
