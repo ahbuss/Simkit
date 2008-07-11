@@ -371,7 +371,7 @@ public class Math2DTest extends TestCase {
         
         // stationary target at origin
         // approach along axis from the left
-        pursuer = new UnitTestingMover("Target", new Point2D.Double(-50.0, 0.0), 10.0);
+        pursuer = new UnitTestingMover("Pursuer", new Point2D.Double(-50.0, 0.0), 10.0);
         testIntercept = new Point2D.Double(0.0, 0.0);
 
         computedIntercept = Math2D.getIntercept(pursuer, target);
@@ -389,7 +389,7 @@ public class Math2DTest extends TestCase {
 
         // stationary target at origin
         // approach along axis from the right
-        pursuer = new UnitTestingMover("Target", new Point2D.Double(50.0, 0.0), 10.0);
+        pursuer = new UnitTestingMover("Pursuer", new Point2D.Double(50.0, 0.0), 10.0);
         testIntercept = new Point2D.Double(0.0, 0.0);
 
         computedIntercept = Math2D.getIntercept(pursuer, target);
@@ -407,7 +407,7 @@ public class Math2DTest extends TestCase {
 
         // stationary target at origin
         // approach along axis from above
-        pursuer = new UnitTestingMover("Target", new Point2D.Double(0.0, 50.0), 10.0);
+        pursuer = new UnitTestingMover("Pursuer", new Point2D.Double(0.0, 50.0), 10.0);
         testIntercept = new Point2D.Double(0.0, 0.0);
 
         computedIntercept = Math2D.getIntercept(pursuer, target);
@@ -425,7 +425,7 @@ public class Math2DTest extends TestCase {
 
         // stationary target at origin
         // approach along axis from below
-        pursuer = new UnitTestingMover("Target", new Point2D.Double(0.0, -50.0), 10.0);
+        pursuer = new UnitTestingMover("Pursuer", new Point2D.Double(0.0, -50.0), 10.0);
         testIntercept = new Point2D.Double(0.0, 0.0);
 
         computedIntercept = Math2D.getIntercept(pursuer, target);
@@ -449,7 +449,7 @@ public class Math2DTest extends TestCase {
         
         // half-speed target at origin moving to the right (fleeing)
         // approach along axis from the left
-        pursuer = new UnitTestingMover("Target", new Point2D.Double(-50.0, 0.0), 2.0);
+        pursuer = new UnitTestingMover("Pursuer", new Point2D.Double(-50.0, 0.0), 2.0);
         testIntercept = new Point2D.Double(50.0, 0.0);
 
         computedIntercept = Math2D.getIntercept(pursuer, target);
@@ -467,7 +467,7 @@ public class Math2DTest extends TestCase {
 
         // half-speed target at origin moving to the right (approaching)
         // approach along axis from the right (head-on)
-        pursuer = new UnitTestingMover("Target", new Point2D.Double(300.0, 0.0), 2.0);
+        pursuer = new UnitTestingMover("Pursuer", new Point2D.Double(300.0, 0.0), 2.0);
         testIntercept = new Point2D.Double(100.0, 0.0);
 
         computedIntercept = Math2D.getIntercept(pursuer, target);
@@ -480,6 +480,29 @@ public class Math2DTest extends TestCase {
         assertEquals(testIntercept, computedIntercept);
         
         testIntercept = new Point2D.Double(102.0, 0.0);
+        computedIntercept = Math2D.getIntercept(pursuer, 2.0, 3.0, target);
+        assertEquals(testIntercept, computedIntercept);
+        
+        // equal-speed target at origin moving to the right (approaching)
+        // approach along axis from the right (head-on)
+        
+        /* This case has presented problems because the pure mathematical
+         * solution for it is not defined.
+         */
+        target = new UnitTestingMover("Target", new Point2D.Double(0.0, 0.0), 2.0);
+        target.setVelocity_TestHook(new Point2D.Double(2.0, 0.0));
+        testIntercept = new Point2D.Double(150.0, 0.0);
+
+        computedIntercept = Math2D.getIntercept(pursuer, target);
+        assertEquals(testIntercept, computedIntercept);
+        
+        computedIntercept = Math2D.getIntercept(pursuer, 2.0, target);
+        assertEquals(testIntercept, computedIntercept);
+        
+        computedIntercept = Math2D.getIntercept(pursuer, 2.0, 0.0, target);
+        assertEquals(testIntercept, computedIntercept);
+        
+        testIntercept = new Point2D.Double(150.0, 0.0);
         computedIntercept = Math2D.getIntercept(pursuer, 2.0, 3.0, target);
         assertEquals(testIntercept, computedIntercept);
         
