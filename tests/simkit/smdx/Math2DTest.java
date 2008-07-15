@@ -31,25 +31,25 @@ public class Math2DTest extends TestCase {
      * causing DAFS bug 730.
      **/
     public void testBug730() {
-//        log.info("Starting bug 730");
+//        System.out.println("Starting bug 730");
         Mover pursuer = new UniformLinearMover(new Point2D.Double(1.0E-9, 1.0E-9), 40000);
         Mover target = new UniformLinearMover(new Point2D.Double(0.0, 0.0), 35000);
         Point2D intercept = Math2D.getIntercept(pursuer, pursuer.getMaxSpeed(), 0.0, target);
 //        log.info("intercept=" + intercept);
         assertEquals(Double.NEGATIVE_INFINITY, intercept.getX());
         assertEquals(Double.NEGATIVE_INFINITY, intercept.getY());
-//        log.info("Finished bug 730");
+//        System.out.println("Finished bug 730");
     }
 
     public void testBug730a() {
-//        log.info("Starting bug 730a");
+//        System.out.println("Starting bug 730a");
         Mover pursuer = new UniformLinearMover(new Point2D.Double(26706.12518150173, 33110.032031361014), 40000.0);
         Mover target = new UniformLinearMover(new Point2D.Double(21731.08839436993, 36463.98625983303), 40000.0);
         target.moveTo(new Point2D.Double(20324.44658389988, 37151.932931404095));
         Point2D intercept = Math2D.getIntercept(pursuer, pursuer.getMaxSpeed(), 0.95, target);
-//        log.info("intercept=" + intercept);
+//        System.out.println("intercept=" + intercept);
         assertNull(intercept);
-    //       log.info("Finished bug 730a");
+//          System.out.println("Finished bug 730a");
     }
 
     /**
@@ -369,6 +369,13 @@ public class Math2DTest extends TestCase {
         target = new UnitTestingMover("Target", new Point2D.Double(0.0, 0.0), 10.0);
         target.setVelocity_TestHook(new Point2D.Double(0.0, 0.0));
         
+        // pursuer also at origin
+        pursuer = new UnitTestingMover("Pursuer", new Point2D.Double(-0.0, 0.0), 10.0);
+        testIntercept = new Point2D.Double(0.0, 0.0);
+
+        computedIntercept = Math2D.getIntercept(pursuer, target);
+        assertEquals(testIntercept, computedIntercept);
+        
         // stationary target at origin
         // approach along axis from the left
         pursuer = new UnitTestingMover("Pursuer", new Point2D.Double(-50.0, 0.0), 10.0);
@@ -486,9 +493,6 @@ public class Math2DTest extends TestCase {
         // equal-speed target at origin moving to the right (approaching)
         // approach along axis from the right (head-on)
         
-        /* This case has presented problems because the pure mathematical
-         * solution for it is not defined.
-         */
         target = new UnitTestingMover("Target", new Point2D.Double(0.0, 0.0), 2.0);
         target.setVelocity_TestHook(new Point2D.Double(2.0, 0.0));
         testIntercept = new Point2D.Double(150.0, 0.0);
@@ -502,17 +506,18 @@ public class Math2DTest extends TestCase {
         computedIntercept = Math2D.getIntercept(pursuer, 2.0, 0.0, target);
         assertEquals(testIntercept, computedIntercept);
         
-        testIntercept = new Point2D.Double(150.0, 0.0);
-        computedIntercept = Math2D.getIntercept(pursuer, 2.0, 3.0, target);
+        testIntercept = new Point2D.Double(151.0, 0.0);
+        computedIntercept = Math2D.getIntercept(pursuer, 2.0, 2.0, target);
         assertEquals(testIntercept, computedIntercept);
         
         // equal speed fleeing target (no solution situation)
         target = new UnitTestingMover("Target", new Point2D.Double(0.0, 0.0), 2.0);
         target.setVelocity_TestHook(new Point2D.Double(2.0, 0.0));
 
-        pursuer = new UnitTestingMover("Target", new Point2D.Double(-50.0, 0.0), 2.0);
+        pursuer = new UnitTestingMover("Pursuer", new Point2D.Double(-50.0, 0.0), 2.0);
 
         computedIntercept = Math2D.getIntercept(pursuer, target);
+//        System.out.println(computedIntercept);
         assertNull(computedIntercept);
         
         computedIntercept = Math2D.getIntercept(pursuer, 2.0, target);
