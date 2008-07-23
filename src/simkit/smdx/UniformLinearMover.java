@@ -10,7 +10,27 @@ import simkit.SimEntityBase;
  * parameters are protected with getters (like state variables) rather
  * than private with setters/getters.  This is because all parameters
  * (like max speed, etc) should not be changed after the object is instantiated.
+ * 
  * <p>Modifications made per recommendations of Alistair Dickie.
+ * 
+ * <p>TODO Re-evaluate the above idea.  The real goal is to ensure that 
+ * parameters are not set while the simulation is in progress, not to ensure
+ * parameters are not set after the entity is instantiated.  There are two
+ * reasons to reconsider:
+ * <p>
+ * 1. It impossible to construct objects using the Builder Pattern.
+ * This pattern typically instantiates objects with a zero argument constructor,
+ * and then uses setters to set up the object in whatever particular way that
+ * builder builds things.  As we have seen, simkit models get complex enough
+ * that the Builder Pattern is useful.
+ * 
+ * <p> 2.  In a multiple iteration scenario, if
+ * we stick with the exisiting paradigm of re-cycling entities and using the
+ * reset functionality, it is probable that you would want parameters to be 
+ * settable so that a main program
+ * trying to execute a design of experiments can change the parameters for a new
+ * design point.
+ * 
  * @author  Arnold Buss
  * @version $Id$
  */
@@ -204,7 +224,10 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     public String paramString() {
         return this.getName() + " " + originalLocation + " " + maxSpeed;
     }
-    
+  
+    protected Point2D getResetLocation() {
+        return (Point2D)originalLocation.clone();
+    }
 /**
 * Cancels all pending SimEvents for this Mover and returns it to its
 * original location stopped.
@@ -213,7 +236,8 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     public void reset() {
         super.reset();
         setMovementState(MovementState.STOPPED);
-        lastStopLocation = (Point2D) originalLocation.clone();
+        lastStopLocation = getResetLocation();
+//        lastStopLocation = (Point2D) originalLocation.clone();
         velocity  = new Point2D.Double();
         startMoveTime = eventList.getSimTime();
         destination = null;
@@ -250,7 +274,14 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         firePropertyChange("destination", oldDestination, 
             new Point2D.Double(destination.getX(), destination.getY()));
         double distance = destination.distance(this.getLocation());
-        moveTime = distance / cruisingSpeed;
+        if ( distance <= 1E-12) {
+            // If the distance is very small, set zero movement time, since
+            // the distance/speed could return infinity or very large numbers
+            // for low or zero cruising speeds
+            moveTime = 0.0;
+        } else {
+            moveTime = distance / cruisingSpeed;
+        }
         Point2D oldVelocity = getVelocity();
         if (moveTime <= 0.0) {
             velocity.setLocation(0.0, 0.0);
