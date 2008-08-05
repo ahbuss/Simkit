@@ -2,6 +2,7 @@ package simkit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import simkit.random.RandomVariate;
 import simkit.util.IndexedPropertyChangeEvent;
 
 /**
@@ -188,7 +189,8 @@ public abstract class BasicSimEntity extends BasicSimEventSource
    * @param delay The amount of time between now and when the event will occur.
    * @param priority If two events occur at the same time, the one with the highest number
    * will be executed first.
-   * @param parameters The parameters for the event. Primitives must be wrapped in an Object.
+   * @param parameters The parameters for the event. 
+   * @return The SimEvent that is put on the Event List
    **/
     public SimEvent waitDelay(String name, double delay, Priority priority, Object... parameters) {
         
@@ -197,8 +199,47 @@ public abstract class BasicSimEntity extends BasicSimEventSource
         return event;
     }
     
+    /**
+     * Schedules an event with the default priority
+     * /
+     * @param name Event name of event
+     * @param delay simTime until event is to occur
+     * @param parameters optional parameters for event
+     * @return The SimEvent that is put on the Event List
+     */
+    @Override
     public SimEvent waitDelay(String name, double delay, Object... parameters) {
         return this.waitDelay(name, delay, Priority.DEFAULT, parameters);
+    }
+    
+    /**
+     * Schedules an event using a RandomVariate instance to generate the delay.
+     * Priority is default
+     * 
+     * @param name Event name of event
+     * @param delayGenerator RandomVariate that is used to generate the 
+     *          time until the event will occur
+     * @param parameters optional parameters for event
+     * @return The SimEvent that is put on the Event List
+     */
+    public SimEvent waitDelay(String name, RandomVariate delayGenerator, Object... parameters) {
+        return waitDelay(name, delayGenerator.generate(), parameters);
+    }
+    
+    /**
+     * Schedules an event using a RandomVariate instance to generate the delay
+     * 
+     * @param name Event name of event
+     * @param delayGenerator RandomVariate that is used to generate the 
+     *          time until the event will occur
+     * @param priority If two events occur at the same time, the one with the highest number
+     * will be executed first.
+     * @param parameters optional parameters for event
+     * @return The SimEvent that is put on the Event List
+     */
+    public SimEvent waitDelay(String name, RandomVariate delayGenerator,
+            Priority priority, Object... parameters) {
+        return waitDelay(name, delayGenerator, priority, parameters);
     }
     
 /**
