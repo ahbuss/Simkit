@@ -135,7 +135,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
         Method setter = setters.get(propertyName);
         if (setter != null ) {
             try {
-                setter.invoke(source, new Object[] {propertyValue});
+                setter.invoke(source, (Object) propertyValue);
                 this.firePropertyChange(propertyName, null, propertyValue);
             }
             catch (InvocationTargetException e) {
@@ -336,8 +336,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      */
     public static boolean isGetterSignature(Method method) {
         Class[] signature = method.getParameterTypes();
-        return (signature.length == 0) || 
-                (signature.length == 1 && signature[0] == int.class);
+        return signature.length == 0;
     }
     
     /**
@@ -347,7 +346,6 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      */
     public static boolean isSetterSignature(Method method) {
         Class[] signature = method.getParameterTypes();
-        return (signature.length == 1) || 
-                (signature.length == 2 && signature[0] == int.class);
+        return signature.length == 1;
     }
 }

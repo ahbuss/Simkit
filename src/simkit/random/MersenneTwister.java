@@ -167,11 +167,11 @@ public class MersenneTwister implements RandomNumber {
     /**
      * This does not work properly and should not be relied on.  Under "normal"
      * usage this shouldn't be necessary.
-     * @return  The current random number seed
+     * @return  the element of the state array that is currently being pointed to
      */
     public long getSeed() {
-        logger.warning(
-                "The implementation of getSeed is not functional for Mersenne Twister");
+//        logger.warning(
+//                "The implementation of getSeed is not functional for Mersenne Twister");
         if (mti >= N) {
             fill();
         }
@@ -179,7 +179,6 @@ public class MersenneTwister implements RandomNumber {
     }
     
     /** 
-     * Currently does not work properly.
      * @return  The current array of random number seed s
      */
     public long[] getSeeds() {
