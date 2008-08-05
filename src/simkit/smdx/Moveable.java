@@ -15,6 +15,9 @@ public interface Moveable {
     
 /**
 * Gets the current location of this Object.
+ * 
+ * Implementations should take care that simulation events and state
+ * changes are not fired by this method.
 **/
     public Point2D getLocation();
     

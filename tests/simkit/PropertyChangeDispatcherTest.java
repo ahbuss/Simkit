@@ -65,6 +65,25 @@ public class PropertyChangeDispatcherTest extends TestCase {
         simkit.util.Misc.removeAllPropertyChangeListeners(entity);
         assertEquals(0, entity.getPropertyChangeListeners().length);
     }
+    
+    public void testRealGetterVsPropertyGetter1() {
+        BrainDeadEntity e = new BrainDeadEntity();
+        e.setName("Fred");
+        assertEquals("Fred", e.getName());
+        assertEquals("Fred", e.getProperty("name"));
+    }
+
+    public void testRealGetterVsPropertyGetter2() {
+        BrainDeadEntity e = new BrainDeadEntity();
+        e.setProperty("Name", "Fred");
+        assertEquals("Fred", e.getName());
+    }
+
+    public void testRealGetterVsPropertyGetter3() {
+        BrainDeadEntity e = new BrainDeadEntity();
+        e.setProperty("Name", "Fred");
+        assertEquals("Fred", e.getProperty("name"));
+    }
 
     public static class TestClass {
 
