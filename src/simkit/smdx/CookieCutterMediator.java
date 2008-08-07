@@ -29,12 +29,20 @@ public abstract class CookieCutterMediator extends SimEntityBase implements Sens
      * contact returned by this method is the one that will be passed as a 
      * parameter when scheduling the detection.
      * <p>
+     * This method is only called if the contact does not yet exist in this
+     * mediator's Mover-Target database.
+     * <p>
      * If the subclass implementation returns null, no detection is scheduled.
+     * 
      * @param sensor
      * @param target
      * @return The Contact for the given sensor-target pairing.
      */
-    protected abstract Contact getContactForEnterRangeEvent(Sensor sensor, Mover target);
+    protected Contact getContactForEnterRangeEvent(Sensor sensor, Mover target) {
+        Contact contact = new Contact(target);
+        return contact;
+    }
+
     
     /**
      * Optional hook method that is invoked upon hearing a {@code EnterRange}
@@ -71,7 +79,11 @@ public abstract class CookieCutterMediator extends SimEntityBase implements Sens
                 sensor.getClass(), target.getClass())) {
         
             targetIsEnteringSensorRange(sensor, target);
-            Contact contact = getContactForEnterRangeEvent(sensor, target);
+            Contact contact = contacts.get(target);
+            if (null == contact) {
+                contact = getContactForEnterRangeEvent(sensor, target);
+                contacts.put(target, contact);
+            }
             sensor.waitDelay("Detection", 0.0, new Object[] { contact });
         }
     }
