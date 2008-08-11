@@ -239,7 +239,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      */
     public SimEvent waitDelay(String name, RandomVariate delayGenerator,
             Priority priority, Object... parameters) {
-        return waitDelay(name, delayGenerator, priority, parameters);
+        return waitDelay(name, delayGenerator.generate(), priority, parameters);
     }
     
 /**

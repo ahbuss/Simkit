@@ -1,9 +1,17 @@
 package simkit.random;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -18,7 +26,7 @@ import java.util.logging.Logger;
  * @version $Id$
  */
 public class RandomVariateFactory {
-
+    
     public static final String _VERSION_ = 
             "$Id$";
     public static Logger log = Logger.getLogger("simkit.random");
@@ -302,15 +310,74 @@ public class RandomVariateFactory {
     /**
      * Creates a variate with the named distribution.
      *  
-     * @param variateClassName 
+     * @param className The name of the desired instance 
      * @param params a String keyed map of named parameters.
      *
      */
     public static RandomVariate getInstance(String className, 
             Map<String, Object> params) {
-        RandomVariate result=null;
+        RandomVariate instance = getUnconfiguredInstance(className);
+        LinkedHashMap<String, Method> writeMethods = new LinkedHashMap<String, Method>();
+        try {
+            BeanInfo beanInfo = Introspector.getBeanInfo(instance.getClass());
+            PropertyDescriptor[] propertyDescriptors = 
+                    beanInfo.getPropertyDescriptors();
+            for (PropertyDescriptor propertyDescriptor: propertyDescriptors) {
+                Method writeMethod = propertyDescriptor.getWriteMethod();
+                if (writeMethod != null) {
+                    writeMethods.put(propertyDescriptor.getName(), writeMethod);
+                }
+            }
+        } catch (IntrospectionException ex) {
+            log.log(Level.SEVERE, null, ex);
+        }
+        if (instance != null) {
+            for (String property : params.keySet()) {
+                Object value = params.get(property);
+                if (value != null) {
+                    Method setter = writeMethods.get(property);
+                    if (setter != null) {
+                        try {
+                            setter.invoke(instance, value);
+                        } catch (IllegalAccessException ex) {
+                            log.log(Level.SEVERE, null, ex);
+                        } catch (IllegalArgumentException ex) {
+                            log.log(Level.SEVERE, null, ex);
+                        } catch (InvocationTargetException ex) {
+                            log.log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            }
+        }
+        instance.setRandomNumber(DEFAULT_RNG);
+        return instance;
+    }
+    
+    protected static RandomVariate getUnconfiguredInstance(String className) {
+        RandomVariate instance=null;
         
-        
-        return result;
+        Class randomVariateClass = (Class) cache.get(className);
+        if (randomVariateClass == null) {
+            randomVariateClass = findFullyQualifiedNameFor(className);
+        }
+        if (randomVariateClass == null) {
+            randomVariateClass = findFullyQualifiedNameFor(className + 
+                    "Variate");
+        }
+        if (randomVariateClass == null) {
+            throw new IllegalArgumentException(
+                    "Can't find RandomVariate class for " + className);
+        } else {
+            cache.put(className, randomVariateClass);
+        }
+        try {
+            instance = (RandomVariate) randomVariateClass.newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return instance;
     }
 }
