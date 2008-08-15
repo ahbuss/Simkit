@@ -39,7 +39,7 @@ public class CookieCutterMediator extends SimEntityBase implements SensorTargetM
      * @return The Contact for the given sensor-target pairing.
      */
     protected Contact getContactForEnterRangeEvent(Sensor sensor, Mover target) {
-        Contact contact = new Contact(target);
+        Contact contact = new SensorContact(target);
         return contact;
     }
 

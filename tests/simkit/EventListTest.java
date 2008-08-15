@@ -9,6 +9,7 @@ import simkit.smdx.Contact;
 import simkit.smdx.CookieCutterMediator;
 import simkit.smdx.Mover;
 import simkit.smdx.Sensor;
+import simkit.smdx.SensorContact;
 
 
 /**
@@ -60,9 +61,9 @@ public class EventListTest extends TestCase {
         
         @Override
         protected Contact getContactForEnterRangeEvent(Sensor sensor, Mover target) {
-            Contact contact = contacts.get(target);
+           Contact contact = contacts.get(target);
             if (contact == null) {
-                contact = new Contact((Mover)target);
+                contact = new SensorContact((Mover)target);
                 contacts.put(target, contact);
             }
             System.out.println("TestMediator providing contact " + 

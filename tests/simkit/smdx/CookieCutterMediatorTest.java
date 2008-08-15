@@ -23,7 +23,7 @@ public class CookieCutterMediatorTest extends TestCase {
         protected Contact getContactForEnterRangeEvent(Sensor sensor, Mover target) {
             Contact contact = contacts.get(target);
             if (contact == null) {
-                contact = new Contact((Mover)target);
+                contact = new SensorContact((Mover)target);
                 contacts.put(target, contact);
             }
             System.out.println("TestMediator providing contact " + 

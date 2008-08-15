@@ -11,7 +11,7 @@ package simkit.smdx;
  * @author  Arnold Buss
  * @version $Id$
  */
-public class SidedContact extends Contact implements Sided {
+public class SidedContact extends SensorContact implements Sided {
     
 /**
 * The Side associated with this SidedContact.
