@@ -10,7 +10,8 @@ import simkit.SimEntityBase;
  * @author Arnold Buss
  * @version $Id$
  */
-public class CookieCutterMediator extends SimEntityBase implements SensorTargetMediator {
+public class CookieCutterMediator extends SimEntityBase
+        implements SensorTargetMediator {
     
 /**
 * A cache of Contact objects for each Mover processed by this mediator.

@@ -303,6 +303,7 @@ public class Math2D {
             case 3:
                 List<Point2D> list = new ArrayList<Point2D>();
                 for (int i = 0; i < sol.length; i++) {
+                    // Bug [1413]  This test screens out valid solutions
                     if (Math.abs(sol[i] - 0.5) < 0.5) {
                         list.add(getPoint(curve, sol[i]));
                     }

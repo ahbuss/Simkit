@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 import junit.framework.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class Math2DTest extends TestCase {
@@ -206,6 +207,8 @@ public class Math2DTest extends TestCase {
         t = Math2D.innerProduct(velocity, Math2D.subtract(inter[1], start)) / Math2D.normSq(velocity);
         assertTrue(t < 0.0 || t > 1.0);
 
+        
+
         testLine = line[1];
         velocity = Math2D.subtract(testLine.getP2(), testLine.getP1());
         start = testLine.getP1();
@@ -257,6 +260,40 @@ public class Math2DTest extends TestCase {
             assertEquals(360.0, inter[3].getX(), testTolerance);
             assertEquals(276.6666666666667, inter[3].getY(), testTolerance);
         }
+    }
+
+    public void testBug1413() {
+
+        Shape fp = new Arc2D.Double(Arc2D.PIE);
+        Point2D loc = new Point2D.Double(0.0, 0.0);
+        double radius = 25.0;
+        double arcStartAwtAngle = 270.0;
+        double arcExtent = 180.0;
+
+        ((Arc2D)fp).setArcByCenter(
+                loc.getX(),
+                loc.getY(),
+                radius,
+                arcStartAwtAngle,
+                arcExtent,
+                Arc2D.PIE);
+
+//        System.out.println("Arc startpoint in AWT space is " + ((Arc2D)fp).getStartPoint());
+//        System.out.println("Arc endpoint in AWT space is " + ((Arc2D)fp).getEndPoint());
+
+        Point2D targetStart = new Point2D.Double(100.0, 0.0);
+        Point2D targetVelocity = new Point2D.Double(-1.0, 0.0);
+
+        Point2D[] intersections =
+                Math2D.findIntersection(targetStart, targetVelocity, fp);
+
+//        System.out.println(Arrays.toString(intersections));
+
+        assertEquals(2, intersections.length);
+        assertEquals(25.0, intersections[0].getX(),1E-6);
+        assertEquals(0.0, intersections[0].getY(),1E-6);
+        assertEquals(0.0, intersections[1].getX(),1E-6);
+        assertEquals(0.0, intersections[1].getY(),1E-6);
     }
 
     /**
