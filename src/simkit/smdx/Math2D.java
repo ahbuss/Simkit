@@ -17,7 +17,10 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Contains a library of useful calculations in 2-dimensional space.
@@ -238,7 +241,27 @@ public class Math2D {
                 }
             }
         }
-        return intersections.toArray(new Point2D[intersections.size()]);
+        
+//        return intersections.toArray(new Point2D[intersections.size()]);
+        Set<Point2D> uniques =  eliminateDuplicates(intersections, 1.0E-12);
+
+//        System.out.println("Returning intersection set, the line being analyzed starts at \n" +
+//                start + " and goes in the " + velocity + " direction");
+        return uniques.toArray(new Point2D[uniques.size()]);
+    }
+
+    public static Set<Point2D> eliminateDuplicates(List<Point2D> intersections, double tolerance) {
+        Set<Point2D> s = new LinkedHashSet();
+        double roundFactor = 1.0 / tolerance;
+        double x, y;
+
+        for(Point2D p : intersections){
+            x = Math.round(p.getX() * roundFactor) * tolerance;
+            y = Math.round(p.getY() * roundFactor) * tolerance;
+            s.add(new Point2D.Double(x,y));
+        }
+
+        return s; //.toArray(new Point2D[s.size()]);
     }
 
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, Ellipse2D ellipse) {
@@ -303,9 +326,14 @@ public class Math2D {
             case 3:
                 List<Point2D> list = new ArrayList<Point2D>();
                 for (int i = 0; i < sol.length; i++) {
+                    Point2D p = getPoint(curve, sol[i]);
                     // Bug [1413]  This test screens out valid solutions
                     if (Math.abs(sol[i] - 0.5) < 0.5) {
+//                    if (sol[i] >= 0.0 && sol[i] <= 1.0) {
+//                        System.out.println("accepting solution: " + p);
                         list.add(getPoint(curve, sol[i]));
+                    } else {
+//                        System.out.println("rejecting solution: " + p);
                     }
                 }
                 return list.toArray(new Point2D[list.size()]);

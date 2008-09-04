@@ -213,6 +213,7 @@ public class Math2DTest extends TestCase {
         velocity = Math2D.subtract(testLine.getP2(), testLine.getP1());
         start = testLine.getP1();
         inter = Math2D.findIntersection(start, velocity, testShape, null);
+//        System.out.println(Arrays.toString(inter));
         assertTrue(inter.length == 0);
 
         testLine = line[2];
@@ -262,7 +263,7 @@ public class Math2DTest extends TestCase {
         }
     }
 
-    public void testBug1413() {
+    public void testBug1413_east() {
 
         Shape fp = new Arc2D.Double(Arc2D.PIE);
         Point2D loc = new Point2D.Double(0.0, 0.0);
@@ -287,11 +288,116 @@ public class Math2DTest extends TestCase {
         Point2D[] intersections =
                 Math2D.findIntersection(targetStart, targetVelocity, fp);
 
-//        System.out.println(Arrays.toString(intersections));
+        System.out.println(Arrays.toString(intersections));
 
         assertEquals(2, intersections.length);
         assertEquals(25.0, intersections[0].getX(),1E-6);
         assertEquals(0.0, intersections[0].getY(),1E-6);
+        assertEquals(0.0, intersections[1].getX(),1E-6);
+        assertEquals(0.0, intersections[1].getY(),1E-6);
+    }
+
+    public void testBug1413_south() {
+
+        Shape fp = new Arc2D.Double(Arc2D.PIE);
+        Point2D loc = new Point2D.Double(0.0, 0.0);
+        double radius = 25.0;
+        double arcStartAwtAngle = 180.0;
+        double arcExtent = 180.0;
+
+        ((Arc2D)fp).setArcByCenter(
+                loc.getX(),
+                loc.getY(),
+                radius,
+                arcStartAwtAngle,
+                arcExtent,
+                Arc2D.PIE);
+
+//        System.out.println("Arc startpoint in AWT space is " + ((Arc2D)fp).getStartPoint());
+//        System.out.println("Arc endpoint in AWT space is " + ((Arc2D)fp).getEndPoint());
+//        System.out.println("Arc bounding rectangle in AWT space is " + fp.getBounds2D());
+
+        Point2D targetStart = new Point2D.Double(0.0, 100.0);
+        Point2D targetVelocity = new Point2D.Double(0.0, -1.0);
+
+        Point2D[] intersections =
+                Math2D.findIntersection(targetStart, targetVelocity, fp);
+
+//        System.out.println(Arrays.toString(intersections));
+
+        assertEquals(2, intersections.length);
+        assertEquals(0.0, intersections[0].getX(),1E-6);
+        assertEquals(25.0, intersections[0].getY(),1E-6);
+        assertEquals(0.0, intersections[1].getX(),1E-6);
+        assertEquals(0.0, intersections[1].getY(),1E-6);
+    }
+
+    public void testBug1413_west() {
+
+        Shape fp = new Arc2D.Double(Arc2D.PIE);
+        Point2D loc = new Point2D.Double(0.0, 0.0);
+        double radius = 25.0;
+        double arcStartAwtAngle = 90.0;
+        double arcExtent = 180.0;
+
+        ((Arc2D)fp).setArcByCenter(
+                loc.getX(),
+                loc.getY(),
+                radius,
+                arcStartAwtAngle,
+                arcExtent,
+                Arc2D.PIE);
+
+//        System.out.println("Arc startpoint in AWT space is " + ((Arc2D)fp).getStartPoint());
+//        System.out.println("Arc endpoint in AWT space is " + ((Arc2D)fp).getEndPoint());
+//        System.out.println("Arc bounding rectangle in AWT space is " + fp.getBounds2D());
+
+        Point2D targetStart = new Point2D.Double(-100.0, 0.0);
+        Point2D targetVelocity = new Point2D.Double(1.0, 0.0);
+
+        Point2D[] intersections =
+                Math2D.findIntersection(targetStart, targetVelocity, fp);
+
+//        System.out.println(Arrays.toString(intersections));
+
+        assertEquals(2, intersections.length);
+        assertEquals(-25.0, intersections[0].getX(),1E-6);
+        assertEquals(0.0, intersections[0].getY(),1E-6);
+        assertEquals(0.0, intersections[1].getX(),1E-6);
+        assertEquals(0.0, intersections[1].getY(),1E-6);
+    }
+
+    public void testBug1413_north() {
+
+        Shape fp = new Arc2D.Double(Arc2D.PIE);
+        Point2D loc = new Point2D.Double(0.0, 0.0);
+        double radius = 25.0;
+        double arcStartAwtAngle = 0.0;
+        double arcExtent = 180.0;
+
+        ((Arc2D)fp).setArcByCenter(
+                loc.getX(),
+                loc.getY(),
+                radius,
+                arcStartAwtAngle,
+                arcExtent,
+                Arc2D.PIE);
+
+//        System.out.println("Arc startpoint in AWT space is " + ((Arc2D)fp).getStartPoint());
+//        System.out.println("Arc endpoint in AWT space is " + ((Arc2D)fp).getEndPoint());
+//        System.out.println("Arc bounding rectangle in AWT space is " + fp.getBounds2D());
+
+        Point2D targetStart = new Point2D.Double(0.0, -100.0);
+        Point2D targetVelocity = new Point2D.Double(0.0, 1.0);
+
+        Point2D[] intersections =
+                Math2D.findIntersection(targetStart, targetVelocity, fp);
+
+//        System.out.println(Arrays.toString(intersections));
+
+        assertEquals(2, intersections.length);
+        assertEquals(0.0, intersections[0].getX(),1E-6);
+        assertEquals(-25.0, intersections[0].getY(),1E-6);
         assertEquals(0.0, intersections[1].getX(),1E-6);
         assertEquals(0.0, intersections[1].getY(),1E-6);
     }
@@ -629,5 +735,6 @@ public class Math2DTest extends TestCase {
         assertEquals(0.416652127041888, time[1], tolerance);
 
     }
+
 }    
 
