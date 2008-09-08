@@ -329,11 +329,18 @@ public class Math2D {
                     Point2D p = getPoint(curve, sol[i]);
                     // Bug [1413]  This test screens out valid solutions
                     if (Math.abs(sol[i] - 0.5) < 0.5) {
-//                    if (sol[i] >= 0.0 && sol[i] <= 1.0) {
-//                        System.out.println("accepting solution: " + p);
+
+                        // but chaning it to this
+//                    if (Math.abs(sol[i] - 0.5) <= 0.5) {
+                        // introduces erroneous solutions
+
+                        // this doesn't work either
+//                    if (sol[i] > 0.0 && sol[i] <= 1.0) {
+
+                        // or this
+//                    if (sol[i] >= 0.0 && sol[i] < 1.0) {
+                        
                         list.add(getPoint(curve, sol[i]));
-                    } else {
-//                        System.out.println("rejecting solution: " + p);
                     }
                 }
                 return list.toArray(new Point2D[list.size()]);

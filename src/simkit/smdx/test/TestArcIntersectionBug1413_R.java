@@ -12,11 +12,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -28,17 +25,11 @@ import javax.swing.JPanel;
 
 import simkit.smdx.Math2D;
 import simkit.test.MouseDisplay;
-/**
- * This test is also performed in the unit test suite, where it is verified
- * by numerical assertions rather than the visual/manual approach taken here.
- * We keep this class around as a debugging aid
- * in case the unit test starts failing. 
- * @see "simkit.smdx.Math2DTest in the tests"
- *
- * @author  Arnold Buss
- * @version $Id$
+ /**
+ * @author  Kirk Stork, based on original TestArcIntersection by Arnold Buss
+ * @version $Id:  $
  */
-public class TestArcIntersection extends JPanel {
+public class TestArcIntersectionBug1413_R extends JPanel {
     
     protected Shape[] arc;
     
@@ -47,28 +38,18 @@ public class TestArcIntersection extends JPanel {
     protected static final int SIZE = 9;
     
     /** Creates new TestArcIntersection */
-    public TestArcIntersection() {
+    public TestArcIntersectionBug1413_R() {
         setOpaque(true);
         setBackground(Color.white);
-        arc = new Shape[] {
-            new Arc2D.Double(50.0, 50.0, 300.0, 300.0, 30.0, 120.0, Arc2D.PIE),
-            null};
+        arc = new Shape[]{
+            new Arc2D.Double(50.0, 50.0, 300.0, 300.0, 280.0, 170.0, Arc2D.PIE),
+            new Arc2D.Double(250.0, 50.0, 300.0, 300.0, 280.0, 160.0, Arc2D.PIE)
+        };
         
-        AffineTransform trans = AffineTransform.getTranslateInstance(200, 200);
-        Shape transArc = trans.createTransformedShape(arc[0]);
-        Area area = new Area(transArc);
-        Area obstacle = new Area(new Rectangle2D.Double(360, 230, 100, 70));
-        area.subtract(obstacle);
-        arc[1] = new GeneralPath(area);
         intersections = new ArrayList<Point2D>();
         
         line = new Line2D[] {
-            new Line2D.Double(80, 30, 300, 180),
-            new Line2D.Double(70, 160, 300, 140),
-            new Line2D.Double(40, 90, 225, 225),
-            new Line2D.Double(175, 30, 50, 330),
-            new Line2D.Double(275, 260, 530, 310),
-            new Line2D.Double(200, 25, 200, 310)
+            new Line2D.Double(0, 200, 800, 200)
         };
         for (int k = 0; k < arc.length; k++) {
             for (int i = 0; i < line.length; i++) {
@@ -126,7 +107,7 @@ public class TestArcIntersection extends JPanel {
     public static void main(String args[]) {
         JFrame frame = new JFrame("Arc Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        TestArcIntersection taa = new TestArcIntersection();
+        TestArcIntersectionBug1413_R taa = new TestArcIntersectionBug1413_R();
         frame.getContentPane().add(taa);
         
         MouseDisplay md = new MouseDisplay();
