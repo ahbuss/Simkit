@@ -320,10 +320,10 @@ public class Math2D {
         }
         double[] sol = new double[3];
         int numberSolutions = CubicCurve2D.solveCubic(coeff, sol);
-        List<Point2D> list = new ArrayList<Point2D>();
         switch (numberSolutions) {
             case 1:
             case 3:
+                List<Point2D> list = new ArrayList<Point2D>();
                 // Bug 1413.  Previously this iterated over the entire
                 // sol array even if numberSolutions was only 1.
                 for (int i = 0; i < numberSolutions; i++) {
