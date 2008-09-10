@@ -320,24 +320,22 @@ public class Math2D {
         }
         double[] sol = new double[3];
         int numberSolutions = CubicCurve2D.solveCubic(coeff, sol);
+        List<Point2D> list = new ArrayList<Point2D>();
         switch (numberSolutions) {
             case 1:
             case 3:
-                List<Point2D> list = new ArrayList<Point2D>();
-                for (int i = 0; i < sol.length; i++) {
+                // Bug 1413.  Previously this iterated over the entire
+                // sol array even if numberSolutions was only 1.
+                for (int i = 0; i < numberSolutions; i++) {
                     Point2D p = getPoint(curve, sol[i]);
+                    // bug 1413
+                    // we round the lambda value only for the purposes of
+                    // determining if we want the solution, the point is
+                    // still calculated using the unmanipulated lambda.
+                    double z = Math.round(sol[i] * 1.0E6) / 1.0E6;
                     // Bug [1413]  This test screens out valid solutions
-                    if (Math.abs(sol[i] - 0.5) < 0.5) {
-
-                        // but chaning it to this
 //                    if (Math.abs(sol[i] - 0.5) <= 0.5) {
-                        // introduces erroneous solutions
-
-                        // this doesn't work either
-//                    if (sol[i] > 0.0 && sol[i] <= 1.0) {
-
-                        // or this
-//                    if (sol[i] >= 0.0 && sol[i] < 1.0) {
+                    if (Math.abs(z - 0.5) <= 0.5) {
                         
                         list.add(getPoint(curve, sol[i]));
                     }

@@ -301,18 +301,35 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         // check to see if any of the corner cases are in play, if so look for
         // more solutions after jittering the relative velocity.
         // This is a hack working around Simkit Bugzilla issue 1413
-
+/*
         if (0.0 == relativeVelocity.getX() && 0.0 == relativeLocation.getX()) {
+            if(log.isLoggable(Level.FINE)){
+                log.fine("Work-around required when computing intersection times for relative velocity " + relativeVelocity +
+                    " and relative location " + relativeLocation);
+            }
             relativeVelocity.setLocation(1.0E-12, relativeVelocity.getY());
             times = Math2D.findIntersectionTime(targetLocation, relativeVelocity, footPrint);
             time = (time <= Math2D.smallestPositive(times)) ? time : Math2D.smallestPositive(times);
         } else if (0.0 == relativeVelocity.getY() && 0.0 == relativeLocation.getY()) {
+            if(log.isLoggable(Level.FINE)){
+                log.fine("Work-around required when computing intersection times for relative velocity " + relativeVelocity +
+                    " and relative location " + relativeLocation);
+            }
             relativeVelocity.setLocation(relativeVelocity.getX(), 1.0E-12);
+            times = Math2D.findIntersectionTime(targetLocation, relativeVelocity, footPrint);
+            time = (time <= Math2D.smallestPositive(times)) ? time : Math2D.smallestPositive(times);
+        } else if (Math.abs(relativeVelocity.getX()) == Math.abs(relativeVelocity.getY())) {
+            // this case was found when testing relative course of 225
+            if(log.isLoggable(Level.FINE)){
+                log.fine("Work-around required when computing intersection times for relative velocity " + relativeVelocity +
+                    " and relative location " + relativeLocation);
+            }
+            relativeVelocity.setLocation(relativeVelocity.getX() + 1.0E-12, relativeVelocity.getY());
             times = Math2D.findIntersectionTime(targetLocation, relativeVelocity, footPrint);
             time = (time <= Math2D.smallestPositive(times)) ? time : Math2D.smallestPositive(times);
         }
 
-
+*/
         if (isVerbose()) {
             Point2D[] intersect = Math2D.findIntersection(targetLocation, relativeVelocity, footPrint);
 
