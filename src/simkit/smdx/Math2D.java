@@ -155,6 +155,16 @@ public class Math2D {
         return new Point2D[0];
     }
 
+    /**
+     * This is the main way that sensors determine when the next time
+     * a contact will enter or exit the sensor's footprint.
+     *
+     * @param start normally the targetLocation
+     * @param velocity normally the relative velocity between the target and the sensor
+     * @param shape the footprint of the sensor
+     * @return all intersections of the linear relative motion vector with the shape boundaries
+     */
+
     public static double[] findIntersectionTime(Point2D start, Point2D velocity, Shape shape) {
         Point2D[] intersect = findIntersection(start, velocity, shape, IDENTITY_TRANSFORM);
         double[] times = new double[intersect.length];
@@ -332,7 +342,9 @@ public class Math2D {
                     // we round the lambda value only for the purposes of
                     // determining if we want the solution, the point is
                     // still calculated using the unmanipulated lambda.
-                    double z = Math.round(sol[i] * 1.0E6) / 1.0E6;
+                    StrictMath.ulp(TINY);
+                    
+                    double z = Math.round(sol[i] * 1.0E18) / 1.0E18;
                     // Bug [1413]  This test screens out valid solutions
 //                    if (Math.abs(sol[i] - 0.5) <= 0.5) {
                     if (Math.abs(z - 0.5) <= 0.5) {

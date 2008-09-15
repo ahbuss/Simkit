@@ -12,8 +12,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
@@ -36,58 +34,51 @@ import simkit.test.MouseDisplay;
  * @see "simkit.smdx.Math2DTest in the tests"
  *
  * @author  Arnold Buss
- * @version $Id$
+ * @version $Id: TestArcIntersection.java 1143 2008-09-08 17:29:25Z kastork $
  */
-public class TestArcIntersection extends JPanel {
+public class TestSwissCheeseIntersection extends JPanel {
     
-    protected Shape[] arc;
-    
+    protected Area footprint;
+    Shape compositeArea;
     protected Line2D line[];
     protected ArrayList<Point2D> intersections;
     protected static final int SIZE = 9;
     
     /** Creates new TestArcIntersection */
-    public TestArcIntersection() {
+    public TestSwissCheeseIntersection() {
         setOpaque(true);
         setBackground(Color.white);
-        arc = new Shape[] {
-            new Arc2D.Double(50.0, 50.0, 300.0, 300.0, 30.0, 120.0, Arc2D.PIE),
-            null};
-        
-        AffineTransform trans = AffineTransform.getTranslateInstance(200, 200);
-        Shape transArc = trans.createTransformedShape(arc[0]);
-        Area area = new Area(transArc);
-        Area obstacle = new Area(new Rectangle2D.Double(360, 230, 100, 70));
-        area.subtract(obstacle);
-        arc[1] = new GeneralPath(area);
+
+        // just a circle
+        footprint = new Area(new Ellipse2D.Double(50.0, 50.0, 300.0, 300.0));
+        // a tiny circle
+        Area obstacle = new Area(new Ellipse2D.Double(180, 180, 40, 40));
+        footprint.subtract(obstacle);
+        compositeArea = new GeneralPath(footprint);
+
         intersections = new ArrayList<Point2D>();
         
         line = new Line2D[] {
-            new Line2D.Double(80, 30, 300, 180),
-            new Line2D.Double(70, 160, 300, 140),
-            new Line2D.Double(40, 90, 225, 225),
-            new Line2D.Double(175, 30, 50, 330),
-            new Line2D.Double(275, 260, 530, 310),
-            new Line2D.Double(200, 25, 200, 310),
-            new Line2D.Double(200.1 - 150. * Math.cos(Math.PI / 6.), 50, 200.1 - 150. * Math.cos(Math.PI / 6.), 310),
-            new Line2D.Double(200. - 150. * Math.cos(Math.PI / 6.), 50, 200. - 150. * Math.cos(Math.PI / 6.), 310),
-            new Line2D.Double(199.9 - 150. * Math.cos(Math.PI / 6.), 50, 199.9 - 150. * Math.cos(Math.PI / 6.), 310),
-            new Line2D.Double(50., 199. - 1E-24, 400., 199. - 1E-24),
-            new Line2D.Double(50., 199. + 1E-24, 400., 199. + 1E-24)
+            new Line2D.Double(50, 50, 350, 50),
+            new Line2D.Double(50, 50, 50, 350),
+            new Line2D.Double(350, 50, 350, 350),
+            new Line2D.Double(50, 350, 350, 350),
+            new Line2D.Double(40, 180, 360, 180),
+            new Line2D.Double(40, 220, 360, 220),
+            new Line2D.Double(180, 50, 180, 360),
+            new Line2D.Double(220, 50, 220, 360),
         };
-        for (int k = 0; k < arc.length; k++) {
-            for (int i = 0; i < line.length; i++) {
-                Point2D velocity = Math2D.subtract(line[i].getP2(), line[i].getP1());
-                Point2D start = line[i].getP1();
-                Point2D[] inter = Math2D.findIntersection(start, velocity, arc[k], null);
-                for (int j = 0; j < inter.length; j++) {
-                    double t = Math2D.innerProduct(velocity, Math2D.subtract(inter[j], start))/Math2D.normSq(velocity);
-                    if (t >= 0.0 && t <= 1.0) {
-                        intersections.add(inter[j]);
-                    }
+        for (int i = 0; i < line.length; i++) {
+            Point2D velocity = Math2D.subtract(line[i].getP2(), line[i].getP1());
+            Point2D start = line[i].getP1();
+            Point2D[] inter = Math2D.findIntersection(start, velocity, compositeArea, null);
+            for (int j = 0; j < inter.length; j++) {
+                double t = Math2D.innerProduct(velocity, Math2D.subtract(inter[j], start)) / Math2D.normSq(velocity);
+                if (t >= 0.0 && t <= 1.0) {
+                    intersections.add(inter[j]);
                 }
-                System.out.println(Arrays.toString(inter));
             }
+            System.out.println(Arrays.toString(inter));
         }
     }
     
@@ -98,9 +89,7 @@ public class TestArcIntersection extends JPanel {
         Stroke stroke = g2d.getStroke();
         g2d.setColor(Color.blue);
         g2d.setStroke(new BasicStroke(2.0f));
-        for (int i = 0; i < arc.length; i++) {
-            g2d.draw(arc[i]);
-        }
+        g2d.draw(compositeArea);
         
         g2d.setStroke(stroke);
         for (int i = 0; i < line.length; i++) {
@@ -131,7 +120,7 @@ public class TestArcIntersection extends JPanel {
     public static void main(String args[]) {
         JFrame frame = new JFrame("Arc Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        TestArcIntersection taa = new TestArcIntersection();
+        TestSwissCheeseIntersection taa = new TestSwissCheeseIntersection();
         frame.getContentPane().add(taa);
         
         MouseDisplay md = new MouseDisplay();

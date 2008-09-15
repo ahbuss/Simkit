@@ -6,17 +6,18 @@
 
 package simkit.smdx;
 import java.awt.Shape;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.logging.*;
 
 import simkit.SimEntity;
@@ -278,58 +279,31 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 * the Sensor.
 **/
     public double findIntersectionTime(Sensor sensor, Mover target) {
-        /*
-        double time = Math2D.smallestPositive(
-        Math2D.findIntersectionTime(
-        target.getLocation(),
-        Math2D.subtract(target.getVelocity(), sensor.getVelocity()),
-        sensor.getFootprint()
-        )
-        );
-        return time;
-         */
-        
+
+
         Point2D targetLocation = target.getLocation();
         Point2D relativeVelocity = Math2D.subtract(target.getVelocity(), sensor.getVelocity());
         Point2D sensorLocation = sensor.getLocation();
         Point2D relativeLocation = Math2D.subtract(targetLocation, sensorLocation);
         Shape footPrint = sensor.getFootprint();
-
+//        Rectangle2D bounds = footPrint.getBounds2D();
+        
+//        Area sensorArea = new Area(footPrint);
+//        System.out.println("Orig sensor area: " + sensorArea.getBounds2D());
+//
+//        Area bullseye = new Area(new Ellipse2D.Double(sensorLocation.getX() - 5.0,
+//                sensorLocation.getY() - 5.0,
+//                10.0, 10.0));
+//        System.out.println("Bullseye area : " + bullseye.getBounds2D());
+//
+//        sensorArea.subtract(bullseye);
+//        System.out.println("Sensor area after bullseye: " + sensorArea.getBounds2D());
+//
+//        footPrint = new GeneralPath(sensorArea);
+//
         double[] times = Math2D.findIntersectionTime(targetLocation, relativeVelocity, footPrint);
         double time = Math2D.smallestPositive(times);
 
-        // check to see if any of the corner cases are in play, if so look for
-        // more solutions after jittering the relative velocity.
-        // This is a hack working around Simkit Bugzilla issue 1413
-/*
-        if (0.0 == relativeVelocity.getX() && 0.0 == relativeLocation.getX()) {
-            if(log.isLoggable(Level.FINE)){
-                log.fine("Work-around required when computing intersection times for relative velocity " + relativeVelocity +
-                    " and relative location " + relativeLocation);
-            }
-            relativeVelocity.setLocation(1.0E-12, relativeVelocity.getY());
-            times = Math2D.findIntersectionTime(targetLocation, relativeVelocity, footPrint);
-            time = (time <= Math2D.smallestPositive(times)) ? time : Math2D.smallestPositive(times);
-        } else if (0.0 == relativeVelocity.getY() && 0.0 == relativeLocation.getY()) {
-            if(log.isLoggable(Level.FINE)){
-                log.fine("Work-around required when computing intersection times for relative velocity " + relativeVelocity +
-                    " and relative location " + relativeLocation);
-            }
-            relativeVelocity.setLocation(relativeVelocity.getX(), 1.0E-12);
-            times = Math2D.findIntersectionTime(targetLocation, relativeVelocity, footPrint);
-            time = (time <= Math2D.smallestPositive(times)) ? time : Math2D.smallestPositive(times);
-        } else if (Math.abs(relativeVelocity.getX()) == Math.abs(relativeVelocity.getY())) {
-            // this case was found when testing relative course of 225
-            if(log.isLoggable(Level.FINE)){
-                log.fine("Work-around required when computing intersection times for relative velocity " + relativeVelocity +
-                    " and relative location " + relativeLocation);
-            }
-            relativeVelocity.setLocation(relativeVelocity.getX() + 1.0E-12, relativeVelocity.getY());
-            times = Math2D.findIntersectionTime(targetLocation, relativeVelocity, footPrint);
-            time = (time <= Math2D.smallestPositive(times)) ? time : Math2D.smallestPositive(times);
-        }
-
-*/
         if (isVerbose()) {
             Point2D[] intersect = Math2D.findIntersection(targetLocation, relativeVelocity, footPrint);
 
@@ -342,7 +316,21 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 
         return time;
     }
-    
+
+//    public double findNextEntryIntersection(Sensor sensor, Mover target) {
+//        Point2D targetLocation = target.getLocation();
+//        Point2D relativeVelocity = Math2D.subtract(target.getVelocity(), sensor.getVelocity());
+//        Point2D sensorLocation = sensor.getLocation();
+//        Point2D relativeLocation = Math2D.subtract(targetLocation, sensorLocation);
+//        Shape footPrint = sensor.getFootprint();
+//
+//        double[] times = Math2D.findIntersectionTime(targetLocation, relativeVelocity, footPrint);
+//        double time = Math2D.smallestPositive(times);
+//
+//    }
+//    public double findNextExitIntersection(Sensor sensor, Mover target) {
+//
+//    }
 /**
 * Schedules an EnterRange event for time 0 for any Movers that are
 * currently inside the detection volume of any Sensors.
@@ -397,7 +385,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         double exitTime = findIntersectionTime(sensor, target);
         waitDelay("ExitRange", exitTime, new Object[] { sensor, target} );
     }
-    
+
 /**
 * Sets the in range state of the pair to false.
 **/
@@ -408,6 +396,10 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             inRangeMap.put(sensor, targetInRange);
         }
         targetInRange.put(target, Boolean.FALSE);
+
+        // look for any future re-entries into the sensor footprint.
+        processSensor(sensor);
+//        processTarget(target);
     }
     
 /**
