@@ -239,7 +239,7 @@ public class Schedule  {
      * 
      * @param se SimEntity to be added to reRun list
      */
-    public static void addRerun(SimEntity se) {
+    public static void addRerun(ReRunnable se) {
         defaultEventList.addRerun(se);
     }
 
@@ -249,7 +249,7 @@ public class Schedule  {
      * 
      * @param se SimEntity to be removed
      */
-    public static void removeRerun(SimEntity se) {defaultEventList.removeRerun(se);}
+    public static void removeRerun(ReRunnable se) {defaultEventList.removeRerun(se);}
 
 /**
 * Clears the list of SimEntities with Run events.

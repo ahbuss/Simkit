@@ -21,26 +21,10 @@ package simkit;
 **/
 public interface SimEntity extends SimEventSource,
                                    SimEventListener,
-                                   SimEventScheduler,
+                                   ReRunnable,
                                    PropertyChangeSource,
                                    Comparable<SimEntity>
 {
-
     int getEventListID();
-
-    boolean isPersistant();
-
-    /**
-     * True if this SimEntity has the doRun() method.
-     */
-    boolean isReRunnable();
-
-    /**
-     * Reset SimEntity to its pristine state.
-     */
-    void reset();
-
     void setEventListID(int id);
-
-    void setPersistant(boolean persist);
 }

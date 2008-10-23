@@ -96,7 +96,7 @@ public class EventList implements BasicEventList {
  * Note: It is up to the SimEntity to add itself. (This is
  * implemented in BasicSimEntity.)
  */
-    private SortedSet<SimEntity> reRun;
+    private SortedSet<ReRunnable> reRun;
     
 /**
  * The name of the event to stop on after it
@@ -215,7 +215,7 @@ public class EventList implements BasicEventList {
         simTime = 0.0;
         running = false;
         eventCounts = new LinkedHashMap<String, int[]>();
-        reRun = Collections.synchronizedSortedSet(new TreeSet<SimEntity>());
+        reRun = Collections.synchronizedSortedSet(new TreeSet<ReRunnable>());
         ignoreOnDump = new LinkedHashSet<String>();
         this.id = id;
         setFormat("0.0000");
@@ -386,7 +386,7 @@ public class EventList implements BasicEventList {
         SimEvent.resetID();
         synchronized(reRun) {
             for (Iterator i = reRun.iterator(); i.hasNext(); ) {
-                SimEntity simEntity = (SimEntity) i.next();
+                ReRunnable simEntity = (ReRunnable) i.next();
                 if (isReallyVerbose()) {
                     log.info(getSimTime() + ": Checking rerun " + 
                         simEntity + " [rerunnable?] " + 
@@ -627,7 +627,7 @@ public class EventList implements BasicEventList {
             
             if (currentSimEvent.isPending()) {
                 updateEventCounts(currentSimEvent);
-                SimEntity simEntity = (SimEntity) currentSimEvent.getSource();
+                SimEventScheduler simEntity = (SimEventScheduler) currentSimEvent.getSource();
                 simEntity.handleSimEvent(currentSimEvent);
                 
                 // TODO: Consider moving this into the handleSimEvent
@@ -938,14 +938,14 @@ public class EventList implements BasicEventList {
      * 
      * @param simEntity SimEntity to be added as a reRun
      */    
-    public void addRerun(SimEntity simEntity) {
+    public void addRerun(ReRunnable simEntity) {
         reRun.add(simEntity);
     }
     
     /** Remove the given SimEntity from the reRun list
      * @param simEntity SimEntity to be removed from reRun list
      */    
-    public void removeRerun(SimEntity simEntity) {
+    public void removeRerun(ReRunnable simEntity) {
         reRun.remove(simEntity);
     }
     
@@ -958,8 +958,8 @@ public class EventList implements BasicEventList {
      * current reRun list.
      * @return Copy of reRun list
      */    
-    public Set<SimEntity> getRerun() {
-        return new LinkedHashSet<SimEntity>(reRun);
+    public Set<ReRunnable> getRerun() {
+        return new LinkedHashSet<ReRunnable>(reRun);
     }
     
     /** Events of this name will not be printed in verbose mode.
