@@ -57,6 +57,9 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         this.mover = m;
     }
 
+    public  FormationMoverManager() {
+        this(null);
+    }
 /**
 * How close we need to be to our station.
 **/

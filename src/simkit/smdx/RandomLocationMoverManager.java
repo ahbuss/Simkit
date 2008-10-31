@@ -35,6 +35,10 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
 * of the controlled Mover.
 **/
     private boolean startOnReset;
+
+    public RandomLocationMoverManager() {
+        this(null, null, null);
+    }
     
 /** 
 * Creates a new instance of RandomLocationMoverManager.

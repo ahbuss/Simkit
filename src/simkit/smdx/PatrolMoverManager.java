@@ -10,11 +10,15 @@ import java.util.*;
  * @author  ahbuss
  */
 public class PatrolMoverManager extends PathMoverManager {
-    
+
+    public PatrolMoverManager() {
+        this(null);
+    }
+
     /**
      *
      * @param mover Mover to be managed
-     */    
+     */
     public PatrolMoverManager(Mover mover) {
         super(mover);
     }

@@ -42,6 +42,9 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
 **/
     private boolean startOnReset;
     
+    public PathMoverManager() {
+        this(null);
+    }
     /**
      * Constructs a new PathMoverManager.
      * @param m Mover this instance is managing
