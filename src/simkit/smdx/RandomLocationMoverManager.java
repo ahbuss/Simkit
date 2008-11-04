@@ -37,7 +37,7 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
     private boolean startOnReset;
 
     public RandomLocationMoverManager() {
-        this(null, null, null);
+        super();
     }
     
 /** 
@@ -60,11 +60,17 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
 * coordinate and one for the y coordinate.
 **/
     public RandomLocationMoverManager(Mover mover, RandomVariate[] location) {
-        setMover(mover);
-        setLocationGenerator(location);
-        RandomVariate speed = RandomVariateFactory.getInstance("simkit.random.ConstantVariate",
-            new Object[] { new Double(mover.getMaxSpeed()) } );
-        setSpeedGenerator(speed);
+        if (null != location) {
+            setLocationGenerator(location);
+        } else {
+            this.location = null;
+        }
+        if (null != mover){
+            setMover(mover);
+            RandomVariate speed = RandomVariateFactory.getInstance("simkit.random.ConstantVariate",
+                new Object[] { new Double(mover.getMaxSpeed()) } );
+            setSpeedGenerator(speed);
+        }
     }
     
 /**
@@ -185,7 +191,9 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
             mover.removeSimEventListener(this);
         }
         mover = newMover;
-        mover.addSimEventListener(this);
+        if (null != newMover){
+            mover.addSimEventListener(this);
+        }
     }
     
 /**
@@ -193,6 +201,9 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
 * speed.
 **/
     public String toString() {
+        if (null == mover || null == location || null == speed){
+            return "Unconfigured RandomLocationMoverManager";
+        }
         return getMover() + " " + location[0] + " - " + location[1] + " ["  +
             speed + "]";
     }
