@@ -36,6 +36,7 @@ public class SensorTargetMediatorFactory implements
 * @throws IllegalArgumentException if the sensorClass is not a Sensor, the
 * targetClass is not a Moveable or the mediatorClass is not a Mediator
 **/
+
     public static void addMediator(Class<?> sensorClass, Class<?> targetClass,
             Class<?> mediatorClass) {
         getInstance().addMediatorFor(sensorClass, targetClass, mediatorClass);
@@ -53,7 +54,10 @@ public class SensorTargetMediatorFactory implements
 * @throws IllegalArgumentException if there is no Mediator set for the 
 * given Sensor-target pair.
 **/
-    public static Mediator getMediator(Class<?> sensorClass, Class<?> targetClass) {
+    public static Mediator getMediator(
+            Class<? extends Sensor> sensorClass,
+            Class<? extends Mover> targetClass) {
+
         return getInstance().getMediatorFor(sensorClass, targetClass);
     }
     
@@ -80,19 +84,13 @@ public class SensorTargetMediatorFactory implements
 * targetClass is not a Moveable or the mediatorClass is not a Mediator
 **/
     @Override
-    public void addMediatorFor(Class<?> sensorClass, Class<?> targetClass, Class<?> mediatorClass) {
-        if (!(simkit.smdx.Sensor.class.isAssignableFrom(sensorClass))) {
-            throw new IllegalArgumentException(sensorClass + " is not a Sensor class");
-        }
-        if (!(simkit.smdx.Moveable.class.isAssignableFrom(targetClass))) {
-            throw new IllegalArgumentException(targetClass + " is not a Moveable class");
-        }
-        if (!(simkit.smdx.SensorTargetMediator.class.isAssignableFrom(mediatorClass))) {
-            throw new IllegalArgumentException(mediatorClass + " is not a SensorTargetMediator");
-        }
+    public void addMediatorFor(
+            Class<? extends Sensor> sensorClass,
+            Class<? extends Moveable> targetClass,
+            Class<? extends SensorTargetMediator> mediatorClass) {
         SensorTargetMediator mediatorInstance = null;
         try {
-            mediatorInstance = (SensorTargetMediator) mediatorClass.newInstance();
+            mediatorInstance = mediatorClass.newInstance();
         }
         catch (InstantiationException e) {
             System.err.println(e);
@@ -104,12 +102,6 @@ public class SensorTargetMediatorFactory implements
         }
         
         addMediatorFor(sensorClass, targetClass, mediatorInstance);
-//        
-//        if (!cache.containsKey(sensorClass)) {
-//            cache.put(sensorClass, new WeakHashMap());
-//        }
-//        Map targetClasses = (Map) cache.get(sensorClass);
-//        targetClasses.put(targetClass, mediatorInstance);
     }
     
     public void addMediatorFor(Sensor sensor, Moveable target,
@@ -117,18 +109,12 @@ public class SensorTargetMediatorFactory implements
         addMediatorFor(sensor.getClass(), target.getClass(),
                 mediatorInstance);
     }
-    
-    public void addMediatorFor(Class<?> sensorClass, Class<?> targetClass,
-            SensorTargetMediator mediatorInstance) {
-        if (!(simkit.smdx.Sensor.class.isAssignableFrom(sensorClass))) {
-            throw new IllegalArgumentException(sensorClass + " is not a Sensor class");
-        }
-        if (!(simkit.smdx.Moveable.class.isAssignableFrom(targetClass))) {
-            throw new IllegalArgumentException(targetClass + " is not a Moveable class");
-        }
-        if ( !(mediatorInstance instanceof SensorTargetMediator)) {
-            throw new IllegalArgumentException(mediatorInstance + " is not a SensorTargetMediator instance");
-        }
+
+    @Override
+    public <S extends SensorTargetMediator> void addMediatorFor(
+            Class<? extends Sensor> sensorClass,
+            Class<? extends Moveable> targetClass,
+            S mediatorInstance) {
         if (!cache.containsKey(sensorClass)) {
             cache.put(sensorClass, new WeakHashMap<Class, SensorTargetMediator>());
         }
@@ -210,5 +196,5 @@ public class SensorTargetMediatorFactory implements
     public void clear() {
         cache.clear();
     }
-    
+
 }
