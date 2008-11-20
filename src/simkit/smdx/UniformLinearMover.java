@@ -64,7 +64,9 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
 * The current velocity of this Mover.
 **/
     protected Point2D velocity;
-    
+   
+    // the velocity to take upon the next StartMove event.
+    protected Point2D nextVelocity;
 /**
 * The current location that this Mover is moving towards.
 **/
@@ -168,7 +170,9 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
 // Javadoc inherited    
     public void doEndMove(Moveable mover) {
         if (mover == this) {
+            Point2D oldVelocity = velocity;
             stopHere();
+            firePropertyChange("velocity", oldVelocity, velocity);
             setMovementState(MovementState.PAUSED);
         }
     }
@@ -186,6 +190,10 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
      */
     public void doStartMove(Moveable mover) {
         if (mover == this) {
+            Point2D oldVelocity = velocity;
+            velocity = nextVelocity;
+            firePropertyChange("velocity", oldVelocity, velocity);
+
             if (destination != null) {
                 waitDelay("EndMove", moveTime, Priority.HIGH, param);
             }
@@ -282,14 +290,13 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         } else {
             moveTime = distance / cruisingSpeed;
         }
-        Point2D oldVelocity = getVelocity();
+        
         if (moveTime <= 0.0) {
-            velocity.setLocation(0.0, 0.0);
+            nextVelocity = new Point2D.Double(0.0, 0.0);
         } else {
-            velocity.setLocation((destination.getX() - lastStopLocation.getX()) / moveTime,
+            nextVelocity = new Point2D.Double((destination.getX() - lastStopLocation.getX()) / moveTime,
             (destination.getY() - lastStopLocation.getY())/moveTime);
         }
-        firePropertyChange("velocity", oldVelocity, getVelocity());
         startMoveTime = eventList.getSimTime();
         interrupt("StartMove", new Object[] {this});
         waitDelay("StartMove", 0.0, new Object[] { this });
@@ -308,14 +315,8 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
      */
     protected void stopHere() {
         lastStopLocation = getLocation();
-        if (velocity == null) {
-            velocity = new Point2D.Double();
-        }
-        else {
-            velocity.setLocation(ORIGIN);
-        }
+        velocity = new Point2D.Double();
         startMoveTime = eventList.getSimTime();
-        
         interrupt("EndMove", param);
     }
     
@@ -333,9 +334,9 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         destination = null;
         lastStopLocation = getLocation();
         startMoveTime = eventList.getSimTime();
-        Point2D oldVelocity = getVelocity();
-        velocity = desiredVelocity;
-        firePropertyChange("velocity", oldVelocity, getVelocity());
+//        Point2D oldVelocity = getVelocity();
+        nextVelocity = desiredVelocity;
+//        firePropertyChange("velocity", oldVelocity, getVelocity());
         interrupt("StartMove", param); 
         waitDelay("StartMove", 0.0, param);
         setMovementState(MovementState.STARTING);
