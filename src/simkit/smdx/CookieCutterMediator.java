@@ -3,6 +3,8 @@ package simkit.smdx;
 import java.util.Map;
 import java.util.LinkedHashMap;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import simkit.SimEntityBase;
 
 /** Mediator for CookieCutter detection. The Sensor detects the Mover
@@ -12,6 +14,10 @@ import simkit.SimEntityBase;
  */
 public class CookieCutterMediator extends SimEntityBase
         implements SensorTargetMediator {
+
+    public static final String _VERSION_ = "$Id$";
+
+    public static Logger log = Logger.getLogger("simkit.smdx");
     
 /**
 * A cache of Contact objects for each Mover processed by this mediator.
@@ -78,6 +84,11 @@ public class CookieCutterMediator extends SimEntityBase
         //Be sure this is for us
         if (this == SensorTargetMediatorFactory.getInstance().getMediatorFor(
                 sensor.getClass(), target.getClass())) {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(getEventList().getSimTime() + ": Entering "
+                    + "doEnterRange Sensor=" + sensor + NL
+                    + " Mover (target)=" + target);
+            }
         
             targetIsEnteringSensorRange(sensor, target);
             Contact contact = contacts.get(target);
@@ -99,8 +110,20 @@ public class CookieCutterMediator extends SimEntityBase
     public final void doExitRange(Sensor sensor, Mover target) {
         if (this == SensorTargetMediatorFactory.getMediator(
                 sensor.getClass(), target.getClass())) {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(getEventList().getSimTime() + ": Entering "
+                    + "doExitRange Sensor=" + sensor + NL
+                    + " Mover (target)=" + target);
+            }
             targetIsExitingSensorRange(sensor, target);
             Object contact = contacts.get(target);
+            if (contact == null) {
+                String msg = getEventList().getSimTime() + ": ExitRange "
+                    + "occurred when there was no contact corresponding to "
+                    + "target. Sensor=" + sensor + " target=" + target
+                    + NL + "This may lead to a NullPointerException later.";
+                log.severe(msg);
+            }
             sensor.waitDelay("Undetection", 0.0, new Object[] { contact });
         }
     }
