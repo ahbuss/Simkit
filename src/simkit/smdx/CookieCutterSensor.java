@@ -235,7 +235,7 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
         return new LinkedHashSet<Moveable>(contacts);
     }
 
-    @Override
+//    @Override
     public void setMaxRange(double r) {
         this.maxRange = r;
     }

@@ -42,6 +42,9 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
 **/
     private boolean startOnReset;
     
+    public PathMoverManager() {
+        this(null);
+    }
     /**
      * Constructs a new PathMoverManager.
      * @param m Mover this instance is managing
@@ -80,8 +83,10 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
      * @param m Mover this instance is managing
      */
     public PathMoverManager(Mover m) {
-        setMover(m);
-        mover.addSimEventListener(this);
+        if (null != m) {
+            setMover(m);
+            mover.addSimEventListener(this);
+        }
         wayPoints = new ArrayList<WayPoint>();
     }
     
@@ -256,8 +261,10 @@ public class PathMoverManager extends SimEntityBase implements MoverManager {
         if (mover != null) {
             mover.removeSimEventListener(this);
         }
-        mover = newMover;
-        mover.addSimEventListener(this);
+        if (null != newMover) {
+            mover = newMover;
+            mover.addSimEventListener(this);
+        }
     }
     
 }

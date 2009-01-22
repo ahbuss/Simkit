@@ -47,7 +47,7 @@ public class PropertyChangeDispatcherTest extends TestCase {
     
     class EmptyListener implements PropertyChangeListener {
 
-        @Override
+//        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             
         }

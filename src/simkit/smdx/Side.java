@@ -89,7 +89,7 @@ public class Side {
      * or null if there is no such side.
      */    
     public static Side getSideFor(String sideName) {
-        return allSides.get(sideName);
+        return allSides.get(sideName.toLowerCase());
     }
 
 }

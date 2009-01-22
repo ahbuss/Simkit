@@ -57,6 +57,9 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         this.mover = m;
     }
 
+    public  FormationMoverManager() {
+        this(null);
+    }
 /**
 * How close we need to be to our station.
 **/
@@ -503,14 +506,21 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         public void setClearAddedPropertiesOnReset(boolean b) {
         }
 
-        @Override
         public void interrupt(String eventName) {
              throw new RuntimeException(MESSAGE);
         }
 
-        @Override
         public void interruptAll(String eventName) {
              throw new RuntimeException(MESSAGE);
        }
+
+        public void setMaxSpeed(double max) throws MagicMoveException {
+             throw new RuntimeException(MESSAGE);
+        }
+
+        public void setLocation(Point2D location) throws MagicMoveException {
+             throw new RuntimeException(MESSAGE);
+        }
+
     }
 }

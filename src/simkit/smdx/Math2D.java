@@ -550,33 +550,25 @@ public class Math2D {
         return Math2D.scalarMultiply(scale / Math2D.norm(point), point);
     }
 
-    /**
-     *  Computes the Point2D at which the pursuer will intersect the 
-     *  target when the pursuer moves at the given speed.
-     *  (Assumes Linear Mover).
-     */
-    public static Point2D getIntercept(Mover pursuer, double speed, Mover target) {
+    public static Point2D getIntercept(Point2D startingLocation, double speed,
+            Point2D targetLocation, Point2D targetVelocity) {
         Point2D intercept = null;
 
-        Point2D relativeLocation = subtract(target.getLocation(), pursuer.getLocation());
+        Point2D relativeLocation = subtract(targetLocation, startingLocation);
         if (Math2D.norm(relativeLocation) <= 1.0E-9) {
             // bug 1285.  Previously if the target and pursuer were
             // co-located, this procedure returned null
-            
-            intercept = target.getLocation();
+
+            intercept = targetLocation;
             return intercept;
         }
 
-        if (speed > pursuer.getMaxSpeed()) {
-            speed = pursuer.getMaxSpeed();
-        }
-
         double speed2 = speed * speed;
-        Point2D targetVelocity = target.getVelocity();
+
         double normt2 = Math2D.normSquared(targetVelocity);
         double xv = Math2D.innerProduct(relativeLocation, targetVelocity);
-        
-        
+
+
         if (speed2 != normt2) {
             double[] coeff = new double[3];
 
@@ -607,14 +599,14 @@ public class Math2D {
                         targetVelocity);
                 intercept = Math2D.add(
                         Math2D.scalarMultiply(1.0 / oneOverTime, pursuerVelocity),
-                        pursuer.getLocation());
+                        startingLocation);
             }
         } else if (xv != 0) {
             // this case was added to resolve simkit bug 1394, and covers
             // the case where pursuer speed squared == target speed squared
             // AND relative position dotted with target velocity is
             // non-zero AND the solution results in a positive time value
-            
+
             double normx2 = Math2D.normSquared(relativeLocation);
             double time = -normx2 / (2.0 * xv);
             if (time >= 0.0) {
@@ -622,10 +614,23 @@ public class Math2D {
                         Math2D.add(Math2D.scalarMultiply(1.0 / time, relativeLocation),
                         targetVelocity);
                 intercept = Math2D.add(
-                        Math2D.scalarMultiply(time, pursuerVelocity), pursuer.getLocation());
+                        Math2D.scalarMultiply(time, pursuerVelocity), startingLocation);
             }
         }
         return intercept;
+
+    }
+    /**
+     *  Computes the Point2D at which the pursuer will intersect the 
+     *  target when the pursuer moves at the given speed.
+     *  (Assumes Linear Mover).
+     */
+    public static Point2D getIntercept(Mover pursuer, double speed, Mover target) {
+        if (speed > pursuer.getMaxSpeed()) {
+            speed = pursuer.getMaxSpeed();
+        }
+        return getIntercept(pursuer.getLocation(), speed, target.getLocation(), target.getVelocity());
+
     }
 
     /**
@@ -640,6 +645,19 @@ public class Math2D {
         Point2D intercept = getIntercept(pursuer, speed, target);
         if (intercept != null) {
             return Math2D.scaleTo(subtract(intercept, pursuer.getLocation()), speed);
+        } else {
+            return null;
+        }
+    }
+
+    public static Point2D getInterceptVelocity(Point2D startingLocation,
+            double speed, Point2D targetLocation, Point2D targetVelocity) {
+        
+        Point2D intercept = getIntercept(startingLocation, speed,
+                targetLocation, targetVelocity);
+
+        if (intercept != null) {
+            return Math2D.scaleTo(subtract(intercept, startingLocation), speed);
         } else {
             return null;
         }
@@ -678,5 +696,32 @@ public class Math2D {
         }
         double time = Math2D.smallestPositive(sol);
         return add(pursuer.getLocation(), scalarMultiply(time, interceptVelocity));
+    }
+
+    public static Point2D getIntercept(Point2D startingLocation, double speed, double range, Point2D targetLocation, Point2D targetVelocity) {
+        Point2D relativePursuerLocation = Math2D.subtract(targetLocation, startingLocation);
+//        If in range already, the "intercept" is the current location
+        if (Math2D.norm(relativePursuerLocation) <= range) {
+            return startingLocation;
+        }
+        Point2D interceptVelocity = getInterceptVelocity(startingLocation, speed,
+                targetLocation, targetVelocity);
+                //getInterceptVelocity(pursuer, speed, target);
+        if (interceptVelocity == null) {
+            return null;
+        }
+        Point2D relativeInterceptVelocity = subtract(targetVelocity, interceptVelocity);
+        double[] coeff = new double[3];
+        coeff[0] = Math2D.normSquared(relativePursuerLocation) - range * range;
+        coeff[1] = 2.0 * Math2D.innerProduct(relativePursuerLocation, relativeInterceptVelocity);
+        coeff[2] = Math2D.normSquared(relativeInterceptVelocity);
+
+        double[] sol = new double[2];
+        int numSol = QuadCurve2D.solveQuadratic(coeff, sol);
+        if (numSol <= 0) {
+            return null;
+        }
+        double time = Math2D.smallestPositive(sol);
+        return add(startingLocation, scalarMultiply(time, interceptVelocity));
     }
 }

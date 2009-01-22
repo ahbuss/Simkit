@@ -135,5 +135,17 @@ public class AcceleratedMover extends SimEntityBase implements Mover {
     }
     
     public double getMaxSpeed() { return maxSpeed;  }
+
+    public void setMaxSpeed(double max)  throws MagicMoveException{
+        if(!MoverMaster.allowsMagicMove()){
+            throw new MagicMoveException();
+        }
+
+        this.maxSpeed = max;
+    }
+
+    public void setLocation(Point2D location) throws MagicMoveException {
+        magicMove(location);
+    }
     
 }

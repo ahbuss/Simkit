@@ -23,7 +23,7 @@ public class SimpleEventLogger implements SimEventListener {
 
     static final Format form = new DecimalFormat("0.0000");
 
-    @Override
+//    @Override
     public void processSimEvent(SimEvent event) {
         System.out.println(form.format(event.getScheduledTime()) +
                 ":\t" + event.getEventName());

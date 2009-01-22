@@ -118,13 +118,13 @@ public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
      * Implementors - This method may be called frequently.
      * Clients - this method may be expensive.
      **/
- public boolean isInRangeOf(Point2D point);
-    
-/**
-* A set containing the contacts currently
-* being detected by this Sensor.
-**/
+    public boolean isInRangeOf(Point2D point);
+
+    /**
+     * A set containing the contacts currently
+     * being detected by this Sensor.
+     **/
     public Set getContacts();
-    
+
 }
 
