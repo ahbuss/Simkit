@@ -422,4 +422,17 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
 				new Point2D.Double(0.0, 0.0),
 				10.0);
 	}
+
+    public void setMaxSpeed(double max)  throws MagicMoveException{
+        if(!MoverMaster.allowsMagicMove()){
+            throw new MagicMoveException();
+        }
+
+        this.maxSpeed = max;
+    }
+
+    public void setLocation(Point2D location) throws MagicMoveException {
+        magicMove(location);
+    }
+
 }

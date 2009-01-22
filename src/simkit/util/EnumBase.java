@@ -155,7 +155,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      * Compares two EnumBases of the same Class.
      * @throws ClassCastException if they are not the same Class.
      **/
-    @Override
+//    @Override
     public int compareTo(EnumBase e) {
         if (this.getClass() != e.getClass()) {
             throw new ClassCastException();

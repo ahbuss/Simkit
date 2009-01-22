@@ -83,7 +83,7 @@ public class SensorTargetMediatorFactory implements
 * @throws IllegalArgumentException if the sensorClass is not a Sensor, the
 * targetClass is not a Moveable or the mediatorClass is not a Mediator
 **/
-    @Override
+//    @Override
     public void addMediatorFor(
             Class<? extends Sensor> sensorClass,
             Class<? extends Moveable> targetClass,
@@ -110,7 +110,7 @@ public class SensorTargetMediatorFactory implements
                 mediatorInstance);
     }
 
-    @Override
+//    @Override
     public <S extends SensorTargetMediator> void addMediatorFor(
             Class<? extends Sensor> sensorClass,
             Class<? extends Moveable> targetClass,

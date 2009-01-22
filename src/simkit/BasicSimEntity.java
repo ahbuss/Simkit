@@ -207,7 +207,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * @param parameters optional parameters for event
      * @return The SimEvent that is put on the Event List
      */
-    @Override
+//    @Override
     public SimEvent waitDelay(String name, double delay, Object... parameters) {
         return this.waitDelay(name, delay, Priority.DEFAULT, parameters);
     }
@@ -631,7 +631,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
         persistant = persist;
     }
     
-    @Override
+//    @Override
     public void setEventListID(int id) {
         if (eventList != null) {
             eventList.removeRerun(this);

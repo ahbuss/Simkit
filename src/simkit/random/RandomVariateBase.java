@@ -31,13 +31,13 @@ public abstract class RandomVariateBase implements RandomVariate {
      *  Use this if another random number generator besides the default is desired
      *  @param rng The <CODE>RandomNumber</CODE> instance to use for Un(0, 1) random numbers.
      **/
-    @Override
+//    @Override
     public void setRandomNumber(RandomNumber rng) { this.rng = rng; }
     
     /**
      * Returns the instance of the supporting RandomVariate.
      *  @return The <CODE>RandomNumber</CODE> instance currently being used.
      **/
-    @Override
+//    @Override
     public RandomNumber getRandomNumber() { return rng; }
 }

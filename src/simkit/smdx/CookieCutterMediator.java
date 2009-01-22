@@ -118,7 +118,7 @@ public class CookieCutterMediator extends SimEntityBase
     /**
      * Does nothing - implements SensorTargetMediator interface
      */    
-    @Override
+//    @Override
     public void propertyChange(java.beans.PropertyChangeEvent propertyChangeEvent) {}
 
 /**
