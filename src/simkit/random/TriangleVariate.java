@@ -6,6 +6,9 @@
 
 package simkit.random;
 
+import java.util.Arrays;
+import java.util.TreeSet;
+
 /**
  * Generates Triangle random variates.
  * @author  Arnold Buss
@@ -44,7 +47,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
       * as Doubles.
      */
     public Object[] getParameters() {
-        return new Object[] {new Double(left), new Double(right), new Double(center)};
+        return new Object[] {left, right, center };
     }
     
     /**
@@ -55,6 +58,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
       * elements, if all three are not Numbers, or if the following relationship
       * is not true: a &#60;&#61; c &#60;&#61; b.
      */
+    @Override
     public void setParameters(Object... params) {
         if (params == null) { throw new NullPointerException(); }
         if (params.length != 3) {
@@ -117,21 +121,31 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
 /**
 * Verifies the 3 parameters are consistent and does some 
 * precalculations. Must be called after changing any parameter prior to generating.
+ * <br><i>Note:</i> this now sorts the parameters and puts them in the
+ * "right" order regardless of how they were passed in.
 **/
     protected boolean validate() {
-        boolean valid = left <= center && center <= right;
-        if (valid) {
-            centerMinusLeft = center - left;
-            rightMinusCenter = right - center;
-            centerMinusLeftOverRightMinusLeft = (center - left) / (right - left);
-        }
-        return valid;
+        double[] params = new double[] { left,  center, right };
+        Arrays.sort(params);
+        left = params[0];
+        center = params[1];
+        right = params[2];
+//
+//        boolean valid = left <= center && center <= right;
+//        if (valid) {
+//            centerMinusLeft = center - left;
+//            rightMinusCenter = right - center;
+//            centerMinusLeftOverRightMinusLeft = (center - left) / (right - left);
+//        }
+//        return valid;
+        return true;
     }
     
     /**
      * Generate a random variate having this class's distribution.
      * @return The generated random variate
      */
+    @Override
     public double generate() {
         double u = rng.draw();
         double v = rng.draw();
