@@ -26,23 +26,24 @@ public class NPPoissonProcessThinned extends BasicSimEntity implements RandomVar
         setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
     }
 
+    @Override
     public void reset() {
         super.reset();
         startTime = getEventList().getSimTime();
         lastTime = getStartTime();
     }
     
+    @Override
     public double generate() {
         double generatedTime = Double.NaN;
         
-        double absoluteTime = Double.NaN;
         double lambdaT = Double.NaN;
         double t;
         do {
-            t = getLastTime() - 1.0 / getLambda() * rng.draw();
+            t = getLastTime() - 1.0 / getLambda() * Math.log( rng.draw() );
             Number num = null;
             try {
-                num = (Number) rateMethod.invoke(rateInvoker, new Object[] { new Double(t) } );
+                num = (Number) rateMethod.invoke(rateInvoker, t );
             }
             catch (IllegalAccessException e) { throw new RuntimeException(e);}
             catch (InvocationTargetException e) { throw new RuntimeException(e.getTargetException());}
@@ -53,6 +54,7 @@ public class NPPoissonProcessThinned extends BasicSimEntity implements RandomVar
         return generatedTime;
     }
 
+    @Override
     public Object[] getParameters() {
         return new Object[] {
             new Double(lambda),
@@ -61,10 +63,11 @@ public class NPPoissonProcessThinned extends BasicSimEntity implements RandomVar
         };
     }
 
+    @Override
     public void setParameters(Object... obj) {
         if (obj.length != 3) {
             throw new IllegalArgumentException(
-                "NHPoissonProcessVariate requires 3 parameters: " +
+                "NHPoissonProcessThinnedVariate requires 3 parameters: " +
                 "(lambda, <rate object>, <rate method>)");
         }
         if (obj[0] instanceof Number) {
