@@ -62,7 +62,7 @@ public class CyclicalStepwiseIntegratedRate{
         cumIntRates = new double[times.length];
         cumIntRates[0] = 0.0;
         for (int i = 1; i < cumIntRates.length; ++i) {
-            cumIntRates[i] = cumIntRates[i - 1] + rates[i - 1];
+            cumIntRates[i] = cumIntRates[i - 1] + rates[i - 1] * (times[i] - times[i - 1]);
         }
 
     }
@@ -82,7 +82,7 @@ public class CyclicalStepwiseIntegratedRate{
         int cell;
         for (cell = 0; thisTimeInCycle >= cumIntRates[cell + 1]; ++cell) ;
 
-        realTime = times[cell] + (thisTimeInCycle - cumIntRates[cell]) * (times[cell + 1] - times[cell])/rates[cell];
+        realTime = times[cell] + (thisTimeInCycle - cumIntRates[cell])/rates[cell];
         realTime += numberCycles * times[cumIntRates.length - 1];
         return realTime ;
     }
