@@ -130,7 +130,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
    **/
     public BasicSimEntity(Priority priority) {
         this(DEFAULT_ENTITY_NAME, priority);
-        setName(getClass().getName() + '.' + getSerial());
+        setName(getClass().getSimpleName() + '.' + getSerial());
     }
     
    /**
@@ -139,7 +139,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
    **/
     public BasicSimEntity() {
         this(DEFAULT_ENTITY_NAME, Priority.DEFAULT);
-        setName(getClass().getName() + '.' + getSerial());
+        setName(getClass().getSimpleName() + '.' + getSerial());
     }
     
    /**

@@ -106,7 +106,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 **/
     public SimEntityBaseProtected() {
         this(DEFAULT_ENTITY_NAME, DEFAULT_PRIORITY);
-        setName(getClass().getName() + '.' + getSerial());
+        setName(getClass().getSimpleName() + '.' + getSerial());
     }
     
 /**
@@ -125,7 +125,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 **/
     public SimEntityBaseProtected(Priority priority) {
         this(DEFAULT_ENTITY_NAME, priority);
-        setName(getClass().getName() + '.' + getSerial());
+        setName(getClass().getSimpleName() + '.' + getSerial());
     }
  
 /**

@@ -98,7 +98,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
 **/
     public SimEntityBase() {
         this(DEFAULT_ENTITY_NAME, Priority.DEFAULT);
-        setName(getClass().getName() + '.' + getSerial());
+        setName(getClass().getSimpleName() + '.' + getSerial());
     }
     
 /**
@@ -117,7 +117,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
 **/
     public SimEntityBase(Priority priority) {
         this(DEFAULT_ENTITY_NAME, priority);
-        setName(getClass().getName() + '.' + getSerial());
+        setName(getClass().getSimpleName() + '.' + getSerial());
     }
     
 /**

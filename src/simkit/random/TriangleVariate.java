@@ -133,9 +133,9 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
 //
 //        boolean valid = left <= center && center <= right;
 //        if (valid) {
-//            centerMinusLeft = center - left;
-//            rightMinusCenter = right - center;
-//            centerMinusLeftOverRightMinusLeft = (center - left) / (right - left);
+            centerMinusLeft = center - left;
+            rightMinusCenter = right - center;
+            centerMinusLeftOverRightMinusLeft = (center - left) / (right - left);
 //        }
 //        return valid;
         return true;
