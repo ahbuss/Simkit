@@ -19,21 +19,21 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
 /**
 * The left most or smallest value. (a)
 **/
-    protected double left;
+    private double left;
 
 /**
 * The right most or largest value. (b)
 **/
-    protected double right;
+    private double right;
 
 /**
 * The peak of the triangle. (c)
 **/
-    protected double center;
+    private double center;
     
-    protected double centerMinusLeft;
-    protected double rightMinusCenter;
-    protected double centerMinusLeftOverRightMinusLeft;
+    private double centerMinusLeft;
+    private double rightMinusCenter;
+    private double centerMinusLeftOverRightMinusLeft;
     
     /** 
       * Creates a new TriangleVariate. The parameters must be set prior to use.
@@ -89,7 +89,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
 * Parameters should only be set with setParameters.
 * Sets the lowest value.
 **/
-    public void setLeft(double a) { left = a; }
+    private void setLeft(double a) { left = a; }
     
 /**
 * Gets the lowest value.
@@ -100,7 +100,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
 * Parameters should only be set with setParameters.
 * Sets the highest value.
 **/
-    public void setRight(double b) { right = b; }
+    private void setRight(double b) { right = b; }
     
 /**
 * Returns the highest value.
@@ -111,7 +111,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
 * Parameters should only be set with setParameters.
 * Sets the location of the peak of the triangle.
 **/
-    public void setCenter(double c) { center = c;  }
+    private void setCenter(double c) { center = c;  }
     
 /**
 * Returns the location of the peak of the triangle.
@@ -124,7 +124,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
  * <br><i>Note:</i> this now sorts the parameters and puts them in the
  * "right" order regardless of how they were passed in.
 **/
-    protected boolean validate() {
+    private boolean validate() {
         double[] params = new double[] { left,  center, right };
         Arrays.sort(params);
         left = params[0];
