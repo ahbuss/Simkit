@@ -490,6 +490,9 @@ public abstract class BasicSimEntity extends BasicSimEventSource
 * @param oldValue The value of the property before this change.
 * @param newValue The value of the property after this change.
 **/    public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
+//Note: This call is inconsistant with the other firePropertyChanges. If
+// this is changed it will break TriggerRPDPEntity in tracBayes and
+// maybe other derived classes we don't know about.
         firePropertyChange(
             propertyName, 
             oldValue ? Boolean.TRUE : Boolean.FALSE,
