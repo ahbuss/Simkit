@@ -1,5 +1,6 @@
 package simkit.stat;
 
+import simkit.EventListAware;
 import simkit.BasicEventList;
 import simkit.Schedule;
 
@@ -15,7 +16,8 @@ import simkit.Schedule;
 * </P>
 * @version $Id$
 **/
-public class SimpleStatsTimeVarying extends AbstractSimpleStats {
+public class SimpleStatsTimeVarying extends AbstractSimpleStats
+        implements EventListAware {
     
 /**
 * The time weighted mean of the statistic.
@@ -120,8 +122,14 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats {
     public void setEventListID(int id) {
         eventList = Schedule.getEventList(id);
     }
-    
+
+    public void setEventList(BasicEventList list) {
+        this.eventList = list;
+    }
+
     public int getEventListID() { return eventList.getID(); }
+
+    public BasicEventList getEventList() {return eventList;}
 
     public double getStartTime() {
         return startTime;
