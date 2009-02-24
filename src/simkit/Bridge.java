@@ -11,7 +11,7 @@ package simkit;
  * it will schedule a second specified event at the current time using the parameters
  * and priority of the first event.  After construction, the Bridge must be registered
  * with one or more SimEventSources.
- *
+ * 
  * @author  Arnold Buss
  * @version $Id$
  */
@@ -46,15 +46,17 @@ public class Bridge extends simkit.BasicSimEntity {
 /**
 * Does nothing.
 **/
+    @Override
     public void handleSimEvent(simkit.SimEvent simEvent) {
     }
     
 /**
-* Schedules the sent event using the parameters and priority from the heard event.
-*/
+ * Schedules the sent event using the parameters and priority from the heard event.
+ */
+    @Override
     public void processSimEvent(simkit.SimEvent simEvent) {
         if (simEvent.getEventName().equals(heardEvent)) {
-            waitDelay(sentEvent, 0.0, simEvent.getParameters(), simEvent.getEventPriority());
+            waitDelay(sentEvent, 0.0, simEvent.getEventPriority(), simEvent.getParameters());
         }
     }
     
