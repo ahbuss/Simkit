@@ -26,15 +26,15 @@ public class Schedule  {
     
     private static int nextEventListID;
     
-    private static EventList defaultEventList;
+    private static BasicEventList defaultEventList;
     
-    private static Map<Integer, EventList> allEventLists;
+    private static Map<Integer, BasicEventList> allEventLists;
     
     private static DecimalFormat form;
     
     static {
         nextEventListID = 0;
-        allEventLists = new LinkedHashMap<Integer, EventList>();
+        allEventLists = new LinkedHashMap<Integer, BasicEventList>();
         defaultEventList = getEventList(0);
         setDecimalFormat("0.0000");
     }
@@ -364,8 +364,8 @@ public class Schedule  {
      * @param index id of desired EventList instance
      * @return EventList instance
      */    
-    public static EventList getEventList(int index) {
-        EventList eventList = allEventLists.get(index);
+    public static BasicEventList getEventList(int index) {
+        BasicEventList eventList = allEventLists.get(index);
         if (eventList == null) {
             eventList = new EventList(index);
             allEventLists.put(new Integer(index), eventList);
@@ -376,7 +376,7 @@ public class Schedule  {
     /**
      * @return Referenmce to current default event list
      */    
-    public static EventList getDefaultEventList() {
+    public static BasicEventList getDefaultEventList() {
         return defaultEventList;
     }
     
@@ -386,7 +386,7 @@ public class Schedule  {
      * 
      * @param eventList Desired EventList instance for default
      */    
-    public static void setDefaultEventList(EventList eventList) {
+    public static void setDefaultEventList(BasicEventList eventList) {
         defaultEventList = eventList;
         if (!allEventLists.containsValue(eventList)) {
             allEventLists.put(getNextAvailableID(), eventList);

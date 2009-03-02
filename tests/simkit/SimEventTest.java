@@ -28,7 +28,7 @@ public class SimEventTest extends TestCase {
         highPri.setPriority(Priority.HIGHER);
         SimEntityBase loPri = new SimEventTest_TestEntity();
         loPri.setPriority(Priority.DEFAULT);
-        Helper.setSimTime(0.0);
+        SimkitTestingHelper.setSimTime(0.0);
         
         se = new SimEvent[14];
 
@@ -41,7 +41,7 @@ public class SimEventTest extends TestCase {
         se[7] = highPri.waitDelay("7", 1.0, Priority.HIGH);
         se[8] = highPri.waitDelay("8", 1.0, Priority.DEFAULT);
 
-        Helper.setSimTime(1.0);
+        SimkitTestingHelper.setSimTime(1.0);
 
         se[9] = highPri.waitDelay("9", 0.0, Priority.HIGH);
         se[10] = loPri.waitDelay("10", 0.0, Priority.DEFAULT);
@@ -69,7 +69,7 @@ public class SimEventTest extends TestCase {
 
         int[] order = new int[] {999, 3, 6, 4, 5, 7, 9, 2, 12, 13, 8, 11, 1, 10}; 
 
-        SortedSet events = Helper.getEventSet();
+        SortedSet events = SimkitTestingHelper.getEventSet();
 
         int i = 1;
         for (Iterator itt = events.iterator(); itt.hasNext(); ) {

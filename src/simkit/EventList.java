@@ -153,9 +153,9 @@ public class EventList implements BasicEventList {
      */
     private PrintStream outputStream;
     
-/**
- * Holds the default format for outputting times.
- */
+    /**
+    * Holds the default format for outputting times.
+    */
     private DecimalFormat form;
     
     private boolean printEventSources;
@@ -223,52 +223,31 @@ public class EventList implements BasicEventList {
         setFastInterrupts(true);
         setOutputStream(System.out);
     }
-    
-    /**
-     * @return The identifying number for this
-     * <CODE>EventGraph</CODE> instance
-     */    
+    @Override
     public int getID() { return id; }
     
-    /**
-     * @return The current simulation time
-     */    
+    @Override
     public double getSimTime() { return simTime; }
     
-    /** If true, then contents of the event list are
-     * printed after each event is processed.
-     * @param b whether verbose mode is on
-     */    
+    @Override
     public void setVerbose(boolean b) { verbose = b; }
     
-    /**
-     * @return Whether verbose mode is on
-     */    
+    @Override
     public boolean isVerbose() { return verbose; }
     
-    /** For debugging, gives more detailed output
-     * @param b Whether reallyVerbose is on
-     */    
+    @Override
     public void setReallyVerbose(boolean b) { reallyVerbose = b; }
     
-    /**
-     * @return Whether reallyVerbose is true
-     */    
+    @Override
     public boolean isReallyVerbose() { return reallyVerbose; }
     
-    /**
-     * @param b Whether the event source is printed on a dump()
-     */    
+    @Override
     public void setPrintEventSources(boolean b) { printEventSources = b; }
-    
-    /**
-     * @return true if event sources are printed on a dump()
-     */    
+
+    @Override
     public boolean isPrintEventSources() { return printEventSources; }
-    
-    /**
-     * @param b Whether single step mode is on
-     */    
+
+    @Override
     public void setSingleStep(boolean b) {
         singleStep = b;
         setVerbose(singleStep);
@@ -277,75 +256,45 @@ public class EventList implements BasicEventList {
         }
     }
     
-    /**
-     * @return Whether singleStep mode is on
-     */    
+    @Override
     public boolean isSingleStep() { return singleStep; }
-    
-    /** If true, then the SimEntity toString() is dumped
-     * with verbose mode for each event.
-     * @param b Whether this mode is on
-     */    
+
+    @Override
     public void setDumpEventSources(boolean b) { dumpEventSources = b; }
-    
-    /**
-     * @return Whether this mode is on
-     */    
+
+    @Override
     public boolean isDumpEventSources() { return dumpEventSources; }
-    
-    /**
-     * @return Whether this mode is on
-     */    
+
+    @Override
     public boolean isStopOnEvent() { return stopOnEvent; }
     
-    /**
-     * @param format String for <CODE>DecimalFormat</CODE> of times
-     */    
+    @Override
     public void setFormat(String format) {
         form = new DecimalFormat(format);
     }
     
-    /**
-     * @return Number of events before simulation ends
-     */    
+    @Override
     public int getNumberStopEvents() { return numberStopEvents; }
     
-    /**
-     * @return Whether this mode is on
-     */    
+    @Override
     public boolean isStopAtTime() { return stopAtTime; }
     
-    /**
-     * @return Time simulation will end, if <CODE>stopAtTime</CODE>
-     * is set
-     */    
+    @Override
     public double getStopTime() { return stopTime; }
     
-    /**
-     * @return Whether simulation is currently running
-     */    
+    @Override
     public boolean isRunning() { return running; }
     
-    /**
-     * @return Name of stop event
-     */    
+    @Override
     public String getStopEventName() { return stopEventName; }
 
-    /**
-    * Returns true if there are no Events scheduled.
-    **/
+    @Override
     public boolean isFinished() {return eventList.isEmpty();}
     
-    /**
-     * @return Current SimEvent being processed
-     */    
+    @Override
     public SimEvent getCurrentSimEvent() { return currentSimEvent; }
     
-    /** If true, then  simulation will pausde after each
-     * event and resume only on another call to
-     * <CODE>startSimulation()</CODE>
-     * @param b Whether this mode is on
-     */    
+    @Override
     public void setPauseAfterEachEvent(boolean b) { 
         pauseAfterEachEvent = b;
         if (isPauseAfterEachEvent()) {
@@ -356,6 +305,7 @@ public class EventList implements BasicEventList {
     /**
      * @return Whether this mode is on
      */    
+    @Override
     public boolean isPauseAfterEachEvent() { return pauseAfterEachEvent; }
     
     /** Performs the following:
@@ -368,6 +318,7 @@ public class EventList implements BasicEventList {
      *        <CODE>SimEntity</CODE> in reRun.
      * </UL>
      */    
+    @Override
     public void reset() {
         synchronized(entryCounterMutex) {
             if (entryCounter > 0) {
@@ -478,6 +429,7 @@ public class EventList implements BasicEventList {
     /** Sets the stopAtTime mode to true, setting others to false.
      * @param time Time to stop simulation
      */    
+    @Override
     public void stopAtTime(double time) {
         stopAtTime = true;
         stopOnEvent = false;
@@ -492,24 +444,12 @@ public class EventList implements BasicEventList {
         stopInstance.waitDelay("Stop", getStopTime() - getSimTime(), Priority.LOWEST);
     }
     
-    /** Sets stopOnEvent to true and other modes false.
-     * The simulation will end after the given number of
-     * events have occurred.
-     * @deprecated Use stopOnEvent(int, String, Class...) instead
-     * @param numberEvents Number of times stop event will occur
-     * @param eventName Name of event to top at
-     */    
+    @Override
     public void stopOnEvent(String eventName, int numberEvents) {
         stopOnEvent(numberEvents, eventName);
     }
 
-    /** Sets stopOnEvent to true and other modes false.
-     * The simulation will end after the given number of
-     * events with this signature have occurred.
-     * @param numberEvents Number of events to occur
-     * @param eventName Name of stop event
-     * @param signature Signature of stop event
-     */    
+    @Override
     public void stopOnEvent(int numberEvents, String eventName, Class... signature) {
         if (numberEvents > 0) {
             stopOnEvent = true;
@@ -532,6 +472,7 @@ public class EventList implements BasicEventList {
     /**
      * @deprecated Use stopOnEvent(int, String, Class...) instead
      */
+    @Override
     public void stopOnEvent(String eventName, Class[] signature, int numberEvents) {
         stopOnEvent(numberEvents, eventName, signature);
     }
@@ -539,6 +480,7 @@ public class EventList implements BasicEventList {
      * if the user will terminate the run based on
      * other criteria.
      */    
+    @Override
     public void setUserDefinedStop() {
         stopAtTime = false;
         stopTime = Double.NaN;
@@ -546,11 +488,8 @@ public class EventList implements BasicEventList {
         stopEventName = null;
         numberStopEvents = 0;
     }
-    
-    /** Place an event on the event list.
-     * @param event Event to be scheduled
-     * @throws InvalidSchedulingException If scheduled time is less than current simTime.
-     */    
+
+    @Override
     public void scheduleEvent(SimEvent event) throws InvalidSchedulingException {
         if (event.getScheduledTime()  + precision < getSimTime() ) {
             throw new InvalidSchedulingException("Attempt to reverse time!: " +
@@ -574,13 +513,7 @@ public class EventList implements BasicEventList {
         }
     }
     
-    /** Starts event list algorithm.  While the event
-     * list is not empty, advance time to next event
-     * and handle that event.  An event is "handled"
-     * by making a callback to its <CODE>handleSimEvent</CODE>
-     * method.  Then have the owner of the event
-     * notify its listeners of the event.
-     */    
+    @Override
     public void startSimulation() {
         synchronized(entryCounterMutex) {
             if (entryCounter > 0) {
@@ -653,8 +586,8 @@ public class EventList implements BasicEventList {
         }
     }
     
-    /** Processed events one at a time based on
-     * user input from the console.
+    /**
+     * Processed events one at a time based on user input from the console.
      * <UL>
      *    <LI> &lt;Enter&gt; advances by one event</LI>
      *    <LI> s stops the run</LI>
@@ -662,6 +595,7 @@ public class EventList implements BasicEventList {
      *    <LI> g finishes the run in verbose mode</LI>
      * </UL>
      */    
+    @Override
     public void step() {
         while(true) {
             try {
@@ -679,22 +613,22 @@ public class EventList implements BasicEventList {
         }    
     }
 
-    /** Dumps current event list to <CODE>outputStream</CODE>
-     * @param reason Short message to add to dump
-     */    
+    @Override
     public void dump(String reason) {
         outputStream.println(getEventListAsString(reason));
     }
-    
-    /** Dump without an additional user message */    
+
+    @Override
     public void dump() {
         dump("");
     }
     
-    /** Adds one to the number of this event that have occured.
+    /**
+     * Adds one to the number of this event that have occured.
      * Used for <CODE>stopOnEvent</CODE>
      * This method is not synchronized since it is only called from startSimulation(),
      * which is protected from being entered multiple times.
+     *
      * @param event event to update counts
      */    
     protected void updateEventCounts(SimEvent event) {
@@ -707,7 +641,8 @@ public class EventList implements BasicEventList {
         event.setSerial(serial[0]);
     }
 
-    /** Stops simulation if the number of stop events
+    /**
+     * Stops simulation if the number of stop events
      * have occurred.
      */    
     protected void checkStopEvent() {
@@ -716,30 +651,25 @@ public class EventList implements BasicEventList {
             stopSimulation();
         }
     }
-    
-    /** Sets running to false, causing the event list
-     * algorithm to pause after the current event finishes
-     * processing.
-     */    
+
+    @Override
     public void pause() {
+        //    Sets running to false, causing the event list
+        //    algorithm to pause after the current event finishes
+        //    processing.
         running = false;
         if (isVerbose()) {
             log.info("Simulation is paused");
         }
     }
     
-/**
-* Sets a flag to cause the startSimulation() loop to clear the event list and exit.
-**/
+    @Override
     public void stopSimulation() {
+    //Set flag to cause the startSimulation() loop to clear the event list and exit.
         stoppingSimulation = true;
     }
     
-    /** Cancel next event of given name (regardless of
-     * signature) owned by the given SimEntity
-     * @param simEntity SimEntity to have event cancelled
-     * @param eventName Name of event to cancel
-     */    
+    @Override
     public void interrupt(SimEventScheduler simEntity, String eventName) {
         synchronized(eventList) {
             clearDeadEvents();
@@ -772,13 +702,8 @@ public class EventList implements BasicEventList {
             }//next i
         }//synch
     }
-    
-    /** Cancel next event of given name matching the
-     *  parameter list owned by the given SimEntity
-     * @param simEntity SimEntity to have event cancelled
-     * @param eventName Name of event to cancel
-     * @param parameters edge parameters of cancelled event
-     */    
+
+    @Override
     public void interrupt(SimEventScheduler simEntity, String eventName,
             Object... parameters) {
         Integer hash = null;
@@ -819,9 +744,7 @@ public class EventList implements BasicEventList {
         }
     }
     
-    /** Cancel the all events of this SimEntity.
-     * @param simEntity SimEntity to have events cancelled
-     */    
+    @Override
     public void interruptAll(SimEventScheduler simEntity) {
         synchronized(eventList) {
             clearDeadEvents();
@@ -850,11 +773,7 @@ public class EventList implements BasicEventList {
         }
     }
     
-    /** Cancel all events owned by this SimEntity that
-     * have the given name, regardless of signature.
-     * @param simEntity SimEntity to have event cancelled
-     * @param eventName Name of event
-     */    
+    @Override
     public void interruptAll(SimEventScheduler simEntity, String eventName) {
         synchronized(eventList) {
             clearDeadEvents();
@@ -886,13 +805,7 @@ public class EventList implements BasicEventList {
         }
     }
     
-    /** Cancel all events owned by this SimEntity
-     * of the given name whos parameters exactly
-     * match the given array.
-     * @param simEntity SimEntity to have event cancelled
-     * @param eventName Name of event to cancel
-     * @param parameters edge parameters that must match
-     */    
+    @Override
     public void interruptAll(SimEventScheduler simEntity, String eventName,
         Object... parameters) {
         Integer hash = null;
@@ -931,64 +844,42 @@ public class EventList implements BasicEventList {
         }
     }
     
-    /** Add the SimEntity to the reRun list.  On <CODE>Schedule.reset</CODE>
-     * the SimEntity's <CODE>reset()</CODE> method is invoked and
-     * its Run event (if it has one) is scheduled at time 0.0.  This
-     * happens only if the SimEntity is persistant.
-     * 
-     * @param simEntity SimEntity to be added as a reRun
-     */    
+    @Override
     public void addRerun(ReRunnable simEntity) {
         reRun.add(simEntity);
     }
     
-    /** Remove the given SimEntity from the reRun list
-     * @param simEntity SimEntity to be removed from reRun list
-     */    
+    @Override
     public void removeRerun(ReRunnable simEntity) {
         reRun.remove(simEntity);
     }
     
-    /** Empty the reRun list */    
+    @Override
     public void clearRerun() {
         reRun.clear();
     }
 
-    /** For debugging purposes - gets a copy of the
-     * current reRun list.
-     * @return Copy of reRun list
-     */    
+    @Override
     public Set<ReRunnable> getRerun() {
         return new LinkedHashSet<ReRunnable>(reRun);
     }
     
-    /** Events of this name will not be printed in verbose mode.
-     * @param eventName Name of event to be ignored
-     */    
+    @Override
     public void addIgnoreOnDump(String eventName) {
         ignoreOnDump.add(eventName);
     }
     
-    /** Events of this name now <I>will</I>i> be
-     * printed in verbose mode.
-     * @param eventName Event Name
-     */    
+    @Override
     public void removeIgnoreOnDump(String eventName) {
         ignoreOnDump.remove(eventName);
     }
     
-    /** For debugging purposes - returns a copy of the ignored events
-     * @return Copy of ignored events
-     */    
+    @Override
     public Set<String> getIgnoredEvents() {
         return new LinkedHashSet<String>(ignoreOnDump);
     }
 
-    /** Resets instance to pristine condition, as if it were
-     * freshly instantiated.  All containers are emptied,
-     * and various booleans are set to their default
-     * values (typically <CODE>false</CODE>).
-     */    
+    @Override
     public void coldReset() {
         synchronized(entryCounterMutex) {
             if (entryCounter > 0) {
@@ -1019,11 +910,7 @@ public class EventList implements BasicEventList {
         }
     }
     
-    /** For debugging purposes - returns a String depicting the
-     * current event and state of the event list.
-     * @param reason User message to be appended to event list
-     * @return String version of current event and event list
-     */    
+    @Override
     public String getEventListAsString(String reason) {
         StringBuffer buf = new StringBuffer();
         if (currentSimEvent != null) {
@@ -1227,11 +1114,14 @@ public class EventList implements BasicEventList {
         }
     }
 
+    @Override
     public PrintStream getOutputStream() {
         return outputStream;
     }
 
+    @Override
     public void setOutputStream(PrintStream outputStream) {
         this.outputStream = outputStream;
     }
+
 }

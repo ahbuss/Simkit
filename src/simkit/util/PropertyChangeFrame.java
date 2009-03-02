@@ -34,7 +34,7 @@ public class PropertyChangeFrame extends JFrame implements PropertyChangeListene
 **/
    protected JTextArea text;
    
-   protected EventList eventList;
+   protected BasicEventList eventList;
 
 /**
  *  Construct a PropertyChangeEvent

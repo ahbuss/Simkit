@@ -1,10 +1,10 @@
 
 package simkit;
 
-import simkit.*;
 import java.util.SortedSet;
 import java.util.Arrays;
 import java.util.List;
+import simkit.EventList;
 
 /**
 * Used to gain access to protected things for testing.
@@ -18,11 +18,20 @@ import java.util.List;
 public class SimkitTestingHelper {
 
     public static void setSimTime(double time) {
-        Schedule.getDefaultEventList().simTime = time;
+
+        // this will fail if the event list is not a simkit.EventList
+        // but this helper class is only intended to work with EventList
+        // so an exception here is a flaw in the testin code.
+        EventList el = (EventList)Schedule.getDefaultEventList();
+        el.simTime = time;
     }
 
     public static SortedSet<SimEvent> getEventSet() {
-        return Schedule.getDefaultEventList().eventList;
+        // this will fail if the event list is not a simkit.EventList
+        // but this helper class is only intended to work with EventList
+        // so an exception here is a flaw in the testin code.
+        EventList el = (EventList)Schedule.getDefaultEventList();
+        return el.eventList;
     }
 
     public static List<SimEventListener> getSimEventListenersAsList(SimEventSource source) {

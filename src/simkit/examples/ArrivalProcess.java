@@ -164,7 +164,7 @@ At time 100.0 there have been 2 arrivals
         System.out.println("Simulation will end at time " + stopTime);
         System.out.println();
         
-        simkit.EventList eventList = simkit.Schedule.getEventList(11);
+        simkit.BasicEventList eventList = simkit.Schedule.getEventList(11);
         
         eventList.setVerbose(true);
         eventList.setSingleStep(true);
@@ -184,7 +184,7 @@ At time 100.0 there have been 2 arrivals
         ap.setEventListID(newID);
         ap.getInterArrivalTime().getRandomNumber().resetSeed();
         
-        simkit.EventList eventList2 = simkit.Schedule.getEventList(newID);
+        simkit.BasicEventList eventList2 = simkit.Schedule.getEventList(newID);
         eventList2.stopAtTime(stopTime * 2 );
         eventList2.setVerbose(true);
         eventList2.reset();

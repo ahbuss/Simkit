@@ -89,7 +89,7 @@ public class SensorTargetRefereeTest extends TestCase {
         sensor.reset();
         mover.reset();
         mover.moveTo(new Point2D.Double(0.0, 0.0));
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         SimEvent event = (SimEvent)events.first();
         assertEquals("doStartMove", event.getMethodName());
         assertEquals(mover, event.getSource());
@@ -100,7 +100,7 @@ public class SensorTargetRefereeTest extends TestCase {
         assertEquals("doEnterRange", event.getMethodName());
         assertEquals(referee, event.getSource());
         assertEquals(1.0, event.getScheduledTime(), 0.0);
-        simkit.Helper.setSimTime(1.0);
+        simkit.SimkitTestingHelper.setSimTime(1.0);
         mover.moveTo(new Point2D.Double(0.0, 0.0)); 
         event = (SimEvent)events.first();
         assertEquals("doEnterRange", event.getMethodName());
@@ -143,7 +143,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.reset();
         mover.velocity = new Point2D.Double(100.0, 0.0);
         referee.processTarget(mover);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(0, events.size());
     }
 
@@ -162,7 +162,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.reset();
         mover.velocity = new Point2D.Double(-100.0, 0.0);
         referee.processTarget(mover);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         SimEvent event = (SimEvent)events.first();
         assertEquals("doEnterRange", event.getMethodName());
@@ -183,7 +183,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.reset();
         mover.velocity = new Point2D.Double(-100.0, 0.0);
         referee.processTarget(mover);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         SimEvent event = (SimEvent)events.first();
         assertEquals("doEnterRange", event.getMethodName());
@@ -204,7 +204,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.reset();
         mover.velocity = new Point2D.Double(100.0, 0.0);
         referee.processTarget(mover);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals("events=" + events, 0, events.size());
     }
 
@@ -223,7 +223,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.reset();
         mover.velocity = new Point2D.Double(-100.0, 0.0);
         referee.processTarget(mover);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         SimEvent event = (SimEvent)events.first();
         assertEquals("doExitRange", event.getMethodName());
@@ -245,7 +245,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.velocity = new Point2D.Double(-100.0, 0.0);
         referee.doEnterRange(sensor, mover);
         referee.processTarget(mover);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         SimEvent event = (SimEvent)events.first();
         assertEquals("events=" + events, "doExitRange", event.getMethodName());
@@ -267,7 +267,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.velocity = new Point2D.Double(100.0, 0.0);
         referee.doExitRange(sensor, mover);
         referee.processTarget(mover);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         SimEvent event = (SimEvent)events.first();
         assertEquals("events=" + events, "doEnterRange", event.getMethodName());
@@ -289,7 +289,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.reset();
         mover.velocity = new Point2D.Double(100.0, 0.0);
         referee.processSensor(sensor);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(0, events.size());
     }
 
@@ -308,7 +308,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.reset();
         mover.velocity = new Point2D.Double(-100.0, 0.0);
         referee.processSensor(sensor);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         SimEvent event = (SimEvent)events.first();
         assertEquals("doEnterRange", event.getMethodName());
@@ -329,7 +329,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.reset();
         mover.velocity = new Point2D.Double(-100.0, 0.0);
         referee.processSensor(sensor);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         SimEvent event = (SimEvent)events.first();
         assertEquals("doEnterRange", event.getMethodName());
@@ -350,7 +350,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.reset();
         mover.velocity = new Point2D.Double(100.0, 0.0);
         referee.processSensor(sensor);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals("events=" + events, 0, events.size());
     }
 
@@ -369,7 +369,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.reset();
         mover.velocity = new Point2D.Double(-100.0, 0.0);
         referee.processSensor(sensor);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         SimEvent event = (SimEvent)events.first();
         assertEquals("doExitRange", event.getMethodName());
@@ -391,7 +391,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.velocity = new Point2D.Double(-100.0, 0.0);
         referee.doEnterRange(sensor, mover);
         referee.processSensor(sensor);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         SimEvent event = (SimEvent)events.first();
         assertEquals("events=" + events, "doExitRange", event.getMethodName());
@@ -413,7 +413,7 @@ public class SensorTargetRefereeTest extends TestCase {
         mover.velocity = new Point2D.Double(100.0, 0.0);
         referee.doExitRange(sensor, mover);
         referee.processSensor(sensor);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         SimEvent event = (SimEvent)events.first();
         assertEquals("events=" + events, "doEnterRange", event.getMethodName());
@@ -436,7 +436,7 @@ public class SensorTargetRefereeTest extends TestCase {
         referee.reset();
         mover.velocity = new Point2D.Double(-100.0, 0.0);
         referee.processTarget(mover);
-        SortedSet events = simkit.Helper.getEventSet();
+        SortedSet events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         SimEvent event = (SimEvent)events.first();
         assertEquals("doEnterRange", event.getMethodName());
@@ -448,7 +448,7 @@ public class SensorTargetRefereeTest extends TestCase {
         referee.reset();
         mover.velocity = new Point2D.Double(-100.0, 0.0);
         referee.processTarget(mover);
-        events = simkit.Helper.getEventSet();
+        events = simkit.SimkitTestingHelper.getEventSet();
         assertEquals(1, events.size());
         event = (SimEvent)events.first();
         assertEquals("doEnterRange", event.getMethodName());

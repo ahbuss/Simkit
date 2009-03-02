@@ -80,7 +80,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
 **/
     protected PropertyChangeDispatcher property;
 
-    protected EventList eventList;
+    protected BasicEventList eventList;
     
     private boolean justDefinedProperties;
     
@@ -647,7 +647,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     
     public int getEventListID() { return eventList.getID(); }
     
-    public EventList getEventList() {
+    public BasicEventList getEventList() {
         return eventList;
     }
     

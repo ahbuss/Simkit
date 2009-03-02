@@ -74,7 +74,9 @@ public class EventListTest extends TestCase {
 
     public void setUp() {
         Schedule.coldReset();
-        eventList = Schedule.getDefaultEventList();
+        // This test assumes the BasicEventList implementation
+        // is simkit.EventList
+        eventList = (EventList)Schedule.getDefaultEventList();
         entity1 = new Adapter("heard", "passed");
         entity2 = new Bridge("heard", "sent");
         entity3 = new TestMediator();

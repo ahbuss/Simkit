@@ -4,6 +4,8 @@ import java.io.PrintStream;
 import java.util.Set;
 
 /**
+ * A  complete interface extraction of the public API provided
+ * by simkit.EventList
  *
  * @author kirk
  */
@@ -17,15 +19,14 @@ public interface BasicEventList {
     /**
      * For debugging purposes - returns a String depicting the
      * current event and state of the event list.
-     * 
+     *
      * @param reason User message to be appended to event list
      * @return String version of current event and event list
      */
     String getEventListAsString(String reason);
 
     /**
-     * @return The identifying number for this
-     * <CODE>EventList</CODE> instance
+     * @return The identifying number for this instance.
      */
     int getID();
 
@@ -117,7 +118,7 @@ public interface BasicEventList {
      * or any other external references will remain accessable.
      * It is not legal to subsequently call {@code startSimulation} or
      * {@code step}
-     * <p>
+     * 
      */
     void stopSimulation();
 
@@ -140,6 +141,14 @@ public interface BasicEventList {
     void scheduleEvent(SimEvent event) throws InvalidSchedulingException;
 
 
+    /**
+     * Starts event list algorithm.  While the event
+     * list is not empty, advance time to next event
+     * and handle that event.  An event is "handled"
+     * by making a callback to its <CODE>handleSimEvent</CODE>
+     * method.  Then have the owner of the event
+     * notify its listeners of the event.
+     */
     void startSimulation();
 
     /**
@@ -152,7 +161,7 @@ public interface BasicEventList {
      * <p>
      * Then have the owner of the event notify its listeners of the event.
      * <p>
-     * {@code isRunning()} will return true after this is called.
+     * {@code isRunning()} should return true after this is called.
      * <p>
      * Note:  Initiating event notifications from this method is a legacy
      * imlementation detail.  Newer implementations of 
@@ -192,5 +201,186 @@ public interface BasicEventList {
      */
     void stopOnEvent(int numberEvents, String eventName, Class... signature);
 
+    /**
+     * If true, then contents of the event list are
+     * printed after each event is processed.
+     *
+     * @param b whether verbose mode is on
+     */
+    public void setVerbose(boolean b);
+
+    /**
+     * @return Whether verbose mode is on
+     */
+    public boolean isVerbose();
+
+    /**
+     * @param b Whether single step mode is on
+     */
+    public void setSingleStep(boolean b);
+    
+    /**
+     * @return Whether singleStep mode is on
+     */
+    public boolean isSingleStep();
+    public void setUserDefinedStop();
+
+    /**
+     * @param b Whether the event source is printed on a dump()
+     */
+    public void setPrintEventSources(boolean b);
+    /**
+     *
+     * @return true if event sources are printed on a dump()
+     */
+    public boolean isPrintEventSources();
+
+    /**
+     * Add the SimEntity to the reRun list.  On <CODE>Schedule.reset</CODE>
+     * the SimEntity's <CODE>reset()</CODE> method is invoked and
+     * its Run event (if it has one) is scheduled at time 0.0.  This
+     * happens only if the SimEntity is persistant.
+     *
+     * @param simEntity SimEntity to be added as a reRun
+     */
+    public void addRerun(ReRunnable simEntity);
+
+    /**
+     * Remove the given SimEntity from the reRun list
+     *
+     * @param simEntity SimEntity to be removed from reRun list
+     */
+    public void removeRerun(ReRunnable simEntity);
+
+        /** Empty the reRun list */
+    public void clearRerun();
+
+    /**
+     * For debugging purposes - gets a copy of the
+     * current reRun list.
+     *
+     * @return Copy of reRun list
+     */
+    public Set<ReRunnable> getRerun();
+
+    /**
+     * Events of this name will not be printed in verbose mode.
+     *
+     * @param eventName Name of event to be ignored
+     */
+    public void addIgnoreOnDump(String eventName);
+
+    /**
+     * Events of this name now <I>will</I>i> be
+     * printed in verbose mode.
+     *
+     * @param eventName Event Name
+     */
+    public void removeIgnoreOnDump(String eventName);
+
+    /**
+     * For debugging purposes - returns a copy of the ignored events
+     *
+     * @return Copy of ignored events
+     */
+    public Set<String> getIgnoredEvents();
+
+    /**
+     * For debugging, gives more detailed output
+     * 
+     * @param b Whether reallyVerbose is on
+     */
+    public void setReallyVerbose(boolean b);
+
+    public boolean isReallyVerbose();
+
+    /**
+     * If true, then  simulation will pause after each
+     * event and resume only on another call to
+     * {@code startSimulation()}
+     *
+     * @param b Whether this mode is on
+     */
+    public void setPauseAfterEachEvent(boolean b);
+    public boolean isPauseAfterEachEvent();
+
+    /**
+     * Resets instance to pristine condition, as if it were
+     * freshly instantiated.  All containers are emptied,
+     * and various booleans are set to their default
+     * values (typically <CODE>false</CODE>).
+     */
+    public void coldReset();
+    public void setOutputStream(PrintStream outputStream);
+    public PrintStream getOutputStream();
+    /**
+     * Dumps current event list to the stream set by
+     * {@code setOutputStream()}.
+     */
+    public void dump();
+    /**
+     * Dumps current event list to the stream set by
+     * {@code setOutputStream()}.
+     *
+     * @param reason Short message to add to dump
+     */
+    public void dump(String reason);
+     /**
+     * If true, then the SimEntity toString() is dumped
+     * with verbose mode for each event.
+     *
+     * @param b Whether this mode is on
+     */
+    public void setDumpEventSources(boolean b);
+
+    /**
+     * @return Whether this mode is on
+     */
+    public boolean isDumpEventSources();
+    /**
+     * @return Whether this mode is on
+     */
+    public boolean isStopOnEvent();
+
+    /**
+     * If true, then pending SimEvents will be stored in a secondary hash table
+     * to make them easier to find when interrupting (defaults to true). For simulations that
+     * do not interrupt events, the added overhead from storing and removing
+     * events in the secondary table could add to run time.
+     * If going from false to true, add any pending events to the secondary hash tables.
+     * If going from true to false, clear the secondary hash tables.
+     *
+     **/
+    public void setFastInterrupts(boolean value);
+
+    /**
+     * @param format String for {@code DecimalFormat} of time strings
+     */
+    public void setFormat(String format);
+
+    /**
+     * @deprecated Use stopOnEvent(int, String, Class...) instead
+     */
+    public void stopOnEvent(String eventName, Class[] signature, int numberEvents);
+
+    /**
+     * Sets stopOnEvent to true and other modes false.
+     * The simulation will end after the given number of
+     * events have occurred.
+     *
+     * @deprecated Use stopOnEvent(int, String, Class...) instead
+     * @param numberEvents Number of times stop event will occur
+     * @param eventName Name of event to top at
+     */
+    public void stopOnEvent(String eventName, int numberEvents);
+    /**
+     * @return Number of events before simulation ends
+     */
+    public int getNumberStopEvents();
+
+    /**
+     * @return Whether this mode is on
+     */
+    public boolean isStopAtTime();
 
 }
