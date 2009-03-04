@@ -19,6 +19,14 @@ package simkit;
 **/
 public class Stop extends SimEntityBase {
 
+    public Stop() {
+        super();
+    }
+
+    public Stop(BasicEventList eventList) {
+        super();
+        this.eventList = eventList;
+    }
 /**
  *  Stop the simulation.
 **/

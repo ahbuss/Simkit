@@ -426,7 +426,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
      * @param endingTime The ending time at which all this SimEntity's events are interrupted.
      **/
     public void stopAtTime(double endingTime) {
-        new Stop().waitDelay("StopSimEntity", endingTime, Priority.LOWEST, this);
+        new Stop(eventList).waitDelay("StopSimEntity", endingTime, Priority.LOWEST, this);
     }
     
     /*
