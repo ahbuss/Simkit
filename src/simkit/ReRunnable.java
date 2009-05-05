@@ -14,7 +14,7 @@ package simkit;
  * to some initial value governed by other properties or settings for
  * each run.  This should occur in the object's {@code reset} method.
  * Further, if {@code isReRunnable} returns true, then the object must
- * have a {@doRun()} method.  It is in this method that initial scheduling
+ * have a {@code doRun()} method.  It is in this method that initial scheduling
  * activity should take place
  * <p>
  * Refactored out of the interface {@code SimEntity}
