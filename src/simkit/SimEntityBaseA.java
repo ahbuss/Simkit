@@ -171,7 +171,19 @@ public class SimEntityBaseA extends BasicSimEntity {
     protected Method lookupMethodForSimEvent(SimEvent event) {
 
         String requestedEvent = event.getEventName();
-        Class[] requestedSignature = event.getSignature();
+        Class[] requestedSignature = new Class[event.getSignature().length];
+
+        // <ugh>
+
+        Object[] args = event.getParameters();
+        for(int i = 0; i < args.length; i++) {
+            if(null == args[i]) {
+                break;
+            }
+            Class c = args[i].getClass();
+            requestedSignature[i] = c;
+        }
+        // </ugh>
 
         Map<Class[], Method> signatureKeyedMethods = eventMethodMap.get(getClass()).get(requestedEvent);
 
