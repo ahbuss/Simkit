@@ -1,6 +1,7 @@
 package simkit.util;
 
 import java.beans.*;
+import simkit.Named;
 
 /**
 * Prints property changes for all properties of any PropertyChangeSources
@@ -46,7 +47,12 @@ public class SimplePropertyDumper implements PropertyChangeListener {
             index = "[" + ((IndexedPropertyChangeEvent) e).getIndex() + "]";
         }
         if (isDumpSource()) {
-            System.out.print("{" + e.getSource() + "} " );
+            Object source = e.getSource();
+            if (source instanceof Named) {
+                System.out.print("<" + ((Named)source).getName() + "> ");
+            } else {
+                System.out.print("<" + source + "> ");
+            }
         }
         System.out.println( e.getPropertyName() + index + ": " + e.getOldValue() + " => " +
             e.getNewValue());
