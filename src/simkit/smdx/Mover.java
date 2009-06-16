@@ -106,7 +106,7 @@ public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
     public void setMaxSpeed(double max) throws MagicMoveException;
     /**
      * Added to support zero argument constructors and the ObjectMaker system.
-     * @param max
+     * @param location
      */
     public void setLocation(Point2D location) throws MagicMoveException;
 }

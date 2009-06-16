@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="help" name="Simkit">
-	<description>
+    <description>
          Ant build file for the NPS Simkit and associated libraries. Third
          party jar files are not compiled from source here, but they are copied as
          necessary for the simkit distribution.  This buildfile was created and tested
@@ -9,32 +9,32 @@
          and comments are welcome.
          
          It has also been tested on Linux with NetBeans 3.5.1 and JDK_1.4.2
-        </description>
+    </description>
 	
 <!-- magic properties, do not change or delete -->
 
-	<property name="build.compiler" value="modern"/>
+    <property name="build.compiler" value="modern"/>
 	
 <!-- CVS properties (this file) -->
-	<property name="CVSId" value="$Id$"/>
+    <property name="CVSId" value="$Id$"/>
 
 <!-- Project directories             -->
 
-	<property description="Root of the Simkit source tree." location="src" name="dir.src"/>
+    <property description="Root of the Simkit source tree." location="src" name="dir.src"/>
 	
-	<property description="Root of the Simkit binary tree." location="${basedir}/build" name="dir.build"/>
+    <property description="Root of the Simkit binary tree." location="${basedir}/build" name="dir.build"/>
 	          
-	<property description="Directory for built and copied jar files that will wind up in dir.dist." location="${dir.build}/lib" name="dir.build.lib"/>
+    <property description="Directory for built and copied jar files that will wind up in dir.dist." location="${dir.build}/lib" name="dir.build.lib"/>
 	          
-	<property description="Where the distribution files wind up." location="${basedir}/dist" name="dir.dist"/>
+    <property description="Where the distribution files wind up." location="${basedir}/dist" name="dir.dist"/>
 	          
-	<property description="Location of Simkit's dependencies" location="${basedir}/lib" name="dir.lib"/>
+    <property description="Location of Simkit's dependencies" location="${basedir}/lib" name="dir.lib"/>
 	          
-	<property description="Where all the XML extensions are." location="${dir.lib}/jwsdp-1.3" name="dir.lib.xml"/>
+    <property description="Where all the XML extensions are." location="${dir.lib}/jwsdp-1.3" name="dir.lib.xml"/>
 	          
-	<property description="Location of class files resulting from operations of this build file." location="${dir.build}/classes" name="dir.build.classes"/>
+    <property description="Location of class files resulting from operations of this build file." location="${dir.build}/classes" name="dir.build.classes"/>
 	          
-	<property description="Root of the javadoc tree for Simkit." location="${dir.build}/doc" name="dir.build.doc"/>
+    <property description="Root of the javadoc tree for Simkit." location="${dir.build}/doc" name="dir.build.doc"/>
 
     <property description="The location of junit Test source." location="${basedir}/tests" name="dir.tests"/>
 
@@ -42,41 +42,43 @@
 
     <property environment="ENV"/>
     <property description="The location of junit.jar." location="${ENV.JUNITJAR}" name="junitJar"/>
-                  
+
+    <property name="izpack.dir" value = "izpack" />
+    <property name="launch4j.dir" value="Launch4j" />
 
 <!--  === TARGET: help === -->
-	<target name="help">
-		<echo message="This is the Ant build file for the Simkit and associated libraries."/>
-                <echo message="Third-party jar files are not compiled from source here,"/>
-                <echo message="but they are copied as necessary for the simkit distribution."/>
-                <echo message="This buildfile was created and tested using Ant version 1.5.1"/>
-                <echo message="on the Mac OSX 10.3 platform, where it works from the command line"/>
-                <echo message="as well as within the NetBeans IDE versions 3.x and 4.x"/>
-                <echo message="from Sun Microsystems."/>
-                <echo message="Suggestions and comments should be forwarded to"/>
-                <echo message="Arnold Buss (abuss@nps.edu) or posted on the"/>
-                <echo message="Simkit discussion boards at http://diana.nps.navy.mil/simkit."/>
-                <echo/>
-                <echo message="Simkit is copyright under the Lesser GNU Public License (LGPL)"/>
+    <target name="help">
+        <echo message="This is the Ant build file for the Simkit and associated libraries."/>
+        <echo message="Third-party jar files are not compiled from source here,"/>
+        <echo message="but they are copied as necessary for the simkit distribution."/>
+        <echo message="This buildfile was created and tested using Ant version 1.5.1"/>
+        <echo message="on the Mac OSX 10.3 platform, where it works from the command line"/>
+        <echo message="as well as within the NetBeans IDE versions 3.x and 4.x"/>
+        <echo message="from Sun Microsystems."/>
+        <echo message="Suggestions and comments should be forwarded to"/>
+        <echo message="Arnold Buss (abuss@nps.edu) or posted on the"/>
+        <echo message="Simkit discussion boards at http://diana.nps.navy.mil/simkit."/>
+        <echo/>
+        <echo message="Simkit is copyright under the Lesser GNU Public License (LGPL)"/>
     </target>
 
 <!--  === TARGET: init === -->
-	<target description="Preparatory actions required for all targets." name="init">
-	    <tstamp/>
-		<echo message="Build started on ${DSTAMP} at ${TSTAMP}"/>
-		<echo message="Buildfile version ${CVSId}"/>
-		<echo message="Base directory: ${basedir}"/>
-		<echo message="Source directory: ${dir.src}"/>
-		<echo message="Build directory: ${dir.build}"/>
-	</target>
+    <target description="Preparatory actions required for all targets." name="init">
+        <tstamp/>
+        <echo message="Build started on ${DSTAMP} at ${TSTAMP}"/>
+        <echo message="Buildfile version ${CVSId}"/>
+        <echo message="Base directory: ${basedir}"/>
+        <echo message="Source directory: ${dir.src}"/>
+        <echo message="Build directory: ${dir.build}"/>
+    </target>
 	
 <!--  === TARGET: build.init === -->
-	<target depends="init" description="Preparatory actions for compilation and documentation targets" name="build.init">
-		<mkdir dir="${dir.build}"/>
-		<mkdir dir="${dir.build.lib}"/>
-		<mkdir dir="${dir.build.classes}"/>
-                <mkdir dir="${dir.build.doc}"/>
-	</target>
+    <target depends="init" description="Preparatory actions for compilation and documentation targets" name="build.init">
+        <mkdir dir="${dir.build}"/>
+        <mkdir dir="${dir.build.lib}"/>
+        <mkdir dir="${dir.build.classes}"/>
+        <mkdir dir="${dir.build.doc}"/>
+    </target>
 
 <!-- === TARGET: test.init === -->
     <target depends="init" name="test.init">
@@ -96,14 +98,14 @@
         
         <copy todir="${dir.build.classes}">
             <fileset dir="${dir.src}">
-            	<include name="**/*.txt"/>
-            	<include name="**/*.png"/>
-            	<include name="**/*.gif"/>
-            	<include name="**/*.jpg"/>
-        	<include name="*.txt"/>
-        	<exclude name="build/"/>
-        	<include name="**/*.xml"/>
-        	<include name="**/*.dtd"/>
+                <include name="**/*.txt"/>
+                <include name="**/*.png"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.jpg"/>
+                <include name="*.txt"/>
+                <exclude name="build/"/>
+                <include name="**/*.xml"/>
+                <include name="**/*.dtd"/>
                 <exclude name="Simkitlocales/" />
                 <exclude name="Simkit_Build_Output/" />
                 <exclude name="nbproject/" />
@@ -124,14 +126,14 @@
         
         <copy todir="${dir.build.classes}">
             <fileset dir="${dir.src}">
-            	<include name="**/*.txt"/>
-            	<include name="**/*.png"/>
-            	<include name="**/*.gif"/>
-            	<include name="**/*.jpg"/>
-        	<include name="*.txt"/>
-        	<exclude name="build/"/>
-        	<include name="**/*.xml"/>
-        	<include name="**/*.dtd"/>
+                <include name="**/*.txt"/>
+                <include name="**/*.png"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.jpg"/>
+                <include name="*.txt"/>
+                <exclude name="build/"/>
+                <include name="**/*.xml"/>
+                <include name="**/*.dtd"/>
                 <exclude name="Simkitlocales/" />
                 <exclude name="Simkit_Build_Output/" />
                 <exclude name="nbproject/" />
@@ -184,37 +186,37 @@
     
 <!-- === TARGET: dist === -->
 
-	<target depends="jar, doc, jar.source" name="dist" 
+    <target depends="jar, doc, jar.source" name="dist"
             description="Package Simkit for Distribution">
-	    <mkdir dir="${dir.dist}"/>
+        <mkdir dir="${dir.dist}"/>
 <!--	    <mkdir dir="${dir.dist}/doc"/> -->
-	    <mkdir dir="${dir.dist}/lib"/>
-	    <mkdir dir="${dir.dist}/gnu"/>
-		<copy todir="${dir.dist}/lib">
-			<fileset dir="${dir.build.lib}"/>
-		</copy>
+        <mkdir dir="${dir.dist}/lib"/>
+        <mkdir dir="${dir.dist}/gnu"/>
+        <copy todir="${dir.dist}/lib">
+            <fileset dir="${dir.build.lib}"/>
+        </copy>
 <!--  -->              
-		<copy todir="${dir.dist}/doc">
-			<fileset dir="${dir.build.doc}"/>
-		</copy>
+        <copy todir="${dir.dist}/doc">
+            <fileset dir="${dir.build.doc}"/>
+        </copy>
 <!-- -->
-                <jar jarfile="${dir.dist}/simkit-doc.zip">
-                    <fileset dir="${dir.build}/doc" />
-                </jar>
-		<copy todir="${dir.dist}/lib">
-			<fileset dir="${dir.lib}"/>
-                        <fileset dir="${dir.build.lib}" />
-		</copy>
-                <copy file="${dir.build}/simkit-src.zip" todir="${dir.dist}"/>
-                <copy todir="${dir.dist}/gnu">
-                    <fileset dir="${dir.src}/../gnu"/>
-                </copy>
-                <copy todir="${dir.dist}">
-                    <fileset dir="${dir.build}">
-                        <include name="*.txt"/>
-                    </fileset>
-                </copy>
-	</target>
+        <jar jarfile="${dir.dist}/simkit-doc.zip">
+            <fileset dir="${dir.build}/doc" />
+        </jar>
+        <copy todir="${dir.dist}/lib">
+            <fileset dir="${dir.lib}"/>
+            <fileset dir="${dir.build.lib}" />
+        </copy>
+        <copy file="${dir.build}/simkit-src.zip" todir="${dir.dist}"/>
+        <copy todir="${dir.dist}/gnu">
+            <fileset dir="${dir.src}/../gnu"/>
+        </copy>
+        <copy todir="${dir.dist}">
+            <fileset dir="${dir.build}">
+                <include name="*.txt"/>
+            </fileset>
+        </copy>
+    </target>
 
 <!-- === TARGET: buildTests === -->
     <target depends="test.init, compile" name="buildTests">
@@ -228,16 +230,16 @@
 
 <!-- === TARGET: test === -->
     <target depends="buildTests" name="test" description="Run junit tests">
-       <junit printsummary="withOutAndErr" haltonfailure="no" fork="yes">
-           <test name="TestAll"/>
-           <formatter type="plain"/>
-           <classpath>
+        <junit printsummary="withOutAndErr" haltonfailure="no" fork="yes">
+            <test name="TestAll"/>
+            <formatter type="plain"/>
+            <classpath>
                 <pathelement path="${dir.build.classes}"/>
                 <pathelement path="${dir.build.tests}"/>
                 <pathelement path="${junitJar}"/>
-           </classpath>
+            </classpath>
             <jvmarg value="-Djava.util.logging.config.file=logging.properties"/>
-       </junit>
+        </junit>
     </target>
 
     <path id="nb.test.class.path">
@@ -270,5 +272,44 @@
                 <path refid="nb.test.class.path"/>
             </classpath>
         </java>
+    </target>
+    <!--
+        Defines the izpack task - the standalone-compiler.jar file
+        is all that is necessary, as it turns out.
+    -->
+    <taskdef name ="izpack"
+        classname="com.izforge.izpack.ant.IzPackTask"
+        classpath="${izpack.dir}/lib/standalone-compiler.jar" />
+        
+    <target name="Simkit-installer" depends="dist"
+        description="Builds executable jar file for Simkit using IzPack">
+        <copy toDir="${dir.dist}">
+            <fileset dir="izpack/bin">
+                <include name="langpacks/installer/*" />
+                <include name="langpacks/flags/*" />
+                <exclude name =".svn" />
+            </fileset>
+        </copy>
+        <izpack
+            input="${basedir}/installer/izpack.simkit.xml"
+            basedir="${basedir}/dist"
+            output="${basedir}/dist/simkit.installer.jar"/>
+    </target>
+
+    <!--
+        Define the launch4j task.
+        TODO:   check that Laucnh4J is installed and, if not, download
+                and install it.
+    -->
+    <taskdef name="launch4j"
+             classname="net.sf.launch4j.ant.Launch4jTask"
+             classpath="${launch4j.dir}/launch4j.jar;${launch4j.dir}/lib/xstream.jar" >
+    </taskdef>
+    <!--
+        Wraps the executable jar file created in Simkit-installer
+    -->
+    <target name="Simkit-native-installer" depends="Simkit-installer"
+            description="Builds executable installer file">
+        <launch4j configFile="${basedir}/installer/SimkitInstaller.xml" />
     </target>
 </project>

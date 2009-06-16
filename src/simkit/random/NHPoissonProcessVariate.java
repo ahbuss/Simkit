@@ -84,8 +84,12 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
             lastGeneratedTime = num.doubleValue();
             return inter;
         }
-        catch (IllegalAccessException e) { throw new RuntimeException(e);}
-        catch (InvocationTargetException e) { throw new RuntimeException(e.getTargetException());}
+        catch (IllegalAccessException e) { 
+            throw new RuntimeException(e);
+        }
+        catch (InvocationTargetException e) { 
+            throw new RuntimeException(e.getTargetException());
+        }
     }
     
     /**
@@ -126,7 +130,7 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
         else if (params[0] instanceof String) {
             Class<?> clazz = getRateInvoker().getClass();
             try {
-                method = clazz.getMethod(params[0].toString(), new Class[] { double.class } );
+                method = clazz.getMethod(params[0].toString(), double.class );
             }
             catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);
