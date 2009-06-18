@@ -104,6 +104,14 @@ public class Math2D {
     }
 
     /**
+     * Computes a unit vector in the direction of the argument.
+     */
+    public static Point2D unitVector(Point2D vec){
+        double scale = 1.0 / norm(vec);
+        return scalarMultiply(scale, vec);
+    }
+
+    /**
      * Computes the inner product of the two points.
      **/
     public static double innerProduct(Point2D first, Point2D second) {
