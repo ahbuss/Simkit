@@ -7,15 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import simkit.util.LogString;
 
 /**
+ * SimEntityBaseA (A for Annotations)
+ * <p>
  * Another implementation of SimEntity.  This one follows the approach of
  * SimEntityBase, but rather than requiring a naming convention for
  * SimEvent-completion methods, annotations are used to map methods of any
  * name to an event name.
  * <p>
  * The annotation type is {@link SimEventMethod} which must contain
- * one assignment {@code event="<Name of the event>"}.  This name establishes
+ * one argument {@code "<Name of the event>"}.  This name establishes
  * the mapping, and is used along with the {@code eventName} property of a
  * {@code SimEvent} to find the appropriate method.
  * <p>
@@ -29,30 +32,31 @@ import java.util.logging.Logger;
 
 class A extends SimEntityA {
 ...
-@SimEventMethod(event="Arrival") public void foo(int x) { ...}
+@SimEventMethod("Arrival") public void foo(int x) { ...}
 }
 
 class B extends A {
 ...
-@SimEventMethod(event="Arrival") public void bar(int x) { ...}
+@SimEventMethod("Arrival") public void bar(int x) { ...}
 }
 }
 }
  * <p>
  * Will result in class B's bar method being called when it receives a
  * SimEvent who's eventName is "Arrival" with an int argument.  So, somewhat
- * strangely, foo is effectively overridden by bar.
+ * strangely, foo is effectively overridden by bar from the perspective
+ * of the EventList.
  * <p>
  * However, if the signature doesn't match, then both methods will be available
  * in B.
  * {@literal
  * class A extends SimEntityA {
  *  ...
- *  \@SimEventMethod(event="Arrival") public void foo() { ...}
+ *  \@SimEventMethod("Arrival") public void foo() { ...}
  * }
  * class B extends A {
  *  ...
- *  \@SimEventMethod(event="Arrival") public void bar(int x) { ...}
+ *  \@SimEventMethod("Arrival") public void bar(int x) { ...}
  * }
  * }
  * <p>
@@ -75,7 +79,7 @@ public class SimEntityBaseA extends BasicSimEntity {
 
     public static final String _VERSION_ =
             "$Id$";
-    public static final Logger LOG = Logger.getLogger("simkit");
+    private static final Logger LOG = Logger.getLogger("simkit.SimEntity");
     private boolean eventNamesProcessed = false;
     //  Slightly deep dictionary to look up methods
     // the name field comes from the name argument of the
@@ -130,27 +134,27 @@ public class SimEntityBaseA extends BasicSimEntity {
                 continue;
             }
 
-            String eventName = annotation.event();
+            String eventName = annotation.value();
             annotationKeyedMethods = eventMethodMap.get(this.getClass());
             if (null == annotationKeyedMethods) {
                 annotationKeyedMethods = new HashMap();
             }
 
-            signatureKeyedMethods = annotationKeyedMethods.get(annotation.event());
+            signatureKeyedMethods = annotationKeyedMethods.get(annotation.value());
             if (null == signatureKeyedMethods) {
                 signatureKeyedMethods = new HashMap();
             }
 
             signatureKeyedMethods.put(m.getParameterTypes(), m);
-            annotationKeyedMethods.put(annotation.event(), signatureKeyedMethods);
+            annotationKeyedMethods.put(annotation.value(), signatureKeyedMethods);
             eventMethodMap.put(this.getClass(), annotationKeyedMethods);
         }
         eventNamesProcessed = true;
     }
 
     @Override
-    public void processSimEvent(SimEvent event) {
-        handleSimEvent(event);
+    public void handleSimEvent(SimEvent event) {
+        processSimEvent(event);
     }
 
     public String describeSimEventMethods() {
@@ -176,8 +180,8 @@ public class SimEntityBaseA extends BasicSimEntity {
         // <ugh>
 
         Object[] args = event.getParameters();
-        for(int i = 0; i < args.length; i++) {
-            if(null == args[i]) {
+        for (int i = 0; i < args.length; i++) {
+            if (null == args[i]) {
                 break;
             }
             Class c = args[i].getClass();
@@ -230,7 +234,7 @@ public class SimEntityBaseA extends BasicSimEntity {
     }
 
     @Override
-    public void handleSimEvent(SimEvent event) {
+    public void processSimEvent(SimEvent event) {
 
         Object[] requestedParameters = event.getParameters();
         Method requestedMethod = this.lookupMethodForSimEvent(event);
@@ -241,7 +245,14 @@ public class SimEntityBaseA extends BasicSimEntity {
         }
 
         try {
-
+            Level l = Level.FINEST;
+            if (LOG.isLoggable(l)) {
+                LOG.log(l, LogString.format(eventList,
+                        "Will invoke " + requestedMethod.toGenericString() +
+                        " on " + this.toString() +
+                        " which was found under the annotation sim event name \'" +
+                        event.getEventName() + "\'"));
+            }
             requestedMethod.invoke(this, requestedParameters);
 
         } catch (IllegalAccessException ex) {
@@ -294,45 +305,4 @@ public class SimEntityBaseA extends BasicSimEntity {
         }
         return callable;
     }
-
-// Removed all this because it isn't part of SimEntity specification.
-//
-//    /**
-//     * Schedule an event 'StopSimEntity' at the given time.  The event
-//     * has one argument, which will be a reference to this entity. Entities
-//     * that wish to respond to this event must have a SimEventMethod that
-//     * matches the above description.
-//     * <p>
-//     * {@code @SimEventMethod(event="StopSimEntity")
-//     * public void foo(SimEntity entity);}
-//     * <p>
-//     * By default, this sim event is responded to by this class by simply
-//     * cancelling all pending events.  Any SimEventMethod can override this
-//     * behavior by annotating a method with the same signature with the event label
-//     * "StopSimEntity".
-//     *
-//     * @param endingTime The ending time at which all this SimEntity's
-//     * events are interrupted.
-//     **/
-//    public void stopAtTime(double endingTime) {
-//        waitDelay("StopSimEntity", endingTime, Priority.LOWEST, this);
-//    }
-//
-//    @SimEventMethod(event="StopSimEntity")
-//    public void cancelMyEventsAndStop(SimEntity shouldBeMe) {
-//        if(shouldBeMe == this) {
-//            interruptAll();
-//        }
-//    }
-// These are superceded by the move to java logging and a logging properties
-// file or jvm arg
-///**
-//* If true, print debug information.
-//**/
-//    public static void setDebug(boolean b) {debug = b;}
-//
-///**
-//* If true, print debug information.
-//**/
-//    public static boolean isDebug() {return debug;}
 }

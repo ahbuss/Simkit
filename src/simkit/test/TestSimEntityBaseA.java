@@ -18,25 +18,25 @@ public class TestSimEntityBaseA {
             super(name);
         }
 
-        @SimEventMethod(event="Arrival")
+        @SimEventMethod("Arrival")
         public void foo(A a) {
             System.out.println("EntityA has arrived" + a);
             waitDelay("Arrival", 1.0, new B());
         }
-        @SimEventMethod(event="Arrival")
+        @SimEventMethod("Arrival")
         public void foo(boolean x) {
             System.out.println("bool");
         }
-        @SimEventMethod(event="Arrival")
+        @SimEventMethod("Arrival")
         public void foo(Double x) {
             System.out.println("Double");
         }
-        @SimEventMethod(event="Arrival")
+        @SimEventMethod("Arrival")
         public void foo(int x) {
             System.out.println("int");
         }
 
-        @SimEventMethod(event="Run")
+        @SimEventMethod("Run")
         public void bar() {
             waitDelay("Arrival", 1.0, new A());
         }
@@ -47,7 +47,7 @@ public class TestSimEntityBaseA {
             super(name);
         }
 
-        @SimEventMethod(event="Arrival")
+        @SimEventMethod("Arrival")
         public void foo(int x) {
             System.out.println("int");
         }
@@ -58,7 +58,7 @@ public class TestSimEntityBaseA {
             super(name);
         }
 
-        @SimEventMethod(event="Arrival")
+        @SimEventMethod("Arrival")
         public void foo(int x) {
             System.out.println("int");
         }
@@ -66,7 +66,7 @@ public class TestSimEntityBaseA {
         // this should generate a warning that there is no
         // "Arrival" SimEventMethod with signature ()
         
-        @SimEventMethod(event="Run")
+        @SimEventMethod("Run")
         public void brokenRun() {
             waitDelay("Arrival", 1.0);
         }
