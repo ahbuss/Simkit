@@ -18,7 +18,7 @@ import simkit.random.RngStream;
 public class RngStreamExamples {
 
     static final RngStreamExamples SE = new RngStreamExamples();
-    Map<String, RngStream> streams = new HashMap();
+    Map<String, RngStream> streams = new HashMap<String, RngStream>();
     int i = 0;
     int j = 100;
 

@@ -248,11 +248,12 @@ public class RandomVariateFactory {
      * @see #addSearchPackage(String)
      * @see #setSearchPackages(Set)
      **/
-    public static Class findFullyQualifiedNameFor(String className) {
-        Class theClass = null;
+    public static Class<?> findFullyQualifiedNameFor(String className) {
+        Class<?> theClass = null;
         //        First see if name passed is "fully qualified"
         try {
-            theClass = Thread.currentThread().getContextClassLoader().
+            theClass = 
+                    Thread.currentThread().getContextClassLoader().
                     loadClass(className);
             
             return theClass;
@@ -265,7 +266,8 @@ public class RandomVariateFactory {
                         className);
             }
             try {
-                theClass = Thread.currentThread().getContextClassLoader().
+                theClass = 
+                        Thread.currentThread().getContextClassLoader().
                         loadClass(searchPackage + "." + className);
                 
                 if (!simkit.random.RandomVariate.class.
