@@ -268,7 +268,7 @@ public class Math2D {
     }
 
     public static Set<Point2D> eliminateDuplicates(List<Point2D> intersections, double tolerance) {
-        Set<Point2D> s = new LinkedHashSet();
+        Set<Point2D> s = new LinkedHashSet<Point2D>();
         double roundFactor = 1.0 / tolerance;
         double x, y;
 
