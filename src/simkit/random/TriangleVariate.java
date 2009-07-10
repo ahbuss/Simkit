@@ -89,7 +89,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
 * Parameters should only be set with setParameters.
 * Sets the lowest value.
 **/
-    private void setLeft(double a) { left = a; }
+    public void setLeft(double a) { left = a; }
     
 /**
 * Gets the lowest value.
@@ -100,7 +100,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
 * Parameters should only be set with setParameters.
 * Sets the highest value.
 **/
-    private void setRight(double b) { right = b; }
+    public void setRight(double b) { right = b; }
     
 /**
 * Returns the highest value.
@@ -111,7 +111,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
 * Parameters should only be set with setParameters.
 * Sets the location of the peak of the triangle.
 **/
-    private void setCenter(double c) { center = c;  }
+    public void setCenter(double c) { center = c;  }
     
 /**
 * Returns the location of the peak of the triangle.
