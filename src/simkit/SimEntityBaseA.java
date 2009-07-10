@@ -87,11 +87,11 @@ public class SimEntityBaseA extends BasicSimEntity {
     //
     // {class { event name { signature array { method }}}}
     //
-    private static Map<Class, Map<String, Map<Class[], Method>>> eventMethodMap;
+    private static Map<Class<?>, Map<String, Map<Class<?>[], Method>>> eventMethodMap;
 
 
     static {
-        eventMethodMap = new HashMap();
+        eventMethodMap = new HashMap<Class<?>, Map<String, Map<Class<?>[], Method>>>();
     }
 
     public SimEntityBaseA(String name, Priority priority) {
@@ -122,8 +122,8 @@ public class SimEntityBaseA extends BasicSimEntity {
         // every method introspection can find for this instance
         Method[] allObjectMethods = getClass().getMethods();
 
-        Map<String, Map<Class[], Method>> annotationKeyedMethods;
-        Map<Class[], Method> signatureKeyedMethods;
+        Map<String, Map<Class<?>[], Method>> annotationKeyedMethods;
+        Map<Class<?>[], Method> signatureKeyedMethods;
 
         for (Method m : allObjectMethods) {
 //            System.out.println(this.getClass().getSimpleName() + " : " + m.getName());
@@ -137,12 +137,12 @@ public class SimEntityBaseA extends BasicSimEntity {
             String eventName = annotation.value();
             annotationKeyedMethods = eventMethodMap.get(this.getClass());
             if (null == annotationKeyedMethods) {
-                annotationKeyedMethods = new HashMap();
+                annotationKeyedMethods = new HashMap<String, Map<Class<?>[], Method>>();
             }
 
             signatureKeyedMethods = annotationKeyedMethods.get(annotation.value());
             if (null == signatureKeyedMethods) {
-                signatureKeyedMethods = new HashMap();
+                signatureKeyedMethods = new HashMap<Class<?>[], Method>();
             }
 
             signatureKeyedMethods.put(m.getParameterTypes(), m);
@@ -159,7 +159,7 @@ public class SimEntityBaseA extends BasicSimEntity {
 
     public String describeSimEventMethods() {
         StringBuilder buff = new StringBuilder();
-        Map<String, Map<Class[], Method>> stringKeyedMethods =
+        Map<String, Map<Class<?>[], Method>> stringKeyedMethods =
                 eventMethodMap.get(this.getClass());
         for (String key : stringKeyedMethods.keySet()) {
             buff.append(key + ":\n");
@@ -175,7 +175,7 @@ public class SimEntityBaseA extends BasicSimEntity {
     protected Method lookupMethodForSimEvent(SimEvent event) {
 
         String requestedEvent = event.getEventName();
-        Class[] requestedSignature = new Class[event.getSignature().length];
+        Class<?>[] requestedSignature = new Class<?>[event.getSignature().length];
 
         // <ugh>
 
@@ -184,16 +184,16 @@ public class SimEntityBaseA extends BasicSimEntity {
             if (null == args[i]) {
                 break;
             }
-            Class c = args[i].getClass();
+            Class<?> c = args[i].getClass();
             requestedSignature[i] = c;
         }
         // </ugh>
 
-        Map<Class[], Method> signatureKeyedMethods = eventMethodMap.get(getClass()).get(requestedEvent);
+        Map<Class<?>[], Method> signatureKeyedMethods = eventMethodMap.get(getClass()).get(requestedEvent);
 
         Method requestedMethod = null;
 
-        for (Class[] sig : signatureKeyedMethods.keySet()) {
+        for (Class<?>[] sig : signatureKeyedMethods.keySet()) {
             if (callableArgTypes(sig, requestedSignature)) {
                 requestedMethod = signatureKeyedMethods.get(sig);
             }
@@ -266,12 +266,12 @@ public class SimEntityBaseA extends BasicSimEntity {
 
     @Override
     public boolean isReRunnable() {
-        Class[] f = new Class[0];
-        Map<Class[], Method> signatureKeyedRunMethods = eventMethodMap.get(this.getClass()).get("Run");
+        Class<?>[] f = new Class<?>[0];
+        Map<Class<?>[], Method> signatureKeyedRunMethods = eventMethodMap.get(this.getClass()).get("Run");
         if (null == signatureKeyedRunMethods || signatureKeyedRunMethods.size() == 0) {
             return false;
         }
-        for (Class[] sig : signatureKeyedRunMethods.keySet()) {
+        for (Class<?>[] sig : signatureKeyedRunMethods.keySet()) {
             if (Arrays.equals(sig, f)) {
                 return true;
             }
@@ -291,7 +291,7 @@ public class SimEntityBaseA extends BasicSimEntity {
      * @return true if baseArgTypes are a compatible signature when calling a method
      * with signature argTypes
      */
-    private static boolean callableArgTypes(Class[] argTypesForMethod, Class[] argTypesForCall) {
+    private static boolean callableArgTypes(Class<?>[] argTypesForMethod, Class<?>[] argTypesForCall) {
         boolean callable = true;
         if (argTypesForCall.length != argTypesForMethod.length) {
             callable = false;
