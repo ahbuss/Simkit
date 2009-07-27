@@ -644,7 +644,16 @@ public abstract class BasicSimEntity extends BasicSimEventSource
             eventList.addRerun(this);
         }
     }
-    
+
+    public void setEventList(BasicEventList el) {
+        if (eventList != null) {
+            eventList.removeRerun(this);
+        }
+        eventList = el;
+        if (isPersistant()) {
+            eventList.addRerun(this);
+        }
+    }
     public int getEventListID() { return eventList.getID(); }
     
     public BasicEventList getEventList() {
