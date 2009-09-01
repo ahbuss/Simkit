@@ -739,5 +739,43 @@ public class Math2DTest extends TestCase {
 
     }
 
+    public void testBearingFromPointToPoint() {
+        Point2D from = new Point2D.Double(2.0, 2.0);
+        Point2D to = null;
+        double angle = 0.0;
+        double eps = 1E-9;
+        // NORTH
+        to = new Point2D.Double(2.0, 6.0);
+        angle = 0.0;
+        assertEquals(angle, Math2D.bearingFrom(from, to), eps);
+        // EAST
+        to = new Point2D.Double(6.0, 2.0);
+        angle = 90.0;
+        assertEquals(angle, Math2D.bearingFrom(from, to), eps);
+        // SOUTH
+        to = new Point2D.Double(2.0, -6.0);
+        angle = 180.0;
+        assertEquals(angle, Math2D.bearingFrom(from, to), eps);
+        // WEST
+        to = new Point2D.Double(-2.0, 2.0);
+        angle = 270.0;
+        assertEquals(angle, Math2D.bearingFrom(from, to), eps);
+        // NORTHEAST
+        to = new Point2D.Double(4.0, 4.0);
+        angle = 45.0;
+        assertEquals(angle, Math2D.bearingFrom(from, to), eps);
+        // SOUTHEAST
+        to = new Point2D.Double(4.0, 0.0);
+        angle = 135.0;
+        assertEquals(angle, Math2D.bearingFrom(from, to), eps);
+        // NORTHWEST
+        to = new Point2D.Double(0.0, 4.0);
+        angle = 315.0;
+        assertEquals(angle, Math2D.bearingFrom(from, to), eps);
+        // SOUTHWEST
+        to = new Point2D.Double(0.0, 0.0);
+        angle = 225.0;
+        assertEquals(angle, Math2D.bearingFrom(from, to), eps);
+    }
 }    
 

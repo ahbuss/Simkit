@@ -732,4 +732,22 @@ public class Math2D {
         double time = Math2D.smallestPositive(sol);
         return add(startingLocation, scalarMultiply(time, interceptVelocity));
     }
+
+    /**
+     * Returns the angle in degrees to go from point to toPoint.  The
+     * orientation is as for compass headings (clockwise) with north
+     * taken as 0.0, being the y-axis, and east taken as 90.0, the x-axis
+     *
+     * @param point (from)
+     * @param toPoint (to)
+     * @return compass heading from point to toPoint
+     */
+    public static double bearingFrom(Point2D point, Point2D toPoint) {
+        Point2D translated = Math2D.subtract(toPoint, point);
+        double angle = StrictMath.atan2(translated.getX(), translated.getY());
+        while(0 > angle) {
+            angle += 2.0 * Math.PI;
+        }
+        return angle * 180.0 / Math.PI ;
+    }
 }
