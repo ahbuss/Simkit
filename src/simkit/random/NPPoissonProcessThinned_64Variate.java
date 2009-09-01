@@ -18,7 +18,7 @@ import simkit.util.Math64;
  * Before the generate() method can be called, these three parameters must be set
  * using one of the methods provided.
  *
- * <P>Uses simkit.Math64.log() function for replicability on 64-bit
+ * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
  * @version $Id$;
  * @author ahbuss

@@ -13,7 +13,7 @@ import simkit.util.Math64;
  * <li> Exp(1) is an exponential random variate with mean of 1.0</li>
  * </ul>
  *
- * <P>Uses simkit.Math64.log() function for replicability on 64-bit
+ * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
  * @author  Arnold Buss
  * @version $Id$

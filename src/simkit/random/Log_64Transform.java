@@ -8,7 +8,7 @@ import simkit.util.Math64;
  * and if a positive number returns the natural log of it, if negative or zero
  * it returns <code>Double.NaN</code>.
  *
- * <P>Uses simkit.Math64.log() function for replicability on 64-bit
+ * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
  *
  * @version $Id$

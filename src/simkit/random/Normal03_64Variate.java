@@ -6,7 +6,7 @@ import simkit.util.Math64;
  * method.  The majorizing function is uniform in the center
  * and exponential in the tails.
  *
- * <P>Uses simkit.Math64.log() function for replicability on 64-bit
+ * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
  * @author Arnold Buss
  * @version $Id$

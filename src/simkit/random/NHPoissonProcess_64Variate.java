@@ -17,7 +17,7 @@ import simkit.util.Math64;
  * See Law and Kelton: Simulation Modeling and Analysis 2nd Edition, pp 509-510 or 
  * 3rd edition pp486-487.</p>
  *
- * <P>Uses simkit.Math64.log() function for replicability on 64-bit
+ * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
  * @author  Arnold Buss
  * @version $Id$

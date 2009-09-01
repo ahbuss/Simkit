@@ -3,7 +3,7 @@ package simkit.random;
 import simkit.util.Math64;
 
 /** Generates Exponential random variate using log transform.
- * <P>Uses simkit.Math64.log() function for replicability on 64-bit
+ * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
  *
  * @author Arnold Buss

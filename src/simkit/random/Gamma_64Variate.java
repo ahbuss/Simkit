@@ -8,7 +8,7 @@ import simkit.util.Math64;
  * and variance = &alpha;&beta;<sup>2</sup> and density:<br>
  * <i>f(x) = &beta;<sup>&alpha;</sup>x<sup>-(&alpha;+1)</sup>e<sup>-&beta;x</sup>/&Gamma;(&alpha;), x > 0</i>
  * (0, otherwise)
- * <P>Uses simkit.Math64.log() function for replicability on 64-bit
+ * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
 
  * @author Arnold Buss

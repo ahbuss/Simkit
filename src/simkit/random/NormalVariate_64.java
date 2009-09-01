@@ -8,7 +8,7 @@ import simkit.util.Math64;
  * <p>Uses a constant number of RandomNumbers per draw.</p>
  * <p> Removed saved value "feature" for better synchronization.
  *
- * <P>Uses simkit.Math64.log() function for replicability on 64-bit
+ * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
  *
  * @author Arnold Buss

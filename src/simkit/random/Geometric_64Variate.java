@@ -5,7 +5,7 @@ import simkit.util.Math64;
 /**
  * Generates random variates having a Geometric distribution.
  * The number of failures before the first success of iid Berboulli trials.
- * <P>Uses simkit.Math64.log() function for replicability on 64-bit
+ * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
 
  * @author  Arnold Buss
