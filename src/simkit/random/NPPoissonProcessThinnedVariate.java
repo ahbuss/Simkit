@@ -19,7 +19,7 @@ import simkit.BasicSimEntity;
  * @version $Id$;
  * @author ahbuss
  */
-public class NPPoissonProcessThinned extends BasicSimEntity implements RandomVariate {
+public class NPPoissonProcessThinnedVariate extends BasicSimEntity implements RandomVariate {
     
     private double lambda;
     
@@ -42,7 +42,7 @@ public class NPPoissonProcessThinned extends BasicSimEntity implements RandomVar
     /**
      *  Constructor to create an object without the parameters set.
      */
-    public NPPoissonProcessThinned() {
+    public NPPoissonProcessThinnedVariate() {
         setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
     }
 
