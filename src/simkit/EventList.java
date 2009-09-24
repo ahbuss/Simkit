@@ -223,6 +223,14 @@ public class EventList implements BasicEventList {
         setFastInterrupts(true);
         setOutputStream(System.out);
     }
+
+/**
+* Returns the number of events on the event list.
+**/
+    public int getPendingEventCount() {
+        return eventList.size();
+    }
+
     @Override
     public int getID() { return id; }
     
