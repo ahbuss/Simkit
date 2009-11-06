@@ -696,7 +696,7 @@ public class EventList implements BasicEventList {
                     (event.getEventName().equals(eventName)) &&
                     (event.isPending())) {
                         if (reallyVerbose) {
-                            outputStream.println("\n" + getSimTime() 
+                            log.info("\n" + getSimTime() 
                                                 + ": Cancelling " + event); 
                         }
                         i.remove();
