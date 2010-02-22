@@ -1,6 +1,9 @@
 package simkit.smd;
 
 /**
+ * Holds parameter of constant delay from when the sensor's range is
+ * entered (EnterRange) and when the target is detected (timeToDetect).
+ *
  * @version $Id: ConstantTimeSensor.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
  */
