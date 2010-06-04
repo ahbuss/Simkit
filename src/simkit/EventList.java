@@ -862,7 +862,9 @@ public class EventList implements BasicEventList {
         reRun.remove(simEntity);
 
         // fix memory leak
-        entityEventMap.remove(simEntity);
+        if (entityEventMap != null) {
+            entityEventMap.remove(simEntity);
+        }
     }
     
     @Override

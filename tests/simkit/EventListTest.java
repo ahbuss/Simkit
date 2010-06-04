@@ -13,8 +13,7 @@ import simkit.smdx.SensorContact;
 
 
 /**
-* These tests are currently incomplete. They only test the implemenation
-* of DAFS bug 1259.
+* These tests are currently incomplete. 
 **/
 public class EventListTest extends TestCase {
 
@@ -1974,6 +1973,20 @@ public class EventListTest extends TestCase {
         assertTrue(eventList.eventList.isEmpty());
         assertTrue(eventList.entityEventMap.isEmpty());
         assertTrue(eventList.hashEventMap.isEmpty());
+    }
+
+/**
+* Makes sure not NullPointerException when calling removeRerun
+* with fast interrupts false.
+**/
+    public void testRemoveRerun1() {
+        eventList.setFastInterrupts(false);
+        SimEntity entity = new SimEntityBase() {};
+        Set<ReRunnable> reRuns = eventList.getRerun();
+        assertTrue(reRuns.contains(entity));
+        eventList.removeRerun(entity);
+        reRuns = eventList.getRerun();
+        assertFalse(reRuns.contains(entity));
     }
 
 /**
