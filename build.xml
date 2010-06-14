@@ -95,4 +95,14 @@
         </junit>
     </target>
 
+    <target name="zipSrc" depends="init"> 
+        <jar jarFile="simkitSrc.zip">
+            <fileset dir="src"/>
+        </jar>
+        <jar jarFile="simkitTestsSrc.zip">
+            <fileset dir="tests"/>
+        </jar>
+    </target>
+
+
 </project>
