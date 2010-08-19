@@ -153,12 +153,12 @@ public class SimEvent implements Comparable {
         id = ++nextID;
     }       // SimEvent constructor
     
-    public SimEvent(SimEventScheduler source, String name, double scheduledTime) {
-        this(source, name, null, scheduledTime, Priority.DEFAULT);
+    public SimEvent(SimEventScheduler source, String name, double delay) {
+        this(source, name, null, delay, Priority.DEFAULT);
     }
     
-    public SimEvent(SimEventScheduler source, String name, Object[] params, double scheduledTime) {
-        this(source, name, params, scheduledTime, Priority.DEFAULT);
+    public SimEvent(SimEventScheduler source, String name, Object[] params, double delay) {
+        this(source, name, params, delay, Priority.DEFAULT);
     }
     
     // setters
@@ -170,7 +170,7 @@ public class SimEvent implements Comparable {
      * The simulation time at which this event is
      * scheduled to occur.
      **/
-    protected void setScheduledTime(double time) { scheduledTime = getSource().getEventList().getSimTime() + time; }
+    protected void setScheduledTime(double delay) { scheduledTime = getSource().getEventList().getSimTime() + delay; }
     
     public void setSerial(int serial) { this.serial = serial; }
     
