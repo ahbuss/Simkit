@@ -104,5 +104,8 @@
         </jar>
     </target>
 
+    <target name="hudson" description="hudson server-side continuous integration" depends="default">
+       <echo message="https://savage.nps.edu/hudson/Simkit"/>
+    </target>
 
 </project>
