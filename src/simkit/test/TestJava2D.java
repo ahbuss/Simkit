@@ -27,7 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
-import simkit.smdx.Math2D;
+import simkit.smd.Math2D;
 import simkit.util.GenericAction;
 /**
  *

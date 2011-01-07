@@ -3,107 +3,86 @@
  *
  * Created on March 6, 2002, 8:49 PM
  */
-
 package simkit.test;
+
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import simkit.Schedule;
-import simkit.smdx.CookieCutterSensor;
-import simkit.smdx.Mediator;
-import simkit.smdx.MediatorFactory;
-import simkit.smdx.Mover;
-import simkit.smdx.PathMoverManager;
-import simkit.smdx.Sensor;
-import simkit.smdx.SensorTargetMediatorFactory;
-import simkit.smdx.SensorTargetReferee;
-import simkit.smdx.UniformLinearMover;
-import simkit.smdx.WayPoint;
+import simkit.smd.CookieCutterSensor;
+import simkit.smd.Mover;
+import simkit.smd.PathMoverManager;
+import simkit.smd.Sensor;
+import simkit.smd.SensorMoverReferee;
+import simkit.smd.BasicLinearMover;
+import simkit.smd.CookieCutterMediator;
+import simkit.smd.WayPoint;
+
 /**
  *
- * @author  Arnold Buss
+ * @author  ahbuss
  * @version $Id$
  */
 public class TestNewMediator {
-    
-    /** Creates new TestNewMediator */
-    public TestNewMediator() {
-    }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        MediatorFactory mediatorFactory = SensorTargetMediatorFactory.getInstance();
-        mediatorFactory.addMediatorFor(simkit.smdx.CookieCutterSensor.class,
-        simkit.smdx.UniformLinearMover.class, simkit.smdx.CookieCutterMediator.class);
-        System.out.println(mediatorFactory.getMediators());
-        
+        SensorMoverReferee referee = new SensorMoverReferee();
+        referee.addMediator(
+                CookieCutterSensor.class,
+                BasicLinearMover.class,
+                new CookieCutterMediator());
+
         Mover[] mover =
-        new Mover[] {
-            new UniformLinearMover("Fred", new Point2D.Double(0.0, 0.0), 10.0),
-            new UniformLinearMover("Barney", new Point2D.Double(100.0, 100.0), 15.0)
+                new Mover[]{
+            new BasicLinearMover("Fred", new Point2D.Double(0.0, 0.0), 10.0),
+            new BasicLinearMover("Barney", new Point2D.Double(100.0, 100.0), 15.0)
         };
-        Sensor[] sensor = new Sensor[] {
-            new CookieCutterSensor(10.0, mover[0]),
-            new CookieCutterSensor(20.0, mover[1])
+        Sensor[] sensors = new Sensor[]{
+            new CookieCutterSensor(mover[0], 10.0),
+            new CookieCutterSensor(mover[1], 20.0)
         };
-        
-//        for (int i = 0; i < sensor.length; i++) {
-//            ((SimEntityBase)sensor[i]).setVerbose(true);
-//        }
-        Mediator mediator = mediatorFactory.getMediatorFor(sensor[0].getClass(), mover[0].getClass());
-        System.out.println(mediator);
-        
-        SensorTargetReferee referee = new SensorTargetReferee();
-        for (int i = 0; i < mover.length; i++) {
-            referee.register(mover[i]);
-            referee.register(sensor[i]);
+
+
+        for (Sensor sensor : sensors) {
+            sensor.addSimEventListener(referee);
+            sensor.getMover().addSimEventListener(referee);
         }
-        referee.setVerbose(true);
-        System.out.println(referee);        
-        
-        mediatorFactory.clear();
-        System.out.println(mediatorFactory.getMediators());
-        try {
-            mediatorFactory.addMediatorFor("simkit.smdx.CookieCutterSensor",
-            "simkit.smdx.UniformLinearMover", "simkit.smdx.CookieCutterMediator");
-        }
-        catch (ClassNotFoundException e) {System.err.println(e);}
-        System.out.println(mediatorFactory.getMediators());
-        
-        PathMoverManager[] pmm = new PathMoverManager[] {
-            new PathMoverManager(mover[0]),
-            new PathMoverManager(mover[1])
+
+        PathMoverManager[] pmm = new PathMoverManager[]{
+            new PathMoverManager(mover[0], new LinkedList<WayPoint>(), true),
+            new PathMoverManager(mover[1], new LinkedList<WayPoint>(), true)
         };
-        
-        List<List<WayPoint>> wayPoints = new ArrayList<List<WayPoint>>();
+
+        List<LinkedList<WayPoint>> wayPoints = new ArrayList<LinkedList<WayPoint>>();
         for (int i = 0; i < pmm.length; ++i) {
-            wayPoints.add(new ArrayList<WayPoint>());
+            wayPoints.add(new LinkedList<WayPoint>());
         }
-        
+
         wayPoints.get(0).add(new WayPoint(new Point2D.Double(20, 30)));
         wayPoints.get(0).add(new WayPoint(new Point2D.Double(30, 50)));
         wayPoints.get(0).add(new WayPoint(new Point2D.Double(50, 50)));
-        
+
         wayPoints.get(1).add(new WayPoint(new Point2D.Double(80.0, 70.0)));
         wayPoints.get(1).add(new WayPoint(new Point2D.Double(40.0, 70.0)));
         wayPoints.get(1).add(new WayPoint(new Point2D.Double(40.0, 30.0)));
         wayPoints.get(1).add(new WayPoint(new Point2D.Double(45.0, 50.0)));
-        
+
         for (int i = 0; i < pmm.length; ++i) {
-            pmm[i].setWayPoints(wayPoints.get(i));
+            pmm[i].setWaypoint(wayPoints.get(i));
         }
-        
+
         Schedule.reset();
         Schedule.setSingleStep(false);
         Schedule.setVerbose(true);
-        for (int i = 0; i < pmm.length; i++) {
-            pmm[i].start();
-        }
-        
+        Schedule.setEventSourceVerbose(true);
+
         Schedule.startSimulation();
+
+        System.out.println(referee);
     }
-    
 }

@@ -23,7 +23,7 @@ import java.awt.geom.RectangularShape;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import simkit.smdx.TransformUtilities;
+import simkit.smd.TransformUtilities;
 /**
  *
  * @author  Arnold Buss

@@ -90,7 +90,7 @@ public class Inspector implements MouseListener {
             PropertyDescriptor[] pd = bi.getPropertyDescriptors();
             for (int i = 0; i < pd.length; i++) {
                 Method getter = pd[i].getReadMethod();
-                if (getter.getReturnType().isAssignableFrom(simkit.smdx.Mover.class)) {
+                if (getter.getReturnType().isAssignableFrom(simkit.smd.Mover.class)) {
                     return (Mover) getter.invoke(obj, (Object[]) null);
                 }
             }

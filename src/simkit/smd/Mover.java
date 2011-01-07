@@ -38,4 +38,9 @@ public interface Mover extends SimEntity {
      * @return acceleration
      */
     public double getAcceleration();
+
+    /**
+     * @return maximum speed mover can  travel
+     */
+    public double getMaxSpeed();
 }
