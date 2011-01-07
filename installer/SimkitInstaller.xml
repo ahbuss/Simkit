@@ -20,7 +20,7 @@
     <jdkPreference>preferJre</jdkPreference>
   </jre>
   <splash>
-    <file>C:\Users\ahbuss\Documents\Temp\Simkit\SimkitLogo.bmp</file>
+    <file>..\SimkitLogo.bmp</file>
     <waitForWindow>true</waitForWindow>
     <timeout>60</timeout>
     <timeoutErr>true</timeoutErr>
