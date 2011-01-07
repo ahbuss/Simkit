@@ -4,7 +4,6 @@ import java.awt.geom.Point2D;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import simkit.SimEntityBase;
-import simkit.smdx.WayPoint;
 
 /**
  * Basic MoverManager.  Maintains list of WayPoints for managing a single
@@ -123,7 +122,7 @@ public class PathMoverManager extends SimEntityBase {
     }
 
     /**
-     * @param wayPoint the wayPoint to set
+     * @param waypoint the wayPoint to set
      */
     public void setWaypoint(LinkedList<WayPoint> waypoint) {
         this.wayPoint = new LinkedList<WayPoint>(waypoint);

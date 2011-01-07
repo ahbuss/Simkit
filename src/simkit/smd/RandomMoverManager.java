@@ -15,9 +15,7 @@ import simkit.random.RandomVariate;
 public class RandomMoverManager extends SimEntityBase {
 
     private RandomVariate[] coordinate;
-
     private boolean startOnRun;
-
     private Mover mover;
 
     /**
@@ -29,10 +27,10 @@ public class RandomMoverManager extends SimEntityBase {
      */
     public RandomMoverManager(Mover mover,
             RandomVariate[] coordinate,
-            boolean startOnReset) {
+            boolean startOnRun) {
         setMover(mover);
         setCoordinate(coordinate);
-        setStartOnRun(startOnReset);
+        setStartOnRun(startOnRun);
     }
 
     /**
@@ -51,7 +49,7 @@ public class RandomMoverManager extends SimEntityBase {
     public void doStart() {
         waitDelay("MoveTo", 0.0,
                 new Point2D.Double(coordinate[0].generate(),
-                    coordinate[1].generate()));
+                coordinate[1].generate()));
     }
 
     /**
@@ -68,7 +66,7 @@ public class RandomMoverManager extends SimEntityBase {
     public void doEndMove(BasicLinearMover mover) {
         waitDelay("MoveTo", 0.0,
                 new Point2D.Double(coordinate[0].generate(),
-                    coordinate[1].generate()));
+                coordinate[1].generate()));
     }
 
     /**
@@ -110,8 +108,8 @@ public class RandomMoverManager extends SimEntityBase {
     /**
      * @param startOnRun the startOnRun to set
      */
-    public void setStartOnRun(boolean startOnReset) {
-        this.startOnRun = startOnReset;
+    public void setStartOnRun(boolean startOnRun) {
+        this.startOnRun = startOnRun;
     }
 
     /**
@@ -139,8 +137,7 @@ public class RandomMoverManager extends SimEntityBase {
     }
 
     public String toString() {
-        return "RandomMoverManager " + getMover() + " [" +
-                coordinate[0] + ", " + coordinate[1] + "]";
+        return "RandomMoverManager " + getMover() + " ["
+                + coordinate[0] + ", " + coordinate[1] + "]";
     }
-
 }

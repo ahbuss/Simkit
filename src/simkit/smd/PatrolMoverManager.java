@@ -1,7 +1,6 @@
 package simkit.smd;
 
 import java.util.LinkedList;
-import simkit.smdx.WayPoint;
 
 /**
  * Identical functionality to PathMoverManager, except at last WayPoint,
