@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import simkit.smd.BasicLinearMover;
 import simkit.smd.PatrolMoverManager;
 import simkit.Schedule;
-import simkit.smdx.WayPoint;
+import simkit.smd.WayPoint;
 import simkit.util.SimplePropertyDumper;
 
 /**

@@ -11,7 +11,7 @@ import simkit.smd.CookieCutterSensor;
 import simkit.smd.PathMoverManager;
 import simkit.smd.SensorMoverReferee;
 import simkit.Schedule;
-import simkit.smdx.WayPoint;
+import simkit.smd.WayPoint;
 import simkit.util.SimplePropertyDumper;
 
 /**
