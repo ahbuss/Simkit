@@ -50,6 +50,33 @@ public class PathMoverManager extends SimEntityBase {
     }
 
     /**
+     * startOnRun defaults to "false"
+     * @param mover My Mover
+     * @param waypoint List of WayPoints to traverse
+     */
+    public PathMoverManager(Mover mover,
+            LinkedList<WayPoint> waypoint) {
+        this(mover, waypoint, false);
+    }
+
+    /**
+     * Empty list of waypoints
+     * @param mover My Mover
+     * @param startOnRun
+     */
+    public PathMoverManager(Mover mover, boolean startOnRun) {
+        this(mover, new LinkedList<WayPoint>(), startOnRun);
+    }
+
+    /**
+     * Empty list of waypoints; startOnRun is false.
+     * @param mover My Mover
+     */
+    public PathMoverManager(Mover mover) {
+        this(mover, false);
+    }
+
+    /**
      * Set nextWayPointIter to beginning of waypoint
      */
     public void reset() {

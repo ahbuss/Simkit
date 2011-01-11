@@ -25,6 +25,34 @@ public class PatrolMoverManager extends PathMoverManager {
     }
 
     /**
+     * startOnRun defaults to "false"
+     * @param mover My mover
+     * @param waypoint List of WayPoints to patrol
+     */
+    public PatrolMoverManager(Mover mover,
+            LinkedList<WayPoint> waypoint) {
+        super(mover, waypoint, false);
+    }
+
+    /**
+     * Instantiate with an empty list of WayPoints
+     * @param mover My mover
+     * @param startOnRun
+     */
+    public PatrolMoverManager(Mover mover,
+            boolean startOnRun) {
+        super(mover, new LinkedList<WayPoint>(), startOnRun);
+    }
+
+    /**
+     * Instantiate with an empty list of WayPoints and startOnRun = "false".
+     * @param mover My Mover
+     */
+    public PatrolMoverManager(Mover mover) {
+        this(mover, false);
+    }
+
+    /**
      * If another WayPoint, start moving there. If not, then start from the
      * beginning.
      * @param mover My Mover
