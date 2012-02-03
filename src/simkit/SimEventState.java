@@ -28,21 +28,21 @@ public class SimEventState {
 /**
 * The event is on the event list waiting to be processed.
 **/
-    public static SimEventState WAITING = new SimEventState("WAITING");
+    public static final SimEventState WAITING = new SimEventState("WAITING");
 /**
 * The event has been processed by its scheduling SimEntity.
 **/
-    public static SimEventState PROCESSED = new SimEventState("PROCESSED");
+    public static final SimEventState PROCESSED = new SimEventState("PROCESSED");
 
 /**
 * The event has been cancelled and will never be processed.
 **/
-    public static SimEventState INTERRUPTED = new SimEventState("INTERRUPTED");
+    public static final SimEventState INTERRUPTED = new SimEventState("INTERRUPTED");
 
 /**
 * The event object is not currently in use.
 **/
-    public static SimEventState UNUSED = new SimEventState("UNUSED");
+    public static final SimEventState UNUSED = new SimEventState("UNUSED");
 
 /**
 * The name of this event state.

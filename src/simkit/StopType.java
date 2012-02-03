@@ -35,7 +35,7 @@ public class StopType {
 /**
 * A hash of the StopTypes indexed by the name of the StopType.
 **/
-    protected static Map<String, StopType> types = new HashMap<String, StopType>();
+    protected static final Map<String, StopType> types = new HashMap<String, StopType>();
     
 /**
 * Add a StopType to the HashMap.

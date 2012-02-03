@@ -18,7 +18,7 @@ public class Priority implements Comparable<Priority> {
     public static final Priority HIGHEST = new Priority("HIGHEST", Double.MAX_VALUE);
     
     
-    protected static NumberFormat form = new DecimalFormat("0.0000");
+    protected static final NumberFormat form = new DecimalFormat("0.0000");
     
     private double priority;
     
