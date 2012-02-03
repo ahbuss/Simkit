@@ -24,7 +24,7 @@ Create and manage a graph.Graph2D chart in its own window.
 @version $Id$
 
 */
-
+@Deprecated
 public class  Chartlet
 	extends    Graph2D
 //	implements Runnable

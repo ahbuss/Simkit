@@ -14,7 +14,7 @@ import graph.HistogramDataSet;
 *  @author    Kirk A. Stork
 *  @version $Id$
 */
-
+@Deprecated
 public class      GraphStat
        extends    SummaryStat
 {

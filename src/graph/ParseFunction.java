@@ -58,7 +58,7 @@ package graph;
  * @version $Revision$, $Date$
  * @author Leigh Brookshaw
  */
-
+@Deprecated
 public class ParseFunction extends ScanString {
 
 /*

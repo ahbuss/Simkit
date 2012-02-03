@@ -47,6 +47,7 @@ import java.lang.ArithmeticException;
  */
 
 
+@Deprecated
 public final class SpecialFunction extends Object {
 
   /*

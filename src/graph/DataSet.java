@@ -43,6 +43,7 @@ import java.awt.Rectangle;
  * @version $Revision$, $Date$
  * @author Leigh Brookshaw 
  */
+@Deprecated
 public class DataSet extends Object {
 
 

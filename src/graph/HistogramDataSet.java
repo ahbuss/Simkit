@@ -1,5 +1,5 @@
 package graph;
-
+@Deprecated
 public class HistogramDataSet
        extends graph.DataSet
 {

@@ -58,7 +58,7 @@ import java.util.Hashtable;
  * @version $Revision$, $Date$
  * @author  Leigh Brookshaw
  */
-
+@Deprecated
 public class RTextLine extends TextLine {
 
 /*

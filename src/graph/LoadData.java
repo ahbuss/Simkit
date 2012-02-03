@@ -40,7 +40,7 @@ import java.net.URL;
  */
 
 
-
+@Deprecated
 public class LoadData extends Thread {
 
 /*

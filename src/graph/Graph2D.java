@@ -55,7 +55,7 @@ import java.util.Vector;
  * @version  $Revision$, $Date$
  * @author   Leigh Brookshaw
  */
-
+@Deprecated
 public class Graph2D extends Canvas {
 
 

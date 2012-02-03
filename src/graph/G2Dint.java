@@ -82,7 +82,7 @@ import java.awt.TextField;
  * @version $Revision$, $Date$.
  * @author Leigh Brookshaw
  */
-
+@Deprecated
 public class G2Dint extends Graph2D {
 
 /**
