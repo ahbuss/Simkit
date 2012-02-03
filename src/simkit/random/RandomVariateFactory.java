@@ -29,7 +29,7 @@ public class RandomVariateFactory {
     
     public static final String _VERSION_ = 
             "$Id$";
-    public static Logger log = Logger.getLogger("simkit.random");
+    public static final Logger log = Logger.getLogger("simkit.random");
 
     public static final String RANDOM_VARIATE_CLASSNAME_KEY = "className";
     public static final String RANDOM_INSTANCE_KEY = "rngInstance";

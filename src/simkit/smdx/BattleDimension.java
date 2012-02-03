@@ -23,7 +23,7 @@ import java.util.logging.*;
 **/
 public class BattleDimension {
 
-    public static Logger log = Logger.getLogger("simkit.smdx");
+    public static final Logger log = Logger.getLogger("simkit.smdx");
     
     public static final String _VERSION_ = "$Id$";
 

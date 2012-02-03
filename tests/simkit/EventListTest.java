@@ -20,7 +20,7 @@ public class EventListTest extends TestCase {
     public class EventListTestException extends RuntimeException {
     }
 
-    public static Logger log = Logger.getLogger("simkit");
+    public static final Logger log = Logger.getLogger("simkit");
 
     protected EventList eventList;
 

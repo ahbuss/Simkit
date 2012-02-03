@@ -71,7 +71,7 @@ import simkit.util.IndexedPropertyChangeEvent;
  */
 public abstract class BasicAssembly implements Runnable {
     
-    public static Logger log = Logger.getLogger("simkit");
+    public static final Logger log = Logger.getLogger("simkit");
     
     protected LinkedHashMap<Integer, List<SampleStatistics>> replicationData;
     

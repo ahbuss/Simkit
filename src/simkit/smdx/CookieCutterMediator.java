@@ -17,7 +17,7 @@ public class CookieCutterMediator extends SimEntityBase
 
     public static final String _VERSION_ = "$Id$";
 
-    public static Logger log = Logger.getLogger("simkit.smdx");
+    public static final Logger log = Logger.getLogger("simkit.smdx");
     
 /**
 * A cache of Contact objects for each Mover processed by this mediator.

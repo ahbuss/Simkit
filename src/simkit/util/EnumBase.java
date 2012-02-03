@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public abstract class EnumBase implements Comparable<EnumBase> {
 
     public static final String _VERSION_ = "$Id$";
-    public static Logger log = Logger.getLogger("simkit.util");
+    public static final Logger log = Logger.getLogger("simkit.util");
     /**
      * The name that this enum is identified by.
      **/

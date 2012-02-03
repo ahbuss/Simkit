@@ -23,7 +23,7 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
 
     public static final String _VERSION_ = "$Id$";
 
-    public static Logger log = Logger.getLogger("simkit.smdx");
+    public static final Logger log = Logger.getLogger("simkit.smdx");
 
 /**
 * The data used to determine the location relative to the FormationLeader.

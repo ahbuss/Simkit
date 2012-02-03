@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class Math2DTest extends TestCase {
 
     public static final double SMALL = 1.0E-9;
-    public static Logger log = Logger.getLogger("simkit.smdx");
+    public static final Logger log = Logger.getLogger("simkit.smdx");
 
     public void setUp() {
     }

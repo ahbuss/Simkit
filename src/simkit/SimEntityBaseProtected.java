@@ -22,7 +22,7 @@ import simkit.util.LinkedHashMap2;
  **/
 public abstract class SimEntityBaseProtected extends BasicSimEntity {
     
-    public static Logger log = Logger.getLogger("simkit");
+    public static final Logger log = Logger.getLogger("simkit");
 /**
 * A two dimensional Hash table used to cache doMethods
 * for all SimEntityBases. Keyed by Class and Method.

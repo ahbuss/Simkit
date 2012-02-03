@@ -60,7 +60,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 
     public static final String _VERSION_ = "$Id$";
 
-    public static Logger log = Logger.getLogger("simkit.smdx");
+    public static final Logger log = Logger.getLogger("simkit.smdx");
     
 /**
 * Holds the Sensors registered with this referee.

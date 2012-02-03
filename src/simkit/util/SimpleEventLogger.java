@@ -19,7 +19,7 @@ import simkit.SimEventListener;
 public class SimpleEventLogger implements SimEventListener {
 
     public static final String _VERSION_ = "$Id: $";
-    public static Logger log = Logger.getLogger("simkit.util");
+    public static final Logger log = Logger.getLogger("simkit.util");
 
     static final Format form = new DecimalFormat("0.0000");
 

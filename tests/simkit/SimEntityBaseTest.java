@@ -66,7 +66,7 @@ public class SimEntityBaseTest extends TestCase {
         //}
     }
     
-    public static Logger log = Logger.getLogger("simkit");
+    public static final Logger log = Logger.getLogger("simkit");
 
     public void setUp() {
         Schedule.coldReset();

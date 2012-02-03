@@ -38,7 +38,7 @@ import java.util.TreeSet;
 
 public class EventList implements BasicEventList {
 
-    public static Logger log = Logger.getLogger("simkit");
+    public static final Logger log = Logger.getLogger("simkit");
     
     public static final String _VERSION_ = "$Id$";
     

@@ -12,7 +12,7 @@ public class MersenneTwisterFactory {
 
     public static final String _VERSON_ = "$Id$";
 
-    public static Logger log = Logger.getLogger("simkit.random");
+    public static final Logger log = Logger.getLogger("simkit.random");
 
 /**
 * The maximum value of a 32 bit unsigned int. For any operation on a unsigned 32 bit integer
