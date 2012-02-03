@@ -36,7 +36,7 @@ public class MersenneTwisterDC implements RandomNumber {
     private static final int UNSIGNED_MASK = 0xffffffff;
     private static final double MULTIPLIER = 1.0 / (1L << 32);
     
-    private long originalSeed;
+    private long originalSeed = 0L;
     
     public MersenneTwisterDC() {
     }

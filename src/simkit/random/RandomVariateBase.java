@@ -23,7 +23,18 @@ public abstract class RandomVariateBase implements RandomVariate {
 * Creates a new RandomVariateBase with the default RandomNumber.
 **/
     public RandomVariateBase() {
-        setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
+        // Change made due to Findbugs warning
+        // UR_UNINIT_READ_CALLED_FROM_SUPER_CONSTRUCTOR which alerted on 
+        // a subclass (ConvolutionVariate).
+        //
+        // One should not call overridable methods from the constructor
+        // because the classes doing the overriding are not yet initialized.
+        // For example, in ConvolutionVariate, setRandomNumber has to
+        // apply the change to an array of objects, and that array
+        // cannot yet be initialized.
+        //
+        //setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
+        rng = RandomVariateFactory.getDefaultRandomNumber();
     }
     
     /**
@@ -31,7 +42,7 @@ public abstract class RandomVariateBase implements RandomVariate {
      *  Use this if another random number generator besides the default is desired
      *  @param rng The <CODE>RandomNumber</CODE> instance to use for Un(0, 1) random numbers.
      **/
-//    @Override
+    @Override
     public void setRandomNumber(RandomNumber rng) { this.rng = rng; }
     
     /**

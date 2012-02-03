@@ -97,9 +97,26 @@ mts->maskC = 3fd78000
             1113803125
             1586446825
          */
+        System.out.println("****************************************");
+        System.out.println("*****  generated values should be:  ****");
+        System.out.println("************* 600403500  ***********");
+        System.out.println("************* 849934661  ***********");
+        System.out.println("************* 1092073882 ***********");
+        System.out.println("************* 1113803125 ***********");
+        System.out.println("************* 1586446825 ***********");
         for (int i = 0; i < 5; ++i) {
             System.out.println(rng.drawLong());
         }
+        System.out.println("*************************************");
+        
+        System.out.println("****************************************");
+        System.out.println("*****  after resetSeed():           ****");
+        rng.resetSeed();
+        for (int i = 0; i < 5; ++i) {
+            System.out.println(rng.drawLong());
+        }
+        System.out.println("****************************************");
+        
         
         System.out.println(rng);
 

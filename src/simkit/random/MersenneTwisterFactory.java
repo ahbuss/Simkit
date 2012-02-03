@@ -612,15 +612,17 @@ public class MersenneTwisterFactory {
     }
 
 
+// The following code has no effect, and has been removed.
+//    
 /************************************************/
 /* frees *v which was allocated by new_Vector() */
 /************************************************/
 /**
 * Sets the given Vector to null
 **/
-    protected void free_Vector( Vector v ) {
-        v = null;
-    }
+//    protected void free_Vector( Vector v ) {
+//        v = null;
+//    }
 
     protected void free_lattice( Vector[] lattice, int v) {
         int i;
@@ -764,7 +766,8 @@ public class MersenneTwisterFactory {
               if( (tmp & upper_v_bits) != 0 ) {
                   v.bp = tmp;
                   v.degree = -(j+nnn+1);
-                  free_Vector(u);
+                  // This is a no-op
+                  // free_Vector(u);
                   return -(j+nnn+1);
               }
           }
@@ -773,7 +776,8 @@ public class MersenneTwisterFactory {
           ++immm;
         }
 
-        free_Vector(u);
+        // This is a no-op
+        // free_Vector(u);
         v.bp = 0;
         v.degree = MIN_INFINITE;
         return MIN_INFINITE; /* if 0 inspite of  (nw-r) times of generation */
@@ -786,7 +790,8 @@ public class MersenneTwisterFactory {
 
         ith = mult( lattice[i], k);
         add( lattice[j], ith);
-        free_Vector( ith );
+        // This is a no-op
+        //free_Vector( ith );
     }
 
 /** exchange columns so that i-th element of variable vec 
@@ -1205,10 +1210,12 @@ public class MersenneTwisterFactory {
             pl = NewPoly(MAX_IRRED_DEG);
             NextIrredPoly(pl,i); 
             makemodlist(pl, i);
-            FreePoly(pl);
+// This is a no-op
+//            FreePoly(pl);
         }
 
-        for (i=sizeofA; i>=0; i--) FreePoly(preModPolys[i]);
+// This is a no-op
+//            for (i=sizeofA; i>=0; i--) FreePoly(preModPolys[i]);
         preModPolys = null;
 
     }
@@ -1243,7 +1250,8 @@ public class MersenneTwisterFactory {
             tmpPl = PolynomialDup(preModPolys[i]);
             PolynomialMod(tmpPl,pl);
             modlist[nPoly][i] = word2bit(tmpPl);
-            FreePoly(tmpPl);
+// This is a no-op
+//            FreePoly(tmpPl);
         }
     }
    
@@ -1301,9 +1309,10 @@ public class MersenneTwisterFactory {
         return p;
     }
 
-    protected void FreePoly( Polynomial p) {
-        p = null;
-    }
+    // This method does nothing, and has been removed
+//    protected void FreePoly( Polynomial p) {
+//        p = null;
+//    }
 
 
 /** multiplication **/
@@ -1388,23 +1397,27 @@ public class MersenneTwisterFactory {
         preModPolys[j++] = PolynomialDup(t0);
         t1 = t0; 
         t0 = PolynomialMult(t0, t); 
-        FreePoly(t1);
+// This is a no-op
+//            FreePoly(t1);
         }
 
         preModPolys[j++] = PolynomialDup(t0);
 
         s0 =PolynomialMult( t0, s);
-        FreePoly(t0);	FreePoly(t);
+// This is a no-op
+//            FreePoly(t0);	FreePoly(t);
         for( i=(rr-2); i>=0; i--){
         preModPolys[j++] = PolynomialDup(s0);
         s1 = s0; 
         s0 = PolynomialMult( s0, s); 
-        FreePoly(s1);
+// This is a no-op
+//            FreePoly(s1);
         }
         
         preModPolys[j++] = PolynomialDup(s0);
 
-        FreePoly(s0); FreePoly(s); 
+// This is a no-op
+//            FreePoly(s0); FreePoly(s); 
     }
 
     /********************************/
@@ -1612,7 +1625,7 @@ int main(void)
         }
 
         if (MAX_SEARCH == i) {
-            log.severe("i= " + i + " which is equal to MAX_SEARCH (" + MAX_SEARCH + ")");
+            log.log(Level.SEVERE, "i= {0} which is equal to MAX_SEARCH ({1})", new Object[]{i, MAX_SEARCH});
             return NOT_FOUND;
         }
         return FOUND;
@@ -1620,36 +1633,41 @@ int main(void)
 
 
     protected long nextA(int w) {
-        long x, word_mask;
+        // This was word_mask, but there's an instance variable word_mask that's
+        // being hidden.  Change name to l_word_mask
+        long x, l_word_mask;
 
-        word_mask = ~(0x0);
-        word_mask &= MAX_VALUE;
-        word_mask <<= WORDLEN - w;
-        word_mask &= MAX_VALUE;
-        word_mask >>= WORDLEN - w;
-        word_mask &= MAX_VALUE;
+        l_word_mask = ~(0x0);
+        l_word_mask &= MAX_VALUE;
+        l_word_mask <<= WORDLEN - w;
+        l_word_mask &= MAX_VALUE;
+        l_word_mask >>= WORDLEN - w;
+        l_word_mask &= MAX_VALUE;
       
         x = _genrand_dc(); 
-        x &= word_mask;
+        x &= l_word_mask;
         x |= (LSB << (w-1)) & MAX_VALUE;
 
         return x;
     }
 
     protected long nextA_id(int w, int id, int idw) {
-        long x, word_mask;
+        // This was word_mask, but there's an instance variable word_mask that's
+        // being hidden.  Change name to l_word_mask
 
-        word_mask = ~0;
-        word_mask &= MAX_VALUE;
-        word_mask <<= WORDLEN - w;
-        word_mask &= MAX_VALUE;
-        word_mask >>= WORDLEN - w;
-        word_mask >>= idw;
-        word_mask <<= idw;
-        word_mask &= MAX_VALUE;
+        long x, l_word_mask;
+
+        l_word_mask = ~0;
+        l_word_mask &= MAX_VALUE;
+        l_word_mask <<= WORDLEN - w;
+        l_word_mask &= MAX_VALUE;
+        l_word_mask >>= WORDLEN - w;
+        l_word_mask >>= idw;
+        l_word_mask <<= idw;
+        l_word_mask &= MAX_VALUE;
 
         x = _genrand_dc();
-        x &= word_mask;
+        x &= l_word_mask;
         x |= (LSB << (w-1)) & MAX_VALUE;
         x |= id; /* embedding id */
 
