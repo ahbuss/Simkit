@@ -9,6 +9,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
+import java.util.Arrays;
 
 import simkit.Schedule;
 import simkit.smdx.*;
@@ -74,16 +75,16 @@ public class TestSensorTargetReferee {
         System.out.println("start = " + start + " velocity = " + velocity);
         
         Point2D[] intersect = Math2D.findIntersection(start, velocity, ellipse);
-        System.out.println(Math2D.arrayToString(intersect));
+        System.out.println(Arrays.toString(intersect));
         
         double[] times = Math2D.findIntersectionTime(start, velocity, ellipse);
-        System.out.println(Math2D.arrayToString(times));
+        System.out.println(Arrays.toString(times));
         
         intersect = Math2D.findIntersection(start, velocity, ellipse2);
-        System.out.println(Math2D.arrayToString(intersect));
+        System.out.println(Arrays.toString(intersect));
         
         times = Math2D.findIntersectionTime(start, velocity, ellipse2);
-        System.out.println(Math2D.arrayToString(times));
+        System.out.println(Arrays.toString(times));
         
         Mover target = new UniformLinearMover("Target", start, 20.0);
         PathMoverManager pmm = new PathMoverManager(target);

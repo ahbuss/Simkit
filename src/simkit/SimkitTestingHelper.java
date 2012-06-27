@@ -4,7 +4,6 @@ package simkit;
 import java.util.SortedSet;
 import java.util.Arrays;
 import java.util.List;
-import simkit.EventList;
 
 /**
 * Used to gain access to protected things for testing.

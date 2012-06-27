@@ -287,6 +287,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
         eventList.interruptAll(this);
     }
     
+    
 /**
 * Sets the name of this entity.
 **/
@@ -695,5 +696,14 @@ public abstract class BasicSimEntity extends BasicSimEventSource
 
     public void setClearAddedPropertiesOnReset(boolean clearAddedPropertiesOnReset) {
         this.clearAddedPropertiesOnReset = clearAddedPropertiesOnReset;
+    }
+    @Override
+    public  void interruptAllWithArgs(String eventName, Object parameter) {
+        getEventList().interruptAllWithArg(this, eventName, parameter);
+    }
+
+    @Override
+    public void interruptAllWithArgs(Object parameter) {
+        getEventList().interruptAllWithArg(parameter);
     }
 }

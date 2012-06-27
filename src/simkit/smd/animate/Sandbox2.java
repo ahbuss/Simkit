@@ -1,6 +1,6 @@
 package simkit.smd.animate;
 
-import animate.Sandbox;
+import simkit.animate.Sandbox;
 import java.awt.Component;
 
 /**

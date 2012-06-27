@@ -8,7 +8,6 @@ import java.util.logging.*;
 import simkit.EventList;
 import simkit.Priority;
 import simkit.Schedule;
-import simkit.Schedule;
 import simkit.SimEntityBase;
 import simkit.SimEvent;
 import simkit.SimEventListener;
@@ -519,6 +518,16 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         }
 
         public void setLocation(Point2D location) throws MagicMoveException {
+             throw new RuntimeException(MESSAGE);
+        }
+
+        @Override
+        public void interruptAllWithArgs(String eventName, Object parameter) {
+             throw new RuntimeException(MESSAGE);
+        }
+
+        @Override
+        public void interruptAllWithArgs(Object parameter) {
              throw new RuntimeException(MESSAGE);
         }
 

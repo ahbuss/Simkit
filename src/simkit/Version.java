@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JWindow;
 
-import simkit.util.GenericAction;
+import simkit.actions.GenericAction;
 
 /**
 * This class is used to display version and copyright information about SimKit. Constructing a 

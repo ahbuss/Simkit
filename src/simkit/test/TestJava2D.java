@@ -28,7 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
 import simkit.smd.Math2D;
-import simkit.util.GenericAction;
+import simkit.actions.GenericAction;
 /**
  *
  * @author  Arnold Buss

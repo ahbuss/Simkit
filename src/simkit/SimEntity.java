@@ -23,7 +23,8 @@ public interface SimEntity extends SimEventSource,
                                    SimEventListener,
                                    ReRunnable,
                                    PropertyChangeSource,
-                                   Comparable<SimEntity>
+                                   Comparable<SimEntity>,
+                                   SimEventScheduler
 {
     int getEventListID();
     void setEventListID(int id);

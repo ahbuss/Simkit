@@ -61,6 +61,22 @@ public interface SimEventScheduler extends Named {
      * belonging to this object.
      */
     void interruptAll(String eventName, Object... parameters);
+    
+    /**
+     * Interrupt (cancel) all events scheduled by this component having
+     * the given eventName and an argument matching the parameter.
+     * @param eventName name of event
+     * @param parameter parameter to match
+     */
+    void interruptAllWithArgs(String eventName, Object parameter);
+    
+    /**
+     * 
+     * Interrupt (cancel) all events scheduled by this component having
+     * the given eventName and an argument matching the parameter.
+     * @param parameter parameter to match
+     */
+    void interruptAllWithArgs(Object parameter);
 
     /**
      * If two events occur at the same time with the same event priority,

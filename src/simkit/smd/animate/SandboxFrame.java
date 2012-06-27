@@ -1,10 +1,10 @@
 package simkit.smd.animate;
 
-import actions.ActionUtilities;
-import actions.visual.ShapeIcon;
-import animate.PingPainter;
-import animate.PingThread;
-import animate.VCRControlPanel;
+import simkit.actions.ActionUtilities;
+import simkit.actions.visual.ShapeIcon;
+import simkit.animate.PingPainter;
+import simkit.animate.PingThread;
+import simkit.animate.VCRControlPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
@@ -12,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.Icon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import simkit.actions.MyFrame;
 import simkit.smd.Mover;
 import simkit.smd.Sensor;
 
@@ -19,7 +20,7 @@ import simkit.smd.Sensor;
  * @version $Id: SandboxFrame.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
  */
-public class SandboxFrame extends actions.MyFrame {
+public class SandboxFrame extends MyFrame {
     
     private Sandbox2 sandbox;
     private Inspector inspector;

@@ -435,46 +435,6 @@ public class Math2D {
     }
 
     /**
-     * Returns a String containing the comma separated toStrings of each
-     * Object in the given array.
-     * 
-     * @deprecated Use java Arrays.toString() instead
-     **/
-    public static String arrayToString(Object[] array) {
-        StringBuffer buf = new StringBuffer();
-        buf.append('{');
-        for (int i = 0; i < array.length; i++) {
-            buf.append(array[i]);
-            if (i < array.length - 1) {
-                buf.append(',');
-                buf.append(' ');
-            }
-        }
-        buf.append('}');
-        return buf.toString();
-    }
-
-    /**
-     * Returns a String containing the comma separated values of the
-     * elements of the given array.
-     * 
-     * @deprecated Use java Arrays.toString() instead
-     **/
-    public static String arrayToString(double[] array) {
-        StringBuffer buf = new StringBuffer();
-        buf.append('{');
-        for (int i = 0; i < array.length; i++) {
-            buf.append(array[i]);
-            if (i < array.length - 1) {
-                buf.append(',');
-                buf.append(' ');
-            }
-        }
-        buf.append('}');
-        return buf.toString();
-    }
-
-    /**
      * Returns the smallest positive value of the first num members of the given array.
      **/
     public static double smallestPositive(double[] data, int num) {

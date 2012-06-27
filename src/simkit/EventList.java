@@ -453,11 +453,6 @@ public class EventList implements BasicEventList {
     }
     
     @Override
-    public void stopOnEvent(String eventName, int numberEvents) {
-        stopOnEvent(numberEvents, eventName);
-    }
-
-    @Override
     public void stopOnEvent(int numberEvents, String eventName, Class... signature) {
         if (numberEvents > 0) {
             stopOnEvent = true;
@@ -477,13 +472,6 @@ public class EventList implements BasicEventList {
         }
     }
     
-    /**
-     * @deprecated Use stopOnEvent(int, String, Class...) instead
-     */
-    @Override
-    public void stopOnEvent(String eventName, Class[] signature, int numberEvents) {
-        stopOnEvent(numberEvents, eventName, signature);
-    }
     /** Sets all stop modes to false.  This is used
      * if the user will terminate the run based on
      * other criteria.
@@ -958,12 +946,12 @@ public class EventList implements BasicEventList {
                     }
                     if (simEvent.isPending()) {
                         buf.append(simEvent);
-                        if (isPrintEventSources()) {
+//                        if (isPrintEventSources()) {
                             buf.append(' ');
                             buf.append('<');
                             buf.append(simEvent.getSource().getName());
                             buf.append('>');
-                        }
+//                        }
                         buf.append(SimEntity.NL);
                     }
                 }
@@ -1135,6 +1123,68 @@ public class EventList implements BasicEventList {
     @Override
     public void setOutputStream(PrintStream outputStream) {
         this.outputStream = outputStream;
+    }
+
+    @Override
+    public void interruptAllWithArg(SimEventScheduler simEntity, String eventName, Object parameter) {
+        for (Iterator<SimEvent> iterator = eventList.iterator();
+                iterator.hasNext();) {
+            SimEvent event = iterator.next();
+            if (event.getSource().equals(simEntity) && event.getEventName().equals(eventName)) {
+                for (Object param : event.getParameters()) {
+                    if (param.equals(parameter)) {
+                        iterator.remove();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void interruptAllWithArg(SimEventScheduler simEntity, Object parameter) {
+        for (Iterator<SimEvent> iterator = eventList.iterator();
+                iterator.hasNext();) {
+            SimEvent event = iterator.next();
+            if (event.getSource().equals(simEntity)) {
+                for (Object param : event.getParameters()) {
+                    if (param.equals(parameter)) {
+                        iterator.remove();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void interruptAllWithArg(String eventName, Object parameter) {
+        for (Iterator<SimEvent> iterator = eventList.iterator();
+                iterator.hasNext();) {
+            SimEvent event = iterator.next();
+            if (event.getEventName().equals(eventName)) {
+                for (Object param : event.getParameters()) {
+                    if (param.equals(parameter)) {
+                        iterator.remove();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void interruptAllWithArg(Object parameter) {
+        for (Iterator<SimEvent> iterator = eventList.iterator();
+                iterator.hasNext();) {
+            SimEvent event = iterator.next();
+            for (Object param : event.getParameters()) {
+                if (param.equals(parameter)) {
+                    iterator.remove();
+                    break;
+                }
+            }
+        }
     }
 
 }
