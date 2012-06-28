@@ -24,14 +24,16 @@ public class VersionTest extends TestCase {
     
     public void testVersionNumbers() {
         assertEquals("Major version number has changed.", 1, Version.getVersionNumber());
-        assertEquals("Compatibility version number has changed.", 3, Version.getSubVersionNumber());
-        assertEquals("Minor version number has changed", 8, Version.getSubSubVersionNumber());
+        assertEquals("Compatibility version number has changed.", 4, Version.getSubVersionNumber());
+        assertEquals("Minor version number has changed", 0, Version.getSubSubVersionNumber());
     }
     
     public void testAlLeastVersion() {
         assertTrue(Version.isAtLeastVersion("1.0.0"));
         assertTrue(Version.isAtLeastVersion("1.3.0"));
         assertTrue(Version.isAtLeastVersion("1.3.5"));
+        assertTrue(Version.isAtLeastVersion("1.3.8"));
+        assertTrue(Version.isAtLeastVersion("1.4.0"));
     }
 
 }

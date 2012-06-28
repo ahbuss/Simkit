@@ -119,10 +119,14 @@ public class Version {
                 otherVersion);
         }
         if (Integer.parseInt(split[0]) > Version.getVersionNumber()) { return false; }
-        else if (split.length >= 2 && Integer.parseInt(split[1]) > Version.getSubVersionNumber()) {
+        else if (Integer.parseInt(split[0]) < Version.getVersionNumber()) { return true; }
+        else if ( Integer.parseInt(split[1]) > Version.getSubVersionNumber()) {
             return false;
         }
-        else if (split.length == 3 && Integer.parseInt(split[1]) > Version.getSubSubVersionNumber()) {
+        else if ( Integer.parseInt(split[1]) < Version.getSubVersionNumber()) {
+            return true;
+        }
+        else if ( Integer.parseInt(split[2]) > Version.getSubSubVersionNumber()) {
             return false;
         }
         return true;

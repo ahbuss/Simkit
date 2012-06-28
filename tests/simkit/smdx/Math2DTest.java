@@ -430,7 +430,7 @@ public class Math2DTest extends TestCase {
         num = CubicCurve2D.solveCubic(coeff, sol);
         assertEquals(1, num);
         assertEquals(-1.0, sol[0], 1E-9);
-        assertEquals(0.0, sol[1], 1E-9);
+        assertEquals(-1.0, sol[1], 1E-9);
         assertEquals(0.0, sol[2], 1E-9);
 
         coeff = new double[]{2.0, -1.0, -2.0, 1.0};
@@ -438,8 +438,8 @@ public class Math2DTest extends TestCase {
         num = CubicCurve2D.solveCubic(coeff, sol);
         assertEquals(3, num);
         assertEquals(-1.0, sol[0], 1E-9);
-        assertEquals(2.0, sol[1], 1E-9);
-        assertEquals(1.0, sol[2], 1E-9);
+        assertEquals(1.0, sol[1], 1E-9);
+        assertEquals(2.0, sol[2], 1E-9);
 
     }
     

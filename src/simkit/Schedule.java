@@ -113,14 +113,6 @@ public class Schedule  {
     }
 
 /**
- * Same as pause()
- * 
- * @deprecated use Schedule.pause() instead
- */
-    public static void pauseSimulation() {
-        pause();
-    }
-/**
 * Wait for user input before continuing. <P>
 * 's' will stop the simulation.<BR>
 * 'g' will take the simulation out of single-step and continue.<BR>
@@ -161,26 +153,7 @@ public class Schedule  {
             Class... eventSignature) {
         defaultEventList.stopOnEvent(numberEvents, eventName, eventSignature);
     }
-    
-    /**
-     * Causes the simulation to stop after the given event (which takes no arguments) has been processed the
-     * given numberEvents of times. Cancels any previous stopOnEvent or stopAtTime.
-     * 
-     * @param eventName Name of stopping event
-     * @param numberEvents Number of events until stop
-     * @deprecated Use stopOnEvent(int, String, Class...) instead
-     */
-    public static void stopOnEvent(String eventName, int numberEvents) {
-        defaultEventList.stopOnEvent(numberEvents, eventName);
-    }
-    
-    /**
-     * @deprecated Use stopOnEvent(int, String, Class...) instead
-    */
-    public static void stopOnEvent(String eventName, Class[] eventSignature, int numberEvents) {
-        defaultEventList.stopOnEvent(numberEvents, eventName, eventSignature);
-    }
-    
+        
     /**
      * Stops the simulation and clears the event list.  The current replication
      * therefore cannot be resumed, but calling reset() followed by 
@@ -329,7 +302,7 @@ public class Schedule  {
         Integer key = getNextAvailableID();
         try {
             Constructor construct = clazz.getConstructor( new Class<?>[] { int.class } );
-            EventList newEventList = (EventList) construct.newInstance(new Object[] { key });
+            BasicEventList newEventList = (BasicEventList) construct.newInstance(new Object[] { key });
             allEventLists.put(key, newEventList);
         } 
         catch (NoSuchMethodException e) { 
@@ -343,6 +316,15 @@ public class Schedule  {
         return key.intValue();
     }
     
+    /**
+     * Create a new Event List of the given type and set it to be the default.
+     * @param clazz Class of the new Event List
+     */
+    public static void addAndSetDefaultEventList(Class<BasicEventList> clazz) {
+        int newID = addNewEventList(clazz);
+        setDefaultEventList(getEventList(newID));
+    }
+        
     /** 
      * Search event lists for an unused id.
      * 
@@ -421,13 +403,6 @@ public class Schedule  {
         defaultEventList.coldReset();
     }
     
-    /**
-     * @deprecated Use Schedule.stopAtTime(double) instead
-     * @param stopTime time to stop simulation
-     */    
-    public static void stopOnTime(double stopTime) {
-        stopAtTime(stopTime);
-    }
     
     /**
      * The default PrintStream is System.out.
