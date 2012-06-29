@@ -66,6 +66,10 @@ public class Version {
     
     private static final int SUBSUBVERSION_NUMBER;
     
+    /**
+     * The last character in a version string may be a number, optionally
+     * followed by a single letter of either case.
+     */
     static {
         InputStream is = null;
         try {
@@ -96,7 +100,7 @@ public class Version {
             br.close();
         } catch (IOException e) {throw(new RuntimeException(e));}
         
-        String[] ver = getVersion().split("\\.");
+        String[] ver = getVersion().split("[[a-zA-Z]\\.]");
         if (ver.length < 3) {
             throw new RuntimeException("Bad Version: " + getVersion() + 
                 " token length = " + ver.length);
@@ -113,7 +117,7 @@ public class Version {
     public static int getSubSubVersionNumber() { return SUBSUBVERSION_NUMBER; }
     
     public static boolean isAtLeastVersion(String otherVersion) {
-        String[] split = otherVersion.split("\\.");
+        String[] split = otherVersion.split("[[a-zA-Z]\\.]");
         if (split.length < 3) {
             throw new IllegalArgumentException("Not legitimate version string: " +
                 otherVersion);
