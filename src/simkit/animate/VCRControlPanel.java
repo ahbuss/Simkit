@@ -99,6 +99,7 @@ public class VCRControlPanel extends JPanel {
     
     public class UpdateTimeLabel extends SimEntityBase {
         
+        @Override
         public void reset() {
             super.reset();
             updateTime();

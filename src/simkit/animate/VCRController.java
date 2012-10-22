@@ -1,11 +1,13 @@
 package simkit.animate;
 
+import simkit.SimEventSource;
+
 /**
  * All VCRController instances must be able to respond to these actions
  * @version $Id$
  * @author  Arnold Buss
  */
-public interface VCRController {
+public interface VCRController extends SimEventSource {
     
     public void start();
     

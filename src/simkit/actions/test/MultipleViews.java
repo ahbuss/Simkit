@@ -23,7 +23,7 @@ public class MultipleViews extends MyFrame {
         model = new DefaultBoundedRangeModel(100, 0, 0, 100);
         slider = new JSlider(model);
         readOut = new JLabel("100%");
-        image = new ImageIcon(MultipleViews.class.getResource("simkit/actions/icons/scenarioMap3.gif"));
+        image = new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("simkit/actions/icons/scenarioMap3.gif"));
         imageView = new ImageView(image, model);
         setStatus("100%");
         

@@ -76,6 +76,8 @@ public class PingPanel extends JPanel implements SimEventListener {
         this.add(step); // kas
         this.add(start);
         this.add(simTimeLabel);
+        
+        controller.addSimEventListener(this);
 
         Schedule.reset();
     }

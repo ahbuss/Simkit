@@ -1,4 +1,4 @@
-package simkit.smd.animate;
+package simkit.animate;
 
 import java.awt.Component;
 import java.awt.event.MouseListener;

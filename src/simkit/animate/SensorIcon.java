@@ -4,7 +4,7 @@
  * Created on June 13, 2002, 6:46 PM
  */
 
-package simkit.smd.animate;
+package simkit.animate;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

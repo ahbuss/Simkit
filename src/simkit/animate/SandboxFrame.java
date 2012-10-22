@@ -6,8 +6,6 @@ import simkit.actions.ActionUtilities;
 import simkit.actions.visual.ShapeIcon;
 import simkit.smd.Mover;
 import simkit.smd.Sensor;
-import simkit.smd.animate.Inspector;
-import simkit.smd.animate.SensorIcon;
 
 /**
  * @version $Id$
@@ -35,7 +33,7 @@ public class SandboxFrame extends simkit.actions.MyFrame {
         
         inspector = new Inspector();
         
-        PingThread pingThread = new PingThread(0.075, 10);
+        PingThread pingThread = new PingThread(0.075, 100);
         vcrControlPanel = new PingPanel(pingThread);
         vcrControlPanel.addVerboseButton();
         PingPainter painter = new PingPainter(sandbox);
