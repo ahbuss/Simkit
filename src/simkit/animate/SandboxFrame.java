@@ -75,4 +75,11 @@ public class SandboxFrame extends simkit.actions.MyFrame {
     
     public PingPanel getControlPanel() { return vcrControlPanel; }
     
+    public void setDeltaT(double deltaT) {
+        this.getControlPanel().getVcrController().setDeltaT(deltaT);
+    }
+    
+    public void setMillisPerSimtime(double millisPerSimTime) {
+        this.getControlPanel().getVcrController().setMillisPerSimtime(millisPerSimTime);
+    }
 }

@@ -18,6 +18,8 @@ public class PingPanel extends JPanel implements SimEventListener {
     private JButton resume;
     private JButton exit;
     private JButton toggleVerbose;
+    
+    private VCRController vcrController;
     private static String[] verboseLabel = new String[]{"To Verbose", "To Quiet"};
     private static String[] verboseTooltip = new String[]{"Press to switch to Verbose mode",
         "Press to turn off Verbose mode"};
@@ -27,6 +29,7 @@ public class PingPanel extends JPanel implements SimEventListener {
     }
 
     public PingPanel(VCRController controller) {
+        this.setVcrController(vcrController);
         rewind = new JButton(new ImageIcon(
                 Thread.currentThread().getContextClassLoader().getResource("simkit/animate/icons/Rewind24.gif")));
         rewind.addActionListener(new GenericAction(controller, "rewind"));
@@ -126,5 +129,19 @@ public class PingPanel extends JPanel implements SimEventListener {
         int index = Schedule.isVerbose() ? 1 : 0;
         toggleVerbose.setText(verboseLabel[index]);
         toggleVerbose.setToolTipText(verboseTooltip[index]);
+    }
+
+    /**
+     * @return the vcrController
+     */
+    public VCRController getVcrController() {
+        return vcrController;
+    }
+
+    /**
+     * @param vcrController the vcrController to set
+     */
+    public void setVcrController(VCRController vcrController) {
+        this.vcrController = vcrController;
     }
 }

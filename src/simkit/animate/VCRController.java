@@ -20,6 +20,10 @@ public interface VCRController extends SimEventSource {
     public void step(); // 22 May 2004 - kas - added
     
     public void fastForward();
+    
+    public void setDeltaT(double deltaT);
+    
+    public void setMillisPerSimtime(double millisPerSimTime);
 
 }
 
