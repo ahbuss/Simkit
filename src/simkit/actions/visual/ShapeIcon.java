@@ -13,7 +13,7 @@ import javax.swing.*;
 /**
  *
  * @author  Arnold Buss
- * @version
+ * @version $Id$
  */
 public class ShapeIcon implements Icon {
     

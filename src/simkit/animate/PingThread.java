@@ -135,7 +135,7 @@ public class PingThread extends SimEntityBase
     
     /**
      * The main point of the class is the Ping event, which 
-     * actually does nothing in and of iteself other than 
+     * actually does nothing in and of itself other than 
      * schedule the next Ping event.  Note that the sleep time 
      * is the number of milliseconds equivalent to deltaT, as 
      * specified by the user.

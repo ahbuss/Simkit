@@ -654,6 +654,12 @@ public class EventList implements BasicEventList {
         //    algorithm to pause after the current event finishes
         //    processing.
         running = false;
+        synchronized (entryCounterMutex) {
+            entryCounter--;
+            if (entryCounter < 0) {
+                entryCounter = 0;
+            }
+        }
         if (isVerbose()) {
             log.info("Simulation is paused");
         }
