@@ -3,8 +3,6 @@ package simkit;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
-import simkit.Named;
-import simkit.Schedule;
 
 /**
  * <p>A generic entity that can be used as a Customer, a Job, etc. It can be subclassed
@@ -73,14 +71,6 @@ public class Entity implements Named, Comparable<Entity> {
      */    
     public double getAge() {
         return Schedule.getSimTime() - getCreationTime();
-    }
-    
-    /**
-     * @deprecated Use getElapsedTime() instead
-     * @return the time since stampTime() was last invoked.
-     */
-    public double getElapedTime() {
-        return Schedule.getSimTime() - getTimeStamp();
     }
     
     /**

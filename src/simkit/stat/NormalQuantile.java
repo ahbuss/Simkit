@@ -6,64 +6,111 @@ package simkit.stat;
  */
 public class NormalQuantile {
 
-    private static final double[] c = new double[] {
-        2.515517, 0.802853, 0.010328
-    };
+    public static final double ONE_OVER_ROOT_TWO_PI = 1.0 / Math.sqrt(2.0 * Math.PI);
+    public static final double SQRT_EIGHT_OVER_PI = Math.sqrt(8.0 / Math.PI);
+    public static final double SQRT_PI_OVER_EIGHT = Math.sqrt(Math.PI / 8.0);
+    private static final double[] c =
+            new double[]{2.515517, 0.802853, 0.010328};
+    private static final double[] d =
+            new double[]{1.0, 1.432788, 0.189269, 0.001308};
+    public static final double A0 = 2.50662823884;
+    public static final double A1 = -18.61500062529;
+    public static final double A2 = 41.39119773534;
+    public static final double A3 = -25.44106049637;
+    public static final double B1 = -8.47351093090;
+    public static final double B2 = 23.08336743743;
+    public static final double B3 = -21.06224101826;
+    public static final double B4 = 3.13082909833;
+    public static final double C0 = -2.78718931138;
+    public static final double C1 = -2.29796479134;
+    public static final double C2 = 4.85014127135;
+    public static final double C3 = 2.32121276858;
+    public static final double D1 = 3.54388924762;
+    public static final double D2 = 1.63706781897;
+    public static final double SPLIT = 0.42;
 
-    private static final double[] d = new double[] {
-        0.0, 1.432788, 0.189269, 0.001308
-    };
-
-    private double mean;
-    private double stdDev;
-
-    public NormalQuantile(double mean, double stdDev) {
-        this.setMean(mean);
-        this.setStdDev(stdDev);
+    public static double getDensity(double x) {
+        return ONE_OVER_ROOT_TWO_PI * Math.exp(-0.5 * x * x);
     }
 
-    public NormalQuantile() {
-        this(0.0, 1.0);
+    public static double getDensity(double x, double mean, double stdDev) {
+        return getDensity((x - mean) / stdDev) / stdDev;
     }
 
-    public double getValue(double p) {
-        if (Math.abs(p - 0.5) > 1.0) {
-            throw new IllegalArgumentException("p must be betwen 0.0 and 1.0: " + p);
+    public static double getDistribution(double x) {
+        double cdf = 0.5 + 0.5 * Math.sqrt(1.0 - Math.exp(-SQRT_PI_OVER_EIGHT * x * x));
+        if (x < 0.0) {
+            cdf = 1.0 - cdf;
+        }
+        return cdf;
+    }
+
+    public static double getDistribution(double x, double mean, double stdDev) {
+        return getDistribution((x - mean) / stdDev);
+    }
+
+    /**
+     * Based on Beasley & Springer, "Algorithm AS 111: The Percentage Points of 
+     * the Normal Distribution," <i>Journal of the Royal Statistical Society.
+     * Series C (Applied Statistics)</i>. Vol. 26, No 1.
+     * 
+     * @param p Desired probability
+     * @return x such that Pr{Z < x} = p
+     */
+    public static double getQuantile(double p) {
+        double quantile = Double.NaN;
+        if (p == 0.0) {
+            quantile = Double.NEGATIVE_INFINITY;
+        } else if (p == 1.0) {
+            quantile = Double.POSITIVE_INFINITY;
+        } else if (p == 0.5) {
+            quantile = 0.0;
+        } else {
+            double q = p - 0.5;
+
+            if (Math.abs(q) < SPLIT) {
+                double r = q * q;
+                quantile = q * (((A3 * r + A2) * r + A1) * r + A0)
+                        / ((((B4 * r + B3) * r + B2) * r + B1) * r + 1.0);
+            } else {
+                double r = q <= 0.0 ? p : 1.0 - p;
+                r = Math.sqrt(-Math.log(r));
+                quantile = (((C3 * r + C2) * r + C1) * r + C0)
+                        / ((D2 * r + D1) * r + 1.0);
+                quantile = q >= 0.0 ? quantile : -quantile;
+            }
+        }
+        return quantile;
+    }
+
+    /**
+     * Based on Abramawitz & Stegun, <i>Handbook of Mathematical Functions</i>,
+     * 26.2.23, p. 933.
+     * 
+     * Not as accurate as getQuantile() using Algorithm AS 111.
+     * 
+     * @param p Desired probability
+     * @return x such that Pr{Z < x} = p
+     */
+    public static double getQuantile2(double p) {
+        double quantile = Double.NaN;
+        if (p == 0.0) {
+            quantile = Double.NEGATIVE_INFINITY;
+        } else if (p == 1.0) {
+            quantile = Double.POSITIVE_INFINITY;
+        } else if (p == 0.5) {
+            quantile = 0.0;
         }
 
-        double t = Math.sqrt(Math.log(1/(p * p)));
-        double q = t - (c[0] + t * (c[1] +  t * c[2]) ) /
-                (1.0 + t * ( d[1] +  t * (d[2]  +  t * d[3] ) ) );
-        
-        return q * stdDev + mean;
-    }
+        double multiplier = -1.0;
+        if (p > 0.5) {
+            p = 1.0 - p;
+            multiplier = 1.0;
+        }
+        double t = Math.sqrt(-2.0 * Math.log(p));
+        quantile = t - (c[0] + c[1] * t + c[2] * t * t)
+                / (1.0 + d[1] * t + d[2] * t * t + d[3] * t * t * t);
 
-    /**
-     * @return the mean
-     */
-    public double getMean() {
-        return mean;
+        return multiplier * quantile;
     }
-
-    /**
-     * @param mean the mean to set
-     */
-    public void setMean(double mean) {
-        this.mean = mean;
-    }
-
-    /**
-     * @return the stdDev
-     */
-    public double getStdDev() {
-        return stdDev;
-    }
-
-    /**
-     * @param stdDev the stdDev to set
-     */
-    public void setStdDev(double stdDev) {
-        this.stdDev = stdDev;
-    }
-
 }
