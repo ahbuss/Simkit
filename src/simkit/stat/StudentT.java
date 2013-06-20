@@ -54,11 +54,8 @@ public class StudentT {
                     c = (((0.05 * d * x - 5.0) * x - 7.0) * x - 2.0) * x + b + c;
                     y = (((((0.4 * y + 6.3) * y + 36.0) * y + 94.5) / c - y - 3.0) / b + 1.0) * x;
                     y = a * y * y;
-                    if (y > 0.002) {
-                        quantile = Math.exp(y) - 1.0;
-                    } else {
-                        quantile = 0.5 * y * y + y;
-                    }
+//                    This is the update from Hill, 1981
+                    y = (y > 0.1) ? Math.exp(y) - 1.0 :(( y + 4.0) * y + 112.0) * y * y/24.0 + y;
                 } else {
                     y = ((1.0 / (((df + 6.0) / (df * y) - 0.089 * d - 8.222)
                             * (df + 2.0) * 3.0) + 0.5 / (df + 4.0)) * y - 1.0)
@@ -67,6 +64,7 @@ public class StudentT {
                 quantile = Math.sqrt(df * y);
             }
         }
+//        This is because Algorithm 396 returns the upper quantile!
         return -quantile;
     }
 
