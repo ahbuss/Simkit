@@ -27,7 +27,7 @@ import simkit.smdx.Math2D;
 import simkit.test.MouseDisplay;
  /**
  * @author  Kirk Stork, based on original TestArcIntersection by Arnold Buss
- * @version $Id:  $
+ * @version $Id$
  */
 public class TestArcIntersectionBug1413_L extends JPanel {
     

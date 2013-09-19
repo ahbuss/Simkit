@@ -34,7 +34,7 @@ import simkit.test.MouseDisplay;
  * @see "simkit.smdx.Math2DTest in the tests"
  *
  * @author  Arnold Buss
- * @version $Id: TestArcIntersection.java 1143 2008-09-08 17:29:25Z kastork $
+ * @version $Id$
  */
 public class TestSwissCheeseIntersection extends JPanel {
     
