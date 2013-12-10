@@ -1,13 +1,13 @@
-Simkit Copyright (C) 1997-2008 Kirk Stork and Arnold Buss
+Simkit Copyright (C) 1997-2013 Kirk Stork and Arnold Buss
 
 Installation Instructions
 ------------ ------------
-First install the Java Developer Kit version 1.6 (J2SE6) or greater.  
+First install the Java Developer Kit version 1.7 (J2SE6) or greater.  
 For Windows 2000/Windows XP, you will need to
 edit the environment, located in the System icon of the Conrol Panel.
 
 Any questions regarding Simkit may be addressed by e-mail to
-abuss@nps.navy.mil.
+abuss@nps.edu
 
 Uninstallation Instructions
 -------------- ------------

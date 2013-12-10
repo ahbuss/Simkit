@@ -66,9 +66,9 @@ class B extends A {
  * <p>
  * Currently, based on {@code BasicSimEntity}, so most of the {@code SimEntityBase} behaviors
  * operate the same.  However many of the the added things in {@code SimEntityBase} are purposefully
- * ommitted (like the debug property and some of the dump methods).  You can
+ * omitted (like the debug property and some of the dump methods).  You can
  * get a string description similar to the ones provided in {@code SimEntityBase}
- * with the method {@code describeSimEventMethods()}.  The debugging and
+ * with the method {@code} describeSimEventMethods()}.  The debugging and
  * verbosity is replaced with our more recent practice of using the logging
  * package and setting logging levels to control such output.
  *

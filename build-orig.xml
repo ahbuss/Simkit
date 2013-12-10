@@ -93,7 +93,7 @@
 
 <!--  === TARGET: compile === -->
     <target depends="build.init" description="Compile the Simkit classes and copy resource files to the binary tree." name="compile">
-        <javac destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.6" target="1.6" debug="true">
+        <javac includeantruntime="false" destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.7" target="1.7" debug="true">
         </javac>
         
         <copy todir="${dir.build.classes}">
@@ -120,7 +120,7 @@
     </target>
 
     <target depends="clean, build.init" description="Compile the Simkit classes with lint" name="lint">
-        <javac destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.6" target="1.6" debug="true">
+        <javac destdir="${dir.build.classes}" srcdir="${dir.src}" includes="**/*.java" excludes="**/package-info.java" source="1.7" target="1.7" debug="true">
             <compilerarg line="-Xlint"/>
         </javac>
         

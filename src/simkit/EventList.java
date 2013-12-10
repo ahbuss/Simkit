@@ -491,7 +491,7 @@ public class EventList implements BasicEventList {
             throw new InvalidSchedulingException("Attempt to reverse time!: " +
             event.getScheduledTime() + " < " + getSimTime() );
         }
-        else if (!Double.isNaN(event.getScheduledTime())) {
+        else if (!Double.isNaN(event.getScheduledTime()) && !Double.isInfinite(event.getScheduledTime())) {
             boolean success = eventList.add(event);
             if (!success) {
                 throw new InvalidSchedulingException("Problem adding event to " +

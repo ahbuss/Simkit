@@ -15,7 +15,7 @@
             <author name ="Kirk Stork" email="kirk@stork.name" />
         </authors>
         <url>http://diana.nps.edu/Simkit</url>
-        <javaversion>1.6</javaversion>
+        <javaversion>1.7</javaversion>
     </info>
     
     <guiprefs height="500" width="600" resizable="no">
