@@ -135,7 +135,7 @@ public class SimEvent implements Comparable {
         }
         this.priority = priority;
         methodName = adjustEventName(name);
-        StringBuffer fmn = new StringBuffer(methodName);
+        StringBuilder fmn = new StringBuilder(methodName);
         fmn.append('(');
         
         for (int i = 0; i < parameters.length; i++) {
@@ -289,7 +289,7 @@ public class SimEvent implements Comparable {
      * Converts the array of parameters to a String for display.
      **/
     public String getParametersAsString() {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
         if (parameters != null) {
             if (parameters.length > 0) {
                 s.append(' '); s.append('\t'); s.append('{');
@@ -332,7 +332,7 @@ public class SimEvent implements Comparable {
      * this SimEvent.
      **/
     public String toString() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append(tsf.format( scheduledTime ));
         buf.append('\t');
         buf.append(paramString());
@@ -404,7 +404,7 @@ public class SimEvent implements Comparable {
      * make up the signature of the event method.
      **/
     public String getSignatureAsString() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append('(');
         if (parameters != null) {
             for (int i = 0; i < parameters.length; i++) {

@@ -397,7 +397,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
      * @return formatted String of Point2D as "[x,y]"
      */
     public static String formatPoint(Point2D point, DecimalFormat form) {
-        StringBuffer buf = new StringBuffer('[');
+        StringBuilder buf = new StringBuilder('[');
         buf.append(form.format(point.getX()));
         buf.append(',');
         buf.append(' ');

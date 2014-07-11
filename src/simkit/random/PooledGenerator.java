@@ -84,7 +84,7 @@ public class PooledGenerator implements RandomNumber {
     }
 
     public String toString() {
-        StringBuffer buf = new StringBuffer("Pooled Generator (");
+        StringBuilder buf = new StringBuilder("Pooled Generator (");
         for (int i = 0; i < seeds.length; i++) {
             buf.append(seeds[i]);
             if (i < seeds.length - 1) { buf.append(','); buf.append(' '); }

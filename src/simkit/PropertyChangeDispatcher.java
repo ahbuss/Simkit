@@ -199,7 +199,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * @return Only parameter values
      */
     public String paramString() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (String propertyName : getters.keySet()) {
             Object setter = setters.get(propertyName);
             if (setter == null) {
@@ -253,7 +253,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * @return a String listing of all properties, including added ones
      */
     public String toString() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (String propertyName : getters.keySet()) {
             Object value = getProperty(propertyName);
             if (value == null || !value.getClass().isArray() ) {

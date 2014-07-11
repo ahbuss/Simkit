@@ -96,7 +96,7 @@ public class Histogram extends SimpleStatsTally {
 **/
     public String toString() {
         DecimalFormat form = new DecimalFormat("0.000");
-        StringBuffer buf = new StringBuffer(super.toString());
+        StringBuilder buf = new StringBuilder(super.toString());
         buf.append("\nvalue\tFrequencies\tProportions\n");
         double[] prop = getProportions();
         for (int i = 0; i < frequency.length; i++ ) {

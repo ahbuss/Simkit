@@ -24,7 +24,7 @@ public class TestQuadratic {
     
     public static String arrayToString(double[] x, int n) {
         if (x == null || n < 0 || n > x.length) { return "null"; }
-        StringBuffer buf = new StringBuffer("{");
+        StringBuilder buf = new StringBuilder("{");
         for (int i = 0; i < n; i++) {
             buf.append(x[i]);
             if (i < n - 1) { buf.append(','); }

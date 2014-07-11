@@ -238,7 +238,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
 * all of the properties.
 **/
     public String toString() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append(this.getName());
         buf.append(' ');
         buf.append('(');

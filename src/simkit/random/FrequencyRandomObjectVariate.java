@@ -83,27 +83,27 @@ public class FrequencyRandomObjectVariate implements RandomObjectVariate {
         for (int i = 0; i < maxNameLength / 8; ++i) {
             tabs += "\t";
         }
-        StringBuffer stringBuffer = new StringBuffer(System.getProperty("line.separator"));
-        stringBuffer.append("Value");
-        stringBuffer.append(tabs);
-        stringBuffer.append("Frequency\tCumulativeFrequency");
+        StringBuilder StringBuilder = new StringBuilder(System.getProperty("line.separator"));
+        StringBuilder.append("Value");
+        StringBuilder.append(tabs);
+        StringBuilder.append("Frequency\tCumulativeFrequency");
         double[] frequencies = discreteVariate.getProbabilities();
         double[] cumulativeFrequencies = discreteVariate.getCDF();
         for (int i = 0; i < values.length; ++i) {
-            stringBuffer.append(System.getProperty("line.separator"));
-            stringBuffer.append(values[i]);
+            StringBuilder.append(System.getProperty("line.separator"));
+            StringBuilder.append(values[i]);
             int extra = maxNameLength - values[i].toString().length();
             int extraTabs = (int) Math.ceil(extra / 8.0);
-            stringBuffer.append('\t');
+            StringBuilder.append('\t');
             for (int j = 0; j < extraTabs; ++j) {
-                stringBuffer.append('\t');
+                StringBuilder.append('\t');
             }
-            stringBuffer.append(decimalFormat.format(frequencies[i]));
-            stringBuffer.append('\t');
-            stringBuffer.append('\t');
-            stringBuffer.append(decimalFormat.format(cumulativeFrequencies[i]));
+            StringBuilder.append(decimalFormat.format(frequencies[i]));
+            StringBuilder.append('\t');
+            StringBuilder.append('\t');
+            StringBuilder.append(decimalFormat.format(cumulativeFrequencies[i]));
         }
-        return stringBuffer.toString();
+        return StringBuilder.toString();
     }
     
     public void setFrequencies(double[] frequencies) {

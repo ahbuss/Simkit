@@ -14,7 +14,7 @@ public class DefaultToStringer {
 * @deprecated Use getToString(Object) instead.
 **/
     public static String getToString(Object obj, Class stopClass) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         if (obj instanceof simkit.Named) {
             buf.append( ((simkit.Named) obj).getName());
         }

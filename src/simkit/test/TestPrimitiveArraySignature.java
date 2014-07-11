@@ -53,7 +53,7 @@ public class TestPrimitiveArraySignature extends SimEntityBase {
  * @param array The array to be dumped.
  */    
     protected static String intArrayToString(int[] array) {
-        StringBuffer buf = new StringBuffer("{");
+        StringBuilder buf = new StringBuilder("{");
         for (int i = 0; i < array.length; ++i) {
             buf.append(array[i]);
             if (i < array.length - 1) { buf.append(", "); }

@@ -464,7 +464,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 * with this referee.
 **/
     public String toString() {
-        StringBuffer buf = new StringBuffer(this.getClass().getName());
+        StringBuilder buf = new StringBuilder(this.getClass().getName());
         buf.append("\nSensors:");
         for (Sensor sensor : sensors ) {
             buf.append('\n');

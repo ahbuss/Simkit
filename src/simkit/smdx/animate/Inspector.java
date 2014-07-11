@@ -38,7 +38,7 @@ public class Inspector implements MouseListener {
     }
     
     public String introspect(Object obj) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
 //        buf.append(obj);
 //        buf.append('\n');
         BeanInfo bi = null;

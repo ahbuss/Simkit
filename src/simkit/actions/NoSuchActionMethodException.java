@@ -9,7 +9,7 @@ package simkit.actions;
 /**
  *
  * @author  Arnold Buss
- * @version 
+ * @version $Id$
  */
 public class NoSuchActionMethodException extends NoSuchMethodException {
 

@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-import simkit.util.LinkedHashMap2;
 
 /**
  *  A modified version of SimEntityBase that allows the use of protected
@@ -27,14 +26,14 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 * A two dimensional Hash table used to cache doMethods
 * for all SimEntityBases. Keyed by Class and Method.
 **/
-    private static LinkedHashMap2<Class, String, Method> allDoMethods;
+    private static LinkedHashMap<Class, Map<String, Method>> allDoMethods;
 
 /**
 * A two dimensional Hash table used to hold the
 * names and signatures of all doMethods of all SimEntityBases.
 * Keyed by Class and Method name.
 **/
-    private static LinkedHashMap2<Class, String, List<Class<?>[]>> 
+    private static LinkedHashMap<Class, Map<String, List<Class<?>[]>>> 
             allNamesAndSignatures;
 
     /**
@@ -51,8 +50,8 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     }
     
     static {
-        allDoMethods = new LinkedHashMap2<Class, String, Method>();
-        allNamesAndSignatures = new LinkedHashMap2<Class, String, List<Class<?>[]>>();
+        allDoMethods = new LinkedHashMap<Class, Map<String, Method>>();
+        allNamesAndSignatures = new LinkedHashMap<Class, Map<String, List<Class<?>[]>>>();
     }
     
 /**
@@ -61,7 +60,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
     private static boolean debug = false;
  
     /**
-     * Contruct a new SimEntityBaseProtected with the given name and
+     * Construct a new SimEntityBaseProtected with the given name and
      * event priority.
      * @param name The name of the entity.
      * @param priority The default priority for processing this entity's events.
@@ -351,14 +350,14 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
      * in a graphical user interface, textbox, or similar output device.
      *
      * <P> Method rewritten by A. Buss to use newer Iterator (vice Enumeration) and
-     * to use <CODE>StringBuffer</CODE> for speed.  The underscores are also made to
+     * to use <CODE>StringBuilder</CODE> for speed.  The underscores are also made to
      * exactly match the length of the heading.
      *
      * @return String representation of this entity's "doMethods"
      **/
     public String dumpDoMethodsStr() {
         String name = getName();
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append("Event Methods for ");
         buf.append(name);
         buf.append(NL);
@@ -388,7 +387,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
      * <code>dumpNamesAndSignatures()</code>.  This method allows a developer to place the information
      * in a graphical user interface, textbox, or similar output device.
      *
-     * <P> A. Buss modified this to utilize Iterators and StringBuffer.  Also, the corresponding
+     * <P> A. Buss modified this to utilize Iterators and StringBuilder.  Also, the corresponding
      * old method now simply invokes this one.
      *
      * @return String representation of this entity's "NamesAndSignatures"
@@ -396,7 +395,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
      **/
     public String dumpNamesAndSignaturesStr() {
         String name = getName();
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append("Names and signatures for ");
         buf.append(name);
         buf.append(NL);
@@ -476,7 +475,7 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
 * @param wrap If true, primatives will be converted into Objects.
 **/
    public static String getFullMethodName(String name, Class[] parameters, boolean wrap) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append(name); 
         buf.append('(');
         if (parameters != null) {

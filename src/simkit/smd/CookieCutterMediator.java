@@ -8,7 +8,7 @@ import simkit.SimEntityBase;
  * @author ahbuss
  */
 public class CookieCutterMediator extends SimEntityBase implements
-        SensorMoverMediator<BasicLinearMover, CookieCutterSensor>{
+        SensorMoverMediator<Mover, Sensor>{
 
     /**
      * Schedule Detection(mover) on sensor with delay of 0.0 if the
@@ -16,7 +16,7 @@ public class CookieCutterMediator extends SimEntityBase implements
      * @param mover The target
      * @param sensor The Sensor
      */
-    public void doEnterRange(BasicLinearMover mover, CookieCutterSensor sensor) {
+    public void doEnterRange(Mover mover, Sensor sensor) {
         if (!sensor.getContacts().contains(mover)) {
             sensor.waitDelay("Detection", 0.0, mover);
         }
@@ -27,7 +27,7 @@ public class CookieCutterMediator extends SimEntityBase implements
      * @param mover The target
      * @param sensor The Sensor
      */
-    public void doExitRange(BasicLinearMover mover, CookieCutterSensor sensor) {
+    public void doExitRange(Mover mover, Sensor sensor) {
         sensor.waitDelay("Undetection", 0.0, mover);
     }
 }

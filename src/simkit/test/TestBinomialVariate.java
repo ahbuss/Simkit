@@ -45,7 +45,7 @@ public class TestBinomialVariate {
         BufferedWriter out = new BufferedWriter(new FileWriter(new File(dir, "binomial.txt")));
         
         
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (int i = 0; i < number; i++) {
             buf.append(binomial.generateInt());
             buf.append(' ');
@@ -53,7 +53,7 @@ public class TestBinomialVariate {
                 System.out.print(".");
                 out.write(buf.toString());
                 out.newLine(); 
-                buf = new StringBuffer();
+                buf = new StringBuilder();
             }
         }
         System.out.println();

@@ -387,7 +387,7 @@ public abstract class BasicAssembly implements Runnable {
      * @param rep The replication number for this report
      */
     protected String getReplicationReport(int rep) {
-        StringBuffer buf = new StringBuffer("Output Report for Replication #");
+        StringBuilder buf = new StringBuilder("Output Report for Replication #");
         buf.append(rep);
         for (int i = 0; i < replicationStats.length; ++i) {
             buf.append(System.getProperty("line.separator"));
@@ -414,7 +414,7 @@ public abstract class BasicAssembly implements Runnable {
      * standard deviation.  This can be done generically.
      */
     protected String getSummaryReport() {
-         StringBuffer buf = new StringBuffer("Summary Output Report:");
+         StringBuilder buf = new StringBuilder("Summary Output Report:");
         buf.append(System.getProperty("line.separator"));
         buf.append(super.toString());
         for (int i = 0; i < designPointStats.length; ++i) {

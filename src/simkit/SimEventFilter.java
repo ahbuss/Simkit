@@ -113,7 +113,7 @@ public class SimEventFilter extends simkit.BasicSimEntity {
     }
     
     public String toString() {
-        StringBuffer buf = new StringBuffer(super.toString());
+        StringBuilder buf = new StringBuilder(super.toString());
         if (!events.isEmpty()) {
             buf.append(System.getProperty("line.separator"));
             buf.append('\t');

@@ -65,7 +65,7 @@ public class ResampleVariate extends RandomVariateBase {
 * Returns a String containing the contents of the data array.
 **/
     public String toString() {
-        StringBuffer buf = new StringBuffer("Resample Variate\n[");
+        StringBuilder buf = new StringBuilder("Resample Variate\n[");
         int count = 0;
         for (int i = 0; i < data.length; ++i) {
             buf.append(data[i]);

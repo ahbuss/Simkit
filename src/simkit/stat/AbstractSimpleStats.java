@@ -204,7 +204,7 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
 **/
     @Override
     public String toString() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append(getName());
         buf.append(' ');
         buf.append('(');
@@ -220,7 +220,7 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
      *          min, max, mean, variance, std deviation
      **/
     public String getDataLine() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append(getCount());
         buf.append(' ');
         buf.append(numberFormat.format(getMinObs()));

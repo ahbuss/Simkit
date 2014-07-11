@@ -17,7 +17,7 @@ public class GenericAction extends AbstractAction {
     
     /**
      *  Construct with given target object and method name.
-     *  @param theTarget the target object
+     *  @param theModel the target object
      *  @param methodName the name of the method to be invoked
      **/
     public GenericAction(Object theModel, String methodName) {

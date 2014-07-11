@@ -114,7 +114,7 @@ public class BooleanCounter implements PropertyChangeListener, Named {
      * @return String containing values of the two counters (# true # false)
      */    
     public String stateString() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append(getNumberTrue());
         buf.append(' ');
         buf.append(getNumberFalse());

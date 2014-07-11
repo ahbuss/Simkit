@@ -135,7 +135,7 @@ public class SimRunner implements Runnable {
     }
     
     public String toString() {
-        StringBuffer buf = new StringBuffer("Parameters for Simulation Run:\n");
+        StringBuilder buf = new StringBuilder("Parameters for Simulation Run:\n");
         buf.append("\tverbose = ");
         buf.append(verbose);
         buf.append("\n\tsingleStep = ");

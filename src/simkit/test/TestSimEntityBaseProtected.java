@@ -24,7 +24,7 @@ public class TestSimEntityBaseProtected extends SimEntityBaseProtected {
     }
     
     protected String doubleArrayToString(double[] x) {
-        StringBuffer buf = new StringBuffer("{");
+        StringBuilder buf = new StringBuilder("{");
         for (int i = 0; i < x.length; ++i) {
             buf.append(x[i]);
             if (i < x.length - 1) { buf.append(", "); }

@@ -14,16 +14,16 @@ import simkit.BasicEventList;
 public class LogString {
 
     public static String format(BasicEventList schedule, String message) {
-        StringBuffer result;
-        result = new StringBuffer();
+        StringBuilder result;
+        result = new StringBuilder();
         result.append(schedule.getSimTime());
         result.append("\n\t" + message + "\n");
         return result.toString();
     }
 
     public static String format(String timeStr, String message) {
-        StringBuffer result;
-        result = new StringBuffer();
+        StringBuilder result;
+        result = new StringBuilder();
         result.append(timeStr);
         result.append("\n\t" + message + "\n");
         return result.toString();

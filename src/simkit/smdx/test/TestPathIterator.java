@@ -29,7 +29,7 @@ public class TestPathIterator extends JComponent {
     public static void main (String args[]) {
         Ellipse2D ellipse = new Ellipse2D.Double(10, 20, 30, 40);
         double[] coords = new double[6];
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (PathIterator path = ellipse.getPathIterator(null); !path.isDone(); path.next()) {
             switch(path.currentSegment(coords)) {
                 case PathIterator.SEG_MOVETO:

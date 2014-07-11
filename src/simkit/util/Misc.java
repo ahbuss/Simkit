@@ -34,7 +34,7 @@ public class Misc {
 **/
     // covered by unit test JavaReflectionTest
     public static String getFullMethodName(String methodName, Object[] arguments) {
-        StringBuffer buf = new StringBuffer(methodName);
+        StringBuilder buf = new StringBuilder(methodName);
         buf.append('(');
         for (int i = 0; i < arguments.length; i++) {
             buf.append(arguments[i].getClass());

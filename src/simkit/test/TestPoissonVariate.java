@@ -41,7 +41,7 @@ public class TestPoissonVariate {
         File dir = new File(dirURL.getFile()).getParentFile();
         File outFile = new File(dir, "poisson.txt");
         BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (int i = 0; i < number; i++) {
             double x = poiss.generateInt();
             stat.newObservation(x);
@@ -50,7 +50,7 @@ public class TestPoissonVariate {
             if ( (i + 1) % 100 == 0) {
                 out.write(buf.toString());
                 out.newLine();
-                buf = new StringBuffer();
+                buf = new StringBuilder();
             }
         }
         System.out.println(stat);

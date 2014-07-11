@@ -177,7 +177,7 @@ public class MultiStat implements PropertyChangeListener {
 * Returns a String containing information about the data contained in this MultiStat.
 **/
     public String toString() {
-        StringBuffer buf = new StringBuffer("MultiStatTally");
+        StringBuilder buf = new StringBuilder("MultiStatTally");
         buf.append(SimEntity.NL);
         buf.append("Tally Statistics:");
         for (Iterator i = tallyStats.keySet().iterator(); i.hasNext(); ) {

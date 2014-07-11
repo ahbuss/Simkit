@@ -88,7 +88,7 @@ public class MultipleBooleanCounters implements PropertyChangeListener {
      * @return List of all Counters
      */    
     public String toString() {
-        StringBuffer buf = new StringBuffer("MultipleBooleanCounter");
+        StringBuilder buf = new StringBuilder("MultipleBooleanCounter");
         for (String counter : counters.keySet()) {
             buf.append(System.getProperty("line.separator"));
             buf.append('\t');

@@ -140,7 +140,7 @@ public class TraceVariate extends RandomVariateBase {
 **/
     public String toString() {
         
-        StringBuffer buf = new StringBuffer("Trace: [");
+        StringBuilder buf = new StringBuilder("Trace: [");
         if (allDataInToString || traceValues.length <= 2 * shortNumber) {
             for (int i = 0; i < traceValues.length; i++) {
                 buf.append(DF.format(traceValues[i]));

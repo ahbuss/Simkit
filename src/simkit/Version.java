@@ -81,7 +81,7 @@ public class Version {
             
             br = new BufferedReader(new InputStreamReader(
             Version.class.getResourceAsStream("copyright.txt")));
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             for (String nextLine = br.readLine(); nextLine != null; nextLine = br.readLine()) {
                 buf.append(nextLine);
                 buf.append(SimEntity.NL);
@@ -91,7 +91,7 @@ public class Version {
             
             br = new BufferedReader(new InputStreamReader(
             Version.class.getResourceAsStream("gnu.txt") ) );
-            buf = new StringBuffer();
+            buf = new StringBuilder();
             for (String nextLine = br.readLine(); nextLine != null; nextLine = br.readLine()) {
                 buf.append(nextLine);
                 buf.append(SimEntity.NL);

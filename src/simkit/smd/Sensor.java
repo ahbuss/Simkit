@@ -1,6 +1,7 @@
 package simkit.smd;
 
 import java.awt.geom.Point2D;
+import java.util.Set;
 import simkit.SimEntity;
 
 /**
@@ -53,4 +54,6 @@ public interface Sensor extends SimEntity {
      * @return Mover this Sensor is "on"
      */
     public Mover getMover();
+    
+    public Set<Mover> getContacts();
 }

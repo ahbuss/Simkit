@@ -40,7 +40,7 @@ public class TestGeometricRV {
         BufferedWriter out = new BufferedWriter(new FileWriter(new File(dir, "geom.txt")));
             
         SimpleStatsTally sst = new SimpleStatsTally();
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (int i = 0; i < number; i++) {
             int obs = rv.generateInt();
             buf.append(obs);
@@ -48,7 +48,7 @@ public class TestGeometricRV {
             if ((i + 1) % 20 == 0) {
                 out.write(buf.toString());
                 out.write(System.getProperty("line.separator"));
-                buf = new StringBuffer();
+                buf = new StringBuilder();
                 out.flush();
             }
             sst.newObservation((double)obs);

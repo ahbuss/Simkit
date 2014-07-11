@@ -114,7 +114,7 @@ public class MunitionTargetReferee extends SimEntityBase {
 * Returns a String containing the list of registered Targets.
 **/
     public String toString() {
-        StringBuffer buf = new StringBuffer("Targets:\n");
+        StringBuilder buf = new StringBuilder("Targets:\n");
         for (Iterator i = targets.iterator(); i.hasNext(); ) {
             buf.append(i.next());
             buf.append('\n');       

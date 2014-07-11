@@ -37,7 +37,7 @@ public class ListExamples {
 * List information about the example Classes.
 **/
     public static String listExamples() throws Throwable{
-        StringBuffer buf = new StringBuffer("Contents of Package simkit.examples");
+        StringBuilder buf = new StringBuilder("Contents of Package simkit.examples");
         buf.append(EOL);
         buf.append(EOL);
         Method description = null;

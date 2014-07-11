@@ -112,7 +112,7 @@ public class Simtrospector {
 **/
     public static String createParameterKey(Class[] c) {
         if (c == null) {return "()";}
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append('(');
         for (int i = 0; i < c.length; i++) {
             buf.append(c[i].getName());

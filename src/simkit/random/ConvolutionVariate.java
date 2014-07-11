@@ -124,7 +124,7 @@ public class ConvolutionVariate extends RandomVariateBase {
      * a separate line.
      */    
     public String toString() {
-        StringBuffer buf = new StringBuffer("ConvolutionRandomVariate");
+        StringBuilder buf = new StringBuilder("ConvolutionRandomVariate");
         for (int i = 0; i < rv.length; ++i) {
             buf.append('\n');
             buf.append('\t');

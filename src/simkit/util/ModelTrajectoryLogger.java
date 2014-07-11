@@ -54,7 +54,7 @@ public class ModelTrajectoryLogger implements simkit.SimEventListener, PropertyC
     }
     public void processSimEvent(SimEvent e) {
         String entityName = ((Named)e.getSource()).getName();
-        StringBuffer msg = new StringBuffer(Schedule.getSimTimeStr());
+        StringBuilder msg = new StringBuilder(Schedule.getSimTimeStr());
         msg.append(" EVENT        " + entityName+ "#" + e.getEventName());
         if (e.getParameters().length > 0){
             msg.append("\n       PARAMETERS   " + Arrays.toString(e.getParameters()));
@@ -73,7 +73,7 @@ public class ModelTrajectoryLogger implements simkit.SimEventListener, PropertyC
         if (nval instanceof Named){
             nval = ((Named)nval).getName();
         }
-        StringBuffer msg = new StringBuffer(Schedule.getSimTimeStr());
+        StringBuilder msg = new StringBuilder(Schedule.getSimTimeStr());
         msg.append(" STATE CHANGE " + entity.getName()+ "#" + e.getPropertyName() + "(Class " + entity.getClass().getCanonicalName() + ")");
         msg.append("\n       FROM         " + oval);
         msg.append("\n       TO           " + nval);

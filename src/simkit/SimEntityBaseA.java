@@ -24,23 +24,21 @@ import simkit.util.LogString;
  * <p>
  * Methods are also referenced by signature.  In a subclass, a method annotated
  * with the same event name as a method in a superclass will override that method
- * if the signature of the sublclass method is the same as that superclass
+ * if the signature of the subclass method is the same as that superclass
  * method.  This is true even if the method names differ.  For example:
  * <p>
-{@code
-{@literal
+<pre>
 
 class A extends SimEntityA {
 ...
-@SimEventMethod("Arrival") public void foo(int x) { ...}
+&#64;SimEventMethod("Arrival") public void foo(int x) { ...}
 }
 
 class B extends A {
 ...
-@SimEventMethod("Arrival") public void bar(int x) { ...}
+&#64;SimEventMethod("Arrival") public void bar(int x) { ...}
 }
-}
-}
+</pre>
  * <p>
  * Will result in class B's bar method being called when it receives a
  * SimEvent who's eventName is "Arrival" with an int argument.  So, somewhat
@@ -49,16 +47,16 @@ class B extends A {
  * <p>
  * However, if the signature doesn't match, then both methods will be available
  * in B.
- * {@literal
+ * <pre>
  * class A extends SimEntityA {
  *  ...
- *  \@SimEventMethod("Arrival") public void foo() { ...}
+ *  &#64;SimEventMethod("Arrival") public void foo() { ...}
  * }
  * class B extends A {
  *  ...
- *  \@SimEventMethod("Arrival") public void bar(int x) { ...}
+ *  &#64;SimEventMethod("Arrival") public void bar(int x) { ...}
  * }
- * }
+ * </pre>
  * <p>
  * In the above case foo or bar might be called for an arrival event on an instance
  * of class B, depending on the argument.  If there is no argument then foo

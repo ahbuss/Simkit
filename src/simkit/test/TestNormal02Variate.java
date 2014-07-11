@@ -40,14 +40,14 @@ public class TestNormal02Variate {
         File dir = new File(dirURL.getFile()).getParentFile();
         BufferedWriter out = new BufferedWriter(new FileWriter(new File(dir, "norm03.txt")));
         
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (int i = 0; i < number; i++) {
             buf.append(rv.generate());
             buf.append(' ');
             if ( (i + 1) % 100 == 0 ) {
                 out.write(buf.toString());
                 out.newLine(); 
-                buf = new StringBuffer();
+                buf = new StringBuilder();
             }
         }
         out.close();        

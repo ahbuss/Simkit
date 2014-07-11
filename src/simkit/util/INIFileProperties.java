@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 * @see Properties
 * @version $Id$
 **/
-public class INIFileProperties extends LinkedHashMap2<String, String, String> {
+public class INIFileProperties extends LinkedHashMap<String, Map<String, String>> {
 
 /**
 * Holds the new line character for the current operating system.
@@ -198,7 +198,7 @@ public class INIFileProperties extends LinkedHashMap2<String, String, String> {
  *  Creates a String containing the properties in output file format.
 **/
     public String toString() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         boolean first = true;
         for (String blockName : this.keySet() ) {
             if (!first) { buf.append(NL); }

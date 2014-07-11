@@ -223,7 +223,7 @@ public class TestJava2D extends JPanel{
     }
     
     public static String cubicToString(CubicCurve2D curve) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append(curve.getP1());
         buf.append(' ');
         buf.append(curve.getCtrlP1());

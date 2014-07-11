@@ -157,7 +157,7 @@ public class Entity implements Named, Comparable<Entity> {
      * @return String of all added properties
      */
     public String paramString() {
-        StringBuffer buf = new StringBuffer(toString());
+        StringBuilder buf = new StringBuilder(toString());
         if (properties != null) {
             for (String property : properties.keySet()) {
                 buf.append('\n');
@@ -168,7 +168,7 @@ public class Entity implements Named, Comparable<Entity> {
                 buf.append(' ');
                 Object value = properties.get(property);
                 if (value != null && value.getClass().isArray()) {
-                    StringBuffer buf1 = new StringBuffer();
+                    StringBuilder buf1 = new StringBuilder();
                     buf1.append('[');
                     for (int i = 0; i < Array.getLength(value); ++i) {
                         buf1.append(Array.get(value, i));

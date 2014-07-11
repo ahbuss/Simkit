@@ -457,7 +457,7 @@ public class EventList implements BasicEventList {
         if (numberEvents > 0) {
             stopOnEvent = true;
             stopAtTime = false;
-            StringBuffer fullName = new StringBuffer("do" + eventName +"(");
+            StringBuilder fullName = new StringBuilder("do" + eventName +"(");
             for (int i = 0; i < signature.length; ++i) {
                 fullName.append(signature[i].getName());
                 if (i < signature.length - 1) { fullName.append(','); }
@@ -919,7 +919,7 @@ public class EventList implements BasicEventList {
     
     @Override
     public String getEventListAsString(String reason) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         if (currentSimEvent != null) {
             buf.append("Time: ");
             buf.append(form.format(getSimTime()));

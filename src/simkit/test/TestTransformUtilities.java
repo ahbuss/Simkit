@@ -76,7 +76,7 @@ public class TestTransformUtilities extends JPanel{
     }
     
     public String toString() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (int i = 0; i < original.length; i++) {
             buf.append(original[i]);
             buf.append('\t');
@@ -154,7 +154,7 @@ public class TestTransformUtilities extends JPanel{
     }
     
     public static String cubicToString(CubicCurve2D curve) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append(curve.getP1());
         buf.append(' ');
         buf.append(curve.getCtrlP1());

@@ -176,7 +176,7 @@ public class TransferLine extends SimEntityBase {
 * Returns a String with information about this TransferLine.
 **/
     public String paramString() {
-        StringBuffer buf = new StringBuffer("Transfer Line with ");
+        StringBuilder buf = new StringBuilder("Transfer Line with ");
         buf.append(numberServersAtStation.length);
         buf.append(" Stations\n");
         buf.append("Interarrival Times are ");

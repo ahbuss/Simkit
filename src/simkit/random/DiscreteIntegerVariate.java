@@ -128,7 +128,7 @@ public class DiscreteIntegerVariate extends RandomVariateBase
      **/
     public String toString() {
         java.text.DecimalFormat df = new java.text.DecimalFormat("0.000");
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append("x    \tf(x)   \tF(x)\n");
         for (int i = 0; i < cdf.length; i++) {
             buf.append(value[i]);

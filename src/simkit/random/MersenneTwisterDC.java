@@ -169,7 +169,7 @@ public class MersenneTwisterDC implements RandomNumber {
     public String paramString() {
         String NL = System.getProperty("line.separator");
         
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append("aaa = " + Integer.toHexString(aaa));
         buf.append(NL);
         buf.append("mm = " + mm);
