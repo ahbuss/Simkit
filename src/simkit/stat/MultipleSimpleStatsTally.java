@@ -1,10 +1,9 @@
 package simkit.stat;
 
+import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
-import java.util.Iterator;
 import java.util.TreeMap;
 
-import simkit.util.IndexedPropertyChangeEvent;
 
 /**
 * A class to collect Tally statistics for an array of properties.
@@ -39,6 +38,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     }
     
 //Javadoc inherited.
+    @Override
     public void newObservation(double x, int index) {
         this.newObservation(x);
         SimpleStatsTally stat = indexedStats.get(index);
@@ -56,37 +56,44 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     }
 
 //Javadoc inherited.
+    @Override
     public double getMean(int index) {
         SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getMean();  
     }
 //Javadoc inherited.
+    @Override
     public double getVariance(int index) {
         SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getVariance();  
     }
 //Javadoc inherited.
+    @Override
     public double getStandardDeviation(int index) {
         SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getStandardDeviation();  
     }
 //Javadoc inherited.
+    @Override
     public int getCount(int index) {
         SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? 0 : stat.getCount();  
     }
 //Javadoc inherited.
+    @Override
     public double getMinObs(int index) {
         SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getMinObs();  
     }
 //Javadoc inherited.
+    @Override
     public double getMaxObs(int index) {
         SimpleStatsTally stat = indexedStats.get(index);
         return (stat == null) ? Double.NaN : stat.getMaxObs();  
     }
 
 //Javadoc inherited.
+    @Override
     public double[] getAllMean() {
         double[] means = null;
         if (indexedStats.size() > 0) {
@@ -101,6 +108,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     }
 
 //Javadoc inherited.
+    @Override
     public double[] getAllVariance() {
         double[] variance = null;
         if (indexedStats.size() > 0) {
@@ -115,6 +123,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     }
 
 //Javadoc inherited.
+    @Override
     public double[] getAllStandardDeviation() {
         double[] std = null;
         if (indexedStats.size() > 0) {
@@ -129,6 +138,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     }
 
 //Javadoc inherited.
+    @Override
     public SampleStatistics[] getAllSampleStat() {
         SampleStatistics[] allStats = null;
         SimpleStatsTally temp;
@@ -146,6 +156,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     }
 
 //Javadoc inherited.
+    @Override
     public double[] getAllMaxObs() {
         double[] max = null;
         if (indexedStats.size() > 0) {
@@ -160,6 +171,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     }
 
 //Javadoc inherited.
+    @Override
     public double[] getAllMinObs() {
         double[] min = null;
         if (indexedStats.size() > 0) {
@@ -174,17 +186,18 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     }
 
 //Javadoc inherited.
+    @Override
     public int[] getAllCount() {
-        int[] count = null;
+        int[] theCount = null;
         if (indexedStats.size() > 0) {
             int high = indexedStats.lastKey();
             int length = high + 1;
-            count = new int[length];
-            for (int i = 0; i < count.length; i++) {
-                count[i] = getCount(i);
+            theCount = new int[length];
+            for (int i = 0; i < theCount.length; i++) {
+                theCount[i] = getCount(i);
             }
         }
-        return count;
+        return theCount;
     }
 /**
 * If the PropertyChangeEvent contains the indexed property associated
@@ -204,17 +217,19 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     }
     
 //Javadoc inherited.
+    @Override
     public void reset() {
         super.reset();
         if (indexedStats == null) { return; }
-        for (SimpleStatsTally stats : indexedStats.values()) {
+        indexedStats.values().stream().forEach((stats) -> {
             stats.reset();
-        }
+        });
     }
 /**
 * Produces a String containing the name, SamplingType, and DataLines for
 * all of the properties.
 **/
+    @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
         buf.append(this.getName());

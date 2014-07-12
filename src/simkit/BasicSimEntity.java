@@ -1,9 +1,9 @@
 package simkit;
+import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import simkit.random.RandomVariate;
-import simkit.util.IndexedPropertyChangeEvent;
 
 /**
  *  An abstract basic implementation of <CODE>SimEntity</CODE> that does not use

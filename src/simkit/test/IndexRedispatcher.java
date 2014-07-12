@@ -1,10 +1,10 @@
 package simkit.test;
 
+import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import simkit.util.IndexedPropertyChangeEvent;
 
 public class IndexRedispatcher extends PropertyChangeSupport implements PropertyChangeListener {
 
@@ -19,6 +19,7 @@ public class IndexRedispatcher extends PropertyChangeSupport implements Property
         maxIndex = max;
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         this.firePropertyChange(
             new IndexedPropertyChangeEvent(

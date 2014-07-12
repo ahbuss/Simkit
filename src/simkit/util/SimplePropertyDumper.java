@@ -1,6 +1,8 @@
 package simkit.util;
 
-import java.beans.*;
+import java.beans.IndexedPropertyChangeEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import simkit.Named;
 
 /**

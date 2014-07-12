@@ -1,5 +1,6 @@
 package simkit;
 
+import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.text.DecimalFormat;
@@ -11,7 +12,6 @@ import java.util.logging.Logger;
 import simkit.stat.SavedStats;
 import simkit.stat.SampleStatistics;
 import simkit.stat.SimpleStatsTally;
-import simkit.util.IndexedPropertyChangeEvent;
 /**
  * <p>Abstract Base class for creating Simkit scenarios.</p>
  *

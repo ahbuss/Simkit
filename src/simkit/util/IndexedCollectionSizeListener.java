@@ -1,10 +1,10 @@
 package simkit.util;
 
+import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 
-import simkit.Schedule;
 import simkit.BasicSimEntity;
 
 /**

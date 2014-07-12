@@ -12,11 +12,7 @@ public class TestMultipleSimpleStatsTally {
         ArrivalProcess ap =
             new ArrivalProcess(
                 RandomVariateFactory.getInstance(
-                    "simkit.random.ExponentialVariate",
-                    new Object[] { new Double(1.7) },
-                    12345L
-                )
-            );
+                    "Exponential", 1.7));
 
         IndexRedispatcher ir = new IndexRedispatcher(ap, 1, 2, 10);
         MultipleSimpleStatsTally msst = new MultipleSimpleStatsTally();

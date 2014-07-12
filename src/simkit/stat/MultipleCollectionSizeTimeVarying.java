@@ -1,8 +1,8 @@
 package simkit.stat;
 
+import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.Collection;
-import simkit.util.IndexedPropertyChangeEvent;
 
 /**
  * Listen for IndexedPropertyChangeEvent of type Collection.

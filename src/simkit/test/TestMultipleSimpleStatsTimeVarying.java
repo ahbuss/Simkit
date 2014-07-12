@@ -9,14 +9,12 @@ import simkit.stat.SampleStatistics;
 public class TestMultipleSimpleStatsTimeVarying {
 
     public static void main(String[] args) {
-        ArrivalProcess ap =
-            new ArrivalProcess(
-                RandomVariateFactory.getInstance(
-                    "simkit.random.ExponentialVariate",
-                    new Object[] { new Double(1.7) },
-                    12345L
-                )
-            );
+        ArrivalProcess ap
+                = new ArrivalProcess(
+                        RandomVariateFactory.getInstance(
+                                "Exponential", new Double(1.7)
+                        )
+                );
 
         IndexRedispatcher ir = new IndexRedispatcher(ap, 1, 2, 10);
         MultipleSimpleStatsTimeVarying msst = new MultipleSimpleStatsTimeVarying();
@@ -33,8 +31,8 @@ public class TestMultipleSimpleStatsTimeVarying {
 
         SampleStatistics[] stats = msst.getAllSampleStat();
         for (int i = 0; i < stats.length; i++) {
-            System.out.println(i+ ": " + stats[i]);
+            System.out.println(i + ": " + stats[i]);
         }
 
     }
-} 
+}
