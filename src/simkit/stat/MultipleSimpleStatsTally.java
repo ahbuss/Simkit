@@ -206,6 +206,7 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
 * <P>Note: <CODE>MultipleSimpleStatsTally</CODE> cannot be reset by an event like
 * <CODE>AbstractSimpleStats</CODE>.</P>
 **/
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         if (this.getName().equals(e.getPropertyName()) &&
             (e instanceof IndexedPropertyChangeEvent) ) {
@@ -221,9 +222,9 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
     public void reset() {
         super.reset();
         if (indexedStats == null) { return; }
-        indexedStats.values().stream().forEach((stats) -> {
+        for (SimpleStatsTally stats : indexedStats.values()) {
             stats.reset();
-        });
+        }
     }
 /**
 * Produces a String containing the name, SamplingType, and DataLines for
