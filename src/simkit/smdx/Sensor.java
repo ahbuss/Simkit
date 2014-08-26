@@ -124,7 +124,7 @@ public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
      * A set containing the contacts currently
      * being detected by this Sensor.
      **/
-    public Set getContacts();
+    public Set<Moveable> getContacts();
 
 }
 
