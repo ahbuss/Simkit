@@ -16,7 +16,7 @@ public class TestShapeTransformHitTests {
 
     public void makeMovers() {
         double[] pointGen = new double[]{-50.0, -25.0, 0.0, 25.0, 50.0};
-        movers = new LinkedHashSet();
+        movers = new LinkedHashSet<>();
 
         for (double x : pointGen) {
             for (double y : pointGen) {

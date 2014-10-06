@@ -25,7 +25,7 @@ public class SensorTargetMediatorFactory implements
 /**
 * Gets the instance of SensorTargetMediatorFactory.
 **/
-    public static MediatorFactory getInstance() { return instance; }
+    public static MediatorFactory<Sensor, Moveable, SensorTargetMediator> getInstance() { return instance; }
     
 /**
 * Constructs and adds a Mediator to the MediatorFactory.
@@ -37,12 +37,12 @@ public class SensorTargetMediatorFactory implements
 * targetClass is not a Moveable or the mediatorClass is not a Mediator
 **/
 
-    public static void addMediator(Class<?> sensorClass, Class<?> targetClass,
-            Class<?> mediatorClass) {
-        getInstance().addMediatorFor(sensorClass, targetClass, mediatorClass);
+    public static void addMediator(Class<? extends Sensor> sensorClass, Class<? extends Moveable> targetClass,
+            Class<? extends SensorTargetMediator> mediatorClass) {
+        instance.addMediatorFor(sensorClass, targetClass, mediatorClass);
     }
     
-    public static void addMediator(Class<?> sensorClass, Class<?> targetClass,
+    public static void addMediator(Class<? extends Sensor> sensorClass, Class<? extends Moveable> targetClass,
             SensorTargetMediator mediatorInstance) {
         getInstance().addMediatorFor(sensorClass, targetClass, mediatorInstance);
     }
@@ -65,13 +65,13 @@ public class SensorTargetMediatorFactory implements
 * Holds the Mediators that have been added to this factory, key by
 * Sensor and Moveable (target)
 **/
-    private WeakHashMap<Class, Map<Class, SensorTargetMediator>>  cache;
+    private WeakHashMap<Class<? extends Sensor>, Map<Class<? extends Moveable>, SensorTargetMediator>>  cache;
     
 /** 
 * Creates new empty SensorTargetMediatorFactory
 **/
     protected SensorTargetMediatorFactory() {
-        cache = new WeakHashMap<Class, Map<Class, SensorTargetMediator>>();
+        cache = new WeakHashMap<>();
     }
     
 /**
@@ -116,9 +116,9 @@ public class SensorTargetMediatorFactory implements
             Class<? extends Moveable> targetClass,
             S mediatorInstance) {
         if (!cache.containsKey(sensorClass)) {
-            cache.put(sensorClass, new WeakHashMap<Class, SensorTargetMediator>());
+            cache.put(sensorClass, new WeakHashMap<>());
         }
-        Map<Class, SensorTargetMediator> targetClasses = 
+        Map<Class<? extends Moveable>, SensorTargetMediator> targetClasses = 
                 cache.get(sensorClass);
         targetClasses.put(targetClass, mediatorInstance);
     }
@@ -131,10 +131,11 @@ public class SensorTargetMediatorFactory implements
 * given Sensor-target pair, sensorClass is not a Sensor, or targetClass
 * is not a Moveable.
 **/
-    public Mediator getMediatorFor(Class sensorClass, Class targetClass) {
+    public Mediator getMediatorFor(Class<? extends Sensor> sensorClass, 
+            Class<? extends Moveable> targetClass) {
         SensorTargetMediator mediator = null;
         if (cache.containsKey(sensorClass)) {
-            Map<Class, SensorTargetMediator> targetClasses = 
+            Map<Class<? extends Moveable>, SensorTargetMediator> targetClasses = 
                     cache.get(sensorClass);
             mediator = targetClasses.get(targetClass);
         }
@@ -149,13 +150,13 @@ public class SensorTargetMediatorFactory implements
 * Returns a copy of the HashMap of Mediators that have been added to this
 * MediatorFactory.
 **/
-    public Map<Class, Map<Class, SensorTargetMediator>> getMediators() {
-        Map<Class, Map<Class, SensorTargetMediator>> copy = null;
+    public Map<Class<? extends Sensor>, Map<Class<? extends Moveable>, SensorTargetMediator>> getMediators() {
+        Map<Class<? extends Sensor>, Map<Class<? extends Moveable>, SensorTargetMediator>> copy = null;
         synchronized(cache) {
-            copy = new WeakHashMap<Class, Map<Class, SensorTargetMediator>>(cache);
+            copy = new WeakHashMap<>(cache);
         }
-        for (Class key : copy.keySet() ) {
-            copy.put(key, new WeakHashMap<Class, SensorTargetMediator>(copy.get(key)));
+        for (Class<? extends Sensor> key : copy.keySet() ) {
+            copy.put(key, new WeakHashMap<>(copy.get(key)));
         }
         return copy;
     }
@@ -172,9 +173,9 @@ public class SensorTargetMediatorFactory implements
 * (but all three are names of valid Classes)
 **/
     public void addMediatorFor(String first, String second, String mediator) throws ClassNotFoundException {
-        Class firstClass = Thread.currentThread().getContextClassLoader().loadClass(first);
-        Class secondClass = Thread.currentThread().getContextClassLoader().loadClass(second);
-        Class mediatorClass = Thread.currentThread().getContextClassLoader().loadClass(mediator);
+        Class<? extends Sensor> firstClass = Class.forName(first).asSubclass(Sensor.class);
+        Class<? extends Moveable> secondClass = Class.forName(second).asSubclass(Moveable.class);
+        Class<? extends SensorTargetMediator> mediatorClass = Thread.currentThread().getContextClassLoader().loadClass(mediator).asSubclass(SensorTargetMediator.class);
         addMediatorFor(firstClass, secondClass, mediatorClass);
     }
     

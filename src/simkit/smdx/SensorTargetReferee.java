@@ -6,11 +6,7 @@
 
 package simkit.smdx;
 import java.awt.Shape;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Iterator;
@@ -75,7 +71,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 /**
 * Holds the instance of the SensorTargetMediatorFactory.
 **/
-    protected MediatorFactory sensorTargetMediatorFactory;
+    protected MediatorFactory<Sensor, Moveable, SensorTargetMediator> sensorTargetMediatorFactory;
 
 /**
 * Indicates whether the Mover is in range of the Sensor. The
@@ -130,43 +126,41 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             sensors.add((Sensor) entity);
             //            entity.addSimEventListener(this);
             entity.addPropertyChangeListener("movementState", this);
-            for (Mover target : targets ) {
+            for (Mover target : targets) {
                 Mediator mediator = sensorTargetMediatorFactory.getMediatorFor(
-                entity.getClass(), target.getClass());
+                        entity.getClass().asSubclass(Sensor.class),
+                        target.getClass().asSubclass(Moveable.class));
                 if (mediator == null) {
-                    throw new NoMediatorDefinedException("No mediator defined for (" +
-                    entity.getClass().getName() + "," + target.getClass().getName() +")");
-                }
-                else {
+                    throw new NoMediatorDefinedException("No mediator defined for ("
+                            + entity.getClass().getName() + "," + target.getClass().getName() + ")");
+                } else {
                     this.addSimEventListener(mediator);
                 }
             }
             if (eventList.isRunning()) {
                 processSensor((Sensor) entity);
             }
-        }
-        else if (entity instanceof Mover) {
+        } else if (entity instanceof Mover) {
             targets.add((Mover) entity);
             //            entity.addSimEventListener(this);
             entity.addPropertyChangeListener("movementState", this);
-            for (Sensor sensor :  sensors ) {
+            for (Sensor sensor : sensors) {
                 Mediator mediator = sensorTargetMediatorFactory.getMediatorFor(
-                sensor.getClass(), entity.getClass() );
+                        sensor.getClass().asSubclass(Sensor.class), 
+                        entity.getClass().asSubclass(Moveable.class));
                 if (mediator == null) {
-                    throw new NoMediatorDefinedException("No mediator defined for (" +
-                    sensor.getClass().getName() + "," + entity.getClass().getName() +")");
-                }
-                else {
+                    throw new NoMediatorDefinedException("No mediator defined for ("
+                            + sensor.getClass().getName() + "," + entity.getClass().getName() + ")");
+                } else {
                     this.addSimEventListener(mediator);
                 }
             }
             if (eventList.isRunning()) {
                 processTarget((Mover) entity);
             }
-        }
-        else {
-            throw new IllegalArgumentException(entity.getClass().getName() +
-            " not a Sensor or a Target");
+        } else {
+            throw new IllegalArgumentException(entity.getClass().getName()
+                    + " not a Sensor or a Target");
         }
     }
     
