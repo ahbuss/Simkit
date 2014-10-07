@@ -207,7 +207,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * @param parameters optional parameters for event
      * @return The SimEvent that is put on the Event List
      */
-//    @Override
+    @Override
     public SimEvent waitDelay(String name, double delay, Object... parameters) {
         return this.waitDelay(name, delay, Priority.DEFAULT, parameters);
     }
@@ -242,9 +242,11 @@ public abstract class BasicSimEntity extends BasicSimEventSource
         return waitDelay(name, delayGenerator.generate(), priority, parameters);
     }
     
-/**
-* Schedules an event.
-**/    
+    /**
+     * Schedules an event.
+     *
+     * @param event The event to be scheduled
+     */
     protected void attemptSchedule(SimEvent event) {
         eventList.scheduleEvent(event);
     }
@@ -252,14 +254,19 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     /**
      * Cancels the next event for this entity that matches the event name and
      * value of the parameters. 
+     * @param eventName
+     * @param parameters
      **/
+    @Override
     public void interrupt(String eventName, Object... parameters) {
         eventList.interrupt(this, eventName, parameters);
     }
     
     /**
      * Cancels the next event for this entity that matches the event name.
+     * @param eventName
      **/
+    @Override
     public void interrupt(String eventName) {
         eventList.interrupt(this, eventName);
     }
@@ -348,7 +355,8 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     }
 
 // Javadoc inherited from SimEventListener    
-    public abstract void handleSimEvent(SimEvent event) ;
+    @Override
+    public abstract void handleSimEvent(SimEvent event);
     
 /**
 * Process the given SimEvent. Entity's should not process other

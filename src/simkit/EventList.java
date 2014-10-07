@@ -15,6 +15,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.logging.Level;
 
 /** <P>Replacement for original static <CODE>Schedule</CODE>
  * implementation of event list.  Now multiple instances
@@ -66,7 +67,7 @@ public class EventList implements BasicEventList {
 /**
  * Holds the number of times each type of event has been processed.
  */
-    private HashMap<String, int[]> eventCounts;
+    private final HashMap<String, int[]> eventCounts;
     
 /**
  * If true causes the event list to be printed prior
@@ -96,7 +97,7 @@ public class EventList implements BasicEventList {
  * Note: It is up to the SimEntity to add itself. (This is
  * implemented in BasicSimEntity.)
  */
-    private SortedSet<ReRunnable> reRun;
+    private final SortedSet<ReRunnable> reRun;
     
 /**
  * The name of the event to stop on after it
@@ -139,14 +140,14 @@ public class EventList implements BasicEventList {
 /**
  * List of events that are not dumped in Event List
  */
-    private HashSet<String> ignoreOnDump;
+    private final HashSet<String> ignoreOnDump;
     
 /**
  * The identifying number of this <CODE>EventList</CODE> instance.  It is 
  * the responsibility of <CODE>Schedule</CODE> to ensure uniqueness across
  * <CODE>EventList</CODE> instances.
  */
-    private int id;
+    private final int id;
     
     /**
      * PrintStream that dumps will be directed to.  
@@ -160,7 +161,7 @@ public class EventList implements BasicEventList {
     
     private boolean printEventSources;
     
-    private double precision;
+    private final double precision;
     
 /**
  * If true, will process one event and wait for another call to 
@@ -214,9 +215,9 @@ public class EventList implements BasicEventList {
                 new TreeSet<SimEvent>());
         simTime = 0.0;
         running = false;
-        eventCounts = new LinkedHashMap<String, int[]>();
+        eventCounts = new LinkedHashMap<>();
         reRun = Collections.synchronizedSortedSet(new TreeSet<ReRunnable>());
-        ignoreOnDump = new LinkedHashSet<String>();
+        ignoreOnDump = new LinkedHashSet<>();
         this.id = id;
         setFormat("0.0000");
         this.precision = 0.0; 
@@ -224,9 +225,11 @@ public class EventList implements BasicEventList {
         setOutputStream(System.out);
     }
 
-/**
-* Returns the number of events on the event list.
-**/
+    /**
+     * Returns the number of events on the event list.
+     *
+     * @return the number of events on the event list.
+     */
     public int getPendingEventCount() {
         return eventList.size();
     }
@@ -336,7 +339,7 @@ public class EventList implements BasicEventList {
             entryCounter++;
         }
         if (isReallyVerbose()) {
-            log.info(getSimTime() + ": reset() called");
+            log.log(Level.INFO, "{0}: reset() called", getSimTime());
         }
         clearEventList();
         running = false;
@@ -347,9 +350,8 @@ public class EventList implements BasicEventList {
             for (Iterator i = reRun.iterator(); i.hasNext(); ) {
                 ReRunnable simEntity = (ReRunnable) i.next();
                 if (isReallyVerbose()) {
-                    log.info(getSimTime() + ": Checking rerun " + 
-                        simEntity + " [rerunnable?] " + 
-                        simEntity.isReRunnable());
+                    log.log(Level.INFO, "{0}: Checking rerun {1} [rerunnable?] {2}", 
+                            new Object[]{getSimTime(), simEntity, simEntity.isReRunnable()});
                 }
                 if (simEntity.isPersistant()) {
                     simEntity.reset();
@@ -550,8 +552,8 @@ public class EventList implements BasicEventList {
             }
             simTime = currentSimEvent.getScheduledTime();
             if (reallyVerbose) {
-                log.info(simTime + ": Processing " + currentSimEvent + 
-                    "  source=" + currentSimEvent.getSource());
+                log.log(Level.INFO, "{0}: Processing {1}  source={2}", 
+                        new Object[]{simTime, currentSimEvent, currentSimEvent.getSource()});
             }
             
             if (currentSimEvent.isPending()) {

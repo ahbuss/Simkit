@@ -45,14 +45,15 @@ public interface SimEventSource  {
   *        that contract. It should be the object's responsibility to figure out
   *        when and how to notify its listeners, so no externally invokable
   *        trigger should be provided.
+  * 
+  * NOTE: Un-deprecating this method.
   *
-  * @deprecated see todo item
   * @param event the event to notify listeners of.
 **/
    public void notifyListeners(SimEvent event);
 
 /**
- * Get an array conatianing all registered listeners.
+ * Get an array containing all registered listeners.
  * 
  *  @return Array of SimEventListeners
  */   

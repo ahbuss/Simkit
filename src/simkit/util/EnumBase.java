@@ -37,11 +37,12 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      * Holds the list of different types of enums 
      **/
     protected static HashMap<Class, HashMap<String, EnumBase>> 
-            types = new LinkedHashMap<Class, HashMap<String, EnumBase>>();
+            types = new LinkedHashMap<>();
 
     /**
      * Constructs a new enum and adds it to the members list.
      * 
+     * @param theName
      * @throws IllegalArgumentException if an enum of the same type already 
      * exists
      * with the same name.
@@ -55,6 +56,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
 
     /**
      * Returns the name of this enum.
+     * @return 
      **/
     public String getName() {
         return name;
@@ -77,12 +79,12 @@ public abstract class EnumBase implements Comparable<EnumBase> {
     /**
      * Returns a Collection containing the enums of the given Class.
      **/
-    public static <T> Collection<T> getMembers(Class<T> clazz) {
-        Collection<T> ret = new LinkedHashSet<T>();
+    public static  Collection<EnumBase> getMembers(Class<? extends EnumBase> clazz) {
+        Collection<EnumBase> ret = new LinkedHashSet<>();
         HashMap<String, EnumBase> members = types.get(clazz);
         if (members != null) {
             for (EnumBase v : members.values()) {
-                ret.add((T) v);
+                ret.add(v);
             }
         }
         return ret;
@@ -95,14 +97,14 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      * type already exists.
      **/
     protected void put(EnumBase member) {
-        Class clazz = this.getClass();
+        Class<?> clazz = this.getClass();
         if (clazz != member.getClass()) {
             throw new Error(
                     "Bad assumption about what this.getClass() should return");
         }
         HashMap<String, EnumBase> members = types.get(clazz);
         if (members == null) {
-            members = new LinkedHashMap<String, EnumBase>();
+            members = new LinkedHashMap<>();
             types.put(clazz, members);
         }
         if (members.put(member.getName(), member) != null) {
@@ -116,12 +118,12 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      * are no enums of the given Class or if one with the given name is not 
      * found.
      **/
-    public static <T> T find(String name, Class<T> clazz) {
+    public static EnumBase find(String name, Class<? extends EnumBase> clazz) {
         HashMap<String, EnumBase> members = types.get(clazz);
         if (members == null) {
             return null;
         }
-        return (T) members.get(name);
+        return members.get(name);
     }
 
     /**
