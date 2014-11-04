@@ -1,9 +1,9 @@
 package simkit.util;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -36,7 +36,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
     /**
      * Holds the list of different types of enums 
      **/
-    protected static HashMap<Class, HashMap<String, EnumBase>> 
+    protected static Map<Class, Map<String, EnumBase>> 
             types = new LinkedHashMap<>();
 
     /**
@@ -81,7 +81,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      **/
     public static  Collection<EnumBase> getMembers(Class<? extends EnumBase> clazz) {
         Collection<EnumBase> ret = new LinkedHashSet<>();
-        HashMap<String, EnumBase> members = types.get(clazz);
+        Map<String, EnumBase> members = types.get(clazz);
         if (members != null) {
             for (EnumBase v : members.values()) {
                 ret.add(v);
@@ -102,7 +102,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
             throw new Error(
                     "Bad assumption about what this.getClass() should return");
         }
-        HashMap<String, EnumBase> members = types.get(clazz);
+        Map<String, EnumBase> members = types.get(clazz);
         if (members == null) {
             members = new LinkedHashMap<>();
             types.put(clazz, members);
@@ -119,7 +119,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      * found.
      **/
     public static EnumBase find(String name, Class<? extends EnumBase> clazz) {
-        HashMap<String, EnumBase> members = types.get(clazz);
+        Map<String, EnumBase> members = types.get(clazz);
         if (members == null) {
             return null;
         }
@@ -197,7 +197,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      **/
     public static void clear() {
         nextSerial = 0;
-        types = new LinkedHashMap<Class, HashMap<String, EnumBase>>();
+        types.clear();
     }
 
     /**

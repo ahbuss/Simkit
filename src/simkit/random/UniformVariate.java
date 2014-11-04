@@ -10,32 +10,27 @@ public class UniformVariate extends RandomVariateBase {
 /**
 * Not currently used.
 **/
-    private static double DEFAULT_LOW;
+    private static final double DEFAULT_LOW = 0.0;
     
 /**
 * Not currently used.
 **/
-    private static double DEFAULT_HIGH;
+    private static final double DEFAULT_HIGH = 1.0;
     
 /**
 * The lowest possible value.
 **/
-    private double low;
+    private double minimum;
     
 /**
 * The highest possible value.
 **/
-    private double high;
+    private double maximum;
 
 /**
-* The difference between the high and low values. (Precalculated)
+* The difference between the maximum and minimum values. (Precalculated)
 **/
     private double range;
-    
-    static {
-        DEFAULT_LOW = 0.0;
-        DEFAULT_HIGH = 1.0;
-    }
     
 /**
 * Creates a new UniformVariate, parameters must be set prior to use.
@@ -44,11 +39,12 @@ public class UniformVariate extends RandomVariateBase {
     }
     
 /**
-* Sets the low and high values.
-* @param params A 2 element array containing the low and the high as Numbers.
+* Sets the minimum and maximum values.
+* @param params A 2 element array containing the minimum and the maximum as Numbers.
 * @throws IllegalArgumentException If the array doesn't contain exactly 2 elements, if 
-* the elements are not Numbers, or if the low is larger than the high.
+ the elements are not Numbers, or if the minimum is larger than the maximum.
 **/
+    @Override
     public void setParameters(Object... params) {
         double newLow = 0.0;
         double newHigh = 1.0;
@@ -68,57 +64,53 @@ public class UniformVariate extends RandomVariateBase {
             throw new IllegalArgumentException("Uniform parameters must have low < high: (" +
             newLow + ", " + newHigh + ")");
         }
-        this.low = newLow;
-        this.high = newHigh;
-        range = high - low;
+        this.minimum = newLow;
+        this.maximum = newHigh;
+        range = maximum - minimum;
     }
-    
-/**
-* Returns a 2 element array containing the low and high limits.
-**/
+    /**
+     * 
+     * @return  a 2 element array containing the minimum and maximum limits.
+     */
+    @Override
     public Object[] getParameters() {
-        return new Object[] {new Double(low), new Double(high)};
+        return new Object[] {new Double(minimum), new Double(maximum)};
     }
     
 //javadoc inherited.
+    @Override
     public double generate() {
-        return low + range * rng.draw();
+        return minimum + range * rng.draw();
     }
     
 /**
 * Sets the minimum value. Causes internal precalculated values to be updated.
 **/
     public void setMinimum(double min) {
-        low = min;
-        range = high - low;
+        minimum = min;
+        range = maximum - minimum;
     }
     
 /**
 * Returns the minimum value.
 **/
-    public double getMinimum() { return low; }
+    public double getMinimum() { return minimum; }
     
 /**
 * Sets the maximum value. Causes internal precalculated values to be updated.
 **/
     public void setMaximum(double max) {
-        high = max;
-        range = high - low;
+        maximum = max;
+        range = maximum - minimum;
     }
     
-/**
-* Returns the minimum value.
-**/
-    public double getLow() { return low; }
+    public double getMaximum() {
+        return maximum;
+    }
 
 /**
-* Returns the maximum value.
+* Returns a String containing the name of this distribution with the minimum and maximum 
+ parameters.
 **/
-    public double getHigh() { return high; }
-    
-/**
-* Returns a String containing the name of this distribution with the low and high 
-* parameters.
-**/
-    public String toString() { return "Uniform (" + low + ", " + high + ")"; }
+    public String toString() { return "Uniform (" + minimum + ", " + maximum + ")"; }
 }
