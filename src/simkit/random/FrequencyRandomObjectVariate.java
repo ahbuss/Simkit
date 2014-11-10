@@ -23,23 +23,28 @@ public class FrequencyRandomObjectVariate implements RandomObjectVariate {
         setDecimalFormat(new DecimalFormat("0.0000"));
     }
     
+    @Override
     public double generate() {
         return Double.NaN;
     }
     
+    @Override
     public Object generateObject() {
         int index = (int) discreteVariate.generate();
         return values[index];
     }
     
+    @Override
     public Object[] getParameters() {
         return new Object[] {values.clone(), discreteVariate.getCDF() };
     }
     
+    @Override
     public RandomNumber getRandomNumber() {
         return discreteVariate.getRandomNumber();
     }
     
+    @Override
     public void setParameters(Object... obj) {
         if (obj.length != 2) {
             throw new IllegalArgumentException("Must have 2 arguments: " + obj.length);
@@ -78,6 +83,7 @@ public class FrequencyRandomObjectVariate implements RandomObjectVariate {
         }
     }
     
+    @Override
     public String toString() {
         String tabs = "\t";
         for (int i = 0; i < maxNameLength / 8; ++i) {
@@ -113,10 +119,6 @@ public class FrequencyRandomObjectVariate implements RandomObjectVariate {
         }
         discreteVariate = (DiscreteVariate) RandomVariateFactory.getInstance(
                 "simkit.random.DiscreteVariate", new Object[] { indexes, frequencies } );
-    }
-    
-    public DecimalFormat getDecimalFormat() {
-        return decimalFormat;
     }
     
     public void setDecimalFormat(DecimalFormat decimalFormat) {

@@ -88,6 +88,7 @@ public class GammaVariate extends RandomVariateBase {
      * @throws IllegalArgumentException If the given array does not contain exactly two
      * Numbers or if either of the parameters is not positive.
      */
+    @Override
     public void setParameters(Object... params) {
         if (params.length != 2) {
             throw new IllegalArgumentException("Must have 2 parameters for GammaVariate");
