@@ -15,14 +15,15 @@ public class AR1Variate extends RandomVariateBase {
     
     private double lastValue;
     private double alpha;
-    private RandomVariate error;
+    private double noiseVariance;
+    private final RandomVariate error;
 
 /** 
 * Creates new AR1Variate with a normal(0,1) error distribution.
 */
     public AR1Variate() {
         error = RandomVariateFactory.getInstance(
-                "simkit.random.NormalVariate", 0.0, 1.0);
+                "Normal", 0.0, 1.0);
     }
 
     /**
@@ -31,6 +32,7 @@ public class AR1Variate extends RandomVariateBase {
      * is the current value.
      * @return The array of parameters as an Object[].
      */
+    @Override
     public Object[] getParameters() {
         return new Object[] { getAlpha(), getLastValue() };
     }
@@ -47,24 +49,37 @@ public class AR1Variate extends RandomVariateBase {
      * Number, then it is ignored.
      */
     public void setParameters(Object... params) {
-        if (params.length > 2) {
-            throw new IllegalArgumentException("Need 1 or 2 parameters, " + 
-                params.length + " given.");
+        if (params.length != 3) {
+            throw new IllegalArgumentException("Need 3 parameters, "
+                    + params.length + " given.");
         }
-        if (params.length > 0) {
-            if (params[0] instanceof Number) {
-                this.setAlpha(((Number)params[0]).doubleValue());
-            }
+        if (params[0] instanceof Number) {
+            this.setAlpha(((Number) params[0]).doubleValue());
+        } else {
+            throw new IllegalArgumentException("\u03B1 must be numeric: "
+                    + params[0].getClass().getName());
         }
-        if (params.length == 2) {
-            this.setLastValue(((Number)params[1]).doubleValue());
+        if (params[1] instanceof Number) {
+            this.setNoiseVariance(((Number) params[1]).doubleValue());
+        } else {
+            throw new IllegalArgumentException("\u03C3^2 must be numeric: "
+                    + params[1].getClass().getName());
         }
+
+        if (params[2] instanceof Number) {
+            this.setLastValue(((Number) params[1]).doubleValue());
+        } else {
+            throw new IllegalArgumentException("X_0 must be numeric: "
+                    + params[2].getClass().getName());
+        }
+
     }
     
     /**
      * Generate the next value.
      * @return The generated random variate
      */
+    @Override
     public double generate() {
         return lastValue = alpha * lastValue + error.generate();
     }
@@ -90,7 +105,21 @@ public class AR1Variate extends RandomVariateBase {
     public double getLastValue() { return lastValue; }
         
     
+    @Override
     public String toString() {
-        return "AR(1) Variate (alpha = " + getAlpha() + ")";
+        return String.format("AR(1) Variate (\u03B1 = %.2f \u03C3 = %.2f)", 
+                getAlpha(), getNoiseVariance());
+    }
+
+    public double getNoiseVariance() {
+        return noiseVariance;
+    }
+
+    public void setNoiseVariance(double noiseVariance) {
+        if (noiseVariance <= 0.0) {
+            throw new IllegalArgumentException("noiseVariance must be > 0.0: " +
+                    noiseVariance);
+        }
+        this.noiseVariance = noiseVariance;
     }
 }

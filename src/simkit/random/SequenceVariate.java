@@ -4,16 +4,15 @@
  * Created on March 14, 2002, 11:17 PM
  */
 
-package simkit.test;
-import simkit.random.RandomNumber;
-import simkit.random.RandomVariate;
-import simkit.random.Sequential;
+package simkit.random;
 /**
  *
+ * Generates sequence of numbers starting with 0 and increasing by 1 
+ * 
  * @author  Arnold Buss
  * @version $Id$
  */
-public class SequenceVariate implements RandomVariate {
+public class SequenceVariate implements DiscreteRandomVariate {
 
     private RandomNumber rng;
     
@@ -30,7 +29,7 @@ public class SequenceVariate implements RandomVariate {
     /** Sets the supporting RandomNumber object
      * @param rng The RandomNumber instance supporting the generating algorithm
      */
-    public void setRandomNumber(RandomNumber rng) { this.rng = rng; }
+    public void setRandomNumber(RandomNumber rng) { }
     
     /**
      * Returns the array of parameters as an Object[].
@@ -46,6 +45,7 @@ public class SequenceVariate implements RandomVariate {
      * in additional methods provided by the programmer.
      * @param params the array of parameters, wrapped in objects.
      */
+    @Override
     public void setParameters(Object... params) {
     }
     
@@ -53,15 +53,20 @@ public class SequenceVariate implements RandomVariate {
      * Generate a random variate having this class's distribution.
      * @return The generated random variate
      */
+    @Override
     public double generate() {
-        rng.draw();
-        return (double) rng.getSeed();
+        return generateInt();
     }
     
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {}
-        return null;
+    @Override
+    public String toString() {
+        return "Sequence";
+    }
+
+    @Override
+    public int generateInt() {
+        int value = (int) rng.getSeed();
+        rng.draw();
+        return value;
     }
 }
