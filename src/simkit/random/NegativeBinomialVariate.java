@@ -12,12 +12,13 @@ public class NegativeBinomialVariate extends RandomVariateBase implements Discre
     private double p;
     private GammaVariate gammaVariate;
     private PoissonVariate poissonVariate;
-    protected boolean parametersSet;
 
     public NegativeBinomialVariate() {
         super();
         poissonVariate = (PoissonVariate) RandomVariateFactory.getDiscreteRandomVariateInstance("Poisson", 1.0);
-        parametersSet = false;
+        gammaVariate = (GammaVariate) RandomVariateFactory.getInstance("Gamma", 1.0, 1.0);
+        this.p = 0.5;
+        this.r = 1;
     }
 
     @Override
@@ -25,12 +26,11 @@ public class NegativeBinomialVariate extends RandomVariateBase implements Discre
         double x = gammaVariate.generate();
         poissonVariate.setMean(x);
         return poissonVariate.generateInt();
-
     }
 
     @Override
     public double generate() {
-        return (double) this.generateInt();
+        return this.generateInt();
     }
 
     @Override
@@ -70,12 +70,7 @@ public class NegativeBinomialVariate extends RandomVariateBase implements Discre
             throw new IllegalArgumentException("r must be > 0: " + r);
         }
         this.r = r;
-        if (!parametersSet) {
-            parametersSet = true;
-        } else {
-            gammaVariate = (GammaVariate) RandomVariateFactory.getInstance("Gamma", getR(), (1.0 - getP()) / getP());
-
-        }
+        gammaVariate.setParameters(getR(), getP() / (1.0 - getP()));
     }
 
     /**
@@ -94,15 +89,18 @@ public class NegativeBinomialVariate extends RandomVariateBase implements Discre
                     "p must be in (0.0, 1.0): " + p);
         }
         this.p = p;
-        if (!parametersSet) {
-            parametersSet = true;
-        } else {
-            gammaVariate = (GammaVariate) RandomVariateFactory.getInstance("Gamma", getR(), (1.0 - getP()) / getP());
-
-        }
+        gammaVariate.setParameters(getR(),  getP()/(1.0 - getP()));
     }
-
+    
     public String toString() {
         return "Negative Binomial (" + getR() + ", " + getP() + ")";
+    }
+
+    public GammaVariate getGammaVariate() {
+        return gammaVariate;
+    }
+
+    public PoissonVariate getPoissonVariate() {
+        return poissonVariate;
     }
 }

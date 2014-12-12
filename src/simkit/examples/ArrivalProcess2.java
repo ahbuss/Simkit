@@ -55,6 +55,7 @@ public class ArrivalProcess2 extends BasicSimEntity {
 /**
 * Resets to the original state.
 **/
+    @Override
     public void reset() {
         super.reset();
         numberArrivals = 0;

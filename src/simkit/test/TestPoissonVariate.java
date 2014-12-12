@@ -30,7 +30,6 @@ public class TestPoissonVariate {
     public static void main (String args[]) throws Throwable {
         String dist = "Poisson";
         double lambda = 1.5;
-        Object[] params = new Object[] { new Double(lambda) };
         DiscreteRandomVariate poiss = 
                 (DiscreteRandomVariate) RandomVariateFactory.getInstance(
                 dist, lambda);
