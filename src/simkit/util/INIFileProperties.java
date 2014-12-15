@@ -18,16 +18,16 @@ import java.util.logging.Logger;
 /**
 * Used to hold Properties that can be accessed using a block name and 
 * property name. Supports reading and writing the properties to 
-* a text file. Access to the properties is via the <CODE>get<CODE/>
-* and <CODE>put<CODE/> methods inherited from <CODE>Hashtable2<CODE/>.
-* <BR/>The format of the file is as follows:<BR/><BR/>
-* <CODE>[Block name]<BR/>
-* Property Name=value<BR/>
-* .<BR/>
-* [Block name]<BR/>
-* #Comment<BR/>
-* ;Comment (Comments are ignored on load and not stored.)<BR/>
-* etc.<CODE/><P/>
+* a text file. Access to the properties is via the <CODE>get</CODE>
+* and <CODE>put</CODE> methods inherited from <CODE>Hashtable2</CODE>.
+* <BR>The format of the file is as follows:<BR><BR>
+* <CODE>[Block name]<BR>
+* Property Name=value<BR>
+* .<BR>
+* [Block name]<BR>
+* #Comment<BR>
+* ;Comment (Comments are ignored on load and not stored.)<BR>
+* etc.</CODE><P>
 * Note: This class is similar to java.util.Properties, but adds
 * blocks so that the file format mimics Windows ini file format.
 * @see Properties

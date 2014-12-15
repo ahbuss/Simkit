@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * A java enumeration for the various states of motion for a Mover.<BR/>
+ * A java enumeration for the various states of motion for a Mover.<BR>
  * The available states are:<UL>
  * <LI>PAUSED</LI>
  * <LI>PAUSING</LI>

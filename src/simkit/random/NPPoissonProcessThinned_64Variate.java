@@ -64,10 +64,10 @@ public class NPPoissonProcessThinned_64Variate extends BasicSimEntity implements
     /**
      * This uses the thinning algorithm of Lewis and Shedler.  A time, t, is
      * first generated based on a homogeneous Poisson process with the
-     * maximum rate &lambda*; (<code>lambda</code> here)
+     * maximum rate &lambda;*; (<code>lambda</code> here)
      * (i.e. a rate that is greater than any rate in the non-
      * homogeneous PP).  It is then accepted with probability
-     * &lambda(t);/&lambda*; - here <code>lambdaT</code> is &lambda(t);.
+     * &lambda;(t);/&lambda;*; - here <code>lambdaT</code> is &lambda;(t);.
      * @return The next Non-homogeneous Poisson time based on the given rate
      */
     public double generate() {

@@ -9,14 +9,14 @@ import java.awt.TextField;
 import java.util.Vector;
 
 /**
-* A Panel to contain labels and data fields. <p/>
+* A Panel to contain labels and data fields. <p>
 * Usage:<ul>
 * <li>Construct the TablePanel.</li>
 * <li>Add it to an AWT Container.</li>
 * <li>Call addItem for each data field</li>
 * <li>Call init</li>
 * <li>Display the parent Container</li>
-* <li>Call updateValues to change the data values displayed.</li>
+* <li>Call updateValues to change the data values displayed.</li></ul>
 *
 * @version $Id$
 */

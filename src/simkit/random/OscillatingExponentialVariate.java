@@ -8,7 +8,7 @@ package simkit.random;
 import simkit.Schedule;
 /**
  * Generates an Exponential variate that is scaled by a sinusoid. 
- * The random draw is equal to (&mu; + a * cos(2&pi;ft + &Theta;))Exp(1).<BR/>
+ * The random draw is equal to (&mu; + a * cos(2&pi;ft + &Theta;))Exp(1).<BR>
  * Where: <ul>
  * <li> &mu; is the mean value of the sinusoid.</li>
  * <li> a is the amplitude of the sinusoid.</li>

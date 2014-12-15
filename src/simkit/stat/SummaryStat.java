@@ -8,7 +8,7 @@ package simkit.stat;
 *  Accumulates samples, calculates statistics, and displays the statistics
 * in a Panel. The confidence interval generating functions have not yet been 
 * tested.
-* <p/>Note: If the display features of this Class are not needed, then it is
+* <p>Note: If the display features of this Class are not needed, then it is
 * recommended that one of the children of 
 * {@link AbstractSimpleStats} be used since they have a more numerically stable
 * algorithm.

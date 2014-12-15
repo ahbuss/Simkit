@@ -129,7 +129,7 @@ Time: 72.111    Current Event: Arrival  [2]
  
 Time: 100.000   Current Event: Stop     [1]
      ** Event List --  **
-               << empty >>
+               &lt;&lt; empty &gt;&gt;
      ** End  of Event List --  **
  
 At time 100.0 there have been 2 arrivals

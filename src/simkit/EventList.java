@@ -191,7 +191,7 @@ public class EventList implements BasicEventList {
 
 /**
 * A count of the number of threads in startSimulation, reset(), and coldReset().
-* The total number of Threads in these methods should be <= 1. 
+* The total number of Threads in these methods should be &le; 1. 
 **/
     protected int entryCounter = 0;
 

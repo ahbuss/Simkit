@@ -108,7 +108,7 @@ public class SensorMoverReferee extends SimEntityBase {
     }
 
     /**
-     * Schedule CheckSensor(mover, Iterator<Sensor>).
+     * Schedule CheckSensor(mover, Iterator&lt;Sensor&gt;).
      * @param mover Heard from a Mover.
      */
     public void doStartMove(Mover mover) {
@@ -119,7 +119,7 @@ public class SensorMoverReferee extends SimEntityBase {
     }
 
     /**
-     * Schedule CheckMover(sensor, Iterator<Sensor>).
+     * Schedule CheckMover(sensor, Iterator&lt;Sensor&gt;).
      * @param sensor Heard from a Sensor
      */
     public void doStartMove(Sensor sensor) {
@@ -131,7 +131,7 @@ public class SensorMoverReferee extends SimEntityBase {
     }
 
     /**
-     * Schedule CheckSensor(mover, Iterator<Sensor>).
+     * Schedule CheckSensor(mover, Iterator&lt;Sensor&gt;).
      * @param mover Heard from a Mover.
      */
     public void doStop(Mover mover) {
@@ -142,7 +142,7 @@ public class SensorMoverReferee extends SimEntityBase {
     }
 
     /**
-     * Schedule CheckMover(sensor, Iterator<Sensor>).
+     * Schedule CheckMover(sensor, Iterator&lt;Sensor&gt;).
      * @param sensor Heard from a Sensor
      */
     public void doStop(Sensor sensor) {
@@ -163,7 +163,7 @@ public class SensorMoverReferee extends SimEntityBase {
      * If there is another Mover to check, advance iterator and
      * schedule CheckSensor.
      * @param sensor The sensor to be checked
-     * @param iter Iterator<Mover> pointing to next Mover in movers
+     * @param iter Iterator&lt;Mover&gt; pointing to next Mover in movers
      */
     public void doCheckSensor(Sensor sensor, Iterator<Mover> iter) {
 

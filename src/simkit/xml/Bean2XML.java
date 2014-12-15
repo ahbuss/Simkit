@@ -11,7 +11,7 @@ import javax.xml.parsers.*;
 import org.w3c.dom.*;
 /**
  * Serializes an Object to xml using javabean Introspection.
- * <br/>Note that this Class is not yet complete.
+ * <br>Note that this Class is not yet complete.
  * @author  Arnold Buss
  * @version $Id$
  */

@@ -119,7 +119,7 @@ public class MersenneTwisterDC implements RandomNumber {
     }
     
     /**
-     * If data.length == 15, use sgenrand to initialize state data[0] must be > 0).
+     * If data.length == 15, use sgenrand to initialize state data[0] must be &gt; 0).
      * Otherwise, use data[16..data.length] as the state array.
      */
     public void setSeeds(long[] data) {

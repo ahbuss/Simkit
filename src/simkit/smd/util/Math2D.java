@@ -52,7 +52,7 @@ public class Math2D {
 
     /**
      *
-     * @param point Point2D to have norm<sup2</sup> computed
+     * @param point Point2D to have norm<sup>2</sup> computed
      * @return norm<sup>2</sup> of point
      */
     public static double normSquared(Point2D point) {
@@ -60,7 +60,7 @@ public class Math2D {
     }
 
     /**
-     * @param point Point2D to have norm<sup2</sup> computed
+     * @param point Point2D to have norm<sup>2</sup> computed
      * @return norm of point
      */
     public double norm(Point2D point) {
@@ -70,7 +70,7 @@ public class Math2D {
     /**
      * <ol><li>If no real roots or both negative roots, return empty array.
      * <li>If one negative and one positive root, return the positive root.
-     * <li>If 2 positive roots, return (smaller, larger).
+     * <li>If 2 positive roots, return (smaller, larger).</ol>
      * @param location Relative location of target
      * @param velocity Relative location of target
      * @param range Maximum range of sensor

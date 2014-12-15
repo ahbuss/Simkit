@@ -3,7 +3,7 @@ package simkit.random;
 /**
  * The "Mother-of-All" random number generators. A multiply-with-carry generator
  * invented by George Marsaglia.
- * <p/>Cycle length is 3 x 10<sup>47</sup> 
+ * <p>Cycle length is 3 x 10<sup>47</sup> 
  * @author Paul Sanchez
  * @author Arnold Buss
  * @version $Id$

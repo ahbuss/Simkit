@@ -11,7 +11,7 @@ package simkit;
 ///////////////////////////////////////////////////////////////////////
 
 /**
- * A Java enumeration that indicates what state a SimEvent is in. <P/>
+ * A Java enumeration that indicates what state a SimEvent is in. <P>
  * The possible states are:
  * <OL>
  * <LI>WAITING: The event is on the event list waiting to be processed.</LI>

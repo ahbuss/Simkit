@@ -24,8 +24,8 @@ oa3302.smd.PathMoverManager.2
 0.000        Run
  ** End of Event List -- Starting Simulation **
 
-lastStopLocation: null => Point2D.Double[0.0, 0.0]
-velocity: null => Point2D.Double[0.0, 0.0]
+lastStopLocation: null =&gt; Point2D.Double[0.0, 0.0]
+velocity: null =&gt; Point2D.Double[0.0, 0.0]
 Time: 0.0000        CurrentEvent: Run [1]
 ** Event List 0 --  **
 0.000        Run
@@ -43,79 +43,79 @@ Time: 0.0000        CurrentEvent: RegisterMover         {Fred [0.0000, 0.0000] [
 0.000        Start
  ** End of Event List --  **
 
-nextWayPoint: null => WayPoint (30.0, 40.0) 30.0
+nextWayPoint: null =&gt; WayPoint (30.0, 40.0) 30.0
 Time: 0.0000        CurrentEvent: Start [1]
 ** Event List 0 --  **
 0.000        MoveTo         {Point2D.Double[30.0, 40.0], 30.0}
  ** End of Event List --  **
 
-destination: Point2D.Double[NaN, NaN] => Point2D.Double[30.0, 40.0]
-currentSpeed: 0.0 => 20.0
+destination: Point2D.Double[NaN, NaN] =&gt; Point2D.Double[30.0, 40.0]
+currentSpeed: 0.0 =&gt; 20.0
 Time: 0.0000        CurrentEvent: MoveTo         {Point2D.Double[30.0, 40.0], 30.0} [1]
 ** Event List 0 --  **
 0.000        StartMove         {Fred [0.0000, 0.0000] [0.0000, 0.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 0.0
-velocity: Point2D.Double[0.0, 0.0] => Point2D.Double[12.0, 16.0]
+startMoveTime: null =&gt; 0.0
+velocity: Point2D.Double[0.0, 0.0] =&gt; Point2D.Double[12.0, 16.0]
 Time: 0.0000        CurrentEvent: StartMove         {Fred [0.0000, 0.0000] [12.0000, 16.0000]} [1]
 ** Event List 0 --  **
 2.500        EndMove         {Fred [0.0000, 0.0000] [12.0000, 16.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 2.5
-velocity: Point2D.Double[12.0, 16.0] => Point2D.Double[0.0, 0.0]
-currentSpeed: 20.0 => 0.0
-lastStopLocation: Point2D.Double[0.0, 0.0] => Point2D.Double[30.0, 40.0]
-nextWayPoint: null => WayPoint (-30.0, 40.0) 40.0
+startMoveTime: null =&gt; 2.5
+velocity: Point2D.Double[12.0, 16.0] =&gt; Point2D.Double[0.0, 0.0]
+currentSpeed: 20.0 =&gt; 0.0
+lastStopLocation: Point2D.Double[0.0, 0.0] =&gt; Point2D.Double[30.0, 40.0]
+nextWayPoint: null =&gt; WayPoint (-30.0, 40.0) 40.0
 Time: 2.5000        CurrentEvent: EndMove         {Fred [30.0000, 40.0000] [0.0000, 0.0000]} [1]
 ** Event List 0 --  **
 2.500        MoveTo         {Point2D.Double[-30.0, 40.0], 40.0}
  ** End of Event List --  **
 
-destination: Point2D.Double[30.0, 40.0] => Point2D.Double[-30.0, 40.0]
-currentSpeed: 0.0 => 20.0
+destination: Point2D.Double[30.0, 40.0] =&gt; Point2D.Double[-30.0, 40.0]
+currentSpeed: 0.0 =&gt; 20.0
 Time: 2.5000        CurrentEvent: MoveTo         {Point2D.Double[-30.0, 40.0], 40.0} [2]
 ** Event List 0 --  **
 2.500        StartMove         {Fred [30.0000, 40.0000] [0.0000, 0.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 2.5
-velocity: Point2D.Double[0.0, 0.0] => Point2D.Double[-20.0, 0.0]
+startMoveTime: null =&gt; 2.5
+velocity: Point2D.Double[0.0, 0.0] =&gt; Point2D.Double[-20.0, 0.0]
 Time: 2.5000        CurrentEvent: StartMove         {Fred [30.0000, 40.0000] [-20.0000, 0.0000]} [2]
 ** Event List 0 --  **
 5.500        EndMove         {Fred [30.0000, 40.0000] [-20.0000, 0.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 5.5
-velocity: Point2D.Double[-20.0, 0.0] => Point2D.Double[0.0, 0.0]
-currentSpeed: 20.0 => 0.0
-lastStopLocation: Point2D.Double[30.0, 40.0] => Point2D.Double[-30.0, 40.0]
-nextWayPoint: null => WayPoint (50.0, 60.0) 50.0
+startMoveTime: null =&gt; 5.5
+velocity: Point2D.Double[-20.0, 0.0] =&gt; Point2D.Double[0.0, 0.0]
+currentSpeed: 20.0 =&gt; 0.0
+lastStopLocation: Point2D.Double[30.0, 40.0] =&gt; Point2D.Double[-30.0, 40.0]
+nextWayPoint: null =&gt; WayPoint (50.0, 60.0) 50.0
 Time: 5.5000        CurrentEvent: EndMove         {Fred [-30.0000, 40.0000] [0.0000, 0.0000]} [2]
 ** Event List 0 --  **
 5.500        MoveTo         {Point2D.Double[50.0, 60.0], 50.0}
  ** End of Event List --  **
 
-destination: Point2D.Double[-30.0, 40.0] => Point2D.Double[50.0, 60.0]
-currentSpeed: 0.0 => 20.0
+destination: Point2D.Double[-30.0, 40.0] =&gt; Point2D.Double[50.0, 60.0]
+currentSpeed: 0.0 =&gt; 20.0
 Time: 5.5000        CurrentEvent: MoveTo         {Point2D.Double[50.0, 60.0], 50.0} [3]
 ** Event List 0 --  **
 5.500        StartMove         {Fred [-30.0000, 40.0000] [0.0000, 0.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 5.5
-velocity: Point2D.Double[0.0, 0.0] => Point2D.Double[19.40285000290664, 4.85071250072666]
+startMoveTime: null =&gt; 5.5
+velocity: Point2D.Double[0.0, 0.0] =&gt; Point2D.Double[19.40285000290664, 4.85071250072666]
 Time: 5.5000        CurrentEvent: StartMove         {Fred [-30.0000, 40.0000] [19.4029, 4.8507]} [3]
 ** Event List 0 --  **
 9.623        EndMove         {Fred [-30.0000, 40.0000] [19.4029, 4.8507]}
  ** End of Event List --  **
 
-startMoveTime: null => 9.623105625617661
-velocity: Point2D.Double[19.40285000290664, 4.85071250072666] => Point2D.Double[0.0, 0.0]
-currentSpeed: 20.0 => 0.0
-lastStopLocation: Point2D.Double[-30.0, 40.0] => Point2D.Double[50.0, 60.0]
-nextWayPoint: null => null
+startMoveTime: null =&gt; 9.623105625617661
+velocity: Point2D.Double[19.40285000290664, 4.85071250072666] =&gt; Point2D.Double[0.0, 0.0]
+currentSpeed: 20.0 =&gt; 0.0
+lastStopLocation: Point2D.Double[-30.0, 40.0] =&gt; Point2D.Double[50.0, 60.0]
+nextWayPoint: null =&gt; null
 Time: 9.6231        CurrentEvent: EndMove         {Fred [50.0000, 60.0000] [0.0000, 0.0000]} [3]
 ** Event List 0 --  **
 9.623        OrderStop         {Fred [50.0000, 60.0000] [0.0000, 0.0000]}
@@ -126,10 +126,10 @@ Time: 9.6231        CurrentEvent: OrderStop         {Fred [50.0000, 60.0000] [0.
 9.623        Stop         {Fred [50.0000, 60.0000] [0.0000, 0.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 9.623105625617661
+startMoveTime: null =&gt; 9.623105625617661
 Time: 9.6231        CurrentEvent: Stop         {Fred [50.0000, 60.0000] [0.0000, 0.0000]} [1]
 ** Event List 0 --  **
-            << empty >>
+            &lt;&lt; empty &gt;&gt;
  ** End of Event List --  **
 
 Second run:
@@ -138,8 +138,8 @@ Second run:
 0.000        Run
  ** End of Event List -- Starting Simulation **
 
-lastStopLocation: null => Point2D.Double[0.0, 0.0]
-velocity: null => Point2D.Double[0.0, 0.0]
+lastStopLocation: null =&gt; Point2D.Double[0.0, 0.0]
+velocity: null =&gt; Point2D.Double[0.0, 0.0]
 Time: 0.0000        CurrentEvent: Run [1]
 ** Event List 0 --  **
 0.000        Run
@@ -157,79 +157,79 @@ Time: 0.0000        CurrentEvent: RegisterMover         {Fred [0.0000, 0.0000] [
 0.000        Start
  ** End of Event List --  **
 
-nextWayPoint: null => WayPoint (30.0, 40.0) 30.0
+nextWayPoint: null =&gt; WayPoint (30.0, 40.0) 30.0
 Time: 0.0000        CurrentEvent: Start [1]
 ** Event List 0 --  **
 0.000        MoveTo         {Point2D.Double[30.0, 40.0], 30.0}
  ** End of Event List --  **
 
-destination: Point2D.Double[NaN, NaN] => Point2D.Double[30.0, 40.0]
-currentSpeed: 0.0 => 20.0
+destination: Point2D.Double[NaN, NaN] =&gt; Point2D.Double[30.0, 40.0]
+currentSpeed: 0.0 =&gt; 20.0
 Time: 0.0000        CurrentEvent: MoveTo         {Point2D.Double[30.0, 40.0], 30.0} [1]
 ** Event List 0 --  **
 0.000        StartMove         {Fred [0.0000, 0.0000] [0.0000, 0.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 0.0
-velocity: Point2D.Double[0.0, 0.0] => Point2D.Double[12.0, 16.0]
+startMoveTime: null =&gt; 0.0
+velocity: Point2D.Double[0.0, 0.0] =&gt; Point2D.Double[12.0, 16.0]
 Time: 0.0000        CurrentEvent: StartMove         {Fred [0.0000, 0.0000] [12.0000, 16.0000]} [1]
 ** Event List 0 --  **
 2.500        EndMove         {Fred [0.0000, 0.0000] [12.0000, 16.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 2.5
-velocity: Point2D.Double[12.0, 16.0] => Point2D.Double[0.0, 0.0]
-currentSpeed: 20.0 => 0.0
-lastStopLocation: Point2D.Double[0.0, 0.0] => Point2D.Double[30.0, 40.0]
-nextWayPoint: null => WayPoint (-30.0, 40.0) 40.0
+startMoveTime: null =&gt; 2.5
+velocity: Point2D.Double[12.0, 16.0] =&gt; Point2D.Double[0.0, 0.0]
+currentSpeed: 20.0 =&gt; 0.0
+lastStopLocation: Point2D.Double[0.0, 0.0] =&gt; Point2D.Double[30.0, 40.0]
+nextWayPoint: null =&gt; WayPoint (-30.0, 40.0) 40.0
 Time: 2.5000        CurrentEvent: EndMove         {Fred [30.0000, 40.0000] [0.0000, 0.0000]} [1]
 ** Event List 0 --  **
 2.500        MoveTo         {Point2D.Double[-30.0, 40.0], 40.0}
  ** End of Event List --  **
 
-destination: Point2D.Double[30.0, 40.0] => Point2D.Double[-30.0, 40.0]
-currentSpeed: 0.0 => 20.0
+destination: Point2D.Double[30.0, 40.0] =&gt; Point2D.Double[-30.0, 40.0]
+currentSpeed: 0.0 =&gt; 20.0
 Time: 2.5000        CurrentEvent: MoveTo         {Point2D.Double[-30.0, 40.0], 40.0} [2]
 ** Event List 0 --  **
 2.500        StartMove         {Fred [30.0000, 40.0000] [0.0000, 0.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 2.5
-velocity: Point2D.Double[0.0, 0.0] => Point2D.Double[-20.0, 0.0]
+startMoveTime: null =&gt; 2.5
+velocity: Point2D.Double[0.0, 0.0] =&gt; Point2D.Double[-20.0, 0.0]
 Time: 2.5000        CurrentEvent: StartMove         {Fred [30.0000, 40.0000] [-20.0000, 0.0000]} [2]
 ** Event List 0 --  **
 5.500        EndMove         {Fred [30.0000, 40.0000] [-20.0000, 0.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 5.5
-velocity: Point2D.Double[-20.0, 0.0] => Point2D.Double[0.0, 0.0]
-currentSpeed: 20.0 => 0.0
-lastStopLocation: Point2D.Double[30.0, 40.0] => Point2D.Double[-30.0, 40.0]
-nextWayPoint: null => WayPoint (50.0, 60.0) 50.0
+startMoveTime: null =&gt; 5.5
+velocity: Point2D.Double[-20.0, 0.0] =&gt; Point2D.Double[0.0, 0.0]
+currentSpeed: 20.0 =&gt; 0.0
+lastStopLocation: Point2D.Double[30.0, 40.0] =&gt; Point2D.Double[-30.0, 40.0]
+nextWayPoint: null =&gt; WayPoint (50.0, 60.0) 50.0
 Time: 5.5000        CurrentEvent: EndMove         {Fred [-30.0000, 40.0000] [0.0000, 0.0000]} [2]
 ** Event List 0 --  **
 5.500        MoveTo         {Point2D.Double[50.0, 60.0], 50.0}
  ** End of Event List --  **
 
-destination: Point2D.Double[-30.0, 40.0] => Point2D.Double[50.0, 60.0]
-currentSpeed: 0.0 => 20.0
+destination: Point2D.Double[-30.0, 40.0] =&gt; Point2D.Double[50.0, 60.0]
+currentSpeed: 0.0 =&gt; 20.0
 Time: 5.5000        CurrentEvent: MoveTo         {Point2D.Double[50.0, 60.0], 50.0} [3]
 ** Event List 0 --  **
 5.500        StartMove         {Fred [-30.0000, 40.0000] [0.0000, 0.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 5.5
-velocity: Point2D.Double[0.0, 0.0] => Point2D.Double[19.40285000290664, 4.85071250072666]
+startMoveTime: null =&gt; 5.5
+velocity: Point2D.Double[0.0, 0.0] =&gt; Point2D.Double[19.40285000290664, 4.85071250072666]
 Time: 5.5000        CurrentEvent: StartMove         {Fred [-30.0000, 40.0000] [19.4029, 4.8507]} [3]
 ** Event List 0 --  **
 9.623        EndMove         {Fred [-30.0000, 40.0000] [19.4029, 4.8507]}
  ** End of Event List --  **
 
-startMoveTime: null => 9.623105625617661
-velocity: Point2D.Double[19.40285000290664, 4.85071250072666] => Point2D.Double[0.0, 0.0]
-currentSpeed: 20.0 => 0.0
-lastStopLocation: Point2D.Double[-30.0, 40.0] => Point2D.Double[50.0, 60.0]
-nextWayPoint: null => null
+startMoveTime: null =&gt; 9.623105625617661
+velocity: Point2D.Double[19.40285000290664, 4.85071250072666] =&gt; Point2D.Double[0.0, 0.0]
+currentSpeed: 20.0 =&gt; 0.0
+lastStopLocation: Point2D.Double[-30.0, 40.0] =&gt; Point2D.Double[50.0, 60.0]
+nextWayPoint: null =&gt; null
 Time: 9.6231        CurrentEvent: EndMove         {Fred [50.0000, 60.0000] [0.0000, 0.0000]} [3]
 ** Event List 0 --  **
 9.623        OrderStop         {Fred [50.0000, 60.0000] [0.0000, 0.0000]}
@@ -240,10 +240,10 @@ Time: 9.6231        CurrentEvent: OrderStop         {Fred [50.0000, 60.0000] [0.
 9.623        Stop         {Fred [50.0000, 60.0000] [0.0000, 0.0000]}
  ** End of Event List --  **
 
-startMoveTime: null => 9.623105625617661
+startMoveTime: null =&gt; 9.623105625617661
 Time: 9.6231        CurrentEvent: Stop         {Fred [50.0000, 60.0000] [0.0000, 0.0000]} [1]
 ** Event List 0 --  **
-            << empty >>
+            &lt;&lt; empty &gt;&gt;
  ** End of Event List --  ** </pre>
  * @version $Id: TestPathMoverManager.java 82 2009-11-20 19:27:18Z ahbuss $
  * @author ahbuss

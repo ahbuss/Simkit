@@ -1,8 +1,8 @@
 package simkit.random;
 
 /**
- * <
- * p>
+ * 
+ * <p>
  * Generates random variates having an arbitrary discrete distribution with
  * integer values. The input is given by a set of values and a set of either
  * frequencies or frequencies.

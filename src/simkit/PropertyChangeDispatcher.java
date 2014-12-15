@@ -32,14 +32,14 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
     /** 
      * Holds references to setter methods keyed by property name, each
      * setter map keyed by a Class reference
-     * Signature of map is <Class, HashMap<String, Method>>
+     * Signature of map is &lt;Class, HashMap&lt;String, Method&gt;&gt;
      */
     private static Map<Class, Map<String, Method>> allSetters;
     
     /** 
      * Holds references to getter methods keyed by property name, each
      * setter map keyed by a Class reference
-     * Signature of map is <Class, HashMap<String, Method>>
+     * Signature of map is &lt;Class, HashMap&lt;String, Method&gt;&gt;
      */
     private static Map<Class, Map<String, Method>> allGetters;
     
@@ -55,19 +55,19 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
     
     /**
      * Contains properties to be added on-the-fly.  Signature of Map is
-     * <String, Object>
+     * &lt;String, Object&gt;
      */
     private Map<String, Object> addedProperties;
     
     /**
      * Local reference to setters for the class ofthis instance.  Signature
-     * is <String, Method>
+     * is &lt;String, Method&gt;
      */
     private Map<String, Method> setters;
     
     /**
      * Local reference to getters for the class ofthis instance.  Signature
-     * is <String, Method>
+     * is &lt;String, Method&gt;
      */
     private Map<String, Method> getters;
     

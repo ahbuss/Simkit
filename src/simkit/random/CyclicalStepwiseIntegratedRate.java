@@ -18,7 +18,7 @@ public class CyclicalStepwiseIntegratedRate{
     /**
      * Rate rates[i] holds in time interval (times[i], times[i+1]).  Thus,
      * there should be one more time than rate.
-     * @param rates Constant rates in time intervals; must be >= 0.0
+     * @param rates Constant rates in time intervals; must be &gt;= 0.0
      * @param times Time epochs over which the corresponding rates will hold.
      *          These values must be inclreasing, and times[0] = 0.0.
      */

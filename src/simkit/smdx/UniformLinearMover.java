@@ -266,7 +266,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
      * Move to the desired destination at the desired speed.  If the
      * requested speed is larger than maxSpeed for the Mover, it will
      * move to the destination at the maxSpeed.  If the destination
-     * is null or the speed is <= 0.0, it returns without comment or
+     * is null or the speed is &le; 0.0, it returns without comment or
      * error.
      * @param destination
      * @param cruisingSpeed

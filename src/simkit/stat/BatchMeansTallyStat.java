@@ -76,7 +76,7 @@ public class BatchMeansTallyStat extends SimpleStatsTally {
      * The measure is assumed to be in "steady-state" after this many
      * observations
      * @param truncationPoint the truncation point
-     * @throws IllegalArgumentException if truncationPoint < 0
+     * @throws IllegalArgumentException if truncationPoint &lt; 0
      */
     public void setTruncationPoint(int truncationPoint) {
         if (truncationPoint < 0) {
@@ -94,7 +94,7 @@ public class BatchMeansTallyStat extends SimpleStatsTally {
     
     /**
      * @param batchSize size of each batch after truncation
-     * @throws IllegalArgumentException if batchSize <= 0
+     * @throws IllegalArgumentException if batchSize &lt;= 0
      */
     public void setBatchSize(int batchSize) {
         if (batchSize <= 0) {

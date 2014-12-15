@@ -54,23 +54,23 @@ package simkit.random;
  *  Tausworthe generator.  The periods of these two generators are
  *  relatively prime, so the period of the combined generator is the
  *  product of the two, approximately 2^62.  This should give ~2^32
- *  usable numbers before being caught by Heath & Sanchez's birthday
+ *  usable numbers before being caught by Heath &amp; Sanchez's birthday
  *  test, as opposed to ~2^17 usable numbers if a 31 bit LCG or
  *  Tausworthe is used by itself.
- *  <p/>
+ *  <p>
  *  RNG - a Random Number Generator class for Discrete Event Simulation
  *  Copyright (C) 1999  Paul J. Sanchez
- *  <p/>
+ *  <p>
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
  *  published by the Free Software Foundation; either version 2 of
  *  the License, or (at your option) any later version.
- *  <p/>
+ *  <p>
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *  General Public License for more details. 
- *  <p/>
+ *  <p>
  *  A copy of the GNU General Public License can be found at
  *    http://www.fsf.org/copyleft/gpl.html
  *  Alternatively, you can get a copy by writing to the Free Software

@@ -120,8 +120,8 @@ public class UnitTestEventList extends EventList {
     }
     
     /**
-     * @throws InvalidSchedulingException if argument < current simTime
-     * @throws InvalidSchedulingException if argument > time of last scheduled event
+     * @throws InvalidSchedulingException if argument &lt; current simTime
+     * @throws InvalidSchedulingException if argument &gt; time of last scheduled event
      * @param simTime the desired simTime
      */
     public synchronized void setSimTime(double simTime) {

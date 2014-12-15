@@ -52,17 +52,17 @@ import simkit.stat.SimpleStatsTally;
  * 
  * <p><code>
  * this.addPropertyChangeListener(somePropertychangeListener);
- * </code><br/>
- * you say<br/>
+ * </code><br>
+ * you say<br>
  * <code>
  * propertyChangeSupport.addPropertyChangeListener(somePropertychangeListener);
- * </code><br/></p>
+ * </code><br></p>
  * 
  * <p>Later, if you want to fire a PropertyChange, you invoke the firing method
  * on <code>propertyChangeSupport</code></p>
  * 
  * <p><code>
- * propertyChangeSupport.firePropertyChange(<args>);
+ * propertyChangeSupport.firePropertyChange(&lt;args&gt;);
  * </code></p>
  *
  * @version $Id$

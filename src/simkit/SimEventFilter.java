@@ -8,7 +8,7 @@ import java.util.Set;
 /** <P>This class filters events by name.  A list of the names of
  * filtered events is kept, and selected events dispatched directly
  * to listeners to an instance of this class.
- * <P>If <CODE>allButThese</CODE>code> is false (default),
+ * <P>If <CODE>allButThese</CODE> is false (default),
  * then any event whose name is on the list will be passed
  * through.  If <CODE>allButThese</CODE> is true, then every
  * event <I>except</I> the ones on the list is passed through.

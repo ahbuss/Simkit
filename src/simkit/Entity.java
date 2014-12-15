@@ -146,7 +146,7 @@ public class Entity implements Named, Comparable<Entity> {
     }
 
     /**
-     * @return Name.id [<creationTime>, <timeStamp>]
+     * @return Name.id [&lt;creationTime&gt;, &lt;timeStamp&gt;]
      */
     public String toString() {
         return getName() + '.' + getID() + ' ' + '[' + FORM.format(getCreationTime()) + ',' +

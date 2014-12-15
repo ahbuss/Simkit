@@ -20,7 +20,7 @@ import simkit.SimEntity;
 import simkit.SimEntityBase;
 
 /**
- * A referee to manage interactions between Sensors and Movers (targets).<P/>
+ * A referee to manage interactions between Sensors and Movers (targets).
  * Usage:<UL>
  * <LI>First add a {@link SensorTargetMediator} 
  * to the {@link SensorTargetMediatorFactory} for each combination
@@ -76,12 +76,12 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 /**
 * Indicates whether the Mover is in range of the Sensor. The
 * value will be changed by the EnterRange and ExitRange events.
-* Map<Sensor, Map<Mover, Boolean>>
+* Map&lt;Sensor, Map&lt;Mover, Boolean&gt;&gt;
 **/
     protected Map<Sensor, Map<Mover, Boolean>> inRangeMap;
     
 /**
-* If true, all entities will be unregistered if <CODE>reset<CODE/>
+* If true, all entities will be unregistered if <CODE>reset</CODE>
 * is called.
 * @see #reset()
 **/
@@ -420,14 +420,14 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
     
 /**
-* If true, all entities will be unregistered if <CODE>reset<CODE/>
+* If true, all entities will be unregistered if <CODE>reset</CODE>
 * is called.
 * @see #reset()
 **/
     public void setClearOnReset(boolean b) { clearOnReset = b; }
     
 /**
-* If true, all entities will be unregistered if <CODE>reset<CODE/>
+* If true, all entities will be unregistered if <CODE>reset</CODE>
 * is called.
 * @see #reset()
 **/

@@ -38,7 +38,7 @@ public class TruncatingSimpleStatsTally extends SimpleStatsTally {
     public int getTruncationPoint() { return truncationPoint; }
     
     /**
-     * @throws IllegalArgumentException if truncationPoint < 0
+     * @throws IllegalArgumentException if truncationPoint &lt; 0
      * @param truncationPoint Truncation point
      */
     public void setTruncationPoint(int truncationPoint) {

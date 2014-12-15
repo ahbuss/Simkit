@@ -293,7 +293,7 @@ public interface BasicEventList {
     public void addIgnoreOnDump(String eventName);
 
     /**
-     * Events of this name now <I>will</I>i> be printed in verbose mode.
+     * Events of this name now <I>will</I> be printed in verbose mode.
      *
      * @param eventName Event Name
      */

@@ -6,7 +6,7 @@ import simkit.PropertyChangeSource;
 /**
 * A SimEntity implementing this interface will be able to be displayed in the
 * Simkit Viewer. 
-* <br/>This interface is intended to allow for additional optional properties
+* <br>This interface is intended to allow for additional optional properties
 * in additional to those specified by the setters and getters. An example of
 * these properties would be damage state and other things that might be useful
 * for determining the correct symbol to display for the entity, but that

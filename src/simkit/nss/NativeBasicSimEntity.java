@@ -14,7 +14,7 @@ import simkit.SimEvent;
  * <p>The header file simkit_nss_NativeBasicSimEntity.h can be generated
  * by the call
  * <pre>
- *    > javah simkit.nss.NativeBasicSimEntity
+ *     javah simkit.nss.NativeBasicSimEntity
  * </pre>
  * from the command line, where the current working directory is one level 
  * above the simkit folder.

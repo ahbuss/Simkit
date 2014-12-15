@@ -6,7 +6,7 @@ package simkit.random;
 /**
  *  A simple first order auto regressive AR(1) process.
  *  The next value of the AR1Variate is alpha * last value + random error.
- *  <br/>The distribution of the random error is N(0,1).
+ *  <br>The distribution of the random error is N(0,1).
  *
  *  @author  Arnold Buss
  *  @version $Id$

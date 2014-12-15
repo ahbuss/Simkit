@@ -46,12 +46,11 @@ public class Misc {
 
 /**
 * Returns the method name followed by the class names of the arguments. 
-* Only works for <CODE>public void<CODE/> methods.
+* Only works for <CODE>public void</CODE> methods.
 * @param theClass The Class that contains the method.
 * @param name The name of the method.
 * @param args An array containing the arguments for the method.
 * @return The method name followed by the classes of the arguments.
-* @throws NoSuchMethodException If the method doesn't exist or isn't public.
 **/    
     // covered by unit test JavaReflectionTest
     public static String getFullMethodName(Class<?> theClass, String name, Object[] args) {

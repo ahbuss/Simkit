@@ -12,10 +12,10 @@ public class StudentT {
      * Based on Hill, G.W., "Algorithm 396 Student T Quantiles,"
      * <i>Communications of the ACM</i>, Vol 13, No. 10, October 1970.
      * 
-     * @throws IllegalArgumentException if df <= 0
+     * @throws IllegalArgumentException if df &le; 0
      * @param p desired percentile
      * @param df degrees of freedom
-     * @return x such that Pr{X < x} = p for X ~ Student T(df)
+     * @return x such that Pr{X &lt; x} = p for X ~ Student T(df)
      */
     public static double getQuantile(double p, int df) {
         double quantile = Double.NaN;
@@ -69,15 +69,15 @@ public class StudentT {
     }
 
     /**
-     * Based on Abramawitz & Stegun, <i>Handbook of Mathematical Functions</i>,
+     * Based on Abramawitz &amp; Stegun, <i>Handbook of Mathematical Functions</i>,
      * 26.7.5, p. 949.
      *
      * Not as accurate as getQuantile(), based on Hill's Algorithm 396.
      * 
-     * @throws IllegalArgumentException if df <= 0
+     * @throws IllegalArgumentException if df &le; 0
      * @param p desired percentile
      * @param df degrees of freedom
-     * @return x such that Pr{X < x} = p for X ~ Student T(df)
+     * @return x such that Pr{X &lt; x} = p for X ~ Student T(df)
      */
     public static double getQuantile2(double p, int df) {
         double quantile = Double.NaN;

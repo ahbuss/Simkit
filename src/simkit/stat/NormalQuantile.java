@@ -50,12 +50,12 @@ public class NormalQuantile {
     }
 
     /**
-     * Based on Beasley & Springer, "Algorithm AS 111: The Percentage Points of 
+     * Based on Beasley &amp; Springer, "Algorithm AS 111: The Percentage Points of 
      * the Normal Distribution," <i>Journal of the Royal Statistical Society.
      * Series C (Applied Statistics)</i>. Vol. 26, No 1.
      * 
      * @param p Desired probability
-     * @return x such that Pr{Z < x} = p
+     * @return x such that Pr{Z &lt; x} = p
      */
     public static double getQuantile(double p) {
         double quantile = Double.NaN;
@@ -84,13 +84,13 @@ public class NormalQuantile {
     }
 
     /**
-     * Based on Abramawitz & Stegun, <i>Handbook of Mathematical Functions</i>,
+     * Based on Abramawitz &amp; Stegun, <i>Handbook of Mathematical Functions</i>,
      * 26.2.23, p. 933.
      * 
      * Not as accurate as getQuantile() using Algorithm AS 111.
      * 
      * @param p Desired probability
-     * @return x such that Pr{Z < x} = p
+     * @return x such that Pr{Z &lt; x} = p
      */
     public static double getQuantile2(double p) {
         double quantile = Double.NaN;

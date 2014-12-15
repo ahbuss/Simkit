@@ -9,7 +9,7 @@ import java.util.WeakHashMap;
  * The "specifications" of each order are as generic as possible:
  * String (name of class), Object[] (parameters), long (seed),
  * RandomNumber (instance of supporting Un(0,1) generator).
- * <P/>The default supporting RandomNumber is determined by the implementation
+ * <P>The default supporting RandomNumber is determined by the implementation
  * of the RandomVector. In most cases it is <CODE>Congruential</CODE>.
  * @author Arnold Buss
  * @version $Id$

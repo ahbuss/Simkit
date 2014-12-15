@@ -6,7 +6,7 @@ import simkit.util.Math64;
  * Acceptance/Rejection method
  * Parameterized as in Law and Kelton, so that mean = &alpha;&beta;
  * and variance = &alpha;&beta;<sup>2</sup> and density:<br>
- * <i>f(x) = &beta;<sup>&alpha;</sup>x<sup>-(&alpha;+1)</sup>e<sup>-&beta;x</sup>/&Gamma;(&alpha;), x > 0</i>
+ * <i>f(x) = &beta;<sup>&alpha;</sup>x<sup>-(&alpha;+1)</sup>e<sup>-&beta;x</sup>/&Gamma;(&alpha;), x &gt; 0</i>
  * (0, otherwise)
  * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
@@ -171,7 +171,7 @@ public class Gamma_64Variate extends RandomVariateBase {
     
     /**
      * Sets the value of Alpha. Warning: Does not update the pre-calculated values.
-     * @throws IllegalArgumentExcption If alpha is not positive.
+     * @throws IllegalArgumentException If alpha is not positive.
      **/
     public void setAlpha(double a) {
         if ( a > 0.0) {
@@ -186,7 +186,7 @@ public class Gamma_64Variate extends RandomVariateBase {
     /**
      * Sets the value of Beta. Warning: Does not update the pre-calculated values
      * use setbeta to cause recalculation to occur.
-     * @throws IllegalArgumentExcption If beta is not positive.
+     * @throws IllegalArgumentException If beta is not positive.
      **/
     public void setBeta(double b) {
         if ( b > 0.0) {

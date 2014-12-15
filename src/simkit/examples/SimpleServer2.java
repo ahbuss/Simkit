@@ -6,13 +6,13 @@ import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 
 /**
- * Multiple server queue using BasicSimEntity as superclass. This inplementation
+ * Multiple server queue using BasicSimEntity as superclass. This implementation
  * does not generate its own arrivals. It listens to another SimEntity's arrival and
  * endService events which cause an arrival in this SimpleServer2.
  *  <p>This approach
  * does not use reflection, but implicitly relies on the moral equivalent of a "switch"
  * statement to decide which event to execute when it is called back from Schedule (the
- * handleSimEvent() method).<p/>
+ * handleSimEvent() method).</p>
  * @author Arnold Buss
  * @version $Id$
  */

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  *  @author Arnold Buss
  *  @author K. A. Stork
- *  @author John Ruck, R&A
+ *  @author John Ruck, R&amp;A
  *  @version $Id$
  *
  **/

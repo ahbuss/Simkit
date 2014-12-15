@@ -14,7 +14,7 @@ import java.util.*;
 public class Simtrospector {
 
 /**
-* The list of prefixes that indicate an event method in addition to <code>prefix<code/>
+* The list of prefixes that indicate an event method in addition to <code>prefix</code>
 **/
     private static Set<String> additionalPrefixes;
 
@@ -31,7 +31,7 @@ public class Simtrospector {
 /**
 * Returns a Hashtable containing all of the public event methods for the given
 * Class. Event methods are methods that begin with prefixes as determined by
-* <code>setPrefix, addPrefix<code/> and other similar methods. The default prefix
+* <code>setPrefix, addPrefix</code> and other similar methods. The default prefix
 * is "do"
 **/
     public static Map<String, Method> getEventMethods(Class c) {
@@ -107,7 +107,7 @@ public class Simtrospector {
 
 /**
 * Returns a String containing the names of the given Classes separated by 
-* commas and enclosed in parenthesis.</br>
+* commas and enclosed in parenthesis.<br>
 * For example: (Class1, Class2,)
 **/
     public static String createParameterKey(Class[] c) {

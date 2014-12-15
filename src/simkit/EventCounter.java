@@ -12,7 +12,7 @@ import java.util.Map;
  * Internally, the Map stores the key as the name of the event and the value 
  * as an <CODE>int[]</CODE> array of length 1.  This avoids the immutability 
  * problem with Java's primitive wrapper classes, in which the value must be 
- * extracted and a new object created.</i>
+ * extracted and a new object created.
  * <p>The counts are built up on the fly.  When a new event is heard, a new
  * entry is created in the Map.  If an old event is heard, the <CODE>int[]</CODE>
  * array is retreived from the Map and the the first (and only) value incremented.

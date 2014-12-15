@@ -39,7 +39,7 @@ public class LogNormalVariate extends NormalVariate {
      * @return The mean and standard deviation for the underlying Normal
      *      distribution whose exponential transformation will result in
      *      these values.  They are in order: [mean, std dev]
-     * @throws IllegalArgumentException if mean < 0.0
+     * @throws IllegalArgumentException if mean &lt; 0.0
      */
     public static double[] getNormalParameters(double mean, double stdDeviation) {
         if (mean <= 0.0) {

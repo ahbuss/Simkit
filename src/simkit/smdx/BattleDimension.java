@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.logging.*;
 /**
-* Represents the battle dimension or operating medium of an object.<br/>
+* Represents the battle dimension or operating medium of an object.<br>
 * Valid values are:<ul>
 * <li>Space</li>
 * <li>Air</li>
@@ -13,9 +13,9 @@ import java.util.logging.*;
 * <li>Surface</li>
 * <li>Subsurface</li>
 * <li>SOF</li>
-* </ul><br/>
+* </ul><br>
 * The BattleDimension is used to help determine which Mil-Std-2525 symbol to display.
-* <br/>Note: This class is currently not implemented as a Java 1.5 enum, to allow use of 
+* <br>Note: This class is currently not implemented as a Java 1.5 enum, to allow use of 
 * Java 1.4 JVM's.
 * 
 * @author John Ruck (Rolands and Associates Corporation)

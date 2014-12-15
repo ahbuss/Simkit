@@ -24,7 +24,7 @@ package simkit.random;
  *  will produce numbers from zero to the max value (2<sup>32</sup>-1 or 4294967295L) 
  * inclusive.  </p>
  * <p>
- * Original C++ implementation by Metron, Incorporated.<br/>
+ * Original C++ implementation by Metron, Incorporated.<br>
  * Translated to Java by John Ruck, Rolands and Associates Corporation.</p>
  * @version $Id$
  */

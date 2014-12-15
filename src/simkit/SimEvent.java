@@ -468,7 +468,7 @@ public class SimEvent implements Comparable {
 * is a higher priority.) <br>
 * 4. The SimTime the SimEvents were instantiated. (An earlier creation time
 * is a higher priority.) <br>
-* 5. The ID number of the event. (A lower ID number is a higher priority.) <BR/>
+* 5. The ID number of the event. (A lower ID number is a higher priority.) <BR>
 **/
 
     public int compareTo(Object snd) {

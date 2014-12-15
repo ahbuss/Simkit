@@ -119,7 +119,7 @@ public class MultiStat implements PropertyChangeListener {
     
 /**
 * Returns a copy of the SimpleStatsTally for the given property name. Returns
-* <code>null<code/> if the property cannot be found.
+* <code>null</code> if the property cannot be found.
 **/
     public SimpleStatsTally getTallyStats(String name) {
         SimpleStatsTally sst = tallyStats.get(name);
@@ -143,7 +143,7 @@ public class MultiStat implements PropertyChangeListener {
     
 /**
 * Returns a copy of the SimpleStatsTimeVarying for the given property name.
-* Returns <code>null<code/> if the property cannot be found.
+* Returns <code>null</code> if the property cannot be found.
 **/
     public SimpleStatsTimeVarying getTimeVaryingStats(String name) {
         SimpleStatsTimeVarying sst = timeVaryingStats.get(name);
