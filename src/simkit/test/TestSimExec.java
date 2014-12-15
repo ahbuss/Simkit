@@ -1,6 +1,10 @@
 package simkit.test;
-import simkit.*;
-import simkit.util.*;
+
+import simkit.Schedule;
+import simkit.SimExec;
+import simkit.examples.ArrivalProcess;
+import simkit.random.RandomVariateFactory;
+
 /**
  *
  * @author  ahbuss
@@ -8,12 +12,20 @@ import simkit.util.*;
 public class TestSimExec {
 
     public static void main(String[] args) {
+        
+        ArrivalProcess arrivalProcess = new ArrivalProcess(
+            RandomVariateFactory.getInstance("Exponential", 3.2));
+        
         SimExec simExec = new SimExec();
-        simExec.setSingleStep(true);
-        simExec.setStopTime(1000.0);
+        simExec.setSingleStep(false);
+        simExec.setStopTime(50.0);
+        simExec.setVerbose(true);
+        simExec.setNumberRuns(2);
         System.out.println(simExec);
         
-        javax.swing.SwingUtilities.invokeLater(simExec);
+        System.out.println(Schedule.getReruns());
+        
+        new Thread(simExec).start();
     }
     
 }

@@ -28,7 +28,8 @@ public class TestNegativeBinomial {
         double var2 = r * p / (Math.pow(1.0 - p, 2));
         double stdDev2 = sqrt(var2);
 
-        System.out.printf("(adjusted) mean = %.3f (adjusted) std dev = %.3f%n%n",
+        System.out.println("Testing Negative Binomial Distribution:");
+        System.out.printf("(adjusted) mean = %.3f (adjusted) std dev = %.3f%n",
                 mean, stdDev);
 //        System.out.printf("mean2=%.3f, std2=%.3f%n", mean2, stdDev2);
         RandomVariate rv = RandomVariateFactory.getInstance("NegativeBinomial", r, p);
@@ -45,7 +46,7 @@ public class TestNegativeBinomial {
         System.out.printf("mean = %.3f (desired = %.3f), std dev = %.3f"
                 + " (desired = %.3f)%n",
                 stats.getMean(), mean, stats.getStandardDeviation(), stdDev);
-        System.out.printf("Exact mean =%.3f exact std dev = %.3f%n", 
+        System.out.printf("Exact mean = %.3f exact std dev = %.3f%n", 
                 r * p / (1.0 - p), sqrt(r * p /pow(1.0 - p, 2)));
         System.out.println();
         p = mean / (mean + r);
@@ -61,7 +62,7 @@ public class TestNegativeBinomial {
         System.out.printf("mean = %.3f (desired = %.3f), std dev = %.3f"
                 + " (desired = %.3f)%n",
                 stats.getMean(), mean, stats.getStandardDeviation(), stdDev);
-        System.out.printf("Exact mean =%.3f exact std dev = %.3f%n", 
+        System.out.printf("Exact mean = %.3f exact std dev = %.3f%n", 
                 r * p / (1.0 - p), sqrt(r * p /pow(1.0 - p, 2)));        System.out.println("\nWith floating point r:");
 
         p = 1.0 - mean / pow(stdDev, 2);
@@ -76,12 +77,13 @@ public class TestNegativeBinomial {
         System.out.printf("mean = %.3f (desired = %.3f), std dev = %.3f"
                 + " (desired = %.3f)%n",
                 stats.getMean(), mean, stats.getStandardDeviation(), stdDev);
-
-        rv.setParameters(round(r2), p);
+        System.out.printf("Exact mean = %.3f exact std dev = %.3f%n", 
+                r2 * p / (1.0 - p), sqrt(r2 * p /pow(1.0 - p, 2)));
 
         if (true) {
             return;
         }
+        rv.setParameters(round(r2), p);
 
         r = 2;
         p = 0.6637;
