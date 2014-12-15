@@ -17,10 +17,17 @@ import java.util.logging.Logger;
 /**
  * Factory for creating <CODE>RandomVariate</CODE> instances from "orders".
  * The "specifications" of each order are as generic as possible:
- * String (name of class), Object[] (parameters), long (seed),
- * RandomNumber (instance of supporting Un(0,1) generator).
- * <P>The default supporting RandomNumber is determined by the implementation
- * of the RandomVariate. In most cases it is <CODE>Congruential</CODE>.
+ * <code>String</code> (name of class), <code>Object...</code> (parameters), 
+ * <code>long</code> (seed), <code>long[]</code> (seeds),
+ * <code>RandomNumber</code> (instance of supporting Un(0,1) generator).
+ * <P>The default supporting <code>RandomNumber</code> may be determined by the 
+ * implementation of the <code>RandomVariate</code>, but a "well-behaved"
+ * implementation uses <code>DEFAULT_RNG</code> by default. This is done by
+ * simply having <code>setRandomNumber(RandomNumber)</code> 
+ * (required by <code>RandomVariate</code> interface) that is a simple pass-through.
+ * <p>The (current) <code>DEFAULT_RNG</code> is a Mersenne Twister, but may be 
+ * changed by a static call to <code>setDefaultRandomNumber(RandomNumber)</code>
+ * prior to any <code>RandomVariate</code> "orders."
  * 
  * @author Arnold Buss
  * @version $Id$
