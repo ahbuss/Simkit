@@ -56,8 +56,7 @@ public class JavaReflectionTest extends TestCase {
                 "foo", arg);
 //        System.out.println(name);
         assertEquals(
-                "simkit.JavaReflectionTest$SomethingToReflectUpon.foo" +
-                "(java.lang.Double,java.lang.Integer)", name);
+                "simkit.JavaReflectionTest$SomethingToReflectUpon.foo(java.lang.Double,java.lang.Integer)", name);
         try {
             name = Misc.getFullMethodName(SomethingToReflectUpon.class, "bar", arg);
 //            System.out.println(name);
@@ -110,7 +109,7 @@ public class JavaReflectionTest extends TestCase {
 
         Class<?> intClass = int.class;
         int x = 1;
-        Integer y = new Integer(x);
+        Integer y = x;
 
         assertFalse(intClass.isAssignableFrom(y.getClass()));
 
