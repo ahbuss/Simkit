@@ -1,49 +1,47 @@
 package simkit.random;
 
 /**
-* Generates continuous uniform random variates.
-*
+ * Generates continuous uniform random variates.
+ * 
 * @version $Id$
-**/
+*
+ */
 public class UniformVariate extends RandomVariateBase {
-    
-/**
-* Not currently used.
-**/
-    private static final double DEFAULT_LOW = 0.0;
-    
-/**
-* Not currently used.
-**/
-    private static final double DEFAULT_HIGH = 1.0;
-    
-/**
-* The lowest possible value.
-**/
+
+    /**
+     * The lowest possible value.
+     */
     private double minimum;
-    
-/**
-* The highest possible value.
-**/
+
+    /**
+     * The highest possible value.
+     */
     private double maximum;
 
-/**
-* The difference between the maximum and minimum values. (Precalculated)
-**/
+    /**
+     * The difference between the maximum and minimum values. (Precalculated)
+     */
     private double range;
-    
-/**
-* Creates a new UniformVariate, parameters must be set prior to use.
-**/
+
+    /**
+     * Creates a new UniformVariate, parameters must be set prior to use.
+*
+     */
     public UniformVariate() {
+        this.minimum = 0.0;
+        this.maximum = 1.0;
     }
-    
-/**
-* Sets the minimum and maximum values.
-* @param params A 2 element array containing the minimum and the maximum as Numbers.
-* @throws IllegalArgumentException If the array doesn't contain exactly 2 elements, if 
- the elements are not Numbers, or if the minimum is larger than the maximum.
-**/
+
+    /**
+     * Sets the minimum and maximum values.
+     *
+     * @param params A 2 element array containing the minimum and the maximum as
+     * Numbers.
+     * @throws IllegalArgumentException If the array doesn't contain exactly 2
+     * elements, if the elements are not Numbers, or if the minimum is larger
+     * than the maximum.
+*
+     */
     @Override
     public void setParameters(Object... params) {
         double newLow = 0.0;
@@ -52,65 +50,70 @@ public class UniformVariate extends RandomVariateBase {
             throw new IllegalArgumentException("Requires 2 elements, supplied " + params.length);
         }
         if (params[0] instanceof Number && params[1] instanceof Number) {
-           newLow = ((Number)params[0]).doubleValue();
-           newHigh = ((Number)params[1]).doubleValue();
+            this.setMinimum(((Number) params[0]).doubleValue());
+            this.setMaximum(((Number) params[1]).doubleValue());
         } else {
-           throw new IllegalArgumentException("The array elements must be Numbers (" + 
-                     params[0].getClass().getName() + ", " + 
-                     params[1].getClass().getName() + ") supplied. ");
+            throw new IllegalArgumentException("The array elements must be Numbers ("
+                    + params[0].getClass().getName() + ", "
+                    + params[1].getClass().getName() + ") supplied. ");
         }
-        
-        if (newLow > newHigh) {
-            throw new IllegalArgumentException("Uniform parameters must have low < high: (" +
-            newLow + ", " + newHigh + ")");
+
+        if (getMinimum() > getMaximum()) {
+            throw new IllegalArgumentException("Uniform parameters must have low < high: ("
+                    + newLow + ", " + newHigh + ")");
         }
-        this.minimum = newLow;
-        this.maximum = newHigh;
         range = maximum - minimum;
     }
+
     /**
-     * 
-     * @return  a 2 element array containing the minimum and maximum limits.
+     *
+     * @return a 2 element array containing the minimum and maximum limits.
      */
     @Override
     public Object[] getParameters() {
-        return new Object[] {new Double(minimum), new Double(maximum)};
+        return new Object[]{getMinimum(), getMaximum()};
     }
-    
-//javadoc inherited.
+
     @Override
     public double generate() {
         return minimum + range * rng.draw();
     }
-    
-/**
-* Sets the minimum value. Causes internal precalculated values to be updated.
-**/
-    public void setMinimum(double min) {
-        minimum = min;
+
+    /**
+     * @param minimum the minimum value. Causes internal precalculated values to be
+     * updated.
+     */
+    public void setMinimum(double minimum) {
+        this.minimum = minimum;
         range = maximum - minimum;
     }
-    
-/**
-* Returns the minimum value.
-**/
-    public double getMinimum() { return minimum; }
-    
-/**
-* Sets the maximum value. Causes internal precalculated values to be updated.
-**/
-    public void setMaximum(double max) {
-        maximum = max;
+
+    /**
+     * @return the minimum value
+     */
+    public double getMinimum() {
+        return minimum;
+    }
+
+    /**
+     * @param maximum the maximum value. Causes internal precalculated values to be
+     * updated.
+     */
+    public void setMaximum(double maximum) {
+        this.maximum = maximum;
         range = maximum - minimum;
     }
-    
+
     public double getMaximum() {
         return maximum;
     }
 
-/**
-* Returns a String containing the name of this distribution with the minimum and maximum 
- parameters.
-**/
-    public String toString() { return "Uniform (" + minimum + ", " + maximum + ")"; }
+    /**
+     * @return  a String containing the name of this distribution with the
+     * minimum and maximum parameters.
+     */
+    @Override
+    public String toString() {
+        return String.format("Uniform (%.3f, %.3f)", getMinimum(), getMaximum());
+    }
 }

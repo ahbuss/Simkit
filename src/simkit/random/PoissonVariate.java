@@ -2,74 +2,69 @@ package simkit.random;
 
 /**
  * Generates random variates having a Poisson distribution.
- * @author  Arnold Buss
+ *
+ * @author Arnold Buss
  * @version $Id$
  */
-public class PoissonVariate implements DiscreteRandomVariate {
-    
-/**
-* The instance of the supporting RandomNumber.
-**/
+public class PoissonVariate extends RandomVariateBase implements DiscreteRandomVariate {
+
+    /**
+     * The instance of the supporting RandomNumber.
+*
+     */
     protected RandomNumber rng;
 
-/**
-* The desired mean of this PoissonVariate.
-**/
+    /**
+     * The desired mean of this PoissonVariate.
+*
+     */
     protected double mean;
 
-/**
-* A precalculated value to aid in generation. e<sup>-mean</sup>
-**/
-    protected double a;
-    
-    /** 
-      * Creates new PoissonVariate; the mean must be set prior to use.
-    */
-    public PoissonVariate() {
-        setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
-    }
-    
     /**
-     * Returns the instance of the supporting RandomNumber
-     * @return The underlying RandomNumber instance
+     * A precalculated value to aid in generation. e<sup>-mean</sup>
+*
      */
-    public RandomNumber getRandomNumber() { return rng; }
-    
-    /** Sets the supporting RandomNumber object
-     * @param rng The RandomNumber instance supporting the generating algorithm
+    protected double a;
+
+    /**
+     * Creates new PoissonVariate; the mean must be set prior to use.
      */
-    public void setRandomNumber(RandomNumber rng) { this.rng = rng; }
-    
+    public PoissonVariate() {
+    }
+
     /**
      * Returns a single element array containing the mean as a Double.
      */
+    @Override
     public Object[] getParameters() {
-        return new Object[] { new Double(mean) };
+        return new Object[]{getMean()};
     }
-    
+
     /**
-      * Sets the desired mean of the RadomVariate.
-      * @param params A single element array containing the mean as a Number.
-      * @throws IllegalArgumentException If the array does not have exactly 1 element,
-      * if the element is not a Number, or if the mean if not positive.
+     * Sets the desired mean of the RadomVariate.
+     *
+     * @param params A single element array containing the mean as a Number.
+     * @throws IllegalArgumentException If the array does not have exactly 1
+     * element, if the element is not a Number, or if the mean if not positive.
      */
+    @Override
     public void setParameters(Object... params) {
-        if (params == null) { 
-            throw new NullPointerException(); 
-        }
-        else if (params.length != 1) {
+        if (params == null) {
+            throw new NullPointerException();
+        } else if (params.length != 1) {
             throw new IllegalArgumentException("PoissonVariate needs exatly 1 parameter: " + params.length);
         }
         if (params[0] instanceof Number) {
-           setMean(((Number) params[0]).doubleValue());
+            setMean(((Number) params[0]).doubleValue());
         } else {
-           throw new IllegalArgumentException("The parameter must be a Number.");
+            throw new IllegalArgumentException("The parameter must be a Number.");
         }
     }
-    
-/**
-* Generates the next value as an <code>int</code>.
-**/
+
+    /**
+     * @return the next value as an <code>int</code>.
+     */
+    @Override
     public int generateInt() {
         int x = 0;
         for (double y = rng.draw(); y >= a; y *= rng.draw()) {
@@ -77,19 +72,21 @@ public class PoissonVariate implements DiscreteRandomVariate {
         }
         return x;
     }
-    
+
     /**
      * Generates a random variate having this class's distribution.
      * @return The generated random variate
      */
+    @Override
     public double generate() {
         return generateInt();
     }
-    
-/**
-* Sets the desired mean.
-* @throws IllegalArgumentException If the mean is not positive.
-**/
+
+    /**
+     *
+     * @param mean the desired mean.
+     * @throws IllegalArgumentException If the mean is not positive.
+     */
     public void setMean(double mean) {
         if (mean <= 0.0) {
             throw new IllegalArgumentException("PoissonVariate must have positive mean: " + mean);
@@ -97,15 +94,20 @@ public class PoissonVariate implements DiscreteRandomVariate {
         this.mean = mean;
         a = Math.exp(-mean);
     }
-    
-/**
-* Gets the value of the desired mean.
-**/
-    public double getMean() { return mean; }
 
-/**
-* Returns a String containing the name and mean of this RandomVariate.
-**/
-    public String toString() { return "Poisson (" + getMean() + ")"; }
+    /**
+     * @return the value of the desired mean.
+     */
+    public double getMean() {
+        return mean;
+    }
+
+    /**
+     * Returns a String containing the name and mean of this RandomVariate.
+     */
+    @Override
+    public String toString() {
+        return String.format("Poisson (%.3f)", getMean());
+    }
 
 }

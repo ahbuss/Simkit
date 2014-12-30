@@ -92,8 +92,9 @@ public class NegativeBinomialVariate extends RandomVariateBase implements Discre
         gammaVariate.setParameters(getR(),  getP()/(1.0 - getP()));
     }
     
+    @Override
     public String toString() {
-        return "Negative Binomial (" + getR() + ", " + getP() + ")";
+        return String.format("Negative Binomial (%.3f, %.3f)", getR(), getP());
     }
 
     public GammaVariate getGammaVariate() {

@@ -28,7 +28,7 @@ public class BetaVariate extends RandomVariateBase {
 
     /**
      * Creates a new BetaVariate. Prior to use the parameters must be set using
-     * setParameters or setAlpha() and setBeta(). 
+     * setParameters or setAlpha() and setBeta().
      */
     public BetaVariate() {
         gammaVariate1 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", 1.0, 1.0);
@@ -37,7 +37,7 @@ public class BetaVariate extends RandomVariateBase {
 
     /**
      * Generates the next value of this variate.
-*
+     *
      */
     @Override
     public double generate() {
@@ -70,6 +70,7 @@ public class BetaVariate extends RandomVariateBase {
 
     /**
      * Returns an array containing the parameters alpha and beta as Objects.
+     *
      * @return (&alpha;, &beta;)
      */
     @Override
@@ -131,7 +132,7 @@ public class BetaVariate extends RandomVariateBase {
 
     /**
      * Sets the instance of RandomNumber that this BetaVariate is based on.
-*
+     *
      */
     @Override
     public void setRandomNumber(RandomNumber rng) {
@@ -141,11 +142,12 @@ public class BetaVariate extends RandomVariateBase {
     /**
      * Returns a String containing the name of the distribution of this Beta and
      * its parameters.
-*
+     *
+     * @return 
      */
     @Override
     public String toString() {
-        return "Beta (" + getAlpha() + ", " + getBeta() + ")";
+        return String.format("Beta (%.3f, %.3f)", getAlpha(),getBeta());
     }
 
 }

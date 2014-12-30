@@ -12,52 +12,38 @@ import java.net.URL;
 
 import simkit.random.DiscreteRandomVariate;
 import simkit.random.RandomVariateFactory;
+import simkit.stat.SimpleStatsTally;
 /**
  *
  * @author  Arnold Buss
  * @version $Id$
  */
 public class TestBinomialVariate {
-
-    /** Creates new TestBinomialVariate */
-    public TestBinomialVariate() {
-    }
-
     /**
     * @param args the command line arguments
+     * @throws java.lang.Throwable
     */
     public static void main (String args[]) throws Throwable {
         String dist = "Binomial";
         int n = 7;
         double p = 0.4;
-        Object[] params = new Object[] { new Integer(n), new Double(p) };
-        DiscreteRandomVariate binomial = (DiscreteRandomVariate) RandomVariateFactory.getInstance(dist, params);
-        
+        Object[] params = new Object[] { n, p};
+        DiscreteRandomVariate binomial = RandomVariateFactory.getDiscreteRandomVariateInstance(dist, params);
+        System.out.println(binomial);
         for (int i = 0; i < 10; i++) {
             System.out.print(binomial.generateInt() + " ");
         }
-        System.out.println();
+        System.out.printf("%n\u03BC = %.3f, \u03C3^2 = %.3f%n",
+                n * p, n * p * (1.0 - p));
         
-        int number = args.length > 0 ? Integer.parseInt(args[0]) : 100000;
+        SimpleStatsTally sst = new SimpleStatsTally(binomial.toString());
         
-        URL dirURL = Thread.currentThread().getContextClassLoader().getSystemResource("simkit");
-        File dir = new File(dirURL.getFile()).getParentFile();
-        BufferedWriter out = new BufferedWriter(new FileWriter(new File(dir, "binomial.txt")));
-        
-        
-        StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < number; i++) {
-            buf.append(binomial.generateInt());
-            buf.append(' ');
-            if ( (i + 1) % 100 == 0 ) {
-                System.out.print(".");
-                out.write(buf.toString());
-                out.newLine(); 
-                buf = new StringBuilder();
-            }
+        int number = args.length > 0 ? Integer.parseInt(args[0]) : 1000000;
+        for (int i = 0; i < number; ++i) {
+            sst.newObservation(binomial.generateInt());
         }
-        System.out.println();
-        out.close();        
+        System.out.println(sst);
+        
     }
 
 }
