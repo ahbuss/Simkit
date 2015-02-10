@@ -88,10 +88,10 @@
         <junit printsummary="withOutAndErr" haltonfailure="no" fork="yes" dir="." outputtoformatters="no">
             <test name="TestAll"/>
             <formatter type="plain"/>
-                   <classpath>
-                       <path path="${run.test.classpath}"/>
-                   </classpath>
-             <jvmarg value="-Djava.util.logging.config.file=logging.properties"/>
+            <classpath>
+                <path path="${run.test.classpath}"/>
+            </classpath>
+            <jvmarg value="-Djava.util.logging.config.file=logging.properties"/>
         </junit>
     </target>
 
@@ -105,7 +105,70 @@
     </target>
 
     <target name="hudson" description="hudson server-side continuous integration" depends="default">
-       <echo message="https://savage.nps.edu/hudson/Simkit"/>
+        <echo message="https://savage.nps.edu/hudson/Simkit"/>
+    </target>
+    
+    <target depends="init" name="jar.source">
+        <jar excludes="**/*.class" jarfile="${dist.dir}/simkit-src.zip">
+            <fileset dir="src">
+                <exclude name="build/**/*"/>
+                <exclude name="dist/**/*"/>
+                <exclude name="CVS/**.*"/>
+                <exclude name="**/.nb*" />
+                <exclude name="Simkitlocales/**/*" />
+                <exclude name="Simkit_Build_Output/**/*" />
+                <exclude name="**/*.class"/>
+                <exclude name ="lib/**.*" />
+            </fileset>
+            
+        </jar>
+    </target>
+    
+    <target depends="jar, javadoc, jar.source" name="dist"
+            description="Package Simkit for Distribution">
+        <mkdir dir="${dist.dir}"/>
+        <!--	    <mkdir dir="${dist.dir}/doc"/> -->
+        <mkdir dir="${dist.dir}/lib"/>
+        <mkdir dir="${dist.dir}/gnu"/>
+<!--        <copy todir="${dist.dir}/lib">
+            <fileset dir="${dir.build.lib}"/>
+        </copy>-->
+        <!--  -->              
+<!--        <copy todir="${dist.dir}/doc">
+            <fileset dir="${dir.build.doc}"/>
+        </copy>-->
+        <!-- -->
+        <jar jarfile="${dist.dir}/simkit-doc.zip">
+            <fileset dir="${dist.dir}/doc" />
+        </jar>
+<!--        <copy todir="${dist.dir}/lib">
+            <fileset dir="${dir.lib}"/>
+            <fileset dir="${dir.build.lib}" />
+        </copy>-->
+        <!--<copy file="${dir.build}/simkit-src.zip" todir="${dist.dir}"/>-->
+        <copy todir="${dist.dir}/gnu">
+            <fileset dir="${dir.src}/../gnu"/>
+        </copy>
+<!--        <copy todir="${dist.dir}">
+            <fileset dir="${dir.build}">
+                <include name="*.txt"/>
+            </fileset>
+        </copy>-->
+    </target>
+    
+    <target name="Simkit-installer" depends="dist"
+            description="Builds executable jar file for Simkit using IzPack">
+        <copy toDir="${dist.dir}">
+            <fileset dir="izpack/bin">
+                <include name="langpacks/installer/*" />
+                <include name="langpacks/flags/*" />
+                <exclude name =".svn" />
+            </fileset>
+        </copy>
+        <izpack
+            input="${basedir}/installer/izpack.simkit.xml"
+            basedir="${basedir}/dist"
+            output="${basedir}/dist/simkit.installer.jar"/>
     </target>
 
 </project>
