@@ -128,7 +128,7 @@
             description="Package Simkit for Distribution">
         <mkdir dir="${dist.dir}"/>
         <!--	    <mkdir dir="${dist.dir}/doc"/> -->
-        <mkdir dir="${dist.dir}/lib"/>
+        <!--<mkdir dir="${dist.dir}/lib"/>-->
         <mkdir dir="${dist.dir}/gnu"/>
 <!--        <copy todir="${dist.dir}/lib">
             <fileset dir="${dir.build.lib}"/>
