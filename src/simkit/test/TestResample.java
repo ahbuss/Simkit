@@ -28,6 +28,10 @@ public class TestResample {
         System.out.println("theoretical prob: " + (1.0 / data.length));
         System.out.println(hist);
         System.out.println(hist2);
+        
+        Double[] vals = {3.141, 7.2, 3.5, 8.9};
+        RandomVariate rv = RandomVariateFactory.getInstance("Resample", new Object[] { vals });
+        System.out.println(rv);
     }
     
 }

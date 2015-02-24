@@ -5,7 +5,7 @@ package simkit.random;
  * method Parameterized as in Law and Kelton, so that mean = &alpha;&beta; and
  * variance = &alpha;&beta;<sup>2</sup> and density:<br>
  * <i>f(x) =
- * &beta;<sup>&alpha;</sup>x<sup>-(&alpha;+1)</sup>e<sup>-&beta;x</sup>/&Gamma;(&alpha;),
+ * &beta;<sup>-&alpha;</sup>x<sup>&alpha;-1</sup>e<sup>-x/&beta;</sup>/&Gamma;(&alpha;),
  * x &gt; 0</i>
  * (0, otherwise)
  *

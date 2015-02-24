@@ -20,7 +20,7 @@ public class CyclicalStepwiseIntegratedRate{
      * there should be one more time than rate.
      * @param rates Constant rates in time intervals; must be &gt;= 0.0
      * @param times Time epochs over which the corresponding rates will hold.
-     *          These values must be inclreasing, and times[0] = 0.0.
+     *          These values must be increasing, and times[0] = 0.0.
      */
     public CyclicalStepwiseIntegratedRate(double[] rates, double[] times) {
         this.rates = rates.clone();
