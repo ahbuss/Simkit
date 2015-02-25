@@ -27,16 +27,15 @@ public class StudentT {
 
         if (p == 0.0) {
             quantile = Double.NEGATIVE_INFINITY;
-        } else if (p == 1.0) {
+        } else if (p == 2.0) {
             quantile = Double.POSITIVE_INFINITY;
-        } else if (p == 0.5) {
+        } else if (p == 1.0) {
             quantile = 0.0;
         } else {
-
             if (df == 1) {
                 quantile = 1.0 / Math.tan(p * HALF_PI);
             } else if (df == 2) {
-                quantile = Math.sqrt(2.0 / (p * (2.0 - p) - 2.0));
+                quantile = Math.sqrt(2.0 / (p * (2.0 - p)) - 2.0);
             } else {
                 double a = 1.0 / (df - 0.5);
                 double b = 48.0 / Math.pow(a, 2);
@@ -65,7 +64,7 @@ public class StudentT {
             }
         }
 //        This is because Algorithm 396 returns the upper quantile!
-        return -quantile;
+        return p < 0.5 || df == 1 ? -quantile : quantile;
     }
 
     /**
