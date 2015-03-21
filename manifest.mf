@@ -4,9 +4,9 @@ X-COMMENT: Main-Class will be added automatically by build
 Name: simkit/
 Built-By: Arnold Buss
 Specification-Title: Simkit Classes
-Specification-Version: 1.4.3
+Specification-Version: 1.4.4
 Specification-Vendor: Arnold Buss
 Implementation-Title: Simkit
-Implementation-Version: 1.4.3
+Implementation-Version: 1.4.4
 Implementation-Vendor: Arnold Buss
 
