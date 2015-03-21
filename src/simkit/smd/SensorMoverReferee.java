@@ -93,7 +93,7 @@ public class SensorMoverReferee extends SimEntityBase {
      * Normally this is only done when a platform is killed.
      * @param mover The mover to be removed as potential target
      */
-    public void duUnregisterMover(Mover mover) {
+    public void doUnregisterMover(Mover mover) {
         movers.remove(mover);
         mover.removeSimEventListener(this);
     }
