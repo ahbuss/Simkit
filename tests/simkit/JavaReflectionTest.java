@@ -1,6 +1,8 @@
 package simkit;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import junit.framework.TestCase;
 import simkit.util.Misc;
 
@@ -107,6 +109,11 @@ public class JavaReflectionTest extends TestCase {
     public void testsSimpleReflection() {
         Method[] method = SomethingToReflectUpon.class.getDeclaredMethods();
 
+        Map<String, Method> methodMap = new HashMap<>();
+        for (Method m : method) {
+            methodMap.put(m.getName(), m);
+        }
+        
         Class<?> intClass = int.class;
         int x = 1;
         Integer y = x;
@@ -121,26 +128,23 @@ public class JavaReflectionTest extends TestCase {
 
         assertEquals(4, method.length);
 
-        assertEquals("public void simkit.JavaReflectionTest$Something" +
-                "ToReflectUpon.foo(java.lang.Double,java.lang.Integer)",
-                method[0].toString());
-        assertEquals("foo", method[0].getName());
-
-        assertEquals("public void simkit.JavaReflectionTest$Something" +
-                "ToReflectUpon.baz(int,java.lang.Integer)",
-                method[3].toString());
-        assertEquals("baz", method[3].getName());
-
-        assertEquals("public int simkit.JavaReflectionTest$Something" +
-                "ToReflectUpon.returnZero()",
-                method[1].toString());
-        assertEquals("returnZero", method[1].getName());
-
-        assertEquals("protected void simkit.JavaReflectionTest$Something" +
-                "ToReflectUpon.protectedNoOp()",
-                method[2].toString());
-        assertEquals("protectedNoOp", method[2].getName());
-
+        Map<String, String> fullNameMap = new HashMap<>();
+        fullNameMap.put("foo", "public void simkit.JavaReflectionTest$Something" +
+                "ToReflectUpon.foo(java.lang.Double,java.lang.Integer)");
+        fullNameMap.put("baz", "public void simkit.JavaReflectionTest$Something" +
+                "ToReflectUpon.baz(int,java.lang.Integer)");
+        fullNameMap.put("returnZero", "public int simkit.JavaReflectionTest$Something" +
+                "ToReflectUpon.returnZero()");
+        fullNameMap.put("protectedNoOp", "protected void simkit.JavaReflectionTest$Something" +
+                "ToReflectUpon.protectedNoOp()");
+        
+        for (String name : fullNameMap.keySet()) {
+            Method m = methodMap.get(name);
+            String fullName = fullNameMap.get(name);
+            assertEquals(fullName, m.toString());
+            assertEquals(name, m.getName());
+        }
+        
 
 //        System.out.println();
 //        System.out.println(SomethingToReflectUpon.class.getName());

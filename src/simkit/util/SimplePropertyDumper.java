@@ -9,9 +9,10 @@ import simkit.Named;
 * Prints property changes for all properties of any PropertyChangeSources
 * it registers with to stdout. The format of the output is: The index
 * of the property (if it is an IndexedProperyChangeEvent), the source
-* of the property (if dumpSource is true, the default is false), the
-* name of the property, the previous value of the property, the
-* new value of the property.
+* of the property (if dumpSource is true; the default is false), the
+* name of the property, the previous value of the property (if not null), the
+* new value of the property. Note: changed to only print the new value if the
+* old value is null.
 * @see PropertyChangeFrame
 * @version $Id$
 **/
@@ -56,7 +57,8 @@ public class SimplePropertyDumper implements PropertyChangeListener {
                 System.out.print("<" + source + "> ");
             }
         }
-        System.out.println( e.getPropertyName() + index + ": " + e.getOldValue() + " => " +
+        System.out.println( e.getPropertyName() + index + ": " + 
+                 (e.getOldValue() != null ? e.getOldValue() + " => " : "") +
             e.getNewValue());
     }
     
