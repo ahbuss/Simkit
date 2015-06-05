@@ -124,9 +124,13 @@ public class CookieCutterSensor extends SimEntityBase implements Sensor {
      * at its location
      */    
     public Shape getFootprint() {
-        Point2D loc = mover.getLocation();
-        footprint.setFrameFromCenter(loc.getX(), loc.getY(), loc.getX() + maxRange,
-            loc.getY() + maxRange);
+        if (mover == null) {
+            footprint = new Ellipse2D.Double(0.0, 0.0, maxRange, maxRange);
+        } else {
+            Point2D loc = mover.getLocation();
+            footprint.setFrameFromCenter(loc.getX(), loc.getY(), loc.getX() + maxRange,
+                    loc.getY() + maxRange);
+        }
         return footprint;
     }
     

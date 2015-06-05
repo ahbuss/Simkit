@@ -141,6 +141,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
         }
         addedProperties = new LinkedHashMap<String, Object>();
         listeners = new HashMap<>();
+        listeners.put(null, new LinkedHashSet<PropertyChangeListener>());
     }
 
     /**
@@ -225,6 +226,31 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
                 currentNamedListeners.remove(listener);
             }
         }
+    }
+
+    @Override
+    public PropertyChangeListener[] getPropertyChangeListeners() {
+        Set<PropertyChangeListener> allListeners
+                = new LinkedHashSet<>();
+        if (listeners.keySet() != null) {
+            for (String propertyName : listeners.keySet()) {
+                allListeners.addAll(listeners.get(propertyName));
+            }
+        }
+        return allListeners.toArray(new PropertyChangeListener[0]);
+    }
+
+    public PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
+        PropertyChangeListener[] theseListeners
+                = new PropertyChangeListener[0];
+        if (propertyName != null) {
+            Set<PropertyChangeListener> namedListeners =
+                    listeners.get(propertyName);
+            if (namedListeners != null) {
+                theseListeners = namedListeners.toArray(new PropertyChangeListener[0]);
+            }
+        }
+        return theseListeners;
     }
 
     @Override
