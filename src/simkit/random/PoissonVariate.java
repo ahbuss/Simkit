@@ -9,20 +9,14 @@ package simkit.random;
 public class PoissonVariate extends RandomVariateBase implements DiscreteRandomVariate {
 
     /**
-     * The instance of the supporting RandomNumber.
-*
-     */
-    protected RandomNumber rng;
-
-    /**
      * The desired mean of this PoissonVariate.
-*
+     *
      */
     protected double mean;
 
     /**
      * A precalculated value to aid in generation. e<sup>-mean</sup>
-*
+     *
      */
     protected double a;
 
@@ -67,14 +61,19 @@ public class PoissonVariate extends RandomVariateBase implements DiscreteRandomV
     @Override
     public int generateInt() {
         int x = 0;
-        for (double y = rng.draw(); y >= a; y *= rng.draw()) {
-            x++;
+        if (getMean() > 0.0) {
+            for (double y = rng.draw(); y >= a; y *= rng.draw()) {
+                x++;
+            }
+        } else {
+            x = 0;
         }
         return x;
     }
 
     /**
      * Generates a random variate having this class's distribution.
+     *
      * @return The generated random variate
      */
     @Override
@@ -88,7 +87,7 @@ public class PoissonVariate extends RandomVariateBase implements DiscreteRandomV
      * @throws IllegalArgumentException If the mean is not positive.
      */
     public void setMean(double mean) {
-        if (mean <= 0.0) {
+        if (mean < 0.0) {
             throw new IllegalArgumentException("PoissonVariate must have positive mean: " + mean);
         }
         this.mean = mean;
