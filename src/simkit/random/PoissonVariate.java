@@ -1,5 +1,7 @@
 package simkit.random;
 
+import static java.lang.StrictMath.sqrt;
+
 /**
  * Generates random variates having a Poisson distribution.
  *
@@ -15,10 +17,17 @@ public class PoissonVariate extends RandomVariateBase implements DiscreteRandomV
     protected double mean;
 
     /**
-     * A precalculated value to aid in generation. e<sup>-mean</sup>
+     * A pre-calculated value to aid in generation. e<sup>-mean</sup>
      *
      */
     protected double a;
+
+    /**
+     * To be used for large values of the mean
+     */
+    protected RandomVariate normalVariate;
+
+    protected boolean useNormalApproximation;
 
     /**
      * Creates new PoissonVariate; the mean must be set prior to use.
@@ -51,7 +60,7 @@ public class PoissonVariate extends RandomVariateBase implements DiscreteRandomV
         if (params[0] instanceof Number) {
             setMean(((Number) params[0]).doubleValue());
         } else {
-            throw new IllegalArgumentException("The parameter must be a Number.");
+            throw new IllegalArgumentException("The PoissonVariate's parameter must be a Number.");
         }
     }
 
@@ -61,12 +70,12 @@ public class PoissonVariate extends RandomVariateBase implements DiscreteRandomV
     @Override
     public int generateInt() {
         int x = 0;
-        if (getMean() > 0.0) {
+        if (useNormalApproximation) {
+            x = (int) (normalVariate.generate() + 0.5);
+        } else if (getMean() > 0.0) {
             for (double y = rng.draw(); y >= a; y *= rng.draw()) {
                 x++;
             }
-        } else {
-            x = 0;
         }
         return x;
     }
@@ -88,10 +97,14 @@ public class PoissonVariate extends RandomVariateBase implements DiscreteRandomV
      */
     public void setMean(double mean) {
         if (mean < 0.0) {
-            throw new IllegalArgumentException("PoissonVariate must have positive mean: " + mean);
+            throw new IllegalArgumentException("PoissonVariate must have non-negative mean: " + mean);
         }
         this.mean = mean;
         a = Math.exp(-mean);
+        if (mean > 100.0) {
+            useNormalApproximation = true;
+            normalVariate = RandomVariateFactory.getInstance("Normal", mean, sqrt(mean));
+        }
     }
 
     /**
