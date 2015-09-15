@@ -1,12 +1,16 @@
-/*
- * PropertyDataLogger.java
- *
- * Created on March 14, 2002, 3:40 PM
- */
-
 package simkit.util;
-import java.beans.*;
-import java.io.*;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  * Logs the values of a property to an OutputStream. Only the values are
@@ -17,6 +21,7 @@ import java.io.*;
  */
 public class PropertyDataLogger implements PropertyChangeListener {
     
+    private static final Logger logger = Logger.getLogger(PropertyDataLogger.class.getName());
 /**
 * The output Writer associated with the OutputStream.
 **/
@@ -25,7 +30,7 @@ public class PropertyDataLogger implements PropertyChangeListener {
 /**
 * The name of the property to log.
 **/
-    private String propertyName ;
+    protected String propertyName ;
 
 /**
 * The number of values to write per line. Currently always 1.
@@ -49,15 +54,27 @@ public class PropertyDataLogger implements PropertyChangeListener {
 * @param outputStream The OutputStream to write the log to.
 **/
     public PropertyDataLogger(String name, OutputStream outputStream) {
-        propertyName = name;
-        output = new BufferedWriter(new OutputStreamWriter(outputStream));
-        current = 0;
+        this.propertyName = name;
+        this.output = new BufferedWriter(new OutputStreamWriter(outputStream));
+        this.current = 0;
+    }
+    
+    public PropertyDataLogger(String name, File outputFile) {
+        this.propertyName = name;
+        this.current = 0;
+        try {
+            this.output = new BufferedWriter(new FileWriter(outputFile));
+            logger.log(Level.INFO, "{0} will be overwritten", outputFile.getAbsolutePath());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     
 /**
 * If the PropertyChangeEvent is for the desired property,
 * writes the value to the OutputStream.
 **/
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         if (e.getPropertyName().equals(propertyName)) {
             try {
@@ -91,5 +108,29 @@ public class PropertyDataLogger implements PropertyChangeListener {
             System.err.println(e);
             throw(new RuntimeException(e));
         }
+    }
+
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public int getNumberPerLine() {
+        return numberPerLine;
+    }
+
+    public void setNumberPerLine(int numberPerLine) {
+        this.numberPerLine = numberPerLine;
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public String getDelimiter() {
+        return delimiter;
+    }
+
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
     }
 }

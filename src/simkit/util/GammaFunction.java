@@ -19,7 +19,7 @@ import static java.lang.Math.log;
 public class GammaFunction {
 
     /**
-     * log(2&pi)/2
+     * log(2&pi;)/2
      */
     public static final double LOG_2PI_OVER_2 = log(2.0 * PI) * 0.5;
 

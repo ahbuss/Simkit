@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
  * @author  Arnold Buss
  * @version $Id: WayPoint.java 1083 2008-06-11 20:41:21Z kastork $
  */
-
+@SuppressWarnings("javadoc")
 public class WayPoint implements Cloneable {
     
 /**
@@ -25,21 +25,46 @@ public class WayPoint implements Cloneable {
     private double speed;
     
 /**
-* Constructs a new WayPoint with the given location and speed.
-* @throws IllegalArgumentException If the speed is negative.
+* 
 **/
+    /**
+     * Constructs a new WayPoint with the given location and speed.
+     * @param point WayPoint destination
+     * @param speed speed to this destination
+     * @throws IllegalArgumentException If the speed is negative.
+     */
     public WayPoint(Point2D point, double speed) {
         this.point = (Point2D) point.clone();
         this.setSpeed(speed);
     }
     
-/**
-* Constructs a new WayPoint with the given location and infinite speed.
-**/
+    /**
+     * Constructs a new WayPoint with the given location and DEFAULT_SPEED.
+     * @param point WayPoint to be copied
+     */
     public WayPoint(Point2D point) {
         this(point, DEFAULT_SPEED);
     }
 
+    /**
+     * 
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param speed speed to this WayPoint
+     */
+    public WayPoint(double x, double y, double speed) {
+        this(new Point2D.Double(x, y), speed);
+    }
+    
+    /**
+     * Uses DEFAULT_SPEED
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
+    public WayPoint(double x, double y) {
+        this(x, y, DEFAULT_SPEED);
+    }
+    
     /**
      * Copy Constructor
      * @param wayPoint The WayPoint instance to copy
@@ -80,18 +105,18 @@ public class WayPoint implements Cloneable {
 **/
     @Override
     public String toString() {
-        return "WayPoint (" + point.getX() + ", " + point.getY() + ") " + speed;
-    }
+        if (Double.isInfinite(speed)) {
+            return String.format("WayPoint(%.3f, %.3f)", point.getX(), point.getY());
+        } else {
+            return String.format("WayPoint(%.3f, %.3f) %.3f", point.getX(), point.getY(), speed);
+        }
+   }
     
 /**
 * Creates and returns a shallow copy of this WayPoint.
 **/
     @Override
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw(new RuntimeException(e));
-        }
-    }    
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
