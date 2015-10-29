@@ -1,7 +1,5 @@
 package simkit.random;
 
-import org.jcp.xml.dsig.internal.dom.DOMUtils;
-
 /**
  * Generates bivariate normal vectors with given means, standard deviations, and
  * correlation.
@@ -67,6 +65,15 @@ public class BivariateNormalVector implements RandomVector {
     }
 
     /**
+     * 
+     * @param index index of mean - must be 0 or 1
+     * @return mean of index
+     * @throws ArrayIndexOutOfBoundsException if index is not 0 or 1
+     */
+    public double getMean(int index) {
+        return mean[index];
+    }
+    /**
      *
      * @param mean vector of means
      * @throws IllegalArgumentException is length of array is not 2
@@ -80,6 +87,16 @@ public class BivariateNormalVector implements RandomVector {
     }
 
     /**
+     * 
+     * @param index index of mean to set
+     * @param mean value of new mean
+     * @throws ArrayIndexOutOfBoundsException if index is not 0 or 1
+     */
+    public void setMean(int index, double mean) {
+        this.mean[index] = mean;
+    }
+    
+    /**
      *
      * @return copy of standard deviation vector
      */
@@ -87,6 +104,15 @@ public class BivariateNormalVector implements RandomVector {
         return standardDeviation.clone();
     }
 
+    /**
+     * 
+     * @param index index of standardDeviation - must be 0 or 1
+     * @return standard deviation of index
+     * @throws ArrayIndexOutOfBoundsException if index is not 0 or 1
+     */
+    public double getStandardDeviation(int index) {
+        return standardDeviation[index];
+    }
     /**
      *
      * @param standardDeviation standard deviation vector
@@ -108,6 +134,24 @@ public class BivariateNormalVector implements RandomVector {
         this.standardDeviation = standardDeviation.clone();
     }
 
+    /**
+     * 
+     * @param index index of standard deviation to set; must be 0 or 1
+     * @param standardDeviation new value of standardDeviation[index]
+     * @throws ArrayIndexOutOfBoundsException if index is not 0 or 1
+     * @throws IllegalArgumentException if either value is &lt; 0.0
+     */
+    public void setStandardDeviation(int index, double standardDeviation) {
+        if (standardDeviation < 0.0) {
+            throw new IllegalArgumentException(
+                    String.format("Standard deviation must be \u2265 0.0: "
+                            + "%f",
+                            standardDeviation)
+            );
+        }
+        this.standardDeviation[index] = standardDeviation;
+    }
+    
     /**
      *
      * @return correlation
