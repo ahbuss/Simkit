@@ -4,6 +4,7 @@ package simkit.random;
  * Generates bivariate normal vectors with given means, standard deviations, and
  * correlation.
  *
+ * @version $Id$
  * @author ahbuss
  */
 public class BivariateNormalVector implements RandomVector {

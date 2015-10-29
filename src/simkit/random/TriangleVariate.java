@@ -46,7 +46,8 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
     }
 
     /**
-     * Returns a 3 element array containing the left, right, and center values
+     * 
+     * @return a 3 element array containing the left, right, and center values
      * as Doubles.
      */
     public Object[] getParameters() {
@@ -59,8 +60,8 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
      * @param params A three element array containing the left, right, and
      * center values as Numbers.
      * @throws IllegalArgumentException If the array does not contain exactly 3
-     * elements, if all three are not Numbers, or if the following relationship
-     * is not true: a &#60;&#61; c &#60;&#61; b.
+     * elements, or if all three are not Numbers
+     *
      */
     @Override
     public void setParameters(Object... params) {
@@ -91,8 +92,8 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
     }
 
     /**
-     * Parameters should only be set with setParameters. Sets the lowest value.
-*
+     * 
+     * @param a smallest value
      */
     public void setLeft(double a) {
         left = a;
@@ -100,16 +101,16 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
     }
 
     /**
-     * Gets the lowest value.
-*
+     * 
+     * @return smallest value
      */
     public double getLeft() {
         return left;
     }
 
     /**
-     * Parameters should only be set with setParameters. Sets the highest value.
-*
+     * 
+     * @param b largest value
      */
     public void setRight(double b) {
         right = b;
@@ -117,17 +118,16 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
     }
 
     /**
-     * Returns the highest value.
-*
+     * 
+     * @return largest value
      */
     public double getRight() {
         return right;
     }
 
     /**
-     * Parameters should only be set with setParameters. Sets the location of
-     * the peak of the triangle.
-*
+     * 
+     * @param c median value
      */
     public void setCenter(double c) {
         center = c;
@@ -135,8 +135,8 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
     }
 
     /**
-     * Returns the location of the peak of the triangle.
-*
+     * 
+     * @return median value
      */
     public double getCenter() {
         return center;
@@ -147,7 +147,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
      * Must be called after changing any parameter prior to generating.
      * <br><i>Note:</i> this now sorts the parameters and puts them in the
      * "right" order regardless of how they were passed in.
-*
+     *
      */
     private boolean validate() {
         double[] params = new double[]{left, center, right};
@@ -187,11 +187,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
         }
     }
 
-    /**
-     * Returns a String with the name of this RandomVariate and the current
-     * value of its 3 paramters.
-*
-     */
+    @Override
     public String toString() {
         return "Triangle (" + left + ", " + right + ", " + center + ")";
     }
