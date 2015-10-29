@@ -76,7 +76,7 @@ public class RandomVectorFactory {
      * @throws IllegalArgumentException If the className is <CODE>null</CODE> or
      * a class with that name cannot be found.
      */
-    public static RandomVector getInstance(String className, Object[] parameters) {
+    public static RandomVector getInstance(String className, Object... parameters) {
         if (className == null) {
             throw new IllegalArgumentException("null class name");
         }
@@ -110,6 +110,7 @@ public class RandomVectorFactory {
      * <CODE>RandomNumber</CODE> instance is used.
      * @throws IllegalArgumentException If the className is <CODE>null</CODE> or
      * a class with that name cannot be found.
+     * @deprecated Use getInstance(RandomNumber, String, Object...) instead
      */
     public static RandomVector getInstance(String className, Object[] parameters, long seed) {
         RandomVector instance = getInstance(className, parameters);
@@ -129,7 +130,7 @@ public class RandomVectorFactory {
      * @throws IllegalArgumentException If the className is <CODE>null</CODE> or
      * a class with that name cannot be found.
      */
-    public static RandomVector getInstance(String className, Object[] parameters, RandomNumber rng) {
+    public static RandomVector getInstance(RandomNumber rng, String className, Object... parameters ) {
         if (className == null) {
             throw new IllegalArgumentException("Name of RandomVector class is null.");
         }
@@ -161,7 +162,7 @@ public class RandomVectorFactory {
      **/
     public static RandomVector getInstance(RandomVector rv) {
         RandomVector newInstance =
-        getInstance(rv.getClass(), rv.getParameters(), rv.getRandomNumber());
+        getInstance(rv.getRandomNumber(), rv.getClass(), rv.getParameters() );
         return newInstance;
     }
     
@@ -172,8 +173,9 @@ public class RandomVectorFactory {
      * @param seed The starting seed for the supporting RandomNumber.
      * @throws IllegalArgumentException If rvClass is not a RandomVector or if
      * it is <CODE>null</CODE>.
+     * @deprecated use getInstance(RandomNumber, Class&lt;?&gt;, Object...) instead
      **/
-    public static RandomVector getInstance(Class rvClass, Object[] params, long seed) {
+    public static RandomVector getInstance(Class<?> rvClass, Object[] params, long seed) {
         RandomVector instance = getInstance(rvClass, params);
         instance.getRandomNumber().setSeed(seed);
         return instance;
@@ -187,8 +189,9 @@ public class RandomVectorFactory {
      * @param seed The starting seeds for the supporting RandomNumber.
      * @throws IllegalArgumentException If rvClass is not a RandomVector or if
      * it is <CODE>null</CODE>.
+     * @deprecated Used getInstance(RandomNumber, Class&lt;?&gt;, Object...) instead
      **/
-    public static RandomVector getInstance(Class rvClass, Object[] params, long[] seed) {
+    public static RandomVector getInstance(Class<?> rvClass, Object[] params, long[] seed) {
         RandomVector instance = getInstance(rvClass, params);
         instance.getRandomNumber().setSeeds(seed);
         return instance;
@@ -198,11 +201,11 @@ public class RandomVectorFactory {
      * Creates a new RandomVector using the default supporting RandomNumber and
      * the default seed.
      * @param rvClass The Class of the desired RandomVector.
-     * @param params The parameters required to contruct the RandomVector.
+     * @param params The parameters required to construct the RandomVector.
      * @throws IllegalArgumentException If rvClass is not a RandomVector or if
      * it is <CODE>null</CODE>.
      **/
-    public static RandomVector getInstance(Class rvClass, Object[] params) {
+    public static RandomVector getInstance(Class<?> rvClass, Object... params) {
         if (rvClass == null) {
             throw new IllegalArgumentException("null class passed to RandomVectorFactory");
         }
@@ -238,7 +241,7 @@ public class RandomVectorFactory {
      * @throws IllegalArgumentException If the className is <CODE>null</CODE> or
      * a class with that name cannot be found.
      */
-    public static RandomVector getInstance(Class rvClass, Object[] params, RandomNumber rng) {
+    public static RandomVector getInstance(RandomNumber rng, Class<?> rvClass, Object... params) {
         RandomVector instance = getInstance(rvClass, params);
         instance.setRandomNumber(rng);
         return instance;

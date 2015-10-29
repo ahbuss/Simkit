@@ -80,7 +80,7 @@ public class Normal02Variate implements RandomVariate {
                 setMean(((Number) params[0]).doubleValue());
                 setStandardDeviation(((Number) params[1]).doubleValue());
             } else {
-                throw new IllegalArgumentException("Need (Number, Number) paramerets: ("
+                throw new IllegalArgumentException("Need (Number, Number) parameters: ("
                         + params[0].getClass().getName() + "," + params[1].getClass().getName() + ")");
             }
         } else {

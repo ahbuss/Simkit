@@ -51,6 +51,7 @@ public class SimpleStatsTally extends AbstractSimpleStats {
  *  Update counters with a new observation.
  *  @param x The new (primitive) observation.
  **/
+    @Override
     public void newObservation(double x) {
         if (!Double.isNaN(x)) {
             super.newObservation(x);
@@ -65,24 +66,29 @@ public class SimpleStatsTally extends AbstractSimpleStats {
  * Gets the current mean of the statistic
  * @return Current mean
  */    
+    @Override
     public double getMean() { return mean; }
 /**
  * Gets the current variance of the statistic
  * @return Current variance of observations
  */    
+    @Override
     public double getVariance() { return variance; }
 /**
  * Gets the current standard deviation of the statistic
  * @return Current Standard Deviation of observations
  */    
+    @Override
     public double getStandardDeviation() { return Math.sqrt(getVariance()); }
 
 /**
 * Returns the SamplingType which is always <CODE>TALLY</CODE>.
 **/
+    @Override
     public SamplingType getSamplingType() { return SamplingType.TALLY; }
     
 // Javadoc inherited.
+    @Override
     public void reset() {
         super.reset();
         diff = 0.0;
