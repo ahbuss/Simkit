@@ -33,10 +33,10 @@ public class BivariateNormalVector implements RandomVector {
 
     /**
      * Uses formula:<br>
-     * X_0 = \u03C3<sub>0</sub> * Z<sub>0</sub> + \u03BC<sub>0</sub> <br>
-     * X_1 = \u03C3<sub>1</sub> * (\u03C1 * Z<sub>0</sub> +
+     * X_0 = &sigma;<sub>0</sub> * Z<sub>0</sub> + &mu;<sub>0</sub> <br>
+     * X_1 = &sigma;<sub>1</sub> * (&rho; * Z<sub>0</sub> +
      * &radic;<span style="text-decoration: overline">1 -
-     * \u03C1<sup>2</sup></span> * Z<sub>1</sub>) + \u03BC<sub>1</sub>
+     * &rho;<sup>2</sup></span> * Z<sub>1</sub>) + &mu;<sub>1</sub>
      *
      * @return generated bivariate normal vector
      */
