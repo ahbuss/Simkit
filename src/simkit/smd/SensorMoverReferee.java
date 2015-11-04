@@ -11,7 +11,7 @@ import simkit.SimEntityBase;
 /**
  * Maintains a list of Sensors and Movers that can potentially be
  * detected by the Sensors. Listens for StartMove and Stop events
- * and schedules Enter/ExitRange events as discted by the
+ * and schedules Enter/ExitRange events as dicated by the
  * solutions to the quadratic equation.
  *
  * @version $Id: SensorMoverReferee.java 81 2009-11-16 22:28:39Z ahbuss $
