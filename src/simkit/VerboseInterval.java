@@ -7,7 +7,7 @@ package simkit;
  * @version $Id$
  * @author ahbuss
  */
-public class VerboseAfter extends SimEntityBase {
+public class VerboseInterval extends SimEntityBase {
 
     private double startVerboseTime;
 
@@ -18,7 +18,7 @@ public class VerboseAfter extends SimEntityBase {
      * @param startVerboseTime Time to turn verbose on
      * @param endVerboseTime Time to turn verbose off
      */
-    public VerboseAfter(double startVerboseTime, double endVerboseTime) {
+    public VerboseInterval(double startVerboseTime, double endVerboseTime) {
         this.setStartVerboseTime(startVerboseTime);
         this.setEndVerboseTime(endVerboseTime);
     }
@@ -27,7 +27,7 @@ public class VerboseAfter extends SimEntityBase {
      * Construct a VerboseAfter with given start time and default end time (&infin;)
      * @param startVerboseTime Time to turn verbose on
      */
-    public VerboseAfter(double startVerboseTime) {
+    public VerboseInterval(double startVerboseTime) {
         this(startVerboseTime, Double.POSITIVE_INFINITY);
     }
 
@@ -35,7 +35,7 @@ public class VerboseAfter extends SimEntityBase {
      * Construct a VerboseAfter with default start time (0.0) and end time
      * (&infin;)
      */
-    public VerboseAfter() {
+    public VerboseInterval() {
         this(0.0, Double.POSITIVE_INFINITY);
     }
 
