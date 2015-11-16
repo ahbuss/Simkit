@@ -146,30 +146,36 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
         this.rng = rng;
     }
     
-/**
-* Sets the Lambda inverse Method.
-**/
-    public void setInverseIntegratedRate(Method m) { inverseIntegratedRate = m; }
+    /**
+     * 
+     * @param inverseIntegratedRate the &Lambda;<sup>-1</sup>  Method.
+     */
+    public void setInverseIntegratedRate(Method inverseIntegratedRate) { this.inverseIntegratedRate = inverseIntegratedRate; }
     
-/**
-* Returns a reference to the Lambda inverse Method.
-**/
-    public Method getInverseIntegratedRate() { return inverseIntegratedRate; }
+    /**
+     * 
+     * @return a reference to the &Lambda;<sup>-1</sup> Method.
+     */
+    public Method getInverseIntegratedRate() { return this.inverseIntegratedRate; }
     
-/**
-* Sets the instance of the Object on which to invoke the Lambda inverse Method.
-**/
-    public void setRateInvoker(Object o) { rateInvoker = o; }
+    /**
+     * 
+     * @param rateInvoker the instance of the Object on which to invoke 
+     * the &Lambda;<sup>-1</sup>  Method.
+     */
+    public void setRateInvoker(Object rateInvoker) { this.rateInvoker = rateInvoker; }
 
-/**
-* Returns the instance of the Object on which to invoke the Lambda inverse Method.
-**/
-    public Object getRateInvoker() { return rateInvoker; }
+    /**
+     * 
+     * @return the instance of the Object on which to invoke the &Lambda;<sup>-1</sup> Method.
+     */
+    public Object getRateInvoker() { return this.rateInvoker; }
     
-/**
-* Returns the time the process started.
-**/
-    public double getStartTime() { return startTime; }
+    /**
+     * 
+     * @return the time the process started.
+     */
+    public double getStartTime() { return this.startTime; }
     
 /**
 * Returns a String containing the name of this variate, the name of the 

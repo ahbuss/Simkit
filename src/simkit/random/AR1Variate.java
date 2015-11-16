@@ -84,25 +84,29 @@ public class AR1Variate extends RandomVariateBase {
         return lastValue = alpha * lastValue + error.generate();
     }
     
-/**
-* Sets the multiplication factor.
-**/
-    public void setAlpha(double a) { alpha = a; }
+    /**
+     * 
+     * @param alpha the multiplication factor.
+     */
+    public void setAlpha(double alpha) { this.alpha = alpha; }
     
-/**
-* Gets the multiplication factor.
-**/
-    public double getAlpha() { return alpha; }
+    /**
+     * 
+     * @return the multiplication factor.
+     */
+    public double getAlpha() { return this.alpha; }
     
-/**
-* Sets the current value.
-**/
-    public void setLastValue(double lv) { lastValue = lv; }
+    /**
+     * 
+     * @param lastValue the current ("last") value.
+     */
+    public void setLastValue(double lastValue) { this.lastValue = lastValue; }
     
-/**
-* Returns the current value.
-**/
-    public double getLastValue() { return lastValue; }
+    /**
+     * 
+     * @return the current ("last") value.
+     */
+    public double getLastValue() { return this.lastValue; }
         
     
     @Override

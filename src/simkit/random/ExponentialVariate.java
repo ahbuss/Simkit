@@ -58,10 +58,9 @@ public class ExponentialVariate extends RandomVariateBase implements RandomVaria
     }
 
     /**
-     * Sets the desired mean. Note that the value is the mean rather than the
-     * rate.
+     * Note that the value is the mean rather than the rate.
      *
-     * @param mean
+     * @param mean the desired mean.
      * @throws IllegalArgumentException If the given mean is not positive.
      *
      */

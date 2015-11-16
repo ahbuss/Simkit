@@ -14,9 +14,11 @@ package simkit.random;
  */
 public interface DiscreteDistribution extends Distribution {
     
-/**
-* Returns the value of the probability mass function at the given value.
-**/
+    /**
+     * 
+     * @param x given value
+     * @return the value of the probability mass function at the given value.
+     */
     public double pmf(double x);
         
 }

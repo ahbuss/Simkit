@@ -22,9 +22,11 @@ public class ConstantVariate extends RandomVariateBase {
     }
 
 /**
-* Sets the value to generate.
+* Sets the value to generate. Note that the argument array can have length greater
+* than 1; only the first value is considered in that case.
 * @param params A 1 element array containing the desired constant value as a Number.
 * @throws IllegalArgumentException If the first element of array is not a Number.
+* @throws ArrayIndexOutOfBoundsException if params.length == 0
 **/
     public void setParameters(Object... params) {
         if (params[0] instanceof Number) {
@@ -42,14 +44,16 @@ public class ConstantVariate extends RandomVariateBase {
         return new Object[] { value };
     }
 
-/**
-* Set the constant value to be generated.
-**/
+    /**
+     * 
+     * @param value the constant value to be generated.
+     */
     public void setValue(double value) { this.value = value;}
 
-/**
-* Returns the constant value.
-**/
+    /**
+     * 
+     * @return the constant value.
+     */
     public double getValue() { return value; }
 
 /**

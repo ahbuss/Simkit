@@ -280,7 +280,9 @@ public class BivariateNormalVector implements RandomVector {
      * It is assumed that the RandomVariates both generate standard normal
      * variates
      *
-     * @param standardNormalsGenerator
+     * @param standardNormalsGenerator Array of RandomVariates to generate the
+     * independent standard normal variates
+     * @throws IllegalArgumentException if array is not length 2
      */
     public void setStandardNormalsGenerator(RandomVariate[] standardNormalsGenerator) {
         if (standardNormalsGenerator.length != 2) {

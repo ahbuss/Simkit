@@ -73,12 +73,13 @@ public class DiscreteVariate extends RandomVariateBase {
         return value[index];
     }
 
-/**
-* Convert the given array of probabilities/frequencies to a cdf.
-*
-* @throws IllegalArgumentException If any of the probabilities/frequencies are 
-* negative or they sum to zero.
-*/
+    /**
+     * Convert the given array of probabilities/frequencies to a cdf.
+     * @param freq array of frequencies or probabilities
+     * @return cdf values from the given array of probabilities/frequencies
+     * @throws IllegalArgumentException If any of the probabilities/frequencies are 
+     * negative or they sum to zero.
+     */
     protected double[] normalize(double[] freq) {
         double[] norm = null;
         double sum = 0.0;
@@ -122,12 +123,12 @@ public class DiscreteVariate extends RandomVariateBase {
         return buf.toString();
     }
 
-/**
-* Sets the array of values at which the cdf changes value.
-* Warning: This array must be the same length as the probability and cdf arrays, however
-* no checking is done by this method.
-**/
-    public void setValues(double[] values) { this.value = (double[]) values.clone(); }
+    /**
+     * Warning: This array must be the same length as the probability and cdf arrays, however
+     * no checking is done by this method.
+     * @param values the array of values at which the cdf changes value.
+     */
+    public void setValues(double[] values) { this.value = values.clone(); }
     
 /**
 * Sets the cdf of this RandomVariate based on the contents of the given array.
@@ -138,19 +139,22 @@ public class DiscreteVariate extends RandomVariateBase {
 **/
     public void setProbabilities(double[] prob) { cdf = normalize(prob); }
     
-/**
-* Returns a copy of the value array.
-**/
-    public double[] getValues() { return (double[]) value.clone(); }
+    /**
+     * 
+     * @return a copy of the value array.
+     */
+    public double[] getValues() { return value.clone(); }
 
-/**
-* Returns a copy of the cdf array.
-**/
-    public double[] getCDF() { return (double[]) cdf.clone(); }
+    /**
+     * 
+     * @return a copy of the cdf array.
+     */
+    public double[] getCDF() { return cdf.clone(); }
 
-/**
-* Returns an array containing the probability at each point in the value array.
-**/
+    /**
+     * 
+     * @return an array containing the probability at each point in the value array.
+     */
     public double[] getProbabilities() {
         double[] freq = new double[cdf.length];
         for (int i = 0; i < cdf.length; i++) {

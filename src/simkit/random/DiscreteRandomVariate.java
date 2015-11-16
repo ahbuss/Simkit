@@ -14,9 +14,10 @@ package simkit.random;
  */
 public interface DiscreteRandomVariate extends RandomVariate {
     
-/**
-* Generate the next value as an integer.
-**/
+    /**
+     * 
+     * @return the next generated value as an integer.
+     */
     public int generateInt();
 
 }

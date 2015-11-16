@@ -127,8 +127,10 @@ public class MixedVariate extends simkit.random.RandomVariateBase {
     }
     
     /**
-     * Makes a deep copy of the given array of RandomVariates.
-     **/
+     * 
+     * @param live array of RandomVariates
+     * @return a deep copy of the given array of RandomVariates.
+     */
     protected RandomVariate[] deepCopy(RandomVariate[] live) {
         RandomVariate[] memorex = new RandomVariate[live.length];
         for (int i = 0; i < memorex.length; i++) {

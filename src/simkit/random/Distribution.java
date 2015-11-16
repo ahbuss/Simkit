@@ -14,84 +14,101 @@ package simkit.random;
  */
 public interface Distribution extends simkit.Named, Cloneable {
 
-/**
-* Returns the mean of this distribution.
-**/
+    /**
+     * 
+     * @return the mean of this distribution.
+     */
     public double getMean();
     
-/**
-* Sets the mean of this distribution.
-**/
+    /**
+     * 
+     * @param mean the mean of this distribution.
+     */
     public void setMean(double mean);
     
-/**
-* Returns the variance of this distribution.
-**/
+    /**
+     * 
+     * @return the variance of this distribution.
+     */
     public double getVariance();
     
-/**
-* Sets the variance of this distribution.
-**/
+    /**
+     * 
+     * @param variance the variance of this distribution.
+     */
     public void setVariance(double variance);
     
-/**
-* Gets the standard deviation of this distribution.
-**/
+    /**
+     * 
+     * @return the standard deviation of this distribution.
+     */
     public double getStandardDeviation();
     
-/**
-* Sets the standard deviation for this distribution.
-**/
-    public void setStandardDeviation(double std);
+    /**
+     * 
+     * @param standardDeviation the standard deviation for this distribution.
+     */
+    public void setStandardDeviation(double standardDeviation);
     
-/**
-* Returns the median for this distribution.
-**/
+    /**
+     * 
+     * @return the median for this distribution.
+     */
     public double getMedian();
     
-/**
-* Returns the minimum value possible for this distribution.
-**/
+    /**
+     * 
+     * @return the minimum value possible for this distribution.
+     */
     public double getMinimum();
     
-/**
-* Returns the maximum value possible for this distribution.
-**/
+    /**
+     * 
+     * @return the maximum value possible for this distribution.
+     */
     public double getMaximum();
     
-/**
-* Sets the parameters necessary to define this distribution.
-* The meaning of these is determined by the implementation.
-**/
-    public void setCannonicalParameters(Object[] params);
+    /**
+     * 
+     * @param params the parameters necessary to define this distribution.
+     * The meaning of these is determined by the implementation.
+     */
+    public void setCannonicalParameters(Object... params);
     
-/**
-* Returns an array containing the parameters necessary to define this distribution.
-* The meaning of these is determined by the implementation.
-**/
+    /**
+     * 
+     * @return an array containing the parameters necessary to define this 
+     * distribution. The meaning of these is determined by the implementation.
+     */
     public Object[] getCannonicalParameters();
     
-/**
-* Sets the parameters necessary to define this distribution.
-* The meaning of these is determined by the implementation.
-**/
-    public void setParameters(Object[] params);
+    /**
+     * 
+     * @param params the parameters necessary to define this distribution.
+     * The meaning of these is determined by the implementation.
+     */
+    public void setParameters(Object... params);
     
-/**
-* Returns an array containing the parameters necessary to define this distribution.
-* The meaning of these is determined by the implementation.
-**/
+    /**
+     * 
+     * @return an array containing the parameters necessary to define this 
+     * distribution. The meaning of these is determined by the implementation.
+     */
     public Object[] getParameters();
     
-/**
-* Returns the value of the Cumulative Distribution Function for the given
-* value of this distribution.
-**/
+    /**
+     * 
+     * @param x Given value
+     * @return the value of the Cumulative Distribution Function for the given
+     * value of this distribution.
+     */
     public double cdf(double x);
     
-/**
-* Returns the value of the complementary cumulative distribution function for the given
-* value of this distribution.
-**/
+    /**
+     * 
+     * @param x Given value
+     * @return the value of the complementary cumulative distribution function 
+     * for the given value of this distribution.
+     */
     public double ccdf(double x);
 }

@@ -108,40 +108,38 @@ public class Normal02Variate implements RandomVariate {
     }
 
     /**
-     * Sets the mean of this normal variate.
-*
+     * 
+     * @param mean the mean of this normal variate.
      */
     public void setMean(double mean) {
         this.mean = mean;
     }
 
     /**
-     * Returns the mean of this normal variate.
-*
+     * 
+     * @return the mean of this normal variate.
      */
     public double getMean() {
         return mean;
     }
 
     /**
-     * Sets the standard deviation of this normal.
-     *
-     * @throws IllegalArgumentException if the standard deviation is not
-     * positive.
-*
+     * 
+     * @param stdDev the standard deviation of this normal variate.
+     * @throws IllegalArgumentException if the standard deviation &lt; 0.0
      */
-    public void setStandardDeviation(double sd) {
-        if (sd > 0.0) {
-            this.stdDev = sd;
+    public void setStandardDeviation(double stdDev) {
+        if (stdDev > 0.0) {
+            this.stdDev = stdDev;
         } else {
             throw new IllegalArgumentException("Standard Deviation must be > 0.0: "
-                    + sd);
+                    + stdDev);
         }
     }
 
     /**
-     * Gets the standard deviation for this normal variate.
-*
+     * 
+     * @return the standard deviation for this normal variate.
      */
     public double getStandardDeviation() {
         return stdDev;

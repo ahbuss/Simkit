@@ -52,11 +52,11 @@ public class Exponential_64Variate extends RandomVariateBase implements RandomVa
 **/
     public Object[] getParameters() { return new Object[] { new Double(mean) }; }
     
-/**
-* Sets the desired mean.
-* Note that the value is the mean rather than the rate.
-* @throws IllegalArgumentException If the given mean is not positive.
-**/
+    /**
+     * Note that the value is the mean rather than the rate.
+     * @param mean the desired mean.
+     * @throws IllegalArgumentException If the given mean is not positive.
+     */
     public void setMean(double mean) { 
         if (mean > 0.0) {
             this.mean = mean;
@@ -66,13 +66,11 @@ public class Exponential_64Variate extends RandomVariateBase implements RandomVa
         }
     }
     
-/**
-* Returns the mean of this exponential variate.
-**/
-    public double getMean() { return mean; }
+    /**
+     * 
+     * @return the mean of this exponential variate.
+     */
+    public double getMean() { return this.mean; }
     
-/**
-* Returns a string containing the name and mean of this RandomVariate.
-**/
     public String toString() { return "Exponential_64 (" + mean + ")"; }
 }

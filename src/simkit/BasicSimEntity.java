@@ -254,8 +254,8 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     /**
      * Cancels the next event for this entity that matches the event name and
      * value of the parameters. 
-     * @param eventName
-     * @param parameters
+     * @param eventName name of event to cancel
+     * @param parameters Parameters of event to cancel
      **/
     @Override
     public void interrupt(String eventName, Object... parameters) {
@@ -264,7 +264,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     
     /**
      * Cancels the next event for this entity that matches the event name.
-     * @param eventName
+     * @param eventName Name of event to cancel
      **/
     @Override
     public void interrupt(String eventName) {
@@ -317,20 +317,29 @@ public abstract class BasicSimEntity extends BasicSimEventSource
 **/
     public Priority getPriority() {return priority;}
     
-/**
-* If true causes debug/trace information to be output.
-**/
-    public void setVerbose(boolean b) { verbose = b; }
+    /**
+     * 
+     * @param verbose If true causes debug/trace information to be output.
+     */
+    public void setVerbose(boolean verbose) { this.verbose = verbose; }
 
-/**
-* If true causes debug/trace information to be output.
-**/
-    public boolean isVerbose() { return verbose; }    
+    /**
+     * 
+     * @return true if debug/trace information is to be output.
+     */
+    public boolean isVerbose() { return this.verbose; }    
     
-/**
-* Determine if the two arrays contain equal Objects. Equality is determined by the 
-* equals method of the Objects.
-**/
+    /**
+     * 
+     * TODO: replace this with Arrays.equals(Object[], Object[]).
+     * 
+     * Determine if the two arrays contain equal Objects. Equality is determined
+     * by the equals method of the Objects.
+     * @param fromEvent Parameters from event on Event List
+     * @param fromInterrupt Parameters from interrupt call
+     * @return true if arrays are equal (i.e. each element in one is equal to the
+     * corresponding one in the other).
+     */
     public static boolean parametersMatch(Object[] fromEvent, Object[] fromInterrupt) {
         boolean match = true;
         if ( (fromEvent == null && fromInterrupt != null) ||

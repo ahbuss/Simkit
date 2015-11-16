@@ -12,8 +12,8 @@ package simkit.random;
  * Parameters:
  * <ul><li><code>alpha</code>: &alpha; in pdf</li>
  * <li><code>beta</code>: &beta; in pdf</li></ul>
- * Note: This RandomVariate should be instantiated by using
- * <code>RandomVariateFactory</code>.
+ * Note: This RandomVariate should be instantiated with 
+ * <code>RandomVariateFactory.getInstance(...)</code>
  *
  * @author Arnold Buss
  * @version $Id$
@@ -104,12 +104,13 @@ public class BetaVariate extends RandomVariateBase {
     }
 
     /**
-     *
+     * 
+     * @param alpha &alpha; parameter
      * @throws IllegalArgumentException If alpha is not greater than 0.0.
      */
-    public void setAlpha(double a) {
-        if (a > 0.0) {
-            alpha = a;
+    public void setAlpha(double alpha) {
+        if (alpha > 0.0) {
+            this.alpha = alpha;
             gammaVariate1.setParameters(getAlpha(), 1.0);
         } else {
             throw new IllegalArgumentException("Alpha parameter must be > 0.0");
@@ -117,34 +118,24 @@ public class BetaVariate extends RandomVariateBase {
     }
 
     /**
-     * Sets the beta parameter.
-     *
+     * 
+     * @param beta &beta; parameter
      * @throws IllegalArgumentException If beta is not greater than 0.0.
      */
-    public void setBeta(double b) {
-        if (b > 0.0) {
-            beta = b;
+    public void setBeta(double beta) {
+        if (beta > 0.0) {
+            this.beta = beta;
             gammaVariate2.setParameters(getBeta(), 1.0);
         } else {
             throw new IllegalArgumentException("Beta parameter must be > 0.0");
         }
     }
 
-    /**
-     * Sets the instance of RandomNumber that this BetaVariate is based on.
-     *
-     */
     @Override
     public void setRandomNumber(RandomNumber rng) {
         super.setRandomNumber(rng);
     }
 
-    /**
-     * Returns a String containing the name of the distribution of this Beta and
-     * its parameters.
-     *
-     * @return 
-     */
     @Override
     public String toString() {
         return String.format("Beta (%.3f, %.3f)", getAlpha(),getBeta());

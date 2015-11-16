@@ -161,7 +161,8 @@ public class BinomialVariate implements DiscreteRandomVariate {
     }
 
     /**
-     * Returns the probability of success of one Bernoulli trial.
+     * 
+     * @return the probability of success of one Bernoulli trial.
      */
     public double getProbability() {
         return bernoulli.getProbability();

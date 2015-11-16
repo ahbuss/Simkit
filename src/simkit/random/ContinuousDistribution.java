@@ -14,9 +14,11 @@ package simkit.random;
  */
 public interface ContinuousDistribution extends Distribution{
     
-/**
-* Returns the value of the probability density function at the given value.
-**/
+    /**
+     * 
+     * @param x given value
+     * @return the value of the probability density function at the given value.
+     */
     public double pdf(double x);
     
 }

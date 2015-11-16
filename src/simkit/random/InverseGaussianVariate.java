@@ -88,8 +88,8 @@ public class InverseGaussianVariate extends RandomVariateBase {
     }
 
     /**
-     * Sets \u03BC (the mean).
-*
+     * 
+     * @param mu the mean (&mu;).
      */
     public void setMu(double mu) {
         this.mu = mu;
@@ -103,9 +103,9 @@ public class InverseGaussianVariate extends RandomVariateBase {
     }
 
     /**
-     * Sets \u019B (the scale).
-     *
-     * @throws IllegalArgumentException If lambda is not positive.
+     * 
+     * @param lambda the scale ( &lambda;)
+     * @throws IllegalArgumentException If lambda &le; 0.0.
      */
     public void setLambda(double lambda) {
         if (lambda > 0.0) {

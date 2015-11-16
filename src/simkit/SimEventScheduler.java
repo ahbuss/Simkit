@@ -17,13 +17,16 @@ public interface SimEventScheduler extends Named {
     /**
      * If two events occur at the same time with the same event priority,
      * the one with the highest entity priority will be processed first.
+     * Note: this is the reverse of common practice.
+     * @return Priority of this object
      */
-    Priority getPriority();
+    public Priority getPriority();
 
     /**
-     * A unique number assigned to this entity when it is constructed.
+     * 
+     * @return A unique number assigned to this entity when it is constructed.
      */
-    int getSerial();
+    public int getSerial();
 
     /**
      * Typically an Event is handled (as opposed to processed, as in SimEventListener)
@@ -31,34 +34,40 @@ public interface SimEventScheduler extends Named {
      * 
      * @param event The SimEvent to be handled.
      */
-    void handleSimEvent(SimEvent event);
+    public void handleSimEvent(SimEvent event);
 
     /**
      * Interrupt (cancel) the next pending event with name eventName
      * and interruption parameter array "parameters"
      * belonging to this object.
+     * @param eventName Name of event to cancel
+     * @param parameters Parameters of the event to cancel (must be matched)
      */
-    void interrupt(String eventName, Object... parameters);
+    public void interrupt(String eventName, Object... parameters);
 
     /**
      * Cancels the next event for this entity that matches the event name.
-     **/
+     * @param eventName Given event name
+     */
     public void interrupt(String eventName);
 
     /**
      * Interrupt (cancel) all pending events for this entity.
      */
-    void interruptAll();
+    public void interruptAll();
 
     /**
      * Cancels all events for this entity that match the event name.
-     **/
+     * @param eventName Given event name
+     */
     public void interruptAll(String eventName);
     
     /**
      * Interrupt (cancel) all pending events with name eventName
      * and interruption parameter array "parameters"
      * belonging to this object.
+     * @param eventName Given event name
+     * @param parameters Given parameters to be matched
      */
     void interruptAll(String eventName, Object... parameters);
     
@@ -68,7 +77,7 @@ public interface SimEventScheduler extends Named {
      * @param eventName name of event
      * @param parameter parameter to match
      */
-    void interruptAllWithArgs(String eventName, Object parameter);
+    public void interruptAllWithArgs(String eventName, Object parameter);
     
     /**
      * 
@@ -76,22 +85,26 @@ public interface SimEventScheduler extends Named {
      * the given eventName and an argument matching the parameter.
      * @param parameter parameter to match
      */
-    void interruptAllWithArgs(Object parameter);
+    public void interruptAllWithArgs(Object parameter);
 
     /**
      * If two events occur at the same time with the same event priority,
      * the one with the highest entity priority will be processed first.
+     * Note that this is the reverse of common practice.
+     * @param priority Priority of this object
      */
-    void setPriority(Priority d);
+    public void setPriority(Priority priority);
 
     /**
-     * Schedule an event with no parameters and a default priority after a delay from
+     * Schedule an event with (optional) given parameters and a default priority after a delay from
      * the current simulation time.
      * 
      * @param eventName The name of the scheduled event (prefixed by "do" for method name).
      * @param delay The amount of time before the event is scheduled
+     * @param parameters parameters, possibly empty
+     * @return Generated SimEvent
      */
-    SimEvent waitDelay(String eventName, double delay, Object... parameters);
+    public SimEvent waitDelay(String eventName, double delay, Object... parameters);
 
     /**
      * Schedule an event after a delay from the current
@@ -102,12 +115,14 @@ public interface SimEventScheduler extends Named {
      * @param delay The amount of time before the event is scheduled
      * @param priority The priority of this event (higher is better).
      * @param parameters The parameters passed to the scheduled event.
+     * @return Generated SimEvent
      */
-    SimEvent waitDelay(String eventName, double delay, Priority priority, Object... parameters);
+    public SimEvent waitDelay(String eventName, double delay, Priority priority, Object... parameters);
 
     /**
-     * Return the particular {@link EventList} on which this scheduler will
+     * 
+     * @return the particular {@link EventList} on which this scheduler will
      * schedule its events (and receive {@code handleSimEvent()} calls from).
      */
-    BasicEventList getEventList();
+    public BasicEventList getEventList();
 }

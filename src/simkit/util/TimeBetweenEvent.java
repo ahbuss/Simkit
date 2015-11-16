@@ -61,6 +61,9 @@ public class TimeBetweenEvent extends BasicSimEntity {
     }
 
     /**
+     * TODO: Replace call to parametersMatch(Object[] Object[]) with 
+     * Arrays.equals(Object[] Object[]).
+     * 
      * When an event is heard, if it matches eventName and (if ignoreParameters
      * is false) parameters match as well, compute time since last event.  Fire
      * it as "timeBetweenEvent" property.  Set lastTime to currentTime (and

@@ -38,25 +38,28 @@ public class Antithetic implements RandomNumber {
         this(RandomNumberFactory.getInstance(DEFAULT_DELEGATE));
     }
     
-/**
-* Creates a new Antithetic based on the given RandomNumber. If the desire
-* is to create 2 antithetic random number streams, then the RandomNumber
-* instance supplied should be a copy of the original.
-**/
+    /**
+     * Creates a new Antithetic based on the given RandomNumber. If the desire
+     * is to create 2 antithetic random number streams, then the RandomNumber
+     * instance supplied should be a copy of the original.
+     * @param delegate given RandomNumber
+     */
     public Antithetic(RandomNumber delegate) {
         setRandomNumber(delegate);
     }
     
-/**
-* Sets the instance of the supporting RandomNumber. If the desire
-* is to create 2 antithetic random number streams, then the RandomNumber
-* instance supplied should be a copy of the original.
-**/
+    /**
+     * If the desire
+     * is to create 2 antithetic random number streams, then the RandomNumber
+     * instance supplied should be a copy of the original.
+     * @param rng the instance of the supporting RandomNumber.
+     */
     public void setRandomNumber(RandomNumber rng) { delegate = rng; }
     
-/**
-* Returns the instance of the supporting RandomNumber.
-**/
+    /**
+     * 
+     * @return the instance of the supporting RandomNumber.
+     */
     public RandomNumber getRandomNumber() { return delegate; }
     
 /**

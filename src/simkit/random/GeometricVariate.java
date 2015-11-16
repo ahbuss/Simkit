@@ -100,11 +100,10 @@ public class GeometricVariate implements DiscreteRandomVariate {
     }
 
     /**
-     * Sets the probability of success of a single trial to the given value.
-     *
+     * 
+     * @param prob the probability of success of a single trial to the given value.
      * @throws IllegalArgumentException If the given probability is not between
      * 0 and 1 inclusive.
-     *
      */
     public void setP(double prob) {
         if (p < 0.0 || p > 1.0) {
@@ -115,12 +114,11 @@ public class GeometricVariate implements DiscreteRandomVariate {
     }
 
     /**
-     * Returns the probability of success of a single trial.
      *
-     * @return 
+     * @return the probability of success of a single trial.
      */
     public double getP() {
-        return p;
+        return this.p;
     }
 
     /**

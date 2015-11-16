@@ -170,30 +170,31 @@ public class Gamma_64Variate extends RandomVariateBase {
     }
     
     /**
-     * Sets the value of Alpha. Warning: Does not update the pre-calculated values.
-     * @throws IllegalArgumentException If alpha is not positive.
-     **/
-    public void setAlpha(double a) {
-        if ( a > 0.0) {
-            alpha = a;
+     * 
+     * @param alpha the value of &alpha;. 
+     * @throws IllegalArgumentException If alpha &le; 0.0.
+     */
+    public void setAlpha(double alpha) {
+        if ( alpha > 0.0) {
+            this.alpha = alpha;
             setConvenienceParameters();
         }
         else {
-            throw new IllegalArgumentException("Alpha parameter must be > 0.0: " + a);
+            throw new IllegalArgumentException("Alpha parameter must be > 0.0: " + alpha);
         }
     }
     
     /**
-     * Sets the value of Beta. Warning: Does not update the pre-calculated values
-     * use setbeta to cause recalculation to occur.
-     * @throws IllegalArgumentException If beta is not positive.
-     **/
-    public void setBeta(double b) {
-        if ( b > 0.0) {
-            beta = b;
+     * Warning: Does not update the pre-calculated values
+     * @param beta the value of &beta;
+     * @throws IllegalArgumentException If beta &le; 0.0.
+     */
+    public void setBeta(double beta) {
+        if ( beta > 0.0) {
+            this.beta = beta;
         }
         else {
-            throw new IllegalArgumentException("Beta parameter must be > 0.0: " + b);
+            throw new IllegalArgumentException("Beta parameter must be > 0.0: " + beta);
         }
     }
     
