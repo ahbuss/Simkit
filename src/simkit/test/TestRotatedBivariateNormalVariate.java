@@ -35,7 +35,7 @@ public class TestRotatedBivariateNormalVariate {
         System.out.println(rv);
         
         Point2D vector = new Point2D.Double(20.0, 10.0);
-        double angle = -Math.atan2(vector.getX(), vector.getY());
+        double angle = Math.atan2(vector.getX(), vector.getY());
         
         rv.setParameters(0.0, 0.0, 1.0, 4.0,  angle );
         System.out.println(rv);

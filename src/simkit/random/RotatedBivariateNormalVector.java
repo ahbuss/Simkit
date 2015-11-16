@@ -36,8 +36,8 @@ public class RotatedBivariateNormalVector implements RandomVector {
         this.standardNormalsGenerator[1].generate()};
 
         double[] rotated = new double[] {
-            cosAngle * standard[0] - sinAngle * standard[1] + getMean(0),
-            sinAngle * standard[0] + cosAngle * standard[1] + getMean(1)
+            cosAngle * standard[0] + sinAngle * standard[1] + getMean(0),
+            -sinAngle * standard[0] + cosAngle * standard[1] + getMean(1)
         };
         return rotated;
     }
@@ -137,7 +137,6 @@ public class RotatedBivariateNormalVector implements RandomVector {
 
     public void setMean(int index, double mean) {
         this.mean[index] = mean;
-        this.standardNormalsGenerator[index].setMean(mean);
     }
     
     /**
