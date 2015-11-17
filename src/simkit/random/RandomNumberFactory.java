@@ -365,9 +365,10 @@ public class RandomNumberFactory {
      * Temporary method for experimenting with RngStream.
      * 
      * @deprecated use getInstance(String Map) instead
-     * @param stream
-     * @param substream
-     *
+     * @param className name of RandomVariate class
+     * @param stream given desired stream
+     * @param substream given desired substream
+     * @return RandomNumberStream with given stream and substream
      */
     public static RandomNumberStream getRngStream(String className, 
             int stream, int substream){

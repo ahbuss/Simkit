@@ -90,22 +90,24 @@ public class Geometric_64Variate implements DiscreteRandomVariate {
         return generateInt();
     }
     
-/**
-* Sets the probability of success of a single trial to the given value.
-* @throws IllegalArgumentException If the given probability is not between 0 and 1
-* inclusive.
-**/
+    /**
+     * 
+     * @param prob the probability of success of a single trial to the given value.
+     * @throws IllegalArgumentException If the given probability is not between 
+     * 0 and 1 inclusive.
+     */
     public void setP(double prob) {
         if (p < 0.0 || p > 1.0) {
             throw new IllegalArgumentException("p must be in [0, 1]: " + prob);
         }
-        p = prob;
-        multiplier = 1.0 / Math64.log(1.0 - p);
+        this.p = prob;
+        this.multiplier = 1.0 / Math64.log(1.0 - p);
     }
     
-/**
-* Returns the probability of success of a single trial.
-**/
+    /**
+     * 
+     * @return the probability of success of a single trial.
+     */
     public double getP() { return p; }
 
 /**

@@ -35,20 +35,24 @@ public class RandomVectorFactory {
     protected static boolean verbose;
     
     /**
-     * If true, print out information while searching for RandomVector
-     * Classes.
-     **/
-    public static void setVerbose(boolean b) { verbose = b; }
+     * 
+     * @param b true, if printing out information while searching for 
+     * RandomVector Classes.
+     */
+    public static void setVerbose(boolean b) { 
+        verbose = b; 
+    }
     /**
-     * If true, print out information while searching for RandomVector
-     * Classes.
-     **/
+     * 
+     * @return true, if printing out information while searching for 
+     * RandomVector Classes.
+     */
     public static boolean isVerbose() { return verbose; }
     
     /**
-     * If true, print out information while searching for RandomVector
-     * Classes.
-     **/
+     * 
+     * @return shallow copy of cache
+     */
     public static Map<String, Class> getCache() { 
         return new WeakHashMap<String, Class>(cache); 
     }
@@ -154,12 +158,14 @@ public class RandomVectorFactory {
     }
     
     /**
-     * Gets a new instance of the given RandomVector. The random number stream
+     * Created a new instance of the given RandomVector. The random number stream
      * of the new instance should be the same reference to the one supporting
      * the RandomVector passed in.  Therefore (unlike previous implementations)
      * the new instance is independent of the original, since it draws from
      * the same RandomNumber source.
-     **/
+     * @param rv given RandomVector
+     * @return a new instance of the given RandomVector. 
+     */
     public static RandomVector getInstance(RandomVector rv) {
         RandomVector newInstance =
         getInstance(rv.getRandomNumber(), rv.getClass(), rv.getParameters() );
@@ -169,10 +175,11 @@ public class RandomVectorFactory {
     /**
      * Creates a new RandomVector using the default supporting RandomNumber.
      * @param rvClass The Class of the desired RandomVector.
-     * @param params The parameters required to contruct the RandomVector.
+     * @param params The parameters required to construct the RandomVector.
      * @param seed The starting seed for the supporting RandomNumber.
      * @throws IllegalArgumentException If rvClass is not a RandomVector or if
      * it is <CODE>null</CODE>.
+     * @return a new RandomVector using the default supporting RandomNumber.
      * @deprecated use getInstance(RandomNumber, Class&lt;?&gt;, Object...) instead
      **/
     public static RandomVector getInstance(Class<?> rvClass, Object[] params, long seed) {
@@ -185,10 +192,11 @@ public class RandomVectorFactory {
      * Creates a new RandomVector using the default supporting RandomNumber.
      * Used if the supporting RandomNumber requires multiple seeds.
      * @param rvClass The Class of the desired RandomVector.
-     * @param params The parameters required to contruct the RandomVector.
+     * @param params The parameters required to construct the RandomVector.
      * @param seed The starting seeds for the supporting RandomNumber.
      * @throws IllegalArgumentException If rvClass is not a RandomVector or if
      * it is <CODE>null</CODE>.
+     * @return a new RandomVector using the default supporting RandomNumber.
      * @deprecated Used getInstance(RandomNumber, Class&lt;?&gt;, Object...) instead
      **/
     public static RandomVector getInstance(Class<?> rvClass, Object[] params, long[] seed) {
@@ -202,6 +210,8 @@ public class RandomVectorFactory {
      * the default seed.
      * @param rvClass The Class of the desired RandomVector.
      * @param params The parameters required to construct the RandomVector.
+     * @return a new RandomVector using the default supporting RandomNumber and
+     * the default seed.
      * @throws IllegalArgumentException If rvClass is not a RandomVector or if
      * it is <CODE>null</CODE>.
      **/
@@ -250,23 +260,26 @@ public class RandomVectorFactory {
     /**
      * Adds the given fully qualified package name to the list of packages
      * that will be searched when attempting to find RandomVectors by name.
-     **/
+     * @param newPackage given fully qualified package name
+     */
     public static void addSearchPackage(String newPackage) {
         searchPackages.add(newPackage);
     }
     
     /**
-     * Sets the list of packages that will be searched when attempting to find
+     * 
+     * @param packages Set of packages that will be searched when attempting to find
      * a RandomVector by name.
-     **/
+     */
     public static void setSearchPackages(Set<String> packages) {
         searchPackages = new LinkedHashSet<String>(packages);
     }
     
     /**
-     * Returns a copy of the list of packages that will be searched when attempting to find
-     * a RandomVector by name.
-     **/
+     * 
+     * @return a shallow copy of the list of packages that will be searched 
+     * when attempting to find a RandomVector by name.
+     */
     public static Set<String> getSearchPackages() { 
         return new LinkedHashSet<String>(searchPackages); 
     }
@@ -278,7 +291,9 @@ public class RandomVectorFactory {
      * but additional search packages can be added.
      * @see #addSearchPackage(String)
      * @see #setSearchPackages(Set)
-     **/
+     * @param className given name
+     * @return RandomVector Class corresponding to the given name
+     */
     public static Class findFullyQualifiedNameFor(String className) {
         Class theClass = null;
         //        First see if name passed is "fully qualified"

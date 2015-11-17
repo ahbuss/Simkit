@@ -199,13 +199,15 @@ public class Gamma_64Variate extends RandomVariateBase {
     }
     
     /**
-     * Returns the current value of Alpha.
-     **/
-    public double getAlpha() {return alpha;}
+     * 
+     * @return the current value of &alpha;.
+     */
+    public double getAlpha() {return this.alpha;}
     
     /**
-     * Returns the current value of Beta.
-     **/
+     * 
+     * @return the current value of &beta;
+     */
     public double getBeta() {return beta;}
     
     /**

@@ -1,12 +1,10 @@
 package simkit.random;
 
 /**
- * Generate from the Weibull distribution having pdf:
- * <BLOCKQUOTE>
+ * Generate from the Weibull distribution having pdf:<br>
  * <i>f(x) =
  * &alpha;x<sup>&alpha;-1</sup>&beta;<sup>-&alpha;</sup>e<sup>-(x/&beta;)<sup>&alpha;</sup></sup>,
  * x &gt; 0</i>
- * </BLOCKQUOTE>
  *
  * @version $Id$
  */

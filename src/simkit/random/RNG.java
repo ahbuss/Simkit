@@ -92,18 +92,22 @@ public class RNG
 	this.randomizeSeeds();
     }
 
-/**
-* Constructs a new RNG with the given seeds.
-**/
+    /**
+     * 
+     * @param s1 first seed 
+     * @param s2 second seed
+     */
     public RNG(int s1, int s2)
     {
 	seed1 = s1;
 	seed2 = s2;
     }
 
-/**
-* Sets the seeds to the given values.
-**/
+    /**
+     * 
+     * @param s1 first seed
+     * @param s2 second seed
+     */
     public void setSeeds(int s1, int s2)
     {
 	seed1 = s1;
@@ -128,9 +132,10 @@ public class RNG
 	seed1 = seed2 = 42;
     }
 
-/**
-* Generates the next U(0,1) value.
-**/
+    /**
+     * 
+     * @return the next U(0,1) value.
+     */
     public float getUniform()
     {
 	/*

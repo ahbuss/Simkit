@@ -119,24 +119,26 @@ public class TwoStateMarkovVariate extends RandomVariateBase implements Discrete
         return (double[]) transitionProb.clone();
     }
     
-/**
-* Sets the initial state (0 or 1) of the system
-* @throws IllegalArgumentException If the value is not 0 or 1.
-**/
-    public void setInitialState(int state) {
-        if (state == 0 || state == 1) {
-            initialState = state;
-            currentState = initialState;
+    /**
+     * 
+     * @param initialState the initial initialState (0 or 1) of the system
+     * @throws IllegalArgumentException If the value is not 0 or 1.
+     */
+    public void setInitialState(int initialState) {
+        if (initialState == 0 || initialState == 1) {
+            this.initialState = initialState;
+            this.currentState = initialState;
         }
         else {
-            throw new IllegalArgumentException("Initial state must be 0 or 1: " + state);
+            throw new IllegalArgumentException("Initial state must be 0 or 1: " + initialState);
         }
     }
     
-/**
-* Returns the initial state of the system.
-**/
-    public int getInitialState() { return initialState; }
+    /**
+     * 
+     * @return the initial state of the system.
+     */
+    public int getInitialState() { return this.initialState; }
     
 /**
 * Returns a String containing the name of this RandomVariate, the transition

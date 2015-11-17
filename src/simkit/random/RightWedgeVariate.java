@@ -112,9 +112,7 @@ public class RightWedgeVariate extends RandomVariateBase {
     }
 
     /**
-     * Sets the value of the right side. Does no error checking.
-*
-     * @param right
+     * @param right the value of the right side. Does no error checking.
      */
     public void setRight(double right) {
         this.right = right;

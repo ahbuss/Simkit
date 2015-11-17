@@ -83,10 +83,10 @@ public class PearsonTypeVVariate implements RandomVariate  {
 
     /**
      * Sets the value of alpha, but does not update the underlying gamma
-     * distribution. Use setParameters to se
+     * distribution. Use setParameters to update underlying gamma distribution
      *
-     * @param alpha
-     *
+     * @param alpha value of alpha
+     * @throws IllegalArgumentException if alpha &le; 0.0
      */
     public void setAlpha(double alpha) {
         if (alpha > 0) {

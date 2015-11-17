@@ -69,25 +69,27 @@ public class RandomVariateFactory {
     protected static RandomNumber DEFAULT_RNG;
 
     /**
-     * If true, print out information while searching for RandomVariate
-     * Classes.
-     **/
+     * 
+     * @param b true if printing out information while searching for 
+     * RandomVariate Classes.
+     */
     public static void setVerbose(boolean b) {
         verbose = b;
     }
 
     /**
-     * If true, print out information while searching for RandomVariate
-     * Classes.
-     **/
+     * 
+     * @return true if printing out information while searching for 
+     * RandomVariate Classes.
+     */
     public static boolean isVerbose() {
         return verbose;
     }
 
     /**
-     * If true, print out information while searching for RandomVariate
-     * Classes.
-     **/
+     * 
+     * @return shallow copy of cache
+     */
     public static Map<String, Class> getCache() {
         return new WeakHashMap<String, Class>(cache);
     }
@@ -213,6 +215,11 @@ public class RandomVariateFactory {
      * the new instance is independent of the original, since it draws from
      * the same RandomNumber source.
      **/
+    /**
+     * 
+     * @param rv given RandomVariate
+     * @return a new instance, copy of the given RandomVariate.
+     */
     public static RandomVariate getInstance(RandomVariate rv) {
         RandomVariate newInstance =
                 getInstance(rv.getClass().getName(), rv.getRandomNumber(), 
@@ -223,7 +230,8 @@ public class RandomVariateFactory {
     /**
      * Adds the given fully qualified package name to the list of packages
      * that will be searched when attempting to find RandomVariates by name.
-     **/
+     * @param newPackage given fully qualified package name
+     */
     public static void addSearchPackage(String newPackage) {
         searchPackages.add(newPackage);
     }
@@ -250,11 +258,14 @@ public class RandomVariateFactory {
      * Finds the RandomVariate Class corresponding to the given name. First
      * attempts to find the RandomVariate assuming the the name is fully 
      * qualified. Then searches the "search packages." The search path defaults 
-     * to "simit.random" but additional search packages can be added.
+     * to "simkit.random" but additional search packages can be added.
      * 
      * @see #addSearchPackage(String)
      * @see #setSearchPackages(Set)
-     **/
+     * 
+     * @param className given name of class
+     * @return Class instances with given name or null if not found
+     */
     public static Class<?> findFullyQualifiedNameFor(String className) {
         Class<?> theClass = null;
         //        First see if name passed is "fully qualified"
@@ -295,7 +306,11 @@ public class RandomVariateFactory {
     }
 
     /**
-     * @return instance of DiscreteRandomVariate
+     * 
+     * @param className Name of class
+     * @param params parameters
+     * @return instance of DiscreteRandomVariate with given name and parameters
+     * @throws IllegalArgumentException if className does not implement DiscreteRandomVariate
      */
     public static DiscreteRandomVariate getDiscreteRandomVariateInstance(
             String className, Object... params) {
@@ -303,7 +318,7 @@ public class RandomVariateFactory {
         if (instance instanceof DiscreteRandomVariate) {
             return (DiscreteRandomVariate) instance;
         } else {
-            throw new RuntimeException(className + " is not an instance of " +
+            throw new IllegalArgumentException(className + " is not an instance of " +
                     "simkit.random.DiscreteRandomVariate");
         }
     }
@@ -317,11 +332,10 @@ public class RandomVariateFactory {
     }
 
     /**
-     * Creates a variate with the named distribution.
-     *  
-     * @param className The name of the desired instance 
-     * @param params a String keyed map of named parameters.
-     *
+     * 
+     * @param className Name of RandomVariate class
+     * @param params parameters of RandomVariate class
+     * @return a RandomVariate instance with the given class name and parameters
      */
     public static RandomVariate getInstance(String className, 
             Map<String, Object> params) {

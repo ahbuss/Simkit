@@ -147,6 +147,7 @@ public class TriangleVariate extends RandomVariateBase implements RandomVariate 
      * Must be called after changing any parameter prior to generating.
      * <br><i>Note:</i> this now sorts the parameters and puts them in the
      * "right" order regardless of how they were passed in.
+     * @return true if 3 parameters are consistent
      *
      */
     private boolean validate() {

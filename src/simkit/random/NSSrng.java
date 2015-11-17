@@ -87,9 +87,11 @@ public class NSSrng implements RandomNumber {
      **/
     public NSSrng() {
     }
-       /**
-     * If true, prints debug information
-     **/ 
+
+    /**
+     * 
+     * @param debug true, if printing debug information
+     */
     public void setDebug(boolean debug) {
         this.debug = debug;
         if (this.debug) {
@@ -99,9 +101,10 @@ public class NSSrng implements RandomNumber {
         }
     }
 
-/**
-* If true, print debug information.
-**/
+    /**
+     * 
+     * @return true if printing debug information.
+     */
    public boolean getDebug() {
       return debug;
    }

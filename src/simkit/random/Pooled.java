@@ -9,24 +9,28 @@ package simkit.random;
  */
 public interface Pooled extends RandomNumber {
     
-/**
-* Sets the instance of the first RandomNumber that this Pooled is based on.
-**/
+    /**
+     * 
+     * @param first the instance of the first RandomNumber that this Pooled is based on.
+     */
     public void setFirst(RandomNumber first);
     
-/**
-* Returns the instance of the first RandomNumber that this Pooled is based on.
-**/
+    /**
+     * 
+     * @return the instance of the first RandomNumber that this Pooled is based on.
+     */
     public RandomNumber getFirst();
     
-/**
-* Sets the instance of the second RandomNumber that this Pooled is based on.
-**/
-    public void setSecond(RandomNumber first);
+    /**
+     * 
+     * @param second the instance of the second RandomNumber that this Pooled is based on.
+     */
+    public void setSecond(RandomNumber second);
     
-/**
-* Returns the instance of the second RandomNumber that this Pooled is based on.
-**/
+    /**
+     * 
+     * @return the instance of the second RandomNumber that this Pooled is based on.
+     */
     public RandomNumber getSecond();
     
 }

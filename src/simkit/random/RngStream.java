@@ -304,8 +304,8 @@ public class RngStream implements RandomNumberStream {
      * Creates a new independent Stream[0:0] and advances it to the stream
      * and substream offsets given.
      * 
-     * @param stream
-     * @param substream
+     * @param stream given stream
+     * @param substream given substream
      */
     public RngStream(int stream, int substream) {
         // TODO Study the usefulness of caching stream states, which would be
@@ -500,9 +500,9 @@ public class RngStream implements RandomNumberStream {
      * {@code resetStartStream} or {@code resetStartSubstream} is called.
      * <p>
      * The state of this generator loses any internal sense of its offset
-     * fromt the system Stream[0:0].
+     * from the system Stream[0:0].
      * 
-     * @param seed
+     * @param seed given seed
      * @return True if the operation was a success, false if not.
      */
     public boolean setSeed(long seed[]) {

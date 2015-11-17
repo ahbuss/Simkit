@@ -110,48 +110,56 @@ public class OscillatingExponentialVariate implements simkit.random.RandomVariat
             + phase)) * Math.log(rng.draw());
     }
     
-/**
-* The mean of the sinusoid.
-**/
+    /**
+     * 
+     * @param mean The mean of the sinusoid.
+     */
     public void setMean(double mean) { this.mean = mean; }
     
-/**
-* The mean of the sinusoid.
-**/
+    /**
+     * 
+     * @return The mean of the sinusoid.
+     */
     public double getMean() { return mean; }
     
-/**
-* The amplitude of the sinusoid.
-**/
+    /**
+     * 
+     * @param amplitude The amplitude of the sinusoid.
+     */
     public void setAmplitude(double amplitude) { this.amplitude = amplitude; }
     
-/**
-* The amplitude of the sinusoid.
-**/
+    /**
+     * 
+     * @return The amplitude of the sinusoid.
+     */
     public double getAmplitude() {  return amplitude; }
     
-/**
-* The frequency in cycles per unit of SimTime.
-**/
+    /**
+     * 
+     * @param frequency The frequency in cycles per unit of SimTime.
+     */
     public void setFrequency(double frequency) { 
         this.frequency = frequency ; 
     }
     
-/**
-* The frequency in cycles per unit of SimTime.
-**/
+    /**
+     * 
+     * @return The frequency in cycles per unit of SimTime.
+     */
     public double getFrequency() { return frequency; }
     
-/**
-* The phase shift in cycles.
-**/
+    /**
+     * 
+     * @param phase The phase shift in cycles.
+     */
     public void setPhase(double phase) {
         this.phase = phase % TWO_PI;
     }
     
-/**
-* The phase shift in cycles.
-**/
+    /**
+     * 
+     * @return The phase shift in cycles.
+     */
     public double getPhase() { return phase; }
     
 /**

@@ -26,9 +26,10 @@ public class MersenneTwisterFactory {
 **/
     protected static MersenneTwisterFactory instance = new MersenneTwisterFactory(0);
 
-/**
-* Gets the default instance of the factory
-**/
+    /**
+     * 
+     * @return the default instance of the factory
+     */
     public static MersenneTwisterFactory getInstance() {return instance;}
 
 /**
@@ -45,8 +46,14 @@ public class MersenneTwisterFactory {
     }
 
 /**
-* Create a MersenneTwister with the given period exponent and seed.
+* 
 **/
+    /**
+     * 
+     * @param p given period exponent
+     * @param seed given seed
+     * @return MersenneTwister with the given period exponent and seed.
+     */
     public MersenneTwisterDC createMT(int p, int seed) {
         MersenneTwisterDC mt = new MersenneTwisterDC();
         MTS mts = get_mt_parameter(31, p);
@@ -55,9 +62,14 @@ public class MersenneTwisterFactory {
         return mt;
     }
 
-/**
-* Create a MersenneTwister with the given period exponent, stream id and seed.
-**/
+    /**
+     * 
+     * @param p given period exponent
+     * @param seed given seed 
+     * @param id given stream id
+     * @return a MersenneTwister with the given period exponent, stream 
+     * id and seed.
+     */
     public MersenneTwisterDC createMT(int p, int seed, int id) {
         MersenneTwisterDC mt = new MersenneTwisterDC();
         MTS mts = get_mt_parameter_id(31, p, id);
@@ -66,9 +78,12 @@ public class MersenneTwisterFactory {
         return mt;
     }
 
-/**
-* Create an array of MersenneTwisters.
-**/
+    /**
+     * 
+     * @param p  given period exponent
+     * @param seeds array of seeds
+     * @return an array of MersenneTwisters with given period exponent and seeds.
+     */
     public MersenneTwisterDC[] createMTArray(int p, int[] seeds) {
         int number = seeds.length;
         MTS[] mts = get_mt_parameters(31, p, number - 1);
@@ -324,7 +339,10 @@ public class MersenneTwisterFactory {
     protected long gmax_b, gmax_c;
 /*************************************/
 
-
+/**
+ * 
+ * @param mts Given MTS
+ */
     protected void _get_tempering_parameter_dc(MTS mts) {
         init_tempering(mts);
         optimize_v(0x0, 0x0, 0);
@@ -373,9 +391,11 @@ public class MersenneTwisterFactory {
         /* show_distrib(mts); */
     }
 
-/**
-* For debugging.
-**/
+    /**
+     * For debugging.
+     * @param mn Given MaskNode
+     * @return Number of mask node levels in mn
+     */
     private int countMaskNodeLevels(MaskNode mn) {
         int i = 0;
         MaskNode node = mn;
@@ -423,7 +443,12 @@ public class MersenneTwisterFactory {
 
     }
 
-/** (v-1) bitmasks of b,c */
+    /**
+     * (v-1) bitmasks of b,c
+     * @param v given number of MaskNodes
+     * @param prev_masks given previous MaskNodes
+     * @return new MaskNode
+     */
     protected MaskNode optimize_v_hard(int v, MaskNode prev_masks) {
         int i, ll, t;
         long[] bbb = new long[8];
@@ -455,7 +480,12 @@ public class MersenneTwisterFactory {
 }
 
 
-/** (v-1) bitmasks of b,c */
+    /**
+     * (v-1) bitmasks of b,c
+     * @param b Given long value
+     * @param c Given long value
+     * @param v Given number of bitmasks
+     */
     protected void optimize_v(long b, long c, int v) {
         int i, max_len, max_i, ll, t;
         long[] bbb = new long[8];

@@ -37,9 +37,10 @@ public class RandomPointGenerator {
         setCorners(corners);
     }
     
-/**
-* Sets the same seed for both supporting RandomNumbers.
-**/
+    /**
+     * Sets both supporting RandomNumbers to the same instance.
+     * @param seed new seed for the supporting RandomNumber
+     */
     public void setSeed(long seed) {
         rv[0].getRandomNumber().setSeed(seed);
         rv[1].setRandomNumber(rv[0].getRandomNumber());
@@ -65,11 +66,12 @@ public class RandomPointGenerator {
         this.rv = (RandomVariate[]) rv.clone();
     }
     
-/**
-* Returns a copy of a two element array containing the x and y RandomVariates.
-**/
+    /**
+     * 
+     * @return a copy of a two element array containing the x and y RandomVariates.
+     */
     public RandomVariate[] getRandomVariate() { 
-        return (RandomVariate[]) rv.clone(); 
+        return rv.clone(); 
     }
     
 /**

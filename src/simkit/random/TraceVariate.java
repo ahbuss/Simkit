@@ -60,46 +60,46 @@ public class TraceVariate extends RandomVariateBase {
     }
 
     /**
-     * Sets the values to be returned by generate.
-*
+     * 
+     * @param traceValues the traceValues to be returned by generate().
      */
-    public void setTraceValues(double[] values) {
-        traceValues = (double[]) values.clone();
+    public void setTraceValues(double[] traceValues) {
+        this.traceValues = traceValues.clone();
     }
 
     /**
-     * Returns a copy of the value to be returned by generate.
-*
+     * 
+     * @return a copy of the value to be returned by generate.
      */
     public double[] getTraceValues() {
-        return traceValues.clone();
+        return this.traceValues.clone();
     }
 
     /**
-     * Sets the value that will be generated after all of the trace values have
-     * been used.
-*
+     * 
+     * @param defaultValue the defaultValue that will be generated after all of the trace values have
+ been used.
      */
-    public void setDefaultValue(double value) {
-        defaultValue = value;
+    public void setDefaultValue(double defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
     /**
-     * Returns the value that will be generated after all of the trace values
+     * 
+     * @return the value that will be generated after all of the trace values
      * have been used.
-*
      */
     public double getDefaultValue() {
         return defaultValue;
     }
 
     /**
-     * True if all of the trace values will be included in the result of
+     * 
+     * @param allDataInToString True if all of the trace values will be included in the result of
      * toString. If false, only a limited number of values will be output.
-*
      */
-    public void setAllDataInToString(boolean b) {
-        allDataInToString = b;
+    public void setAllDataInToString(boolean allDataInToString) {
+        this.allDataInToString = allDataInToString;
     }
 
     /**

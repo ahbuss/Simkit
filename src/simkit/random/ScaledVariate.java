@@ -107,36 +107,42 @@ public class ScaledVariate implements RandomVariate {
         rv.setRandomNumber(rng);
     }
     
-/**
-* Sets the amount to shift the RandomVariate.
-**/
-    public void setShift(double s) { shift = s; }
+    /**
+     * 
+     * @param shift 
+     */
+    public void setShift(double shift) { this.shift = shift; }
     
-/**
-* Returns the current value of the shift.
-**/
+    /**
+     * 
+     * @return the amount to shift the RandomVariate.
+     */
     public double getShift() { return shift; }
     
-/**
-* Sets the amount to scale the RandomVariate by.
-**/
-    public void setScale(double s) {
-        scale = s;
+    /**
+     * 
+     * @param scale the amount to scale the RandomVariate by.
+     */
+    public void setScale(double scale) {
+        this.scale = scale;
     }
     
-/**
-* Returns the current value of the scale.
-**/
-    public double getScale() { return scale; }
+    /**
+     * 
+     * @return the amount to scale the RandomVariate by.
+     */
+    public double getScale() { return this.scale; }
 
-/**
-* Sets the underlying RandomVariate.
-**/
-    public void setRandomVariate(RandomVariate r) { rv = r; }
+    /**
+     * 
+     * @param rv the underlying RandomVariate.
+     */
+    public void setRandomVariate(RandomVariate rv) { this.rv = rv; }
     
-/**
-* Gets the instance of the underlying RandomVariate.
-**/
+    /**
+     * 
+     * @return the underlying RandomVariate
+     */
     public RandomVariate getRandomVariate() { return rv; }
     
 /**

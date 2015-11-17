@@ -74,37 +74,43 @@ public class NormalVariate_64 extends RandomVariateBase {
         return value * sigma + mean;
     }
     
-/**
-* Sets the mean for this NormalVariate.
-**/
+    /**
+     * 
+     * @param mean the mean for this NormalVariate.
+     */
     public void setMean(double mean) { this.mean = mean; }
     
-/**
-* Sets the standard deviation for this NormalVariate.
-* @throws IllegalArgumentException If the standard deviation is negative.
-**/
-    public void setStandardDeviation(double std) {
-        if (std >= 0.0) {
-            sigma = std;
+    /**
+     * 
+     * @param sigma the standard deviation for this NormalVariate.
+     * @throws IllegalArgumentException If sigma &lt; 0.0.
+     */
+    public void setStandardDeviation(double sigma) {
+        if (sigma >= 0.0) {
+            this.sigma = sigma;
         }
         else {
-            throw new IllegalArgumentException("Standard Deviation must be > 0.0");
+            throw new IllegalArgumentException(
+                    "Standard Deviation must be \u2265 0.0");
         }
     }
     
-/**
-* Returns the mean of this Normal variate.
-**/
-    public double getMean() { return mean; }
+    /**
+     * 
+     * @return the mean of this Normal variate.
+     */
+    public double getMean() { return this.mean; }
     
-/**
-* Returns the standard deviation of this Normal variate.
-**/
-    public double getStandardDeviation() { return sigma; }
+    /**
+     * 
+     * @return the standard deviation of this Normal variate.
+     */
+    public double getStandardDeviation() { return this.sigma; }
     
-/**
-* Returns the variance of this Normal variate.
-**/
+    /**
+     * 
+     * @return the variance of this Normal variate.
+     */
     public double getVariance() { return sigma * sigma; }
     
 /**

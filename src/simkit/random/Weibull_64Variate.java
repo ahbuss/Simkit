@@ -2,10 +2,8 @@ package simkit.random;
 
 import simkit.util.Math64;
 
-/** Generate from the Weibull distribution having pdf:
- * <BLOCKQUOTE>
+/** Generate from the Weibull distribution having pdf:<br>
  * <i>f(x) = &alpha;x<sup>&alpha;-1</sup>&beta;<sup>-&alpha;</sup>e<sup>-(x/&beta;)<sup>&alpha;</sup></sup>, x &gt; 0</i>
- * </BLOCKQUOTE>
  *
  * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
@@ -56,37 +54,41 @@ public class Weibull_64Variate extends RandomVariateBase{
         return new Object[] {new Double(alpha),  new Double(beta)};
     }
     
-/**
-* Returns the current value of alpha.
-**/
-    public double getAlpha() {return alpha; }
+    /**
+     * 
+     * @return the current value of alpha.
+     */
+    public double getAlpha() {return this.alpha; }
     
-/**
-* Returns the current value of alpha.
-**/
-    public double getBeta() { return beta; }
+    /**
+     * 
+     * @return the current value of beta
+     */
+    public double getBeta() { return this.beta; }
     
-/**
-* Sets the value of alpha.
-* @throws IllegalArgumentException If alpha is not positive.
-**/
-    public void setAlpha(double a) {
-        if ( a > 0.0) {
-            alpha = a;
-            alphaInverse = 1.0 / alpha;
+    /**
+     * Also sets alphaInverse to 1/alpha
+     * @param alpha the value of alpha.
+     * @throws IllegalArgumentException If alpha &le; 0.0.
+     */
+    public void setAlpha(double alpha) {
+        if ( alpha > 0.0) {
+            this.alpha = alpha;
+            this.alphaInverse = 1.0 / alpha;
         }
         else {
             throw new IllegalArgumentException("Alpha parameter must be > 0.0");
         }
     }
     
-/**
-* Sets the value of beta.
-* @throws IllegalArgumentException If beta is not positive.
-**/
+    /**
+     * 
+     * @param b the value of beta.
+     * @throws IllegalArgumentException If beta &le; 0.0.
+     */
     public void setBeta(double b) {
         if ( b > 0.0) {
-            beta = b;
+            this.beta = b;
         }
         else {
             throw new IllegalArgumentException("Beta parameter must be > 0.0");

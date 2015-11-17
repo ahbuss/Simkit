@@ -84,16 +84,18 @@ public class RenewalProcessVariate implements RandomVariate {
         return lastTime;
     }
     
-/**
- * Sets the RandomVariate used to generate the interarrival times.
- * Note: the instance is passed in, not copied.
-**/
+    /**
+     * 
+     * @param rv the RandomVariate used to generate the interarrival times.
+     * Note: the instance is passed in, not copied.
+     */
     public void setInterarrivalTime(RandomVariate rv) {
         interarrivalTime = rv;
     }
     
-/**
-* Returns the RandomVariate used to generate the interarrival times.
-**/
+    /**
+     * 
+     * @return the RandomVariate used to generate the interarrival times.
+     */
     public RandomVariate getInterarrivalTime() { return interarrivalTime; }
 }

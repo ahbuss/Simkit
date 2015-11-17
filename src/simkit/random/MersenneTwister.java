@@ -248,6 +248,7 @@ public class MersenneTwister implements RandomNumber {
 
     /**
      * This main() outputs first 1000 generated numbers
+     * @param args the command line arguments
      */
     public static void main(String args[]) {
         int j;
