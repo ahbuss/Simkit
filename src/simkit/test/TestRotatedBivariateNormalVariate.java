@@ -7,7 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import simkit.random.RandomVector;
 import simkit.random.RandomVectorFactory;
-import simkit.stat.SimpleStatsTally;
+import simkit.stat.BivariateSimpleStatsTally;
+import simkit.random.RotatedBivariateNormalVector;
 
 /**
  * @version $Id$
@@ -37,13 +38,10 @@ public class TestRotatedBivariateNormalVariate {
         Point2D vector = new Point2D.Double(20.0, 10.0);
         double angle = Math.atan2(vector.getX(), vector.getY());
         
-        rv.setParameters(1.0, 4.0,  angle );
+        rv.setParameters(vector.getX(), vector.getY(), 1.0, 4.0,  angle );
         System.out.println(rv);
-        
-        SimpleStatsTally[] sst = new SimpleStatsTally[] {
-            new SimpleStatsTally("x"),
-            new SimpleStatsTally("y")
-        };
+                
+        BivariateSimpleStatsTally bsst = new BivariateSimpleStatsTally(rv.toString());
         
         File outputFile = new File(System.getProperty("user.home"), "output.csv");
         FileWriter fileWriter = new FileWriter(outputFile);
@@ -54,14 +52,37 @@ public class TestRotatedBivariateNormalVariate {
             double[] gen = rv.generate();
             bufferedWriter.newLine();
             bufferedWriter.append(String.format("%f,%f", gen[0], gen[1]));
-            sst[0].newObservation(gen[0]);
-            sst[1].newObservation(gen[1]);
+            bsst.newObservation(gen);
         }
         bufferedWriter.flush();
         fileWriter.close();
-        for (int i = 0; i< sst.length; ++i) {
-            System.out.println(sst[i]);
-        }
+        
+        System.out.println(bsst);
+        
+        RotatedBivariateNormalVector theRV = (RotatedBivariateNormalVector)rv;
+
+        double[] actualVar = new double[] {
+            Math.pow(theRV.getStandardDeviation(0) * Math.cos(angle), 2) +
+            Math.pow(theRV.getStandardDeviation(1) * Math.sin(angle), 2),
+            Math.pow(theRV.getStandardDeviation(0) * Math.sin(angle), 2) +
+            Math.pow(theRV.getStandardDeviation(1) * Math.cos(angle), 2),
+        };
+        
+        System.out.printf("Theoretical var: (%.3f, %.3f)%n", actualVar[0], actualVar[1]);
+        
+        double[] actualStd = new double[] {
+            Math.sqrt(actualVar[0]), Math.sqrt(actualVar[1])
+        };
+        System.out.printf("Theoretical std dev: (%.3f, %.3f)%n", actualStd[0], actualStd[1]);
+        
+        double coeff = Math.pow(theRV.getStandardDeviation(1), 2) -
+                Math.pow(theRV.getStandardDeviation(0), 2);
+        
+        double cov = coeff * 0.5 * Math.sin(2 * angle) ;
+        System.out.printf("Theoretical cov: %.3f%n", cov);
+
+        double theoreticalCorr = cov / (actualStd[0] * actualStd[1]);
+        System.out.printf("Theoretical corr: %.3f%n", theoreticalCorr);
     }
 
 }
