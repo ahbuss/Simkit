@@ -442,14 +442,16 @@ public abstract class SimEntityBase extends BasicSimEntity {
    }
  */
     
-/**
-* If true, print debug information.
-**/
+    /**
+     * 
+     * @param b If true, print debug information.
+     */
     public static void setDebug(boolean b) {debug = b;}
 
-/**
-* If true, print debug information.
-**/
+    /**
+     * 
+     * @return If true, print debug information.
+     */
     public static boolean isDebug() {return debug;}
     
     /**

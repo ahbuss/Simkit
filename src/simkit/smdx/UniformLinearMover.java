@@ -186,7 +186,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     
     /**
      * Event that signals the start of a move to previously set destination
-     * @param mover
+     * @param mover This Mover
      */
     public void doStartMove(Moveable mover) {
         if (mover == this) {
@@ -268,8 +268,8 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
      * move to the destination at the maxSpeed.  If the destination
      * is null or the speed is &le; 0.0, it returns without comment or
      * error.
-     * @param destination
-     * @param cruisingSpeed
+     * @param destination given destination
+     * @param cruisingSpeed given cruising speed or maxSpeed, whichever is smaller
      */
     public void moveTo(Point2D destination, double cruisingSpeed) {
         if (destination == null || cruisingSpeed <= 0.0) { return; }
@@ -323,7 +323,7 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     /**
      * Move with the desired velocity.  Scales to maximum speed if
      * desiredVelocity has greater magnitude.
-     * @param desiredVelocity
+     * @param desiredVelocity desired velocity
      */
     public void move(Point2D desiredVelocity) {
         double desiredSpeed = desiredVelocity.distance(ORIGIN);
@@ -358,9 +358,10 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
         }
     }
     
-/**
-* Sets the MovementState and fires a property change.
-**/
+    /**
+     * Sets the MovementState and fires a property change.
+     * @param state Given MovementState
+     */
     protected void setMovementState(MovementState state) {
         MovementState oldState = getMovementState();
         movementState = state;
@@ -371,15 +372,15 @@ public class UniformLinearMover extends SimEntityBase implements Mover {
     
     /**
      * Does nothing in this implementation.
-     * @param acceleration
+     * @param acceleration given acceleration
      */
     public void accelerate(Point2D acceleration) {
     }
     
     /**
      * Does nothing in this implementation
-     * @param acceleration
-     * @param speed
+     * @param acceleration given accelleration
+     * @param speed given speed
      */
     public void accelerate(Point2D acceleration, double speed) {
     }

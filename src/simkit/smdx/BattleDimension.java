@@ -1,46 +1,51 @@
-
 package simkit.smdx;
 
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.logging.*;
+
 /**
-* Represents the battle dimension or operating medium of an object.<br>
-* Valid values are:<ul>
-* <li>Space</li>
-* <li>Air</li>
-* <li>Ground</li>
-* <li>Surface</li>
-* <li>Subsurface</li>
-* <li>SOF</li>
-* </ul><br>
-* The BattleDimension is used to help determine which Mil-Std-2525 symbol to display.
-* <br>Note: This class is currently not implemented as a Java 1.5 enum, to allow use of 
-* Java 1.4 JVM's.
-* 
+ * Represents the battle dimension or operating medium of an object.<br>
+ * Valid values are:<ul>
+ * <li>Space</li>
+ * <li>Air</li>
+ * <li>Ground</li>
+ * <li>Surface</li>
+ * <li>Subsurface</li>
+ * <li>SOF</li>
+ * </ul><br>
+ * The BattleDimension is used to help determine which Mil-Std-2525 symbol to
+ * display.
+ * <br>Note: This class is currently not implemented as a Java 1.5 enum, to
+ * allow use of Java 1.4 JVM's.
+ * 
 * @author John Ruck (Rolands and Associates Corporation)
-* @version $Id$
-**/
+ * @version $Id$
+*
+ */
 public class BattleDimension {
 
     public static final Logger log = Logger.getLogger("simkit.smdx");
-    
+
     public static final String _VERSION_ = "$Id$";
 
-/**
-* Holds a mapping from Strings to the values.
-**/
-    protected static Map<String, BattleDimension> validValues = 
-            new LinkedHashMap<String, BattleDimension>();
+    /**
+     * Holds a mapping from Strings to the values.
+*
+     */
+    protected static Map<String, BattleDimension> validValues
+            = new LinkedHashMap<String, BattleDimension>();
 
-/**
-* The name of this battle dimension.
-**/
+    /**
+     * The name of this battle dimension.
+*
+     */
     protected String name;
 
-/**
-* The MIL-STD-2525 symbol for this dimension (Position 3)
-**/
+    /**
+     * The MIL-STD-2525 symbol for this dimension (Position 3)
+*
+     */
     protected char symbol;
 
     public static final BattleDimension SPACE = new BattleDimension("Space", "P");
@@ -60,53 +65,67 @@ public class BattleDimension {
         validValues.put("sof", SOF);
     }
 
-/**
-* Contructs a new instance with the given name of symbol.
-* @param aName The name of the battle dimension
-* @param aSymbol The character for position 3 of the Mil-Std-2525 ID code.
-**/
+    /**
+     * Contructs a new instance with the given name of symbol.
+     *
+     * @param aName The name of the battle dimension
+     * @param aSymbol The character for position 3 of the Mil-Std-2525 ID code.
+*
+     */
     protected BattleDimension(String aName, char aSymbol) {
         this.name = aName;
         this.symbol = aSymbol;
     }
 
-/**
-* Contructs a new instance with the given name of symbol.
-* @param aName The name of the battle dimension
-* @param aSymbol The character for position 3 of the Mil-Std-2525 ID code.
-**/
+    /**
+     * Contructs a new instance with the given name of symbol.
+     *
+     * @param aName The name of the battle dimension
+     * @param aSymbol The character for position 3 of the Mil-Std-2525 ID code.
+*
+     */
     protected BattleDimension(String aName, String aSymbol) {
         if (aSymbol.length() == 0) {
             throw new IllegalArgumentException("The symbol contained no character");
         } else if (aSymbol.length() > 1) {
             log.warning("A String with more than one character was passed as the Symbol."
-                + " The symbol should be a single character. "
-                + " Using the first character. The value passed was " + aSymbol);
+                    + " The symbol should be a single character. "
+                    + " Using the first character. The value passed was " + aSymbol);
         }
         this.name = aName;
         this.symbol = aSymbol.charAt(0);
     }
-            
 
-/**
-* Finds the instance of BattleDimension corresponding to the given name (case insensative).
-* @return The BattleDimension for the given name or null if it does not exist.
-**/
+    /**
+     * Finds the instance of BattleDimension corresponding to the given name
+     * (case insensitive).
+     *
+     * @param name given name
+     * @return The BattleDimension for the given name or null if it does not
+     * exist.
+     */
     public static BattleDimension findBattleDimension(String name) {
         return validValues.get(name.toLowerCase());
     }
 
-/**
-* The name of the BattleDimension.
-**/
-    public String getName() {return name;}
+    /**
+     * 
+     * @return The name of the BattleDimension.
+     */
+    public String getName() {
+        return name;
+    }
 
-/**
-* The character for position 3 of the Mil-Std-2525 Symbol ID Code.
-* (See Table A-I of MIL-STD-2525B.)
-**/
-    public char getSymbol() {return symbol;}
+    /**
+     * 
+     * @return The character for position 3 of the Mil-Std-2525 Symbol ID Code. (See
+     * Table A-I of MIL-STD-2525B.)
+     */
+    public char getSymbol() {
+        return symbol;
+    }
 
+    @Override
     public String toString() {
         return "BattleDimension[" + name + ", " + symbol + "]";
     }

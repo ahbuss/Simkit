@@ -1,6 +1,7 @@
 package simkit.random;
 
 /**
+ * 
  * Generate from the Weibull distribution having pdf:<br>
  * <i>f(x) =
  * &alpha;x<sup>&alpha;-1</sup>&beta;<sup>-&alpha;</sup>e<sup>-(x/&beta;)<sup>&alpha;</sup></sup>,
@@ -8,6 +9,7 @@ package simkit.random;
  *
  * @version $Id$
  */
+@SuppressWarnings("javadoc")
 public class WeibullVariate extends RandomVariateBase {
 
     private double alpha;

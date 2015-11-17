@@ -109,7 +109,7 @@ public class ScaledVariate implements RandomVariate {
     
     /**
      * 
-     * @param shift 
+     * @param shift the amount to shift the RandomVariate.
      */
     public void setShift(double shift) { this.shift = shift; }
     

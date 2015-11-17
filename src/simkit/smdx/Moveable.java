@@ -13,12 +13,11 @@ import java.awt.geom.Point2D;
  */
 public interface Moveable {
     
-/**
-* Gets the current location of this Object.
- * 
- * Implementations should take care that simulation events and state
- * changes are not fired by this method.
-**/
+    /**
+     * Implementations should take care that simulation events and state
+     * changes are not fired by this method.
+     * @return the current location of this Object.
+     */
     public Point2D getLocation();
     
 /**
@@ -26,9 +25,10 @@ public interface Moveable {
 **/
     public Point2D getVelocity();
     
-/**
-* Gets the current acceleration of this Object.
-**/
+    /**
+     * 
+     * @return the current acceleration of this Object.
+     */
     public Point2D getAcceleration();
 
 }

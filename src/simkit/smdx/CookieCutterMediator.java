@@ -41,8 +41,8 @@ public class CookieCutterMediator extends SimEntityBase
      * <p>
      * If the subclass implementation returns null, no detection is scheduled.
      * 
-     * @param sensor
-     * @param target
+     * @param sensor Given Sensor
+     * @param target Given Mover target
      * @return The Contact for the given sensor-target pairing.
      */
     protected Contact getContactForEnterRangeEvent(Sensor sensor, Mover target) {
@@ -57,8 +57,8 @@ public class CookieCutterMediator extends SimEntityBase
      * <p>
      * Default behavior is to do nothing.
      * 
-     * @param sensor
-     * @param target
+     * @param sensor Given Sensor
+     * @param target Given target Mover
      */
     protected void targetIsEnteringSensorRange(Sensor sensor, Mover target){}
     
@@ -134,8 +134,8 @@ public class CookieCutterMediator extends SimEntityBase
      * <p>
      * Default behavior is to do nothing.
      * 
-     * @param sensor
-     * @param target
+     * @param sensor Given Sensor
+     * @param target Given target Mover
      */
     protected void targetIsExitingSensorRange(Sensor sensor, Mover target){}
     /**

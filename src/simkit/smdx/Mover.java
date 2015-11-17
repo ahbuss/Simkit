@@ -20,53 +20,65 @@ import simkit.SimEntity;
  */
 public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
 
-/**
-* Event that signals the start of a move to a previously set destination.
-* Should set the MovementState to "CRUISING." Movers should not
-* normally respond to other entities StartMove events.
-**/
+    /**
+     * Event that signals the start of a move to a previously set destination.
+     * Should set the MovementState to "CRUISING." Movers should not
+     * normally respond to other entities StartMove events.
+     * @param mover Should be reference to this Mover.
+     */
     public void doStartMove(Moveable mover);
     
-/**
-* Event that signals that this Mover has reached its desired location.
-* Should set the MovementState to "PAUSED." Movers should not
-* normally respond to other entities EndMove events.
-**/
+    /**
+     * Event that signals that this Mover has reached its desired location.
+     * Should set the MovementState to "PAUSED." Movers should not
+     * normally respond to other entities EndMove events.
+     * @param mover Should be reference to this Mover
+     */
     public void doEndMove(Moveable mover);
     
-/**
-* Causes this Mover to move to the given destination at 
-* its maximum speed. Normally schedules the StartMove event after
-* setting the destination.
-**/
+
+    /**
+     * Causes this Mover to move to the given destination at 
+     * its maximum speed. Normally schedules the StartMove event after
+     * setting the destination.
+     * 
+     * @param destination given destination
+     */
     public void moveTo(Point2D destination);
     
-/**
-* Causes this Mover to move to the given destination at the 
-* given speed. Normally schedules the StartMove event.
-**/
+    /**
+     * Causes this Mover to move to the given destination at the 
+     * given speed. Normally schedules the StartMove event.
+     * @param destination given destination
+     * @param cruisingSpeed given speed
+     */
     public void moveTo(Point2D destination, double cruisingSpeed);
     
-/**
-* Move with the given velocity.
-**/
+    /**
+     * Move with the given velocity.
+     * @param velocity given velocity
+     */
     public void move(Point2D velocity);
     
-/**
-* Instantly move to the given location.
-* @throws MagicMoveException If this Mover is not allowed to magic move.
-**/
+    /**
+     * Instantly move to the given location.
+     * @param location given location
+     * @throws MagicMoveException If this Mover is not allowed to magic move.
+     */
     public void magicMove(Point2D location) throws MagicMoveException;
     
-/**
-* Accelerate with the given acceleration vector.
-**/
+    /**
+     * Accelerate with the given acceleration vector.
+     * @param acceleration given acceleration vector
+     */
     public void accelerate(Point2D acceleration);
     
-/**
-* Accelerate in the direction of the given acceleration vector
-* to the given speed.
-**/
+    /**
+     * Accelerate in the direction of the given acceleration vector
+     * to the given speed.
+     * @param acceleration given acceleration
+     * @param speed given speed
+     */
     public void accelerate(Point2D acceleration, double speed);
     
 /**
@@ -79,34 +91,41 @@ public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
 **/
     public void pause();
     
-/**
-* Returns information about the Mover.
-**/
+    /**
+     * 
+     * @return information about the Mover.
+     */
     public String paramString();
     
-/**
-* Returns true if the Mover is currently moving.
-**/
+    /**
+     * 
+     * @return true if the Mover is currently moving.
+     */
     public boolean isMoving();
     
-/**
-* Returns the current MovementState of this Mover.
-**/
+    /**
+     * 
+     * @return the current MovementState of this Mover.
+     */
     public MovementState getMovementState();
     
-/**
-* The speed that this Mover should never exceed.
-**/
+    /**
+     * 
+     * @return speed that this Mover should never exceed.
+     */
     public double getMaxSpeed();
 
     /**
      * Added to support zero argument constructors and the ObjectMaker system.
-     * @param max
+     * @param maxSpeed speed that this Mover should never exceed.
+     * @throws MagicMoveException if this Mover doesn't support "magic moves
      */
-    public void setMaxSpeed(double max) throws MagicMoveException;
+    public void setMaxSpeed(double maxSpeed) throws MagicMoveException;
+    
     /**
      * Added to support zero argument constructors and the ObjectMaker system.
-     * @param location
+     * @param location Given location
+     * @throws MagicMoveException if Mover doesn't support magic moves
      */
     public void setLocation(Point2D location) throws MagicMoveException;
 }

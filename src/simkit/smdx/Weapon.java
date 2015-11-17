@@ -5,40 +5,50 @@ import java.awt.geom.Point2D;
 import simkit.SimEntity;
 
 /**
-* Represents a weapon system that can fire Munitions.
-* @version $Id$
-**/
+ * Represents a weapon system that can fire Munitions.
+ *
+ * @version $Id$
+*
+ */
 public interface Weapon extends Moveable, SimEntity {
 
-/**
-* Adds the given number of rounds to this Weapons inventory.
-**/
+    /**
+     * Adds the given number of rounds to this Weapons inventory.
+     *
+     * @param numberRounds given number of rounds
+     */
     public void reload(int numberRounds);
 
-/**
-* The number of rounds remaining in this Weapons inventory.
-**/
+    /**
+     *
+     * @return The number of rounds remaining in this Weapons inventory.
+     */
     public int getRemainingRounds();
 
-/**
-* An event that occurs when this Weapon fires the Munition at 
-* a point. 
-**/
+    /**
+     * An event that occurs when this Weapon fires the Munition at a point.
+     *
+     * @param munition Given Munition
+     * @param aimPoint given aim point
+     */
     public void doShoot(Munition munition, Point2D aimPoint);
-    
-/**
-* Sets the Moveable asset on which this Weapon resides.
-**/
+
+    /**
+     * 
+     * @param mover the Moveable asset on which this Weapon resides.
+     */
     public void setMover(Moveable mover);
-    
-/**
-* The Moveable asset on which this Weapon resides.
-**/
+
+    /**
+     * 
+     * @return The Moveable asset on which this Weapon resides.
+     */
     public Moveable getMover();
-    
-/**
-* Returns the type of fire for this Weapon.
-**/
+
+    /**
+     * Returns the type of fire for this Weapon.
+*
+     */
     public WeaponFireType getFireType();
-    
+
 }
