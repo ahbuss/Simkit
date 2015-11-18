@@ -31,11 +31,10 @@ public class BivariateNormalVectorTest extends TestCase {
         RandomVector instance = 
                 RandomVectorFactory.getInstance("BivariateNormalVector",
                         1.0, 1.5, 0.5, 1.1, 0.9);
-        double[] expResult = null;
+        double[] expResult = new double[] {1.0155097688953694, 1.6119454813537508};
         double[] result = instance.generate();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult[0], result[0]);
+        assertEquals(expResult[1], result[1]);
     }
 
     /**

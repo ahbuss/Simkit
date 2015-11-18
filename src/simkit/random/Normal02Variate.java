@@ -12,25 +12,25 @@ public class Normal02Variate implements RandomVariate {
 
     /**
      * The instance of the supporting RandomNumber.
-*
+     *
      */
     protected RandomNumber rng;
 
     /**
      * The mean of this normal random variate.
-*
+     *
      */
     private double mean;
 
     /**
      * The standard deviation of this normal random variate.
-*
+     *
      */
     private double stdDev;
 
     /**
      * Creates new Normal02Variate with 0 mean and standard deviation.
-*
+     *
      */
     public Normal02Variate() {
         setRandomNumber(RandomVariateFactory.getDefaultRandomNumber());
@@ -108,7 +108,7 @@ public class Normal02Variate implements RandomVariate {
     }
 
     /**
-     * 
+     *
      * @param mean the mean of this normal variate.
      */
     public void setMean(double mean) {
@@ -116,7 +116,7 @@ public class Normal02Variate implements RandomVariate {
     }
 
     /**
-     * 
+     *
      * @return the mean of this normal variate.
      */
     public double getMean() {
@@ -124,21 +124,21 @@ public class Normal02Variate implements RandomVariate {
     }
 
     /**
-     * 
+     *
      * @param stdDev the standard deviation of this normal variate.
      * @throws IllegalArgumentException if the standard deviation &lt; 0.0
      */
     public void setStandardDeviation(double stdDev) {
-        if (stdDev > 0.0) {
+        if (stdDev >= 0.0) {
             this.stdDev = stdDev;
         } else {
-            throw new IllegalArgumentException("Standard Deviation must be > 0.0: "
+            throw new IllegalArgumentException("Standard Deviation must be \u2265 0.0: "
                     + stdDev);
         }
     }
 
     /**
-     * 
+     *
      * @return the standard deviation for this normal variate.
      */
     public double getStandardDeviation() {
@@ -148,11 +148,11 @@ public class Normal02Variate implements RandomVariate {
     /**
      * Returns a String containing the name, mean, and standard deviation of
      * this variate.
-*
+     *
      */
     @Override
     public String toString() {
-        return String.format("Normal (%.3f, %.3f)",getMean(), getStandardDeviation());
+        return String.format("Normal (%.3f, %.3f)", getMean(), getStandardDeviation());
     }
 
 }

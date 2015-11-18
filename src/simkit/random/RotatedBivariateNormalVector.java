@@ -230,7 +230,7 @@ public class RotatedBivariateNormalVector implements RandomVector {
         }
         if (standardDeviation[0] < 0.0 || standardDeviation[1] < 0.0) {
             throw new IllegalArgumentException(
-                    String.format("standardDeviations must be \uu2265 0.0: [%f, %f]",
+                    String.format("standardDeviations must be \u2265 0.0: [%f, %f]",
                             standardDeviation[0], standardDeviation[1]));
         }
         this.setStandardDeviation(0, standardDeviation[0]);
@@ -251,7 +251,7 @@ public class RotatedBivariateNormalVector implements RandomVector {
         }
         if (standardDeviation < 0.0) {
             throw new IllegalArgumentException(
-                    String.format("standardDeviation[%d] must be \uu2265 0.0: %f",
+                    String.format("standardDeviation[%d] must be \u2265 0.0: %f",
                             index, standardDeviation));
         }
         this.standardDeviation[index] = standardDeviation;
