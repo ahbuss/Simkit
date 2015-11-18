@@ -210,8 +210,8 @@ public interface BasicEventList {
     /**
      * Cause event processing to stop when the given number of events with this
      * signature have occurred. <p> Calling this method should cause any other
-     * stop method previosly called to be ineffective. That is, the last
-     * stop_xxx method invoked should be the difinitive one.
+     * stop method previously called to be ineffective. That is, the last
+     * stop_xxx method invoked should be the definitive one.
      *
      * @param numberEvents Number of events to occur
      * @param eventName Name of stop event

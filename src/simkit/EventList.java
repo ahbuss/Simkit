@@ -52,7 +52,7 @@ public class EventList implements BasicEventList {
 /**
  * Holds the pending events.
  */
-    protected SortedSet<SimEvent> eventList;
+    protected final SortedSet<SimEvent> eventList;
     
 /**
  * The current simulation time.
@@ -198,7 +198,7 @@ public class EventList implements BasicEventList {
 /**
 * An Object used to synchronize access to entryCounter.
 **/
-    protected Object entryCounterMutex = new Object();
+    protected final Object entryCounterMutex = new Object();
 
 /**
 * If true, the event list will be cleared at the start of the next iteration
@@ -226,7 +226,6 @@ public class EventList implements BasicEventList {
     }
 
     /**
-     * Returns the number of events on the event list.
      *
      * @return the number of events on the event list.
      */
@@ -415,7 +414,7 @@ public class EventList implements BasicEventList {
         }
     }
     
-    /** Removes all cancelled events from the front of the
+    /** Removes all canceled events from the front of the
      * Event List.  This should not be as necessary
      * as it once was.
      * Should only be called from inside a block synchronized on "eventList"
@@ -505,8 +504,7 @@ public class EventList implements BasicEventList {
             }
         }
         if (isReallyVerbose()) {
-            log.info("\n" + getSimTime() + ": Event " + event + " Scheduled by " + 
-                event.getSource());
+            log.log(Level.INFO, "\n{0}: Event {1} Scheduled by {2}", new Object[]{getSimTime(), event, event.getSource()});
             //dump();
         }
     }
@@ -624,7 +622,7 @@ public class EventList implements BasicEventList {
     }
     
     /**
-     * Adds one to the number of this event that have occured.
+     * Adds one to the number of this event that have occurred.
      * Used for <CODE>stopOnEvent</CODE>
      * This method is not synchronized since it is only called from startSimulation(),
      * which is protected from being entered multiple times.
@@ -679,7 +677,7 @@ public class EventList implements BasicEventList {
     public void interrupt(SimEventScheduler simEntity, String eventName) {
         synchronized(eventList) {
             clearDeadEvents();
-            Set<SimEvent> events = null;
+            Set<SimEvent> events;
             if (fastInterrupts) {
                 events = entityEventMap.get(simEntity);
             } else {
@@ -694,8 +692,7 @@ public class EventList implements BasicEventList {
                     (event.getEventName().equals(eventName)) &&
                     (event.isPending())) {
                         if (reallyVerbose) {
-                            log.info("\n" + getSimTime() 
-                                                + ": Cancelling " + event); 
+                            log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), event}); 
                         }
                         i.remove();
                         if (fastInterrupts) {
@@ -732,8 +729,7 @@ public class EventList implements BasicEventList {
                     (event.interruptParametersMatch(parameters)) &&
                     (event.isPending())) {
                         if (reallyVerbose) {
-                            log.info("\n" + getSimTime() 
-                                                + ": Cancelling " + event); 
+                            log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), event}); 
                         }
                         i.remove();
                         if (fastInterrupts) {
@@ -769,8 +765,7 @@ public class EventList implements BasicEventList {
                     SimEvent simEvent = i.next();
                     if (simEvent.getSource() == simEntity) {
                         if (reallyVerbose) {
-                            log.info("\n" + getSimTime() 
-                                                + ": Cancelling " + simEvent); 
+                            log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), simEvent}); 
                         }
                         i.remove();
                     }
@@ -797,8 +792,7 @@ public class EventList implements BasicEventList {
                 if ((simEvent.getSource() == simEntity) &&
                     (simEvent.getEventName().equals(eventName)) ){
                     if (reallyVerbose) {
-                        log.info("\n" + getSimTime() 
-                                            + ": Cancelling " + simEvent); 
+                        log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), simEvent}); 
                     }
                     i.remove();
                     if (fastInterrupts) {
@@ -833,8 +827,7 @@ public class EventList implements BasicEventList {
                     (simEvent.getEventName().equals(eventName)) &&
                     (simEvent.interruptParametersMatch(parameters)) ){
                         if (reallyVerbose) {
-                            log.info("\n" + getSimTime() 
-                                                + ": Cancelling " + simEvent); 
+                            log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), simEvent}); 
                         }
                     i.remove();
                     if (fastInterrupts) {
@@ -872,7 +865,7 @@ public class EventList implements BasicEventList {
 
     @Override
     public Set<ReRunnable> getRerun() {
-        return new LinkedHashSet<ReRunnable>(reRun);
+        return new LinkedHashSet<>(reRun);
     }
     
     @Override
@@ -887,7 +880,7 @@ public class EventList implements BasicEventList {
     
     @Override
     public Set<String> getIgnoredEvents() {
-        return new LinkedHashSet<String>(ignoreOnDump);
+        return new LinkedHashSet<>(ignoreOnDump);
     }
 
     @Override
@@ -949,18 +942,17 @@ public class EventList implements BasicEventList {
                 buf.append(SimEntity.NL);
             }
             else {
-                for (Iterator i = eventList.iterator(); i.hasNext(); ) {
-                    SimEvent simEvent = (SimEvent) i.next();
+                for (SimEvent simEvent : eventList) {
                     if (ignoreOnDump.contains(simEvent.getEventName())) {
                         continue;
                     }
                     if (simEvent.isPending()) {
                         buf.append(simEvent);
 //                        if (isPrintEventSources()) {
-                            buf.append(' ');
-                            buf.append('<');
-                            buf.append(simEvent.getSource().getName());
-                            buf.append('>');
+                        buf.append(' ');
+                        buf.append('<');
+                        buf.append(simEvent.getSource().getName());
+                        buf.append('>');
 //                        }
                         buf.append(SimEntity.NL);
                     }
@@ -990,14 +982,19 @@ public class EventList implements BasicEventList {
 **/
     public boolean isFastInterrupts() {return fastInterrupts;}
 
-/**
-* If true, then pending SimEvents will be stored in a secondary hash table
-* to make them easier to find when interrupting (defaults to true). For simulations that
-* do not interrupt events, the added overhead from storing and removing
-* events in the secondary table could add to run time.
-* If going from false to true, add any pending events to the secondary hash tables.
-* If going from true to false, clear the secondary hash tables.
-**/
+    /**
+     * If true, then pending SimEvents will be stored in a secondary hash table
+     * to make them easier to find when interrupting (defaults to true). For
+     * simulations that do not interrupt events, the added overhead from storing
+     * and removing events in the secondary table could add to run time. If
+     * going from false to true, add any pending events to the secondary hash
+     * tables. If going from true to false, clear the secondary hash tables.
+     *
+     * @param value If true, then pending SimEvents will be stored in a
+     * secondary hash table to make them easier to find when interrupting
+     * (defaults to true).
+     */
+    @Override
     public void setFastInterrupts(boolean value) {
         if (value == fastInterrupts) {
             return;
@@ -1031,13 +1028,12 @@ public class EventList implements BasicEventList {
         SimEventScheduler source = event.getSource();
         SortedSet<SimEvent> events = entityEventMap.get(source);
         if (events == null) {
-            events = new TreeSet<SimEvent>();
+            events = new TreeSet<>();
             entityEventMap.put(source, events);
         }
         boolean temp = events.add(event);
         if (!temp) {
-            log.warning(getSimTime() + ": The following SimEvent was already in the entity hash "
-                + event);
+            log.log(Level.WARNING, "{0}: The following SimEvent was already in the entity hash {1}", new Object[]{getSimTime(), event});
         }
         return temp;
     }
@@ -1054,14 +1050,13 @@ public class EventList implements BasicEventList {
         SimEventScheduler source = event.getSource();
         SortedSet<SimEvent> events = entityEventMap.get(source);
         if (events == null) {
-            log.warning(getSimTime() + ": There are no events for the owner of the SimEvent "
-                + " in the entity hash. The event was " + event);
+            log.log(Level.WARNING,"{0}"
+                + ": There are no events for the owner of the SimEvent " + " in the entity hash. The event was {1}", new Object[]{getSimTime(), event});
             return false;
         }
         boolean temp = events.remove(event);
         if (!temp) {
-            log.warning(getSimTime() + ": The following SimEvent was not found in the entity hash "
-                + event);
+            log.log(Level.WARNING, "{0}: The following SimEvent was not found in the entity hash {1}", new Object[]{getSimTime(), event});
         }
         return temp;
     }
@@ -1078,13 +1073,12 @@ public class EventList implements BasicEventList {
         Integer hash = event.getEventHash();
         SortedSet<SimEvent> events = hashEventMap.get(hash);
         if (events == null) {
-            events = new TreeSet<SimEvent>();
+            events = new TreeSet<>();
             hashEventMap.put(hash, events);
         }
         boolean temp = events.add(event);
         if (!temp) {
-            log.warning(getSimTime() + ": The following SimEvent was already in the Integer hash "
-                + event);
+            log.log(Level.WARNING, "{0}: The following SimEvent was already in the Integer hash {1}", new Object[]{getSimTime(), event});
         }
         return temp;
     }
@@ -1108,8 +1102,8 @@ public class EventList implements BasicEventList {
             }
         }
         if (!temp) {
-            log.warning(getSimTime() + ": The following SimEvent was not found in the "
-                + " hash event Map." + event);
+            log.log(Level.WARNING,"{0}"
+                + ": The following SimEvent was not found in the " + " hash event Map.{1}", new Object[]{getSimTime(), event});
         }
         return temp;
     }

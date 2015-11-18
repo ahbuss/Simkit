@@ -6,7 +6,12 @@ import simkit.Schedule;
 import simkit.animate.SandboxFrame;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
-import simkit.smd.*;
+import simkit.smd.BasicLinearMover;
+import simkit.smd.CookieCutterSensor;
+import simkit.smd.Mover;
+import simkit.smd.RandomMoverManager;
+import simkit.smd.Sensor;
+import simkit.smd.SensorMoverReferee;
 
 
 /**
@@ -44,6 +49,7 @@ public class TestSandboxFrame {
         sensor[0] = new CookieCutterSensor(mover[0], 30.0);
         sensor[1] = new CookieCutterSensor(mover[1], 40.0);
         
+        Schedule.addIgnoreOnDump("Ping");
         Schedule.reset();
         
         SandboxFrame frame = new SandboxFrame("Test");
