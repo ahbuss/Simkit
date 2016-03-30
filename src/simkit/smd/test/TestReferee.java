@@ -25,7 +25,7 @@ public class TestReferee {
     public static void main(String[] args) {
         BasicLinearMover fred = new BasicLinearMover("Fred",
                 new Point2D.Double(30.0, 0.0), 40.0);
-        LinkedList<WayPoint> waypoint = new LinkedList<WayPoint>();
+        LinkedList<WayPoint> waypoint = new LinkedList<>();
         waypoint.add(new WayPoint(new Point2D.Double(0.0, 0.0), 40.0));
         waypoint.add(new WayPoint(new Point2D.Double(0.0, 50.0), 20.0));
         PathMoverManager fredMM = new PathMoverManager(fred, waypoint, true);

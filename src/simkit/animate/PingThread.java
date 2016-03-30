@@ -6,7 +6,7 @@ import simkit.SimEntityBase;
 
 /**
  * <P>An extremely simple way to animate Simkit programs.
- * a Ping event occurs every deltaT utints of simulated time, which
+ * a Ping event occurs every deltaT units of simulated time, which
  * correspond roughly to millisPerSimTime milliseconds of real time 
  * (your mileage may vary).  Any listeners to Ping may do as they 
  * wish, such as updating the position of units drawn on a screen.
@@ -76,6 +76,7 @@ public class PingThread extends SimEntityBase
     /**
      * Reset state: pinging and resetOnce to false
      */
+    @Override
     public void reset() {
         pinging = false;
         resetOnce = false;
@@ -99,6 +100,7 @@ public class PingThread extends SimEntityBase
     /**
      * Thread entry point.  
      */
+    @Override
     public void run() {
         pinging = true;
         if(Schedule.getPauseAfterEachEvent()) {
@@ -111,6 +113,7 @@ public class PingThread extends SimEntityBase
         }
     }
     
+    @Override
     public void step() {
         pinging = true;
         resetOnce=true;
@@ -140,6 +143,7 @@ public class PingThread extends SimEntityBase
      * is the number of milliseconds equivalent to deltaT, as 
      * specified by the user.
      **/
+    @SuppressWarnings("SleepWhileHoldingLock")
     public synchronized void doPing() {
 //        This is just some stuff to see about better 
 //        synchronization with the "real"
@@ -164,21 +168,26 @@ public class PingThread extends SimEntityBase
 //        Save the current time to adjust time step on next Ping
     }
     
+    @Override
     public void stop() {
-        Schedule.getEventList(0).pause();
+        Schedule.pause();
         interruptAll("Ping");
         pinging = false;
     }
     
     public void resume() { this.startPinging(); }
     
+    @Override
     public void rewind() {
         this.pinging = false;
         Schedule.stopSimulation();
         Schedule.reset();
     }
     
+    @Override
     public void setDeltaT(double dt) {deltaT = dt;}
+    
+    @Override
     public void setMillisPerSimtime(double mpst) {
         millisPerSimtime = mpst;
     }
@@ -193,10 +202,12 @@ public class PingThread extends SimEntityBase
         return deltaT * millisPerSimtime; 
     }
     
+    @Override
     public void start() {
         startPinging();
     }
     
+    @Override
     public void pause() {
         //stopPinging();
         Schedule.getEventList(0).pause();

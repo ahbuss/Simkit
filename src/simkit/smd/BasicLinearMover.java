@@ -8,7 +8,7 @@ import simkit.SimEntityBase;
 
 /**
  * Implements the simplest movement logic. Each maneuver is at a
- * constant velocity at no greater than the maximim possible speed.
+ * constant velocity at no greater than the maximum possible speed.
  *
  * @version $Id: BasicLinearMover.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
@@ -137,6 +137,7 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
      * delay of moveTime.
      * @param me Reference to this Mover for listener purposes
      */
+    @Override
     public void doStartMove(Mover me) {
         startMoveTime = getEventList().getSimTime();
         firePropertyChange("startMoveTime", getStartMoveTime());
@@ -191,6 +192,7 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
      * Full stop. If actually moving, interrupt EndMove(this).
      * @param mover This Mover.
      */
+    @Override
     public void doStop(Mover mover) {
 
         boolean moving = velocity.distanceSq(0.0, 0.0) > 0.0;
@@ -221,6 +223,7 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
      * x(t) = x0 + (t - t0) v
      * @return Current location
      */
+    @Override
     public Point2D getCurrentLocation() {
         if (!isMoving()) {
             return getLastStopLocation();
@@ -249,6 +252,7 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     /**
      * @return the maxSpeed
      */
+    @Override
     public double getMaxSpeed() {
         return maxSpeed;
     }
@@ -277,6 +281,7 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     /**
      * @return the velocity
      */
+    @Override
     public Point2D getVelocity() {
         return new Point2D.Double(velocity.getX(), velocity.getY());
     }
@@ -312,6 +317,7 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
         return currentSpeed;
     }
 
+    @Override
     public double getAcceleration() {
         return 0.0;
     }

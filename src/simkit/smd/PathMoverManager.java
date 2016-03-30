@@ -2,6 +2,7 @@ package simkit.smd;
 
 import java.awt.geom.Point2D;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 import simkit.SimEntityBase;
 
@@ -17,7 +18,7 @@ public class PathMoverManager extends SimEntityBase {
     /**
      * List of desired WayPoints the Mover is to traverse
      */
-    private LinkedList<WayPoint> wayPoint;
+    private List<WayPoint> wayPoint;
 
     /**
      * Points to next WayPoint if hasNext() is true.
@@ -42,7 +43,7 @@ public class PathMoverManager extends SimEntityBase {
      * @param startOnRun If true, start from Run event
      */
     public PathMoverManager(Mover mover, 
-            LinkedList<WayPoint> waypoint,
+            List<WayPoint> waypoint,
             boolean startOnRun) {
         setMover(mover);
         setWaypoint(waypoint);
@@ -65,7 +66,7 @@ public class PathMoverManager extends SimEntityBase {
      * @param startOnRun
      */
     public PathMoverManager(Mover mover, boolean startOnRun) {
-        this(mover, new LinkedList<WayPoint>(), startOnRun);
+        this(mover, new LinkedList<>(), startOnRun);
     }
 
     /**
@@ -79,6 +80,7 @@ public class PathMoverManager extends SimEntityBase {
     /**
      * Set nextWayPointIter to beginning of waypoint
      */
+    @Override
     public void reset() {
         super.reset();
         nextWayPointIter = wayPoint.listIterator();
@@ -144,15 +146,15 @@ public class PathMoverManager extends SimEntityBase {
     /**
      * @return the list of WayPoints (shallow copy)
      */
-    public LinkedList<WayPoint> getWaypoint() {
-        return new LinkedList<WayPoint>(wayPoint);
+    public List<WayPoint> getWaypoint() {
+        return new LinkedList<>(wayPoint);
     }
 
     /**
      * @param waypoint the wayPoint to set
      */
-    public void setWaypoint(LinkedList<WayPoint> waypoint) {
-        this.wayPoint = new LinkedList<WayPoint>(waypoint);
+    public void setWaypoint(List<WayPoint> waypoint) {
+        this.wayPoint = new LinkedList<>(waypoint);
     }
 
     /**

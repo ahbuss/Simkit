@@ -1,7 +1,12 @@
 package simkit.animate;
-import java.awt.*;
-import java.awt.geom.*;
-import javax.swing.*;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import javax.swing.Icon;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import simkit.actions.ActionUtilities;
 import simkit.actions.visual.ShapeIcon;
 import simkit.smd.Mover;

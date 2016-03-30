@@ -1,6 +1,10 @@
 package simkit.animate;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.geom.Point2D;
 import java.net.URL;
 import javax.swing.JLabel;
@@ -62,6 +66,7 @@ public class Sandbox extends JPanel {
         backgroundImage = null;
     }
 
+    @Override
     public Component add(Component c) {
         if (c instanceof MoverIcon) {
             ((MoverIcon) c).setOrigin(getOrigin());
@@ -69,6 +74,7 @@ public class Sandbox extends JPanel {
         return super.add(c);
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(backgroundImage, 0, 0, this);

@@ -2,6 +2,7 @@ package simkit.smd;
 
 import java.awt.geom.Point2D;
 import java.util.HashSet;
+import java.util.Set;
 import simkit.Priority;
 import simkit.SimEntityBase;
 
@@ -19,7 +20,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
 
     private Mover mover;
 
-    protected HashSet<Mover> contacts;
+    protected Set<Mover> contacts;
 
     /**
      *
@@ -29,12 +30,13 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
     public BasicSensor(Mover mover, double maxRange) {
         setMover(mover);
         setMaxRange(maxRange);
-        contacts = new HashSet<Mover>();
+        contacts = new HashSet<>();
     }
 
     /**
      * Empty contacts list.
      */
+    @Override
     public void reset() {
         super.reset();
         contacts.clear();
@@ -54,7 +56,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
      * @param contact The Mover that has been detected, or its surrogate
      */
     public void doDetection(Mover contact) {
-        HashSet<Mover> oldContacts = getContacts();
+        Set<Mover> oldContacts = getContacts();
         contacts.add(contact);
         firePropertyChange("contacts", oldContacts, getContacts());
 
@@ -67,7 +69,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
      * @param contact The Mover that has been undetected, or its surrogate.
      */
     public void doUndetection(Mover contact) {
-        HashSet<Mover> oldContacts = getContacts();
+        Set<Mover> oldContacts = getContacts();
         contacts.remove(contact);
         firePropertyChange("contacts", oldContacts, getContacts());
 
@@ -82,6 +84,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
         waitDelay("StartMove", 0.0, this);
     }
 
+    @Override
     public void doStartMove(Sensor sensor) {
     }
 
@@ -101,13 +104,16 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
         waitDelay("Stop", 0.0, Priority.HIGH, this);
     }
 
+    @Override
     public void doStop(Sensor sensor) {
     }
     
+    @Override
     public Point2D getCurrentLocation() {
         return mover.getCurrentLocation();
     }
 
+    @Override
     public Point2D getVelocity() {
         return mover.getVelocity();
     }
@@ -115,6 +121,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
     /**
      * @return the maxRange
      */
+    @Override
     public double getMaxRange() {
         return maxRange;
     }
@@ -129,6 +136,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
     /**
      * @return the mover
      */
+    @Override
     public Mover getMover() {
         return mover;
     }
@@ -149,18 +157,21 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
     /**
      * @return the contacts
      */
-    public HashSet<Mover> getContacts() {
-        return new HashSet<Mover>(contacts);
+    @Override
+    public Set<Mover> getContacts() {
+        return new HashSet<>(contacts);
     }
 
     /**
      * This will be 0.0 under simple linear motion
      * @return Mover's acceleration
      */
+    @Override
     public double getAcceleration() {
         return mover.getAcceleration();
     }
 
+    @Override
     public String toString() {
         return "BasicSensor " + getMaxRange() + " " +  mover.toString();
     }

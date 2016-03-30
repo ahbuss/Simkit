@@ -15,7 +15,7 @@ public class ConstantTimeMediator extends SimEntityBase
      * instance has not yet detected the target. Note that a reference to
      * the actual Mover instance is passed to the Sensor instance. Also,
      * the waitDelay() is invoked on the sensor, thus making it appear
-     * that theit scheduled its own Detection event. This is for the
+     * that their scheduled its own Detection event. This is for the
      * purpose of components who wish to listen to the sensor for its
      * Detection events.
      *

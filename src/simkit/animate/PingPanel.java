@@ -109,6 +109,7 @@ public class PingPanel extends JPanel implements SimEventListener {
         this.getRootPane().repaint();
     }
 
+    @Override
     public void processSimEvent(SimEvent e) {
         if (e.getEventName().equals("Ping")) {
             this.simTimeLabel.setText(Schedule.getSimTimeStr());

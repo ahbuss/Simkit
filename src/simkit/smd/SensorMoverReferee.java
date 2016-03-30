@@ -4,31 +4,36 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import simkit.smd.util.Math2D;
 import simkit.Priority;
 import simkit.SimEntityBase;
 
 /**
- * Maintains a list of Sensors and Movers that can potentially be
- * detected by the Sensors. Listens for StartMove and Stop events
- * and schedules Enter/ExitRange events as dicated by the
- * solutions to the quadratic equation.
+ * Maintains a list of Sensors and Movers that can potentially be detected by
+ * the Sensors. Listens for StartMove and Stop events and schedules
+ * Enter/ExitRange events as dictated by the solutions to the quadratic
+ * equation.
  *
  * @version $Id: SensorMoverReferee.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
  */
 public class SensorMoverReferee extends SimEntityBase {
 
+    public static final double EPSILON = 1.0E-10;
     public static final Point2D ZERO = new Point2D.Double(0.0, 0.0);
-    protected HashSet<Mover> movers;
-    protected HashSet<Sensor> sensors;
+    
+    protected Set<Mover> movers;
+    protected Set<Sensor> sensors;
+    
     private SensorMoverMediator defaultMediator;
     private HashMap<Class<? extends Sensor>, HashMap<Class<? extends Mover>, SensorMoverMediator>> mediators;
 
     public SensorMoverReferee() {
-        movers = new HashSet<Mover>();
-        sensors = new HashSet<Sensor>();
-        mediators = new HashMap<Class<? extends Sensor>, HashMap<Class<? extends Mover>, SensorMoverMediator>>();
+        this.movers = new HashSet<>();
+        this.sensors = new HashSet<>();
+        this.mediators = new HashMap<>();
+
         setDefaultMediator(new CookieCutterMediator());
     }
 
@@ -45,10 +50,11 @@ public class SensorMoverReferee extends SimEntityBase {
     /**
      * Add mover to movers and listen to it. For each sensor, schedule
      * EnterRange(mover, sensor) if mover is in range.
+     *
      * @param mover Mover to be added as potential target
      */
     public void doRegisterMover(Mover mover) {
-        HashSet<Mover> oldMovers = getMovers();
+        Set<Mover> oldMovers = getMovers();
         movers.add(mover);
         firePropertyChange("movers", oldMovers, getMovers());
 
@@ -58,8 +64,8 @@ public class SensorMoverReferee extends SimEntityBase {
             if (sensor.getMover() == mover) {
                 continue;
             }
-            if (Math2D.normSquared(Math2D.subtract(mover.getCurrentLocation(), sensor.getCurrentLocation())) <
-                    sensor.getMaxRange() * sensor.getMaxRange()) {
+            if (Math2D.normSquared(Math2D.subtract(mover.getCurrentLocation(), sensor.getCurrentLocation()))
+                    < sensor.getMaxRange() * sensor.getMaxRange()) {
                 waitDelay("EnterRange", 0.0, mover, sensor);
             }
         }
@@ -68,11 +74,12 @@ public class SensorMoverReferee extends SimEntityBase {
     /**
      * Add to sensors list. For each mover already registered, schedule
      * EnterRange(mover, sensor) if mover is in range of sensor.
-     * @param sensor The Sensor that can potentially detect targets in
-     * the movers list
+     *
+     * @param sensor The Sensor that can potentially detect targets in the
+     * movers list
      */
     public void doRegisterSensor(Sensor sensor) {
-        HashSet<Sensor> oldSensors = getSensors();
+        Set<Sensor> oldSensors = getSensors();
         sensors.add(sensor);
         firePropertyChange("sensors", oldSensors, getSensors());
 
@@ -82,8 +89,8 @@ public class SensorMoverReferee extends SimEntityBase {
             if (sensor.getMover() == mover) {
                 continue;
             }
-            if (Math2D.normSquared(Math2D.subtract(mover.getCurrentLocation(), sensor.getCurrentLocation())) <
-                    sensor.getMaxRange() * sensor.getMaxRange()) {
+            if (Math2D.normSquared(Math2D.subtract(mover.getCurrentLocation(), sensor.getCurrentLocation()))
+                    < sensor.getMaxRange() * sensor.getMaxRange()) {
                 waitDelay("EnterRange", 0.0, mover, sensor);
             }
         }
@@ -91,6 +98,7 @@ public class SensorMoverReferee extends SimEntityBase {
 
     /**
      * Normally this is only done when a platform is killed.
+     *
      * @param mover The mover to be removed as potential target
      */
     public void doUnregisterMover(Mover mover) {
@@ -100,6 +108,7 @@ public class SensorMoverReferee extends SimEntityBase {
 
     /**
      * Normally this is only done when a platform is killed.
+     *
      * @param sensor The sensor to be removed
      */
     public void doUnregisterSensor(Sensor sensor) {
@@ -109,6 +118,7 @@ public class SensorMoverReferee extends SimEntityBase {
 
     /**
      * Schedule CheckSensor(mover, Iterator&lt;Sensor&gt;).
+     *
      * @param mover Heard from a Mover.
      */
     public void doStartMove(Mover mover) {
@@ -120,6 +130,7 @@ public class SensorMoverReferee extends SimEntityBase {
 
     /**
      * Schedule CheckMover(sensor, Iterator&lt;Sensor&gt;).
+     *
      * @param sensor Heard from a Sensor
      */
     public void doStartMove(Sensor sensor) {
@@ -132,6 +143,7 @@ public class SensorMoverReferee extends SimEntityBase {
 
     /**
      * Schedule CheckSensor(mover, Iterator&lt;Sensor&gt;).
+     *
      * @param mover Heard from a Mover.
      */
     public void doStop(Mover mover) {
@@ -143,6 +155,7 @@ public class SensorMoverReferee extends SimEntityBase {
 
     /**
      * Schedule CheckMover(sensor, Iterator&lt;Sensor&gt;).
+     *
      * @param sensor Heard from a Sensor
      */
     public void doStop(Sensor sensor) {
@@ -154,83 +167,103 @@ public class SensorMoverReferee extends SimEntityBase {
     }
 
     /**
-     * If Mover being pointed to is not the sensor's, compute enter/exit
-     * times. If smaller root is positive, cancel previously schedule
-     * EnterRange and schedule EnterRange(mover, sensor) with delay of the
-     * smaller value. If the smaller root is negative and the larger is
-     * positive, cancel pending ExitRange and reschedule
-     * ExitRange(mover, sensor) with delay of the larger value.<br>
-     * If there is another Mover to check, advance iterator and
-     * schedule CheckSensor.
+     * If Mover being pointed to is not the sensor's, compute enter/exit times.
+     * If smaller root is positive, cancel previously schedule EnterRange and
+     * schedule EnterRange(mover, sensor) with delay of the smaller value. If
+     * the smaller root is negative and the larger is positive, cancel pending
+     * ExitRange and reschedule ExitRange(mover, sensor) with delay of the
+     * larger value.<br>
+     * If there is another Mover to check, advance iterator and schedule
+     * CheckSensor.
+     *
      * @param sensor The sensor to be checked
      * @param iter Iterator&lt;Mover&gt; pointing to next Mover in movers
      */
     public void doCheckSensor(Sensor sensor, Iterator<Mover> iter) {
 
         Mover mover = iter.next();
-
-        if (mover != sensor.getMover()) {
-            interrupt("EnterRange", mover, sensor);
-            double[] times = Math2D.findIntersectionTimes(mover, sensor);
-            if (times.length == 2 && times[0] > 0.0) {
-                waitDelay("EnterRange", times[0], mover, sensor);
-            }
-            if (times.length == 2 && times[0] <= 0.0 && times[1] >= 0.0) {
+        if (Math.abs(mover.getVelocity().distance(sensor.getVelocity())) < EPSILON) {
+            if (mover.getCurrentLocation().distance(sensor.getCurrentLocation())
+                    <= sensor.getMaxRange()) {
                 interrupt("ExitRange", mover, sensor);
-                waitDelay("ExitRange", times[1], mover, sensor);
+            } else {
+                interrupt("EnterRange", mover, sensor);
             }
-        }
+        } else {
+            if (mover != sensor.getMover()) {
+                interrupt("EnterRange", mover, sensor);
+                double[] times = Math2D.findIntersectionTimes(mover, sensor);
+                if (times.length == 2 && times[0] > 0.0) {
+                    waitDelay("EnterRange", times[0], mover, sensor);
+                }
+                if (times.length == 2 && times[0] <= 0.0 && times[1] >= 0.0) {
+                    interrupt("ExitRange", mover, sensor);
+                    waitDelay("ExitRange", times[1], mover, sensor);
+                }
+            }
 
-        if (iter.hasNext()) {
-            waitDelay("CheckSensor", 0.0, Priority.HIGHER, sensor, iter);
+            if (iter.hasNext()) {
+                waitDelay("CheckSensor", 0.0, Priority.HIGHER, sensor, iter);
+            }
         }
     }
 
     /**
      * If Mover is not the Sensor's that is pointed to, compute enter/exit
-     * times. If smaller root is positive, cancel previously schedule
-     * EnterRange and schedule EnterRange(mover, sensor) with delay of the
-     * smaller value. If the smaller root is negative and the larger is
-     * positive, cancel pending ExitRange and reschedule ExitRange(mover, sensor)
-     * with delay of the larger value.<br>
-     * If there is another Sensor to check, advance iterator and
-     * schedule CheckSensor.     *
+     * times. If smaller root is positive, cancel previously schedule EnterRange
+     * and schedule EnterRange(mover, sensor) with delay of the smaller value.
+     * If the smaller root is negative and the larger is positive, cancel
+     * pending ExitRange and reschedule ExitRange(mover, sensor) with delay of
+     * the larger value.<br>
+     * If there is another Sensor to check, advance iterator and schedule
+     * CheckSensor.
+     *
+     *
      * @param mover
      * @param iter
      */
     public void doCheckMover(Mover mover, Iterator<Sensor> iter) {
         Sensor sensor = iter.next();
-
-        if (mover != sensor.getMover()) {
-            double[] times = Math2D.findIntersectionTimes(mover, sensor);
-            interrupt("EnterRange", mover, sensor);
-            if (times.length == 2 && times[0] > 0.0) {
-                waitDelay("EnterRange", times[0], mover, sensor);
-            }
-            if (times.length == 2 && times[0] <= 0.0 && times[1] >= 0.0) {
+        if (Math.abs(mover.getVelocity().distance(sensor.getVelocity())) < EPSILON) {
+            if (mover.getCurrentLocation().distance(sensor.getCurrentLocation())
+                    <= sensor.getMaxRange()) {
                 interrupt("ExitRange", mover, sensor);
-                waitDelay("ExitRange", times[1], mover, sensor);
+            } else {
+                interrupt("EnterRange", mover, sensor);
             }
-        }
+        } else {
+            if (mover != sensor.getMover()) {
+                double[] times = Math2D.findIntersectionTimes(mover, sensor);
+                interrupt("EnterRange", mover, sensor);
+                if (times.length == 2 && times[0] > 0.0) {
+                    waitDelay("EnterRange", times[0], mover, sensor);
+                }
+                if (times.length == 2 && times[0] <= 0.0 && times[1] >= 0.0) {
+                    interrupt("ExitRange", mover, sensor);
+                    waitDelay("ExitRange", times[1], mover, sensor);
+                }
+            }
 
-        if (iter.hasNext()) {
-            waitDelay("CheckMover", 0.0, Priority.HIGHER, mover, iter);
+            if (iter.hasNext()) {
+                waitDelay("CheckMover", 0.0, Priority.HIGHER, mover, iter);
+            }
         }
     }
 
     /**
-     * The mover has just entered the maximum range of the sensor.
-     * Schedule an EnterRange(mover, sensor) imediately on the appropriate
-     * Mediator. If no Mediator defined, use the default Mediator.
-     * Compute the solutons to the quadratic equation. If 
+     * The mover has just entered the maximum range of the sensor. Schedule an
+     * EnterRange(mover, sensor) immediately on the appropriate Mediator. If no
+     * Mediator defined, use the default Mediator. Compute the solutions to the
+     * quadratic equation. If
+     *
      * @param mover Mover that entered the range
      * @param sensor Sensor whose range was entered.
      */
     public void doEnterRange(Mover mover, Sensor sensor) {
-        HashMap<Class<? extends Mover>, SensorMoverMediator> moverMap =
-                mediators.get(sensor.getClass());
-        SensorMoverMediator mediator =
-                moverMap != null ? mediators.get(sensor.getClass()).get(mover.getClass()) : null;
+        HashMap<Class<? extends Mover>, SensorMoverMediator> moverMap
+                = mediators.get(sensor.getClass());
+        SensorMoverMediator mediator
+                = moverMap != null ? mediators.get(sensor.getClass()).get(mover.getClass()) : null;
         mediator = mediator != null ? mediator : getDefaultMediator();
 
         double[] times = Math2D.findIntersectionTimes(mover, sensor);
@@ -244,14 +277,15 @@ public class SensorMoverReferee extends SimEntityBase {
 
     /**
      * Schedule ExitRange(mover, sensor) on appropriate Mediator.
-     * @param mover The Movere that exited the range of the sensor
+     *
+     * @param mover The Mover that exited the range of the sensor
      * @param sensor The Sensor whose range was exited
      */
     public void doExitRange(Mover mover, Sensor sensor) {
-        HashMap<Class<? extends Mover>, SensorMoverMediator> moverMap =
-                mediators.get(sensor.getClass());
-        SensorMoverMediator mediator =
-                moverMap != null ? mediators.get(sensor.getClass()).get(mover.getClass()) : null;
+        HashMap<Class<? extends Mover>, SensorMoverMediator> moverMap
+                = mediators.get(sensor.getClass());
+        SensorMoverMediator mediator
+                = moverMap != null ? mediators.get(sensor.getClass()).get(mover.getClass()) : null;
         mediator = mediator != null ? mediator : getDefaultMediator();
 
         mediator.waitDelay("ExitRange", 0.0, mover, sensor);
@@ -262,15 +296,15 @@ public class SensorMoverReferee extends SimEntityBase {
      * @param sensorClass The Class object for the Sensor
      * @param moverClass The Class object for the Mover
      * @param mediator The Mediator instance to be used to adjudicate between
-     * Sensors of the given calss and Movers of the given class.
+     * Sensors of the given class and Movers of the given class.
      */
     public void addMediator(Class<? extends Sensor> sensorClass,
             Class<? extends Mover> moverClass,
             SensorMoverMediator mediator) {
-        HashMap<Class<? extends Mover>, SensorMoverMediator> moverMap =
-                mediators.get(sensorClass);
+        HashMap<Class<? extends Mover>, SensorMoverMediator> moverMap
+                = mediators.get(sensorClass);
         if (moverMap == null) {
-            moverMap = new HashMap<Class<? extends Mover>, SensorMoverMediator>();
+            moverMap = new HashMap<>();
             mediators.put(sensorClass, moverMap);
         }
         moverMap.put(moverClass, mediator);
@@ -291,31 +325,31 @@ public class SensorMoverReferee extends SimEntityBase {
     }
 
     /**
-     * @return the moversc
+     * @return the movers
      */
-    public HashSet<Mover> getMovers() {
-        return new HashSet<Mover>(movers);
+    public Set<Mover> getMovers() {
+        return new HashSet<>(movers);
     }
 
     /**
      * @return the sensors(shallow copy)
      */
-    public HashSet<Sensor> getSensors() {
-        return new HashSet<Sensor>(sensors);
+    public Set<Sensor> getSensors() {
+        return new HashSet<>(sensors);
     }
 
     /**
      * @return the mediators
      */
     public HashMap<Class<? extends Sensor>, HashMap<Class<? extends Mover>, SensorMoverMediator>> getMediators() {
-        return new HashMap<Class<? extends Sensor>, HashMap<Class<? extends Mover>, SensorMoverMediator>>(mediators);
+        return new HashMap<>(mediators);
     }
 
     /**
      * @param mediators the mediators to set
      */
     public void setMediators(HashMap<Class<? extends Sensor>, HashMap<Class<? extends Mover>, SensorMoverMediator>> mediators) {
-        this.mediators = new HashMap<Class<? extends Sensor>, HashMap<Class<? extends Mover>, SensorMoverMediator>>(mediators);
+        this.mediators = new HashMap<>(mediators);
     }
 
     /**

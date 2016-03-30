@@ -33,9 +33,10 @@ public class TestSandboxFrame {
             mover[i].addSimEventListener(ref);
         }
         
-        RandomVariate[] rv = new RandomVariate[] {
-            RandomVariateFactory.getInstance("Uniform", new Object[] { new Double(0.0), new Double(500.0) }),
-            RandomVariateFactory.getInstance("Uniform", new Object[] { new Double(0.0), new Double(400.0) })
+        RandomVariate[] rv;
+        rv = new RandomVariate[] {
+            RandomVariateFactory.getInstance("Uniform", new Object[] { 0.0, 500.0}),
+            RandomVariateFactory.getInstance("Uniform", new Object[] { 0.0, 400.0})
         };
         rv[1].setRandomNumber(rv[0].getRandomNumber());
         

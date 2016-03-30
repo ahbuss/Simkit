@@ -22,6 +22,7 @@ public class CookieCutterSensor extends BasicSensor {
      * Replace "BasicSensor" with "CookieCutterSensor"
      * @return String description
      */
+    @Override
     public String toString() {
         return super.toString().replaceFirst("BasicSensor", "CookieCutterSensor");
     }

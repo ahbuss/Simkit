@@ -34,7 +34,7 @@ public interface Sensor extends SimEntity {
     public double getAcceleration();
 
     /**
-     * @return maximim range of this Sensor
+     * @return maximum range of this Sensor
      */
     public double getMaxRange();
 
