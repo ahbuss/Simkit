@@ -32,7 +32,7 @@ public class PingPanel extends JPanel implements SimEventListener {
         this.setVcrController(controller);
         rewind = new JButton(new ImageIcon(
                 Thread.currentThread().getContextClassLoader().getResource("simkit/animate/icons/Rewind24.gif")));
-        rewind.addActionListener(new GenericAction(controller, "rewind"));
+        rewind.addActionListener(new GenericAction(this, "rewind"));
         rewind.setToolTipText("Rewind");
 
         start = new JButton(new ImageIcon(Thread.currentThread().getContextClassLoader().getResource("simkit/animate/icons/Play24.gif")));
