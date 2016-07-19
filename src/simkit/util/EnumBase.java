@@ -55,15 +55,14 @@ public abstract class EnumBase implements Comparable<EnumBase> {
     }
 
     /**
-     * Returns the name of this enum.
-     * @return 
+     * @return the name of this enum.
      **/
     public String getName() {
         return name;
     }
 
     /**
-     * Returns the serial of this enum.
+     * @return the serial of this enum.
      **/
     public int getSerial() {
         return serial;
@@ -71,6 +70,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
 
     /**
      * Returns the next serial.
+     * @return the nextSerial
      **/
     public static int getNextSerial() {
         return nextSerial;
@@ -78,6 +78,8 @@ public abstract class EnumBase implements Comparable<EnumBase> {
 
     /**
      * Returns a Collection containing the enums of the given Class.
+     * @param clazz The Java class for which to get all members
+     * @return Collection of enums for the given class
      **/
     public static  Collection<EnumBase> getMembers(Class<? extends EnumBase> clazz) {
         Collection<EnumBase> ret = new LinkedHashSet<>();
@@ -93,6 +95,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
     /**
      * Adds a new enum as a member of the enum class.
      * 
+     * @param member new member of this enum class
      * @throws IllegalArgumentException if an enum of the same name and 
      * type already exists.
      **/
@@ -117,7 +120,11 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      * Finds the enum with the given name and Class. Returns null if there
      * are no enums of the given Class or if one with the given name is not 
      * found.
-     **/
+     * 
+     * @param name Given name
+     * @param clazz Given class
+     * @return EnumBase of given name and class or null if none found
+     */
     public static EnumBase find(String name, Class<? extends EnumBase> clazz) {
         Map<String, EnumBase> members = types.get(clazz);
         if (members == null) {
@@ -129,6 +136,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
     /**
      * Returns true if the serials are the same. (Which should also mean
      * that the names and Class are the same.)
+     * @param o given Object to compare
      **/
     @Override
     public boolean equals(Object o) {
@@ -139,10 +147,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
             return false;
         }
         EnumBase that = (EnumBase) o;
-        if (this.serial == that.getSerial()) {
-            return true;
-        }
-        return false;
+        return this.serial == that.getSerial();
     }
 
     /**
@@ -155,9 +160,10 @@ public abstract class EnumBase implements Comparable<EnumBase> {
 
     /**
      * Compares two EnumBases of the same Class.
+     * @param e Other EnumBase to compare
      * @throws ClassCastException if they are not the same Class.
      **/
-//    @Override
+    @Override
     public int compareTo(EnumBase e) {
         if (this.getClass() != e.getClass()) {
             throw new ClassCastException();
@@ -202,6 +208,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
 
     /**
      * Clears only instances of the given Class
+     * @param clazz The given class
      */
     public static void clear(Class clazz) {
         types.remove(clazz);
