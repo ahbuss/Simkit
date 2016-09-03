@@ -68,7 +68,7 @@ public class SimpleServer2 extends BasicSimEntity {
      */
     public void reset() {
         super.reset();
-        numberAvailableServers = totalNumberServers;
+        numberAvailableServers = getTotalNumberServers();
         numberInQueue = 0;
         numberServed = 0;
     }
@@ -104,7 +104,7 @@ public class SimpleServer2 extends BasicSimEntity {
         firePropertyChange("numberInQueue", numberInQueue, --numberInQueue);
         firePropertyChange("numberAvailableServers", numberAvailableServers, --numberAvailableServers);
 
-        waitDelay("EndService", serviceTime.generate());
+        waitDelay("EndService", getServiceTime().generate());
     }
 
     /**
@@ -208,6 +208,24 @@ public class SimpleServer2 extends BasicSimEntity {
         if (thisEvent.equals("Arrival") || thisEvent.equals("EndService")) {
             waitDelay("Arrival", 0.0);
         }
+    }
+
+    /**
+     * @param serviceTime the serviceTime to set
+     */
+    public void setServiceTime(RandomVariate serviceTime) {
+        this.serviceTime = serviceTime;
+    }
+
+    /**
+     * @param totalNumberServers the totalNumberServers to set
+     */
+    public void setTotalNumberServers(int totalNumberServers) {
+        if (totalNumberServers <= 0) {
+            throw new IllegalArgumentException("totalNumberServers must be > 0: " +
+                    totalNumberServers);
+        }
+        this.totalNumberServers = totalNumberServers;
     }
 
 }

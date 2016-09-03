@@ -148,7 +148,7 @@ public class SimpleServer extends SimEntityBase {
      *
      */
     public void setNumberServers(int servers) {
-        if (totalNumberServers <= 0) {
+        if (servers <= 0) {
             throw new IllegalArgumentException("Need positive number of servers: " + servers);
         }
         totalNumberServers = servers;
