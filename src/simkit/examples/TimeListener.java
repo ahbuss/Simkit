@@ -3,7 +3,6 @@
  *
  * Created on February 27, 2004, 1:28 PM
  */
-
 package simkit.examples;
 
 import java.beans.PropertyChangeEvent;
@@ -13,54 +12,56 @@ import java.util.HashMap;
 import simkit.SimEntityBase;
 
 /**
- * @author  Arnold Buss
+ * @author Arnold Buss
  * @version $Id$
  */
 public class TimeListener extends SimEntityBase implements PropertyChangeListener {
-    
+
     protected HashMap<Integer, Double> arrivalTimes;
-    
+
     public TimeListener() {
-        arrivalTimes = new HashMap<Integer, Double>();
+        arrivalTimes = new HashMap<>();
     }
-    
+
+    @Override
     public void reset() {
         super.reset();
         arrivalTimes.clear();
     }
-    
+
     public void doArrival(Integer customer) {
         arrivalTimes.put(customer, eventList.getSimTime());
     }
-    
+
     public void doEndService(Integer customer) {
         Double arrivalTime = arrivalTimes.remove(customer);
         if (arrivalTime != null) {
-            firePropertyChange("timeInSystem", 
-                eventList.getSimTime() - arrivalTime.doubleValue());
+            firePropertyChange("timeInSystem",
+                    eventList.getSimTime() - arrivalTime);
         }
     }
-    
+
     public void doRenege(Integer customer) {
-        Double arrivalTime = (Double) arrivalTimes.remove(customer);
+        Double arrivalTime = arrivalTimes.remove(customer);
         if (arrivalTime != null) {
-            firePropertyChange("delayInQueue", 
-                eventList.getSimTime() - arrivalTime.doubleValue() );
-            firePropertyChange("delayInQueueRenege", 
-                eventList.getSimTime() - arrivalTime.doubleValue() );
+            firePropertyChange("delayInQueue",
+                    eventList.getSimTime() - arrivalTime.doubleValue());
+            firePropertyChange("delayInQueueRenege",
+                    eventList.getSimTime() - arrivalTime.doubleValue());
         }
     }
-    
+
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("customer")) {
-            Double arrivalTime = (Double) arrivalTimes.get(evt.getNewValue());
+            Double arrivalTime = arrivalTimes.get((Integer) evt.getNewValue());
             if (arrivalTime != null) {
-                firePropertyChange("delayInQueue", eventList.getSimTime() -
-                    arrivalTime.doubleValue());
-                firePropertyChange("delayInQueueServed", eventList.getSimTime() -
-                    arrivalTime.doubleValue());
+                firePropertyChange("delayInQueue", eventList.getSimTime()
+                        - arrivalTime);
+                firePropertyChange("delayInQueueServed", eventList.getSimTime()
+                        - arrivalTime);
             }
         }
     }
-    
+
 }

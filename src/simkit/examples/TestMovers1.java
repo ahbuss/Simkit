@@ -43,7 +43,7 @@ public class TestMovers1 {
         rv[1] = RandomVariateFactory.getInstance("Uniform", 0.0, 300.0);
 
         RandomMoverManager rockyMoverManager = new RandomMoverManager(rocky, rv, true);
-        
+
         path.clear();
         path.add(new WayPoint(new Point2D.Double(50.0, 150.0)));
         path.add(new WayPoint(new Point2D.Double(50.0, -100.0)));
