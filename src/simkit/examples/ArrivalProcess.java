@@ -19,7 +19,7 @@ public class ArrivalProcess extends SimEntityBase {
      * The interarrival distribution (parameter)
      *
      */
-    private RandomVariate interArrivalTimeGenerator;
+    private RandomVariate interarrivalTimeGenerator;
     /**
      * The number of arrivals (state variable)
      *
@@ -39,7 +39,7 @@ public class ArrivalProcess extends SimEntityBase {
      *
      */
     public ArrivalProcess(RandomVariate interarrivalTimeGenerator) {
-        this.setInterArrivalTimeGenerator(interarrivalTimeGenerator);
+        this.setInterarrivalTimeGenerator(interarrivalTimeGenerator);
     }
 
     /**
@@ -58,7 +58,7 @@ public class ArrivalProcess extends SimEntityBase {
      */
     public void doRun() {
         firePropertyChange("numberArrivals", numberArrivals);
-        waitDelay("Arrival", interArrivalTimeGenerator.generate());
+        waitDelay("Arrival", interarrivalTimeGenerator.generate());
     }
 
     /**
@@ -68,7 +68,7 @@ public class ArrivalProcess extends SimEntityBase {
      */
     public void doArrival() {
         firePropertyChange("numberArrivals", numberArrivals, ++numberArrivals);
-        waitDelay("Arrival", interArrivalTimeGenerator.generate());
+        waitDelay("Arrival", interarrivalTimeGenerator.generate());
     }
 
     /**
@@ -79,12 +79,12 @@ public class ArrivalProcess extends SimEntityBase {
         interrupt("Arrival");
     }
 
-    public RandomVariate getInterArrivalTimeGenerator() {
-        return interArrivalTimeGenerator;
+    public RandomVariate getInterarrivalTimeGenerator() {
+        return interarrivalTimeGenerator;
     }
 
-    public void setInterArrivalTimeGenerator(RandomVariate interArrivalTimeGenerator) {
-        this.interArrivalTimeGenerator = interArrivalTimeGenerator;
+    public void setInterarrivalTimeGenerator(RandomVariate interarrivalTimeGenerator) {
+        this.interarrivalTimeGenerator = interarrivalTimeGenerator;
     }
 
     /**
@@ -210,9 +210,9 @@ public class ArrivalProcess extends SimEntityBase {
 
         int newID = simkit.Schedule.addNewEventList();
         System.out.println(newID);
-        ArrivalProcess ap = new ArrivalProcess(arrivals.getInterArrivalTimeGenerator());
+        ArrivalProcess ap = new ArrivalProcess(arrivals.getInterarrivalTimeGenerator());
         ap.setEventListID(newID);
-        ap.getInterArrivalTimeGenerator().getRandomNumber().resetSeed();
+        ap.getInterarrivalTimeGenerator().getRandomNumber().resetSeed();
 
         simkit.BasicEventList eventList2 = simkit.Schedule.getEventList(newID);
         eventList2.stopAtTime(stopTime * 2);
@@ -223,7 +223,7 @@ public class ArrivalProcess extends SimEntityBase {
         newID = 33;
         eventList2 = simkit.Schedule.getEventList(newID);
         ap.setEventListID(newID);
-        ap.getInterArrivalTimeGenerator().getRandomNumber().resetSeed();
+        ap.getInterarrivalTimeGenerator().getRandomNumber().resetSeed();
 
         eventList2.stopOnEvent(5, "Arrival");
         eventList2.setVerbose(true);
