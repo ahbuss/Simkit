@@ -64,6 +64,7 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
         arg = new Object[1];
     }
     
+    @Override
     public void reset() {
         super.reset();
         startTime = getEventList().getSimTime();
@@ -75,9 +76,10 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
      * Generate a random variate having this class's distribution.
      * @return The generated random variate or NaN if there was an error during generation.
      */
+    @Override
     public double generate() {
         lastUnitRatePoisson -= Math.log(rng.draw());
-        arg[0] = new Double(getLastUnitRatePoisson());
+        arg[0] = getLastUnitRatePoisson();
         try {
             Number num = (Number) this.inverseIntegratedRate.invoke(rateInvoker, arg ); 
             double inter = num.doubleValue() - this.getLastGeneratedTime();
@@ -96,6 +98,7 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
       * Returns a 3 element array containing the Method for the inverse function, 
       * the Object in which the inverse function exists, and the start time.
      */
+    @Override
     public Object[] getParameters() {
         return new Object[] { getInverseIntegratedRate(), getRateInvoker() };
     }
@@ -104,6 +107,7 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
      * Gets the instance of the underlying RandomNumber.
      * @return The underlying RandomNumber instance (should be a copy)
      */
+    @Override
     public RandomNumber getRandomNumber() {
         return rng; 
     }
@@ -116,6 +120,7 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
       * @throws IllegalArgumentException If the array does not contain exactly
       * 3 elements.
      */
+    @Override
     public void setParameters(Object... params) {
         if (params.length != 2)  {
             throw new IllegalArgumentException(
@@ -182,6 +187,7 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
 * inverse Method, information about the Object on which the inverse Method is
 * invoked, and the start time.
 **/
+    @Override
     public String toString() {
         return "Non-Homogeneous Poisson - Inverse Transform (" +
             this.getInverseIntegratedRate().getName() + ", " +
@@ -195,9 +201,11 @@ public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVar
                 getLastGeneratedTime() ;
     }
     
+    @Override
     public void handleSimEvent(simkit.SimEvent event) {
     }
 
+    @Override
     public void processSimEvent(simkit.SimEvent event) {
     }
 

@@ -1,12 +1,13 @@
 package simkit.test;
-import simkit.*;
-import simkit.stat.*;
-import simkit.random.*;
-import simkit.examples.*;
-import simkit.util.*;
+
+import simkit.Schedule;
+import simkit.examples.ArrivalProcess;
+import simkit.random.RandomVariate;
+import simkit.random.RandomVariateFactory;
+import simkit.stat.SimpleStatsTimeVarying;
 import simkit.util.Resetter;
 /**
- *
+ * @version $Id$
  * @author  ahbuss
  */
 public class TestResetter {

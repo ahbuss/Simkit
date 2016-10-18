@@ -19,7 +19,7 @@ public class TestAR1Variate {
     public static void main(String[] args) {
         
         RandomVariate rv1 =
-            RandomVariateFactory.getInstance("AR1", 0.8, .1, 0.0);
+            RandomVariateFactory.getInstance("AR1", 0.8, .1, 0.2);
         RandomVariate rv2 =
             RandomVariateFactory.getInstance("Normal", 0.0, 2.0);
         
@@ -27,6 +27,9 @@ public class TestAR1Variate {
         for (int i = 0; i < 10; i++) {
             System.out.println(rv1.generate() + "\t\t\t" + rv2.generate());
         }
+        
+        rv1 = RandomVariateFactory.getInstance("AR1", 0.8, .1);
+        System.out.println(rv1);
         
         
         

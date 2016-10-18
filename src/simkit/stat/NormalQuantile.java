@@ -58,7 +58,7 @@ public class NormalQuantile {
      * @return x such that Pr{Z &lt; x} = p
      */
     public static double getQuantile(double p) {
-        double quantile = Double.NaN;
+        double quantile;
         if (p == 0.0) {
             quantile = Double.NEGATIVE_INFINITY;
         } else if (p == 1.0) {
