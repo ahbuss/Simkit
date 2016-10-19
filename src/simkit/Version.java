@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
@@ -100,7 +99,9 @@ public class Version {
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     Version.class.getResourceAsStream("version.txt")));
 
-            SIMKIT_VERSION = br.readLine().trim();
+            String versonLine = br.readLine().trim();
+            String[] split = versonLine.split(":");
+            SIMKIT_VERSION = split[1].trim();
             br.close();
 
             br = new BufferedReader(new InputStreamReader(
@@ -125,7 +126,6 @@ public class Version {
         } catch (IOException e) {
             throw (new RuntimeException(e));
         }
-
         String[] ver = getVersion().split("[[a-zA-Z]\\.]");
         if (ver.length < 3) {
             throw new RuntimeException("Bad Version: " + getVersion()
