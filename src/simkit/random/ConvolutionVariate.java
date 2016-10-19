@@ -35,6 +35,7 @@ public class ConvolutionVariate extends RandomVariateBase {
      * underlying RandomVariate instances.
      * @return sum of a draw from each RandomVariate instance
      */    
+    @Override
     public double generate() {
         double value = 0.0;
         for (int i = 0; i < rv.length; ++i) {
@@ -48,16 +49,19 @@ public class ConvolutionVariate extends RandomVariateBase {
      * of the RandomVariate array.
      * @return clone of RandomVariate[] array in Object[] array
      */    
+    @Override
     public Object[] getParameters() {
         return new Object[] { rv.clone() };
     }
     
     /**
+     * 
      * Sets the underlying RandomVariates. 
      * @param obj A single element array containing an array of RandomVariates.
      * @throws IllegalArgumentException If the array doesn't have 1 element, or if
      * the element is not an array of RandomVariates.
      */    
+    @Override
     public void setParameters(Object... obj) {
         if (obj.length > 1) {
             String msg = "The argument should be a single element array "
@@ -68,7 +72,7 @@ public class ConvolutionVariate extends RandomVariateBase {
         }
         
         Object[] array = (Object[])obj[0];
-        ArrayList<Integer> badArgs = new ArrayList<Integer>();
+        ArrayList<Integer> badArgs = new ArrayList<>();
         RandomVariate[] variates = new RandomVariate[array.length];
         for (int i = 0; i < array.length; ++i) {
             if (!(array[i] instanceof RandomVariate)) {
@@ -107,7 +111,9 @@ public class ConvolutionVariate extends RandomVariateBase {
     
     /**
      * Sets the supporting RandomNumber of each underlying RandomVariate.
+     * @param rand given RandomNumber
      */    
+    @Override
     public void setRandomNumber(RandomNumber rand) {
         super.setRandomNumber(rand);
         if (rv != null) {
@@ -123,13 +129,14 @@ public class ConvolutionVariate extends RandomVariateBase {
      * @return String including each RandomVariate's toString() on
      * a separate line.
      */    
+    @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder("ConvolutionRandomVariate");
+        StringBuilder builder = new StringBuilder("ConvolutionRandomVariate");
         for (int i = 0; i < rv.length; ++i) {
-            buf.append('\n');
-            buf.append('\t');
-            buf.append(rv[i]);
+            builder.append('\n');
+            builder.append('\t');
+            builder.append(rv[i]);
         }
-        return buf.toString();
+        return builder.toString();
     }
 }
