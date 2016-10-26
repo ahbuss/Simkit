@@ -45,7 +45,7 @@ public class RandomVariateFactory {
 
     public static final String _VERSION_
             = "$Id$";
-    public static final Logger log = Logger.getLogger("simkit.random");
+    public static final Logger LOGGER = Logger.getLogger("simkit.random");
 
     public static final String RANDOM_VARIATE_CLASSNAME_KEY = "className";
     public static final String RANDOM_INSTANCE_KEY = "rngInstance";
@@ -59,7 +59,7 @@ public class RandomVariateFactory {
      * Holds a cache of the RandomVariate Classes that have already been found
      * indexed by their name.
      */
-    protected static Map<String, Class> cache;
+    protected static Map<String, Class<? extends RandomVariate>> cache;
     /**
      * A list of packages to search for RandomVariates if the class name given
      * is not fully qualified.
@@ -176,7 +176,7 @@ public class RandomVariateFactory {
             throw new IllegalArgumentException("null class name");
         }
         // First check cache
-        Class randomVariateClass = cache.get(className);
+        Class<? extends RandomVariate> randomVariateClass = cache.get(className);
         if (randomVariateClass == null) {
             randomVariateClass = findFullyQualifiedNameFor(className);
             if (randomVariateClass == null) {
@@ -215,7 +215,7 @@ public class RandomVariateFactory {
                     "Name of RandomVariate class is null.");
         }
         RandomVariate instance = null;
-        Class randomVariateClass = (Class) cache.get(className);
+        Class<? extends RandomVariate> randomVariateClass = cache.get(className);
         if (randomVariateClass == null) {
             randomVariateClass = findFullyQualifiedNameFor(className);
         }
@@ -273,17 +273,17 @@ public class RandomVariateFactory {
         matcher.find();
         if (matcher.groupCount() == 0) {
             String message = "No matching groups found for name: " + toString;
-            log.severe(message);
+            LOGGER.severe(message);
             throw new IllegalArgumentException(message);
         }
         String name = matcher.group(0);
         String paramString = toString.replace(name, "");
         String adjustedParamString = paramString.replaceAll(PARAM_SPLITTER, " ");
         String[] paramsArray = adjustedParamString.trim().split(" ");
-        String adjustedName = name.replaceAll(PARAM_SPLITTER, name);
+        String adjustedName = name.trim().replaceAll(PARAM_SPLITTER, "");
         List<Double> paramsList = new ArrayList<>();
         for (int i = 0; i < paramsArray.length; ++i) {
-            if (paramsArray[i].matches(NUMBER_REGEX)) {
+            if (!paramsArray[i].equals("") && paramsArray[i].matches(NUMBER_REGEX)) {
                 paramsList.add(Double.valueOf(paramsArray[i]));
             }
         }
@@ -291,13 +291,31 @@ public class RandomVariateFactory {
         try {
             newInstance = getInstance(adjustedName, params);
         } catch (IllegalArgumentException ex) {
-            log.severe(String.format("Cannot find RandomVariate: %s %s", adjustedName,
+            LOGGER.severe(String.format("Cannot find RandomVariate: %s %s", adjustedName,
                     Arrays.toString(params)));
             throw ex;
         }
         return newInstance;
     }
 
+    /**
+     * Note: will strip any embedded, leading, or trailing spaces before
+     * checking. Therefore "Log Normal" or " Gamma " will both return "true".
+     * @param toString Given name of RandomVariate - may or may not include 
+     * "Variate" suffix
+     * @return 
+     */
+    public static boolean isRandomVariateString(String toString) {
+        RandomVariate instance = null;
+        try {
+            instance = getInstance(toString);
+        } catch (Throwable e) {
+            LOGGER.log(Level.INFO, 
+                    "{0} not found as RandomVariate - Check spelling and/or parameters", toString);
+        }
+        return instance != null;
+    }
+    
     /**
      * Adds the given fully qualified package name to the list of packages that
      * will be searched when attempting to find RandomVariates by name.
@@ -335,12 +353,13 @@ public class RandomVariateFactory {
      * @param className given name of class
      * @return Class instances with given name or null if not found
      */
-    public static Class<?> findFullyQualifiedNameFor(String className) {
-        Class<?> theClass = null;
+    @SuppressWarnings("unchecked")
+    public static Class<? extends RandomVariate> findFullyQualifiedNameFor(String className) {
+        Class<? extends RandomVariate> theClass = null;
         //        First see if name passed is "fully qualified"
         try {
             theClass
-                    = Thread.currentThread().getContextClassLoader().
+                    = (Class<? extends RandomVariate>)Thread.currentThread().getContextClassLoader().
                     loadClass(className);
 
             return theClass;
@@ -354,7 +373,7 @@ public class RandomVariateFactory {
             }
             try {
                 theClass
-                        = Thread.currentThread().getContextClassLoader().
+                        = (Class<? extends RandomVariate>) Thread.currentThread().getContextClassLoader().
                         loadClass(searchPackage + "." + className);
 
                 if (!simkit.random.RandomVariate.class.
@@ -391,6 +410,14 @@ public class RandomVariateFactory {
         }
     }
 
+    /**
+     * 
+     * @param className Name of RandomVariate class, which may or may not include "Variate"
+     * @param rng Given RandomNumber instance to use
+     * @param params Given parameters for this RandomVariate
+     * @return A DiscreteRandomVariate instance with given parameters backed by given
+     * RandomNumber instance, or null if none found
+     */
     public static DiscreteRandomVariate getDiscreteRandomVariateInstance(
             String className, RandomNumber rng, Object... params) {
         DiscreteRandomVariate instance
@@ -420,7 +447,7 @@ public class RandomVariateFactory {
                 }
             }
         } catch (IntrospectionException ex) {
-            log.log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
         if (instance != null) {
             for (String property : params.keySet()) {
@@ -431,7 +458,7 @@ public class RandomVariateFactory {
                         try {
                             setter.invoke(instance, value);
                         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                            log.log(Level.SEVERE, null, ex);
+                            LOGGER.log(Level.SEVERE, null, ex);
                         }
                     }
                 }
@@ -449,7 +476,8 @@ public class RandomVariateFactory {
     protected static RandomVariate getUnconfiguredInstance(String className) {
         RandomVariate instance = null;
 
-        Class randomVariateClass = (Class) cache.get(className);
+        Class<? extends RandomVariate> randomVariateClass = 
+                (Class<? extends RandomVariate>) cache.get(className);
         if (randomVariateClass == null) {
             randomVariateClass = findFullyQualifiedNameFor(className);
         }
