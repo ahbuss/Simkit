@@ -3,7 +3,6 @@ package simkit;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import junit.framework.TestCase;
 import utils.PropertyChangeAccumulator;
 
@@ -18,12 +17,13 @@ public class SimEntityBaseTest extends TestCase {
 
     public class GrandParent extends SimEntityBase implements TheInterface {
 
-        protected List<Double> times = new ArrayList<Double>();
+        protected List<Double> times = new ArrayList<>();
 
         public void doSomething(TheInterface i) {
             times.add(Schedule.getSimTime());
         }
 
+        @Override
         public String toString() {
             String ret = "GrandParent Processing Times: {";
             for (double time : times) {
@@ -59,6 +59,7 @@ public class SimEntityBaseTest extends TestCase {
 
     public class Child extends Parent {
 
+        @Override
         public void schedule() {
             waitDelay("Something", 1.0, new Object[]{this});
         }        //public void doSomething(Child c) {
@@ -66,12 +67,12 @@ public class SimEntityBaseTest extends TestCase {
         //}
     }
     
-    public static final Logger log = Logger.getLogger("simkit");
-
+    @Override
     public void setUp() {
         Schedule.coldReset();
     }
 
+    @Override
     public void tearDown() {
     }
 

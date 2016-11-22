@@ -8,6 +8,10 @@ import junit.framework.TestCase;
  */
 public class VersionTest extends TestCase {
     
+    private static final int MAJOR_VERSION = 1;
+    private static final int MINOR_VERSION = 4;
+    private static final int SUB_MINOR_VERSION = 6;
+    
     public VersionTest(String testName) {
         super(testName);
     }            
@@ -23,9 +27,9 @@ public class VersionTest extends TestCase {
     }
     
     public void testVersionNumbers() {
-        assertEquals("Major version number has changed.", 1, Version.getVersionNumber());
-        assertEquals("Compatibility version number has changed.", 4, Version.getSubVersionNumber());
-        assertEquals("Minor version number has changed", 4, Version.getSubSubVersionNumber());
+        assertEquals("Major version number has changed.", MAJOR_VERSION, Version.getVersionNumber());
+        assertEquals("Compatibility version number has changed.", MINOR_VERSION, Version.getSubVersionNumber());
+        assertEquals("Minor version number has changed", SUB_MINOR_VERSION, Version.getSubSubVersionNumber());
     }
     
     public void testAlLeastVersion() {
