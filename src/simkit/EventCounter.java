@@ -28,12 +28,13 @@ public class EventCounter extends BasicSimEntity {
      * Instantiate the Map of event names and counts
      */
     public EventCounter() {
-        eventCounts = new LinkedHashMap<String, int[]>();
+        eventCounts = new LinkedHashMap<>();
     }
     
     /**
      * Clear the entire map of all names and counts
      */    
+    @Override
     public void reset() {
         super.reset();
         eventCounts.clear();
@@ -41,7 +42,9 @@ public class EventCounter extends BasicSimEntity {
     
     /**
      * Does nothing, since this will never schedule any events
+     * @param simEvent Given SimEvent
      */    
+    @Override
     public void handleSimEvent(simkit.SimEvent simEvent) {
     }
     
@@ -49,7 +52,9 @@ public class EventCounter extends BasicSimEntity {
      * If a non-Run event is heard that has been heard before,
      * increment its count.  If the first time an event is
      * heard, create an entry for it.
+     * @param simEvent Given SimEvent
      */    
+    @Override
     public void processSimEvent(simkit.SimEvent simEvent) {
         String eventName = simEvent.getEventName();
         if (!eventName.equals("Run")) {
@@ -69,7 +74,7 @@ public class EventCounter extends BasicSimEntity {
      * @return Copy of the entire Map of event names and counts
      */    
     public Map<String, int[]> getEventCounts() { 
-        return new LinkedHashMap<String, int[]>(eventCounts); 
+        return new LinkedHashMap<>(eventCounts); 
     }
     
     /**

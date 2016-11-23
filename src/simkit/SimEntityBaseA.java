@@ -77,7 +77,7 @@ public class SimEntityBaseA extends BasicSimEntity {
 
     public static final String _VERSION_ =
             "$Id$";
-    private static final Logger LOG = Logger.getLogger("simkit.SimEntity");
+    private static final Logger LOGGER = Logger.getLogger(SimEntityBaseA.class.getName());
     private boolean eventNamesProcessed = false;
     //  Slightly deep dictionary to look up methods
     // the name field comes from the name argument of the
@@ -89,7 +89,7 @@ public class SimEntityBaseA extends BasicSimEntity {
 
 
     static {
-        eventMethodMap = new HashMap<Class<?>, Map<String, Map<Class<?>[], Method>>>();
+        eventMethodMap = new HashMap<>();
     }
 
     public SimEntityBaseA(String name, Priority priority) {
@@ -135,12 +135,12 @@ public class SimEntityBaseA extends BasicSimEntity {
             String eventName = annotation.value();
             annotationKeyedMethods = eventMethodMap.get(this.getClass());
             if (null == annotationKeyedMethods) {
-                annotationKeyedMethods = new HashMap<String, Map<Class<?>[], Method>>();
+                annotationKeyedMethods = new HashMap<>();
             }
 
             signatureKeyedMethods = annotationKeyedMethods.get(annotation.value());
             if (null == signatureKeyedMethods) {
-                signatureKeyedMethods = new HashMap<Class<?>[], Method>();
+                signatureKeyedMethods = new HashMap<>();
             }
 
             signatureKeyedMethods.put(m.getParameterTypes(), m);
@@ -160,11 +160,11 @@ public class SimEntityBaseA extends BasicSimEntity {
         Map<String, Map<Class<?>[], Method>> stringKeyedMethods =
                 eventMethodMap.get(this.getClass());
         for (String key : stringKeyedMethods.keySet()) {
-            buff.append(key + ":\n");
+            buff.append(key + ":").append(NL);
             for (Class[] sig : stringKeyedMethods.get(key).keySet()) {
                 Method m = stringKeyedMethods.get(key).get(sig);
                 buff.append("\t");
-                buff.append(m.toString() + "\n");
+                buff.append(m.toString()).append(NL);
             }
         }
         return buff.toString();
@@ -205,7 +205,7 @@ public class SimEntityBaseA extends BasicSimEntity {
 
         if (null == requestedMethod) {
             Level l = Level.WARNING;
-            if (LOG.isLoggable(l)) {
+            if (LOGGER.isLoggable(l)) {
                 StringBuilder buff = new StringBuilder("(");
                 int z = requestedSignature.length;
                 if (z == 0) {
@@ -221,10 +221,10 @@ public class SimEntityBaseA extends BasicSimEntity {
                         z--;
                     }
                 }
-                LOG.log(l, "No method having signature compatible with " +
-                        buff +
-                        " was found for event '" + requestedEvent + "' in " +
-                        this.getClass().getSimpleName());
+                LOGGER.log(l, "No method having signature compatible with {0} was "
+                        + "found for event ''{1}'' in {2}", 
+                        new Object[]{buff, requestedEvent, 
+                            this.getClass().getSimpleName()});
 
             }
         }
@@ -244,8 +244,8 @@ public class SimEntityBaseA extends BasicSimEntity {
 
         try {
             Level l = Level.FINEST;
-            if (LOG.isLoggable(l)) {
-                LOG.log(l, LogString.format(eventList,
+            if (LOGGER.isLoggable(l)) {
+                LOGGER.log(l, LogString.format(eventList,
                         "Will invoke " + requestedMethod.toGenericString() +
                         " on " + this.toString() +
                         " which was found under the annotation sim event name \'" +
@@ -253,11 +253,7 @@ public class SimEntityBaseA extends BasicSimEntity {
             }
             requestedMethod.invoke(this, requestedParameters);
 
-        } catch (IllegalAccessException ex) {
-            throw new RuntimeException(ex);
-        } catch (IllegalArgumentException ex) {
-            throw new RuntimeException(ex);
-        } catch (InvocationTargetException ex) {
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -266,7 +262,7 @@ public class SimEntityBaseA extends BasicSimEntity {
     public boolean isReRunnable() {
         Class<?>[] f = new Class<?>[0];
         Map<Class<?>[], Method> signatureKeyedRunMethods = eventMethodMap.get(this.getClass()).get("Run");
-        if (null == signatureKeyedRunMethods || signatureKeyedRunMethods.size() == 0) {
+        if (null == signatureKeyedRunMethods || signatureKeyedRunMethods.isEmpty()) {
             return false;
         }
         for (Class<?>[] sig : signatureKeyedRunMethods.keySet()) {

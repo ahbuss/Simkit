@@ -19,12 +19,12 @@ import java.util.logging.Logger;
  **/
 public class BasicSimEventSource implements SimEventSource {
     
-    public static final Logger log = Logger.getLogger("simkit");
+    private static final Logger LOGGER = Logger.getLogger(BasicSimEventSource.class.getName());
     
    /**
    * The SimEventListeners who have registered.
    **/
-    private List<SimEventListener> listeners;
+    private final List<SimEventListener> listeners;
     
    /**
    * Construct a new BasicSimEventSource. 
@@ -39,10 +39,10 @@ public class BasicSimEventSource implements SimEventSource {
      *  Note that the listener is added only if it is not already a listener.
      *  @param listener The SimEventListener that is the new listener.
      **/
-//    @Override
+    @Override
     public void addSimEventListener(SimEventListener listener) {
         if (listener == null) {
-            log.fine("addSimEventListener called with null");
+            LOGGER.fine("addSimEventListener called with null");
             return;
         }
         synchronized(listeners) {
@@ -57,7 +57,7 @@ public class BasicSimEventSource implements SimEventSource {
      * wasn't registered.
      *  @param listener The SimEventListener to be removed as a listener.
      **/
-//    @Override
+    @Override
     public void removeSimEventListener(SimEventListener listener) {
         synchronized(listeners) {
             listeners.remove(listener);
@@ -66,13 +66,13 @@ public class BasicSimEventSource implements SimEventSource {
     
     /**
      * Causes all registered SimEventListeners to be notified of the given SimEvent.
-     * @param event The SimEvent that all SimEventListeners are notified has occured.
+     * @param event The SimEvent that all SimEventListeners are notified has occurred.
      **/
-//    @Override
+    @Override
     public void notifyListeners(SimEvent event) {
-        ArrayList<SimEventListener> listenersCopy = null;
+        ArrayList<SimEventListener> listenersCopy;
         synchronized(listeners) {
-            listenersCopy = new ArrayList<SimEventListener>(listeners);
+            listenersCopy = new ArrayList<>(listeners);
         }
         for (int i = 0; i < listenersCopy.size(); i++) {
             listenersCopy.get(i).processSimEvent(event);
@@ -83,7 +83,7 @@ public class BasicSimEventSource implements SimEventSource {
      * Returns a copy of the currently registered SimEventListeners.
      * @return Array of SimEventListeners
      */
-//    @Override
+    @Override
     public SimEventListener[] getSimEventListeners() {
         SimEventListener[] listenerArray = new SimEventListener[0];
         synchronized (listeners) {

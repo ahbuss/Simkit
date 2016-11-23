@@ -1,8 +1,5 @@
 package simkit;
 
-import simkit.Schedule;
-import simkit.SimEntityBase;
-
 /**
  * Execute all events scheduled at time 0.0 and then pause.  
  * This is done by the PauseAfterZero's Run

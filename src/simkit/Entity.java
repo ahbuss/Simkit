@@ -3,6 +3,7 @@ package simkit;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
+import static simkit.SimEventScheduler.NL;
 
 /**
  * <p>A generic entity that can be used as a Customer, a Job, etc. It can be subclassed
@@ -88,7 +89,7 @@ public class Entity implements Named, Comparable<Entity> {
      */
     public void setProperty(String name, Object value) {
         if (properties == null) {
-            properties = new LinkedHashMap<String, Object>();
+            properties = new LinkedHashMap<>();
         }
         properties.put(name, value);
     }
@@ -120,13 +121,14 @@ public class Entity implements Named, Comparable<Entity> {
      * @return shallow copy of all properties
      */
     public LinkedHashMap<String, Object> getProperties() {
-        return properties != null ? new LinkedHashMap<String, Object>(properties) :
-            new LinkedHashMap<String, Object>();
+        return properties != null ? new LinkedHashMap<>(properties) :
+            new LinkedHashMap<>();
     } 
 
     /**
      * @return the name of this Entity
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -134,6 +136,7 @@ public class Entity implements Named, Comparable<Entity> {
     /**
      * @param name the name of this Entity
      */
+    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -148,6 +151,7 @@ public class Entity implements Named, Comparable<Entity> {
     /**
      * @return Name.id [&lt;creationTime&gt;, &lt;timeStamp&gt;]
      */
+    @Override
     public String toString() {
         return getName() + '.' + getID() + ' ' + '[' + FORM.format(getCreationTime()) + ',' +
                 FORM.format(getTimeStamp()) + ']';
@@ -160,7 +164,7 @@ public class Entity implements Named, Comparable<Entity> {
         StringBuilder buf = new StringBuilder(toString());
         if (properties != null) {
             for (String property : properties.keySet()) {
-                buf.append('\n');
+                buf.append(NL);
                 buf.append('\t');
                 buf.append(property);
                 buf.append(' ');
@@ -198,6 +202,7 @@ public class Entity implements Named, Comparable<Entity> {
      * @return -1 if this has higher priority than o, -1 if this has lower
      * priority than o, 0 if they are the same entity
      */
+    @Override
     public int compareTo(Entity o) {
         if (this.getTimeStamp() < o.getTimeStamp()) {
             return -1;
