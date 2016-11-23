@@ -23,9 +23,11 @@ public class PingPainter extends BasicSimEntity {
         setFullSpeed(false);
     }
 
+    @Override
     public void handleSimEvent(simkit.SimEvent simEvent) {
     }
     
+    @Override
     public void processSimEvent(simkit.SimEvent simEvent) {
         if (isFullSpeed()) {
             doPing();
@@ -49,6 +51,7 @@ public class PingPainter extends BasicSimEntity {
     
     public Component getPanel() { return myPanel; }
     
+    @Override
     public void reset() {
         super.reset();
         if (myPanel !=null) {

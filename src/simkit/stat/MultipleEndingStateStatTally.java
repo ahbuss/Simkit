@@ -3,9 +3,9 @@ package simkit.stat;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import simkit.SimEntityBase;
-import simkit.stat.SimpleStatsTally;
 
 /**
  * @version $Id$
@@ -20,10 +20,11 @@ public class MultipleEndingStateStatTally extends SimEntityBase implements
     
     
     public MultipleEndingStateStatTally() {
-        lastStateValue = new HashMap<String, Number>();
-        lastStateValueStat = new HashMap<String, SimpleStatsTally>();
+        lastStateValue = new HashMap<>();
+        lastStateValueStat = new HashMap<>();
     }
 
+    @Override
     public void reset() {
         super.reset();
         lastStateValue.clear();
@@ -38,19 +39,20 @@ public class MultipleEndingStateStatTally extends SimEntityBase implements
     }
     
     public void doEndIterationEvent() {
-        for (String property : lastStateValue.keySet()) {
-            double lastValue = getLastStateValueFor(property);
+        for (String localProperty : lastStateValue.keySet()) {
+            double lastValue = getLastStateValueFor(localProperty);
             if (!Double.isNaN(lastValue)) {
-                SimpleStatsTally stat = lastStateValueStat.get(property);
+                SimpleStatsTally stat = lastStateValueStat.get(localProperty);
                 if (stat == null) {
-                    stat = new SimpleStatsTally(property);
-                    lastStateValueStat.put(property, stat);
+                    stat = new SimpleStatsTally(localProperty);
+                    lastStateValueStat.put(localProperty, stat);
                 }
                 stat.newObservation(lastValue);
             }
         }
     }
     
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         if (java.lang.Number.class.isAssignableFrom(e.getNewValue().getClass())) {
             lastStateValue.put(e.getPropertyName(), (Number) e.getNewValue());
@@ -58,11 +60,11 @@ public class MultipleEndingStateStatTally extends SimEntityBase implements
     }
 
     public Map<String, Number> getLastStateValue() {
-        return new HashMap<String, Number>(lastStateValue);
+        return new HashMap<>(lastStateValue);
     }
 
     public Map<String, SimpleStatsTally> getLastStateValueStat() {
-        return new HashMap<String, SimpleStatsTally>(lastStateValueStat);
+        return new HashMap<>(lastStateValueStat);
     }
     
     public double getLastStateValueFor(String property) {

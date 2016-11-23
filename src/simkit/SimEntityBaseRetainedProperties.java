@@ -44,18 +44,19 @@ public class SimEntityBaseRetainedProperties extends SimEntityBase {
      * all added properties.  Otherwise, discard them (a call ti super.reset()
      * suffices for this).
      */
+    @Override
     public void reset() {
         if (!isRetainAddedProperties()) {
             super.reset();
         } else {
-            LinkedHashMap<String, Object> savedProperties = new LinkedHashMap<String, Object>();
+            LinkedHashMap<String, Object> tempSavedProperties = new LinkedHashMap<>();
             String[] addedProperties = property.getAddedProperties();
             for (String savedProperty : addedProperties) {
-                savedProperties.put(savedProperty, getProperty(savedProperty));
+                tempSavedProperties.put(savedProperty, getProperty(savedProperty));
             }
             super.reset();
-            for (String addedProperty : savedProperties.keySet()) {
-                setProperty(addedProperty, savedProperties.get(addedProperty));
+            for (String addedProperty : tempSavedProperties.keySet()) {
+                setProperty(addedProperty, tempSavedProperties.get(addedProperty));
             }
         }
     }

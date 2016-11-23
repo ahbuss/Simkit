@@ -6,7 +6,7 @@ import simkit.stat.SimpleStatsTimeVarying;
 
 public class TestSimpleStatsTimeVarying {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
         SimpleStatsTimeVarying sst = new SimpleStatsTimeVarying();
         sst.setName("numberArrivals");
         sst.newObservation(0.0);

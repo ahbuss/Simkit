@@ -2,7 +2,6 @@ package simkit.stat;
 
 import java.beans.PropertyChangeEvent;
 import java.util.Collection;
-import simkit.stat.SimpleStatsTimeVarying;
 
 /**
  * Listen for PropertyChangeEvent of type Collection.
@@ -38,11 +37,12 @@ public class CollectionSizeTimeVaryingStats extends SimpleStatsTimeVarying {
      * Collection's property with ".size" appended.
      * @param e Heard PropertyChangeEvent
      */    
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         Object container = e.getNewValue();
         if (container instanceof Collection) {
             super.propertyChange(new PropertyChangeEvent(e.getSource(), e.getPropertyName() + ".size", 
-                null, new Integer(((Collection) container).size())));
+                null, ((Collection) container).size()));
         }
     }
     

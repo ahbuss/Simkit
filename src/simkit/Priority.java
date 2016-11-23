@@ -20,9 +20,9 @@ public class Priority implements Comparable<Priority> {
     
     protected static final NumberFormat form = new DecimalFormat("0.0000");
     
-    private double priority;
+    private final double priority;
     
-    private String name;
+    private final String name;
 
     public Priority(String name, double priority) {
         this.name = name;
@@ -33,10 +33,12 @@ public class Priority implements Comparable<Priority> {
         return priority;
     }
     
+    @Override
     public String toString() {
         return "Priority " + name + "[" + form.format(getPriority()) +"]";
     }
     
+    @Override
     public int compareTo(Priority other) {
         if (this.getPriority() > other.getPriority()) { return -1; }
         if (this.getPriority() < other.getPriority()) { return 1; }

@@ -20,11 +20,13 @@ public class TruncatingCollectionSizeTimeVarying extends CollectionSizeTimeVaryi
         this(DEFAULT_NAME, truncationPoint);
     }
     
+    @Override
     public void reset() {
         super.reset();
         truncated = false;
     }
     
+    @Override
     public void newObservation(double x) {
         if (!isTruncated() && eventList.getSimTime() > getTruncationPoint()) {
             reset();

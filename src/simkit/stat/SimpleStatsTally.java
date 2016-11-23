@@ -47,6 +47,17 @@ public class SimpleStatsTally extends AbstractSimpleStats {
         super(name);
         reset();
     }
+    
+    public SimpleStatsTally(SimpleStatsTally original) {
+        this.mean = original.getMean();
+        this.variance = original.getVariance();
+        this.count = original.getCount();
+        this.diff = original.diff;
+        this.minObs = original.getMinObs();
+        this.maxObs = original.getMaxObs();
+        this.numberFormat = original.numberFormat;
+        this.name = original.getName();
+    }
 /**
  *  Update counters with a new observation.
  *  @param x The new (primitive) observation.

@@ -63,8 +63,8 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
     private static Map<Class, Map<String, Method>> allGetters;
 
     static {
-        allSetters = new LinkedHashMap<Class, Map<String, Method>>();
-        allGetters = new LinkedHashMap<Class, Map<String, Method>>();
+        allSetters = new LinkedHashMap<>();
+        allGetters = new LinkedHashMap<>();
     }
 
     /**
@@ -114,9 +114,9 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
         setters = allSetters.get(bean.getClass());
         getters = allGetters.get(bean.getClass());
         if (setters == null || getters == null) {
-            setters = new LinkedHashMap<String, Method>();
+            setters = new LinkedHashMap<>();
             allSetters.put(bean.getClass(), setters);
-            getters = new LinkedHashMap<String, Method>();
+            getters = new LinkedHashMap<>();
             allGetters.put(bean.getClass(), getters);
             for (Class clazz = source.getClass(); clazz != stopClass; clazz = clazz.getSuperclass()) {
                 Method[] method = clazz.getDeclaredMethods();
@@ -139,9 +139,9 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
                 }
             }
         }
-        addedProperties = new LinkedHashMap<String, Object>();
+        addedProperties = new LinkedHashMap<>();
         listeners = new HashMap<>();
-        listeners.put(null, new LinkedHashSet<PropertyChangeListener>());
+        listeners.put(null, new LinkedHashSet<>());
     }
 
     /**
@@ -240,6 +240,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
         return allListeners.toArray(new PropertyChangeListener[0]);
     }
 
+    @Override
     public PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
         PropertyChangeListener[] theseListeners
                 = new PropertyChangeListener[0];
@@ -290,6 +291,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * @param propertyValue new value of the property
      *
      */
+    @Override
     public void setProperty(String propertyName, Object propertyValue) {
         Method setter = setters.get(propertyName);
         if (setter != null) {
@@ -315,6 +317,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * @return property value (or null if property doesn't exist)
      *
      */
+    @Override
     public Object getProperty(String propertyName) {
         Object result = null;
         Method getter = getters.get(propertyName);
@@ -335,11 +338,13 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
     /**
      * Get the value of the given property or return the given default.
      *
+     * @param propertyName name of property
      * @return The value of the property if found and not null, otherwise the
      * default value.
      * @throws NullPointerException If the property doesn't exist.
      *
      */
+    @Override
     public Object getProperty(String propertyName, Object defaultValue) {
         Object prop = getProperty(propertyName);
         return (prop != null) ? prop : defaultValue;
@@ -407,6 +412,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
     /**
      * @return a String listing of all properties, including added ones
      */
+    @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
         for (String propertyName : getters.keySet()) {
@@ -455,6 +461,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
     /**
      * @return array of added properties
      */
+    @Override
     public String[] getAddedProperties() {
         return addedProperties.keySet().toArray(new String[0]);
     }

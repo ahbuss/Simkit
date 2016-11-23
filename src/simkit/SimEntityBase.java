@@ -414,8 +414,8 @@ public abstract class SimEntityBase extends BasicSimEntity {
         }
         buf.append(NL);
         Map<String, List<Class<?>[]>> namesAndSignatures = allNamesAndSignatures.get(this.getClass());
-        for (Iterator i = namesAndSignatures.keySet().iterator(); i.hasNext();) {
-            Object methodName = i.next();
+        for (Iterator<String> i = namesAndSignatures.keySet().iterator(); i.hasNext();) {
+            String methodName = i.next();
             buf.append(methodName);
             buf.append(':');
             buf.append('\t');

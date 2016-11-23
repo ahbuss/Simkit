@@ -53,8 +53,8 @@ public class SimEventTest extends TestCase {
     public void testGetEventHash() {
         SimEntity entity2 = new SimEventTest_TestEntity();
         SimEntity entity = new Adapter("heard", "passed");
-        SimEvent e1 = new SimEvent(entity, "event",  new Object[] {"A string", entity2, new Integer(999)}, 1234.7);
-        SimEvent e2 = new SimEvent(entity, "event",  new Object[] {"A string", entity2, new Integer(999)}, 223.4);
+        SimEvent e1 = new SimEvent(entity, "event",  new Object[] {"A string", entity2, 999}, 1234.7);
+        SimEvent e2 = new SimEvent(entity, "event",  new Object[] {"A string", entity2, 999}, 223.4);
         assertEquals(e1.getEventHash(), e2.getEventHash());
         assertEquals(e1.getEventHash(), e2.getEventHash());//twice for the cache
     }
@@ -69,11 +69,10 @@ public class SimEventTest extends TestCase {
 
         int[] order = new int[] {999, 3, 6, 4, 5, 7, 9, 2, 12, 13, 8, 11, 1, 10}; 
 
-        SortedSet events = SimkitTestingHelper.getEventSet();
+        SortedSet<SimEvent> events = SimkitTestingHelper.getEventSet();
 
         int i = 1;
-        for (Iterator itt = events.iterator(); itt.hasNext(); ) {
-            SimEvent event = (SimEvent)itt.next();
+        for (SimEvent event : events) {
             assertSame("i=" + i + " ans index=" + order[i], se[order[i]], event);
             i++;
         }

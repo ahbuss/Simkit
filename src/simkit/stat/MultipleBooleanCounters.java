@@ -19,7 +19,7 @@ public class MultipleBooleanCounters implements PropertyChangeListener {
     protected Map<String, BooleanCounter> counters;
     
     public MultipleBooleanCounters() {
-        counters = new HashMap<String, BooleanCounter>();
+        counters = new HashMap<>();
     }
     
     /**
@@ -27,6 +27,7 @@ public class MultipleBooleanCounters implements PropertyChangeListener {
      * BooleanCounter for that name.  If none exists, create one on the fly.
      * @param e Heard PropertyChangeEvent
      */    
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         Object value = e.getNewValue();
         if (value instanceof Boolean) {
@@ -44,7 +45,7 @@ public class MultipleBooleanCounters implements PropertyChangeListener {
      * Reset all existing BooleanCounters
      */    
     public void reset() {
-        for (Iterator i = counters.keySet().iterator(); i.hasNext(); ) {
+        for (Iterator<String> i = counters.keySet().iterator(); i.hasNext(); ) {
             ((BooleanCounter) counters.get(i.next())).reset();
         }
     }
@@ -62,7 +63,7 @@ public class MultipleBooleanCounters implements PropertyChangeListener {
      */    
     public Map<String, BooleanCounter> getCounters() {
         Map<String, BooleanCounter> copy = 
-                new HashMap<String, BooleanCounter>(counters.size());
+                new HashMap<>(counters.size());
         for (String key : counters.keySet()) {
             BooleanCounter value = (BooleanCounter) counters.get(key);
             copy.put(key, new BooleanCounter(value));
@@ -87,6 +88,7 @@ public class MultipleBooleanCounters implements PropertyChangeListener {
      *
      * @return List of all Counters
      */    
+    @Override
     public String toString() {
         StringBuilder buf = new StringBuilder("MultipleBooleanCounter");
         for (String counter : counters.keySet()) {

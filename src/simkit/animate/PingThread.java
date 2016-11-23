@@ -216,6 +216,10 @@ public class PingThread extends SimEntityBase
         
     }
     
+    /**
+     * Go at full speed (no "Pings")
+     */
+    @Override
     public void fastForward() { 
         interruptAll("Ping");
         pinging = false;

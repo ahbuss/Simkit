@@ -23,7 +23,7 @@ public class   DataWindow
    protected static final int    WIN_Y_OFFSET = 15;
    protected BorderLayout layout;      
    
-   private int myx, myy, myw, myh;
+   private final int myx, myy, myw, myh;
    
 /**
 * Creates a new DataWindow. Located at position (5,5)
@@ -46,6 +46,7 @@ public class   DataWindow
 
       this.addWindowListener(
         new WindowAdapter() {
+          @Override
           public void windowClosing(WindowEvent e) {
             dispose();
             setVisible(false);

@@ -30,13 +30,14 @@ public class MultipleCollectionSizeTimeVarying extends MultipleSimpleStatsTimeVa
      * Collection's property with ".size" appended.
      * @param e Heard PropertyChangeEvent
      */
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         Object container = e.getNewValue();
         if (e instanceof IndexedPropertyChangeEvent) {
             if (container instanceof Collection) {
                 super.propertyChange(new IndexedPropertyChangeEvent(
                     e.getSource(), e.getPropertyName() + ".size",
-                null, new Integer(((Collection) container).size()),
+                null, ((Collection) container).size(),
                 ((IndexedPropertyChangeEvent)e).getIndex()));
             }
         }

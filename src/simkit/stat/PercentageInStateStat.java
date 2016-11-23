@@ -103,12 +103,10 @@ public class PercentageInStateStat implements PropertyChangeListener {
         currentState = newState;
         Double newTimeInState = stateStats.get(currentState);
         if (newTimeInState == null) {
-            newTimeInState = new Double(0.0);
+            newTimeInState = 0.0;
             stateStats.put(currentState, newTimeInState);
             stateNameLength = Math.max(stateNameLength, currentState.toString().length());
         }
-//        System.out.println(Schedule.getSimTimeStr() + ": " + oldState + " => " +
-//                currentState + '\n'   + stateString());
     }
 
     public Object getInitialState() {
@@ -160,7 +158,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
     }
 
     public Map<Object, Double> getStateStats() {
-        return new LinkedHashMap<Object, Double>(stateStats);
+        return new LinkedHashMap<>(stateStats);
     }
 
     public Object getCurrentState() {
@@ -190,7 +188,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
         double percentage = 0.0;
         Double timeInThisState = stateStats.get(state);
         if (timeInThisState != null) {
-            percentage = timeInThisState.doubleValue() / Schedule.getSimTime();
+            percentage = timeInThisState / Schedule.getSimTime();
         }
         return percentage;
     }

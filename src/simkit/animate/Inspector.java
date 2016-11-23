@@ -6,6 +6,7 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -20,9 +21,9 @@ import simkit.smd.Mover;
  */
 public class Inspector implements MouseListener {
     
-    private JTable table;
-    private JTextArea text;
-    private JScrollPane scrollPane;
+    private final JTable table;
+    private final JTextArea text;
+    private final JScrollPane scrollPane;
     
     /** Creates new Inspector */
     public Inspector() {
@@ -47,7 +48,7 @@ public class Inspector implements MouseListener {
             try {
                 value = getter.invoke(obj, (Object[]) null);
             }
-            catch (Throwable t) {System.err.println(t);}
+            catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException t) {System.err.println(t);}
             buf.append(name);
             buf.append('\t');
             buf.append(value);
@@ -56,15 +57,19 @@ public class Inspector implements MouseListener {
         return buf.toString();
     }
     
+    @Override
     public void mouseExited(java.awt.event.MouseEvent mouseEvent) {
     }
     
+    @Override
     public void mouseReleased(java.awt.event.MouseEvent mouseEvent) {
     }
     
+    @Override
     public void mousePressed(java.awt.event.MouseEvent mouseEvent) {
     }
     
+    @Override
     public void mouseClicked(java.awt.event.MouseEvent mouseEvent) {
         if (mouseEvent.getClickCount() >= 1) {
             Object source = mouseEvent.getSource();
@@ -88,16 +93,17 @@ public class Inspector implements MouseListener {
         try {
             bi= Introspector.getBeanInfo(obj.getClass());
             PropertyDescriptor[] pd = bi.getPropertyDescriptors();
-            for (int i = 0; i < pd.length; i++) {
-                Method getter = pd[i].getReadMethod();
+            for (PropertyDescriptor pd1 : pd) {
+                Method getter = pd1.getReadMethod();
                 if (getter.getReturnType().isAssignableFrom(simkit.smd.Mover.class)) {
                     return (Mover) getter.invoke(obj, (Object[]) null);
                 }
             }
-        } catch (Throwable e) { e.printStackTrace(System.err); }
+        } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) { e.printStackTrace(System.err); }
         return null;
     }
     
+    @Override
     public void mouseEntered(java.awt.event.MouseEvent mouseEvent) {
     }
     

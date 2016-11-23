@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import simkit.stat.SavedStats;
 import simkit.stat.SampleStatistics;
@@ -98,7 +99,7 @@ public abstract class BasicAssembly implements Runnable {
     
     protected PropertyChangeSupport propertyChangeSupport;
     
-    private DecimalFormat form;
+    private final DecimalFormat form;
     private boolean verbose;
     
     /**
@@ -117,7 +118,7 @@ public abstract class BasicAssembly implements Runnable {
         propertyChangeSupport = new PropertyChangeSupport(this);
         setPrintReplicationReports(false);
         setPrintSummaryReport(true);
-        replicationData = new LinkedHashMap<Integer, List<SampleStatistics>>();
+        replicationData = new LinkedHashMap<>();
         simEntity= new SimEntity[0];
         replicationStats = new SampleStatistics[0];
         designPointStats = new SampleStatistics[0];
@@ -313,24 +314,28 @@ public abstract class BasicAssembly implements Runnable {
     /**
     * Determines the value of Schedule.reallyVerbose. If true
     * prints information about scheduling, interrupting, and handling events.
+     * @param value Given value
     **/
     public void setReallyVerbose(boolean value) {reallyVerbose = value;}
 
     /**
-    * The value of Schedule.reallyVerbose. If true
-    * prints information about scheduling, interrupting, and handling events.
+    * The value of Schedule.reallyVerbose. 
+     * @return  true, if it prints information about scheduling, interrupting, 
+     * and handling events.
     **/
     public boolean isReallyVerbose() {return reallyVerbose;}
 
     /**
      * Empty, implemented here so subclasses don't have to implement
      * (abstract method of BasicSimEntity)
+     * @param simEvent Given SimEvent
      */
     public void handleSimEvent(SimEvent simEvent) {
     }
     /**
      * Empty, implemented here so subclasses don't have to implement
      * (abstract method of BasicSimEntity)
+     * @param simEvent Given SimEvent
      */
     public void processSimEvent(SimEvent simEvent) {
     }
@@ -369,7 +374,7 @@ public abstract class BasicAssembly implements Runnable {
     }
     
     public Map<Integer, List<SampleStatistics>> getReplicationData() {
-        return new LinkedHashMap<Integer, List<SampleStatistics>>(replicationData);
+        return new LinkedHashMap<>(replicationData);
     }
     
     /** Save all replicationStats for a given iteration.  This assumes that the
@@ -377,14 +382,16 @@ public abstract class BasicAssembly implements Runnable {
      */
     protected void saveReplicationStats() {
         for (int i = 0; i < replicationStats.length; ++i) {
-            List<SampleStatistics> reps = replicationData.get(new Integer(i));
+            List<SampleStatistics> reps = replicationData.get(i);
             reps.add(new SavedStats(replicationStats[i]));
         }
     }
     
-    /** For each inner stats, print name, count, min, max, mean, variance, and
-     * standard deviation.  This can be done generically.
+    /**   
+     * This can be done generically.
      * @param rep The replication number for this report
+     * @return For each inner stats, the name, count, min, max, mean, variance, and
+     * standard deviation.
      */
     protected String getReplicationReport(int rep) {
         StringBuilder buf = new StringBuilder("Output Report for Replication #");
@@ -410,8 +417,9 @@ public abstract class BasicAssembly implements Runnable {
         }
         return buf.toString();
     }
-    /** For each outer stats, print name, count, min, max, mean, variance, and
-     * standard deviation.  This can be done generically.
+    /** This can be done generically.
+     * @return For each outer stats,  name, count, min, max, mean, variance, and
+     * standard deviation.  
      */
     protected String getSummaryReport() {
          StringBuilder buf = new StringBuilder("Summary Output Report:");
@@ -459,6 +467,7 @@ public abstract class BasicAssembly implements Runnable {
     /**
      * Execute the simulation for the desired number of replications.
      */
+    @Override
     public void run() {
         if (!hookupsCalled) {
             throw new RuntimeException("performHookups() hasn't been called!");
@@ -476,7 +485,7 @@ public abstract class BasicAssembly implements Runnable {
         if (isSaveReplicationData()) {
             replicationData.clear();
             for (int i = 0; i < replicationStats.length; ++i) {
-                replicationData.put(new Integer(i), new ArrayList<SampleStatistics>());
+                replicationData.put(i, new ArrayList<>());
             }
         }
         
@@ -487,7 +496,7 @@ public abstract class BasicAssembly implements Runnable {
             scheduleWillReset();
             Schedule.reset();
             scheduleDidReset();
-            log.info("Starting replication " + replication);
+            log.log(Level.INFO, "Starting replication {0}", replication);
             Schedule.startSimulation();
             for (int i = 0; i < replicationStats.length; ++i) {
                 propertyChangeSupport.firePropertyChange(new IndexedPropertyChangeEvent(this, replicationStats[i].getName(), null, replicationStats[i], i));
@@ -505,8 +514,8 @@ public abstract class BasicAssembly implements Runnable {
             System.out.println(getSummaryReport());
         }
         double endTime = System.currentTimeMillis();
-        log.info("Execution time for " + getNumberReplications() + " replications: " 
-                + (endTime - startTime) * 1.0E-3);
+        log.log(Level.INFO, "Execution time for {0} replications: {1}", 
+                new Object[]{getNumberReplications(), (endTime - startTime) * 1.0E-3});
         simulationDidFinish();
     }
 

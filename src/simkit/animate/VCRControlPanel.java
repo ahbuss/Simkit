@@ -45,8 +45,8 @@ public class VCRControlPanel extends JPanel {
         Action[] actions = ActionIntrospector.getActions(controller, new String[] {"pause",  "stop", "step", "start"});
         
         buttons = ActionUtilities.createButtons(actions);
-        for (int i = 0; i < buttons.length; i++) {
-            this.add(buttons[i]);
+        for (JButton button : buttons) {
+            this.add(button);
         }
         
         setupTimLabel();

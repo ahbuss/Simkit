@@ -1,7 +1,5 @@
 package simkit;
 
-import simkit.BasicEventList;
-
 /**
  * Objects that need a reference to the event list can implement
  * this interface to indicate that fact to clients that test for

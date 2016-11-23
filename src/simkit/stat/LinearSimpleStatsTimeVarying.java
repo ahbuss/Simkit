@@ -38,10 +38,12 @@ public class LinearSimpleStatsTimeVarying extends SimpleStatsTimeVarying {
         reset();
     }
 
+    @Override
     public simkit.stat.SamplingType getSamplingType() {
         return SamplingType.LINEAR;
     }
 
+    @Override
     public void reset() {
         super.reset();
         diff = 0.0;
@@ -52,6 +54,7 @@ public class LinearSimpleStatsTimeVarying extends SimpleStatsTimeVarying {
         mean = 0.0;
     }
     
+    @Override
     public void newObservation(double x) {
         if (eventList.getSimTime() < lastTime) {
             String message = "Observation in the past: " +
@@ -83,6 +86,7 @@ public class LinearSimpleStatsTimeVarying extends SimpleStatsTimeVarying {
         lastTime = eventList.getSimTime();
     }
     
+    @Override
     public double getMean() {
         if (eventList.getSimTime() > lastTime) {
             String message =  "Results not up-to-date; last observation at " +
@@ -93,6 +97,7 @@ public class LinearSimpleStatsTimeVarying extends SimpleStatsTimeVarying {
         return mean; 
     }
     
+    @Override
     public double getVariance() {
         if (eventList.getSimTime() > lastTime) {
             String message =  "Results not up-to-date; last observation at " +

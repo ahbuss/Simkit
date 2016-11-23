@@ -38,12 +38,12 @@ public class ActionIntrospector {
     
     public static ActionInfo getActionInfo(Class<?> c) {
         if (cache == null) {
-            cache = new WeakHashMap<Class, ActionInfo>();
+            cache = new WeakHashMap<>();
         }
         if (cache.containsKey(c)) {
             return cache.get(c);
         }
-        Class<?> infoClass = null;
+        Class<?> infoClass ;
         ActionInfo infoInstance = null;
         try {
             if (c.isAssignableFrom(ActionInfo.class)) {
@@ -61,24 +61,19 @@ public class ActionIntrospector {
                 infoClass = Thread.currentThread().getContextClassLoader().loadClass(infoClassName);
                 infoInstance = (ActionInfo) infoClass.newInstance();
             }
-            catch (IllegalAccessException e) {}
-            catch (InstantiationException e) {}
+            catch (IllegalAccessException | InstantiationException e) {}
             catch (ClassNotFoundException e) {
                 String unqualifiedNameWithDot = "." + toUnqualifiedName(c) + "ActionInfo";
-                for (int i = 0; i < searchList.length; i++) {
+                for (String searchList1 : searchList) {
                     try {
-                        String infoClassName = searchList[i] + unqualifiedNameWithDot;
+                        String infoClassName = searchList1 + unqualifiedNameWithDot;
                         infoClass = Thread.currentThread().getContextClassLoader().loadClass(infoClassName);
                         infoInstance = (ActionInfo) infoClass.newInstance();
-                    }
-                    catch (IllegalAccessException noWay) {}
-                    catch (InstantiationException nuhUh) {}
-                    catch (ClassNotFoundException betterLuckNextTime) {}
+                    }catch (IllegalAccessException noWay) {}catch (InstantiationException nuhUh) {}catch (ClassNotFoundException betterLuckNextTime) {}
                 }
             }
         }
-        catch (IllegalAccessException e) {}
-        catch (InstantiationException e) {}
+        catch (IllegalAccessException | InstantiationException e) {}
         if (infoInstance == null) {
             infoInstance = new DefaultActionInfo(c);
         }
@@ -104,14 +99,12 @@ public class ActionIntrospector {
             throw new IllegalArgumentException(fromClass.getName() + " is not a subclass of " +
             toSuperClass.getName());
         }
-        ArrayList<Method> actionMethods = new ArrayList<Method>();
+        ArrayList<Method> actionMethods = new ArrayList<>();
         for (Class<?> thisClass = fromClass; thisClass != toSuperClass; thisClass = thisClass.getSuperclass()) {
             Method[] newMethods = thisClass.getDeclaredMethods();
-            for (int i = 0; i < newMethods.length; i++) {
-                if ((newMethods[i].getParameterTypes().length == 0) &&
-                (newMethods[i].getReturnType() == Void.TYPE) &&
-                (Modifier.isPublic(newMethods[i].getModifiers()))) {
-                    actionMethods.add(newMethods[i]);
+            for (Method newMethod : newMethods) {
+                if ((newMethod.getParameterTypes().length == 0) && (newMethod.getReturnType() == Void.TYPE) && (Modifier.isPublic(newMethod.getModifiers()))) {
+                    actionMethods.add(newMethod);
                 }
             }
         }
@@ -158,6 +151,9 @@ public class ActionIntrospector {
     /**
      *  First get or generate all the object's actions.  Then filter
      *  out the ones that are superClass or higher.
+     * @param obj Given Object
+     * @param superClass Given super class
+     * @return array of object's Actions
      */
     public static Action[] getActions(Object obj, Class<?> superClass) {
         if (!superClass.isAssignableFrom(obj.getClass())) {
@@ -188,8 +184,8 @@ public class ActionIntrospector {
     
     public static Action getAction(Object[] instances, String actionName) {
         Action action = null;
-        for (int i = 0; i < instances.length; i++) {
-            action = getAction(instances[i], actionName);
+        for (Object instance : instances) {
+            action = getAction(instance, actionName);
             if (action != null) { break; }
         }
         return action;
@@ -203,13 +199,15 @@ public class ActionIntrospector {
         protected DefaultActionInfo(Class<?> theClass) {
             myClass = theClass;
             actionNames = ActionIntrospector.getActionNames(theClass);
-            objectActionCache = new WeakHashMap<Object, Action[]>();
+            objectActionCache = new WeakHashMap<>();
         }
         
+        @Override
         public String[] getActionNames() {
             return (String[]) actionNames.clone();
         }
         
+        @Override
         public Action[] getActions(Object instance) {
             if (! myClass.isInstance(instance) ){
                 throw new IllegalArgumentException("Instance is not from " +
@@ -222,15 +220,17 @@ public class ActionIntrospector {
                     try {
                         theActions[i] = new GenericAction(instance, actionNames[i]);
                     }
-                    catch (IllegalArgumentException e) {System.err.println(e); continue;}
+                    catch (IllegalArgumentException e) {System.err.println(e); }
                 }
                 objectActionCache.put(instance, theActions);
             }
             return theActions;
         }
         
+        @Override
         public Class getActionClass() { return myClass; }
         
+        @Override
         public boolean isActionMethod(String methodName) {
             boolean isActionMethod = false;
             try {
@@ -240,6 +240,7 @@ public class ActionIntrospector {
             return isActionMethod;
         }
         
+        @Override
         public Action getAction(Object instance, String actionName) {
             if (!getActionClass().isInstance(instance)) {
                 throw new IllegalArgumentException(instance.getClass() + " not a " +
@@ -254,15 +255,15 @@ public class ActionIntrospector {
             return null;
         }
         
+        @Override
         public Action[] getActions(Object instance, String[] justThese) {
-            ArrayList<Action> temp = new ArrayList<Action>();
-            Action[] actions = getActions(instance);
-            for (int i = 0; i < justThese.length; i++) {
-                if (isActionMethod(justThese[i])) {
-                    temp.add(getAction(instance, justThese[i]));
+            ArrayList<Action> temp = new ArrayList<>();
+            for (String justThese1 : justThese) {
+                if (isActionMethod(justThese1)) {
+                    temp.add(getAction(instance, justThese1));
                 }
             }
-            return (Action[]) temp.toArray(new Action[temp.size()]);
+            return temp.toArray(new Action[temp.size()]);
         }
     }
 }

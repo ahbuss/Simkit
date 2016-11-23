@@ -1,7 +1,5 @@
 package simkit.stat;
 
-import simkit.stat.SimpleStatsTally;
-
 /**
  * A SimpleStatsTally that resets after a truncation point has been reached.
  *
@@ -9,21 +7,23 @@ import simkit.stat.SimpleStatsTally;
  * @author ahbuss
  */
 public class TruncatingSimpleStatsTally extends SimpleStatsTally {
-    
+
     protected boolean truncated;
     private int truncationPoint;
-    
+
     /**
      * Create a TruncatingSimpleStatsTally with given truncation point.
+     *
      * @param truncationPoint Truncation point.
      */
     public TruncatingSimpleStatsTally(int truncationPoint) {
         this(DEFAULT_NAME, truncationPoint);
     }
-    
+
     /**
-     * Create a TruncatingSimpleStatsTally with given property name and
-     * with given truncation point.
+     * Create a TruncatingSimpleStatsTally with given property name and with
+     * given truncation point.
+     *
      * @param propertyName Name of property to listen to
      * @param truncationPoint Truncation point
      */
@@ -32,41 +32,48 @@ public class TruncatingSimpleStatsTally extends SimpleStatsTally {
         setTruncationPoint(truncationPoint);
         truncated = false;
     }
+
     /**
      * @return Truncation point
      */
-    public int getTruncationPoint() { return truncationPoint; }
-    
+    public int getTruncationPoint() {
+        return truncationPoint;
+    }
+
     /**
      * @throws IllegalArgumentException if truncationPoint &lt; 0
      * @param truncationPoint Truncation point
      */
     public void setTruncationPoint(int truncationPoint) {
         if (truncationPoint < 0) {
-            throw new IllegalArgumentException("Number transients must be >= 0: " +
-                    truncationPoint);
+            throw new IllegalArgumentException("Number transients must be >= 0: "
+                    + truncationPoint);
         }
         this.truncationPoint = truncationPoint;
         reset();
     }
-    
+
     /**
      * @return Whether truncation point has been reached or not
      */
-    public boolean isTruncated() { return truncated; }
-    
-    /** Set to not "warmed up"
-     */
+    public boolean isTruncated() {
+        return truncated;
+    }
+
+    @Override
     public void reset() {
         super.reset();
-        truncated = false;    }
+        truncated = false;
+    }
 
     /**
-     * 
-     * Update counters (in super class).  If truncation point has been reached,
+     *
+     * Update counters (in super class). If truncation point has been reached,
      * reset all counters and set truncated to true.
+     *
      * @param x New observation value
      */
+    @Override
     public void newObservation(double x) {
         super.newObservation(x);
         if (!isTruncated() && this.getCount() >= this.getTruncationPoint()) {
@@ -74,12 +81,13 @@ public class TruncatingSimpleStatsTally extends SimpleStatsTally {
             truncated = true;
         }
     }
-        
+
     /**
-     * @return String desciption, including all stats.
+     * @return String description, including all stats.
      */
-    public String toString() {        
-        return getName() + " (TALLY) [truncation = " + getTruncationPoint() + 
-            "]" + System.getProperty("line.separator") + getDataLine();
+    @Override
+    public String toString() {
+        return getName() + " (TALLY) [truncation = " + getTruncationPoint()
+                + "]" + System.getProperty("line.separator") + getDataLine();
     }
 }

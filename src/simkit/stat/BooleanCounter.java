@@ -52,11 +52,12 @@ public class BooleanCounter implements PropertyChangeListener, Named {
      * is a Boolean, update the appropriate counter.
      * @param e Heard Event
      */    
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         if (propertyName.equals(e.getPropertyName())) {
             Object value = e.getNewValue();
             if (value instanceof Boolean) {
-                if ( ((Boolean) value).booleanValue() ) {
+                if ( ((Boolean) value) ) {
                     numberTrue += 1;
                 }
                 else {
@@ -97,14 +98,10 @@ public class BooleanCounter implements PropertyChangeListener, Named {
      */    
     public double getFalseOverTrue() { return (double) numberFalse / (double) numberTrue; }
     
-    /**
-     * @return Name of property being listened to
-     */    
+    @Override
     public String getName() { return propertyName; }
     
-    /**
-     * @param name Name of property we are listening to
-     */    
+    @Override
     public void setName(String name) {
         propertyName = name;
         reset();
@@ -124,6 +121,7 @@ public class BooleanCounter implements PropertyChangeListener, Named {
     /**
      * @return Name + stateString
      */    
+    @Override
     public String toString() { return 
         "BooleanCounter [" + getName() + "] " + stateString();
     }

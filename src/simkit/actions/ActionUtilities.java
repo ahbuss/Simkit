@@ -23,7 +23,7 @@ public class ActionUtilities {
     public static String[] DECORATION_KEYS;
     
     static {
-        ArrayList<String> keys = new ArrayList<String>();
+        ArrayList<String> keys = new ArrayList<>();
         keys.add(Action.ACCELERATOR_KEY);
         keys.add(Action.ACTION_COMMAND_KEY);
         keys.add(Action.DEFAULT);
@@ -32,7 +32,7 @@ public class ActionUtilities {
         keys.add(Action.NAME);
         keys.add(Action.SHORT_DESCRIPTION);
         keys.add(Action.SMALL_ICON);
-        DECORATION_KEYS = (String[]) keys.toArray(new String[0]);
+        DECORATION_KEYS =  keys.toArray(new String[0]);
     }
     
     public static JMenu createMenu(String title, Object usingObject) {
@@ -55,8 +55,8 @@ public class ActionUtilities {
         for (int i = 0; i < usingObject.length; i++) {
             if (usingObject[i] == null) { continue; }
             Action[] actions = ActionIntrospector.getActions(usingObject[i]);
-            for (int j = 0; j < actions.length; j++) {
-                menu.add(createMenuItem(actions[j]));
+            for (Action action : actions) {
+                menu.add(createMenuItem(action));
             }
             if (i < usingObject.length - 1) {
                 menu.addSeparator();
@@ -84,8 +84,8 @@ public class ActionUtilities {
         if (actions == null) { return null; }
         title = title != null ? title : "";
         JMenu menu = new JMenu(title);
-        for (int i = 0; i < actions.length; i++) {
-            menu.add(createMenuItem(actions[i]));
+        for (Action action : actions) {
+            menu.add(createMenuItem(action));
         }
         return menu;
     }
@@ -132,8 +132,8 @@ public class ActionUtilities {
         for (int i = 0; i < usingObject.length; i++) {
             if (usingObject[i] == null) { continue; }
             Action[] actions = ActionIntrospector.getActions(usingObject[i]);
-            for (int j = 0; j < actions.length; j++) {
-                toolBar.add(createButton(actions[j]));
+            for (Action action : actions) {
+                toolBar.add(createButton(action));
             }
             if (i < usingObject.length - 1) {
                 toolBar.addSeparator();
@@ -205,8 +205,8 @@ public class ActionUtilities {
         if (action instanceof AbstractAction) {
             AbstractAction abstractAction = (AbstractAction)action;
             Object[] key = abstractAction.getKeys();
-            for (int i = 0; i < key.length; i++) {
-                listener.propertyChange( new PropertyChangeEvent(action, key[i].toString(), null, abstractAction.getValue(key[i].toString())));
+            for (Object key1 : key) {
+                listener.propertyChange(new PropertyChangeEvent(action, key1.toString(), null, abstractAction.getValue(key1.toString())));
             }
         }
     }
@@ -226,12 +226,12 @@ public class ActionUtilities {
     }
     
     public static Map getCurrentDecorationsFor(Action action) {
-        Map<String, Object> decorations = new WeakHashMap<String, Object>();
+        Map<String, Object> decorations = new WeakHashMap<>();
         decorations.put("action", action);
-        for (int i = 0; i < DECORATION_KEYS.length; i++) {
-            Object value = action.getValue(DECORATION_KEYS[i]);
+        for (String DECORATION_KEYS1 : DECORATION_KEYS) {
+            Object value = action.getValue(DECORATION_KEYS1);
             if (value != null) {
-                decorations.put(DECORATION_KEYS[i], value);
+                decorations.put(DECORATION_KEYS1, value);
             }
         }
         return decorations;

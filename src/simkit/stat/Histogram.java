@@ -6,7 +6,7 @@ package simkit.stat;
  * proportion data.
  *
  * @version $Id$
-*
+ *
  */
 public class Histogram extends SimpleStatsTally {
 
@@ -14,25 +14,25 @@ public class Histogram extends SimpleStatsTally {
 
     /**
      * Contains the number of observations that fall into each bin.
-*
+     *
      */
     private int[] frequency;
 
     /**
      * Contains the total number of observations.
-*
+     *
      */
     private int total;
 
     /**
      * Contains the lower bound of the first bin.
-*
+     *
      */
     private double lowValue;
 
     /**
      * Contains the bin width.
-*
+     *
      */
     private double cellWidth;
 
@@ -43,7 +43,7 @@ public class Histogram extends SimpleStatsTally {
      * @param name The name of the property for which this Histogram collects
      * statistics.
      * @param number The number of bins.
-*
+     *
      */
     public Histogram(String name, int number) {
         this(name, 0, number, number);
@@ -57,7 +57,7 @@ public class Histogram extends SimpleStatsTally {
      * @param lowVal The lower bound of the first bin.
      * @param hiVal The upper bound of the last bin.
      * @param number The number of bins.
-*
+     *
      */
     public Histogram(String name, double lowVal, double hiVal, int number) {
         super(name);
@@ -107,7 +107,7 @@ public class Histogram extends SimpleStatsTally {
         }
         return temp;
     }
-    
+
     public double[] getScaledProportions() {
         double[] scaled = getProportions();
         for (int i = 0; i < scaled.length; ++i) {

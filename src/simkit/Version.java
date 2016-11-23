@@ -34,7 +34,7 @@ import simkit.actions.GenericAction;
  *
  * @version $Id$
  * @author ahbuss
-*
+ *
  */
 public class Version {
 
@@ -43,26 +43,26 @@ public class Version {
     /**
      * Contains version information. Loaded during static initialization from
      * the file version.txt
-*
+     *
      */
     private static String SIMKIT_VERSION = "Not Found";
 
     /**
      * Contains the copyright statement. Loaded during static initialization
      * from the file copyright.txt
-*
+     *
      */
     private static String SIMKIT_COPYRIGHT = "";
 
     /**
      * Contains information on the GNU license. Loaded during static
      * initialization from the file gnu.txt
-*
+     *
      */
     private static String SIMKIT_MESSAGE = "";
 
     private static final String P = "<p>";
-    
+
     private static final String BR = "<br>";
 
     private static String NOTE = "<HTML>"
@@ -74,14 +74,13 @@ public class Version {
             + BR
             + "represent the components of your model.  "
             + P
-            + "See the documentation " 
+            + "See the documentation "
             + "or the simkit.examples for examples of this.  "
             + P
             + "Simkit's web site is: <a href=\"http://eos.nps.edu/Simkit\">"
-            + "http://eos.nps.edu/Simkit</a>. " + 
-            P +
-            "Contact: <a href=\"mailto:abuss@nps.edu\">abuss@nps.edu</a>"
-            ;
+            + "http://eos.nps.edu/Simkit</a>. "
+            + P
+            + "Contact: <a href=\"mailto:abuss@nps.edu\">abuss@nps.edu</a>";
 
     private static final int VERSION_NUMBER;
 
@@ -170,7 +169,7 @@ public class Version {
 
     /**
      * Cause the program to exit, closing the information box.
-*
+     *
      */
     public void exit() {
         System.exit(0);
@@ -179,7 +178,7 @@ public class Version {
     /**
      * Create and display the information window. The dialog box will close when
      * the user selects "OK"
-*
+     *
      */
     public Version() {
         JWindow frame = new JWindow();
@@ -194,7 +193,7 @@ public class Version {
         JEditorPane editorPane = new JEditorPane();
         editorPane.setContentType("text/html");
         editorPane.setText("<h1>Simkit version " + getVersion() + "</h1>"
-                + NOTE + P 
+                + NOTE + P
                 + getCopyright() + P + getMessage() + "</HTML>");
         editorPane.addHyperlinkListener(new BrowseTo());
         editorPane.setEditable(false);
@@ -218,24 +217,24 @@ public class Version {
     }
 
     /**
-     * Return the copyright information.
-*
+     *
+     * @return the copyright information.
      */
     public static final String getCopyright() {
         return SIMKIT_COPYRIGHT;
     }
 
     /**
-     * Return the GNU license information.
-*
+     *
+     * @return the GNU license information.
      */
     public static final String getMessage() {
         return SIMKIT_MESSAGE;
     }
 
     /**
-     * Return the version information.
-*
+     *
+     * @return the version information.
      */
     public static final String getVersion() {
         return SIMKIT_VERSION;
@@ -244,7 +243,9 @@ public class Version {
     /**
      * Create and display the information window. The dialog box will close when
      * the user selects "OK"
-*
+     *
+     * @param args Given command line arguments (not used)
+     * @throws java.lang.Throwable
      */
     public static void main(String[] args) throws Throwable {
         new Version();

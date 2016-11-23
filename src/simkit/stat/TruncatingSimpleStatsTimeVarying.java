@@ -5,9 +5,9 @@ package simkit.stat;
  * @author ahbuss
  */
 public class TruncatingSimpleStatsTimeVarying extends SimpleStatsTimeVarying {
-    
+
     protected boolean truncated;
-    
+
     private double truncationPoint;
 
     public TruncatingSimpleStatsTimeVarying(String name, double truncationPoint) {
@@ -19,12 +19,14 @@ public class TruncatingSimpleStatsTimeVarying extends SimpleStatsTimeVarying {
     public TruncatingSimpleStatsTimeVarying(double truncationPoint) {
         this(DEFAULT_NAME, truncationPoint);
     }
-    
+
+    @Override
     public void reset() {
         super.reset();
         truncated = false;
     }
-    
+
+    @Override
     public void newObservation(double x) {
         if (!isTruncated() && eventList.getSimTime() > getTruncationPoint()) {
             reset();
@@ -33,7 +35,7 @@ public class TruncatingSimpleStatsTimeVarying extends SimpleStatsTimeVarying {
         }
         super.newObservation(x);
     }
-    
+
     public boolean isTruncated() {
         return truncated;
     }
@@ -45,5 +47,5 @@ public class TruncatingSimpleStatsTimeVarying extends SimpleStatsTimeVarying {
     public void setTruncationPoint(double truncationPoint) {
         this.truncationPoint = truncationPoint;
     }
-    
+
 }

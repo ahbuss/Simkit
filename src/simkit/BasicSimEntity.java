@@ -304,6 +304,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * the parameters. 
      *
      */
+    @Override
     public void interruptAll(String eventName, Object... parameters) {
         eventList.interruptAll(this, eventName, parameters);
     }

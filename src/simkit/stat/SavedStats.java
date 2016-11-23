@@ -1,9 +1,5 @@
 package simkit.stat;
 
-import simkit.stat.AbstractSimpleStats;
-import simkit.stat.SampleStatistics;
-import simkit.stat.SamplingType;
-
 /**
  * A lightweight, read-only SimpleStats that is meant for saving the
  * values of SimpleStats results.  Can contain any kind of SimpleStats.
@@ -26,14 +22,18 @@ public class SavedStats extends AbstractSimpleStats {
         this.samplingType = original.getSamplingType();
     }
     
+    @Override
     public double getMean() { return mean; }
     
+    @Override
     public simkit.stat.SamplingType getSamplingType() { return samplingType; }
     
+    @Override
     public double getStandardDeviation() {
         return Math.sqrt(getVariance());
     }
     
+    @Override
     public double getVariance() { return variance; }
     
 }

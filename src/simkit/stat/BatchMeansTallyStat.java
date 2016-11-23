@@ -1,16 +1,11 @@
 package simkit.stat;
 
-import simkit.stat.SavedStats;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import simkit.stat.AbstractSimpleStats;
-import simkit.stat.SampleStatistics;
-import simkit.stat.SamplingType;
-import simkit.stat.SimpleStatsTally;
 
 /**
  * Uses batch means method with initial transient to estimate the mean of a 
- * presumably steady-state (after the truncationpoint) measure.  
+ * presumably steady-state (after the truncation point) measure.  
  * @version $Id$
  * @author ahbuss
  */
@@ -35,7 +30,7 @@ public class BatchMeansTallyStat extends SimpleStatsTally {
         setBatchSize(batchSize);
         currentBatch = new SimpleStatsTally("Transient");
         transientStats = currentBatch;
-        batches = new LinkedHashMap<Integer, SampleStatistics>();
+        batches = new LinkedHashMap<>();
         nextBatchID = 0;
     }
     
@@ -45,6 +40,7 @@ public class BatchMeansTallyStat extends SimpleStatsTally {
      * save that in the batches Map and start another batch
      * @param x the new observation
      */
+    @Override
     public void newObservation(double x) {
         currentBatch.newObservation(x);
         if (getNextBatchID() == 0 && currentBatch.getCount() == getTruncationPoint()) {
@@ -52,7 +48,7 @@ public class BatchMeansTallyStat extends SimpleStatsTally {
             nextBatch();
         }
         else if (getNextBatchID() > 0 && currentBatch.getCount() == getBatchSize()) {
-            batches.put(new Integer(getNextBatchID()), new SavedStats(currentBatch));
+            batches.put(getNextBatchID(), new SavedStats(currentBatch));
             super.newObservation(currentBatch.getMean());
             nextBatch();
         }
@@ -125,6 +121,6 @@ public class BatchMeansTallyStat extends SimpleStatsTally {
     /** @return shallow copy of currently saved batch stats
      */
     public Map<Integer, SampleStatistics> getBatches() {
-        return new LinkedHashMap<Integer, SampleStatistics>(batches);
+        return new LinkedHashMap<>(batches);
     }   
 }

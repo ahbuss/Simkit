@@ -9,10 +9,10 @@ public class NormalQuantile {
     public static final double ONE_OVER_ROOT_TWO_PI = 1.0 / Math.sqrt(2.0 * Math.PI);
     public static final double SQRT_EIGHT_OVER_PI = Math.sqrt(8.0 / Math.PI);
     public static final double SQRT_PI_OVER_EIGHT = Math.sqrt(Math.PI / 8.0);
-    private static final double[] c =
-            new double[]{2.515517, 0.802853, 0.010328};
-    private static final double[] d =
-            new double[]{1.0, 1.432788, 0.189269, 0.001308};
+    private static final double[] c
+            = new double[]{2.515517, 0.802853, 0.010328};
+    private static final double[] d
+            = new double[]{1.0, 1.432788, 0.189269, 0.001308};
     public static final double A0 = 2.50662823884;
     public static final double A1 = -18.61500062529;
     public static final double A2 = 41.39119773534;
@@ -50,10 +50,10 @@ public class NormalQuantile {
     }
 
     /**
-     * Based on Beasley &amp; Springer, "Algorithm AS 111: The Percentage Points of 
-     * the Normal Distribution," <i>Journal of the Royal Statistical Society.
+     * Based on Beasley &amp; Springer, "Algorithm AS 111: The Percentage Points
+     * of the Normal Distribution," <i>Journal of the Royal Statistical Society.
      * Series C (Applied Statistics)</i>. Vol. 26, No 1.
-     * 
+     *
      * @param p Desired probability
      * @return x such that Pr{Z &lt; x} = p
      */
@@ -84,33 +84,33 @@ public class NormalQuantile {
     }
 
     /**
-     * Based on Abramawitz &amp; Stegun, <i>Handbook of Mathematical Functions</i>,
-     * 26.2.23, p. 933.
-     * 
+     * Based on Abramawitz &amp; Stegun, <i>Handbook of Mathematical
+     * Functions</i>, 26.2.23, p. 933.
+     *
      * Not as accurate as getQuantile() using Algorithm AS 111.
-     * 
+     *
      * @param p Desired probability
      * @return x such that Pr{Z &lt; x} = p
      */
     public static double getQuantile2(double p) {
-        double quantile = Double.NaN;
+        double quantile;
+        double multiplier = -1.0;
         if (p == 0.0) {
             quantile = Double.NEGATIVE_INFINITY;
         } else if (p == 1.0) {
             quantile = Double.POSITIVE_INFINITY;
         } else if (p == 0.5) {
             quantile = 0.0;
+        } else {
+            multiplier = -1.0;
+            if (p > 0.5) {
+                p = 1.0 - p;
+                multiplier = 1.0;
+            }
+            double t = Math.sqrt(-2.0 * Math.log(p));
+            quantile = t - (c[0] + c[1] * t + c[2] * t * t)
+                    / (1.0 + d[1] * t + d[2] * t * t + d[3] * t * t * t);
         }
-
-        double multiplier = -1.0;
-        if (p > 0.5) {
-            p = 1.0 - p;
-            multiplier = 1.0;
-        }
-        double t = Math.sqrt(-2.0 * Math.log(p));
-        quantile = t - (c[0] + c[1] * t + c[2] * t * t)
-                / (1.0 + d[1] * t + d[2] * t * t + d[3] * t * t * t);
-
         return multiplier * quantile;
     }
 }

@@ -160,10 +160,10 @@ public class SimEntityBaseA extends BasicSimEntity {
         Map<String, Map<Class<?>[], Method>> stringKeyedMethods =
                 eventMethodMap.get(this.getClass());
         for (String key : stringKeyedMethods.keySet()) {
-            buff.append(key + ":").append(NL);
+            buff.append(key).append(':').append(NL);
             for (Class[] sig : stringKeyedMethods.get(key).keySet()) {
                 Method m = stringKeyedMethods.get(key).get(sig);
-                buff.append("\t");
+                buff.append('\t');
                 buff.append(m.toString()).append(NL);
             }
         }

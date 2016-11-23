@@ -2,7 +2,12 @@ package simkit.actions.test;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import javax.swing.*;
+import javax.swing.BoundedRangeModel;
+import javax.swing.DefaultBoundedRangeModel;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import simkit.actions.MyFrame;
@@ -10,12 +15,12 @@ import simkit.actions.MyFrame;
 
 public class MultipleViews extends MyFrame {
     
-    private DefaultBoundedRangeModel model;
-    private JSlider slider;
+    private final DefaultBoundedRangeModel model;
+    private final JSlider slider;
     private JLabel readOut;
-    private ImageIcon image;
+    private final ImageIcon image;
     private ImageView imageView;
-    private JPanel topPanel;
+    private final JPanel topPanel;
     
     public MultipleViews() {
         super("Multiple Views");
@@ -41,6 +46,7 @@ public class MultipleViews extends MyFrame {
         
         model.addChangeListener(
         new ChangeListener() {
+            @Override
             public void stateChanged(ChangeEvent e) {
                 String s =  ((BoundedRangeModel)e.getSource()).getValue() + "%";
                 readOut.setText(s);
@@ -53,6 +59,6 @@ public class MultipleViews extends MyFrame {
     }
     
     public static void main(String[] args) {
-        new MultipleViews().setVisible(true);;
+        new MultipleViews().setVisible(true);
     }
 }

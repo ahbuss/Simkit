@@ -129,7 +129,7 @@ public interface BasicEventList {
     void interruptAllWithArg(Object parameter);
 
     /**
-     * Returns true if there are no Events scheduled.
+     * @return true if there are no Events scheduled.
      */
     boolean isFinished();
 
@@ -378,7 +378,7 @@ public interface BasicEventList {
      * going from false to true, add any pending events to the secondary hash
      * tables. If going from true to false, clear the secondary hash tables.
      *
-     *
+     * @param value Given value
      */
     public void setFastInterrupts(boolean value);
 
