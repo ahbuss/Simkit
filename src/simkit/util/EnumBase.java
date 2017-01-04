@@ -1,9 +1,12 @@
 package simkit.util;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -19,7 +22,7 @@ import java.util.logging.Logger;
 public abstract class EnumBase implements Comparable<EnumBase> {
 
     public static final String _VERSION_ = "$Id$";
-    public static final Logger log = Logger.getLogger("simkit.util");
+    public static final Logger LOGGER = Logger.getLogger("simkit.util");
     /**
      * The name that this enum is identified by.
      **/
@@ -36,7 +39,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
     /**
      * Holds the list of different types of enums 
      **/
-    protected static Map<Class, Map<String, EnumBase>> 
+    protected static Map<Class<?>, Map<String, EnumBase>> 
             types = new LinkedHashMap<>();
 
     /**
@@ -155,7 +158,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      **/
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return getClass().hashCode() + name.hashCode();
     }
 
     /**
@@ -187,7 +190,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      * Primarily to support testing.
      **/
     public static void _reset() {
-        log.warning("Reset should only be used to support testing");
+        LOGGER.warning("Reset should only be used to support testing");
         clear();
     }
 
@@ -210,8 +213,33 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      * Clears only instances of the given Class
      * @param clazz The given class
      */
-    public static void clear(Class clazz) {
+    public static void clear(Class<?> clazz) {
         types.remove(clazz);
+    }
+    
+    /**
+     * Find a previously instantiated EnumBase of the given name and class,
+     * creating one if none found.
+     * @param name Given name
+     * @param clazz Given class
+     * @return previously instantiated object of given name and class or new one
+     * if none previously created
+     */
+    public static EnumBase findOrCreate(String name, Class<? extends EnumBase> clazz) {
+        EnumBase enumBase = find(name, clazz);
+        if (enumBase == null) {
+            try {
+                Constructor<? extends EnumBase> constructor = clazz.getConstructor(String.class);
+                try {
+                    enumBase =  constructor.newInstance(name);
+                } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                }
+            } catch (NoSuchMethodException | SecurityException ex) {
+                LOGGER.log(Level.SEVERE, null, ex);
+            }
+        }
+        return enumBase;
     }
 }
             
