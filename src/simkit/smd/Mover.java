@@ -34,12 +34,6 @@ public interface Mover extends SimEntity {
     public void doStop(Mover mover);
 
     /**
-     * If acceleration is modeled.
-     * @return acceleration
-     */
-    public double getAcceleration();
-
-    /**
      * @return maximum speed mover can  travel
      */
     public double getMaxSpeed();

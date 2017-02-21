@@ -34,14 +34,16 @@ public interface Displayable extends Named, PropertyChangeSource, Moveable, Side
 **/ 
     public Object getProperty(String name);
 
-/**
-* The battle dimension or operating medium of the entity.
-**/
+    /**
+     * 
+     * @return The battle dimension or operating medium of the entity
+     */
     public BattleDimension getBattleDimension();
 
-/**
-* An unique id for this Displayable.
-**/
+    /**
+     * 
+     * @return A unique id for this Displayable.
+     */
     public int getSerial();
     
     /**

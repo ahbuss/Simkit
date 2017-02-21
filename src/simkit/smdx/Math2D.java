@@ -47,7 +47,11 @@ public class Math2D {
 
     /**
      * Performs a vector addition of the two points.
-     **/
+     *
+     * @param first First Point2D
+     * @param second Second Point2D
+     * @return Point2D containing the coordinate-wise sum of the given Point2Ds
+     */
     public static Point2D add(Point2D first, Point2D second) {
         return new Point2D.Double(
                 first.getX() + second.getX(), first.getY() + second.getY());
@@ -55,7 +59,10 @@ public class Math2D {
 
     /**
      * Computes the vector total of all of the points in the given array.
-     **/
+     * 
+     * @param points Given points to add
+     * @return Point2D containing the coordinate-wise sum of the given Point2Ds
+     */
     public static Point2D add(Point2D[] points) {
         switch (points.length) {
             case 0:

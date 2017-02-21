@@ -317,8 +317,4 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
         return currentSpeed;
     }
 
-    @Override
-    public double getAcceleration() {
-        return 0.0;
-    }
 }

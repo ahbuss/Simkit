@@ -11,57 +11,70 @@ import simkit.Schedule;
 import simkit.SimEntityBase;
 import simkit.SimEvent;
 import simkit.SimEventListener;
+
 /**
-* Causes its Mover to move relative to a FormationLeader which acts as
-* a guide point (ZZ).
-*
-* @author John Ruck (Rolands and Associates Corporation 6/7/06)
-* @version $Id$
-**/
+ * Causes its Mover to move relative to a FormationLeader which acts as a guide
+ * point (ZZ).
+ *
+ * @author John Ruck (Rolands and Associates Corporation 6/7/06)
+ * @version $Id$
+ *
+ */
 public class FormationMoverManager extends SimEntityBase implements MoverManager {
 
     public static final String _VERSION_ = "$Id$";
 
     public static final Logger log = Logger.getLogger("simkit.smdx");
 
-/**
-* The data used to determine the location relative to the FormationLeader.
-**/
+    /**
+     * The data used to determine the location relative to the FormationLeader.
+     *
+     */
     protected StationData station;
 
-/**
-* The station that the Mover to take at the start of the simulation.
-**/
+    /**
+     * The station that the Mover to take at the start of the simulation.
+     *
+     */
     protected StationData originalStation;
 
-/**
-* The Mover this manager controls.
-**/
+    /**
+     * The Mover this manager controls.
+     *
+     */
     protected Mover mover;
 
-/**
-* The FormationLeader that is the guide for the formation.
-**/
+    /**
+     * The FormationLeader that is the guide for the formation.
+     *
+     */
     protected FormationLeader leader;
 
-/**
-* How close we need to be to our station.
-**/
+    /**
+     * How close we need to be to our station.
+     *
+     */
     protected double stationTolerance = 1.0;
 
-/**
-* Makes a new manager for the given Mover.
-**/
+    /**
+     * Makes a new manager for the given Mover.
+     *
+     *
+     * @param m Given Mover
+     */
     public FormationMoverManager(Mover m) {
         this.mover = m;
     }
 
-    public  FormationMoverManager() {
+    public FormationMoverManager() {
         this(null);
     }
-/**
-* How close we need to be to our station.
-**/
+
+    /**
+     * 
+     * 
+     * @param value How close we need to be to our station.
+     */
     public void setStationTolerance(double value) {
         if (value < 0.0) {
             String msg = "StationTolerance must be non-negative, it was " + value;
@@ -70,48 +83,60 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         }
         this.stationTolerance = value;
     }
-
-/**
-* How close we need to be to our station.
-**/
-/**
-* The FormationLeader that is the guide for the formation.
-**/
+    
+    /**
+     *
+     * @param value The FormationLeader that is the guide for the formation.
+     */
     public void setFormationLeader(FormationLeader value) {
         if (leader != null) {
             leader.removeSimEventListener(this);
-        } 
+        }
         this.leader = value;
         if (leader != null) {
             leader.addSimEventListener(this);
         }
     }
 
-/**
-* The FormationLeader that is the guide for the formation.
-**/
-    public FormationLeader getFormationLeader() {return leader;}
+    /**
+     *
+     * @return The FormationLeader that is the guide for the formation.
+     */
+    public FormationLeader getFormationLeader() {
+        return leader;
+    }
 
-/**
-* The data used to determine the location relative to the FormationLeader.
-* Should only be used to initially set the station, use the ChangeStation
-* event to change the station during a replication.
-**/
-    public void setOriginalStationData(StationData value) {this.originalStation = value;}
+    /**
+     * The data used to determine the location relative to the FormationLeader.
+     * Should only be used to initially set the station, use the ChangeStation
+     * event to change the station during a replication.
+     *
+     * @param value Given StationData
+     */
+    public void setOriginalStationData(StationData value) {
+        this.originalStation = value;
+    }
 
-/**
-* The speed that the Mover should initially try to move to regain station.
-**/
+    /**
+     * The speed that the Mover should initially try to move to regain station.
+     *
+     */
     protected double cruisingSpeed = Double.POSITIVE_INFINITY;
 
-/**
-* The speed that the Mover should initially try to move to regain station.
-**/
-    public double getCruisingSpeed() {return cruisingSpeed;}
+    /**
+     *
+     * @return The speed that the Mover should initially try to move to regain
+     * station.
+     */
+    public double getCruisingSpeed() {
+        return cruisingSpeed;
+    }
 
-/**
-* The speed that the Mover should initially try to move to regain station.
-**/
+    /**
+     * The speed that the Mover should initially try to move to regain station.
+     *
+     * @param value Given cruising speed
+     */
     public void setCruisingSpeed(double value) {
         if (value <= 0.0) {
             String msg = "The Cruising speed must be positive, it was " + value;
@@ -121,9 +146,10 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         this.cruisingSpeed = value;
     }
 
-/**
-* The Mover this manager controls.
-**/
+    /**
+     * The Mover this manager controls.
+     *
+     */
     public void setMover(Mover value) {
         if (mover != null) {
             mover.removeSimEventListener(this);
@@ -133,93 +159,109 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
             value.addSimEventListener(this);
         }
     }
-        
-/**
-* The Mover this manager controls.
-**/
-    public Mover getMover() {return mover;}
 
-/**
-* Does nothing since the FormationMoverManager always starts on reset().
-**/
+    /**
+     * The Mover this manager controls.
+     *
+     */
+    public Mover getMover() {
+        return mover;
+    }
+
+    /**
+     * Does nothing since the FormationMoverManager always starts on reset().
+     *
+     */
     public void setStartOnReset(boolean value) {
         if (!value) {
-            log.warning("Attempt to set startOnReset to false on the FormationMoverManager" 
-                + this + " was ignored.");
+            log.warning("Attempt to set startOnReset to false on the FormationMoverManager"
+                    + this + " was ignored.");
         }
     }
 
-/**
-* Always returns true.
-**/
-    public boolean isStartOnReset() {return true;}
+    /**
+     * Always returns true.
+     *
+     */
+    public boolean isStartOnReset() {
+        return true;
+    }
 
-/**
-* Stops the Mover.
-**/
+    /**
+     * Stops the Mover.
+     *
+     */
     public void stop() {
         mover.stop();
     }
 
-/**
-* Pick a new station point and start moving to it.
-**/
+    /**
+     * Pick a new station point and start moving to it.
+     *
+     */
     public void start() {
         changeStation();
     }
 
-/**
-* Pick a new station point and start moving to it.
-**/
+    /**
+     * Pick a new station point and start moving to it.
+     *
+     */
     public void doRun() {
         changeStation();
     }
 
-/**
-* If heard from the Mover, then pick a new station point and 
-* start moving to it.
-**/
+    /**
+     * If heard from the Mover, then pick a new station point and start moving
+     * to it.
+     *
+     */
     public void doEndMove(Mover m) {
         if (m == mover) {
             changeStation();
         }
     }
 
-/**
-* If heard from the FormationLeader, then pick a new station point and start
-* moving to it.
-**/
+    /**
+     * If heard from the FormationLeader, then pick a new station point and
+     * start moving to it.
+     *
+     * @param m Should be reference to FormationLeader
+     */
     public void doStartMove(Moveable m) {
         if (m == leader) {
             changeStation();
         }
     }
 
-/**
-* Resets to the initial station value.
-**/
+    /**
+     * Resets to the initial station value.
+     *
+     */
     public void reset() {
         super.reset();
         if (originalStation == null) {
             log.severe("The original station for " + getName() + " is null, this will "
-                + " cause a NullPointerException later.");
+                    + " cause a NullPointerException later.");
         }
         station = originalStation;
     }
 
-/**
-* True if the controlled Mover is moving.
-**/
+    /**
+     * True if the controlled Mover is moving.
+     *
+     */
     public boolean isMoving() {
         return mover.isMoving();
     }
 
-/**
-* Get the next station point, if close enough to it, then move with leader's 
-* velocity, if not, intercept the point.
-* The intercept is first attempted at cruising speed, then at max speed.
-* If no intercept can be made, then move with the leader's velocity.
-**/
+    /**
+     * Get the next station point, if close enough to it, then move with
+     * leader's velocity, if not, intercept the point. The intercept is first
+     * attempted at cruising speed, then at max speed. If no intercept can be
+     * made, then move with the leader's velocity.
+     *
+     */
     protected void changeStation() {
         stop();
         Point2D point = station.pickPoint(leader);
@@ -234,65 +276,73 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
             if (interceptPoint == null) {
                 mover.move(leader.getVelocity());
                 log.warning(Schedule.getSimTime() + ": " + this + " unable to intercept "
-                    + " the current station, assuming leaders velocity.");
+                        + " the current station, assuming leaders velocity.");
             } else {
                 mover.moveTo(interceptPoint);
             }
         }
     }
 
-/**
-* A Mover with the minimum functionality to provide the data needed to be the 
-* target Mover in Math2D.getIntercept().
-* Only getLocation() and getVelocity() will work, everything else will throw
-* an exception.
-* TODO refactor Math2D and make this Class go away. (bug 1203)
-**/
+    /**
+     * A Mover with the minimum functionality to provide the data needed to be
+     * the target Mover in Math2D.getIntercept(). Only getLocation() and
+     * getVelocity() will work, everything else will throw an exception. TODO
+     * refactor Math2D and make this Class go away. (bug 1203)
+     *
+     */
     protected static class SurrogateTarget implements Mover {
 
-/**
-* The time this surrogate was constructed.
-**/
+        /**
+         * The time this surrogate was constructed.
+         *
+         */
         protected double initialTime;
 
-/**
-* The initial location.
-**/
+        /**
+         * The initial location.
+         *
+         */
         protected Point2D initialLocation;
 
-/**
-* The velocity of the leader and therefore the station point.
-**/
+        /**
+         * The velocity of the leader and therefore the station point.
+         *
+         */
         protected Point2D velocity;
 
-/**
-* Creates a new surrogate based on the given initial location and the velocity of
-* the given Mover.
-**/
+        /**
+         * Creates a new surrogate based on the given initial location and the
+         * velocity of the given Mover.
+         *
+         * @param point Given initial location
+         * @param leader Given Mover representing the leader
+         */
         protected SurrogateTarget(Point2D point, Mover leader) {
             initialTime = Schedule.getSimTime();
             initialLocation = point;
             velocity = leader.getVelocity();
         }
 
-/**
-* The current location of the point.
-**/
+        /**
+         * The current location of the point.
+         *
+         */
         public Point2D getLocation() {
             Point2D ret = Math2D.scalarMultiply(Schedule.getSimTime() - initialTime, velocity);
             ret = Math2D.add(initialLocation, ret);
             return ret;
         }
 
-/**
-* The current velocity of the point.
-**/
+        /**
+         * The current velocity of the point.
+         *
+         */
         public Point2D getVelocity() {
             return velocity;
         }
 
         public static final String MESSAGE = "Not implemented. SurrogateTarget should only "
-            + "be used by the FormationMoverManager when calling Math2D.getIntercept()";
+                + "be used by the FormationMoverManager when calling Math2D.getIntercept()";
 
         public void accelerate(Point2D p) {
             throw new RuntimeException(MESSAGE);
@@ -369,7 +419,7 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         public int getSerial() {
             throw new RuntimeException(MESSAGE);
         }
-    
+
         public void handleSimEvent(SimEvent e) {
             throw new RuntimeException(MESSAGE);
         }
@@ -381,7 +431,7 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         public void interruptAll() {
             throw new RuntimeException(MESSAGE);
         }
-        
+
         public void interruptAll(String n, Object... o) {
             throw new RuntimeException(MESSAGE);
         }
@@ -421,7 +471,6 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
 //        public SimEvent waitDelay(String n, double d, Object[] o, double p) {
 //            throw new RuntimeException(MESSAGE);
 //        }
-        
         public SimEvent waitDelay(String n, double d, Priority p, Object... o) {
             throw new RuntimeException(MESSAGE);
         }
@@ -465,15 +514,15 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         public Object getProperty(String name, Object defaultValue) {
             throw new RuntimeException(MESSAGE);
         }
-    
+
         public void firePropertyChange(PropertyChangeEvent event) {
             throw new RuntimeException(MESSAGE);
         }
-    
+
         public void addPropertyChangeListener(PropertyChangeListener listener) {
             throw new RuntimeException(MESSAGE);
         }
-    
+
         public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
             throw new RuntimeException(MESSAGE);
         }
@@ -481,7 +530,7 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         public void removePropertyChangeListener(PropertyChangeListener listener) {
             throw new RuntimeException(MESSAGE);
         }
-    
+
         public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
             throw new RuntimeException(MESSAGE);
         }
@@ -489,11 +538,11 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         public PropertyChangeListener[] getPropertyChangeListeners() {
             throw new RuntimeException(MESSAGE);
         }
-    
+
         public String[] getAddedProperties() {
             throw new RuntimeException(MESSAGE);
         }
-        
+
         public int compareTo(simkit.SimEntity other) {
             throw new RuntimeException(MESSAGE);
         }
@@ -506,29 +555,29 @@ public class FormationMoverManager extends SimEntityBase implements MoverManager
         }
 
         public void interrupt(String eventName) {
-             throw new RuntimeException(MESSAGE);
+            throw new RuntimeException(MESSAGE);
         }
 
         public void interruptAll(String eventName) {
-             throw new RuntimeException(MESSAGE);
-       }
+            throw new RuntimeException(MESSAGE);
+        }
 
         public void setMaxSpeed(double max) throws MagicMoveException {
-             throw new RuntimeException(MESSAGE);
+            throw new RuntimeException(MESSAGE);
         }
 
         public void setLocation(Point2D location) throws MagicMoveException {
-             throw new RuntimeException(MESSAGE);
+            throw new RuntimeException(MESSAGE);
         }
 
         @Override
         public void interruptAllWithArgs(String eventName, Object parameter) {
-             throw new RuntimeException(MESSAGE);
+            throw new RuntimeException(MESSAGE);
         }
 
         @Override
         public void interruptAllWithArgs(Object parameter) {
-             throw new RuntimeException(MESSAGE);
+            throw new RuntimeException(MESSAGE);
         }
 
     }

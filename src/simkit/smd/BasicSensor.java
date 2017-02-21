@@ -162,15 +162,6 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
         return new HashSet<>(contacts);
     }
 
-    /**
-     * This will be 0.0 under simple linear motion
-     * @return Mover's acceleration
-     */
-    @Override
-    public double getAcceleration() {
-        return mover.getAcceleration();
-    }
-
     @Override
     public String toString() {
         return "BasicSensor " + getMaxRange() + " " +  mover.toString();

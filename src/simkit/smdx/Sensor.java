@@ -135,8 +135,8 @@ public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
     public boolean isInRangeOf(Point2D point);
 
     /**
-     * A set containing the contacts currently being detected by this Sensor.
-     *
+     * 
+     * @return A set containing the contacts currently being detected by this Sensor.
      */
     public Set<Moveable> getContacts();
 

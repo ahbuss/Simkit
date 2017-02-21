@@ -27,13 +27,6 @@ public interface Sensor extends SimEntity {
     public Point2D getVelocity();
 
     /**
-     * Typically delegated to Mover instance. This is always 0.0
-     * under constant velocity motion.
-     * @return current acceleration of Sensor
-     */
-    public double getAcceleration();
-
-    /**
      * @return maximum range of this Sensor
      */
     public double getMaxRange();

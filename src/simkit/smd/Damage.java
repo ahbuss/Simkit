@@ -1,25 +1,21 @@
-/*
- * Damage.java
- *
- * Created on February 20, 2002, 5:25 PM
- */
-
-package simkit.smdx;
+package simkit.smd;
 
 /**
  * Contains information about damage to a Target by a Munition.
  * The type of Object returned by <CODE>getDamage()</CODE> is implementation
- * dependent as is how the Object affects the Target.
+ * dependent as is how the Object affects the Target. The specific type is 
+ * given by the parameter &lt;T&gt;
  * @author  Arnold Buss
  * @version $Id$
+ * @param <T> The class that Damage wraps
  */
-public interface Damage {
+public interface Damage<T> {
     
     /**
      * 
      * @return the damage information
      */
-    public Object getDamage();
+    public T getDamage();
 
 }
 

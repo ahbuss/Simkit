@@ -29,7 +29,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
     protected String name;
     /**
      * The order in which this enum was created. (zero based)
-     * The serial will be unique accross all enums. 
+     * The serial will be unique across all enums. 
      **/
     protected int serial;
     /**
