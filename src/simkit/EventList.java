@@ -741,37 +741,18 @@ public class EventList implements BasicEventList {
         stoppingSimulation = true;
     }
 
+    /**
+     * Cancels an event of the given name originally scheduled from the
+     * given SimEntity. Note that the event in question should have
+     * no arguments<br>
+     * Previously this ignored the signature, but now (correctly) only
+     * cancels events of the given name with no arguments.
+     * @param simEntity Given SimEntity that originally scheduled the event
+     * @param eventName Name of the event
+     */
     @Override
     public void interrupt(SimEventScheduler simEntity, String eventName) {
-        synchronized (eventList) {
-            clearDeadEvents();
-            Set<SimEvent> events;
-            if (fastInterrupts) {
-                events = entityEventMap.get(simEntity);
-            } else {
-                events = eventList;
-            }
-            if (events == null) {
-                return;
-            }
-            for (Iterator<SimEvent> i = events.iterator(); i.hasNext();) {
-                SimEvent event = i.next();
-                if ((event.getSource() == simEntity)
-                        && (event.getEventName().equals(eventName))
-                        && (event.isPending())) {
-                    if (reallyVerbose) {
-                        log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), event});
-                    }
-                    i.remove();
-                    if (fastInterrupts) {
-                        eventList.remove(event);
-                        //removeFromEntityEventMap(event);
-                        removeFromHashEventMap(event);
-                    }
-                    break;
-                }//if matches
-            }//next i
-        }//synch
+        interrupt(simEntity, eventName, new Object[0]);
     }
 
     @Override
