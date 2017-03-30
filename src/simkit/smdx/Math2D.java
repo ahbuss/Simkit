@@ -23,22 +23,26 @@ import java.util.Set;
 
 /**
  * Contains a library of useful calculations in 2-dimensional space.
- * @author  ahbuss
+ *
+ * @author ahbuss
  * @version $Id$
  */
 public class Math2D {
 
     /**
      * The origin (0.0, 0.0).
-     **/
+     *
+     */
     public static final Point2D ZERO = new Point2D.Double(0.0, 0.0);
     /**
      * A very small number, currently 1.0E-10.
-     **/
+     *
+     */
     public static final double TINY = 1.0E-10;
     /**
      * Holds an instance of an Identity AffineTransform.
-     **/
+     *
+     */
     public static final AffineTransform IDENTITY_TRANSFORM = new AffineTransform();
 
     public static Point2D getZero() {
@@ -59,7 +63,7 @@ public class Math2D {
 
     /**
      * Computes the vector total of all of the points in the given array.
-     * 
+     *
      * @param points Given points to add
      * @return Point2D containing the coordinate-wise sum of the given Point2Ds
      */
@@ -81,12 +85,15 @@ public class Math2D {
     }
 
     /**
-     * Computes the inner product of each of the points in the array with the 
+     * Computes the inner product of each of the points in the array with the
      * given point.
-     * @return An array containing the inner product of each member of 
-     * <B><CODE>points</CODE></B> with 
+     * 
+     * @param points Given array of Point2D
+     * @param by Given Point2D to compute inner product of each point in array
+     * @return An array containing the inner product of each member of
+     * <B><CODE>points</CODE></B> with
      * <B><CODE>by</CODE></B>.
-     **/
+     */
     public static double[] innerProduct(Point2D[] points, Point2D by) {
         double[] ip = new double[points.length];
         for (int i = 0; i < points.length; i++) {
@@ -96,61 +103,79 @@ public class Math2D {
     }
 
     /**
-     * Conputes the vector difference between the two points.
-     **/
+     * 
+     * @param first Given first Point2D
+     * @param second Given second Point2D
+     * @return the vector difference between the two points.
+     */
     public static Point2D subtract(Point2D first, Point2D second) {
         return new Point2D.Double(
                 first.getX() - second.getX(), first.getY() - second.getY());
     }
 
     /**
-     * Computes the scalar multiplication of the point by the given value.
-     **/
-    public static Point2D scalarMultiply(double value, Point2D point) {
-        return new Point2D.Double(value * point.getX(), value * point.getY());
-    }
-
-    /**
-     * Computes a unit vector in the direction of the argument.
+     * 
+     * @param scale Given scale
+     * @param point Given Point2D
+     * @return the scalar multiplication of the point by the given scale.
      */
-    public static Point2D unitVector(Point2D vec){
-        double scale = 1.0 / norm(vec);
-        return scalarMultiply(scale, vec);
+    public static Point2D scalarMultiply(double scale, Point2D point) {
+        return new Point2D.Double(scale * point.getX(), scale * point.getY());
     }
 
     /**
-     * Computes the inner product of the two points.
-     **/
+     * 
+     * @param vector Given Point2D
+     * @return  a unit vector in the direction of the argument.
+     */
+    public static Point2D unitVector(Point2D vector) {
+        double scale = 1.0 / norm(vector);
+        return scalarMultiply(scale, vector);
+    }
+
+    /**
+     * 
+     * @param first Given first Point2D
+     * @param second Given second Point2D
+     * @return the inner product of the two points.
+     */
     public static double innerProduct(Point2D first, Point2D second) {
         return first.getX() * second.getX() + first.getY() * second.getY();
     }
 
     /**
-     * Returns a vector that is orthogonal to the given vector.
-     **/
+     * 
+     * @param point Given Point2D
+     * @return  a vector that is orthogonal to the given vector.
+     */
     public static Point2D orthogonal(Point2D point) {
         return new Point2D.Double(-point.getY(), point.getX());
     }
 
     /**
-     * Computes the norm (distance from the origin) of the given point.
-     **/
+     * 
+     * @param point Given Point2D
+     * @return the norm (distance from the origin) of the given point.
+     */
     public static double norm(Point2D point) {
         return Math.sqrt(normSq(point));
     }
 
     /**
-     * Computes the norm squared (the inner product of the point with itself)
-     * of the given point.
-     **/
+     * Computes the norm squared (the inner product of the point with itself) of
+     * the given point.
+     *
+     */
     public static double normSq(Point2D point) {
         return innerProduct(point, point);
     }
 
     /**
-     * Computes the norm squared (the inner product of the point with itself)
-     * of the given point.
-     **/
+     * 
+     * @param point Given Point2D
+     * @return the norm squared (the inner product of the point with itself) of
+     * the given point.
+     */
     public static double normSquared(Point2D point) {
         return point.distanceSq(ZERO);
     }
@@ -171,15 +196,16 @@ public class Math2D {
     }
 
     /**
-     * This is the main way that sensors determine when the next time
-     * a contact will enter or exit the sensor's footprint.
+     * This is the main way that sensors determine when the next time a contact
+     * will enter or exit the sensor's footprint.
      *
      * @param start normally the targetLocation
-     * @param velocity normally the relative velocity between the target and the sensor
+     * @param velocity normally the relative velocity between the target and the
+     * sensor
      * @param shape the footprint of the sensor
-     * @return all intersections of the linear relative motion vector with the shape boundaries
+     * @return all intersections of the linear relative motion vector with the
+     * shape boundaries
      */
-
     public static double[] findIntersectionTime(Point2D start, Point2D velocity, Shape shape) {
         Point2D[] intersect = findIntersection(start, velocity, shape, IDENTITY_TRANSFORM);
         double[] times = new double[intersect.length];
@@ -194,10 +220,12 @@ public class Math2D {
     }
 
     /**
-     * Returns the center of the given rectangle.
-     **/
-    public static Point2D getCenter(RectangularShape shape) {
-        return new Point2D.Double(shape.getX() + 0.5 * shape.getWidth(), shape.getY() + 0.5 * shape.getHeight());
+     * 
+     * @param rectangle Given rectangle
+     * @return the center of the given rectangle.
+     */
+    public static Point2D getCenter(RectangularShape rectangle) {
+        return new Point2D.Double(rectangle.getX() + 0.5 * rectangle.getWidth(), rectangle.getY() + 0.5 * rectangle.getHeight());
     }
 
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, QuadCurve2D curve) {
@@ -265,9 +293,9 @@ public class Math2D {
                 }
             }
         }
-        
+
 //        return intersections.toArray(new Point2D[intersections.size()]);
-        Set<Point2D> uniques =  eliminateDuplicates(intersections, 1.0E-12);
+        Set<Point2D> uniques = eliminateDuplicates(intersections, 1.0E-12);
 
 //        System.out.println("Returning intersection set, the line being analyzed starts at \n" +
 //                start + " and goes in the " + velocity + " direction");
@@ -279,10 +307,10 @@ public class Math2D {
         double roundFactor = 1.0 / tolerance;
         double x, y;
 
-        for(Point2D p : intersections){
+        for (Point2D p : intersections) {
             x = Math.round(p.getX() * roundFactor) * tolerance;
             y = Math.round(p.getY() * roundFactor) * tolerance;
-            s.add(new Point2D.Double(x,y));
+            s.add(new Point2D.Double(x, y));
         }
 
         return s; //.toArray(new Point2D[s.size()]);
@@ -358,12 +386,12 @@ public class Math2D {
                     // determining if we want the solution, the point is
                     // still calculated using the unmanipulated lambda.
                     StrictMath.ulp(TINY);
-                    
+
                     double z = Math.round(sol[i] * 1.0E18) / 1.0E18;
                     // Bug [1413]  This test screens out valid solutions
 //                    if (Math.abs(sol[i] - 0.5) <= 0.5) {
                     if (Math.abs(z - 0.5) <= 0.5) {
-                        
+
                         list.add(getPoint(curve, sol[i]));
                     }
                 }
@@ -393,12 +421,14 @@ public class Math2D {
 
     /**
      * Takes the given Shape and breaks it up into the individual segments that
-     * make up the Shape. 
+     * make up the Shape.
+     *
      * @param shape The Shape to break up into segments.
-     * @param transform An optional AffineTransform to apply to the segments of the Shape.
-     * If <CODE>null</CODE> then no transform is applied.
+     * @param transform An optional AffineTransform to apply to the segments of
+     * the Shape. If <CODE>null</CODE> then no transform is applied.
      * @return An array containing each segment of the original Shape.
-     **/
+     *
+     */
     public static Shape[] getSegments(Shape shape, AffineTransform transform) {
         double[] coords = new double[6];
         List<Shape> segments = new ArrayList<Shape>();
@@ -442,20 +472,29 @@ public class Math2D {
     }
 
     /**
-     * Returns the smallest positive value of the first num members of the given array.
-     **/
-    public static double smallestPositive(double[] data, int num) {
-        return smallestPositive(data, num, TINY);
+     * @param data Given data
+     * @param number Given number of members to check
+     * @return the smallest positive value of the first number members of the given
+ array.
+
+     */
+    public static double smallestPositive(double[] data, int number) {
+        return smallestPositive(data, number, TINY);
     }
 
     /**
-     * Returns the smallest positive value of the first num members of the given array, 
-     * where any number less than the tolerance is concidered to be non-positive.
-     **/
-    public static double smallestPositive(double[] data, int num, double tolerance) {
+     *
+     * @param data Given data array
+     * @param number Given number of members
+     * @param tolerance Given tolerance
+     * @return the smallest positive value of the first number members of the
+     * given array, where any number less than the tolerance is considered to be
+     * non-positive.
+     */
+    public static double smallestPositive(double[] data, int number, double tolerance) {
         double smallest = Double.POSITIVE_INFINITY;
-        if (num <= data.length && num > 0) {
-            for (int i = 0; i < num; i++) {
+        if (number <= data.length && number > 0) {
+            for (int i = 0; i < number; i++) {
                 if (data[i] > tolerance && data[i] < smallest) {
                     smallest = data[i];
                 }
@@ -465,23 +504,31 @@ public class Math2D {
     }
 
     /**
-     * Returns the smallest positive value of the members of the given array, 
-     * where any number less than the tolerance is concidered to be non-positive.
-     **/
+     *
+     * @param data Given data
+     * @param tolerance Given tolerance
+     * @return the smallest positive value of the members of the given array,
+     * where any number less than the tolerance is considered to be
+     * non-positive.
+     */
     public static double smallestPositive(double[] data, double tolerance) {
         return smallestPositive(data, data.length, tolerance);
     }
 
     /**
-     * Returns the smallest positive value of the members of the given array.
-     **/
+     *
+     * @param data given array
+     * @return the smallest positive value of the members of the given array.
+     */
     public static double smallestPositive(double[] data) {
         return smallestPositive(data, data.length, TINY);
     }
 
     /**
-     * Returns the index of the member of the given array with the largest value.
-     **/
+     * Returns the index of the member of the given array with the largest
+     * value.
+     *
+     */
     public static int getMaxIndex(double[] data) {
         int index = -1;
         double max = Double.NEGATIVE_INFINITY;
@@ -543,7 +590,6 @@ public class Math2D {
         double normt2 = Math2D.normSquared(targetVelocity);
         double xv = Math2D.innerProduct(relativeLocation, targetVelocity);
 
-
         if (speed2 != normt2) {
             double[] coeff = new double[3];
 
@@ -569,9 +615,9 @@ public class Math2D {
                 default:
             }
             if (oneOverTime >= 0.0) {
-                Point2D pursuerVelocity =
-                        Math2D.add(Math2D.scalarMultiply(oneOverTime, relativeLocation),
-                        targetVelocity);
+                Point2D pursuerVelocity
+                        = Math2D.add(Math2D.scalarMultiply(oneOverTime, relativeLocation),
+                                targetVelocity);
                 intercept = Math2D.add(
                         Math2D.scalarMultiply(1.0 / oneOverTime, pursuerVelocity),
                         startingLocation);
@@ -585,9 +631,9 @@ public class Math2D {
             double normx2 = Math2D.normSquared(relativeLocation);
             double time = -normx2 / (2.0 * xv);
             if (time >= 0.0) {
-                Point2D pursuerVelocity =
-                        Math2D.add(Math2D.scalarMultiply(1.0 / time, relativeLocation),
-                        targetVelocity);
+                Point2D pursuerVelocity
+                        = Math2D.add(Math2D.scalarMultiply(1.0 / time, relativeLocation),
+                                targetVelocity);
                 intercept = Math2D.add(
                         Math2D.scalarMultiply(time, pursuerVelocity), startingLocation);
             }
@@ -595,10 +641,10 @@ public class Math2D {
         return intercept;
 
     }
+
     /**
-     *  Computes the Point2D at which the pursuer will intersect the 
-     *  target when the pursuer moves at the given speed.
-     *  (Assumes Linear Mover).
+     * Computes the Point2D at which the pursuer will intersect the target when
+     * the pursuer moves at the given speed. (Assumes Linear Mover).
      */
     public static Point2D getIntercept(Mover pursuer, double speed, Mover target) {
         if (speed > pursuer.getMaxSpeed()) {
@@ -609,8 +655,7 @@ public class Math2D {
     }
 
     /**
-     * Computes the intersection point when the pursuer goes at 
-     * maximum speed.
+     * Computes the intersection point when the pursuer goes at maximum speed.
      */
     public static Point2D getIntercept(Mover pursuer, Mover target) {
         return getIntercept(pursuer, pursuer.getMaxSpeed(), target);
@@ -627,7 +672,7 @@ public class Math2D {
 
     public static Point2D getInterceptVelocity(Point2D startingLocation,
             double speed, Point2D targetLocation, Point2D targetVelocity) {
-        
+
         Point2D intercept = getIntercept(startingLocation, speed,
                 targetLocation, targetVelocity);
 
@@ -643,10 +688,11 @@ public class Math2D {
     }
 
     /**
-     * Computes the point at which the pursuer is within the given range of 
-     * the target.  If the pursuer is already within range, the pursuer's
-     * current position is returned.
-     **/
+     * Computes the point at which the pursuer is within the given range of the
+     * target. If the pursuer is already within range, the pursuer's current
+     * position is returned.
+     *
+     */
     public static Point2D getIntercept(Mover pursuer, double speed, double range, Mover target) {
         Point2D relativePursuerLocation = Math2D.subtract(target.getLocation(), pursuer.getLocation());
 //        If in range already, the "intercept" is the current location
@@ -681,7 +727,7 @@ public class Math2D {
         }
         Point2D interceptVelocity = getInterceptVelocity(startingLocation, speed,
                 targetLocation, targetVelocity);
-                //getInterceptVelocity(pursuer, speed, target);
+        //getInterceptVelocity(pursuer, speed, target);
         if (interceptVelocity == null) {
             return null;
         }
@@ -701,9 +747,9 @@ public class Math2D {
     }
 
     /**
-     * Returns the angle in degrees to go from point to toPoint.  The
-     * orientation is as for compass headings (clockwise) with north
-     * taken as 0.0, being the y-axis, and east taken as 90.0, the x-axis
+     * Returns the angle in degrees to go from point to toPoint. The orientation
+     * is as for compass headings (clockwise) with north taken as 0.0, being the
+     * y-axis, and east taken as 90.0, the x-axis
      *
      * @param point (from)
      * @param toPoint (to)
@@ -712,9 +758,9 @@ public class Math2D {
     public static double bearingFrom(Point2D point, Point2D toPoint) {
         Point2D translated = Math2D.subtract(toPoint, point);
         double angle = StrictMath.atan2(translated.getX(), translated.getY());
-        while(0 > angle) {
+        while (0 > angle) {
             angle += 2.0 * Math.PI;
         }
-        return angle * 180.0 / Math.PI ;
+        return angle * 180.0 / Math.PI;
     }
 }

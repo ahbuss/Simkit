@@ -8,7 +8,7 @@ import simkit.SimEntity;
  * Represents a weapon system that can fire Munitions.
  *
  * @version $Id$
-*
+ *
  */
 public interface Weapon extends Moveable, SimEntity {
 
@@ -34,20 +34,19 @@ public interface Weapon extends Moveable, SimEntity {
     public void doShoot(Munition munition, Point2D aimPoint);
 
     /**
-     * 
+     *
      * @param mover the Moveable asset on which this Weapon resides.
      */
     public void setMover(Moveable mover);
 
     /**
-     * 
+     *
      * @return The Moveable asset on which this Weapon resides.
      */
     public Moveable getMover();
 
     /**
-     * Returns the type of fire for this Weapon.
-*
+     * @return the type of fire for this Weapon.
      */
     public WeaponFireType getFireType();
 

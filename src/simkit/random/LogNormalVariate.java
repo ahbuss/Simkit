@@ -33,7 +33,7 @@ public class LogNormalVariate extends NormalVariate {
     }
 
     /**
-     * Convenience method to conver a given desired mean and standard deviation
+     * Convenience method to convert a given desired mean and standard deviation
      * into the corresponding Normal mean and standard deviation.
      *
      * @param mean The mean of the log normal distribution
@@ -60,7 +60,7 @@ public class LogNormalVariate extends NormalVariate {
      * actual mean and standard deviation for the log normal distribution.
      *
      * @param mean The mean of the underlying Normal
-     * @param stdDeviation The standard deviation of th eunderlying Normal
+     * @param stdDeviation The standard deviation of the underlying Normal
      * @return The mean and standard deviation of the log normal distribution
      * from the given parameters.
      */
@@ -77,7 +77,7 @@ public class LogNormalVariate extends NormalVariate {
      * Returns the name and parameters of the distribution
      *
      * @return The name and parameters of the distribution - note that they are
-     * <i>not</i> the mean and standard deviaiton of the log normal, but of the
+     * <i>not</i> the mean and standard deviation of the log normal, but of the
      * underlying normal.
      */
     @Override

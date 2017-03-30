@@ -3,8 +3,8 @@
  *
  * Created on March 6, 2002, 7:17 PM
  */
-
 package simkit.smdx;
+
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
@@ -22,34 +22,37 @@ import simkit.SimEntityBase;
 /**
  * A referee to manage interactions between Sensors and Movers (targets).
  * Usage:<UL>
- * <LI>First add a {@link SensorTargetMediator} 
- * to the {@link SensorTargetMediatorFactory} for each combination
- * of Sensors and Movers that will be registered. (<CODE>register</CODE> will
- * throw an exception if the mediator does not exist.</LI>
+ * <LI>First add a {@link SensorTargetMediator} to the
+ * {@link SensorTargetMediatorFactory} for each combination of Sensors and
+ * Movers that will be registered. (<CODE>register</CODE> will throw an
+ * exception if the mediator does not exist.</LI>
  * <LI>Then register each Sensor and Mover with this referee</LI></UL>
  * Operation:<UL>
  * <LI>Registering a Sensor or Mover sets up this referee to listen for
  * "movementState" property change events from the Sensor/Mover.</LI>
- * <LI>The SensorTargetMediator is set up to listen to SimEvents from
- * this referee.</LI>
- * <LI>When a Sensor or Mover fires a "movementState" property change, this referee
- * calls <CODE>processSensor</CODE> and/or <CODE>processTarget</CODE> as 
+ * <LI>The SensorTargetMediator is set up to listen to SimEvents from this
+ * referee.</LI>
+ * <LI>When a Sensor or Mover fires a "movementState" property change, this
+ * referee calls <CODE>processSensor</CODE> and/or <CODE>processTarget</CODE> as
  * appropriate.</LI>
  * <LI><CODE>processSensor</CODE> determines when each Mover will cross the
  * boundary of the Sensor's coverage and schedules the ExitRange or EnterRange
- * event, depending on whether the Mover is currently inside the coverage or not.</LI>
+ * event, depending on whether the Mover is currently inside the coverage or
+ * not.</LI>
  * <LI><CODE>processTarget</CODE> determines when the Mover will cross the
  * boundary of each Sensor's coverage and schedules the ExitRange or EnterRange
- * event, depending on whether the Mover is currently inside the coverage or not.</LI>
- * <LI>The EnterRange event in this referee schedules an ExitRange event at the time
- * when the Mover exits the Sensor's coverage area. (Note: The coverage area is
- * assumed to be convex, therefore ExitRange does not schedule EnterRange.)</LI>
- * <LI>The appropriate SensorTargetMediator is listening for the ExitRange
- * and EnterRange events. It is up to the implementation of those events in the
- * mediators that determine the effects of entering or leaving the 
- * coverage area.</LI></UL>
+ * event, depending on whether the Mover is currently inside the coverage or
+ * not.</LI>
+ * <LI>The EnterRange event in this referee schedules an ExitRange event at the
+ * time when the Mover exits the Sensor's coverage area. (Note: The coverage
+ * area is assumed to be convex, therefore ExitRange does not schedule
+ * EnterRange.)</LI>
+ * <LI>The appropriate SensorTargetMediator is listening for the ExitRange and
+ * EnterRange events. It is up to the implementation of those events in the
+ * mediators that determine the effects of entering or leaving the coverage
+ * area.</LI></UL>
  *
- * @author  Arnold Buss
+ * @author Arnold Buss
  * @version $Id$
  */
 public class SensorTargetReferee extends SimEntityBase implements PropertyChangeListener {
@@ -57,36 +60,41 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     public static final String _VERSION_ = "$Id$";
 
     public static final Logger log = Logger.getLogger("simkit.smdx");
-    
-/**
-* Holds the Sensors registered with this referee.
-**/
+
+    /**
+     * Holds the Sensors registered with this referee.
+*
+     */
     protected Set<Sensor> sensors;
 
-/**
-* Holds the targets (Movers) registered with this referee.
-**/
+    /**
+     * Holds the targets (Movers) registered with this referee.
+*
+     */
     protected Set<Mover> targets;
 
-/**
-* Holds the instance of the SensorTargetMediatorFactory.
-**/
+    /**
+     * Holds the instance of the SensorTargetMediatorFactory.
+*
+     */
     protected MediatorFactory<Sensor, Moveable, SensorTargetMediator> sensorTargetMediatorFactory;
 
-/**
-* Indicates whether the Mover is in range of the Sensor. The
-* value will be changed by the EnterRange and ExitRange events.
-* Map&lt;Sensor, Map&lt;Mover, Boolean&gt;&gt;
-**/
+    /**
+     * Indicates whether the Mover is in range of the Sensor. The value will be
+     * changed by the EnterRange and ExitRange events. Map&lt;Sensor,
+     * Map&lt;Mover, Boolean&gt;&gt;
+*
+     */
     protected Map<Sensor, Map<Mover, Boolean>> inRangeMap;
-    
-/**
-* If true, all entities will be unregistered if <CODE>reset</CODE>
-* is called.
-* @see #reset()
-**/
-    private boolean clearOnReset;
 
+    /**
+     * If true, all entities will be unregistered if <CODE>reset</CODE> is
+     * called.
+     *
+     * @see #reset()
+*
+     */
+    private boolean clearOnReset;
 
     public SensorTargetReferee() {
         sensors = new LinkedHashSet<Sensor>();
@@ -95,32 +103,37 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         setClearOnReset(false);
         sensorTargetMediatorFactory = SensorTargetMediatorFactory.getInstance();
     }
-    
-/**
-* @return a LinkedHashSet containing the Sensors currently registered to this
-* referee.
-**/
+
+    /**
+     * @return a LinkedHashSet containing the Sensors currently registered to
+     * this referee.
+*
+     */
     public Set<Sensor> getSensors() {
         return new LinkedHashSet<Sensor>(sensors);
     }
-    
-/**
-* @return a LinkedHashSet containing the Movers (targets) currently registered to this
-* referee.
-**/
+
+    /**
+     * @return a LinkedHashSet containing the Movers (targets) currently
+     * registered to this referee.
+*
+     */
     public Set<Mover> getTargets() {
         return new LinkedHashSet<Mover>(targets);
     }
-    
-/**
-* Registers the given SimEntity with this referee. Prior to adding any
-* SimEntities, SensorTargetMediators must be added to the 
-* SensorTargetMeditorFactory for each Sensor-Mover pair that will be added
-* to the referee.
-* @throws NoMediatorDefinedException If there is not a SensorTargetMediator
-* added to the SensorTargetMediatorFactory for each combination of Sensor/Mover
-* registered with the referee.
-**/
+
+    /**
+     * Registers the given SimEntity with this referee. Prior to adding any
+     * SimEntities, SensorTargetMediators must be added to the
+     * SensorTargetMeditorFactory for each Sensor-Mover pair that will be added
+     * to the referee.
+     *
+     * @param entity given SimEntity
+     * @throws NoMediatorDefinedException If there is not a SensorTargetMediator
+     * added to the SensorTargetMediatorFactory for each combination of
+     * Sensor/Mover registered with the referee.
+     * 
+     */
     public void register(SimEntity entity) {
         if (entity instanceof simkit.smdx.Sensor) {
             sensors.add((Sensor) entity);
@@ -146,7 +159,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             entity.addPropertyChangeListener("movementState", this);
             for (Sensor sensor : sensors) {
                 Mediator mediator = sensorTargetMediatorFactory.getMediatorFor(
-                        sensor.getClass().asSubclass(Sensor.class), 
+                        sensor.getClass().asSubclass(Sensor.class),
                         entity.getClass().asSubclass(Moveable.class));
                 if (mediator == null) {
                     throw new NoMediatorDefinedException("No mediator defined for ("
@@ -163,46 +176,50 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
                     + " not a Sensor or a Target");
         }
     }
-    
-/**
-* Removes the given SimEntity from this referee.
-**/
+
+    /**
+     * Removes the given SimEntity from this referee.
+     *
+     * @param entity given SimEntity
+     */
     public void unregister(SimEntity entity) {
         if (entity instanceof simkit.smdx.Sensor) {
             sensors.remove((Sensor) entity);
-        }
-        else if (entity instanceof Mover) {
+        } else if (entity instanceof Mover) {
             targets.remove((Mover) entity);
         }
         entity.removeSimEventListener(this);
         entity.removePropertyChangeListener(this);
     }
-    
-/**
-* Processes property changes for "movementState" of the registered SimEntities.
-* Causes the referee to recalculate the detection windows for the entity
-* that fired the change.
-* @throws RuntimeException If the MovementState of the entity is <CODE>ACCELERATING</CODE>
-* since this feature is not yet implemented.
-**/
+
+    /**
+     * Processes property changes for "movementState" of the registered
+     * SimEntities. Causes the referee to recalculate the detection windows for
+     * the entity that fired the change.
+     *
+     * @throws RuntimeException If the MovementState of the entity is
+     * <CODE>ACCELERATING</CODE> since this feature is not yet implemented.
+*
+     */
     public void propertyChange(PropertyChangeEvent e) {
-        if (!e.getPropertyName().equals("movementState")) { return; }
+        if (!e.getPropertyName().equals("movementState")) {
+            return;
+        }
         if (e.getNewValue() == MovementState.CRUISING || e.getNewValue() == MovementState.STOPPED) {
             if (e.getSource() instanceof Mover) {
                 processTarget((Mover) e.getSource());
-            }
-            else if (e.getSource() instanceof Sensor) {
+            } else if (e.getSource() instanceof Sensor) {
                 processSensor((Sensor) e.getSource());
             }
-        }
-        else if (e.getNewValue() == MovementState.ACCELERATING) {
+        } else if (e.getNewValue() == MovementState.ACCELERATING) {
             throw new RuntimeException("Acceleration not supported (yet)");
         }
     }
-    
-/**
-* Recalculates the detection windows for the given Mover.
-**/
+
+    /**
+     * Recalculates the detection windows for the given Mover.
+*
+     */
     protected void processTarget(Mover target) {
         Point2D targetLocation = target.getLocation();
         Point2D targetVelocity = target.getVelocity();
@@ -212,8 +229,10 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
                 targetInside = new LinkedHashMap<Mover, Boolean>();
                 inRangeMap.put(sensor, targetInside);
             }
-            if (target == sensor.getMover()) { continue; }
-            Object[] pair = new Object[] { sensor, target };
+            if (target == sensor.getMover()) {
+                continue;
+            }
+            Object[] pair = new Object[]{sensor, target};
             Boolean inRange = targetInside.get(target);
             if (inRange == null) {//if its not in the map, use the geometry to determine
                 inRange = Boolean.valueOf(sensor.getFootprint().contains(target.getLocation()));
@@ -224,8 +243,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
                 if (time < Double.POSITIVE_INFINITY) {
                     waitDelay("ExitRange", time, pair);
                 }
-            }
-            else {
+            } else {
                 interrupt("EnterRange", pair);
                 if (time < Double.POSITIVE_INFINITY) {
                     waitDelay("EnterRange", time, pair);
@@ -233,10 +251,11 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             }
         }
     }
-    
-/**
-* Recalculates the detection windows for the given Sensor.
-**/
+
+    /**
+     * Recalculates the detection windows for the given Sensor.
+*
+     */
     protected void processSensor(Sensor sensor) {
         Point2D sensorLocation = sensor.getLocation();
         Point2D sensorVelocity = sensor.getVelocity();
@@ -246,20 +265,21 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             inRangeMap.put(sensor, targetInside);
         }
         for (Mover target : targets) {
-            if (target == sensor.getMover()) { continue; }
+            if (target == sensor.getMover()) {
+                continue;
+            }
             Boolean inRange = targetInside.get(target);
             if (inRange == null) {//if its not in the map, use the geometry to determine
                 inRange = Boolean.valueOf(sensor.getFootprint().contains(target.getLocation()));
             }
-            Object[] pair = new Object[] { sensor, target };
+            Object[] pair = new Object[]{sensor, target};
             double time = findIntersectionTime(sensor, target);
             if (inRange.booleanValue()) {
                 interrupt("ExitRange", pair);
                 if (time < Double.POSITIVE_INFINITY) {
                     waitDelay("ExitRange", time, pair);
                 }
-            }
-            else {
+            } else {
                 interrupt("EnterRange", pair);
                 if (time < Double.POSITIVE_INFINITY) {
                     waitDelay("EnterRange", time, pair);
@@ -267,13 +287,13 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             }
         }
     }
-    
-/**
-* Finds the next time the Mover intersects the detection volume of
-* the Sensor.
-**/
-    public double findIntersectionTime(Sensor sensor, Mover target) {
 
+    /**
+     * Finds the next time the Mover intersects the detection volume of the
+     * Sensor.
+*
+     */
+    public double findIntersectionTime(Sensor sensor, Mover target) {
 
         Point2D targetLocation = target.getLocation();
         Point2D relativeVelocity = Math2D.subtract(target.getVelocity(), sensor.getVelocity());
@@ -281,7 +301,7 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         Point2D relativeLocation = Math2D.subtract(targetLocation, sensorLocation);
         Shape footPrint = sensor.getFootprint();
 //        Rectangle2D bounds = footPrint.getBounds2D();
-        
+
 //        Area sensorArea = new Area(footPrint);
 //        System.out.println("Orig sensor area: " + sensorArea.getBounds2D());
 //
@@ -302,9 +322,9 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
             Point2D[] intersect = Math2D.findIntersection(targetLocation, relativeVelocity, footPrint);
 
             for (int i = 0; i < intersect.length; i++) {
-                System.out.println(i + ": " + intersect[i] + " -> " + times[i] + " - " +
-                    Math2D.add(target.getLocation(), Math2D.scalarMultiply(times[i], target.getVelocity())) + " | " +
-                    Math2D.add(sensor.getLocation(), Math2D.scalarMultiply(times[i], sensor.getVelocity())) );
+                System.out.println(i + ": " + intersect[i] + " -> " + times[i] + " - "
+                        + Math2D.add(target.getLocation(), Math2D.scalarMultiply(times[i], target.getVelocity())) + " | "
+                        + Math2D.add(sensor.getLocation(), Math2D.scalarMultiply(times[i], sensor.getVelocity())));
             }
         }
 
@@ -325,68 +345,75 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 //    public double findNextExitIntersection(Sensor sensor, Mover target) {
 //
 //    }
-/**
-* Schedules an EnterRange event for time 0 for any Movers that are
-* currently inside the detection volume of any Sensors.
-**/
+    /**
+     * Schedules an EnterRange event for time 0 for any Movers that are
+     * currently inside the detection volume of any Sensors.
+*
+     */
     public void doRun() {
-        for (Iterator i = getSensors().iterator(); i.hasNext(); ) {
+        for (Iterator i = getSensors().iterator(); i.hasNext();) {
             Sensor sensor = (Sensor) i.next();
-            for (Iterator j = getTargets().iterator(); j.hasNext(); ) {
+            for (Iterator j = getTargets().iterator(); j.hasNext();) {
                 Mover target = (Mover) j.next();
                 if (sensor.getMover() != target && sensor.isInRangeOf(target.getLocation())) {
-                    waitDelay("EnterRange", 0.0, new Object[] { sensor, target });
+                    waitDelay("EnterRange", 0.0, new Object[]{sensor, target});
                 }
             }
         }
     }
-    
-/**
-* Does nothing.
-**/
+
+    /**
+     * Does nothing.
+*
+     */
     public void doStartMove(Mover target) {
     }
-    
-/**
-* Does nothing.
-**/
+
+    /**
+     * Does nothing.
+*
+     */
     public void doStartMove(Sensor sensor) {
     }
-    
-/**
-* Does nothing.
-**/
+
+    /**
+     * Does nothing.
+*
+     */
     public void doEndMove(Mover target) {
     }
-    
-/**
-* Does nothing.
-**/
+
+    /**
+     * Does nothing.
+*
+     */
     public void doEndMove(Sensor sensor) {
     }
-    
-/**
-* Schedules ExitRange for when the Mover leaves the detection volume
-* of the Sensor.
-**/
+
+    /**
+     * Schedules ExitRange for when the Mover leaves the detection volume of the
+     * Sensor.
+*
+     */
     public void doEnterRange(Sensor sensor, Mover target) {
         Map<Mover, Boolean> targetInRange = inRangeMap.get(sensor);
         if (targetInRange == null) {
-            targetInRange= new LinkedHashMap<Mover, Boolean>();
+            targetInRange = new LinkedHashMap<Mover, Boolean>();
             inRangeMap.put(sensor, targetInRange);
         }
         targetInRange.put(target, Boolean.TRUE);
         double exitTime = findIntersectionTime(sensor, target);
-        waitDelay("ExitRange", exitTime, new Object[] { sensor, target} );
+        waitDelay("ExitRange", exitTime, new Object[]{sensor, target});
     }
 
-/**
-* Sets the in range state of the pair to false.
-**/
+    /**
+     * Sets the in range state of the pair to false.
+*
+     */
     public void doExitRange(Sensor sensor, Mover target) {
         Map<Mover, Boolean> targetInRange = inRangeMap.get(sensor);
         if (targetInRange == null) {
-            targetInRange= new LinkedHashMap<Mover, Boolean>();
+            targetInRange = new LinkedHashMap<Mover, Boolean>();
             inRangeMap.put(sensor, targetInRange);
         }
         targetInRange.put(target, Boolean.FALSE);
@@ -395,48 +422,60 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         processSensor(sensor);
 //        processTarget(target);
     }
-    
-/**
-* Unregisters all Sensors from this referee. 
-**/
+
+    /**
+     * Unregisters all Sensors from this referee. 
+*
+     */
     public void clearSensors() {
         sensors.clear();
     }
-    
-/**
-* Unregisters all Movers (targets) from this referee.
-**/
+
+    /**
+     * Unregisters all Movers (targets) from this referee.
+*
+     */
     public void clearTargets() {
         targets.clear();
     }
-    
-/**
-* Unregisters all Movers (targets) and Sensors from this referee.
-**/
+
+    /**
+     * Unregisters all Movers (targets) and Sensors from this referee.
+*
+     */
     public void clearAll() {
         sensors.clear();
         targets.clear();
         inRangeMap.clear();
     }
-    
-/**
-* If true, all entities will be unregistered if <CODE>reset</CODE>
-* is called.
-* @see #reset()
-**/
-    public void setClearOnReset(boolean b) { clearOnReset = b; }
-    
-/**
-* If true, all entities will be unregistered if <CODE>reset</CODE>
-* is called.
-* @see #reset()
-**/
-    public boolean isClearOnReset() { return clearOnReset; }
-    
-/**
-* Cancels all pending SimEvents and if clearOnReset is true,
-* unregisters all Sensors and targets (Movers).
-**/
+
+    /**
+     * If true, all entities will be unregistered if <CODE>reset</CODE> is
+     * called.
+     *
+     * @see #reset()
+*
+     */
+    public void setClearOnReset(boolean b) {
+        clearOnReset = b;
+    }
+
+    /**
+     * If true, all entities will be unregistered if <CODE>reset</CODE> is
+     * called.
+     *
+     * @see #reset()
+*
+     */
+    public boolean isClearOnReset() {
+        return clearOnReset;
+    }
+
+    /**
+     * Cancels all pending SimEvents and if clearOnReset is true, unregisters
+     * all Sensors and targets (Movers).
+*
+     */
     public void reset() {
         super.reset();
         if (isClearOnReset()) {
@@ -444,32 +483,34 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
         }
         inRangeMap.clear();
     }
-    
-/**
-* Returns a list of the Sensors and Movers (targets) currently registered
-* with this referee.
-**/
+
+    /**
+     * Returns a list of the Sensors and Movers (targets) currently registered
+     * with this referee.
+*
+     */
     public String paramString() {
         return toString();
     }
-        
-/**
-* Returns a list of the Sensors and Movers (targets) currently registered
-* with this referee.
-**/
+
+    /**
+     * Returns a list of the Sensors and Movers (targets) currently registered
+     * with this referee.
+*
+     */
     public String toString() {
         StringBuilder buf = new StringBuilder(this.getClass().getName());
         buf.append("\nSensors:");
-        for (Sensor sensor : sensors ) {
+        for (Sensor sensor : sensors) {
             buf.append('\n');
             buf.append(sensor);
         }
         buf.append("\n\nTargets:");
-        for (Mover target : targets ) {
+        for (Mover target : targets) {
             buf.append('\n');
             buf.append(target);
         }
-        
+
         return buf.toString();
     }
 }

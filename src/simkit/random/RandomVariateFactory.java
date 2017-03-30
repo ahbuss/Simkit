@@ -470,8 +470,8 @@ public class RandomVariateFactory {
 
     /**
      *
-     * @param className
-     * @return
+     * @param className Given name of RandomVariate
+     * @return a RandomVariate that has not had its parameters set 
      */
     protected static RandomVariate getUnconfiguredInstance(String className) {
         RandomVariate instance = null;

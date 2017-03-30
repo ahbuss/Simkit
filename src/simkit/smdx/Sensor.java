@@ -90,6 +90,8 @@ public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
      * If this sensor is on, then the contact should be added to the contact
      * list and a property change on contact fired.
      *
+     * 
+     * @param contact Given contact, which could be the actual target or a surrogate
      */
     public void doDetection(Moveable contact);
 
@@ -100,6 +102,8 @@ public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
      * If this sensor is on, then the contact should be removed from the contact
      * list and a property change on contact fired.
      *
+     * 
+     * @param contact Given contact, which could be the actual target or a surrogate
      */
     public void doUndetection(Moveable contact);
 
@@ -111,6 +115,8 @@ public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
      * same event with no delay, but this behavior is not part of the contract,
      * and should not be relied upon.
      *
+     * 
+     * @param mover My Mover
      */
     public void doStartMove(Mover mover);
 
@@ -122,15 +128,17 @@ public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
      * same event with no delay, but this behavior is not part of the contract,
      * and should not be relied upon.
      *
+     * @param mover My Mover
      */
     public void doEndMove(Mover mover);
 
     /**
-     * True if the point is inside the footprint of this Sensor.
-     * <p>
+     * 
      * Implementors - This method may be called frequently. Clients - this
      * method may be expensive.
      *
+     * @param point Given Point2D
+     * @return True if the point is inside the footprint of this Sensor.
      */
     public boolean isInRangeOf(Point2D point);
 
