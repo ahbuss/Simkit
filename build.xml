@@ -67,6 +67,15 @@
     nbproject/build-impl.xml file. 
 
     -->
+    <condition property="arch" value="x86">
+        <equals arg1="${sun.arch.data.model}" arg2="32"  />
+    </condition>
+    
+    <condition property="arch" value="x64">
+        <equals arg1="${sun.arch.data.model}" arg2="64"  />
+    </condition>
+    
+    
     
     <target name="-pre-compile">
         <exec executable="svn" output="build/svn.properties">
@@ -162,7 +171,7 @@
     </target>
     
     <target name="package" depends="dist" description="Creates the distribution zip file">
-        <zip destfile="${dist.dir}/Simkit-${os.arch}-${Version}.zip" level ="9">
+        <zip destfile="${dist.dir}/Simkit-${arch}-${Version}.zip" level ="9">
             <fileset dir="${dist.dir}" includes="*.jar" />
             <fileset dir="${dist.dir}" includes="simkit-doc.zip" />
             <fileset dir="${dist.dir}" includes="simkit-src.zip" />
