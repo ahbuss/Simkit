@@ -531,7 +531,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * @param newValue The value of the property after this change.
      */
     public void firePropertyChange(String propertyName, Object newValue) {
-        property.firePropertyChange(propertyName, null, newValue);
+        property.firePropertyChange(new PropertyChangeEventX(this, propertyName, null, newValue));
     }
 
     /**
@@ -559,7 +559,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      *
      */
     public void fireIndexedPropertyChange(int index, String propertyName, Object newValue) {
-        property.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, newValue, index));
+        property.firePropertyChange(new IndexedPropertyChangeEventX(this, propertyName, null, newValue, index));
     }
 
     /**

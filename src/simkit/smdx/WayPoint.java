@@ -100,9 +100,9 @@ public class WayPoint implements Cloneable {
     }
 
     /**
-     * Creates and returns a shallow copy of this WayPoint.
      *
-     * @throws java.lang.CloneNotSupportedException
+     * @return a shallow copy of this WayPoint.
+     * @throws java.lang.CloneNotSupportedException if clone not supported
      */
     @Override
     public Object clone() throws CloneNotSupportedException {

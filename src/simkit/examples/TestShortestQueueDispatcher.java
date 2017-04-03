@@ -30,6 +30,7 @@ public class TestShortestQueueDispatcher {
 
         dispatch.addPropertyChangeListener(new SimplePropertyDumper());
 
+        Schedule.stopOnEvent(1000, "EndService");
         Schedule.setSingleStep(true);
         Schedule.reset();
         Schedule.startSimulation();

@@ -232,10 +232,11 @@ public class Math2D {
     }
 
     /**
-     * 
-     * @param p1
-     * @param p2
-     * @return 
+     *  
+     * @param p1 first Point2D
+     * @param p2 second Point2D
+     * @return an AffineTransform from the two given points, whose coordinates
+     * are the four non-translation entries.
      */
     public static AffineTransform getTransform(Point2D p1, Point2D p2) {
         return new AffineTransform(new double[]{p1.getX(), p1.getY(), p2.getX(), p2.getY()});
@@ -252,10 +253,10 @@ public class Math2D {
 
     /**
      * 
-     * @param start
-     * @param velocity
-     * @param curve
-     * @return 
+     * @param start Starting location
+     * @param velocity velocity vector
+     * @param curve Given QuadCurve2D to find intersections of
+     * @return array of Point2Ds that are the intersections with curve
      */
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, QuadCurve2D curve) {
 
@@ -294,6 +295,14 @@ public class Math2D {
         }
     }
 
+    /**
+     * 
+     * @param start Starting location
+     * @param velocity velocity
+     * @param shape Given shape
+     * @return array of Point2Ds that represent the intersections of the 
+     * line formed by the location and velocity and the given shape
+     */
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, Shape shape) {
         return findIntersection(start, velocity, shape, IDENTITY_TRANSFORM);
     }
@@ -339,9 +348,10 @@ public class Math2D {
 
     /**
      * 
-     * @param intersections
-     * @param tolerance
-     * @return 
+     * @param intersections Given List of Point2Ds with possible duplicates
+     * @param tolerance Given tolerance - Point2Ds within this distance are
+     * considered identical
+     * @return Point2Ds in the given List with "duplicates" removed
      */
     public static Set<Point2D> eliminateDuplicates(List<Point2D> intersections, double tolerance) {
         Set<Point2D> s = new LinkedHashSet<>();
@@ -359,10 +369,11 @@ public class Math2D {
 
     /**
      * 
-     * @param start
-     * @param velocity
-     * @param ellipse
-     * @return 
+     * @param start Starting location
+     * @param velocity Given velocity
+     * @param ellipse Given Ellipse2D
+     * @return array of Point2Ds that are the intersections, if any, of the
+     * line formed by the starting location and velocity and the given Ellipse2D
      */
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, Ellipse2D ellipse) {
         Point2D adjustedStart = subtract(start, getCenter(ellipse));
