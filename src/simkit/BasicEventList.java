@@ -188,7 +188,7 @@ public interface BasicEventList {
      * <CODE>handleSimEvent</CODE> method. <p> Then have the owner of the event
      * notify its listeners of the event. <p>
      * {@code isRunning()} should return true after this is called. <p> Note:
-     * Initiating event notifications from this method is a legacy imlementation
+     * Initiating event notifications from this method is a legacy implementation
      * detail. Newer implementations of this interface will likely not include
      * this action since it should be the responsibility of the listened-to
      * object to notify its listeners. That is, an object should not have to be
@@ -200,8 +200,8 @@ public interface BasicEventList {
     /**
      * Cause the schedule to stop processing pending events when simulation time
      * reaches the given value. <p> Calling this method should cause any other
-     * stop method previosly called to be ineffective. That is, the last
-     * stop_xxx method invoked should be the difinitive one.
+     * stop method previously called to be ineffective. That is, the last
+     * stop_xxx method invoked should be the definitive one.
      *
      * @param time Time to stop simulation
      */

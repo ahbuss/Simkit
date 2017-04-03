@@ -26,7 +26,6 @@ import simkit.util.LogString;
  * with the same event name as a method in a superclass will override that method
  * if the signature of the subclass method is the same as that superclass
  * method.  This is true even if the method names differ.  For example:
- * <p>
 <pre>
 
 class A extends SimEntityA {

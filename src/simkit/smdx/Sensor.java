@@ -45,6 +45,7 @@ public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
      * presence of a setter is convenient when constructing sensors using a
      * builder pattern.
      *
+     * @return maximum range of this sensor
      */
     public double getMaxRange();
 

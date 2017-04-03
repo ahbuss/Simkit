@@ -183,13 +183,19 @@ public class SimEvent implements Comparable<SimEvent> {
     }
 
     /**
-     * The simulation time at which this event is scheduled to occur.
+     * The simulation time at which this event is scheduled to occur is the
+     * current simTime + delay.
      *
+     * @param delay Amount of delay
      */
     protected void setScheduledTime(double delay) {
         scheduledTime = getSource().getEventList().getSimTime() + delay;
     }
 
+    /**
+     * 
+     * @param serial Given serial number for this SimEvent
+     */
     public void setSerial(int serial) {
         this.serial = serial;
     }
@@ -415,7 +421,8 @@ public class SimEvent implements Comparable<SimEvent> {
     /**
      * If the state is WAITING, returns an empty String, otherwise returns the
      * name of the waitState.
-     *
+     * TODO: find out why
+     * @return the name of the waitState or "" if state is WAITING.
      */
     private String getWaitStateStr() {
         return waitState == SimEventState.WAITING ? "" : waitState.toString();
@@ -529,10 +536,10 @@ public class SimEvent implements Comparable<SimEvent> {
     /**
      * Returns a hash based on owner, event name, and the parameters.
      *
-     * @param source
-     * @param eventName
-     * @param params
-     * @return 
+     * @param source Given source
+     * @param eventName Given event name
+     * @param params Given parameters
+     * @return a hash based on owner, event name, and the parameters.
      */
     public static int calculateEventHash(SimEventScheduler source,
             String eventName,
@@ -567,18 +574,14 @@ public class SimEvent implements Comparable<SimEvent> {
      * 5. The ID number of the event. (A lower ID number is a higher priority.)
      * <BR>
      *
-     * @param other
+     * @param other other SimEvent
      */
     @Override
     public int compareTo(SimEvent other) {
 //Copied from SimEventComp 1.6
-        Object fst = this;
         if (this.equals(other) || other.equals(this)) {
             return 0;
         }
-
-//        SimEvent a =  this;
-//        SimEvent b = other;
 
         if (this.getScheduledTime() > other.getScheduledTime()) {
             return 1;

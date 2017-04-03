@@ -1171,7 +1171,7 @@ public class EventList implements BasicEventList {
 
     /**
      * Removes the entry for the given hash code if there are no more events.
-     * @param hash
+     * @param hash given hash code
      */
     protected void cleanUpHashEventMap(int hash) {
         SortedSet events =  hashEventMap.get(hash);

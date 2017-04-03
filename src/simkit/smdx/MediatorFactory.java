@@ -61,7 +61,7 @@ public interface MediatorFactory<T1, T2, T3> {
      * @param <S2> generic for second object
      * @param first Given first object
      * @param second Given second object
-     * @return Mediator for first & second objects
+     * @return Mediator for first &amp; second objects
      */
     public <S1 extends T1, S2 extends T2> Mediator
             getMeditorFor(S1 first, S2 second);

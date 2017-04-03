@@ -25,6 +25,7 @@ public class SimpleContact implements Moveable {
     /** 
      * Creates a new SimpleContact with information about the given
      * Moveable.
+     * @param mover Given actual Moveable instance
      */
     public SimpleContact(Moveable mover) {
         target = mover;

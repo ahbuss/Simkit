@@ -218,7 +218,8 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 
     /**
      * Recalculates the detection windows for the given Mover.
-*
+     * @param target Given Mover that can potentially have entered or exited the
+     * range of some Sensor in this referee
      */
     protected void processTarget(Mover target) {
         Point2D targetLocation = target.getLocation();
@@ -254,7 +255,8 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 
     /**
      * Recalculates the detection windows for the given Sensor.
-*
+     * 
+     * @param sensor Given Sensor
      */
     protected void processSensor(Sensor sensor) {
         Point2D sensorLocation = sensor.getLocation();
@@ -291,7 +293,10 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     /**
      * Finds the next time the Mover intersects the detection volume of the
      * Sensor.
-*
+     * @param sensor Given Sensor
+     * @param target Given Mover
+     * @return the next time the Mover intersects the detection volume of the
+     * Sensor.
      */
     public double findIntersectionTime(Sensor sensor, Mover target) {
 
@@ -364,28 +369,28 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 
     /**
      * Does nothing.
-*
+     * @param target Given Mover
      */
     public void doStartMove(Mover target) {
     }
 
     /**
      * Does nothing.
-*
+     * @param sensor Given Sensor
      */
     public void doStartMove(Sensor sensor) {
     }
 
     /**
      * Does nothing.
-*
+     * @param target Given Mover
      */
     public void doEndMove(Mover target) {
     }
 
     /**
      * Does nothing.
-*
+     * @param sensor Given Sensor
      */
     public void doEndMove(Sensor sensor) {
     }
@@ -393,7 +398,9 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     /**
      * Schedules ExitRange for when the Mover leaves the detection volume of the
      * Sensor.
-*
+     * 
+     * @param sensor Given Sensor
+     * @param target Given target Mover
      */
     public void doEnterRange(Sensor sensor, Mover target) {
         Map<Mover, Boolean> targetInRange = inRangeMap.get(sensor);
@@ -408,7 +415,9 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
 
     /**
      * Sets the in range state of the pair to false.
-*
+     * 
+     * @param sensor Given Sensor
+     * @param target Given target Mover
      */
     public void doExitRange(Sensor sensor, Mover target) {
         Map<Mover, Boolean> targetInRange = inRangeMap.get(sensor);
@@ -450,25 +459,27 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
 
     /**
-     * If true, all entities will be unregistered if <CODE>reset</CODE> is
+     * If true, all entities will be unregistered if <CODE>reset()</CODE> is
      * called.
      *
+     * @param clearOnReset true, if all Sensors and Movers will be unregistered
+     * when <code>reset</code> is called.
      * @see #reset()
-*
      */
-    public void setClearOnReset(boolean b) {
-        clearOnReset = b;
+    public void setClearOnReset(boolean clearOnReset) {
+        this.clearOnReset = clearOnReset;
     }
 
     /**
      * If true, all entities will be unregistered if <CODE>reset</CODE> is
      * called.
      *
+     * @return true, if all entities will be unregistered when <CODE>reset()</CODE> is
+     * called.
      * @see #reset()
-*
      */
     public boolean isClearOnReset() {
-        return clearOnReset;
+        return this.clearOnReset;
     }
 
     /**
@@ -485,9 +496,8 @@ public class SensorTargetReferee extends SimEntityBase implements PropertyChange
     }
 
     /**
-     * Returns a list of the Sensors and Movers (targets) currently registered
+     * @return a list of the Sensors and Movers (targets) currently registered
      * with this referee.
-*
      */
     public String paramString() {
         return toString();

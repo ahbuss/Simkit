@@ -85,6 +85,7 @@ public class Side {
      * Find the Side with the given name. The argument can either
      * be exactly as the Side was constructed or all lower case.
      * 
+     * @param sideName Given name of Side
      * @return Side corresponding to the name of the side passed in
      * or null if there is no such side.
      */    

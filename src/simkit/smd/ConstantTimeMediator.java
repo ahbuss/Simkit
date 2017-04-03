@@ -33,8 +33,8 @@ public class ConstantTimeMediator extends SimEntityBase
      * If mover not yet detected, cancel Detection event of sensor.<br>
      * If already detected, schedule Undetection on sensor.
      * 
-     * @param mover
-     * @param sensor
+     * @param mover Given BasicLinearMover
+     * @param sensor Given ConstantTimeSensor
      */
     @Override
     public void doExitRange(BasicLinearMover mover, ConstantTimeSensor sensor) {

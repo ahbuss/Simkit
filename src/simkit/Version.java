@@ -245,7 +245,7 @@ public class Version {
      * the user selects "OK"
      *
      * @param args Given command line arguments (not used)
-     * @throws java.lang.Throwable
+     * @throws java.lang.Throwable if something throws an Exception somewhere
      */
     public static void main(String[] args) throws Throwable {
         new Version();

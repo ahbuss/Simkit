@@ -165,6 +165,8 @@ public class Math2D {
      * Computes the norm squared (the inner product of the point with itself) of
      * the given point.
      *
+     * @param point Given Point2D
+     * @return square of the norm (length) of the argument, treated as a vector
      */
     public static double normSq(Point2D point) {
         return innerProduct(point, point);
@@ -528,6 +530,8 @@ public class Math2D {
      * Returns the index of the member of the given array with the largest
      * value.
      *
+     * @param data Given data array
+     * @return index of the max value of the given array
      */
     public static int getMaxIndex(double[] data) {
         int index = -1;
@@ -566,7 +570,10 @@ public class Math2D {
     }
 
     /**
-     * Returns a Point2D whose vector length is equal to scale.
+     *  
+     * @param point Given Point2D
+     * @param scale given desired length
+     * @return a Point2D whose vector length is equal to scale.
      */
     public static Point2D scaleTo(Point2D point, double scale) {
         return Math2D.scalarMultiply(scale / Math2D.norm(point), point);
@@ -645,6 +652,10 @@ public class Math2D {
     /**
      * Computes the Point2D at which the pursuer will intersect the target when
      * the pursuer moves at the given speed. (Assumes Linear Mover).
+     * @param pursuer Given Mover in pursuit
+     * @param speed Given speed of pursuer
+     * @param target Given Mover that is the target
+     * @return the Point2D at which the pursuer will intersect the target
      */
     public static Point2D getIntercept(Mover pursuer, double speed, Mover target) {
         if (speed > pursuer.getMaxSpeed()) {
@@ -656,6 +667,9 @@ public class Math2D {
 
     /**
      * Computes the intersection point when the pursuer goes at maximum speed.
+     * @param pursuer Given Mover in pursuit
+     * @param target Given Mover target
+     * @return the intersection point when the pursuer goes at maximum speed.
      */
     public static Point2D getIntercept(Mover pursuer, Mover target) {
         return getIntercept(pursuer, pursuer.getMaxSpeed(), target);
@@ -692,6 +706,12 @@ public class Math2D {
      * target. If the pursuer is already within range, the pursuer's current
      * position is returned.
      *
+     * @param pursuer Given Mover in pursuit
+     * @param speed Given speed of pursuer
+     * @param range Given desired range at which the pursuer has intercepted the target
+     * @param target Given Mover target
+     * @return the point at which the pursuer is within the given range of the
+     * target.
      */
     public static Point2D getIntercept(Mover pursuer, double speed, double range, Mover target) {
         Point2D relativePursuerLocation = Math2D.subtract(target.getLocation(), pursuer.getLocation());

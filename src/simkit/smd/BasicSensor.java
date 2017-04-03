@@ -78,7 +78,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
 
     /**
      * Delegated to Mover
-     * @param mover
+     * @param mover This Sensor's Mover instance
      */
     public void doStartMove(Mover mover) {
         waitDelay("StartMove", 0.0, this);
@@ -90,7 +90,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
 
     /**
      * Reschedule EndMove for this Sensor
-     * @param mover
+     * @param mover This Sensor's Mover instance
      */
     public void doEndMove(Mover mover) {
         waitDelay("EndMove", 0.0, Priority.HIGH, this);
@@ -98,7 +98,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
 
     /**
      * Reschedule Stop for this Sensor
-     * @param mover
+     * @param mover This Sensor's Mover instance
      */
     public void doStop(Mover mover) {
         waitDelay("Stop", 0.0, Priority.HIGH, this);
