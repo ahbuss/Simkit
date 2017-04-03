@@ -65,7 +65,7 @@ public class EventCounter extends BasicSimEntity {
                 eventCounts.put(eventName, count);
             }
             count[0] = count[0] + 1;
-            firePropertyChange("number" + eventName, count[0] - 1, count[0]);
+            firePropertyChange("number" + eventName, null, count[0] - 1, count[0]);
         }
     }
     

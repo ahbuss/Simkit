@@ -5,6 +5,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import simkit.random.RandomVariate;
+import simkit.util.IndexedPropertyChangeEventX;
+import simkit.util.PropertyChangeEventX;
 
 /**
  * An abstract basic implementation of <CODE>SimEntity</CODE> that does not use
@@ -45,7 +47,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
 
     /**
      * The unique number to be assigned to the next BasicSimEntity created.
-*
+     *
      */
     private static int nextSerial;
 
@@ -55,7 +57,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
 
     /**
      * The name of this SimEntity.
-*
+     *
      */
     private String name;
 
@@ -63,19 +65,19 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * The priority given to this SimEntity's events. If two events are
      * scheduled at the same time with the same event priority, the one whose
      * owner has a higher priority will occur first.
-*
+     *
      */
     private Priority priority;
 
     /**
      * A unique identifier for this SimEntity.
-*
+     *
      */
     private int serial;
 
     /**
      * If true causes debug/trace information to be output.
-*
+     *
      */
     private boolean verbose;
 
@@ -87,7 +89,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * Manages Properties for the entity.
      *
      * @see PropertyChangeDispatcher
-*
+     *
      */
     protected PropertyChangeDispatcher property;
 
@@ -106,7 +108,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * priority.
      *
      * @param name The name of the BasicSimEntity.
-   *
+     *
      */
     public BasicSimEntity(String name) {
         this(name, Priority.DEFAULT);
@@ -144,7 +146,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      *
      * @param priority The priority assigned this BasicSimEntity.
      * @see #setPriority(Priority)
-   *
+     *
      */
     public BasicSimEntity(Priority priority) {
         this(DEFAULT_ENTITY_NAME, priority);
@@ -154,7 +156,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     /**
      * Construct a new BasicSimEntity with a default name and priority. The name
      * will be the class name plus a unique serial number.
-   *
+     *
      */
     public BasicSimEntity() {
         this(DEFAULT_ENTITY_NAME, Priority.DEFAULT);
@@ -301,7 +303,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
 
     /**
      * Cancels all events for this entity that match the event name and value of
-     * the parameters. 
+     * the parameters.
      *
      */
     @Override
@@ -343,7 +345,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * Sets the scheduling priority for this entity. If two events are scheduled
      * at the same time and have the same event priority, the one whose owner
      * has the highest priority will be processed first.
-     * 
+     *
      * @param p Given Priority of this BasicSimEntity
      */
     @Override
@@ -417,7 +419,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * Process the given SimEvent. Entity's should not process other entities'
      * doRun events. See the discussion in the description of this class for
      * information on implementing this method.
-*
+     *
      */
     @Override
     public abstract void processSimEvent(SimEvent event);
@@ -517,87 +519,8 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * @param oldValue The value of the property prior to this change.
      * @param newValue The value of the property after this change.
      */
-    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        property.firePropertyChange(propertyName, oldValue, newValue);
-    }
-
-    /**
-     * Notify registered PropertChangeListeners that the given int property has
-     * changed.
-     *
-     * @param propertyName The property that changed.
-     * @param oldValue The value of the property prior to this change.
-     * @param newValue The value of the property after this change.
-*
-     */
-    public void firePropertyChange(String propertyName, int oldValue, int newValue) {
-        property.firePropertyChange(propertyName, oldValue, newValue);
-    }
-
-    /**
-     * Notify registered PropertChangeListeners that the given boolean property
-     * has changed. This version does not report the previous value.
-     *
-     * @param propertyName The property that changed.
-     * @param newValue The value of the property after this change.
-*
-     */
-    public void firePropertyChange(String propertyName, boolean newValue) {
-        property.firePropertyChange(propertyName, null, newValue);
-    }
-
-    /**
-     * Notify registered PropertChangeListeners that the given int property has
-     * changed. This version does not report the previous value.
-     *
-     * @param propertyName The property that changed.
-     * @param newValue The value of the property after this change.
-*
-     */
-    public void firePropertyChange(String propertyName, int newValue) {
-        property.firePropertyChange(propertyName, null, newValue);
-    }
-
-    /**
-     * Notify registered PropertChangeListeners that the given double property
-     * has changed. This version does not report the previous value.
-     *
-     * @param propertyName The property that changed.
-     * @param newValue The value of the property after this change.
-     */
-    public void firePropertyChange(String propertyName, double newValue) {
-        property.firePropertyChange(propertyName, null, newValue);
-    }
-
-    /**
-     * Notify registered PropertChangeListeners that the given double property
-     * has changed.
-     *
-     * @param propertyName The property that changed.
-     * @param oldValue The value of the property prior to this change.
-     * @param newValue The value of the property after this change.
-     */
-    public void firePropertyChange(String propertyName, double oldValue, double newValue) {
-        property.firePropertyChange(propertyName, oldValue, newValue);
-    }
-
-    /**
-     * Notify registered PropertChangeListeners that the given boolean property
-     * has changed.
-     *
-     * @param propertyName The property that changed.
-     * @param oldValue The value of the property before this change.
-     * @param newValue The value of the property after this change.
-     */
-    public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
-//Note: This call is inconsistant with the other firePropertyChanges. If
-// this is changed it will break TriggerRPDPEntity in tracBayes and
-// maybe other derived classes we don't know about.
-        firePropertyChange(
-                propertyName,
-                oldValue ? Boolean.TRUE : Boolean.FALSE,
-                newValue ? Boolean.TRUE : Boolean.FALSE
-        );
+    public void firePropertyChange(String propertyName, Object oldValue, Object newValue, Object... extraData) {
+        property.firePropertyChange(new PropertyChangeEventX(this, propertyName, oldValue, newValue, extraData));
     }
 
     /**
@@ -619,11 +542,11 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * @param propertyName The Indexed property containing the changed element.
      * @param oldValue The value of the property prior to this change.
      * @param newValue The value of the property after this change.
-*
+     *
      */
     public void fireIndexedPropertyChange(int index, String propertyName, Object oldValue,
-            Object newValue) {
-        property.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, oldValue, newValue, index));
+            Object newValue, Object... extraData) {
+        property.firePropertyChange(new IndexedPropertyChangeEventX(this, propertyName, oldValue, newValue, index, extraData));
     }
 
     /**
@@ -633,91 +556,10 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * @param index The element that has changed.
      * @param propertyName The Indexed property containing the changed element.
      * @param newValue The value of the property after this change.
-*
+     *
      */
     public void fireIndexedPropertyChange(int index, String propertyName, Object newValue) {
         property.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, newValue, index));
-    }
-
-    /**
-     * Notify registered PropertyChangeListeners that an element of an indexed
-     * property has changed. This version doesn't report the previous value and
-     * is for int values.
-     *
-     * @param index The element that has changed.
-     * @param propertyName The Indexed property containing the changed element.
-     * @param newValue The value of the property after this change.
-     */
-    public void fireIndexedPropertyChange(int index, String propertyName, int newValue) {
-        property.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, newValue, index));
-    }
-
-    /**
-     * Notify registered PropertyChangeListeners that an element of an indexed
-     * property has changed. This version is for int values.
-     *
-     * @param index The element that has changed.
-     * @param propertyName The Indexed property containing the changed element.
-     * @param oldValue The value of the property prior to this change.
-     * @param newValue The value of the property after this change.
-*
-     */
-    public void fireIndexedPropertyChange(int index, String propertyName, int oldValue, int newValue) {
-        property.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, oldValue, newValue, index));
-    }
-
-    /**
-     * Notify registered PropertyChangeListeners that an element of an indexed
-     * property has changed. This version doesn't report the previous value and
-     * is for double values.
-     *
-     * @param index The element that has changed.
-     * @param propertyName The Indexed property containing the changed element.
-     * @param newValue The value of the property after this change.
-*
-     */
-    public void fireIndexedPropertyChange(int index, String propertyName, double newValue) {
-        property.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, newValue, index));
-    }
-
-    /**
-     * Notify registered PropertyChangeListeners that an element of an indexed
-     * property has changed. This version is for double values
-     *
-     * @param index The element that has changed.
-     * @param propertyName The Indexed property containing the changed element.
-     * @param oldValue The value of the property prior to this change.
-     * @param newValue The value of the property after this change.
-     */
-    public void fireIndexedPropertyChange(int index, String propertyName, double oldValue, double newValue) {
-        property.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, oldValue, newValue, index));
-    }
-
-    /**
-     * Notify registered PropertyChangeListeners that an element of an indexed
-     * property has changed. This version doesn't report the previous value and
-     * is for boolean values.
-     *
-     * @param index The element that has changed.
-     * @param propertyName The Indexed property containing the changed element.
-     * @param newValue The value of the property after this change.
-*
-     */
-    public void fireIndexedPropertyChange(int index, String propertyName, boolean newValue) {
-        property.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, null, newValue, index));
-    }
-
-    /**
-     * Notify registered PropertyChangeListeners that an element of an indexed
-     * property has changed. This version is for boolean values.
-     *
-     * @param index The element that has changed.
-     * @param propertyName The Indexed property containing the changed element.
-     * @param oldValue The value of the property prior to this change.
-     * @param newValue The value of the property after this change.
-     */
-    public void fireIndexedPropertyChange(int index, String propertyName, boolean oldValue, boolean newValue) {
-        property.firePropertyChange(new IndexedPropertyChangeEvent(this, propertyName, oldValue, newValue, index));
     }
 
     /**
