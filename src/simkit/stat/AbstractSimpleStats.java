@@ -183,10 +183,9 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
      * Clone this instance
      *
      * @return A copy of this object with identical state.
-     * @throws java.lang.CloneNotSupportedException if clone() not supported
      */
     @Override
-    public synchronized Object clone() throws CloneNotSupportedException {
+    public synchronized Object clone() {
         try {
             return super.clone();
         } catch (CloneNotSupportedException e) {
