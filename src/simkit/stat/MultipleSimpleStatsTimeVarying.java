@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @version $Id: MultipleSimpleStatsTimeVarying.java 1329 2014-07-12 00:21:53Z
  * ahbuss $
-*
+ *
  */
 public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying implements IndexedSampleStatistics {
 
@@ -156,12 +156,8 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
             allStats = new SampleStatistics[length];
             for (int i = 0; i < allStats.length; i++) {
                 temp = indexedStats.get(i);
-                try {
-                    allStats[i] = temp != null ? (SampleStatistics) temp.clone()
-                            : new SimpleStatsTimeVarying(this.getName());
-                } catch (CloneNotSupportedException ex) {
-                    Logger.getLogger(MultipleSimpleStatsTimeVarying.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                allStats[i] = temp != null ? (SampleStatistics) temp.clone()
+                        : new SimpleStatsTimeVarying(this.getName());
             }
         }
         return allStats;

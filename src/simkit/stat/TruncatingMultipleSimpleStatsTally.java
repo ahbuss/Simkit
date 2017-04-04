@@ -153,12 +153,8 @@ public class TruncatingMultipleSimpleStatsTally extends SimpleStatsTally impleme
             allStats = new SampleStatistics[length];
             for (int i = 0; i < allStats.length; i++) {
                 temp = (SimpleStatsTally) indexedStats.get(i);
-                try {
                     allStats[i] = temp != null ? (SampleStatistics) temp.clone()
                             : new SimpleStatsTally(this.getName());
-                } catch (CloneNotSupportedException ex) {
-                    Logger.getLogger(TruncatingMultipleSimpleStatsTally.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         }
         return allStats;

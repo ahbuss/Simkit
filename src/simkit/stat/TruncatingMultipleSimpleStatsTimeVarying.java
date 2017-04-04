@@ -160,12 +160,8 @@ public class TruncatingMultipleSimpleStatsTimeVarying extends SimpleStatsTimeVar
             allStats = new SampleStatistics[length];
             for (int i = 0; i < allStats.length; i++) {
                 temp = indexedStats.get(i);
-                try {
                     allStats[i] = temp != null ? (SampleStatistics) temp.clone()
                             : new SimpleStatsTimeVarying(this.getName());
-                } catch (CloneNotSupportedException ex) {
-                    Logger.getLogger(TruncatingMultipleSimpleStatsTimeVarying.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         }
         return allStats;
