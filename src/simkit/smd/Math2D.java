@@ -309,11 +309,11 @@ public class Math2D {
 
     /**
      * 
-     * @param start
-     * @param velocity
-     * @param shape
-     * @param trans
-     * @return 
+     * @param start Starting point
+     * @param velocity Given velocity
+     * @param shape Give shape
+     * @param trans Given AffineTrsansform
+     * @return Array of intersection points
      */
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, Shape shape, AffineTransform trans) {
         if (shape instanceof Ellipse2D) {
@@ -413,10 +413,10 @@ public class Math2D {
 
     /**
      * 
-     * @param start
-     * @param velocity
-     * @param curve
-     * @return 
+     * @param start Given starting point of 
+     * @param velocity Given velocity vector
+     * @param curve Given CubicCurve2D
+     * @return Point at which there is an intersection
      */
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, CubicCurve2D curve) {
         Point2D orthoVel = orthogonal(velocity);
@@ -470,9 +470,9 @@ public class Math2D {
 
     /**
      * 
-     * @param curve
-     * @param lambda
-     * @return 
+     * @param curve Given QuadCurve2D
+     * @param lambda Given factor
+     * @return Point on given cure indicated by lambda
      */
     public static Point2D getPoint(QuadCurve2D curve, double lambda) {
         Point2D[] pts = new Point2D[3];
@@ -560,10 +560,12 @@ public class Math2D {
      * non-positive.
      *
      * 
-     * @param data
-     * @param num
+     * @param data Given data
+     * @param num Given number of data points to consider (must be &lt; data.length)
      * @param tolerance
-     * @return 
+     * @return the smallest positive value of the first num members of the given
+     * array, where any number less than the tolerance is considered to be
+     * non-positive.
      */
     public static double smallestPositive(double[] data, int num, double tolerance) {
         double smallest = Double.POSITIVE_INFINITY;
@@ -583,9 +585,11 @@ public class Math2D {
      * non-positive.
      *
      * 
-     * @param data
-     * @param tolerance
-     * @return 
+     * @param data Given array
+     * @param tolerance Given tolerance
+     * @return the smallest positive value of the members of the given array,
+     * where any number less than the tolerance is considered to be
+     * non-positive.
      */
     public static double smallestPositive(double[] data, double tolerance) {
         return smallestPositive(data, data.length, tolerance);
@@ -633,8 +637,8 @@ public class Math2D {
 
     /**
      * 
-     * @param quadCurve
-     * @return 
+     * @param quadCurve Given QuadCurve2D
+     * @return (TODO: remember this!)
      */
     public static Point2D[] getCoefficients(QuadCurve2D quadCurve) {
         Point2D[] coeff = new Point2D[3];
@@ -646,8 +650,8 @@ public class Math2D {
 
     /**
      * 
-     * @param cubicCurve
-     * @return 
+     * @param cubicCurve Given CubicCurve2D
+     * @return (TODO: remember this!)
      */
     public static Point2D[] getCoefficients(CubicCurve2D cubicCurve) {
         Point2D[] coeff = new Point2D[4];
@@ -660,8 +664,8 @@ public class Math2D {
 
     /**
      * 
-     * @param point
-     * @param scale
+     * @param point Given Point2D
+     * @param scale Given scale - if negative, reverses direction of Point
      * @return a Point2D whose vector length is equal to scale.
      */
     public static Point2D scaleTo(Point2D point, double scale) {
@@ -670,11 +674,12 @@ public class Math2D {
 
     /**
      * 
-     * @param startingLocation
-     * @param speed
-     * @param targetLocation
-     * @param targetVelocity
-     * @return 
+     * @param startingLocation Starting location of pursuer
+     * @param speed Given speed of pursuer
+     * @param targetLocation target location
+     * @param targetVelocity target velocity
+     * @return Point at which pursuer intercepts target at the given speed,
+     * or null if not possible
      */
     public static Point2D getIntercept(Point2D startingLocation, double speed,
             Point2D targetLocation, Point2D targetVelocity) {
@@ -750,10 +755,11 @@ public class Math2D {
      * Computes the Point2D at which the pursuer will intersect the target when
      * the pursuer moves at the given speed. (Assumes Linear Mover).
      * 
-     * @param pursuer
-     * @param speed
-     * @param target
-     * @return 
+     * @param pursuer Given pursuer
+     * @param speed Given speed of pursuer
+     * @param target Given target
+     * @return the Point2D at which the pursuer will intersect the target when
+     * the pursuer moves at the given speed, or null if not posible
      */
     public static Point2D getIntercept(Mover pursuer, double speed, Mover target) {
         if (speed > pursuer.getMaxSpeed()) {
@@ -766,9 +772,10 @@ public class Math2D {
     /**
      * Computes the intersection point when the pursuer goes at maximum speed.
      * 
-     * @param pursuer
-     * @param target
-     * @return 
+     * @param pursuer Given pursuer
+     * @param target Given target
+     * @return Intercept point when pursuer goes at max speed, or null if 
+     * intercept is not possible
      */
     public static Point2D getIntercept(Mover pursuer, Mover target) {
         return getIntercept(pursuer, pursuer.getMaxSpeed(), target);
@@ -776,10 +783,10 @@ public class Math2D {
 
     /**
      * 
-     * @param pursuer
-     * @param speed
-     * @param target
-     * @return 
+     * @param pursuer Given pursuer
+     * @param speed Given speed of pursuer
+     * @param target Given target
+     * @return Velocity vector of pursuer to intercept target, or null if impossible
      */
     public static Point2D getInterceptVelocity(Mover pursuer, double speed, Mover target) {
         Point2D intercept = getIntercept(pursuer, speed, target);
@@ -792,11 +799,12 @@ public class Math2D {
 
     /**
      * 
-     * @param startingLocation
-     * @param speed
-     * @param targetLocation
-     * @param targetVelocity
-     * @return 
+     * @param startingLocation Pursuer starting location
+     * @param speed Pursuer speed
+     * @param targetLocation Target starting location
+     * @param targetVelocity Target velocity
+     * @return Velocity vector for which the pursuer can intercept the target,
+     * or null if impossible
      */
     public static Point2D getInterceptVelocity(Point2D startingLocation,
             double speed, Point2D targetLocation, Point2D targetVelocity) {
