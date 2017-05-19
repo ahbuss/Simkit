@@ -94,7 +94,8 @@ public class CircularImpactMunition extends BasicLinearMover implements Munition
      *
      * @param munition this Munition
      */
-    public void doEndMove(CircularImpactMunition munition) {
+    @Override
+    public void doEndMove(Mover munition) {
         if (this == munition) {
             super.doEndMove(this);
             waitDelay("Impact", 0.0, this);
