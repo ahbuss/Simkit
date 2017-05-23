@@ -15,7 +15,9 @@ public class SimpleTarget extends BasicLinearMover implements Target {
      * True if this SimpleTarget is alive.
      *
      */
-    private boolean alive;
+    protected boolean alive;
+    
+    public SimpleTarget() { }
 
     /**
      * Creates a new instance of SimpleTarget starting at the given location

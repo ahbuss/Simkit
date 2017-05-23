@@ -37,6 +37,14 @@ public class CircularImpactMunition extends BasicLinearMover implements Munition
     static {
         df = new DecimalFormat("-0.000; 0.000");
     }
+    
+    /**
+     * Zero-parameter constructor for Javabeans support and for instantiating
+     * from data.
+     */
+    public CircularImpactMunition() {
+        
+    }
 
     /**
      * Constructs a new CircularImpactMunition.

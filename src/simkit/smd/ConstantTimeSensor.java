@@ -11,6 +11,8 @@ public class ConstantTimeSensor extends BasicSensor {
 
     private double timeToDetect;
 
+    public ConstantTimeSensor() { }
+    
     public ConstantTimeSensor(Mover mover, double maxRange, double timeToDetect) {
         super(mover, maxRange);
         this.setTimeToDetect(timeToDetect);

@@ -22,19 +22,27 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
 
     protected Set<Mover> contacts;
 
+    
+    /**
+     * Instantiate the contacts set.
+     */
+    public BasicSensor() {
+        contacts = new HashSet<>();
+    }
+    
     /**
      *
      * @param mover The Mover instance this sensor is "on"
      * @param maxRange Maximum range of this Sensor.
      */
     public BasicSensor(Mover mover, double maxRange) {
+        this();
         setMover(mover);
         setMaxRange(maxRange);
-        contacts = new HashSet<>();
     }
 
     /**
-     * Empty contacts list.
+     * Empty the contacts set.
      */
     @Override
     public void reset() {

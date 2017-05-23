@@ -7,9 +7,10 @@ import java.util.ListIterator;
 import simkit.SimEntityBase;
 
 /**
- * Basic MoverManager.  Maintains list of WayPoints for managing a single
- * Mover. When started, directs Mover to move to each WayPoint in succession,
- * and when last WayPoint is reached, stop.
+ * Basic MoverManager. Maintains list of WayPoints for managing a single Mover.
+ * When started, directs Mover to move to each WayPoint in succession, and when
+ * last WayPoint is reached, stop.
+ *
  * @version $Id: PathMoverManager.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
  */
@@ -35,14 +36,19 @@ public class PathMoverManager extends SimEntityBase {
      */
     private Mover mover;
 
+    public PathMoverManager() {
+
+    }
+
     /**
      * Instantiate a PathMoverManager with the given Mover, WayPoints, and
      * whether to start immediately or wait.
+     *
      * @param mover My Mover
      * @param waypoint List of WayPoints to traverse
      * @param startOnRun If true, start from Run event
      */
-    public PathMoverManager(Mover mover, 
+    public PathMoverManager(Mover mover,
             List<WayPoint> waypoint,
             boolean startOnRun) {
         setMover(mover);
@@ -52,6 +58,7 @@ public class PathMoverManager extends SimEntityBase {
 
     /**
      * startOnRun defaults to "false"
+     *
      * @param mover My Mover
      * @param waypoint List of WayPoints to traverse
      */
@@ -62,6 +69,7 @@ public class PathMoverManager extends SimEntityBase {
 
     /**
      * Empty list of waypoints
+     *
      * @param mover My Mover
      * @param startOnRun
      */
@@ -71,6 +79,7 @@ public class PathMoverManager extends SimEntityBase {
 
     /**
      * Empty list of waypoints; startOnRun is false.
+     *
      * @param mover My Mover
      */
     public PathMoverManager(Mover mover) {
@@ -96,12 +105,12 @@ public class PathMoverManager extends SimEntityBase {
     }
 
     /**
-     * If there is a WayPoint, schedule StartMove(d, s), where d is the
-     * location and s is the speed specified by the WayPoint objst.
+     * If there is a WayPoint, schedule StartMove(d, s), where d is the location
+     * and s is the speed specified by the WayPoint objst.
      */
     public void doStart() {
         nextWayPointIter = wayPoint.listIterator();
-        
+
         WayPoint next = nextWayPointIter.hasNext() ? nextWayPointIter.next() : null;
         firePropertyChange("nextWayPoint", next);
 
@@ -112,6 +121,7 @@ public class PathMoverManager extends SimEntityBase {
 
     /**
      * Empty - to be heard.
+     *
      * @param destination desired destination
      * @param speed desired speed
      */
@@ -119,8 +129,9 @@ public class PathMoverManager extends SimEntityBase {
     }
 
     /**
-     * Heard from mover. If there is another WayPoint, schedule MoveTo(d,s)
-     * for it; otherwise, schedule OrderStop(mover).
+     * Heard from mover. If there is another WayPoint, schedule MoveTo(d,s) for
+     * it; otherwise, schedule OrderStop(mover).
+     *
      * @param mover My mover
      */
     public void doEndMove(Mover mover) {
@@ -159,6 +170,7 @@ public class PathMoverManager extends SimEntityBase {
 
     /**
      * If true, start moving at beginning of simulation
+     *
      * @return the startOnRun
      */
     public boolean isStartOnRun() {
@@ -193,9 +205,9 @@ public class PathMoverManager extends SimEntityBase {
     }
 
     /**
-     * This is for purety and consistency since this is a state variable.
-     * There is no legitimate reason for any component to have a reference
-     * to this.
+     * This is for purety and consistency since this is a state variable. There
+     * is no legitimate reason for any component to have a reference to this.
+     *
      * @return the nextWayPointIter
      */
     public ListIterator<WayPoint> getNextWayPointIter() {
@@ -204,6 +216,7 @@ public class PathMoverManager extends SimEntityBase {
 
     /**
      * This is a derived state from waypoint and nextWayPointIter
+     *
      * @return next WayPoint or null if none
      */
     public WayPoint getNextWayPoint() {

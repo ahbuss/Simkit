@@ -42,6 +42,12 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     protected Point2D destination;
 
     protected double currentSpeed;
+    
+    /**
+     * Zero-parameter constructor for Javabeans support and for building
+     * from input data by instantiating, then setting parameters.
+     */
+    public BasicLinearMover() { }
 
     /**
      * Instantiate a BasicLinearMover with the given name, initialLocation,

@@ -8,6 +8,8 @@ package simkit.smd;
  */
 public class CookieCutterSensor extends BasicSensor {
 
+    public CookieCutterSensor() { }
+    
     /**
      * Instantiate a CookieCutterSensor on the Mover with the
      * given maxRange.

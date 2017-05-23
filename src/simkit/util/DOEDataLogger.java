@@ -29,6 +29,8 @@ import java.util.logging.Logger;
  */
 public class DOEDataLogger implements PropertyChangeListener {
 
+    private static final Logger LOGGER = Logger.getLogger(DOEDataLogger.class.getName());
+    
     private BufferedWriter bufferedWriter;
 
     private String delimiter;
@@ -66,10 +68,10 @@ public class DOEDataLogger implements PropertyChangeListener {
         this.writeHeader();
         this.setFactors(factors);
     }
-    
+
     /**
-     * Zero parameter constructor - user must explicitly call setters
-     * plus buildFactorString() and writeHeader()
+     * Zero parameter constructor - user must explicitly call setters plus
+     * buildFactorString() and writeHeader()
      */
     public DOEDataLogger() {
     }
@@ -105,6 +107,25 @@ public class DOEDataLogger implements PropertyChangeListener {
         this(propertyName, outputFile, header, ",", factors);
     }
 
+    public DOEDataLogger(String propertyName, File outputFile,
+            String[] header, String delimiter) {
+        this.setPropertyName(propertyName);
+        this.setDelimiter(delimiter);
+        this.setHeader(header);
+        this.writeHeader();
+        this.setFactors(factors);
+        try {
+            this.setOutputFile(outputFile);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public DOEDataLogger(String propertyName, File outputFile,
+            String[] header) {
+        this(propertyName, outputFile, header, ",");
+    }
+
     /**
      * If evt has right propertyName, append a line to the output, consisting of
      * the factors followed by the newValue, separated by the delimiter.
@@ -119,7 +140,7 @@ public class DOEDataLogger implements PropertyChangeListener {
                 bufferedWriter.append(factorString);
                 bufferedWriter.append(evt.getNewValue().toString());
             } catch (IOException ex) {
-                Logger.getLogger(DOEDataLogger.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -137,8 +158,8 @@ public class DOEDataLogger implements PropertyChangeListener {
     }
 
     /**
-     * Writes the first row with the factor names and the property name to
-     * the output file
+     * Writes the first row with the factor names and the property name to the
+     * output file
      */
     protected void writeHeader() {
         try {
@@ -237,14 +258,14 @@ public class DOEDataLogger implements PropertyChangeListener {
         }
         this.propertyName = propertyName;
     }
-    
+
     /**
      *
      * @param outputFile
      */
     public void setOutputFile(File outputFile) throws IOException {
-            FileWriter fileWriter = new FileWriter(outputFile);
-            bufferedWriter = new BufferedWriter(fileWriter);
+        FileWriter fileWriter = new FileWriter(outputFile);
+        bufferedWriter = new BufferedWriter(fileWriter);
     }
 
     /**

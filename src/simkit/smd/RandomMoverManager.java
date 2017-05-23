@@ -18,6 +18,8 @@ public class RandomMoverManager extends SimEntityBase {
     private boolean startOnRun;
     private Mover mover;
 
+    public RandomMoverManager() { }
+    
     /**
      * Instantiate a RandomMoverManager with the given Mover,
      * Random coordinate generators and whether to start immediately.

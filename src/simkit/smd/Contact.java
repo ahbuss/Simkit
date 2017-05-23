@@ -8,8 +8,10 @@ import java.awt.geom.Point2D;
  */
 public class Contact {
 
-    private final BasicLinearMover myMover;
+    private BasicLinearMover myMover;
 
+    public Contact() { }
+    
     public Contact(BasicLinearMover myMover) {
         this.myMover = myMover;
     }

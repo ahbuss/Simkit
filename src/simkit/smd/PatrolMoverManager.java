@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class PatrolMoverManager extends PathMoverManager {
 
+    public PatrolMoverManager() { }
+    
     /**
      * Instantiate a PatrolMoverManager with the indicated Mover instance, list
      * of WayPoints, and whether to start immediately.
