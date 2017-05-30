@@ -75,7 +75,7 @@ public class SimEntityFactory {
                 BeanInfo beanInfo = cache.get(original.getClass());
                 if (beanInfo == null) {
                     beanInfo = Introspector.getBeanInfo(original.getClass(),
-                            BasicSimEntity.class);
+                            Object.class);
                     cache.put(original.getClass(), beanInfo);
                 }
                 PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
