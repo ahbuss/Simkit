@@ -47,7 +47,9 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
      * Zero-parameter constructor for Javabeans support and for building
      * from input data by instantiating, then setting parameters.
      */
-    public BasicLinearMover() { }
+    public BasicLinearMover() { 
+        velocity = new Point2D.Double(0.0, 0.0);
+    }
 
     /**
      * Instantiate a BasicLinearMover with the given name, initialLocation,
@@ -69,9 +71,9 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
      * @param maxSpeed maximum possible speed
      */
     public BasicLinearMover(Point2D initialLocation, double maxSpeed) {
+        this();
         setInitialLocation(initialLocation);
         setMaxSpeed(maxSpeed);
-        velocity = new Point2D.Double(0.0, 0.0);
         lastStopLocation = new Point2D.Double(initialLocation.getX(),
                 initialLocation.getY());
     }
@@ -278,10 +280,12 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     }
 
     /**
-     * @return the lastStopLocation
+     * @return the lastStopLocation or NaP if not initialized
      */
     public Point2D getLastStopLocation() {
-        return new Point2D.Double(lastStopLocation.getX(), lastStopLocation.getY());
+        return lastStopLocation != null? 
+                new Point2D.Double(lastStopLocation.getX(), lastStopLocation.getY()) :
+                NaP;
     }
 
     /**

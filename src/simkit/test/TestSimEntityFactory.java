@@ -1,5 +1,6 @@
 package simkit.test;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +9,7 @@ import simkit.SimEntityBase;
 import simkit.SimEntityFactory;
 import simkit.examples.ArrivalProcess;
 import simkit.random.RandomVariateFactory;
+import simkit.smd.BasicLinearMover;
 
 /**
  *
@@ -46,6 +48,16 @@ public class TestSimEntityFactory {
         for (SimEntity se : copies) {
             System.out.println(se);
         }
+        
+//        Now let's try on Movers...
+        simEntity = new BasicLinearMover("Original", new Point2D.Double(10.0, 20.0), 30.0);
+        List<SimEntity> movers = SimEntityFactory.createCopies(simEntity, 5);
+        System.out.printf("%d movers created:%n", movers.size());
+        for (SimEntity mover: movers) {
+//            mover.reset();
+            System.out.println(mover);
+        }
+        
     }
 
     public static class TestSimEntity extends SimEntityBase {
