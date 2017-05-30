@@ -15,15 +15,21 @@ public class TestInterruptWithArgs extends SimEntityBase {
             waitDelay("Bar", i + 1, i);
         }
         waitDelay("Interrupt", 0.5, 3);
+        waitDelay("Interrupt", 1.5, 5);
         waitDelay("Interrupt", 1.5, "Bar", 2);
+        waitDelay("InterruptMe", 2.0, 5, null);
     }
     
     public void doInterrupt(int i) {
-        this.interruptAllWithArgs(new Integer(i));
+        this.interruptAllWithArgs(i);
     }
     
     public void doInterrupt(String eventName, int i) {
-        interruptAllWithArgs(eventName, new Integer(i));
+        interruptAllWithArgs(eventName, i);
+    }
+    
+    public void doInterruptMe(int i, Object obj) {
+        
     }
 
     /**

@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import simkit.BasicSimEntity;
 import simkit.SimEvent;
@@ -20,14 +21,14 @@ public class Resetter extends BasicSimEntity {
      */    
     public static final String DEFAULT_RESETTER_NAME = "reset";
     
-    private LinkedHashMap<Object, Method> resetters;
+    private Map<Object, Method> resetters;
     
     public Resetter() {
-        resetters = new LinkedHashMap<Object, Method>();
+        resetters = new LinkedHashMap<>();
     }
     
     /**
-     * For all reigstered "resetters", invoke their declared
+     * For all registered "resetters", invoke their declared
      * "reset" method (typically the "reset()" method)
      */    
     @Override
@@ -41,7 +42,7 @@ public class Resetter extends BasicSimEntity {
             catch (InvocationTargetException e) {
                 throw new RuntimeException(e.getTargetException().toString());
             }
-            catch (Throwable t) {
+            catch (IllegalAccessException | IllegalArgumentException t) {
                 throw new RuntimeException(t.toString());
             }
         }
@@ -77,17 +78,17 @@ public class Resetter extends BasicSimEntity {
     /**
      * Removes given object.  If the object has not been
      * previously added, there is no error.
-     * @param resetter Objcet to be removed
+     * @param resetter Object to be removed
      */    
     public void removeResetter(Object resetter) {
-        resetters.remove(resetter);
+        getResetters().remove(resetter);
     }
     
     /**
      * Remove all resetters.
      */    
     public void clear() {
-        resetters.clear();
+        getResetters().clear();
     }
     
     /**
@@ -110,14 +111,23 @@ public class Resetter extends BasicSimEntity {
      * Does nothing
      * @param event Heard SimEvent
      */    
+    @Override
     public void handleSimEvent(SimEvent event) {
     }    
     
     /**
      * Does nothing.
-     * @param event Previosuly scheduled SimEvent
+     * @param event Previously scheduled SimEvent
      */    
+    @Override
     public void processSimEvent(SimEvent event) {
+    }
+
+    /**
+     * @param resetters the resetters to set
+     */
+    public void setResetters(Map<Object, Method> resetters) {
+        this.resetters = new LinkedHashMap<>(resetters);
     }
     
 }

@@ -18,12 +18,14 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 
 /**
- * <P>Replacement for original static <CODE>Schedule</CODE> implementation of event
+ * <P>
+ * Replacement for original static <CODE>Schedule</CODE> implementation of event
  * list. Now multiple instances of <CODE>EventList</CODE> may exist so that the
  * same virtual machine can be running multiple independent simulations
  * simultaneously.
  *
- * <P>The motivation for switching from the single event list (static) is twofold:
+ * <P>
+ * The motivation for switching from the single event list (static) is twofold:
  * (1) Web services typically run in a single virtual machine, and a simulation
  * web service needs to be able to run multiple simulations; (2) The simulation
  * launcher application also could be capable of running multiple simulations in
@@ -72,7 +74,7 @@ public class EventList implements BasicEventList {
 
     /**
      * Causes additional debug/trace information to be printed.
-*
+     *
      */
     private boolean reallyVerbose;
 
@@ -85,7 +87,7 @@ public class EventList implements BasicEventList {
     /**
      * Causes the owner of the event to be included in printouts of the event
      * list.
-*
+     *
      */
     private boolean dumpEventSources;
 
@@ -110,7 +112,7 @@ public class EventList implements BasicEventList {
     /**
      * If true, stop the simulation after the stop event has been processed
      * numberEvents times.
-*
+     *
      */
     private boolean stopOnEvent;
 
@@ -121,13 +123,13 @@ public class EventList implements BasicEventList {
 
     /**
      * The time to stop the simulation if stopOnTime is true.
-*
+     *
      */
     private double stopTime;
 
     /**
      * True if the simulation is currently running.
-*
+     *
      */
     private boolean running;
 
@@ -173,7 +175,7 @@ public class EventList implements BasicEventList {
      * to make them easier to find when interrupting. For simulations that do
      * not interrupt events, the added overhead from storing and removing events
      * in the secondary table could add to run time.
-*
+     *
      */
     private boolean fastInterrupts = false;
 //even though the default is true, this needs to be set to false to 
@@ -181,35 +183,35 @@ public class EventList implements BasicEventList {
 
     /**
      * A Map a SimEntity to a SortedSet of its pending SimEvents.
-*
+     *
      */
     protected Map<SimEventScheduler, SortedSet<SimEvent>> entityEventMap;
 
     /**
      * A Map from a SimEvent.getEventHash() (an Integer) to a SortedSet of
      * pending events.
-*
+     *
      */
     protected Map<Integer, SortedSet<SimEvent>> hashEventMap;
 
     /**
      * A count of the number of threads in startSimulation, reset(), and
      * coldReset(). The total number of Threads in these methods should be &le;
-     * 1. 
-*
+     * 1.
+     *
      */
     protected int entryCounter = 0;
 
     /**
      * An Object used to synchronize access to entryCounter.
-*
+     *
      */
     protected final Object entryCounterMutex = new Object();
 
     /**
      * If true, the event list will be cleared at the start of the next
      * iteration of the simulation loop in startSimulation().
-*
+     *
      */
     protected boolean stoppingSimulation = false;
 
@@ -742,11 +744,11 @@ public class EventList implements BasicEventList {
     }
 
     /**
-     * Cancels an event of the given name originally scheduled from the
-     * given SimEntity. Note that the event in question should have
-     * no arguments<br>
-     * Previously this ignored the signature, but now (correctly) only
-     * cancels events of the given name with no arguments.
+     * Cancels an event of the given name originally scheduled from the given
+     * SimEntity. Note that the event in question should have no arguments<br>
+     * Previously this ignored the signature, but now (correctly) only cancels
+     * events of the given name with no arguments.
+     *
      * @param simEntity Given SimEntity that originally scheduled the event
      * @param eventName Name of the event
      */
@@ -1171,10 +1173,11 @@ public class EventList implements BasicEventList {
 
     /**
      * Removes the entry for the given hash code if there are no more events.
+     *
      * @param hash given hash code
      */
     protected void cleanUpHashEventMap(int hash) {
-        SortedSet events =  hashEventMap.get(hash);
+        SortedSet events = hashEventMap.get(hash);
         if (events != null && events.isEmpty()) {
             hashEventMap.remove(hash);
         }
@@ -1197,6 +1200,9 @@ public class EventList implements BasicEventList {
             SimEvent event = iterator.next();
             if (event.getSource().equals(simEntity) && event.getEventName().equals(eventName)) {
                 for (Object param : event.getParameters()) {
+                    if (param == null) {
+                        continue;
+                    }
                     if (param.equals(parameter)) {
                         iterator.remove();
                         break;
@@ -1213,6 +1219,9 @@ public class EventList implements BasicEventList {
             SimEvent event = iterator.next();
             if (event.getSource().equals(simEntity)) {
                 for (Object param : event.getParameters()) {
+                    if (param == null) {
+                        continue;
+                    }
                     if (param.equals(parameter)) {
                         iterator.remove();
                         break;
@@ -1229,6 +1238,9 @@ public class EventList implements BasicEventList {
             SimEvent event = iterator.next();
             if (event.getEventName().equals(eventName)) {
                 for (Object param : event.getParameters()) {
+                    if (param == null) {
+                        continue;
+                    }
                     if (param.equals(parameter)) {
                         iterator.remove();
                         break;
@@ -1244,6 +1256,9 @@ public class EventList implements BasicEventList {
                 iterator.hasNext();) {
             SimEvent event = iterator.next();
             for (Object param : event.getParameters()) {
+                if (param == null) {
+                    continue;
+                }
                 if (param.equals(parameter)) {
                     iterator.remove();
                     break;

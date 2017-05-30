@@ -36,11 +36,7 @@ public class DefaultToStringer {
                 }
             }
         } 
-        catch (IntrospectionException e) {
-            e.printStackTrace(System.err);
-            throw(new RuntimeException(e));
-        }
-        catch (IllegalAccessException e) {
+        catch (IntrospectionException | IllegalAccessException e) {
             e.printStackTrace(System.err);
             throw(new RuntimeException(e));
         }
