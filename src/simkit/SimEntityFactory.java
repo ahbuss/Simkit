@@ -4,11 +4,9 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +14,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * <p>Contains static methods that support making exact copies of SimEntity instances.
+ * Each copy should have parameters that are identical to the ones in the original.
+ * It is up to each SimEntity to ensure that appropriate copies are made by the
+ * respective setter methods, if needed.
+ * <p>It is crucial that a SimEntity to be copied in this way adhere to the
+ * Simkit conventions (which are essentially Javabeans). Specifically, it should
+ * <ol><li>Have a zero-argument constructor.
+ * <li>Have setter/getter pairs for each parameter
+ * </ol>
  * @author ahbuss
  */
 public class SimEntityFactory {
@@ -25,6 +31,13 @@ public class SimEntityFactory {
 
     protected static Map<Class<?>, BeanInfo> cache = new HashMap<>();
 
+    /**
+     * Creates multiple copies in a List.
+     * @param original Given SimEntity to make copies
+     * @param quantity Number of copies to create
+     * @return List of copies
+     * @throws IllegalArgumentException if quantity &le; 0
+     */
     public static List<SimEntity> createCopies(SimEntity original, int quantity) {
         if (quantity < 0) {
             String message = "quantity must be \u2265 0: " + quantity;
@@ -38,6 +51,13 @@ public class SimEntityFactory {
         return copies;
     }
 
+    /**
+     * Creates a copy of the given SimEntity object.As noted, it should conform
+     * to Simkit's conventions (zero-argument constructor, setter/getter pairs
+     * for each parameter, but not for state variables)
+     * @param original Given SimEntity
+     * @return Copy of SimEntity - a new object with identical parameters
+     */
     public static SimEntity createCopy(SimEntity original) {
         SimEntity copy = null;
         try {
@@ -79,6 +99,12 @@ public class SimEntityFactory {
         return copy;
     }
 
+    /**
+     * 
+     * @param propertyDescriptor Given PropertyDescriptor
+     * @return true if given PropertyDescriptor is for a "property" - i.e. 
+     * has both a setter and a getter method
+     */
     public static boolean isProperty(PropertyDescriptor propertyDescriptor) {
         if (propertyDescriptor == null) {
             return false;
@@ -86,18 +112,11 @@ public class SimEntityFactory {
         return propertyDescriptor.getReadMethod() != null && propertyDescriptor.getWriteMethod() != null;
     }
 
-    public static boolean isExactCopyOf(SimEntity original, SimEntity copy) {
-        boolean exactCopy = true;
-
-        if (original.getClass() != copy.getClass()) {
-            exactCopy = false;
-        } else {
-
-        }
-
-        return exactCopy;
-    }
-
+    /**
+     * 
+     * @param simEntity Given SimEntity
+     * @return Map of parameters with (name, parameterValue)
+     */
     public static Map<String, Object> getParameters(SimEntity simEntity) {
         Map<String, Object> parameters = new HashMap<>();
 
