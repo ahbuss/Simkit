@@ -1,5 +1,7 @@
 package simkit.stat;
 
+import static java.lang.Double.NaN;
+
 /**
  * @version $Id$
  * @author ahbuss
@@ -14,20 +16,23 @@ public class StudentT {
     /**
      * Based on Hill, G.W., "Algorithm 396 Student T Quantiles,"
      * <i>Communications of the ACM</i>, Vol 13, No. 10, October 1970.
-     *
-     * @throws IllegalArgumentException if df &le; 0
+     * <p>Returns NaN if df = 0.
+     * @throws IllegalArgumentException if df &lt; 0
+     * @throws IllegalArgumentException if p &notin; [0.0, 1.0]
      * @param p desired percentile
      * @param df degrees of freedom
-     * @return x such that Pr{X &lt; x} = p for X ~ Student T(df)
+     * @return x such that Pr{X &le; x} = p for X ~ Student T(df)
      */
     public static double getQuantile(double p, int df) {
         double quantile;
-        p = 2.0 * p;
-        if (df <= 0) {
+        if (df < 0) {
             throw new IllegalArgumentException(
                     "Degrees of freedom for Student T must be > 0: " + df);
+        } else if (p < 0.0 || p > 1.0) {
+            throw new IllegalArgumentException("p must be \u2208 [0.0, 1.0]: " + p);
         }
 
+        p = 2.0 * p;
         if (p == 0.0) {
             quantile = Double.NEGATIVE_INFINITY;
         } else if (p == 2.0) {
@@ -65,7 +70,8 @@ public class StudentT {
             quantile = Math.sqrt(df * y);
         }
 //        This is because Algorithm 396 returns the upper quantile!
-        return p < 0.5 || df == 1 ? -quantile : quantile;
+        
+        return (p != 0.0) && (p < 0.5 || df == 1) ? -quantile : quantile;
     }
 
     /**
@@ -74,20 +80,29 @@ public class StudentT {
      *
      * Not as accurate as getQuantile(), based on Hill's Algorithm 396.
      *
-     * @throws IllegalArgumentException if df &le; 0
+     * @throws IllegalArgumentException if df &lt; 0
+     * @throws IllegalArgumentException if p &notin; [0.0, 1.0]
      * @param p desired percentile
      * @param df degrees of freedom
-     * @return x such that Pr{X &lt; x} = p for X ~ Student T(df)
+     * @return x such that Pr{X &le; x} = p for X ~ Student T(df)
      */
     public static double getQuantile2(double p, int df) {
+        if (df < 0) {
+            throw new IllegalArgumentException(
+                    "Degrees of freedom for Student T must be > 0: " + df);
+        } else if (p < 0.0 || p > 1.0) {
+            throw new IllegalArgumentException("p must be \u2208 [0.0, 1.0]: " + p);
+        }
         double quantile;
         if (p == 0.0) {
             quantile = Double.NEGATIVE_INFINITY;
         } else if (p == 1.0) {
             quantile = Double.POSITIVE_INFINITY;
         } else if (p == 0.5) {
-            return 0.0;
-        } else {
+            quantile = 0.0;
+        } else if ( df == 0) {
+            quantile = NaN;
+        }else {
 
             double x = NormalQuantile.getQuantile(p);
 
