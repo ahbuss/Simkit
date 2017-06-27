@@ -514,9 +514,12 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * Notify registered PropertChangeListeners that the given Object property
      * has changed.
      *
+     * <p>Note: uses <code>PropertyChangeEventX</code> rather than <code>PropertyChangeEvent</code>
+     * @see PropertyChangeEventX
      * @param propertyName The property that changed.
      * @param oldValue The value of the property prior to this change.
      * @param newValue The value of the property after this change.
+     * @param extraData Extra data to be added to fired PropertyChangeEvent
      */
     public void firePropertyChange(String propertyName, Object oldValue, Object newValue, Object... extraData) {
         property.firePropertyChange(new PropertyChangeEventX(this, propertyName, oldValue, newValue, extraData));
@@ -536,11 +539,15 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     /**
      * Notify registered PropertyChangeListeners that an element of an indexed
      * property has changed.
+     * <p>Note: instantiates <code>IndexedPropertyChangeEventX</code> instead of
+     * <code>IndexedPropertyChangeEvent</code>
      *
+     * @see IndexedPropertyChangeEventX
      * @param index The element that has changed.
      * @param propertyName The Indexed property containing the changed element.
      * @param oldValue The value of the property prior to this change.
      * @param newValue The value of the property after this change.
+     * @param extraData Extra data added to IndexedPropertyChangeEventX
      *
      */
     public void fireIndexedPropertyChange(int index, String propertyName, Object oldValue,

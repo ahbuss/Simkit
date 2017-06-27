@@ -13,8 +13,8 @@ public class Math2D {
 
     /**
      *
-     * @param first
-     * @param second
+     * @param first First point
+     * @param second Second point
      * @return sum of the two points
      */
     public static Point2D add(Point2D first, Point2D second) {
@@ -23,8 +23,8 @@ public class Math2D {
 
     /**
      *
-     * @param first
-     * @param second
+     * @param first First point
+     * @param second Second point
      * @return difference of the two points
      */
     public static Point2D subtract(Point2D first, Point2D second) {
@@ -33,8 +33,8 @@ public class Math2D {
 
     /**
      *
-     * @param alpha
-     * @param point
+     * @param alpha Given scalar
+     * @param point given point
      * @return result of scalar multiplying the coordinates
      */
     public static Point2D scalarMultiply(double alpha, Point2D point) {
@@ -42,8 +42,8 @@ public class Math2D {
     }
 
     /**
-     * @param first
-     * @param second
+     * @param first First point
+     * @param second second point
      * @return inner product of parameters
      */
     public static double innerProduct(Point2D first, Point2D second) {

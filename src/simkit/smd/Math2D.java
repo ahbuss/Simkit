@@ -558,11 +558,10 @@ public class Math2D {
      * Returns the smallest positive value of the first num members of the given
      * array, where any number less than the tolerance is considered to be
      * non-positive.
-     *
      * 
      * @param data Given data
      * @param num Given number of data points to consider (must be &lt; data.length)
-     * @param tolerance
+     * @param tolerance Given tolerance
      * @return the smallest positive value of the first num members of the given
      * array, where any number less than the tolerance is considered to be
      * non-positive.
@@ -609,7 +608,6 @@ public class Math2D {
      * @param data given array
      * @return the index of the member of the given array with the largest
      * value.
-
      */
     public static int getMaxIndex(double[] data) {
         int index = -1;
@@ -625,8 +623,8 @@ public class Math2D {
 
     /**
      * 
-     * @param line
-     * @return 
+     * @param line Given Line2d
+     * @return Array of endpoints for given Line2D
      */
     public static Point2D[] getCoefficients(Line2D line) {
         Point2D[] coeff = new Point2D[2];
@@ -820,10 +818,10 @@ public class Math2D {
     }
 
     /**
-     * 
-     * @param pursuer
-     * @param target
-     * @return 
+     * Pursuer moves at its max speed
+     * @param pursuer Given Mover in pursuit
+     * @param target Given Mover target
+     * @return Intercept point or null, if interception is impossible
      */
     public static Point2D getInterceptVelocity(Mover pursuer, Mover target) {
         return getInterceptVelocity(pursuer, pursuer.getMaxSpeed(), target);
@@ -835,11 +833,11 @@ public class Math2D {
      * position is returned.
      *
      * 
-     * @param pursuer
-     * @param speed
-     * @param range
-     * @param target
-     * @return 
+     * @param pursuer Given Mover in pursuit 
+     * @param speed Given speed for the pursuer in pursuit
+     * @param range When pursuer is within this range, pause
+     * @param target Given Mover target
+     * @return Intercept point or null, if interception is impossible
      */
     public static Point2D getIntercept(Mover pursuer, double speed, double range, Mover target) {
         Point2D relativePursuerLocation = Math2D.subtract(target.getCurrentLocation(), pursuer.getCurrentLocation());

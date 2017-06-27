@@ -71,7 +71,7 @@ public class PathMoverManager extends SimEntityBase {
      * Empty list of waypoints
      *
      * @param mover My Mover
-     * @param startOnRun
+     * @param startOnRun If true, Run event schedules StartEvent
      */
     public PathMoverManager(Mover mover, boolean startOnRun) {
         this(mover, new LinkedList<>(), startOnRun);

@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 public class DOEDataLogger implements PropertyChangeListener {
 
     private static final Logger LOGGER = Logger.getLogger(DOEDataLogger.class.getName());
-    
+
     private BufferedWriter bufferedWriter;
 
     private String delimiter;
@@ -52,6 +52,7 @@ public class DOEDataLogger implements PropertyChangeListener {
      * @param delimiter Delimiter - default is ","
      * @param factors Values of factors corresponding to the heard property
      * values
+     * @throws java.io.IOException if thrown when writing to outputFile
      * @throws IllegalArgumentException if header.length &ne; factors.length
      */
     public DOEDataLogger(String propertyName, File outputFile,
@@ -85,6 +86,8 @@ public class DOEDataLogger implements PropertyChangeListener {
      * factors
      * @param factors Values of factors corresponding to the heard property
      * values
+     * @throws java.io.IOException If thrown when writing to File given by
+     * outputFileName
      * @throws IllegalArgumentException if header.length &ne; factors.length
      */
     public DOEDataLogger(String propertyName, String outputFileName,
@@ -100,6 +103,7 @@ public class DOEDataLogger implements PropertyChangeListener {
      * factors
      * @param factors Values of factors corresponding to the heard property
      * values
+     * @throws java.io.IOException if thrown when writing to outputFile
      * @throws IllegalArgumentException if header.length &ne; factors.length
      */
     public DOEDataLogger(String propertyName, File outputFile,
@@ -107,6 +111,13 @@ public class DOEDataLogger implements PropertyChangeListener {
         this(propertyName, outputFile, header, ",", factors);
     }
 
+    /**
+     * 
+     * @param propertyName Given property name
+     * @param outputFile Given output file
+     * @param header Given header array
+     * @param delimiter Given delimiter
+     */
     public DOEDataLogger(String propertyName, File outputFile,
             String[] header, String delimiter) {
         this.setPropertyName(propertyName);
@@ -120,7 +131,13 @@ public class DOEDataLogger implements PropertyChangeListener {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
-    
+
+    /**
+     * Uses default delimiter ","
+     * @param propertyName Given property name
+     * @param outputFile Given output file
+     * @param header Given header
+     */
     public DOEDataLogger(String propertyName, File outputFile,
             String[] header) {
         this(propertyName, outputFile, header, ",");
@@ -169,7 +186,7 @@ public class DOEDataLogger implements PropertyChangeListener {
             }
             bufferedWriter.append(getPropertyName());
         } catch (IOException e) {
-            Logger.getLogger(DOEDataLogger.class.getName()).log(Level.SEVERE, null, e);
+            LOGGER.log(Level.SEVERE, null, e);
         }
     }
 
@@ -261,7 +278,8 @@ public class DOEDataLogger implements PropertyChangeListener {
 
     /**
      *
-     * @param outputFile
+     * @param outputFile Given output file
+     * @throws java.io.IOException if thrown by bufferedWriter
      */
     public void setOutputFile(File outputFile) throws IOException {
         FileWriter fileWriter = new FileWriter(outputFile);

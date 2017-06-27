@@ -105,6 +105,7 @@ public class UnitTestEventList extends EventList {
      * Returns all scheduled events of the given name and parameter list in
      * increasing scheduled order.
      * @param eventName Name of the desired SimEvent
+     * @param params Given parameter list
      * @return Array of all scheduled SimEvents of the given name
      */
     public SortedSet getScheduledEvents(String eventName, Object[] params) {

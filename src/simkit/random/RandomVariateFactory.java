@@ -303,7 +303,7 @@ public class RandomVariateFactory {
      * checking. Therefore "Log Normal" or " Gamma " will both return "true".
      * @param toString Given name of RandomVariate - may or may not include 
      * "Variate" suffix
-     * @return 
+     * @return true if given String can be parsed to a RandomVariate
      */
     public static boolean isRandomVariateString(String toString) {
         RandomVariate instance = null;

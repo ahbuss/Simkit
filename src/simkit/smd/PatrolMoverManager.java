@@ -43,7 +43,7 @@ public class PatrolMoverManager extends PathMoverManager {
      * Instantiate with an empty list of WayPoints
      *
      * @param mover My mover
-     * @param startOnRun
+     * @param startOnRun If true, Run event schedules Start event
      */
     public PatrolMoverManager(Mover mover,
             boolean startOnRun) {

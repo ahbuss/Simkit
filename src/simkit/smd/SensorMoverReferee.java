@@ -219,8 +219,8 @@ public class SensorMoverReferee extends SimEntityBase {
      * CheckSensor.
      *
      *
-     * @param mover
-     * @param iter
+     * @param mover Given Mover
+     * @param iter Iterator over Sensors
      */
     public void doCheckMover(Mover mover, Iterator<Sensor> iter) {
         Sensor sensor = iter.next();
