@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Created by ahbuss on June 26, 2002, 12:20 PM -->
+
+<run>
+    <StopType>
+        <StopOnEvent>
+            <stopEvent>Arrival</stopEvent>
+            <stopEventCount>20</stopEventCount>
+            
+        </StopOnEvent>
+    </StopType>
+    <Verbose>true</Verbose>
+    <SingleStep>false</SingleStep>
+    <NumberReplications>2</NumberReplications>
+</run>
+

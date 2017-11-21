@@ -1,0 +1,15 @@
+<?xml encoding="UTF-8" ?>
+
+<!-- Created by ahbuss on June 26, 2002, 9:59 PM -->
+
+<!ELEMENT random (RandomVariate*)>
+
+<!ELEMENT RandomVariate (class, parameter*, seed*)>
+
+<!ELEMENT class (#PCDATA)>
+
+<!ELEMENT parameter EMPTY>
+
+<!ELEMENT seed (#PCDATA)>
+
+<!ATTLIST parameter name CDATA #IMPLIED class CDATA #REQUIRED value CDATA #REQUIRED>

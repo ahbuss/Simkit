@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Created by ahbuss on June 26, 2002, 9:10 PM -->
+
+<random>
+    <RandomVariate>
+        <class>simkit.random.GammaVariate</class>
+        <parameter name="alpha" class="java.lang.Double" value="1.7"></parameter>
+        
+        <parameter name="beta" class="java.lang.Double" value="3.2"></parameter>
+        <seed>12345</seed>
+    </RandomVariate>
+    <RandomVariate>
+        <class>simkit.random.BetaVariate</class>
+        <parameter name="alpha" class="java.lang.Double" value="3.1"></parameter>
+        
+        <parameter name="beta" class="java.lang.Double" value="2.1"></parameter>
+        <seed>54321</seed>
+    </RandomVariate>
+    <RandomVariate>
+        <class>simkit.random.PoissonVariate</class>
+        <parameter name="lambda" class="java.lang.Double" value="4.5"></parameter>
+        
+        
+        
+    </RandomVariate>
+</random>
+

@@ -1,0 +1,3 @@
+Copyright (c) 1997-2017 by Arnold Buss and Kirk Stork, with contributions by John Ruck.
+
+Simkit is copyright under the GNU Lesser General Public License.

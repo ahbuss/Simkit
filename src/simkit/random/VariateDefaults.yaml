@@ -1,0 +1,78 @@
+# Defines default parameters for Random Variates, and, indirectly, the
+# required parameter names and types.
+#
+# Used by the RandomNumberFactory.  This facilitates the (<String>, <Map>) 
+# version of getInstance, and also opens the door for serializing files of
+# RandomVariates in a friendly (i.e. NOT XML) human readable and editable form.
+#
+# There should be one top-level entry for each RandomVariate supported, the keys
+# are the short names of the distributions.
+#
+# IMPORTANT
+#
+# If you make changes or additions to this file, please also change the unit
+# tests in simkit.random.RandomNumberFactoryTest to ensure the tests cover
+# the changed or added entries.
+#
+# Version: $Id$
+# Author: $Author$
+
+Exponential:
+    className: simkit.random.ExponentialVariate
+    mean: 1.0
+
+Uniform:
+    className: simkit.random.UniformVariate
+    low: 0
+    high: 1
+    
+Weibull:
+    className: simkit.random.WeibullVariate
+    alpha: 1.0
+    beta: 1.0
+    
+Poisson:
+    className: simkit.random.PoissonVariate
+    mean: 1.0
+    
+Normal:
+    className: simkit.random.NormalVariate
+    mean: 0.0
+    std: 1.0
+
+Lognormal:
+    className: simkit.random.LogNormalVariate
+    mean: 0.0
+    std: 1.0
+
+Gamma:
+    className: simkit.random.GammaVariate
+    alpha: 1.0
+    beta: 1.0
+
+Beta:
+    className: simkit.random.BetaVariate
+    alpha: 1.0
+    beta: 1.0
+
+Geometric:
+    className: simkit.random.GeometricVariate
+    p: 1.0
+
+Constant:
+    className: simkit.random.ConstantVariate
+    value: 0.0
+
+OscillatingExponential:
+    className: simkit.random.OscillatingExponentialVariate
+    mean: 1.0
+    amplitude: 1.0
+    frequency: 1.0
+    phase: 1.0
+
+Triangle:
+    className: simkit.random.TriangleVariate
+    left:   -1.0
+    center: 0.0
+    right:  1.0
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Created by ahbuss on June 26, 2002, 12:17 PM -->
+
+<run>
+    <StopType>
+        <StopAtTime>
+            <stopTime>10.0</stopTime>
+        </StopAtTime>
+    </StopType>
+    <Verbose>true</Verbose>
+    <SingleStep>false</SingleStep>
+    <NumberReplications>1</NumberReplications>
+</run>
+

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<project default="help">
+    <description>Builds, tests, and runs the project NewSimkit.</description>
+<!--    <import file="build-orig.xml"/> -->
+    <import file="nbproject/build-impl.xml"/>
+    <!--
+
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
+
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-compile-test-single:  called before javac compilation of single JUnit test
+      -post-compile-test-single: called after javac compilation of single JUunit test
+      -pre-jar:                  called before JAR building
+      -post-jar:                 called after JAR building
+      -post-clean:               called after cleaning build products
+
+    (Targets beginning with '-' are not intended to be called on their own.)
+
+    Example of inserting an obfuscator after compilation could look like this:
+
+        <target name="-post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
+
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
+
+
+    Another way to customize the build is by overriding existing main targets.
+    The targets of interest are: 
+
+      -init-macrodef-javac:     defines macro for javac compilation
+      -init-macrodef-junit:     defines macro for junit execution
+      -init-macrodef-debug:     defines macro for class debugging
+      -init-macrodef-java:      defines macro for class execution
+      -do-jar-with-manifest:    JAR building (if you are using a manifest)
+      -do-jar-without-manifest: JAR building (if you are not using a manifest)
+      run:                      execution of project 
+      -javadoc-build:           Javadoc generation
+      test-report:              JUnit report generation
+
+    An example of overriding the target for project execution could look like this:
+
+        <target name="run" depends="NewSimkit-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that the overridden target depends on the jar target and not only on 
+    the compile target as the regular run target does. Again, for a list of available 
+    properties which you can use, check the target you are overriding in the
+    nbproject/build-impl.xml file. 
+
+    -->
+    <condition property="arch" value="x86">
+        <equals arg1="${sun.arch.data.model}" arg2="32"  />
+    </condition>
+    
+    <condition property="arch" value="x64">
+        <equals arg1="${sun.arch.data.model}" arg2="64"  />
+    </condition>
+    
+    
+    
+    <target name="-pre-compile">
+        <exec executable="svn" output="build/svn.properties">
+            <arg value="info"/>
+        </exec>
+        <property prefix="svn" file="build/svn.properties"/>
+        <tstamp />
+        <tstamp prefix="start"/>
+        <echo message="Build ${svn.Revision} started"/>
+        <filter token="build" value="${svn.Revision}"/>
+        <filter token="dtg" value="${svn.Last}"/>
+        <filter token="dtg-local" value=" ${TODAY} ${TSTAMP}" />
+
+        <copy file="${src.dir}/simkit/version.template" toFile="${build.classes.dir}/simkit/version.txt" filtering="on" overwrite="true"/>
+
+    </target>
+
+    <target name="clTest" depends="init,compile-test,-pre-test-run" description="Runs junit tests from ant on the command line.">
+        <junit printsummary="withOutAndErr" haltonfailure="no" fork="yes" dir="." outputtoformatters="no">
+            <test name="TestAll"/>
+            <formatter type="plain"/>
+            <classpath>
+                <path path="${run.test.classpath}"/>
+            </classpath>
+            <jvmarg value="-Djava.util.logging.config.file=logging.properties"/>
+        </junit>
+    </target>
+
+    <target name="zipSrc" depends="init"> 
+        <jar jarFile="simkitSrc.zip">
+            <fileset dir="src"/>
+        </jar>
+        <jar jarFile="simkitTestsSrc.zip">
+            <fileset dir="tests"/>
+        </jar>
+    </target>
+
+    <target name="hudson" description="hudson server-side continuous integration" depends="default">
+        <echo message="https://savage.nps.edu/hudson/Simkit"/>
+    </target>
+    
+    <target depends="init" name="jar.source">
+        <jar excludes="**/*.class" jarfile="${dist.dir}/simkit-src.zip">
+            <fileset dir="src">
+                <exclude name="build/**/*"/>
+                <exclude name="dist/**/*"/>
+                <exclude name="CVS/**.*"/>
+                <exclude name="**/.nb*" />
+                <exclude name="Simkitlocales/**/*" />
+                <exclude name="Simkit_Build_Output/**/*" />
+                <exclude name="**/*.class"/>
+                <exclude name ="lib/**.*" />
+            </fileset>
+            
+        </jar>
+    </target>
+    
+    <target depends="jar, javadoc, jar.source" name="dist"
+            description="Package Simkit for Distribution">
+        <mkdir dir="${dist.dir}"/>
+        <!--	    <mkdir dir="${dist.dir}/doc"/> -->
+        <!--<mkdir dir="${dist.dir}/lib"/>-->
+        <mkdir dir="${dist.dir}/gnu"/>
+<!--        <copy todir="${dist.dir}/lib">
+            <fileset dir="${dir.build.lib}"/>
+        </copy>-->
+        <!--  -->              
+<!--        <copy todir="${dist.dir}/doc">
+            <fileset dir="${dir.build.doc}"/>
+        </copy>-->
+        <!-- -->
+        <jar jarfile="${dist.dir}/simkit-doc.zip">
+            <fileset dir="${dist.dir}/doc" />
+        </jar>
+<!--        <copy todir="${dist.dir}/lib">
+            <fileset dir="${dir.lib}"/>
+            <fileset dir="${dir.build.lib}" />
+        </copy>-->
+        <!--<copy file="${dir.build}/simkit-src.zip" todir="${dist.dir}"/>-->
+        <copy todir="${dist.dir}/gnu">
+            <fileset dir="${dir.src}/../gnu"/>
+        </copy>
+<!--        <copy todir="${dist.dir}">
+            <fileset dir="${dir.build}">
+                <include name="*.txt"/>
+            </fileset>
+        </copy>-->
+    </target>
+    
+    <target name="-post-compile">
+        <loadproperties srcfile="${build.dir}/classes/simkit/version.txt" />
+        <echo message="Loaded version.txt; Version=${Version}" />
+    </target>
+    
+    <target name="package" depends="dist" description="Creates the distribution zip file">
+        <zip destfile="${dist.dir}/Simkit-${arch}-${Version}.zip" level ="9">
+            <fileset dir="${dist.dir}" includes="*.jar" />
+            <fileset dir="${dist.dir}" includes="simkit-doc.zip" />
+            <fileset dir="${dist.dir}" includes="simkit-src.zip" />
+            <fileset dir="${dist.dir}/gnu/"/>
+            <fileset dir="${build.dir}/classes/simkit" includes="copyright.txt" />
+        </zip>
+    </target>
+
+</project>
