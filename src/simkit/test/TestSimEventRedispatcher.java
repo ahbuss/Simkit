@@ -2,7 +2,7 @@ package simkit.test;
 
 import simkit.Schedule;
 import simkit.SimEntityBase;
-import simkit.SimEventRedispatcher;
+//import simkit.SimEventRedispatcher;
 import simkit.examples.ArrivalProcess;
 import simkit.examples.SimpleServer;
 import simkit.random.RandomVariateFactory;
@@ -27,7 +27,7 @@ public class TestSimEventRedispatcher {
         ReDispatchListener reDispatchListener = new ReDispatchListener();
         simpleServer.addSimEventListener(reDispatchListener);
         
-        new SimEventRedispatcher(simpleServer);
+//        new SimEventRedispatcher(simpleServer);
 
         SimplePropertyDumper simplePropertyDumper = new SimplePropertyDumper(true);
         arrivalProcess.addPropertyChangeListener(simplePropertyDumper);
