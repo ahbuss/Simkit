@@ -7,7 +7,8 @@ package simkit.examples;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import simkit.SimEntityBase;
 
@@ -17,10 +18,10 @@ import simkit.SimEntityBase;
  */
 public class TimeListener extends SimEntityBase implements PropertyChangeListener {
 
-    protected HashMap<Integer, Double> arrivalTimes;
+    protected Map<Integer, Double> arrivalTimes;
 
     public TimeListener() {
-        arrivalTimes = new HashMap<>();
+        arrivalTimes = new LinkedHashMap<>();
     }
 
     @Override

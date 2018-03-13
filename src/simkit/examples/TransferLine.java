@@ -9,7 +9,7 @@ import simkit.random.RandomVariateFactory;
  * Implements a transfer line with a user determined number of stations and a
  * user determined number of servers at each station.
  *
- * @version $Id$
+ * TODO: refactor this to conform to current standards
  */
 public class TransferLine extends SimEntityBase {
 
@@ -17,14 +17,14 @@ public class TransferLine extends SimEntityBase {
      * The RandomVariate used to generate the interarrival times.
      *
      */
-    private RandomVariate interarrivalTime;
+    private RandomVariate interarrivalTimeGenerator;
 
     /**
      * The RandomVariates used to generate the service times for servers at each
      * station.
      *
      */
-    private RandomVariate[] serviceTime;
+    private RandomVariate[] serviceTimeGenerator;
 
     /**
      * The number of servers at each station.
@@ -62,8 +62,8 @@ public class TransferLine extends SimEntityBase {
 
     /**
      * Constructs a new TransferLine. The number of stations is determined by
-     * the length of numberOfServers and serviceTime, which must be the same.
-     * Note: Copies are made of the RandomVariates.
+ the length of numberOfServers and serviceTimeGenerator, which must be the same.
+ Note: Copies are made of the RandomVariates.
      *
      * @param arrivalTime The RandomVariate used to generate interarrival times.
      * @param numberOfServers The number of servers at each station.
@@ -76,16 +76,17 @@ public class TransferLine extends SimEntityBase {
     public TransferLine(RandomVariate arrivalTime,
             int[] numberOfServers,
             RandomVariate[] serviceTime) {
+        this();
         if (numberOfServers.length != serviceTime.length) {
             throw new IllegalArgumentException("Different number of stations "
                     + "defined in # servers (" + numberOfServers.length + ") than "
                     + "service times (" + serviceTime.length + ")");
         }
-        numberServersAtStation = (int[]) numberOfServers.clone();
-        interarrivalTime = RandomVariateFactory.getInstance(arrivalTime);
-        this.serviceTime = new RandomVariate[serviceTime.length];
+        numberServersAtStation = numberOfServers.clone();
+        interarrivalTimeGenerator = RandomVariateFactory.getInstance(arrivalTime);
+        this.serviceTimeGenerator = new RandomVariate[serviceTime.length];
         for (int i = 0; i < serviceTime.length; i++) {
-            this.serviceTime[i] = RandomVariateFactory.getInstance(serviceTime[i]);
+            this.serviceTimeGenerator[i] = RandomVariateFactory.getInstance(serviceTime[i]);
         }
         numberInQueue = new int[numberServersAtStation.length];
         numberAvailableServers = (int[]) numberServersAtStation.clone();
@@ -116,7 +117,7 @@ public class TransferLine extends SimEntityBase {
             fireIndexedPropertyChange(i, "numberAvailableServers", numberInQueue[i]);
         }
 
-        waitDelay("Arrival", interarrivalTime.generate());
+        waitDelay("Arrival", interarrivalTimeGenerator.generate());
     }
 
     /**
@@ -128,7 +129,7 @@ public class TransferLine extends SimEntityBase {
     public void doArrival() {
         firePropertyChange("numberArrivals", ++numberArrivals);
         waitDelay("Arrival", 0.0, new Object[]{new Integer(0)});
-        waitDelay("Arrival", interarrivalTime.generate());
+        waitDelay("Arrival", interarrivalTimeGenerator.generate());
     }
 
     /**
@@ -156,7 +157,7 @@ public class TransferLine extends SimEntityBase {
                 --numberInQueue[station]);
         fireIndexedPropertyChange(station, "numberAvailableServers", numberAvailableServers[station],
                 --numberAvailableServers[station]);
-        waitDelay("EndService", serviceTime[station].generate(), new Object[]{new Integer(station)});
+        waitDelay("EndService", serviceTimeGenerator[station].generate(), new Object[]{new Integer(station)});
     }
 
     /**
@@ -207,7 +208,7 @@ public class TransferLine extends SimEntityBase {
         buf.append(numberServersAtStation.length);
         buf.append(" Stations\n");
         buf.append("Interarrival Times are ");
-        buf.append(interarrivalTime);
+        buf.append(interarrivalTimeGenerator);
         buf.append('\n');
         buf.append("Station\t# Mach\tService Time Distribution\n");
         for (int i = 0; i < numberServersAtStation.length; i++) {
@@ -215,7 +216,7 @@ public class TransferLine extends SimEntityBase {
             buf.append('\t');
             buf.append(numberServersAtStation[i]);
             buf.append('\t');
-            buf.append(serviceTime[i]);
+            buf.append(serviceTimeGenerator[i]);
             buf.append('\n');
         }
         return buf.toString();

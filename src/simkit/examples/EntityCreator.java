@@ -10,7 +10,6 @@ import simkit.SimEntityBase;
  * scheduling the arrival events (for instance {@link ArrivalProcess2})
  *
  * @author Arnold Buss
- * @version $Id$
  */
 public class EntityCreator extends SimEntityBase {
 

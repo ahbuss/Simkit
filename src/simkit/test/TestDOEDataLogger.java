@@ -100,7 +100,7 @@ public class TestDOEDataLogger {
                 + " customers served");
         System.out.println("Average number in queue\t" + df.format(niqStat.getMean()));
         System.out.println("Average utilization\t"
-                + df.format(1.0 - nasStat.getMean() / server.getNumberServers()));
+                + df.format(1.0 - nasStat.getMean() / server.getTotalNumberServers()));
     }
 } /* output:
 oa3302.ArrivalProcess.1

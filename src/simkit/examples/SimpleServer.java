@@ -24,7 +24,7 @@ public class SimpleServer extends SimEntityBase {
      * The RandomVariate used to generate service times.
      *
      */
-    private RandomVariate serviceTime;
+    private RandomVariate serviceTimeGenerator;
 
     /**
      * The number of servers that are not busy.
@@ -52,18 +52,20 @@ public class SimpleServer extends SimEntityBase {
      * service time distribution.
      */
     public SimpleServer(int servers, RandomVariate time) {
+        this();
         totalNumberServers = servers;
-        serviceTime = time;
+        serviceTimeGenerator = time;
     }
 
     /**
      * Resets the system to its initial state.
      *
      */
+    @Override
     public void reset() {
         super.reset();
         numberInQueue = 0;
-        numberAvailableServers = totalNumberServers;
+        numberAvailableServers = getTotalNumberServers();
         numberServed = 0;
     }
 
@@ -98,7 +100,7 @@ public class SimpleServer extends SimEntityBase {
         firePropertyChange("numberInQueue", numberInQueue, --numberInQueue);
         firePropertyChange("numberAvailableServers", numberAvailableServers, --numberAvailableServers);
 
-        waitDelay("EndService", serviceTime.generate());
+        waitDelay("EndService", serviceTimeGenerator.generate());
 
     }
 
@@ -137,45 +139,45 @@ public class SimpleServer extends SimEntityBase {
      *
      */
     public int getNumberInSystem() {
-        return getNumberInQueue() + getNumberServers() - getNumberAvailableServers();
+        return getNumberInQueue() + getTotalNumberServers() - getNumberAvailableServers();
     }
 
     /**
-     * Sets the total number of servers.
+     * Sets the total number of totalNumberServers.
      *
-     * @throws IllegalArgumentException if the number of servers is not
-     * positive.
+     * @throws IllegalArgumentException if the number of totalNumberServers is not
+ positive.
      *
      */
-    public void setNumberServers(int servers) {
-        if (servers <= 0) {
-            throw new IllegalArgumentException("Need positive number of servers: " + servers);
+    public void setTotalNumberServers(int totalNumberServers) {
+        if (totalNumberServers <= 0) {
+            throw new IllegalArgumentException("Need positive number of servers: " + totalNumberServers);
         }
-        totalNumberServers = servers;
+        this.totalNumberServers = totalNumberServers;
     }
 
     /**
      * Returns the total number of servers in the system.
      *
      */
-    public int getNumberServers() {
-        return totalNumberServers;
+    public int getTotalNumberServers() {
+        return this.totalNumberServers;
     }
 
     /**
      * Sets the RandomVariate used to generate service times.
      *
      */
-    public void setServiceTime(RandomVariate service) {
-        serviceTime = service;
+    public void setServiceTimeGenerator(RandomVariate service) {
+        serviceTimeGenerator = service;
     }
 
     /**
      * Returns the RandomVariate used to generate service times.
      *
      */
-    public RandomVariate getServiceTime() {
-        return serviceTime;
+    public RandomVariate getServiceTimeGenerator() {
+        return serviceTimeGenerator;
     }
 
     /**

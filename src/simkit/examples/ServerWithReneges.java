@@ -2,6 +2,8 @@ package simkit.examples;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import simkit.Priority;
 
 import simkit.SimEntityBase;
@@ -10,43 +12,48 @@ import simkit.random.RandomVariate;
 /**
  * A multiple-server queue with impatient customers. Each arriving is willing to
  * wait only a given amount of time in the queue, represented by the random
- * sequence renegeTime. If a customer's time has elapsed without receiving
- * service, that customer exits the queue ("reneges") without receiving service.
+ * sequence renegeTimeGenerator. If a customerID's time has elapsed without
+ * receiving service, that customerID exits the queue ("reneges") without
+ * receiving service.
  *
- * @version $Id$
  * @author Arnold Buss
  */
 public class ServerWithReneges extends SimEntityBase {
 
-    private int numberServers;
-    private RandomVariate serviceTime;
-    private RandomVariate renegeTime;
+    private int totalNumberServers;
+    private RandomVariate serviceTimeGenerator;
+    private RandomVariate renegeTimeGenerator;
 
     protected int numberAvailableServers;
-    protected LinkedList<Integer> queue;
+    protected SortedSet<Integer> queue;
 
     protected int numberServed;
     protected int numberReneges;
 
     public ServerWithReneges() {
+        this.queue = new TreeSet<>();
     }
 
     /**
-     * Creates a new instance of Simkit
+     *
+     * @param totalNumberServers total number of servers
+     * @param serviceTimeGenerator Generate service times
+     * @param renegeTimeGenerator generates renege times
      */
-    public ServerWithReneges(int servers, RandomVariate service, RandomVariate renege) {
-        setNumberServers(servers);
-        setServiceTime(service);
-        setRenegeTime(renege);
-        queue = new LinkedList<Integer>();
+    public ServerWithReneges(int totalNumberServers, RandomVariate serviceTimeGenerator, RandomVariate renegeTimeGenerator) {
+        this();
+        setTotalNumberServers(totalNumberServers);
+        setServiceTimeGenerator(serviceTimeGenerator);
+        setRenegeTimeGenerator(renegeTimeGenerator);
     }
 
     /**
      * Set initial values of all state variables.
      */
+    @Override
     public void reset() {
         super.reset();
-        numberAvailableServers = getNumberServers();
+        numberAvailableServers = getTotalNumberServers();
         queue.clear();
         numberServed = 0;
         numberReneges = 0;
@@ -63,47 +70,47 @@ public class ServerWithReneges extends SimEntityBase {
     }
 
     /**
-     * Add arriving customer to queue. Schedule Renege event for this customer
-     * after a renegeTime delay. If there is an available server, schedule
-     * StartService event
+     * Add arriving customerID to queue. Schedule Renege event for this
+     * customerID after a renegeTimeGenerator delay. If there is an available
+     * server, schedule StartService event
      *
-     * @param customer Arriving Customer index
+     * @param customerID Arriving Customer index
      */
-    public void doArrival(Integer customer) {
-        queue.add(customer);
+    public void doArrival(Integer customerID) {
+        queue.add(customerID);
         firePropertyChange("queue", getQueue());
 
-        waitDelay("Renege", renegeTime.generate(), customer);
+        waitDelay("Renege", renegeTimeGenerator.generate(), customerID);
         if (getNumberAvailableServers() > 0) {
             waitDelay("StartService", 0.0, Priority.HIGH);
         }
     }
 
     /**
-     * Remove first customer from queue. Decrement number of available servers.
-     * Cancel Renege event for this customer. Schedule EndService after a delay
-     * of a service time.
+     * Remove first customerID from queue. Decrement number of available
+     * servers. Cancel Renege event for this customerID. Schedule EndService
+     * after a delay of a service time.
      */
     public void doStartService() {
-        Integer customer = queue.getFirst();
-        firePropertyChange("customer", customer);
+        Integer customerID = queue.first();
+        firePropertyChange("customer", customerID);
 
-        queue.removeFirst();
+        queue.remove(customerID);
         firePropertyChange("queue", getQueue());
 
         numberAvailableServers = numberAvailableServers - 1;
         firePropertyChange("numberAvailableServers", numberAvailableServers);
 
-        interrupt("Renege", customer);
+        interrupt("Renege", customerID);
 
-        waitDelay("EndService", serviceTime.generate(), customer);
+        waitDelay("EndService", serviceTimeGenerator.generate(), customerID);
     }
 
     /**
-     * Incremenet number of availabe servers. If queue is not empty, schedule
+     * Increment number of available servers. If queue is not empty, schedule
      * StartService with 0.0 delay.
      *
-     * @param customer Index of customer ending service
+     * @param customer Index of customerID ending service
      */
     public void doEndService(Integer customer) {
         numberAvailableServers = numberAvailableServers + 1;
@@ -118,64 +125,64 @@ public class ServerWithReneges extends SimEntityBase {
     }
 
     /**
-     * A customer has reached the "limit" of their patience and leaves the queue
-     * without receiving service ("renege).
+     * A customerID has reached the "limit" of their patience and leaves the
+     * queue without receiving service ("renege).
      *
-     * Remove the given customer from the queue. Increment the total number of
+     * Remove the given customerID from the queue. Increment the total number of
      * reneges.
      *
-     * @param customer Index of customer leaving queue
+     * @param customerID Index of customerID leaving queue
      */
-    public void doRenege(Integer customer) {
-        queue.remove(customer);
+    public void doRenege(Integer customerID) {
+        queue.remove(customerID);
         firePropertyChange("queue", getQueue());
 
         numberReneges = numberReneges + 1;
         firePropertyChange("numberReneges", numberReneges);
     }
 
-    public void setNumberServers(int num) {
-        numberServers = num;
+    public void setTotalNumberServers(int totalNumberServers) {
+        this.totalNumberServers = totalNumberServers;
     }
 
-    public int getNumberServers() {
-        return numberServers;
+    public int getTotalNumberServers() {
+        return this.totalNumberServers;
     }
 
-    public void setServiceTime(RandomVariate st) {
-        serviceTime = st;
+    public void setServiceTimeGenerator(RandomVariate serviceTimeGenerator) {
+        this.serviceTimeGenerator = serviceTimeGenerator;
     }
 
-    public RandomVariate getServiceTime() {
-        return serviceTime;
+    public RandomVariate getServiceTimeGenerator() {
+        return this.serviceTimeGenerator;
     }
 
-    public void setRenegeTime(RandomVariate rt) {
-        renegeTime = rt;
+    public void setRenegeTimeGenerator(RandomVariate renegeTimeGenerator) {
+        this.renegeTimeGenerator = renegeTimeGenerator;
     }
 
-    public RandomVariate getRenegeTime() {
-        return renegeTime;
+    public RandomVariate getRenegeTimeGenerator() {
+        return renegeTimeGenerator;
     }
 
     public int getNumberAvailableServers() {
-        return numberAvailableServers;
+        return this.numberAvailableServers;
     }
 
     public int getNumberInQueue() {
         return queue.size();
     }
 
-    public List getQueue() {
-        return (List) queue.clone();
+    public SortedSet<Integer> getQueue() {
+        return new TreeSet<>(this.queue);
     }
 
     public int getNumberReneges() {
-        return numberReneges;
+        return this.numberReneges;
     }
 
     public int getNumberServed() {
-        return numberServed;
+        return this.numberServed;
     }
 
 }

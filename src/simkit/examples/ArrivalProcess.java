@@ -10,7 +10,6 @@ import simkit.random.RandomVariateFactory;
  * interarrival probability distribution.
  *
  * @author Arnold Buss
- * @version $Id$
  *
  */
 public class ArrivalProcess extends SimEntityBase {

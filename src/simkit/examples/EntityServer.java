@@ -1,7 +1,7 @@
 package simkit.examples;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import simkit.Entity;
 import simkit.Priority;
 
@@ -14,24 +14,23 @@ import simkit.random.RandomVariate;
  * CustomerCreator.
  *
  * @author Arnold Buss
- * @version $Id$
  */
 public class EntityServer extends SimEntityBase {
 
     /**
      * The total number of servers in the system
      */
-    private int numberServers;
+    private int totalNumberServers;
 
     /**
      * The RandomVariate used to generate service times.
      */
-    private RandomVariate serviceTime;
+    private RandomVariate serviceTimeGenerator;
 
     /**
      * The queue of waiting Customers.
      */
-    protected LinkedList<Entity> queue;
+    protected SortedSet<Entity> queue;
 
     /**
      * The number of available servers.
@@ -39,25 +38,29 @@ public class EntityServer extends SimEntityBase {
     protected int numberAvailableServers;
 
     public EntityServer() {
-        queue = new LinkedList<>();
+        queue = new TreeSet<>();
     }
 
     /**
      * Creates a new EntityServer with the given number of servers, and service
      * time distribution.
+     *
+     * @param totalNumberServers total number of servers
+     * @param serviceTimeGenerator
      */
-    public EntityServer(int numberServers, RandomVariate serviceTime) {
+    public EntityServer(int totalNumberServers, RandomVariate serviceTimeGenerator) {
         this();
-        setNumberServers(numberServers);
-        setServiceTime(serviceTime);
+        setTotalNumberServers(totalNumberServers);
+        setServiceTimeGenerator(serviceTimeGenerator);
     }
 
     /**
      * Clear queue, set numberAvailableServers to total number of servers.
      */
+    @Override
     public void reset() {
         super.reset();
-        numberAvailableServers = numberServers;
+        numberAvailableServers = totalNumberServers;
         queue.clear();
     }
 
@@ -80,7 +83,7 @@ public class EntityServer extends SimEntityBase {
      */
     public void doArrival(Entity customer) {
         customer.stampTime();
-        List<Entity> oldQueue = getQueue();
+        SortedSet<Entity> oldQueue = getQueue();
         queue.add(customer);
         firePropertyChange("queue", oldQueue, getQueue());
         firePropertyChange("numberInQueue", oldQueue.size(), getQueue().size());
@@ -97,8 +100,10 @@ public class EntityServer extends SimEntityBase {
      * numberAvailableServers.
      */
     public void doStartService() {
-        List<Entity> oldQueue = getQueue();
-        Entity customer = queue.removeFirst();
+        SortedSet<Entity> oldQueue = getQueue();
+        Entity customer = queue.first();
+        queue.remove(customer);
+
         firePropertyChange("queue", oldQueue, getQueue());
         firePropertyChange("numberInQueue", oldQueue.size(), getQueue().size());
         firePropertyChange("delayInQueue", customer.getElapsedTime());
@@ -108,7 +113,7 @@ public class EntityServer extends SimEntityBase {
         firePropertyChange("numberAvailableServers", OldNumberAvailableServers,
                 getNumberAvailableServers());
 
-        waitDelay("EndService", serviceTime.generate(), customer);
+        waitDelay("EndService", serviceTimeGenerator.generate(), customer);
     }
 
     /**
@@ -137,8 +142,8 @@ public class EntityServer extends SimEntityBase {
      *
      * @param st Service time RandomVariate
      */
-    public void setServiceTime(RandomVariate st) {
-        serviceTime = st;
+    public void setServiceTimeGenerator(RandomVariate st) {
+        serviceTimeGenerator = st;
     }
 
     /**
@@ -146,17 +151,20 @@ public class EntityServer extends SimEntityBase {
      *
      * @return Service time RandomVariate instance
      */
-    public RandomVariate getServiceTime() {
-        return serviceTime;
+    public RandomVariate getServiceTimeGenerator() {
+        return serviceTimeGenerator;
     }
 
     /**
      * Sets the total number of servers.
      *
-     * @param ns Total number of servers for this instance
+     * @param totalNumberServers Total number of servers for this instance
      */
-    public void setNumberServers(int ns) {
-        numberServers = ns;
+    public void setTotalNumberServers(int totalNumberServers) {
+        if (totalNumberServers <= 0) {
+            throw new IllegalArgumentException("totalNumberServers must be > 0: " + totalNumberServers);
+        }
+        this.totalNumberServers = totalNumberServers;
     }
 
     /**
@@ -164,8 +172,8 @@ public class EntityServer extends SimEntityBase {
      *
      * @return Total number of servers for this instance
      */
-    public int getNumberServers() {
-        return numberServers;
+    public int getTotalNumberServers() {
+        return this.totalNumberServers;
     }
 
     /**
@@ -182,8 +190,8 @@ public class EntityServer extends SimEntityBase {
      *
      * @return Shallow copy of queue
      */
-    public LinkedList<Entity> getQueue() {
-        return new LinkedList<Entity>(queue);
+    public SortedSet<Entity> getQueue() {
+        return new TreeSet<>(this.queue);
     }
 
     /**
@@ -192,6 +200,6 @@ public class EntityServer extends SimEntityBase {
      * @return Number available servers at this point in time
      */
     public int getNumberAvailableServers() {
-        return numberAvailableServers;
+        return this.numberAvailableServers;
     }
 }

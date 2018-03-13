@@ -84,7 +84,7 @@ public class TestStateStats {
         System.out.println("Avg time in system: \t" + form.format(tisStat.getMean()));
 
         System.out.println("Avg Utilization:\t" + form.format(1.0
-                - nasStat.getMean() / server.getNumberServers()));
+                - nasStat.getMean() / server.getTotalNumberServers()));
 
         System.out.println(percentageInStateStat.stateString());
 

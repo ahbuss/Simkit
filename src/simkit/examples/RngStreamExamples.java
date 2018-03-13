@@ -9,13 +9,12 @@ import simkit.random.RngStream;
  * Just a place to experiment with RngStream. Eventually things here will move
  * to Unit Test coverage.
  *
- * @version $Id$
  * @author Kirk Stork (The MOVES Institute)
  */
 public class RngStreamExamples {
 
     static final RngStreamExamples SE = new RngStreamExamples();
-    Map<String, RngStream> streams = new HashMap<String, RngStream>();
+    Map<String, RngStream> streams = new HashMap<>();
     int i = 0;
     int j = 100;
 

@@ -24,7 +24,7 @@ public class SimpleServer2 extends BasicSimEntity {
      * The RandomVariate used to generate service times.
      *
      */
-    private RandomVariate serviceTime;
+    private RandomVariate serviceTimeGenerator;
 
     /**
      * The total number of servers in the system.
@@ -58,14 +58,16 @@ public class SimpleServer2 extends BasicSimEntity {
      * given service time distribution.
      *
      */
-    public SimpleServer2(int numServ, RandomVariate rv) {
-        serviceTime = RandomVariateFactory.getInstance(rv);
-        totalNumberServers = numServ;
+    public SimpleServer2(int setTotalNumberServers, RandomVariate serviceTimeGenerator) {
+        this();
+        this.setTotalNumberServers(setTotalNumberServers);
+        this.setServiceTimeGenerator(serviceTimeGenerator);
     }
 
     /**
      * Resets state to empty and idle with no customers processed.
      */
+    @Override
     public void reset() {
         super.reset();
         numberAvailableServers = getTotalNumberServers();
@@ -78,8 +80,8 @@ public class SimpleServer2 extends BasicSimEntity {
      * numberAvailableServers.
      */
     public void doRun() {
-        firePropertyChange("numberInQueue", numberInQueue);
-        firePropertyChange("numberAvailableServers", numberAvailableServers);
+        firePropertyChange("numberInQueue", getNumberInQueue());
+        firePropertyChange("numberAvailableServers", getNumberAvailableServers());
     }
 
     /**
@@ -88,7 +90,9 @@ public class SimpleServer2 extends BasicSimEntity {
      * property change for numberInQueue.
      */
     public void doArrival() {
-        firePropertyChange("numberInQueue", numberInQueue, ++numberInQueue);
+        int oldNumberInQueue = getNumberInQueue();
+        numberInQueue += 1;
+        firePropertyChange("numberInQueue", oldNumberInQueue, getNumberInQueue());
 
         if (numberAvailableServers > 0) {
             waitDelay("StartService", 0.0, Priority.HIGH);
@@ -101,10 +105,15 @@ public class SimpleServer2 extends BasicSimEntity {
      * for numberInQueue and numberAvailable servers.
      */
     public void doStartService() {
-        firePropertyChange("numberInQueue", numberInQueue, --numberInQueue);
-        firePropertyChange("numberAvailableServers", numberAvailableServers, --numberAvailableServers);
+        int oldNumberInQueue = getNumberInQueue();
+        numberInQueue -= 1;
+        firePropertyChange("numberInQueue", oldNumberInQueue, getNumberInQueue());
 
-        waitDelay("EndService", getServiceTime().generate());
+        int oldNumberAvailableServers = getNumberAvailableServers();
+        numberAvailableServers -= 1;
+        firePropertyChange("numberAvailableServers", oldNumberAvailableServers, getNumberAvailableServers());
+
+        waitDelay("EndService", getServiceTimeGenerator());
     }
 
     /**
@@ -113,8 +122,13 @@ public class SimpleServer2 extends BasicSimEntity {
      * for numberAvailableServers and numberServed.
      */
     public void doEndService() {
-        firePropertyChange("numberAvailableServers", numberAvailableServers, ++numberAvailableServers);
-        firePropertyChange("numberServed", 0, ++numberServed);
+        int oldNumberAvailableServers = getNumberAvailableServers();
+        numberAvailableServers += 1;
+        firePropertyChange("numberAvailableServers", oldNumberAvailableServers, getNumberAvailableServers());
+
+        int oldNumberServed = getNumberServed();
+        numberServed += 1;
+        firePropertyChange("numberServed", oldNumberServed, getNumberServed());
 
         if (numberInQueue > 0) {
             waitDelay("StartService", 0.0, Priority.HIGH);
@@ -127,43 +141,39 @@ public class SimpleServer2 extends BasicSimEntity {
      * @return Total number of servers (parameter)
      */
     public int getTotalNumberServers() {
-        return totalNumberServers;
+        return this.totalNumberServers;
     }
 
     /**
-     * Returns the current length of the queue.
      *
      * @return current number in queue (state)
      */
     public int getNumberInQueue() {
-        return numberInQueue;
+        return this.numberInQueue;
     }
 
     /**
-     * Returns the number of servers that are not currently busy.
      *
      * @return Current number of available servers (state)
      */
     public int getNumberAvailableServers() {
-        return numberAvailableServers;
+        return this.numberAvailableServers;
     }
 
     /**
-     * Returns the total number served by the system.
      *
      * @return Total number of customers who have completed service (state)
      */
     public int getNumberServed() {
-        return numberServed;
+        return this.numberServed;
     }
 
     /**
-     * Returns a copy of the RandomVariate used to generate service times.
      *
      * @return Service time RandomVariate
      */
-    public RandomVariate getServiceTime() {
-        return RandomVariateFactory.getInstance(serviceTime);
+    public RandomVariate getServiceTimeGenerator() {
+        return this.serviceTimeGenerator;
     }
 
     /**
@@ -182,39 +192,49 @@ public class SimpleServer2 extends BasicSimEntity {
      *
      * @param event The SimEvent to be handled.
      */
+    @Override
     public void handleSimEvent(SimEvent event) {
-        String thisEvent = event.getEventName();
-        if (thisEvent.equals("Run")) {
-            doRun();
-        } else if (thisEvent.equals("Arrival")) {
-            doArrival();
-        } else if (thisEvent.equals("StartService")) {
-            doStartService();
-        } else if (thisEvent.equals("EndService")) {
-            doEndService();
+        String thisEventName = event.getEventName();
+        switch (thisEventName) {
+            case "Run":
+                doRun();
+                break;
+            case "Arrival":
+                doArrival();
+                break;
+            case "StartService":
+                doStartService();
+                break;
+            case "EndService":
+                doEndService();
+                break;
         }
     }
 
     /**
      * Processes events for which this SimpleServer2 is a listener. If the event
      * is Arrival or EndService, schedules Arrival for now. This allows this
-     * SimpleServer2 to get arrivals either from a SimEntity which generates
-     * arrivals or by "chaining" to a preceeding SimEntity.
+     * SimpleServer2 to get Arrival events either from a SimEntity which
+     * generates arrivals or by "chaining" to a preceeding SimEntity.
      *
      * @param event "Listened-to" event.
      */
+    @Override
     public void processSimEvent(SimEvent event) {
         String thisEvent = event.getEventName();
-        if (thisEvent.equals("Arrival") || thisEvent.equals("EndService")) {
-            waitDelay("Arrival", 0.0);
+        switch (thisEvent) {
+            case "Arrival":
+            case "EndService":
+                waitDelay("Arrival", 0.0);
+                break;
         }
     }
 
     /**
-     * @param serviceTime the serviceTime to set
+     * @param serviceTimeGenerator the serviceTimeGenerator to set
      */
-    public void setServiceTime(RandomVariate serviceTime) {
-        this.serviceTime = serviceTime;
+    public void setServiceTimeGenerator(RandomVariate serviceTimeGenerator) {
+        this.serviceTimeGenerator = serviceTimeGenerator;
     }
 
     /**
@@ -222,8 +242,8 @@ public class SimpleServer2 extends BasicSimEntity {
      */
     public void setTotalNumberServers(int totalNumberServers) {
         if (totalNumberServers <= 0) {
-            throw new IllegalArgumentException("totalNumberServers must be > 0: " +
-                    totalNumberServers);
+            throw new IllegalArgumentException("totalNumberServers must be > 0: "
+                    + totalNumberServers);
         }
         this.totalNumberServers = totalNumberServers;
     }
