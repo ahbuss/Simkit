@@ -39,6 +39,7 @@ public class EntityServer extends SimEntityBase {
     protected int numberAvailableServers;
 
     public EntityServer() {
+        queue = new LinkedList<>();
     }
 
     /**
@@ -46,7 +47,7 @@ public class EntityServer extends SimEntityBase {
      * time distribution.
      */
     public EntityServer(int numberServers, RandomVariate serviceTime) {
-        queue = new LinkedList<Entity>();
+        this();
         setNumberServers(numberServers);
         setServiceTime(serviceTime);
     }
