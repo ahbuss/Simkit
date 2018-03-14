@@ -15,6 +15,7 @@ public class TestBivariateNormalVector {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException if problem with output file
      */
     public static void main(String[] args) throws IOException {
 

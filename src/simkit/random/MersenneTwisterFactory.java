@@ -1,41 +1,48 @@
-
 package simkit.random;
 
-import java.util.logging.*;
-/**
-* Used to dynamically create instances of MersenneTwisterDC.
-*
-* @version $Id$
-* @author John Ruck (Rolands and Associates Corporation 7/1/05)
-**/
-public class MersenneTwisterFactory {
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-    public static final String _VERSON_ = "$Id$";
+/**
+ * Used to dynamically create instances of MersenneTwisterDC.
+ *
+ * @author John Ruck (Rolands and Associates Corporation 7/1/05)
+ *
+ */
+@SuppressWarnings("javadoc")
+public class MersenneTwisterFactory {
 
     public static final Logger log = Logger.getLogger("simkit.random");
 
-/**
-* The maximum value of a 32 bit unsigned int. For any operation on a unsigned 32 bit integer
-* from the C code the result will be anded with this to simulate the rollover since
-* we need to use longs.
-**/
+    /**
+     * The maximum value of a 32 bit unsigned int. For any operation on a
+     * unsigned 32 bit integer from the C code the result will be anded with
+     * this to simulate the rollover since we need to use longs.
+     *
+     */
     private static final long MAX_VALUE = 4294967295L;
 
-/**
-* Holds a default instance of the factory.
-**/
+    /**
+     * Holds a default instance of the factory.
+     *
+     */
     protected static MersenneTwisterFactory instance = new MersenneTwisterFactory(0);
 
     /**
-     * 
+     *
      * @return the default instance of the factory
      */
-    public static MersenneTwisterFactory getInstance() {return instance;}
+    public static MersenneTwisterFactory getInstance() {
+        return instance;
+    }
 
-/**
-* Create a new instance with the given seed. Note the seed is for the generator not
-* the MT's that are created.
-**/ 
+    /**
+     * Create a new instance with the given seed. Note the seed is for the
+     * generator not the MT's that are created.
+     *
+     * @param seed Given seed
+     * @throws IllegalArgumentException if seed &lt; 0
+     */
     public MersenneTwisterFactory(int seed) {
         if (seed < 0) {
             String msg = "The seed cannot be less than zero.";
@@ -45,11 +52,12 @@ public class MersenneTwisterFactory {
         init_dc(seed);
     }
 
-/**
-* 
-**/
     /**
-     * 
+     *
+     *
+     */
+    /**
+     *
      * @param p given period exponent
      * @param seed given seed
      * @return MersenneTwister with the given period exponent and seed.
@@ -63,12 +71,12 @@ public class MersenneTwisterFactory {
     }
 
     /**
-     * 
+     *
      * @param p given period exponent
-     * @param seed given seed 
+     * @param seed given seed
      * @param id given stream id
-     * @return a MersenneTwister with the given period exponent, stream 
-     * id and seed.
+     * @return a MersenneTwister with the given period exponent, stream id and
+     * seed.
      */
     public MersenneTwisterDC createMT(int p, int seed, int id) {
         MersenneTwisterDC mt = new MersenneTwisterDC();
@@ -79,10 +87,11 @@ public class MersenneTwisterFactory {
     }
 
     /**
-     * 
-     * @param p  given period exponent
+     *
+     * @param p given period exponent
      * @param seeds array of seeds
-     * @return an array of MersenneTwisters with given period exponent and seeds.
+     * @return an array of MersenneTwisters with given period exponent and
+     * seeds.
      */
     public MersenneTwisterDC[] createMTArray(int p, int[] seeds) {
         int number = seeds.length;
@@ -96,10 +105,11 @@ public class MersenneTwisterFactory {
         return mt;
     }
 
-/* What follows are ports of the various original C files */
+    /* What follows are ports of the various original C files */
 
-/* from dc.h */
+ /* from dc.h */
     public class MTS {
+
         public static final int NUMBER_PARAMS = 15;
         public long aaa;
         public int mm;
@@ -118,9 +128,11 @@ public class MersenneTwisterFactory {
         public int i;
         public long[] state;
 
-/**
-* This puts the structure into a single array starting at 1.
-**/
+        /**
+         * This puts the structure into a single array starting at 1.
+         *
+         * @return the structure into a single array starting at 1.
+         */
         public long[] toArray() {
             long[] data = new long[NUMBER_PARAMS + state.length + 1];
             data[1] = aaa;
@@ -145,26 +157,24 @@ public class MersenneTwisterFactory {
         }
     }//end MTS
 
-/* check32.c */
+    /* check32.c */
 
-/* Copyright (C) 2001 Makoto Matsumoto and Takuji Nishimura.       */
-/* This library is free software; you can redistribute it and/or   */
-/* modify it under the terms of the GNU Library General Public     */
-/* License as published by the Free Software Foundation; either    */
-/* version 2 of the License, or (at your option) any later         */
-/* version.                                                        */
-/* This library is distributed in the hope that it will be useful, */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
-/* See the GNU Library General Public License for more details.    */
-/* You should have received a copy of the GNU Library General      */
-/* Public License along with this library; if not, write to the    */
-/* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */ 
-/* 02111-1307  USA                                                 */
-
-
+ /* Copyright (C) 2001 Makoto Matsumoto and Takuji Nishimura.       */
+ /* This library is free software; you can redistribute it and/or   */
+ /* modify it under the terms of the GNU Library General Public     */
+ /* License as published by the Free Software Foundation; either    */
+ /* version 2 of the License, or (at your option) any later         */
+ /* version.                                                        */
+ /* This library is distributed in the hope that it will be useful, */
+ /* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
+ /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
+ /* See the GNU Library General Public License for more details.    */
+ /* You should have received a copy of the GNU Library General      */
+ /* Public License along with this library; if not, write to the    */
+ /* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */
+ /* 02111-1307  USA                                                 */
     public static final int CHECK32_REDU = 0;//There is another REDU in prescr.c which is 1
-                                            // REDU in seive.c is also 0.
+    // REDU in seive.c is also 0.
     public static final int IRRED = 1;
 
     public static final int LSB = 0x1;
@@ -184,7 +194,7 @@ public class MersenneTwisterFactory {
         word_mask >>= WORDLEN - w;
         word_mask &= MAX_VALUE;
         /* lower_mask (least significant r bits) */
-        for (lower_mask=0,i=0; i<r; ++i) {
+        for (lower_mask = 0, i = 0; i < r; ++i) {
             lower_mask <<= 1;
             lower_mask &= MAX_VALUE;
             lower_mask |= LSB;
@@ -193,132 +203,150 @@ public class MersenneTwisterFactory {
         upper_mask = ((~lower_mask) & MAX_VALUE) & word_mask;
     }
 
-
     protected int _CheckPeriod_dc(long a, int m, int n, int r, int w) {
         int i, j, p, pp;
         long y;
-        long [] x;
+        long[] x;
         long[] init;
         long[] mat = new long[2];
 
-     
-        p = n*w-r;
-        x = new long[2*p];
+        p = n * w - r;
+        x = new long[2 * p];
 
         init = new long[n];
 
         /* set initial values */
-        for (i=0; i<n; ++i) {
+        for (i = 0; i < n; ++i) {
             x[i] = init[i] = (word_mask & _genrand_dc());
         }
         /* it is better that LSBs of x[2] and x[3] are different */
-        if ( (x[2]&LSB) == (x[3]&LSB) ) {
+        if ((x[2] & LSB) == (x[3] & LSB)) {
             x[3] ^= 1;
             x[3] &= MAX_VALUE;
             init[3] ^= 1;
             init[3] &= MAX_VALUE;
         }
 
-        pp = 2*p-n;
-        mat[0] = 0x0; mat[1] = a;
-        for (j=0; j<p; ++j) {
-                
-            /* generate */
-            for (i=0; i<pp; ++i){
-                y = (x[i]&upper_mask) | (x[i+1]&lower_mask);
-                x[i+n] = x[i+m] ^ ( ((y>>1) ^ mat[(int)y&LSB]) & MAX_VALUE );
-                x[i+n] &= MAX_VALUE;
-            }
-                
-            /* pick up odd subscritpt elements */
-            for (i=2; i<=p; ++i)
-                x[i] = x[(i<<1)-1];
-                
-            /* reverse generate */
-            for (i=p-n; i>=0; --i) {
-                y = x[i+n] ^ ((x[i+m] ^ mat[ (int)x[i+1]&LSB ]) & MAX_VALUE);
-                y &= MAX_VALUE;
-                y <<=1; 
-                y &=MAX_VALUE;
-                y |= x[i+1]&LSB;
+        pp = 2 * p - n;
+        mat[0] = 0x0;
+        mat[1] = a;
+        for (j = 0; j < p; ++j) {
 
-                x[i+1] = (x[i+1]&upper_mask) | (y&lower_mask);
-                x[i] = (y&upper_mask) | (x[i]&lower_mask);
+            /* generate */
+            for (i = 0; i < pp; ++i) {
+                y = (x[i] & upper_mask) | (x[i + 1] & lower_mask);
+                x[i + n] = x[i + m] ^ (((y >> 1) ^ mat[(int) y & LSB]) & MAX_VALUE);
+                x[i + n] &= MAX_VALUE;
             }
-            
+
+            /* pick up odd subscritpt elements */
+            for (i = 2; i <= p; ++i) {
+                x[i] = x[(i << 1) - 1];
+            }
+
+            /* reverse generate */
+            for (i = p - n; i >= 0; --i) {
+                y = x[i + n] ^ ((x[i + m] ^ mat[(int) x[i + 1] & LSB]) & MAX_VALUE);
+                y &= MAX_VALUE;
+                y <<= 1;
+                y &= MAX_VALUE;
+                y |= x[i + 1] & LSB;
+
+                x[i + 1] = (x[i + 1] & upper_mask) | (y & lower_mask);
+                x[i] = (y & upper_mask) | (x[i] & lower_mask);
+            }
+
         }
 
-        if ((x[0]&upper_mask)==(init[0]&upper_mask)) {
-            for (i=1; i<n; ++i) {
-                if (x[i] != init[i])
-                break;
+        if ((x[0] & upper_mask) == (init[0] & upper_mask)) {
+            for (i = 1; i < n; ++i) {
+                if (x[i] != init[i]) {
+                    break;
+                }
             }
-            if (i==n) {
+            if (i == n) {
                 return IRRED;
             }
         }
 
-
         return CHECK32_REDU;
     }
 
-/* eqdeg.c */
+    /* eqdeg.c */
 
-/* Copyright (C) 2001 Makoto Matsumoto and Takuji Nishimura.       */
-/* This library is free software; you can redistribute it and/or   */
-/* modify it under the terms of the GNU Library General Public     */
-/* License as published by the Free Software Foundation; either    */
-/* version 2 of the License, or (at your option) any later         */
-/* version.                                                        */
-/* This library is distributed in the hope that it will be useful, */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
-/* See the GNU Library General Public License for more details.    */
-/* You should have received a copy of the GNU Library General      */
-/* Public License along with this library; if not, write to the    */
-/* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */ 
-/* 02111-1307  USA                                                 */
-
-
-
-/**************************************/
+ /* Copyright (C) 2001 Makoto Matsumoto and Takuji Nishimura.       */
+ /* This library is free software; you can redistribute it and/or   */
+ /* modify it under the terms of the GNU Library General Public     */
+ /* License as published by the Free Software Foundation; either    */
+ /* version 2 of the License, or (at your option) any later         */
+ /* version.                                                        */
+ /* This library is distributed in the hope that it will be useful, */
+ /* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
+ /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
+ /* See the GNU Library General Public License for more details.    */
+ /* You should have received a copy of the GNU Library General      */
+ /* Public License along with this library; if not, write to the    */
+ /* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */
+ /* 02111-1307  USA                                                 */
+    /**
+     * ***********************************
+     */
     public static final int SSS = 7;
     public static final int TTT = 15;
     public static final int S00 = 12;
     public static final int S01 = 18;
-/**************************************/
+    /**
+     * ***********************************
+     */
 
-/** for get_tempering_parameter_hard **/
-    public static final int LIMIT_V_BEST_OPT = 15; 
-/**************************************/
+    /**
+     * for get_tempering_parameter_hard *
+     */
+    public static final int LIMIT_V_BEST_OPT = 15;
+    /**
+     * ***********************************
+     */
 
     public static final int WORD_LEN = 32;
-    public static final int MIN_INFINITE = (-2147483647-1);
+    public static final int MIN_INFINITE = (-2147483647 - 1);
 
 //#define TRNSTMP  tmp ^= ( (tmp>>shift_0) & greal_mask )
 //#define MASKTMP  tmp ^= ( (tmp<<shift_s) & mask_b);tmp ^= ( (tmp<<shift_t) & mask_c)
 //#define LSB(x) ( ((x) >> ggap) & 0x1 )
     protected long LSB(long x) {
-        return ( ((x) >> ggap) & 0x1 );
+        return (((x) >> ggap) & 0x1);
     }
 
     public static class Vector {
-        public long z;    /* integer part */
-        public long[] cf;  /* fraction part */
-        public int start;     /* beginning of fraction part */
-        public int degree;    /* maximum degree */
-        public long bp;   /* bitpatterm (shifted&bitmasked) at the maximum degree */
+
+        public long z;
+        /* integer part */
+        public long[] cf;
+        /* fraction part */
+        public int start;
+        /* beginning of fraction part */
+        public int degree;
+        /* maximum degree */
+        public long bp;
+        /* bitpatterm (shifted&bitmasked) at the maximum degree */
     }
 
     public static class MaskNode {
-        public long b,c;
-        public int v,leng;
+
+        public long b, c;
+        public int v, leng;
         public MaskNode next;
     }
 
-/***********************************/
-/*******  global variables  ********/
-/***********************************/
+    /**
+     * ********************************
+     */
+    /**
+     * ***** global variables *******
+     */
+    /**
+     * ********************************
+     */
     protected long[] bitmask = new long[WORD_LEN];
     protected long[] cur_bitmask = new long[WORD_LEN];
     protected long mask_b, mask_c;
@@ -326,23 +354,35 @@ public class MersenneTwisterFactory {
     protected int shift_0, shift_1, shift_s, shift_t;
     protected int mmm, nnn, rrr, www;
     protected long[] aaa = new long[2];
-/** most significant  (WWW - RRR) bits **/
+    /**
+     * most significant (WWW - RRR) bits *
+     */
     protected long gupper_mask;
-/** least significant RRR bits **/
+    /**
+     * least significant RRR bits *
+     */
     protected long glower_mask;
-/** upper WWW bitmask **/
+    /**
+     * upper WWW bitmask *
+     */
     protected long greal_mask;
-/** difference between machine wordsize and dest wordsize **/
+    /**
+     * difference between machine wordsize and dest wordsize *
+     */
     protected int ggap;
-/** for optimize_v_hard **/
+    /**
+     * for optimize_v_hard *
+     */
     protected int[] gcur_maxlengs = new int[WORD_LEN];
     protected long gmax_b, gmax_c;
-/*************************************/
 
-/**
- * 
- * @param mts Given MTS
- */
+    /**
+     * **********************************
+     */
+    /**
+     *
+     * @param mts Given MTS
+     */
     protected void _get_tempering_parameter_dc(MTS mts) {
         init_tempering(mts);
         optimize_v(0x0, 0x0, 0);
@@ -362,25 +402,27 @@ public class MersenneTwisterFactory {
 
         init_tempering(mts);
 
-        for (i=0; i<www; i++) 
+        for (i = 0; i < www; i++) {
             gcur_maxlengs[i] = -1;
+        }
 
         mn0.b = mn0.c = mn0.leng = 0;
         mn0.next = null;
-        
+
         cur = mn0;
-        for (i=0; i<LIMIT_V_BEST_OPT; i++) {
+        for (i = 0; i < LIMIT_V_BEST_OPT; i++) {
             if (log.isLoggable(Level.FINE)) {
                 log.finer("i= " + i + "The MaskNode contains " + countMaskNodeLevels(cur));
             }
             next = optimize_v_hard(i, cur);
-            if (i > 0) 
+            if (i > 0) {
                 delete_MaskNodes(cur);
+            }
             cur = next;
         }
         delete_MaskNodes(cur);
 
-        optimize_v(gmax_b, gmax_c,i);
+        optimize_v(gmax_b, gmax_c, i);
         mts.shift0 = shift_0;
         mts.shift1 = shift_1;
         mts.shiftB = shift_s;
@@ -393,6 +435,7 @@ public class MersenneTwisterFactory {
 
     /**
      * For debugging.
+     *
      * @param mn Given MaskNode
      * @return Number of mask node levels in mn
      */
@@ -411,27 +454,28 @@ public class MersenneTwisterFactory {
 
         mmm = mts.mm;
         nnn = mts.nn;
-        rrr = mts.rr; 
+        rrr = mts.rr;
         www = mts.ww;
         shift_0 = S00;
         shift_1 = S01;
         shift_s = SSS;
-        shift_t = TTT; 
+        shift_t = TTT;
         ggap = WORD_LEN - www;
         /* bits are filled in mts.aaa from MSB */
-        aaa[0] = 0x0; aaa[1] = ((mts.aaa) << ggap) & MAX_VALUE;
+        aaa[0] = 0x0;
+        aaa[1] = ((mts.aaa) << ggap) & MAX_VALUE;
 
-
-        for( i=0; i<WORD_LEN; i++) {
+        for (i = 0; i < WORD_LEN; i++) {
             bitmask[i] = (0x80000000 >>> i) & MAX_VALUE;
             cur_bitmask[i] = (0x80000000 >>> i) & MAX_VALUE;
             if (log.isLoggable(Level.FINE)) {
-                log.finer("bitmask["+i+"]=" + bitmask[i]);
+                log.finer("bitmask[" + i + "]=" + bitmask[i]);
             }
         }
 
-        for( i=0, glower_mask=0; i<rrr; i++)
-            glower_mask = ((glower_mask<<1) & MAX_VALUE)| 0x1;
+        for (i = 0, glower_mask = 0; i < rrr; i++) {
+            glower_mask = ((glower_mask << 1) & MAX_VALUE) | 0x1;
+        }
         gupper_mask = ~glower_mask;
         gupper_mask &= MAX_VALUE;
         gupper_mask <<= ggap;
@@ -445,6 +489,7 @@ public class MersenneTwisterFactory {
 
     /**
      * (v-1) bitmasks of b,c
+     *
      * @param v given number of MaskNodes
      * @param prev_masks given previous MaskNodes
      * @return new MaskNode
@@ -455,15 +500,14 @@ public class MersenneTwisterFactory {
         long[] ccc = new long[8];
         MaskNode cur_masks = null;
 
-
         while (prev_masks != null) {
 
-            ll = push_stack(prev_masks.b,prev_masks.c,v,bbb,ccc);
+            ll = push_stack(prev_masks.b, prev_masks.c, v, bbb, ccc);
 
-            for (i=0; i<ll; ++i) {
+            for (i = 0; i < ll; ++i) {
                 mask_b = bbb[i];
                 mask_c = ccc[i];
-                t = lenstra(v+1);
+                t = lenstra(v + 1);
                 if (t >= gcur_maxlengs[v]) {
                     gcur_maxlengs[v] = t;
                     gmax_b = mask_b;
@@ -471,17 +515,17 @@ public class MersenneTwisterFactory {
                     cur_masks = cons_MaskNode(cur_masks, mask_b, mask_c, t);
                 }
             }
-        prev_masks = prev_masks.next;
+            prev_masks = prev_masks.next;
         }
 
         cur_masks = delete_lower_MaskNodes(cur_masks, gcur_maxlengs[v]);
 
         return cur_masks;
-}
-
+    }
 
     /**
      * (v-1) bitmasks of b,c
+     *
      * @param b Given long value
      * @param c Given long value
      * @param v Given number of bitmasks
@@ -491,28 +535,28 @@ public class MersenneTwisterFactory {
         long[] bbb = new long[8];
         long[] ccc = new long[8];
 
-        ll = push_stack(b,c,v,bbb,ccc);
+        ll = push_stack(b, c, v, bbb, ccc);
 
         max_len = max_i = 0;
-        if (ll > 1) { 
-        for (i=0; i<ll; ++i) {
-            mask_b = bbb[i];
-            mask_c = ccc[i];
-            t = lenstra(v+1);
-            if (t > max_len) {
-                max_len = t;
-                max_i = i;
+        if (ll > 1) {
+            for (i = 0; i < ll; ++i) {
+                mask_b = bbb[i];
+                mask_c = ccc[i];
+                t = lenstra(v + 1);
+                if (t > max_len) {
+                    max_len = t;
+                    max_i = i;
+                }
             }
         }
-        }
 
-        if ( v >= www-1 ) {
+        if (v >= www - 1) {
             mask_b = bbb[max_i];
             mask_c = ccc[max_i];
             return;
         }
 
-        optimize_v(bbb[max_i], ccc[max_i], v+1);
+        optimize_v(bbb[max_i], ccc[max_i], v + 1);
     }
 
     protected int push_stack(long b, long c, int v, long[] bbb, long[] ccc) {
@@ -521,15 +565,18 @@ public class MersenneTwisterFactory {
 
         ll = 0;
 
-        if( (v+shift_t) < www ){
-            ncv = 2; cv_buf[0] = c | bitmask[v]; cv_buf[1] = c;
-        }
-        else {
-            ncv = 1; cv_buf[0] = c;
+        if ((v + shift_t) < www) {
+            ncv = 2;
+            cv_buf[0] = c | bitmask[v];
+            cv_buf[1] = c;
+        } else {
+            ncv = 1;
+            cv_buf[0] = c;
         }
 
-        for( i=0; i<ncv; ++i)
-            ll += push_mask( ll, v, b, cv_buf[i], bbb, ccc);
+        for (i = 0; i < ncv; ++i) {
+            ll += push_mask(ll, v, b, cv_buf[i], bbb, ccc);
+        }
 
         return ll;
     }
@@ -537,83 +584,96 @@ public class MersenneTwisterFactory {
     protected int push_mask(int l, int v, long b, long c, long[] bbb, long[] ccc) {
         int i, j, k, nbv, nbvt;
         long bmask;
-        long[] bv_buf = new long[2] ;
+        long[] bv_buf = new long[2];
         long[] bvt_buf = new long[2];
 
         k = l;
-        if( (shift_s+v) >= www ){
-            nbv = 1; bv_buf[0] = 0;
-        }
-        else if( (v>=shift_t) && ((c&bitmask[v-shift_t]) != 0 ) ){
-            nbv = 1; bv_buf[0] = b&bitmask[v];
-        }
-        else {
-            nbv = 2; bv_buf[0] = bitmask[v]; bv_buf[1] = 0;
+        if ((shift_s + v) >= www) {
+            nbv = 1;
+            bv_buf[0] = 0;
+        } else if ((v >= shift_t) && ((c & bitmask[v - shift_t]) != 0)) {
+            nbv = 1;
+            bv_buf[0] = b & bitmask[v];
+        } else {
+            nbv = 2;
+            bv_buf[0] = bitmask[v];
+            bv_buf[1] = 0;
         }
 
-        if( ((v+shift_t+shift_s) < www) && ((c&bitmask[v]) != 0) ){
-            nbvt = 2; bvt_buf[0] = bitmask[v+shift_t]; bvt_buf[1] = 0;
-        }
-        else {
-            nbvt = 1; bvt_buf[0] = 0;
+        if (((v + shift_t + shift_s) < www) && ((c & bitmask[v]) != 0)) {
+            nbvt = 2;
+            bvt_buf[0] = bitmask[v + shift_t];
+            bvt_buf[1] = 0;
+        } else {
+            nbvt = 1;
+            bvt_buf[0] = 0;
         }
 
         bmask = bitmask[v];
-        if( (v+shift_t) < www )
-            bmask |= bitmask[v+shift_t];
+        if ((v + shift_t) < www) {
+            bmask |= bitmask[v + shift_t];
+        }
         bmask = ~bmask;
         bmask &= MAX_VALUE;
-        for( i=0; i<nbvt; ++i){
-            for( j=0; j<nbv; ++j){
-                bbb[k] = (b&bmask) | bv_buf[j] | bvt_buf[i];
+        for (i = 0; i < nbvt; ++i) {
+            for (j = 0; j < nbv; ++j) {
+                bbb[k] = (b & bmask) | bv_buf[j] | bvt_buf[i];
                 ccc[k] = c;
                 ++k;
             }
         }
 
-        return k-l;
+        return k - l;
     }
 
-
-/**********************************/
-/****  subroutines for lattice ****/
-/**********************************/
+    /**
+     * *******************************
+     */
+    /**
+     * ** subroutines for lattice ***
+     */
+    /**
+     * *******************************
+     */
     protected int lenstra(int v) {
         Vector[] lattice;
         Vector ltmp;
         int i, j, deg, max_row;
 
         upper_v_bits = 0;
-        for( i=0; i<v; i++) {
+        for (i = 0; i < v; i++) {
             cur_bitmask[i] = bitmask[i];
             upper_v_bits |= bitmask[i];
         }
 
-        lattice = make_lattice( v );
+        lattice = make_lattice(v);
 
-        i = -1; max_row=v;
-        while( i<max_row ){ /* normalized until i-th row */
+        i = -1;
+        max_row = v;
+        while (i < max_row) {
+            /* normalized until i-th row */
 
-            pull_min_row( i+1, max_row, lattice );
-            hakidasi( i+1, lattice);
+            pull_min_row(i + 1, max_row, lattice);
+            hakidasi(i + 1, lattice);
 
-            if( (lattice[i+1].bp & upper_v_bits) != 0 ) {
-                pull_max( i+1, v, lattice[i+1] );
+            if ((lattice[i + 1].bp & upper_v_bits) != 0) {
+                pull_max(i + 1, v, lattice[i + 1]);
                 ++i;
-            }
-            else {
-                deg = degree_of_vector( lattice[i+1]); 
+            } else {
+                deg = degree_of_vector(lattice[i + 1]);
 
-                if(deg==MIN_INFINITE){
-                /* if deg==MIN_INFINITE, */ 
-                /* exchange (i+1)-th row and v-th row */
-                    ltmp = lattice[i+1]; lattice[i+1] = lattice[v];
+                if (deg == MIN_INFINITE) {
+                    /* if deg==MIN_INFINITE, */
+ /* exchange (i+1)-th row and v-th row */
+                    ltmp = lattice[i + 1];
+                    lattice[i + 1] = lattice[v];
                     lattice[v] = ltmp;
-                    --max_row; 
-                }
-                else {
-                    for( j=i; j>=0; j--){
-                        if( lattice[j].degree <= deg ) break;
+                    --max_row;
+                } else {
+                    for (j = i; j >= 0; j--) {
+                        if (lattice[j].degree <= deg) {
+                            break;
+                        }
                     }
                     i = j;
                 }
@@ -622,15 +682,19 @@ public class MersenneTwisterFactory {
         }
 
         i = lattice[max_row].degree;
-        free_lattice( lattice, v );
+        free_lattice(lattice, v);
         return -i;
     }
 
-
-
-/********************************/
-/** allocate momory for Vector **/
-/********************************/
+    /**
+     * *****************************
+     */
+    /**
+     * allocate momory for Vector *
+     */
+    /**
+     * *****************************
+     */
     protected Vector new_Vector() {
         Vector v = new Vector();
 
@@ -641,69 +705,90 @@ public class MersenneTwisterFactory {
         return v;
     }
 
-
 // The following code has no effect, and has been removed.
 //    
-/************************************************/
-/* frees *v which was allocated by new_Vector() */
-/************************************************/
-/**
-* Sets the given Vector to null
-**/
+    /**
+     * *********************************************
+     */
+    /* frees *v which was allocated by new_Vector() */
+    /**
+     * *********************************************
+     */
+    /**
+     * Sets the given Vector to null
+     *
+     */
 //    protected void free_Vector( Vector v ) {
 //        v = null;
 //    }
-
-    protected void free_lattice( Vector[] lattice, int v) {
+    protected void free_lattice(Vector[] lattice, int v) {
         int i;
 
-        for( i=0; i<=v; i++)
+        for (i = 0; i <= v; i++) {
             lattice[i] = null;
+        }
         lattice = null;
     }
 
-/** Vector v is multiplied by t^k */
-    protected Vector mult( Vector v, int k)  {
-        int i, j, jmmm; /* jmmm = j + mmm */
+    /**
+     * Vector v is multiplied by t^k
+     */
+    protected Vector mult(Vector v, int k) {
+        int i, j, jmmm;
+        /* jmmm = j + mmm */
         long tmp;
         Vector u;
 
         u = new_Vector();
-        for( i=0; i<nnn; i++) u.cf[i] = v.cf[i]; /* copy v to u */
+        for (i = 0; i < nnn; i++) {
+            u.cf[i] = v.cf[i];
+            /* copy v to u */
+        }
         u.start = v.start;
         u.degree = v.degree;
         u.bp = v.bp;
         u.z = v.z;
 
-        if( k == 0 ) return u; /* if k==0, only v is copied to u  */
+        if (k == 0) {
+            return u;
+            /* if k==0, only v is copied to u  */
+        }
 
-        j=u.start; 
-        jmmm = j+mmm; /* note : jmmm < nnn+mmm < 2nnn */
-        for(i=0; i<k; i++){
+        j = u.start;
+        jmmm = j + mmm;
+        /* note : jmmm < nnn+mmm < 2nnn */
+        for (i = 0; i < k; i++) {
 
-            if (j>=nnn) j -= nnn; /* same as j%=nnn */
-            if (jmmm>=nnn) jmmm -= nnn; /* same as jmmm %= nnn */
+            if (j >= nnn) {
+                j -= nnn;
+                /* same as j%=nnn */
+            }
+            if (jmmm >= nnn) {
+                jmmm -= nnn;
+                /* same as jmmm %= nnn */
+            }
 
             u.z = u.cf[j];
-            tmp =  (u.cf[j]&gupper_mask) | (u.cf[(j+1)%nnn]&glower_mask) ;
-            tmp = u.cf[jmmm] ^ ( (((tmp>>1) & MAX_VALUE) ^ aaa[(int)LSB(tmp)]) & MAX_VALUE );
+            tmp = (u.cf[j] & gupper_mask) | (u.cf[(j + 1) % nnn] & glower_mask);
+            tmp = u.cf[jmmm] ^ ((((tmp >> 1) & MAX_VALUE) ^ aaa[(int) LSB(tmp)]) & MAX_VALUE);
             tmp &= MAX_VALUE;
             tmp &= greal_mask;
-            u.cf[j] =  tmp;
-            
+            u.cf[j] = tmp;
+
             ++j;
             ++jmmm;
         }
 
-        u.start += k; u.start %= nnn;
+        u.start += k;
+        u.start %= nnn;
 
         /* integer part is shifted and bitmasked */
         tmp = u.z;
-        tmp ^= ( (tmp>>shift_0) & greal_mask );//TRNSTMP;
+        tmp ^= ((tmp >> shift_0) & greal_mask);//TRNSTMP;
         tmp &= MAX_VALUE;
-        tmp ^= ( (tmp<<shift_s) & MAX_VALUE & mask_b);
+        tmp ^= ((tmp << shift_s) & MAX_VALUE & mask_b);
         tmp &= MAX_VALUE;
-        tmp ^= ( (tmp<<shift_t) & MAX_VALUE & mask_c);//MASKTMP;
+        tmp ^= ((tmp << shift_t) & MAX_VALUE & mask_c);//MASKTMP;
         tmp &= MAX_VALUE;
         u.z = tmp;
         u.degree += k;
@@ -711,129 +796,167 @@ public class MersenneTwisterFactory {
         return u;
     }
 
-/** adds v to u (then u will change) */
-    protected void add( Vector u, Vector v) {
+    /**
+     * adds v to u (then u will change)
+     */
+    protected void add(Vector u, Vector v) {
         int i, stu, stv;
 
-        stu = u.start; stv = v.start;
-        for( i=0; i<nnn; i++){
+        stu = u.start;
+        stv = v.start;
+        for (i = 0; i < nnn; i++) {
 
-        /*  0 <= stu,stv < 2*nnn always holds          **/
-        /* so, modulo nnn can be calculated as follows **/
-        if (stu>=nnn) stu -= nnn; /* same as stu %= nnn  */
-        if (stv>=nnn) stv -= nnn; /* same as stv %= nnn  */
+            /*  0 <= stu,stv < 2*nnn always holds          **/
+ /* so, modulo nnn can be calculated as follows **/
+            if (stu >= nnn) {
+                stu -= nnn;
+                /* same as stu %= nnn  */
+            }
+            if (stv >= nnn) {
+                stv -= nnn;
+                /* same as stv %= nnn  */
+            }
 
-        u.cf[stu] ^= v.cf[stv];
-        u.cf[stu] &= MAX_VALUE;
-        stu++; stv++;
+            u.cf[stu] ^= v.cf[stv];
+            u.cf[stu] &= MAX_VALUE;
+            stu++;
+            stv++;
         }
 
-        u.z ^=  v.z;
+        u.z ^= v.z;
         u.z &= MAX_VALUE;
     }
 
-/** returns the max degree of v */
-    protected int degree_of_vector( Vector v) {
-        int i,j,k;
-        int immm; /* immm = i + mmm */
+    /**
+     * returns the max degree of v
+     */
+    protected int degree_of_vector(Vector v) {
+        int i, j, k;
+        int immm;
+        /* immm = i + mmm */
         long tmp;
         Vector u;
 
-        if( (v.z & upper_v_bits) !=0 ){ /* if integer part is not 0 */
+        if ((v.z & upper_v_bits) != 0) {
+            /* if integer part is not 0 */
             v.bp = v.z;
             v.degree = 0;
             return 0;
         }
 
-        for(k=v.start, j=0; j<nnn; j++,k++){
+        for (k = v.start, j = 0; j < nnn; j++, k++) {
 
-        if (k>=nnn) k -= nnn; /* same as k %= nnn (note 0<= k < 2*nnn) */
+            if (k >= nnn) {
+                k -= nnn;
+                /* same as k %= nnn (note 0<= k < 2*nnn) */
+            }
 
             tmp = v.cf[k];
-        if (tmp != 0) {
-            tmp ^= ( (tmp>>shift_0) & greal_mask );//TRNSTMP;
-            tmp &= MAX_VALUE;
-            tmp ^= ( (tmp<<shift_s) & MAX_VALUE & mask_b);
-            tmp &= MAX_VALUE;
-            tmp ^= ( (tmp<<shift_t) & mask_c);//MASKTMP;
-            tmp &= MAX_VALUE;
-            if( (tmp & upper_v_bits) != 0 ) {
-                v.bp = tmp;
-                v.degree = -(j+1);
-                return -(j+1);
+            if (tmp != 0) {
+                tmp ^= ((tmp >> shift_0) & greal_mask);//TRNSTMP;
+                tmp &= MAX_VALUE;
+                tmp ^= ((tmp << shift_s) & MAX_VALUE & mask_b);
+                tmp &= MAX_VALUE;
+                tmp ^= ((tmp << shift_t) & mask_c);//MASKTMP;
+                tmp &= MAX_VALUE;
+                if ((tmp & upper_v_bits) != 0) {
+                    v.bp = tmp;
+                    v.degree = -(j + 1);
+                    return -(j + 1);
+                }
             }
         }
-        }
 
-        u = new_Vector(); /* copy v to u */
-        for( j=0; j<nnn; j++) u.cf[j] = v.cf[j];
+        u = new_Vector();
+        /* copy v to u */
+        for (j = 0; j < nnn; j++) {
+            u.cf[j] = v.cf[j];
+        }
         u.z = v.z;
         u.start = v.start;
 
+        k = nnn * (www - 1) - rrr;
+        i = u.start;
+        immm = i + mmm;
+        /* note : immm < nnn+mmm < 2nnn */
+        for (j = 0; j < k; j++) {
 
-        k = nnn * (www-1) - rrr;
-        i=u.start; 
-        immm = i + mmm; /* note : immm < nnn+mmm < 2nnn */
-        for(j=0; j<k; j++){ 
+            /* i = (u.start + j) % nnn */
+            if (i >= nnn) {
+                i -= nnn;
+                /* same as i%=nnn: note always 0<=i<2*nnn */
+            }
+            if (immm >= nnn) {
+                immm -= nnn;
+                /* same as immm %= nnn */
+            }
 
-          /* i = (u.start + j) % nnn */
-          if (i>=nnn) i -= nnn; /* same as i%=nnn: note always 0<=i<2*nnn */
-          if (immm>=nnn) immm -= nnn; /* same as immm %= nnn */
+            tmp = (u.cf[i] & gupper_mask) | (u.cf[(i + 1) % nnn] & glower_mask);
+            tmp = u.cf[immm] ^ ((((tmp >> 1) & MAX_VALUE) ^ aaa[(int) LSB(tmp)]) & MAX_VALUE);
+            tmp &= MAX_VALUE;
+            tmp &= greal_mask;
+            u.cf[i] = tmp;
 
-          tmp = (u.cf[i]&gupper_mask) | (u.cf[(i+1)%nnn]&glower_mask);
-          tmp = u.cf[immm] ^ ( (((tmp>>1) & MAX_VALUE) ^ aaa[(int)LSB(tmp)]) & MAX_VALUE );
-          tmp &= MAX_VALUE;
-          tmp  &=  greal_mask;
-          u.cf[i] = tmp;
+            if (tmp != 0) {
+                tmp ^= ((tmp >> shift_0) & greal_mask);//TRNSTMP;
+                tmp &= MAX_VALUE;
+                tmp ^= ((tmp << shift_s) & MAX_VALUE & mask_b);
+                tmp &= MAX_VALUE;
+                tmp ^= ((tmp << shift_t) & MAX_VALUE & mask_c);//MASKTMP;
+                tmp &= MAX_VALUE;
+                if ((tmp & upper_v_bits) != 0) {
+                    v.bp = tmp;
+                    v.degree = -(j + nnn + 1);
+                    // This is a no-op
+                    // free_Vector(u);
+                    return -(j + nnn + 1);
+                }
+            }
 
-          if (tmp != 0) {
-              tmp ^= ( (tmp>>shift_0) & greal_mask );//TRNSTMP;
-              tmp &= MAX_VALUE;
-              tmp ^= ( (tmp<<shift_s) & MAX_VALUE & mask_b);
-              tmp &= MAX_VALUE;
-              tmp ^= ( (tmp<<shift_t) & MAX_VALUE & mask_c);//MASKTMP;
-              tmp &= MAX_VALUE;
-              if( (tmp & upper_v_bits) != 0 ) {
-                  v.bp = tmp;
-                  v.degree = -(j+nnn+1);
-                  // This is a no-op
-                  // free_Vector(u);
-                  return -(j+nnn+1);
-              }
-          }
-          
-          ++i;
-          ++immm;
+            ++i;
+            ++immm;
         }
 
         // This is a no-op
         // free_Vector(u);
         v.bp = 0;
         v.degree = MIN_INFINITE;
-        return MIN_INFINITE; /* if 0 inspite of  (nw-r) times of generation */
+        return MIN_INFINITE;
+        /* if 0 inspite of  (nw-r) times of generation */
     }
 
-
-/** add t^k*(i-th row) to j-th row */
-    protected void add_i_to_j( Vector[] lattice, int i, int j, int k) {
+    /**
+     * add t^k*(i-th row) to j-th row
+     * @param lattice
+     * @param i
+     * @param j
+     */
+    protected void add_i_to_j(Vector[] lattice, int i, int j, int k) {
         Vector ith;
 
-        ith = mult( lattice[i], k);
-        add( lattice[j], ith);
+        ith = mult(lattice[i], k);
+        add(lattice[j], ith);
         // This is a no-op
         //free_Vector( ith );
     }
 
-/** exchange columns so that i-th element of variable vec 
-* gives the norm of vec */
-    protected void pull_max( int i, int v, Vector vec) {
+    /**
+     * exchange columns so that i-th element of variable vec gives the norm of
+     * vec
+     * @param i Given element of Vector to contain the norm
+     * @param v ?
+     * @param vec Given Vector
+     */
+    protected void pull_max(int i, int v, Vector vec) {
         int j;
         long tmp;
 
-        if( (vec.bp & cur_bitmask[i]) != 0 ) return;
+        if ((vec.bp & cur_bitmask[i]) != 0) {
+            return;
+        }
 
-        for( j=i+1; j<v; j++){
-            if( (vec.bp & cur_bitmask[j]) != 0 ){
+        for (j = i + 1; j < v; j++) {
+            if ((vec.bp & cur_bitmask[j]) != 0) {
                 tmp = cur_bitmask[i];
                 cur_bitmask[i] = cur_bitmask[j];
                 cur_bitmask[j] = tmp;
@@ -843,71 +966,94 @@ public class MersenneTwisterFactory {
 
     }
 
-/** puts i-th row be the minimum one in i-th row ... v-th row */
-    protected void pull_min_row( int i, int v, Vector[] lattice) {
+    /**
+     * puts i-th row be the minimum one in i-th row ... v-th row
+     * @param i given starting row
+     * @param v given ending row
+     * @param lattice Given array of Vectors
+     */
+    protected void pull_min_row(int i, int v, Vector[] lattice) {
         int j, min_deg, min_j;
         Vector vtmp;
 
         min_deg = lattice[i].degree;
         min_j = i;
-        for( j=i+1; j<=v; j++){
-            if( min_deg > lattice[j].degree ){
+        for (j = i + 1; j <= v; j++) {
+            if (min_deg > lattice[j].degree) {
                 min_deg = lattice[j].degree;
                 min_j = j;
             }
         }
 
-        vtmp = lattice[min_j]; lattice[min_j] = lattice[i];
+        vtmp = lattice[min_j];
+        lattice[min_j] = lattice[i];
         lattice[i] = vtmp;
     }
 
-/** sweeps out k-th row with 0th ... (k-1)th rows */
-    protected void hakidasi( int k, Vector[] lattice) {
+    /**
+     * sweeps out k-th row with 0th ... (k-1)th rows
+     * @param k given row
+     * @param lattice given array of Vectors
+     */
+    protected void hakidasi(int k, Vector[] lattice) {
         int i;
 
-        for( i=0; i<k; i++){
-            if( (lattice[k].bp & cur_bitmask[i]) != 0 ){
-                  add_i_to_j( lattice, i, k, lattice[k].degree - lattice[i].degree);
-                  lattice[k].bp ^= lattice[i].bp;
+        for (i = 0; i < k; i++) {
+            if ((lattice[k].bp & cur_bitmask[i]) != 0) {
+                add_i_to_j(lattice, i, k, lattice[k].degree - lattice[i].degree);
+                lattice[k].bp ^= lattice[i].bp;
             }
         }
     }
 
-/** makes a initial lattice */
+    /**
+     * makes a initial lattice
+     * @param v
+     * @return initial lattice
+     */
     protected Vector[] make_lattice(int v) {
         int i;
         long tmp;
         Vector[] lattice;
         Vector top;
 
-        lattice = new Vector[v+1];//(Vector **)malloc( (v+1) * sizeof( Vector *) );
+        lattice = new Vector[v + 1];//(Vector **)malloc( (v+1) * sizeof( Vector *) );
 
-        for( i=1; i<=v; i++){ /* from 1st row to v-th row */
+        for (i = 1; i <= v; i++) {
+            /* from 1st row to v-th row */
             lattice[i] = new_Vector();
-            lattice[i].z = bitmask[i-1];
+            lattice[i].z = bitmask[i - 1];
             lattice[i].start = 0;
-            lattice[i].bp = bitmask[i-1];
+            lattice[i].bp = bitmask[i - 1];
             lattice[i].degree = 0;
         }
 
-
-        top = new_Vector(); /* 0th row */
-        for(i=0; i<nnn; i++) {
-          top.cf[i] = _genrand_dc();
-          top.cf[i] &= greal_mask;
+        top = new_Vector();
+        /* 0th row */
+        for (i = 0; i < nnn; i++) {
+            top.cf[i] = _genrand_dc();
+            top.cf[i] &= greal_mask;
         }
-        tmp = ( top.cf[0] & gupper_mask ) | ( top.cf[1] & glower_mask );
-        top.cf[0] = top.cf[mmm] ^ ( (((tmp>>1) & MAX_VALUE) ^ aaa[(int)LSB(tmp)]) & MAX_VALUE );
+        tmp = (top.cf[0] & gupper_mask) | (top.cf[1] & glower_mask);
+        top.cf[0] = top.cf[mmm] ^ ((((tmp >> 1) & MAX_VALUE) ^ aaa[(int) LSB(tmp)]) & MAX_VALUE);
         top.cf[0] &= MAX_VALUE;
         top.cf[0] &= greal_mask;
-        top.z = 0; top.start = 1; 
-        degree_of_vector( top );
+        top.z = 0;
+        top.start = 1;
+        degree_of_vector(top);
         lattice[0] = top;
 
         return lattice;
     }
 
-/***********/
+    /**
+     *
+     * @param head
+     * @param b
+     * @param c
+     * @param leng
+     * @return MaskNode with given parameters
+     */
     protected MaskNode cons_MaskNode(MaskNode head, long b, long c, int leng) {
         MaskNode t = new MaskNode();
 
@@ -922,7 +1068,7 @@ public class MersenneTwisterFactory {
     protected void delete_MaskNodes(MaskNode head) {
         MaskNode t;
 
-        while(head != null) {
+        while (head != null) {
             t = head.next;
             head = null;
             head = t;
@@ -933,168 +1079,189 @@ public class MersenneTwisterFactory {
         MaskNode s, t, tail;
 
         s = head;
-        while(true) { /* heading */
-            if (s == null)
+        while (true) {
+            /* heading */
+            if (s == null) {
                 return null;
-            if (s.leng >= l)
+            }
+            if (s.leng >= l) {
                 break;
+            }
             t = s.next;
             s = null;
             s = t;
         }
 
         head = tail = s;
-        
+
         while (head != null) {
             t = head.next;
             if (head.leng < l) {
                 head = null;
-            }
-            else {
+            } else {
                 tail.next = head;
                 tail = head;
             }
             head = t;
         }
-        
+
         tail.next = null;
         return s;
     }
-
 
     protected void show_distrib(MTS mts) {
         int i, lim, diff, t;
         double per;
 
         init_tempering(mts);
-        
+
         mask_b = ((mts.maskB) << ggap) & MAX_VALUE;
         mask_c = ((mts.maskC) << ggap) & MAX_VALUE;
-        for (i=0; i<www; i++) {
-            t = lenstra(i+1);
-            lim = (nnn*www-rrr)/(i+1);
-            diff = lim  - t;
-            per = (double)t / (double)lim;
+        for (i = 0; i < www; i++) {
+            t = lenstra(i + 1);
+            lim = (nnn * www - rrr) / (i + 1);
+            diff = lim - t;
+            per = (double) t / (double) lim;
             //printf ("%d %d %d %d %4.2f\n", i+1, t,  lim, diff, per);
         }
     }
-/* init.c */
 
-/* Copyright (C) 2001 Makoto Matsumoto and Takuji Nishimura.       */
-/* This library is free software; you can redistribute it and/or   */
-/* modify it under the terms of the GNU Library General Public     */
-/* License as published by the Free Software Foundation; either    */
-/* version 2 of the License, or (at your option) any later         */
-/* version.                                                        */
-/* This library is distributed in the hope that it will be useful, */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
-/* See the GNU Library General Public License for more details.    */
-/* You should have received a copy of the GNU Library General      */
-/* Public License along with this library; if not, write to the    */
-/* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */ 
-/* 02111-1307  USA                                                 */
+    /* init.c */
 
-
+ /* Copyright (C) 2001 Makoto Matsumoto and Takuji Nishimura.       */
+ /* This library is free software; you can redistribute it and/or   */
+ /* modify it under the terms of the GNU Library General Public     */
+ /* License as published by the Free Software Foundation; either    */
+ /* version 2 of the License, or (at your option) any later         */
+ /* version.                                                        */
+ /* This library is distributed in the hope that it will be useful, */
+ /* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
+ /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
+ /* See the GNU Library General Public License for more details.    */
+ /* You should have received a copy of the GNU Library General      */
+ /* Public License along with this library; if not, write to the    */
+ /* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */
+ /* 02111-1307  USA                                                 */
     protected void init_dc(int seed) {
         _sgenrand_dc(seed);
     }
-/* mt19937.c */
+    /* mt19937.c */
 
-/* A C-program for MT19937: Integer version (1999/10/28)          */
-/*  genrand() generates one pseudorandom unsigned integer (32bit) */
-/* which is uniformly distributed among 0 to 2^32-1  for each     */
-/* call. sgenrand(seed) sets initial values to the working area   */
-/* of 624 words. Before genrand(), sgenrand(seed) must be         */
-/* called once. (seed is any 32-bit integer.)                     */
-/*   Coded by Takuji Nishimura, considering the suggestions by    */
-/* Topher Cooper and Marc Rieffel in July-Aug. 1997.              */
+ /* A C-program for MT19937: Integer version (1999/10/28)          */
+ /*  genrand() generates one pseudorandom unsigned integer (32bit) */
+ /* which is uniformly distributed among 0 to 2^32-1  for each     */
+ /* call. sgenrand(seed) sets initial values to the working area   */
+ /* of 624 words. Before genrand(), sgenrand(seed) must be         */
+ /* called once. (seed is any 32-bit integer.)                     */
+ /*   Coded by Takuji Nishimura, considering the suggestions by    */
+ /* Topher Cooper and Marc Rieffel in July-Aug. 1997.              */
 
-/* This library is free software; you can redistribute it and/or   */
-/* modify it under the terms of the GNU Library General Public     */
-/* License as published by the Free Software Foundation; either    */
-/* version 2 of the License, or (at your option) any later         */
-/* version.                                                        */
-/* This library is distributed in the hope that it will be useful, */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
-/* See the GNU Library General Public License for more details.    */
-/* You should have received a copy of the GNU Library General      */
-/* Public License along with this library; if not, write to the    */
-/* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */ 
-/* 02111-1307  USA                                                 */
+ /* This library is free software; you can redistribute it and/or   */
+ /* modify it under the terms of the GNU Library General Public     */
+ /* License as published by the Free Software Foundation; either    */
+ /* version 2 of the License, or (at your option) any later         */
+ /* version.                                                        */
+ /* This library is distributed in the hope that it will be useful, */
+ /* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
+ /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
+ /* See the GNU Library General Public License for more details.    */
+ /* You should have received a copy of the GNU Library General      */
+ /* Public License along with this library; if not, write to the    */
+ /* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */
+ /* 02111-1307  USA                                                 */
 
-/* Copyright (C) 1997, 1999 Makoto Matsumoto and Takuji Nishimura. */
-/* When you use this, send an email to: matumoto@math.keio.ac.jp   */
-/* with an appropriate reference to your work.                     */
+ /* Copyright (C) 1997, 1999 Makoto Matsumoto and Takuji Nishimura. */
+ /* When you use this, send an email to: matumoto@math.keio.ac.jp   */
+ /* with an appropriate reference to your work.                     */
 
-/* REFERENCE                                                       */
-/* M. Matsumoto and T. Nishimura,                                  */
-/* "Mersenne Twister: A 623-Dimensionally Equidistributed Uniform  */
-/* Pseudo-Random Number Generator",                                */
-/* ACM Transactions on Modeling and Computer Simulation,           */
-/* Vol. 8, No. 1, January 1998, pp 3--30.                          */
-
-
-/* Period parameters */  
+ /* REFERENCE                                                       */
+ /* M. Matsumoto and T. Nishimura,                                  */
+ /* "Mersenne Twister: A 623-Dimensionally Equidistributed Uniform  */
+ /* Pseudo-Random Number Generator",                                */
+ /* ACM Transactions on Modeling and Computer Simulation,           */
+ /* Vol. 8, No. 1, January 1998, pp 3--30.                          */
+ /* Period parameters */
     public static final int N = 624;
     public static final int M = 397;
-    public static final int MATRIX_A = 0x9908b0df;   /* constant vector a */
-    public static final int UPPER_MASK = 0x80000000; /* most significant w-r bits */
-    public static final int LOWER_MASK = 0x7fffffff; /* least significant r bits */
+    public static final int MATRIX_A = 0x9908b0df;
+    /* constant vector a */
+    public static final int UPPER_MASK = 0x80000000;
+    /* most significant w-r bits */
+    public static final int LOWER_MASK = 0x7fffffff;
+    /* least significant r bits */
 
-/* Tempering parameters */   
-    public static final int TEMPERING_MASK_B  = 0x9d2c5680;
+ /* Tempering parameters */
+    public static final int TEMPERING_MASK_B = 0x9d2c5680;
     public static final int TEMPERING_MASK_C = 0xefc60000;
-    protected long TEMPERING_SHIFT_U(long y) {return  (y >> 11);}
-    protected long TEMPERING_SHIFT_S(long y) {return ((y << 7) & MAX_VALUE);}
-    protected long TEMPERING_SHIFT_T(long y) {return ((y << 15) & MAX_VALUE);}
-    protected long TEMPERING_SHIFT_L(long y) {return (y >> 18);}
 
-    protected long[] mt = new long[N]; /* the array for the state vector  */
-    protected int mti=N+1; /* mti==N+1 means mt[N] is not initialized */
+    protected long TEMPERING_SHIFT_U(long y) {
+        return (y >> 11);
+    }
 
-/** Initializing the array with a seed */
+    protected long TEMPERING_SHIFT_S(long y) {
+        return ((y << 7) & MAX_VALUE);
+    }
+
+    protected long TEMPERING_SHIFT_T(long y) {
+        return ((y << 15) & MAX_VALUE);
+    }
+
+    protected long TEMPERING_SHIFT_L(long y) {
+        return (y >> 18);
+    }
+
+    protected long[] mt = new long[N];
+    /* the array for the state vector  */
+    protected int mti = N + 1;
+
+    /* mti==N+1 means mt[N] is not initialized */
+    /**
+     * Initializing the array with a seed
+     *
+     * @param seed Given seed
+     */
     protected void _sgenrand_dc(long seed) {
         int i;
 
-        for (i=0;i<N;i++) {
-             mt[i] = seed & 0xffff0000;
-             seed = 69069 * seed + 1;
-             seed = seed & MAX_VALUE;
-             mt[i] |= (seed & 0xffff0000) >> 16;
-             seed = 69069 * seed + 1;
-             seed = seed & MAX_VALUE;
+        for (i = 0; i < N; i++) {
+            mt[i] = seed & 0xffff0000;
+            seed = 69069 * seed + 1;
+            seed = seed & MAX_VALUE;
+            mt[i] |= (seed & 0xffff0000) >> 16;
+            seed = 69069 * seed + 1;
+            seed = seed & MAX_VALUE;
         }
         mti = N;
     }
 
-
     protected long _genrand_dc() {
         long y;
-        long[] mag01 = new long[] {0x0, MATRIX_A};
+        long[] mag01 = new long[]{0x0, MATRIX_A};
         /* mag01[x] = x * MATRIX_A  for x=0,1 */
 
-        if (mti >= N) { /* generate N words at one time */
+        if (mti >= N) {
+            /* generate N words at one time */
             int kk;
 
-            if (mti == N+1)   /* if sgenrand() has not been called, */
-                _sgenrand_dc(4357); /* a default initial seed is used   */
+            if (mti == N + 1) /* if sgenrand() has not been called, */ {
+                _sgenrand_dc(4357);
+                /* a default initial seed is used   */
+            }
 
-            for (kk=0;kk<N-M;kk++) {
-                y = (mt[kk]&UPPER_MASK)|(mt[kk+1]&LOWER_MASK);
-                mt[kk] = (((mt[kk+M] ^ (y >> 1)) & MAX_VALUE) ^ mag01[(int)y & 0x1]) & MAX_VALUE;
+            for (kk = 0; kk < N - M; kk++) {
+                y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+                mt[kk] = (((mt[kk + M] ^ (y >> 1)) & MAX_VALUE) ^ mag01[(int) y & 0x1]) & MAX_VALUE;
             }
-            for (;kk<N-1;kk++) {
-                y = (mt[kk]&UPPER_MASK)|(mt[kk+1]&LOWER_MASK);
-                mt[kk] = (((mt[kk+(M-N)] ^ (y >> 1)) & MAX_VALUE) ^ mag01[(int)y & 0x1]) & MAX_VALUE;
+            for (; kk < N - 1; kk++) {
+                y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+                mt[kk] = (((mt[kk + (M - N)] ^ (y >> 1)) & MAX_VALUE) ^ mag01[(int) y & 0x1]) & MAX_VALUE;
             }
-            y = (mt[N-1]&UPPER_MASK)|(mt[0]&LOWER_MASK);
-            mt[N-1] = (((mt[M-1] ^ (y >> 1)) & MAX_VALUE) ^ mag01[(int)y & 0x1]) & MAX_VALUE;
+            y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
+            mt[N - 1] = (((mt[M - 1] ^ (y >> 1)) & MAX_VALUE) ^ mag01[(int) y & 0x1]) & MAX_VALUE;
 
             mti = 0;
         }
-      
+
         y = mt[mti++];
         y ^= TEMPERING_SHIFT_U(y);
         y &= MAX_VALUE;
@@ -1105,27 +1272,27 @@ public class MersenneTwisterFactory {
         y ^= TEMPERING_SHIFT_L(y);
         y &= MAX_VALUE;
 
-        return y; 
+        return y;
     }
 
-/* prescr.c */
+    /* prescr.c */
 
-/* Copyright (C) 2001 Makoto Matsumoto and Takuji Nishimura.       */
-/* This library is free software; you can redistribute it and/or   */
-/* modify it under the terms of the GNU Library General Public     */
-/* License as published by the Free Software Foundation; either    */
-/* version 2 of the License, or (at your option) any later         */
-/* version.                                                        */
-/* This library is distributed in the hope that it will be useful, */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
-/* See the GNU Library General Public License for more details.    */
-/* You should have received a copy of the GNU Library General      */
-/* Public License along with this library; if not, write to the    */
-/* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */ 
-/* 02111-1307  USA                                                 */
+ /* Copyright (C) 2001 Makoto Matsumoto and Takuji Nishimura.       */
+ /* This library is free software; you can redistribute it and/or   */
+ /* modify it under the terms of the GNU Library General Public     */
+ /* License as published by the Free Software Foundation; either    */
+ /* version 2 of the License, or (at your option) any later         */
+ /* version.                                                        */
+ /* This library is distributed in the hope that it will be useful, */
+ /* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
+ /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
+ /* See the GNU Library General Public License for more details.    */
+ /* You should have received a copy of the GNU Library General      */
+ /* Public License along with this library; if not, write to the    */
+ /* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */
+ /* 02111-1307  USA                                                 */
 
-/* example 
+ /* example 
 
    ------------------------
    _InitPrescreening_dc(m,n,r,w)
@@ -1137,84 +1304,83 @@ public class MersenneTwisterFactory {
    ------------------------
    _InitPrescreening_dc(),_EndPrescreening_dc() shoud be called once.
    Parameters (m,n,r,w) should not be changed.
-*/
-
-
+     */
     public static final int NOT_REJECTED = 1;
     public static final int REJECTED = 0;
-
 
     public static final int LIMIT_IRRED_DEG = 31;
     public static final int NIRREDPOLY = 127;
     public static final int MAX_IRRED_DEG = 9;
 
     public static final int PRESCR_REDU = 1;//There is another REDU in check32 and seive which 
-                                            // are both 0.
+    // are both 0.
     public static final int NONREDU = 0;
 
-/* list of irreducible polynomials whose degrees are less than 10 */
-    protected int[][] irredpolylist = new int[][]/*[NIRREDPOLY][MAX_IRRED_DEG+1] =*/ {
-    {0,1,0,0,0,0,0,0,0,0,},{1,1,0,0,0,0,0,0,0,0,},{1,1,1,0,0,0,0,0,0,0,},
-    {1,1,0,1,0,0,0,0,0,0,},{1,0,1,1,0,0,0,0,0,0,},{1,1,0,0,1,0,0,0,0,0,},
-    {1,0,0,1,1,0,0,0,0,0,},{1,1,1,1,1,0,0,0,0,0,},{1,0,1,0,0,1,0,0,0,0,},
-    {1,0,0,1,0,1,0,0,0,0,},{1,1,1,1,0,1,0,0,0,0,},{1,1,1,0,1,1,0,0,0,0,},
-    {1,1,0,1,1,1,0,0,0,0,},{1,0,1,1,1,1,0,0,0,0,},{1,1,0,0,0,0,1,0,0,0,},
-    {1,0,0,1,0,0,1,0,0,0,},{1,1,1,0,1,0,1,0,0,0,},{1,1,0,1,1,0,1,0,0,0,},
-    {1,0,0,0,0,1,1,0,0,0,},{1,1,1,0,0,1,1,0,0,0,},{1,0,1,1,0,1,1,0,0,0,},
-    {1,1,0,0,1,1,1,0,0,0,},{1,0,1,0,1,1,1,0,0,0,},{1,1,0,0,0,0,0,1,0,0,},
-    {1,0,0,1,0,0,0,1,0,0,},{1,1,1,1,0,0,0,1,0,0,},{1,0,0,0,1,0,0,1,0,0,},
-    {1,0,1,1,1,0,0,1,0,0,},{1,1,1,0,0,1,0,1,0,0,},{1,1,0,1,0,1,0,1,0,0,},
-    {1,0,0,1,1,1,0,1,0,0,},{1,1,1,1,1,1,0,1,0,0,},{1,0,0,0,0,0,1,1,0,0,},
-    {1,1,0,1,0,0,1,1,0,0,},{1,1,0,0,1,0,1,1,0,0,},{1,0,1,0,1,0,1,1,0,0,},
-    {1,0,1,0,0,1,1,1,0,0,},{1,1,1,1,0,1,1,1,0,0,},{1,0,0,0,1,1,1,1,0,0,},
-    {1,1,1,0,1,1,1,1,0,0,},{1,0,1,1,1,1,1,1,0,0,},{1,1,0,1,1,0,0,0,1,0,},
-    {1,0,1,1,1,0,0,0,1,0,},{1,1,0,1,0,1,0,0,1,0,},{1,0,1,1,0,1,0,0,1,0,},
-    {1,0,0,1,1,1,0,0,1,0,},{1,1,1,1,1,1,0,0,1,0,},{1,0,1,1,0,0,1,0,1,0,},
-    {1,1,1,1,1,0,1,0,1,0,},{1,1,0,0,0,1,1,0,1,0,},{1,0,1,0,0,1,1,0,1,0,},
-    {1,0,0,1,0,1,1,0,1,0,},{1,0,0,0,1,1,1,0,1,0,},{1,1,1,0,1,1,1,0,1,0,},
-    {1,1,0,1,1,1,1,0,1,0,},{1,1,1,0,0,0,0,1,1,0,},{1,1,0,1,0,0,0,1,1,0,},
-    {1,0,1,1,0,0,0,1,1,0,},{1,1,1,1,1,0,0,1,1,0,},{1,1,0,0,0,1,0,1,1,0,},
-    {1,0,0,1,0,1,0,1,1,0,},{1,0,0,0,1,1,0,1,1,0,},{1,0,1,1,1,1,0,1,1,0,},
-    {1,1,0,0,0,0,1,1,1,0,},{1,1,1,1,0,0,1,1,1,0,},{1,1,1,0,1,0,1,1,1,0,},
-    {1,0,1,1,1,0,1,1,1,0,},{1,1,1,0,0,1,1,1,1,0,},{1,1,0,0,1,1,1,1,1,0,},
-    {1,0,1,0,1,1,1,1,1,0,},{1,0,0,1,1,1,1,1,1,0,},{1,1,0,0,0,0,0,0,0,1,},
-    {1,0,0,0,1,0,0,0,0,1,},{1,1,1,0,1,0,0,0,0,1,},{1,1,0,1,1,0,0,0,0,1,},
-    {1,0,0,0,0,1,0,0,0,1,},{1,0,1,1,0,1,0,0,0,1,},{1,1,0,0,1,1,0,0,0,1,},
-    {1,1,0,1,0,0,1,0,0,1,},{1,0,0,1,1,0,1,0,0,1,},{1,1,1,1,1,0,1,0,0,1,},
-    {1,0,1,0,0,1,1,0,0,1,},{1,0,0,1,0,1,1,0,0,1,},{1,1,1,1,0,1,1,0,0,1,},
-    {1,1,1,0,1,1,1,0,0,1,},{1,0,1,1,1,1,1,0,0,1,},{1,1,1,0,0,0,0,1,0,1,},
-    {1,0,1,0,1,0,0,1,0,1,},{1,0,0,1,1,0,0,1,0,1,},{1,1,0,0,0,1,0,1,0,1,},
-    {1,0,1,0,0,1,0,1,0,1,},{1,1,1,1,0,1,0,1,0,1,},{1,1,1,0,1,1,0,1,0,1,},
-    {1,0,1,1,1,1,0,1,0,1,},{1,1,1,1,0,0,1,1,0,1,},{1,0,0,0,1,0,1,1,0,1,},
-    {1,1,0,1,1,0,1,1,0,1,},{1,0,1,0,1,1,1,1,0,1,},{1,0,0,1,1,1,1,1,0,1,},
-    {1,0,0,0,0,0,0,0,1,1,},{1,1,0,0,1,0,0,0,1,1,},{1,0,1,0,1,0,0,0,1,1,},
-    {1,1,1,1,1,0,0,0,1,1,},{1,1,0,0,0,1,0,0,1,1,},{1,0,0,0,1,1,0,0,1,1,},
-    {1,1,0,1,1,1,0,0,1,1,},{1,0,0,1,0,0,1,0,1,1,},{1,1,1,1,0,0,1,0,1,1,},
-    {1,1,0,1,1,0,1,0,1,1,},{1,0,0,0,0,1,1,0,1,1,},{1,1,0,1,0,1,1,0,1,1,},
-    {1,0,1,1,0,1,1,0,1,1,},{1,1,0,0,1,1,1,0,1,1,},{1,1,1,1,1,1,1,0,1,1,},
-    {1,0,1,0,0,0,0,1,1,1,},{1,1,1,1,0,0,0,1,1,1,},{1,0,0,0,0,1,0,1,1,1,},
-    {1,0,1,0,1,1,0,1,1,1,},{1,0,0,1,1,1,0,1,1,1,},{1,1,1,0,0,0,1,1,1,1,},
-    {1,1,0,1,0,0,1,1,1,1,},{1,0,1,1,0,0,1,1,1,1,},{1,0,1,0,1,0,1,1,1,1,},
-    {1,0,0,1,1,0,1,1,1,1,},{1,1,0,0,0,1,1,1,1,1,},{1,0,0,1,0,1,1,1,1,1,},
-    {1,1,0,1,1,1,1,1,1,1,},
-};
+    /* list of irreducible polynomials whose degrees are less than 10 */
+    protected int[][] irredpolylist = new int[][]/*[NIRREDPOLY][MAX_IRRED_DEG+1] =*/{
+        {0, 1, 0, 0, 0, 0, 0, 0, 0, 0,}, {1, 1, 0, 0, 0, 0, 0, 0, 0, 0,}, {1, 1, 1, 0, 0, 0, 0, 0, 0, 0,},
+        {1, 1, 0, 1, 0, 0, 0, 0, 0, 0,}, {1, 0, 1, 1, 0, 0, 0, 0, 0, 0,}, {1, 1, 0, 0, 1, 0, 0, 0, 0, 0,},
+        {1, 0, 0, 1, 1, 0, 0, 0, 0, 0,}, {1, 1, 1, 1, 1, 0, 0, 0, 0, 0,}, {1, 0, 1, 0, 0, 1, 0, 0, 0, 0,},
+        {1, 0, 0, 1, 0, 1, 0, 0, 0, 0,}, {1, 1, 1, 1, 0, 1, 0, 0, 0, 0,}, {1, 1, 1, 0, 1, 1, 0, 0, 0, 0,},
+        {1, 1, 0, 1, 1, 1, 0, 0, 0, 0,}, {1, 0, 1, 1, 1, 1, 0, 0, 0, 0,}, {1, 1, 0, 0, 0, 0, 1, 0, 0, 0,},
+        {1, 0, 0, 1, 0, 0, 1, 0, 0, 0,}, {1, 1, 1, 0, 1, 0, 1, 0, 0, 0,}, {1, 1, 0, 1, 1, 0, 1, 0, 0, 0,},
+        {1, 0, 0, 0, 0, 1, 1, 0, 0, 0,}, {1, 1, 1, 0, 0, 1, 1, 0, 0, 0,}, {1, 0, 1, 1, 0, 1, 1, 0, 0, 0,},
+        {1, 1, 0, 0, 1, 1, 1, 0, 0, 0,}, {1, 0, 1, 0, 1, 1, 1, 0, 0, 0,}, {1, 1, 0, 0, 0, 0, 0, 1, 0, 0,},
+        {1, 0, 0, 1, 0, 0, 0, 1, 0, 0,}, {1, 1, 1, 1, 0, 0, 0, 1, 0, 0,}, {1, 0, 0, 0, 1, 0, 0, 1, 0, 0,},
+        {1, 0, 1, 1, 1, 0, 0, 1, 0, 0,}, {1, 1, 1, 0, 0, 1, 0, 1, 0, 0,}, {1, 1, 0, 1, 0, 1, 0, 1, 0, 0,},
+        {1, 0, 0, 1, 1, 1, 0, 1, 0, 0,}, {1, 1, 1, 1, 1, 1, 0, 1, 0, 0,}, {1, 0, 0, 0, 0, 0, 1, 1, 0, 0,},
+        {1, 1, 0, 1, 0, 0, 1, 1, 0, 0,}, {1, 1, 0, 0, 1, 0, 1, 1, 0, 0,}, {1, 0, 1, 0, 1, 0, 1, 1, 0, 0,},
+        {1, 0, 1, 0, 0, 1, 1, 1, 0, 0,}, {1, 1, 1, 1, 0, 1, 1, 1, 0, 0,}, {1, 0, 0, 0, 1, 1, 1, 1, 0, 0,},
+        {1, 1, 1, 0, 1, 1, 1, 1, 0, 0,}, {1, 0, 1, 1, 1, 1, 1, 1, 0, 0,}, {1, 1, 0, 1, 1, 0, 0, 0, 1, 0,},
+        {1, 0, 1, 1, 1, 0, 0, 0, 1, 0,}, {1, 1, 0, 1, 0, 1, 0, 0, 1, 0,}, {1, 0, 1, 1, 0, 1, 0, 0, 1, 0,},
+        {1, 0, 0, 1, 1, 1, 0, 0, 1, 0,}, {1, 1, 1, 1, 1, 1, 0, 0, 1, 0,}, {1, 0, 1, 1, 0, 0, 1, 0, 1, 0,},
+        {1, 1, 1, 1, 1, 0, 1, 0, 1, 0,}, {1, 1, 0, 0, 0, 1, 1, 0, 1, 0,}, {1, 0, 1, 0, 0, 1, 1, 0, 1, 0,},
+        {1, 0, 0, 1, 0, 1, 1, 0, 1, 0,}, {1, 0, 0, 0, 1, 1, 1, 0, 1, 0,}, {1, 1, 1, 0, 1, 1, 1, 0, 1, 0,},
+        {1, 1, 0, 1, 1, 1, 1, 0, 1, 0,}, {1, 1, 1, 0, 0, 0, 0, 1, 1, 0,}, {1, 1, 0, 1, 0, 0, 0, 1, 1, 0,},
+        {1, 0, 1, 1, 0, 0, 0, 1, 1, 0,}, {1, 1, 1, 1, 1, 0, 0, 1, 1, 0,}, {1, 1, 0, 0, 0, 1, 0, 1, 1, 0,},
+        {1, 0, 0, 1, 0, 1, 0, 1, 1, 0,}, {1, 0, 0, 0, 1, 1, 0, 1, 1, 0,}, {1, 0, 1, 1, 1, 1, 0, 1, 1, 0,},
+        {1, 1, 0, 0, 0, 0, 1, 1, 1, 0,}, {1, 1, 1, 1, 0, 0, 1, 1, 1, 0,}, {1, 1, 1, 0, 1, 0, 1, 1, 1, 0,},
+        {1, 0, 1, 1, 1, 0, 1, 1, 1, 0,}, {1, 1, 1, 0, 0, 1, 1, 1, 1, 0,}, {1, 1, 0, 0, 1, 1, 1, 1, 1, 0,},
+        {1, 0, 1, 0, 1, 1, 1, 1, 1, 0,}, {1, 0, 0, 1, 1, 1, 1, 1, 1, 0,}, {1, 1, 0, 0, 0, 0, 0, 0, 0, 1,},
+        {1, 0, 0, 0, 1, 0, 0, 0, 0, 1,}, {1, 1, 1, 0, 1, 0, 0, 0, 0, 1,}, {1, 1, 0, 1, 1, 0, 0, 0, 0, 1,},
+        {1, 0, 0, 0, 0, 1, 0, 0, 0, 1,}, {1, 0, 1, 1, 0, 1, 0, 0, 0, 1,}, {1, 1, 0, 0, 1, 1, 0, 0, 0, 1,},
+        {1, 1, 0, 1, 0, 0, 1, 0, 0, 1,}, {1, 0, 0, 1, 1, 0, 1, 0, 0, 1,}, {1, 1, 1, 1, 1, 0, 1, 0, 0, 1,},
+        {1, 0, 1, 0, 0, 1, 1, 0, 0, 1,}, {1, 0, 0, 1, 0, 1, 1, 0, 0, 1,}, {1, 1, 1, 1, 0, 1, 1, 0, 0, 1,},
+        {1, 1, 1, 0, 1, 1, 1, 0, 0, 1,}, {1, 0, 1, 1, 1, 1, 1, 0, 0, 1,}, {1, 1, 1, 0, 0, 0, 0, 1, 0, 1,},
+        {1, 0, 1, 0, 1, 0, 0, 1, 0, 1,}, {1, 0, 0, 1, 1, 0, 0, 1, 0, 1,}, {1, 1, 0, 0, 0, 1, 0, 1, 0, 1,},
+        {1, 0, 1, 0, 0, 1, 0, 1, 0, 1,}, {1, 1, 1, 1, 0, 1, 0, 1, 0, 1,}, {1, 1, 1, 0, 1, 1, 0, 1, 0, 1,},
+        {1, 0, 1, 1, 1, 1, 0, 1, 0, 1,}, {1, 1, 1, 1, 0, 0, 1, 1, 0, 1,}, {1, 0, 0, 0, 1, 0, 1, 1, 0, 1,},
+        {1, 1, 0, 1, 1, 0, 1, 1, 0, 1,}, {1, 0, 1, 0, 1, 1, 1, 1, 0, 1,}, {1, 0, 0, 1, 1, 1, 1, 1, 0, 1,},
+        {1, 0, 0, 0, 0, 0, 0, 0, 1, 1,}, {1, 1, 0, 0, 1, 0, 0, 0, 1, 1,}, {1, 0, 1, 0, 1, 0, 0, 0, 1, 1,},
+        {1, 1, 1, 1, 1, 0, 0, 0, 1, 1,}, {1, 1, 0, 0, 0, 1, 0, 0, 1, 1,}, {1, 0, 0, 0, 1, 1, 0, 0, 1, 1,},
+        {1, 1, 0, 1, 1, 1, 0, 0, 1, 1,}, {1, 0, 0, 1, 0, 0, 1, 0, 1, 1,}, {1, 1, 1, 1, 0, 0, 1, 0, 1, 1,},
+        {1, 1, 0, 1, 1, 0, 1, 0, 1, 1,}, {1, 0, 0, 0, 0, 1, 1, 0, 1, 1,}, {1, 1, 0, 1, 0, 1, 1, 0, 1, 1,},
+        {1, 0, 1, 1, 0, 1, 1, 0, 1, 1,}, {1, 1, 0, 0, 1, 1, 1, 0, 1, 1,}, {1, 1, 1, 1, 1, 1, 1, 0, 1, 1,},
+        {1, 0, 1, 0, 0, 0, 0, 1, 1, 1,}, {1, 1, 1, 1, 0, 0, 0, 1, 1, 1,}, {1, 0, 0, 0, 0, 1, 0, 1, 1, 1,},
+        {1, 0, 1, 0, 1, 1, 0, 1, 1, 1,}, {1, 0, 0, 1, 1, 1, 0, 1, 1, 1,}, {1, 1, 1, 0, 0, 0, 1, 1, 1, 1,},
+        {1, 1, 0, 1, 0, 0, 1, 1, 1, 1,}, {1, 0, 1, 1, 0, 0, 1, 1, 1, 1,}, {1, 0, 1, 0, 1, 0, 1, 1, 1, 1,},
+        {1, 0, 0, 1, 1, 0, 1, 1, 1, 1,}, {1, 1, 0, 0, 0, 1, 1, 1, 1, 1,}, {1, 0, 0, 1, 0, 1, 1, 1, 1, 1,},
+        {1, 1, 0, 1, 1, 1, 1, 1, 1, 1,},};
 
     public static class Polynomial {
-        int[] x; 
-        int deg;
-    } 
 
-    protected int sizeofA; /* parameter size */
+        int[] x;
+        int deg;
+    }
+
+    protected int sizeofA;
+    /* parameter size */
     protected long[][] modlist; //was static uint32 **modlist;
     protected Polynomial[] preModPolys;
 
     protected int _prescreening_dc(long aaa) {
-    
+
         int i;
 
-        for (i=0; i<NIRREDPOLY; i++) {
-        if (IsReducible(aaa,modlist[i])==PRESCR_REDU) 
-            return REJECTED;
+        for (i = 0; i < NIRREDPOLY; i++) {
+            if (IsReducible(aaa, modlist[i]) == PRESCR_REDU) {
+                return REJECTED;
+            }
         }
         return NOT_REJECTED;
     }
@@ -1224,21 +1390,20 @@ public class MersenneTwisterFactory {
         Polynomial pl;
 
         sizeofA = w;
-        
-        preModPolys = new Polynomial[sizeofA+1];
-            //(Polynomial **)malloc((sizeofA+1)*(sizeof(Polynomial*)));
-        MakepreModPolys(m,n,r,w);
+
+        preModPolys = new Polynomial[sizeofA + 1];
+        //(Polynomial **)malloc((sizeofA+1)*(sizeof(Polynomial*)));
+        MakepreModPolys(m, n, r, w);
 
         modlist = new long[NIRREDPOLY][];//(uint32**)malloc(NIRREDPOLY * sizeof(uint32*));
-        for (i=0; i<NIRREDPOLY; i++) {
+        for (i = 0; i < NIRREDPOLY; i++) {
             modlist[i] = new long[sizeofA + 1];
-                        //(uint32*)malloc( (sizeofA + 1) * (sizeof(uint32)) );
+            //(uint32*)malloc( (sizeofA + 1) * (sizeof(uint32)) );
         }
 
-
-        for (i=0; i<NIRREDPOLY; i++) {
+        for (i = 0; i < NIRREDPOLY; i++) {
             pl = NewPoly(MAX_IRRED_DEG);
-            NextIrredPoly(pl,i); 
+            NextIrredPoly(pl, i);
             makemodlist(pl, i);
 // This is a no-op
 //            FreePoly(pl);
@@ -1255,17 +1420,25 @@ public class MersenneTwisterFactory {
 
     }
 
-/*************************************************/
-/******          static functions           ******/
-/*************************************************/
-
+    /**
+     * **********************************************
+     */
+    /**
+     * **** static functions *****
+     */
+    /**
+     * **********************************************
+     * @param pl Given Polynomial
+     * @param nth "nth" irreducible Polynomial
+     */
     protected void NextIrredPoly(Polynomial pl, int nth) {
         int i, max_deg;
-        
-        for (max_deg=0,i=0; i<=MAX_IRRED_DEG; i++) {
-        if ( irredpolylist[nth][i] != 0 ) 
-            max_deg = i;
-        pl.x[i] = irredpolylist[nth][i];
+
+        for (max_deg = 0, i = 0; i <= MAX_IRRED_DEG; i++) {
+            if (irredpolylist[nth][i] != 0) {
+                max_deg = i;
+            }
+            pl.x[i] = irredpolylist[nth][i];
         }
 
         pl.deg = max_deg;
@@ -1275,92 +1448,120 @@ public class MersenneTwisterFactory {
     protected void makemodlist(Polynomial pl, int nPoly) {
         Polynomial tmpPl;
         int i;
-        
-        for (i=0; i<=sizeofA; i++) {
+
+        for (i = 0; i <= sizeofA; i++) {
             tmpPl = PolynomialDup(preModPolys[i]);
-            PolynomialMod(tmpPl,pl);
+            PolynomialMod(tmpPl, pl);
             modlist[nPoly][i] = word2bit(tmpPl);
 // This is a no-op
 //            FreePoly(tmpPl);
         }
     }
-   
-/** Pack Polynomial into a word */
+
+    /**
+     * Pack Polynomial into a word
+     *
+     * @param pl given Polynomial
+     * @return Polynomial packed into into a word
+     */
     protected long word2bit(Polynomial pl) {
         int i;
         long bx;
 
         bx = 0;
-        for (i=pl.deg; i>0; i--) {
-            if (pl.x[i] != 0) bx |= 1;
+        for (i = pl.deg; i > 0; i--) {
+            if (pl.x[i] != 0) {
+                bx |= 1;
+            }
             bx <<= 1;
             bx &= MAX_VALUE;
         }
-        if (pl.x[0] != 0) bx |= 1;
-          
+        if (pl.x[0] != 0) {
+            bx |= 1;
+        }
+
         return bx;
     }
 
-/** REDU -- reducible 
- aaa = (a_{w-1}a_{w-2}...a_1a_0 */   
+    /**
+     * REDU -- reducible aaa = (a_{w-1}a_{w-2}...a_1a_0
+     *
+     * @param aaa
+     * @param polylist
+     * @return 1 if reducible, 0 if not
+     */
     protected int IsReducible(long aaa, long[] polylist) {
         int i;
         long x;
 
         x = polylist[sizeofA];
-        for (i=sizeofA-1; i>=0; i--) {
-            if ((aaa&1) != 0) {
+        for (i = sizeofA - 1; i >= 0; i--) {
+            if ((aaa & 1) != 0) {
                 x ^= polylist[i];
                 x &= MAX_VALUE;
             }
             aaa >>= 1;
         }
 
-        if ( x == 0 ) return PRESCR_REDU;
-        else return NONREDU;
+        if (x == 0) {
+            return PRESCR_REDU;
+        } else {
+            return NONREDU;
+        }
     }
-	  
 
-/***********************************/
-/**   functions for polynomial    **/
-/***********************************/
+    /**
+     * ********************************
+     */
+    /**
+     * functions for polynomial *
+     */
+    /**
+     * ********************************
+     * @param degree Given degree
+     * @return Polynomial with given degree
+     */
     protected Polynomial NewPoly(int degree) {
         Polynomial p = new Polynomial();
-        
+
         p.deg = degree;
 
         if (degree < 0) {
             p.x = null;
             return p;
         }
-        
+
         p.x = new int[degree + 1];//(int *)calloc( degree + 1, sizeof(int));
 
         return p;
     }
 
-    // This method does nothing, and has been removed
+// This method does nothing, and has been removed
 //    protected void FreePoly( Polynomial p) {
 //        p = null;
 //    }
-
-
-/** multiplication **/
-    protected Polynomial PolynomialMult(Polynomial p0,Polynomial p1) {
+    /**
+     * multiplication
+     *
+     * @param p0 first Polynomial
+     * @param p1 second Polynomial
+     * @return p0 * p1 (Polynomial multiplication)
+     */
+    protected Polynomial PolynomialMult(Polynomial p0, Polynomial p1) {
         int i, j;
         Polynomial p;
 
         /* if either p0 or p1 is 0, return 0 */
-        if ( (p0.deg < 0) || (p1.deg < 0) ) {
+        if ((p0.deg < 0) || (p1.deg < 0)) {
             p = NewPoly(-1);
             return p;
         }
 
         p = NewPoly(p0.deg + p1.deg);
-        for( i=0; i<=p1.deg; i++){
-            if( p1.x[i] != 0 ){
-                for( j=0; j<=p0.deg; j++){
-                p.x[i+j] ^= p0.x[j];
+        for (i = 0; i <= p1.deg; i++) {
+            if (p1.x[i] != 0) {
+                for (j = 0; j <= p0.deg; j++) {
+                    p.x[i + j] ^= p0.x[j];
                 }
             }
         }
@@ -1368,23 +1569,30 @@ public class MersenneTwisterFactory {
         return p;
     }
 
-/** wara mod waru 
-* the result is stored in wara ********/
-    protected void PolynomialMod( Polynomial wara, final Polynomial waru) {
+    /**
+     * wara mod waru the result is stored in wara
+     *
+     *******
+     * @param wara first Polynomial
+     * @param waru second Polynomial
+     */
+    protected void PolynomialMod(Polynomial wara, final Polynomial waru) {
         int i;
         int deg_diff;
 
-        while( wara.deg >= waru.deg  ){
+        while (wara.deg >= waru.deg) {
             deg_diff = wara.deg - waru.deg;
-            for( i=0; i<=waru.deg; i++){
-                wara.x[ i+deg_diff ] ^= waru.x[i];
+            for (i = 0; i <= waru.deg; i++) {
+                wara.x[i + deg_diff] ^= waru.x[i];
             }
-            
-            for( i=wara.deg; i>=0; i--){
-                if( wara.x[i] != 0 ) break;
+
+            for (i = wara.deg; i >= 0; i--) {
+                if (wara.x[i] != 0) {
+                    break;
+                }
             }
-            wara.deg=i;	
-        
+            wara.deg = i;
+
         }
     }
 
@@ -1393,14 +1601,21 @@ public class MersenneTwisterFactory {
         int i;
 
         pt = NewPoly(pl.deg);
-        for (i=pl.deg; i>=0; i--)
-        pt.x[i] = pl.x[i];
+        for (i = pl.deg; i >= 0; i--) {
+            pt.x[i] = pl.x[i];
+        }
 
         return pt;
     }
 
-/** make the polynomial  "t**n + t**m"  **/
-    protected Polynomial make_tntm( int n, int m) {
+    /**
+     * make the polynomial "t**n + t**m"
+     *
+     * @param n first exponent
+     * @param m second exponent
+     * @return the polynomial "t**n + t**m"
+     */
+    protected Polynomial make_tntm(int n, int m) {
         Polynomial p;
 
         p = NewPoly(n);
@@ -1411,7 +1626,7 @@ public class MersenneTwisterFactory {
 
     protected void MakepreModPolys(int mm, int nn, int rr, int ww) {
         Polynomial t, t0, t1, s, s0, s1;
-        int i,j;
+        int i, j;
 
         j = 0;
         t = NewPoly(0);
@@ -1419,41 +1634,43 @@ public class MersenneTwisterFactory {
         t.x[0] = 1;
         preModPolys[j++] = t;
 
-        t = make_tntm (nn, mm);
-        t0 = make_tntm (nn, mm);
-        s = make_tntm (nn-1, mm-1);
+        t = make_tntm(nn, mm);
+        t0 = make_tntm(nn, mm);
+        s = make_tntm(nn - 1, mm - 1);
 
-        for( i=1; i<(ww - rr); i++){
-        preModPolys[j++] = PolynomialDup(t0);
-        t1 = t0; 
-        t0 = PolynomialMult(t0, t); 
+        for (i = 1; i < (ww - rr); i++) {
+            preModPolys[j++] = PolynomialDup(t0);
+            t1 = t0;
+            t0 = PolynomialMult(t0, t);
 // This is a no-op
 //            FreePoly(t1);
         }
 
         preModPolys[j++] = PolynomialDup(t0);
 
-        s0 =PolynomialMult( t0, s);
+        s0 = PolynomialMult(t0, s);
 // This is a no-op
 //            FreePoly(t0);	FreePoly(t);
-        for( i=(rr-2); i>=0; i--){
-        preModPolys[j++] = PolynomialDup(s0);
-        s1 = s0; 
-        s0 = PolynomialMult( s0, s); 
+        for (i = (rr - 2); i >= 0; i--) {
+            preModPolys[j++] = PolynomialDup(s0);
+            s1 = s0;
+            s0 = PolynomialMult(s0, s);
 // This is a no-op
 //            FreePoly(s1);
         }
-        
+
         preModPolys[j++] = PolynomialDup(s0);
 
 // This is a no-op
 //            FreePoly(s0); FreePoly(s); 
     }
 
-    /********************************/
+    /**
+     * *****************************
+     */
 
     /* following functions are used for debuging */
-/*
+ /*
 static void printPoly(Polynomial *p)
 {
     int i;
@@ -1526,7 +1743,7 @@ static void show_modlist(void)
 }
 
 /** addition **/
-/*
+ /*
 static Polynomial *PolynomialSum( Polynomial *p0, Polynomial *p1)
 {
     Polynomial *p, *pmin, *pmax;
@@ -1597,59 +1814,62 @@ int main(void)
     }
 
 }
-*/
+     */
 
-/* seive.c */
+ /* seive.c */
 
-/* Copyright (C) 2001 Makoto Matsumoto and Takuji Nishimura.       */
-/* This library is free software; you can redistribute it and/or   */
-/* modify it under the terms of the GNU Library General Public     */
-/* License as published by the Free Software Foundation; either    */
-/* version 2 of the License, or (at your option) any later         */
-/* version.                                                        */
-/* This library is distributed in the hope that it will be useful, */
-/* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
-/* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
-/* See the GNU Library General Public License for more details.    */
-/* You should have received a copy of the GNU Library General      */
-/* Public License along with this library; if not, write to the    */
-/* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */ 
-/* 02111-1307  USA                                                 */
-
-
+ /* Copyright (C) 2001 Makoto Matsumoto and Takuji Nishimura.       */
+ /* This library is free software; you can redistribute it and/or   */
+ /* modify it under the terms of the GNU Library General Public     */
+ /* License as published by the Free Software Foundation; either    */
+ /* version 2 of the License, or (at your option) any later         */
+ /* version.                                                        */
+ /* This library is distributed in the hope that it will be useful, */
+ /* but WITHOUT ANY WARRANTY; without even the implied warranty of  */
+ /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            */
+ /* See the GNU Library General Public License for more details.    */
+ /* You should have received a copy of the GNU Library General      */
+ /* Public License along with this library; if not, write to the    */
+ /* Free Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA   */
+ /* 02111-1307  USA                                                 */
     //public static final int WORDLEN = 32; defined in check32.c
     //public static final int LSB = 0x1; defined in check32.c
     public static final int MAX_SEARCH = 10000;
 
-
-/********* prescreening function (prescr.c) *********/
+    /**
+     * ******* prescreening function (prescr.c) ********
+     */
     //public static final int NOT_REJECTED = 1;
     //public static final int REJECTED = 0;
-/*******************************************************/
-
-/************ deterministic seive (check32.c) ************/
+    /**
+     * ****************************************************
+     */
+    /**
+     * ********** deterministic seive (check32.c) ***********
+     */
 //#define REDU 0
 //#define IRRED 1
-/************************************************************/
-
-
-
-/* When idw==0, id is not embedded into "a" */
+    /**
+     * *********************************************************
+     */
+    /* When idw==0, id is not embedded into "a" */
     public static final int FOUND = 1;
     public static final int NOT_FOUND = 0;
+
     protected int get_irred_param(MTS mts, int id, int idw) {
         int i;
         long a;
 
-        for (i=0; i<MAX_SEARCH; i++) {
-            if (idw == 0)
-                a = nextA(mts.ww); 
-            else
-                a = nextA_id(mts.ww, id, idw); 
-            if (NOT_REJECTED == _prescreening_dc(a) ) {
-                if (IRRED == _CheckPeriod_dc(a,mts.mm,mts.nn,mts.rr,mts.ww)) {
-                mts.aaa = a;
-                break;
+        for (i = 0; i < MAX_SEARCH; i++) {
+            if (idw == 0) {
+                a = nextA(mts.ww);
+            } else {
+                a = nextA_id(mts.ww, id, idw);
+            }
+            if (NOT_REJECTED == _prescreening_dc(a)) {
+                if (IRRED == _CheckPeriod_dc(a, mts.mm, mts.nn, mts.rr, mts.ww)) {
+                    mts.aaa = a;
+                    break;
                 }
             }
         }
@@ -1660,7 +1880,6 @@ int main(void)
         }
         return FOUND;
     }
-
 
     protected long nextA(int w) {
         // This was word_mask, but there's an instance variable word_mask that's
@@ -1673,10 +1892,10 @@ int main(void)
         l_word_mask &= MAX_VALUE;
         l_word_mask >>= WORDLEN - w;
         l_word_mask &= MAX_VALUE;
-      
-        x = _genrand_dc(); 
+
+        x = _genrand_dc();
         x &= l_word_mask;
-        x |= (LSB << (w-1)) & MAX_VALUE;
+        x |= (LSB << (w - 1)) & MAX_VALUE;
 
         return x;
     }
@@ -1698,8 +1917,9 @@ int main(void)
 
         x = _genrand_dc();
         x &= l_word_mask;
-        x |= (LSB << (w-1)) & MAX_VALUE;
-        x |= id; /* embedding id */
+        x |= (LSB << (w - 1)) & MAX_VALUE;
+        x |= id;
+        /* embedding id */
 
         return x;
     }
@@ -1713,7 +1933,7 @@ int main(void)
         wm >>= (WORDLEN - w);
 
         ut = 0;
-        for (i=0; i<r; i++) {
+        for (i = 0; i < r; i++) {
             ut <<= 1;
             ut &= MAX_VALUE;
             ut |= LSB;
@@ -1730,33 +1950,36 @@ int main(void)
     protected MTS init_mt_search(int w, int p) {
         int n, m, r;
         MTS mts;
-        
-        if ( (w>32) || (w<31) ) {
+
+        if ((w > 32) || (w < 31)) {
             log.severe("Sorry, currently only w = 32 or 31 is allowded.\n");
             return null;
         }
 
-        if ( proper_mersenne_exponent(p) == 0 ) {
-        if (p<521) {
-            log.severe("\"p\" is too small.\n");
-            return null;
-        }
-        else if (p>44497){
-            log.severe("\"p\" is too large.\n");
-            return null;
-        }
-        else {
-            log.severe("\"p\" is not a Mersenne exponent.\n");
-            return null;
-        }
+        if (proper_mersenne_exponent(p) == 0) {
+            if (p < 521) {
+                log.severe("\"p\" is too small.\n");
+                return null;
+            } else if (p > 44497) {
+                log.severe("\"p\" is too large.\n");
+                return null;
+            } else {
+                log.severe("\"p\" is not a Mersenne exponent.\n");
+                return null;
+            }
         }
 
-        n = p/w + 1; /* since p is Mersenne Exponent, w never divids p */
+        n = p / w + 1;
+        /* since p is Mersenne Exponent, w never divids p */
         mts = alloc_mt_struct(n);
-        if (null == mts) return null;
+        if (null == mts) {
+            return null;
+        }
 
-        m = n/2;
-        if (m < 2) m = n-1;
+        m = n / 2;
+        if (m < 2) {
+            m = n - 1;
+        }
         r = n * w - p;
 
         make_masks(r, w, mts);
@@ -1775,20 +1998,20 @@ int main(void)
         _EndPrescreening_dc();
     }
 
-/* 
+    /* 
    w -- word size
    p -- Mersenne Exponent
-*/
+     */
     protected MTS get_mt_parameter(int w, int p) {
         MTS mts;
 
-        mts = init_mt_search(w, p);	
+        mts = init_mt_search(w, p);
         if (mts == null) {
             log.severe("init_mt_search returned null");
             return null;
         }
 
-        if ( NOT_FOUND == get_irred_param(mts,0,0) ) {
+        if (NOT_FOUND == get_irred_param(mts, 0, 0)) {
             free_mt_struct(mts);
             log.severe("get_irred_param returned NOT_FOUND");
             return null;
@@ -1799,12 +2022,13 @@ int main(void)
         return mts;
     }
 
-/* 
+    /* 
    w -- word size
    p -- Mersenne Exponent
-*/
+     */
     public static final int DEFAULT_ID_SIZE = 16;
-/* id <= 0xffff */
+
+    /* id <= 0xffff */
     protected MTS get_mt_parameter_id(int w, int p, int id) {
         MTS mts;
 
@@ -1816,17 +2040,19 @@ int main(void)
             log.severe("\"id\" must be positive\n");
             return null;
         }
-        
-        mts = init_mt_search(w, p);	
-        if (mts == null) return null;
-        
-        if ( NOT_FOUND == get_irred_param(mts, id, DEFAULT_ID_SIZE) ) {
+
+        mts = init_mt_search(w, p);
+        if (mts == null) {
+            return null;
+        }
+
+        if (NOT_FOUND == get_irred_param(mts, id, DEFAULT_ID_SIZE)) {
             free_mt_struct(mts);
             return null;
         }
         _get_tempering_parameter_hard_dc(mts);
         end_mt_search();
-        
+
         return mts;
     }
 
@@ -1835,10 +2061,11 @@ int main(void)
         MTS template_mts;
         int bit_w, i, t;
 
-        mtss = new MTS[max_id+1];//(mt_struct**)malloc(sizeof(mt_struct*)*(max_id+1));
+        mtss = new MTS[max_id + 1];//(mt_struct**)malloc(sizeof(mt_struct*)*(max_id+1));
 
-        for (bit_w=0,t=max_id; (t != 0); bit_w++)
+        for (bit_w = 0, t = max_id; (t != 0); bit_w++) {
             t >>= 1;
+        }
 
         template_mts = init_mt_search(w, p);
         if (template_mts == null) {
@@ -1846,10 +2073,10 @@ int main(void)
             return null;
         }
 
-        for (i=0; i<=max_id; i++) {
+        for (i = 0; i <= max_id; i++) {
             mtss[i] = alloc_mt_struct(template_mts.nn);
             if (null == mtss[i]) {
-                delete_mt_array(i,mtss);
+                delete_mt_array(i, mtss);
                 free_mt_struct(template_mts);
                 end_mt_search();
                 return null;
@@ -1857,8 +2084,8 @@ int main(void)
 
             copy_params_of_mt_struct(template_mts, mtss[i]);
 
-            if ( NOT_FOUND == get_irred_param(mtss[i],i,bit_w) ) {
-                delete_mt_array(i+1, mtss);
+            if (NOT_FOUND == get_irred_param(mtss[i], i, bit_w)) {
+                delete_mt_array(i + 1, mtss);
                 free_mt_struct(template_mts);
                 end_mt_search();
                 return null;
@@ -1871,7 +2098,7 @@ int main(void)
         return mtss;
     }
 
-/* n : sizeof state vector */
+    /* n : sizeof state vector */
     public MTS alloc_mt_struct(int n) {
         MTS mts;
 
@@ -1888,8 +2115,9 @@ int main(void)
     public void delete_mt_array(int i, MTS[] mtss) {
         int j;
 
-        for (j=0; j<i; j++) 
+        for (j = 0; j < i; j++) {
             mtss[i] = null;
+        }
         mtss = null;
     }
 
@@ -1904,10 +2132,10 @@ int main(void)
     }
 
     public int proper_mersenne_exponent(int p) {
-        switch(p) {
+        switch (p) {
             case 521:
             case 607:
-            case 1279: 
+            case 1279:
             case 2203:
             case 2281:
             case 3217:
@@ -1920,9 +2148,9 @@ int main(void)
             case 21701:
             case 23209:
             case 44497:
-            return 1;
+                return 1;
             default:
-            return 0;
+                return 0;
         }
     }
 }

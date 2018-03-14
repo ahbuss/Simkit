@@ -66,7 +66,6 @@ import simkit.stat.SimpleStatsTally;
  * propertyChangeSupport.firePropertyChange(&lt;args&gt;);
  * </code></p>
  *
- * @version $Id$
  * @author ahbuss
  * @author Kirk Stork, The MOVES Institute
  */

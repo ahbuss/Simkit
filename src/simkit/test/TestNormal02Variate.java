@@ -5,9 +5,9 @@
  */
 
 package simkit.test;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.net.URL;
 
 import simkit.random.RandomVariate;
@@ -25,8 +25,9 @@ public class TestNormal02Variate {
 
     /**
     * @param args the command line arguments
+     * @throws java.io.FileNotFoundException if output file not found
     */
-    public static void main (String args[]) throws Throwable {
+    public static void main (String args[]) throws FileNotFoundException  {
         String dist = "Normal03Variate";
         Object params[] = new Object[2];
         params[0] = new Integer(0);
@@ -36,17 +37,16 @@ public class TestNormal02Variate {
         
         int number = args.length > 0 ? Integer.parseInt(args[0]) : 100000;
         
-        URL dirURL = Thread.currentThread().getContextClassLoader().getSystemResource("simkit");
+        URL dirURL = ClassLoader.getSystemResource("simkit");
         File dir = new File(dirURL.getFile()).getParentFile();
-        BufferedWriter out = new BufferedWriter(new FileWriter(new File(dir, "norm03.txt")));
+        PrintWriter out = new PrintWriter(new File(dir, "norm02.txt"));
         
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < number; i++) {
             buf.append(rv.generate());
             buf.append(' ');
             if ( (i + 1) % 100 == 0 ) {
-                out.write(buf.toString());
-                out.newLine(); 
+                out.println(buf.toString());
                 buf = new StringBuilder();
             }
         }

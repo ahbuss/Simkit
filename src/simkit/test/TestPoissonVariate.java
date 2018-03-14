@@ -30,7 +30,7 @@ public class TestPoissonVariate {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) throws Throwable {
+    public static void main(String args[]) {
         int number = args.length > 0 ? Integer.parseInt(args[0]) : 10000000;
 
         String dist = "Poisson";

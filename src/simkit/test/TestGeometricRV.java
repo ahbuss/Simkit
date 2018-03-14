@@ -5,9 +5,9 @@
  */
 
 package simkit.test;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.net.URL;
 
 import simkit.random.DiscreteRandomVariate;
@@ -26,18 +26,20 @@ public class TestGeometricRV {
 
     /**
     * @param args the command line arguments
+     * @throws java.io.FileNotFoundException if output file not found
     */
-    public static void main (String args[]) throws Throwable{
+    public static void main (String args[]) throws FileNotFoundException {
         int number = args.length > 0 ? Integer.parseInt(args[0]) : 100000;
         DiscreteRandomVariate rv = (DiscreteRandomVariate) RandomVariateFactory.getInstance(
-            "simkit.random.GeometricVariate", new Object[] { new Double(0.3) });
+            "simkit.random.GeometricVariate", 0.3);
         for (int i = 0; i < 5; i++) {
             System.out.println(rv.generateInt());
         }
             
-        URL url = Thread.currentThread().getContextClassLoader().getSystemResource("simkit");
+        URL url = ClassLoader.getSystemResource("simkit");
         File dir = new File(url.getFile()).getParentFile();
-        BufferedWriter out = new BufferedWriter(new FileWriter(new File(dir, "geom.txt")));
+        File outputFile = new File(dir, "geom.txt");
+        PrintWriter out = new PrintWriter(outputFile);
             
         SimpleStatsTally sst = new SimpleStatsTally();
         StringBuilder buf = new StringBuilder();
@@ -46,10 +48,8 @@ public class TestGeometricRV {
             buf.append(obs);
             buf.append(' ');
             if ((i + 1) % 20 == 0) {
-                out.write(buf.toString());
-                out.write(System.getProperty("line.separator"));
+                out.println(buf.toString());
                 buf = new StringBuilder();
-                out.flush();
             }
             sst.newObservation((double)obs);
         }

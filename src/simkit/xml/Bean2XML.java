@@ -23,7 +23,7 @@ public class Bean2XML {
 
     /**
      * A single element array containing the String Class.
-*
+     *
      */
     public static final Class[] stringClassArray = new Class[]{java.lang.String.class};
 
@@ -45,9 +45,9 @@ public class Bean2XML {
      * references to an Object have shallow values; the value is the Class and a
      * hash value.
      *
-     * @param bean
-     * @return 
-*
+     * @param bean Given object
+     * @return Element created from given Object
+     *
      */
     public Element createElementFromBean(Object bean) {
         Element beanElement = document.createElement("Bean");
@@ -69,10 +69,7 @@ public class Bean2XML {
                 propertyElement.setAttribute("type", pd[i].getPropertyType().getName());
                 beanElement.appendChild(propertyElement);
             }
-        } catch (IntrospectionException e) {
-            System.err.println(e);
-            throw (new RuntimeException(e));
-        } catch (IllegalAccessException e) {
+        } catch (IntrospectionException | IllegalAccessException e) {
             System.err.println(e);
             throw (new RuntimeException(e));
         } catch (InvocationTargetException e) {
@@ -89,7 +86,9 @@ public class Bean2XML {
 
     /**
      * Not yet complete.
-*
+     *
+     * @param element Given Element
+     * @return Object created from given Element
      */
     public Object createBeanFromElement(Element element) {
         Object bean = null;
@@ -127,16 +126,7 @@ public class Bean2XML {
             }
             Constructor constructor = propertyClass.getConstructor(stringClassArray);
             propertyValue = constructor.newInstance(new Object[]{value});
-        } catch (ClassNotFoundException e) {
-            System.err.println(e);
-            throw (new RuntimeException(e));
-        } catch (NoSuchMethodException e) {
-            System.err.println(e);
-            throw (new RuntimeException(e));
-        } catch (InstantiationException e) {
-            System.err.println(e);
-            throw (new RuntimeException(e));
-        } catch (IllegalAccessException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             System.err.println(e);
             throw (new RuntimeException(e));
         } catch (InvocationTargetException e) {
@@ -147,10 +137,11 @@ public class Bean2XML {
     }
 
     /**
-     * Returns the wrapper Class for the given primative.
-*
+     *
+     * @param primitiveClass Given primitive class
+     * @return the wrapper Class for the given primitive class.
      */
-    public static Class getObjectWrapperClassFor(Class primitiveClass) {
+    public static Class<?> getObjectWrapperClassFor(Class<?> primitiveClass) {
         if (primitiveClass.equals(Integer.TYPE)) {
             return java.lang.Integer.class;
         }
@@ -180,9 +171,10 @@ public class Bean2XML {
 
     /**
      * Tests the createElementFromBean method.
-*
+     *
+     * @param args command line arguments
      */
-    public static void main(String[] args) throws Throwable {
+    public static void main(String[] args)  {
         simkit.stat.SimpleStatsTally test = new simkit.stat.SimpleStatsTally("foo");
         simkit.random.RandomNumber rng = simkit.random.RandomNumberFactory.getInstance();
         for (int i = 0; i < 1000; i++) {

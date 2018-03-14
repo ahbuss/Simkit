@@ -177,8 +177,8 @@ public class SimRunner implements Runnable {
     /**
      * A test method.
      *
-     * @param args
-     * @throws java.lang.Throwable
+     * @param args command line arguments
+     * @throws java.lang.Throwable if problem with files
      */
     public static void main(String[] args) throws Throwable {
 

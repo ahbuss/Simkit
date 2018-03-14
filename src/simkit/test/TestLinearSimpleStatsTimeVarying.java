@@ -21,6 +21,8 @@ public class TestLinearSimpleStatsTimeVarying extends SimEntityBase {
     
     /**
      * Creates a new instance of TestLinearSimpleStatsTimeVarying 
+     * @param interarrivalTime Given interarrivalTime
+     * @param inventoryLevel Given inventory level
      */
     public TestLinearSimpleStatsTimeVarying(RandomVariate interarrivalTime,
             RandomVariate inventoryLevel) {

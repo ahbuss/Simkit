@@ -32,14 +32,11 @@ import java.util.logging.Level;
  * the same virtual machine. This approach also helps protect from rogue models
  * that do bad things to the event list, affecting other running models.</P>
  *
- * @version $Id$
  * @author Arnold Buss
  */
 public class EventList implements BasicEventList {
 
     public static final Logger log = Logger.getLogger("simkit");
-
-    public static final String _VERSION_ = "$Id$";
 
     /**
      * The default setting for fastInterrupts (TRUE).

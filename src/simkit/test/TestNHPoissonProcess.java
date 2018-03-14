@@ -6,6 +6,8 @@
 
 package simkit.test;
 import java.lang.reflect.Method;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import simkit.Schedule;
 import simkit.examples.ArrivalProcess;
 
@@ -59,61 +61,65 @@ public class TestNHPoissonProcess {
     /**
     * @param args the command line arguments
     */
-    public static void main (String args[]) throws Throwable {
-         double inter;
-         double lastArr = 0.0;
-         TestNHPoissonProcess test = new TestNHPoissonProcess();
-         
-         test.setMean(2.0);
-         
-         test.setLambdaDay(1.5);
-         test.setLambdaNight(5.0);
-         
-         for (double t = 0.0; t < 48.0; t += 0.1) {
-             System.out.println(test.dayNight(t));
-         }
-         
-         if (true) return;
-         
-         Method m = TestNHPoissonProcess.class.getMethod("dayNight",
-            new Class[] { Double.TYPE });
-         Object[] params = new Object[] { m, test };
-         String dist = "simkit.random.NHPoissonProcessVariate";
-         
-         RandomVariate rv = RandomVariateFactory.getInstance(dist, params);
-         
-         System.out.println(rv);
-         System.out.println(((simkit.random.NHPoissonProcessVariate) rv).stateString());
-         
-         for (int i = 1; i < 100; i++) {
-             inter = rv.generate();
-             lastArr += inter;
-             System.out.println("Arrival Time: " + lastArr + "\tInterarrival Time: " + inter);
-         }
-         
-         Schedule.reset();
-         params = new Object[] { "dayNight", test };
-         
-         System.out.println(rv);
-         System.out.println(((simkit.random.NHPoissonProcessVariate) rv).stateString());
-         
-         rv.setParameters(params);
-         lastArr = 0.0;
-         System.out.println("------------------//----------------");
-         for (int i = 1; i < 10; i++) {
-             inter = rv.generate();
-             lastArr += inter;
-             System.out.println("Arrival Time: " + lastArr + "\tInterarrival Time: " + inter);
-         }
-         
-         ArrivalProcess arrivalProcess = new ArrivalProcess(rv);
-         System.out.println(arrivalProcess);
-         
-         Schedule.stopAtTime(300.0);
-         Schedule.setVerbose(true);
-         
-         Schedule.reset();
-         Schedule.startSimulation();
+    public static void main (String args[])  {
+        try {
+            double inter;
+            double lastArr = 0.0;
+            TestNHPoissonProcess test = new TestNHPoissonProcess();
+            
+            test.setMean(2.0);
+            
+            test.setLambdaDay(1.5);
+            test.setLambdaNight(5.0);
+            
+            for (double t = 0.0; t < 48.0; t += 0.1) {
+                System.out.println(test.dayNight(t));
+            }
+            
+            if (true) return;
+            
+            Method m = TestNHPoissonProcess.class.getMethod("dayNight",
+                     Double.TYPE );
+            Object[] params = new Object[] { m, test };
+            String dist = "simkit.random.NHPoissonProcessVariate";
+            
+            RandomVariate rv = RandomVariateFactory.getInstance(dist, params);
+            
+            System.out.println(rv);
+            System.out.println(((simkit.random.NHPoissonProcessVariate) rv).stateString());
+            
+            for (int i = 1; i < 100; i++) {
+                inter = rv.generate();
+                lastArr += inter;
+                System.out.println("Arrival Time: " + lastArr + "\tInterarrival Time: " + inter);
+            }
+            
+            Schedule.reset();
+            params = new Object[] { "dayNight", test };
+            
+            System.out.println(rv);
+            System.out.println(((simkit.random.NHPoissonProcessVariate) rv).stateString());
+            
+            rv.setParameters(params);
+            lastArr = 0.0;
+            System.out.println("------------------//----------------");
+            for (int i = 1; i < 10; i++) {
+                inter = rv.generate();
+                lastArr += inter;
+                System.out.println("Arrival Time: " + lastArr + "\tInterarrival Time: " + inter);
+            }
+            
+            ArrivalProcess arrivalProcess = new ArrivalProcess(rv);
+            System.out.println(arrivalProcess);
+            
+            Schedule.stopAtTime(300.0);
+            Schedule.setVerbose(true);
+            
+            Schedule.reset();
+            Schedule.startSimulation();
+        } catch (NoSuchMethodException | SecurityException ex) {
+            Logger.getLogger(TestNHPoissonProcess.class.getName()).log(Level.SEVERE, null, ex);
+        }
          
     }
 

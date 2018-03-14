@@ -20,16 +20,14 @@ import simkit.util.DOEDataLogger;
 /**
  * Different numbers now that MersenneTwister is new default RandomNumber.
  * Adjusted for JDK 1.5 style RandomVariate instancing. output:
- * <pre>
- * </pre>
  *
  * @author Arnold RunSimpleServers
- * @version $Id$
  */
 public class TestDOEDataLogger {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException if problem with output file
      */
     public static void main(String args[]) throws IOException {
         String rvName = "Exponential";

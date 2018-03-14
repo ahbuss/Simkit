@@ -21,7 +21,6 @@ import static simkit.SimEventScheduler.NL;
  * from the container, then stampTime() invoked, and finally the instance put 
  * back on the container.
  *
- * @version $Id$
  * @author ahbuss
  */
 public class Entity implements Named, Comparable<Entity> {

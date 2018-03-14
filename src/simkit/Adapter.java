@@ -7,7 +7,6 @@ package simkit;
  * to the Bridge, instances of Adapter bypass the Event List and directly notify
  * their SimEventListeners.
  *
- * @version $Id$
  * @author ahbuss
  */
 public class Adapter extends BasicSimEntity {

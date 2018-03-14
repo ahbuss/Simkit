@@ -1,12 +1,10 @@
-/*
- * TestOacillate.java
- *
- * Created on March 14, 2002, 3:01 PM
- */
 package simkit.test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import simkit.Schedule;
 import simkit.SimEntityBase;
@@ -24,14 +22,16 @@ public class TestOscillate extends SimEntityBase {
     public static RandomVariate exp = RandomVariateFactory.getInstance(
             "simkit.random.ExponentialVariate", 1.0);
 
-    private double deltaT;
-    private RandomVariate rv;
+    private  double deltaT;
+    private  RandomVariate rv;
 
     /**
      * Creates new TestOacillate
+     * @param deltaT Given &Delta;t
+     * @param rv Given RandomVariate to generate observations
      */
-    public TestOscillate(double dt, RandomVariate rv) {
-        deltaT = dt;
+    public TestOscillate(double deltaT, RandomVariate rv) {
+        setDeltaT(deltaT);
         this.rv = RandomVariateFactory.getInstance(rv);
     }
 
@@ -45,6 +45,34 @@ public class TestOscillate extends SimEntityBase {
         waitDelay("Fire", deltaT);
     }
 
+    /**
+     * @return the deltaT
+     */
+    public double getDeltaT() {
+        return deltaT;
+    }
+
+    /**
+     * @param deltaT the deltaT to set
+     */
+    public void setDeltaT(double deltaT) {
+        this.deltaT = deltaT;
+    }
+
+    /**
+     * @return the rv
+     */
+    public RandomVariate getRv() {
+        return rv;
+    }
+
+    /**
+     * @param rv the rv to set
+     */
+    public void setRv(RandomVariate rv) {
+        this.rv = rv;
+    }
+
     public String paramString() {
         return "TestOscillate (deltaT = " + deltaT + " distribution = " + rv + ")";
     }
@@ -52,7 +80,7 @@ public class TestOscillate extends SimEntityBase {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) throws Throwable {
+    public static void main(String args[])  {
         String name = "simkit.random.OscillatingExponentialVariate";
         Object[] params = new Object[]{
             0.0, //mean
@@ -71,10 +99,12 @@ public class TestOscillate extends SimEntityBase {
         String outputFileName = args.length > 0 ? args[0] : "test.out";
         File outputFile = new File(outputFileName);
         System.out.println("to be written: " + outputFile.getAbsolutePath());
-        if (!outputFile.exists()) {
-            outputFile.createNewFile();
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(outputFile);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TestOscillate.class.getName()).log(Level.SEVERE, null, ex);
         }
-        FileOutputStream out = new FileOutputStream(outputFile);
 
         PropertyDataLogger pdl = new PropertyDataLogger("observation", out);
         to.addPropertyChangeListener(pdl);

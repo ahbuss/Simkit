@@ -38,7 +38,6 @@ import simkit.util.PropertyChangeEventX;
  * multiple "Run" events for the same object at the start of a simulation.
  *
  * @author Arnold Buss
- * @version $Id$
  *
  */
 public abstract class BasicSimEntity extends BasicSimEventSource

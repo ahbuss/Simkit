@@ -16,14 +16,13 @@ package simkit;
  * Many classes in simkit hava a name. The name property may be immutable. Such
  * objects will normally have a String argument in their constructor that sets
  * the name.
- * 
-* <P>
+ *
+ * <P>
  * name() changed to getName() in keeping with standard patterns - AB
  * <br>
- * 
-* @author Kirk A. Stork
+ *
+ * @author Kirk A. Stork
  * @author Arnold Buss
- * @version $Id$
  */
 public interface Named {
 

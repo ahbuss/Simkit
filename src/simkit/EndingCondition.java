@@ -17,7 +17,6 @@ package simkit;
  * modifying this class.
  *
  * @author Arnold Buss (revised 28 March 1999)
- * @version $Id$
  */
 public class EndingCondition {
 

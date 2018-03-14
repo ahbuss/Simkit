@@ -17,7 +17,6 @@ import java.util.Map;
  * entry is created in the Map.  If an old event is heard, the <CODE>int[]</CODE>
  * array is retreived from the Map and the the first (and only) value incremented.
  *
- * @version $Id$
  * @author  ahbuss
  */
 public class EventCounter extends BasicSimEntity {

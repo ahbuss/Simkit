@@ -46,7 +46,7 @@ public class ShortestQueueDispatcher extends SimEntityBase {
  listen to this dispatcher's events to be informed of all property changes
  on Servers in the system.
      *
-     * @param servers
+     * @param servers Given array of SimpleServers
      */
     public ShortestQueueDispatcher(SimpleServer[] servers) {
         property = new PropertyChangeNamespace(this, "facility");
