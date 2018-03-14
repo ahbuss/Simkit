@@ -20,16 +20,17 @@ import simkit.stat.SimpleStatsTimeVarying;
 public class Resetter extends SimEntityBase {
     
     private int state;
-    private double resetTime;
+    private final double resetTime;
     
     /**
      * Creates new Resetter
-     * @param resetTime
+     * @param resetTime Given reset time
      */
     public Resetter(double resetTime) {
         this.resetTime = resetTime;
     }
     
+    @Override
     public void reset() {
         super.reset();
         state = 0;

@@ -62,8 +62,8 @@ public class TransferLine extends SimEntityBase {
 
     /**
      * Constructs a new TransferLine. The number of stations is determined by
- the length of numberOfServers and serviceTimeGenerator, which must be the same.
- Note: Copies are made of the RandomVariates.
+     * the length of numberOfServers and serviceTimeGenerator, which must be the
+     * same. Note: Copies are made of the RandomVariates.
      *
      * @param arrivalTime The RandomVariate used to generate interarrival times.
      * @param numberOfServers The number of servers at each station.
@@ -137,6 +137,7 @@ public class TransferLine extends SimEntityBase {
      * station, schedules an StartService for now. Fires a property change for
      * numberInQueue.
      *
+     * @param station Given station at which a job arrives
      */
     public void doArrival(int station) {
         fireIndexedPropertyChange(station, "numberInQueue", numberInQueue[station],
@@ -151,6 +152,7 @@ public class TransferLine extends SimEntityBase {
      * Fires property changes for the numberInQueue and numberAvailableServers
      * at this station.
      *
+     * @param station Given station
      */
     public void doStartService(int station) {
         fireIndexedPropertyChange(station, "numberInQueue", numberInQueue[station],
@@ -167,6 +169,7 @@ public class TransferLine extends SimEntityBase {
      * property change for numberAvailableServers for this station. If this is
      * the last station, fire a property change for numberServed.
      *
+     * @param station Given station
      */
     public void doEndService(int station) {
         fireIndexedPropertyChange(station, "numberAvailableServers", numberAvailableServers[station],
@@ -184,15 +187,15 @@ public class TransferLine extends SimEntityBase {
     }
 
     /**
-     * Returns the number of arrivals into the system.
      *
+     * @return the number of arrivals into the system.
      */
     public int getNumberArrivals() {
         return numberArrivals;
     }
 
     /**
-     * Returns the number served by the system. (The number served by the last
+     * @return the number served by the system. (The number served by the last
      * server.)
      */
     public int getNumberServed() {
@@ -200,8 +203,8 @@ public class TransferLine extends SimEntityBase {
     }
 
     /**
-     * Returns a String with information about this TransferLine.
      *
+     * @return a String with information about this TransferLine.
      */
     public String paramString() {
         StringBuilder buf = new StringBuilder("Transfer Line with ");

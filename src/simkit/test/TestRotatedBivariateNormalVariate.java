@@ -1,10 +1,10 @@
 package simkit.test;
 
 import java.awt.geom.Point2D;
-import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.IOException;
+import java.io.PrintWriter;
 import simkit.random.RandomVector;
 import simkit.random.RandomVectorFactory;
 import simkit.stat.BivariateSimpleStatsTally;
@@ -18,8 +18,9 @@ public class TestRotatedBivariateNormalVariate {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException if output file not found
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws FileNotFoundException { //throws IOException {
         RandomVector rv = RandomVectorFactory.getInstance("RotatedBivariateNormal");
         System.out.println(rv);
         rv = RandomVectorFactory.getInstance("RotatedBivariateNormal", Math.PI * 0.5);
@@ -44,18 +45,15 @@ public class TestRotatedBivariateNormalVariate {
         BivariateSimpleStatsTally bsst = new BivariateSimpleStatsTally(rv.toString());
         
         File outputFile = new File(System.getProperty("user.home"), "output.csv");
-        FileWriter fileWriter = new FileWriter(outputFile);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        bufferedWriter.append("x,y");
+        PrintWriter printWriter = new PrintWriter(outputFile);
+        printWriter.println("x,y");
         int number = 100000;
         for (int i = 0; i < number; ++i) {
             double[] gen = rv.generate();
-            bufferedWriter.newLine();
-            bufferedWriter.append(String.format("%f,%f", gen[0], gen[1]));
+            printWriter.printf("%f,%f%n", gen[0], gen[1]);
             bsst.newObservation(gen);
         }
-        bufferedWriter.flush();
-        fileWriter.close();
+        printWriter.close();
         
         System.out.println(bsst);
         

@@ -18,11 +18,8 @@ import simkit.stat.SimpleStatsTimeVarying;
  * Different numbers now that MersenneTwister is new default RandomNumber.
  * Adjusted for JDK 1.5 style RandomVariate instancing.
  * output:
- * <pre>
- * </pre>
  * 
  * @author Arnold RunSimpleServers
- * @version $Id$
  */
 public class TestSimpleServer {
     

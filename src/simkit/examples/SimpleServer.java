@@ -48,18 +48,24 @@ public class SimpleServer extends SimEntityBase {
     }
 
     /**
-     * Creates a new Server with the given number of servers and the given
-     * service time distribution.
+     * Creates a new Server with the given number of totalNumberServers and the
+     * given service serviceTimeGenerator distribution.
+     *
+     * @param totalNumberServers total # servers
+     * @param serviceTimeGenerator generates service times
      */
-    public SimpleServer(int servers, RandomVariate time) {
+    public SimpleServer(int totalNumberServers, RandomVariate serviceTimeGenerator) {
         this();
-        totalNumberServers = servers;
-        serviceTimeGenerator = time;
+        setTotalNumberServers(totalNumberServers);
+        setServiceTimeGenerator(serviceTimeGenerator);
     }
 
     /**
-     * Resets the system to its initial state.
-     *
+     * Resets the system to its initial state:<ul>
+     * <li> numberInQueue = 0
+     * <li>numberAvailableServers = totalNumberServers
+     * <li> numberServed = 0
+     * </ul>
      */
     @Override
     public void reset() {
@@ -118,25 +124,25 @@ public class SimpleServer extends SimEntityBase {
     }
 
     /**
-     * Returns the number of servers that are not busy.
      *
+     * @return the number of servers that are not busy.
      */
     public int getNumberAvailableServers() {
         return numberAvailableServers;
     }
 
     /**
-     * Returns the current length of the queue.
      *
+     * @return the current length of the queue.
      */
     public int getNumberInQueue() {
         return numberInQueue;
     }
 
     /**
-     * Returns the number currently in the system. That is the number in the
-     * queue plus the number currently being served.
      *
+     * @return the number currently in the system. That is the number in the
+     * queue plus the number currently being served.
      */
     public int getNumberInSystem() {
         return getNumberInQueue() + getTotalNumberServers() - getNumberAvailableServers();
@@ -145,8 +151,9 @@ public class SimpleServer extends SimEntityBase {
     /**
      * Sets the total number of totalNumberServers.
      *
-     * @throws IllegalArgumentException if the number of totalNumberServers is not
- positive.
+     * @param totalNumberServers Given total number of servers
+     * @throws IllegalArgumentException if the number of totalNumberServers is
+     * not positive.
      *
      */
     public void setTotalNumberServers(int totalNumberServers) {
@@ -157,32 +164,33 @@ public class SimpleServer extends SimEntityBase {
     }
 
     /**
-     * Returns the total number of servers in the system.
      *
+     * @return the total number of servers in the system.
      */
     public int getTotalNumberServers() {
         return this.totalNumberServers;
     }
 
     /**
-     * Sets the RandomVariate used to generate service times.
      *
+     * @param serviceTimeGenerator the RandomVariate used to generate
+     * serviceTimeGenerator times.
      */
-    public void setServiceTimeGenerator(RandomVariate service) {
-        serviceTimeGenerator = service;
+    public void setServiceTimeGenerator(RandomVariate serviceTimeGenerator) {
+        this.serviceTimeGenerator = serviceTimeGenerator;
     }
 
     /**
-     * Returns the RandomVariate used to generate service times.
      *
+     * @return the RandomVariate used to generate service times.
      */
     public RandomVariate getServiceTimeGenerator() {
         return serviceTimeGenerator;
     }
 
     /**
-     * Returns the total number served.
      *
+     * @return the total number served.
      */
     public int getNumberServed() {
         return numberServed;

@@ -5,10 +5,9 @@ package simkit.test;
  *
  * Created on December 6, 2001, 5:17 PM
  */
-
 /**
  *
- * @author  ahbuss
+ * @author ahbuss
  * @version $Id$
  */
 public class PlatformType {
@@ -17,12 +16,20 @@ public class PlatformType {
     public static final PlatformType PASSERBY = new PlatformType("Passerby");
     public static final PlatformType LOITERER = new PlatformType("Loiterer");
     public static final PlatformType BAD_GUY = new PlatformType("Bad Guy");
-    
-    private String name;
-    /** Creates new PlatformTypes */
+
+    private final String name;
+
+    /**
+     * Creates new PlatformTypes
+     *
+     * @param name Name of this PlatformType
+     */
     protected PlatformType(String name) {
         this.name = name;
     }
-    public String toString() { return name; }
+
+    public String toString() {
+        return name;
+    }
 
 }

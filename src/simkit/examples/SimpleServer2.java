@@ -57,10 +57,12 @@ public class SimpleServer2 extends BasicSimEntity {
      * Creates a new SimpleServer2 with the given number of servers and the
      * given service time distribution.
      *
+     * @param totalNumberServers total # servers
+     * @param serviceTimeGenerator generates service times
      */
-    public SimpleServer2(int setTotalNumberServers, RandomVariate serviceTimeGenerator) {
+    public SimpleServer2(int totalNumberServers, RandomVariate serviceTimeGenerator) {
         this();
-        this.setTotalNumberServers(setTotalNumberServers);
+        this.setTotalNumberServers(totalNumberServers);
         this.setServiceTimeGenerator(serviceTimeGenerator);
     }
 

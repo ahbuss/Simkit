@@ -1,4 +1,5 @@
 package simkit.xml;
+
 import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -11,16 +12,23 @@ import org.w3c.dom.NodeList;
 
 import simkit.Schedule;
 import simkit.StopType;
+
 /**
  * Runs a Simkit simulation as controled by an xml control file.
- * @author  ahbuss
+ *
+ * @author ahbuss
  * @version $Id$
  */
 public class SimRunner implements Runnable {
-    
-/**
-* Creates a SimRunner from the information contained in the given root Element.
-**/
+
+    /**
+     * Creates a SimRunner from the information contained in the given root
+     * Element.
+     *
+     * @param element Given Element
+     * @return a SimRunner from the information contained in the given root
+     * Element.
+     */
     public static SimRunner getSimRunner(Element element) {
         if (element.getNodeType() == Node.DOCUMENT_NODE) {
             element = ((Document) element).getDocumentElement();
@@ -28,24 +36,22 @@ public class SimRunner implements Runnable {
         SimRunner runner = new SimRunner();
         Node verboseElement = element.getElementsByTagName("Verbose").item(0);
         if (verboseElement != null) {
-            runner.verbose = new Boolean(verboseElement.getFirstChild().getNodeValue()).booleanValue();
-        }
-        else {
+            runner.verbose = Boolean.parseBoolean(verboseElement.getFirstChild().getNodeValue());
+        } else {
             runner.verbose = true;
         }
         Node singleStepElement = element.getElementsByTagName("SingleStep").item(0);
         if (singleStepElement != null) {
-            runner.singleStep = new Boolean(singleStepElement.getFirstChild().getNodeValue()).booleanValue();
+            runner.singleStep = Boolean.valueOf(singleStepElement.getFirstChild().getNodeValue());
         }
         Node numberReplicationsElement = element.getElementsByTagName("NumberReplications").item(0);
         if (numberReplicationsElement == null) {
             runner.numberReplications = 1;
-        }
-        else {
+        } else {
             runner.numberReplications = Integer.parseInt(numberReplicationsElement.getFirstChild().getNodeValue());
         }
         Element stopNode = (Element) element.getElementsByTagName("StopType").item(0);
-        if (stopNode == null || ! stopNode.hasChildNodes()) {
+        if (stopNode == null || !stopNode.hasChildNodes()) {
             runner.stopType = StopType.NO_STOP_TYPE;
         } // if null
         else {
@@ -57,8 +63,7 @@ public class SimRunner implements Runnable {
                 if (stopTimeNode != null) {
                     runner.stopTime = Double.parseDouble(stopTimeNode.getFirstChild().getNodeValue());
                 }
-            }
-            else {
+            } else {
                 NodeList stopOneEventNodeList = ((Element) stopNode).getElementsByTagName("StopOnEvent");
                 if (stopOneEventNodeList.getLength() > 0) {
                     runner.stopType = StopType.STOP_ON_EVENT;
@@ -88,11 +93,10 @@ public class SimRunner implements Runnable {
                                 // Assuming it is an error
                                 //
                                 e.printStackTrace(System.err);
-                                throw(new RuntimeException(e));
+                                throw (new RuntimeException(e));
                             }
                         }
-                    }
-                    else {
+                    } else {
                         runner.stopEventSignature = new Class[0];
                     }
                 }
@@ -100,7 +104,7 @@ public class SimRunner implements Runnable {
         }
         return runner;
     }
-    
+
     protected boolean verbose;
     protected boolean singleStep;
     protected double stopTime;
@@ -110,30 +114,33 @@ public class SimRunner implements Runnable {
     protected Class[] stopEventSignature;
     protected StopType stopType;
     protected int numberReplications;
-    
-    /** Creates a new instance of SimRunner */
+
+    /**
+     * Creates a new instance of SimRunner
+     */
     protected SimRunner() {
     }
-    
-/**
-* Starts the simulation.
-**/
+
+    /**
+     * Starts the simulation.
+     *
+     */
+    @Override
     public void run() {
         if (stopType == StopType.STOP_AT_TIME) {
             Schedule.stopAtTime(stopTime);
-        }
-        else if (stopType == StopType.STOP_ON_EVENT) {
-            Schedule.stopOnEvent(stopEventCount, stopEvent, stopEventSignature );
+        } else if (stopType == StopType.STOP_ON_EVENT) {
+            Schedule.stopOnEvent(stopEventCount, stopEvent, stopEventSignature);
         }
         Schedule.setSingleStep(singleStep);
         Schedule.setVerbose(verbose);
-        
+
         for (int i = 0; i < numberReplications; i++) {
             Schedule.reset();
             Schedule.startSimulation();
         }
     }
-    
+
     public String toString() {
         StringBuilder buf = new StringBuilder("Parameters for Simulation Run:\n");
         buf.append("\tverbose = ");
@@ -145,8 +152,7 @@ public class SimRunner implements Runnable {
         if (stopType == StopType.STOP_AT_TIME) {
             buf.append("\n\tstop time = ");
             buf.append(stopTime);
-        }
-        else if (stopType == StopType.STOP_ON_EVENT) {
+        } else if (stopType == StopType.STOP_ON_EVENT) {
             buf.append("\n\tStop Event = ");
             buf.append(stopEvent);
             buf.append("\n\tevent count = ");
@@ -155,7 +161,9 @@ public class SimRunner implements Runnable {
                 buf.append("\n\tsignature = (");
                 for (int i = 0; i < stopEventSignature.length; i++) {
                     buf.append(stopEventSignature[i].getName());
-                    if (i < stopEventSignature.length - 1) { buf.append(", "); }
+                    if (i < stopEventSignature.length - 1) {
+                        buf.append(", ");
+                    }
                 }
                 buf.append(')');
             }
@@ -165,27 +173,30 @@ public class SimRunner implements Runnable {
         buf.append('\n');
         return buf.toString();
     }
-    
-/**
-* A test method. 
-**/
+
+    /**
+     * A test method.
+     *
+     * @param args
+     * @throws java.lang.Throwable
+     */
     public static void main(String[] args) throws Throwable {
-        
-        simkit.examples.ArrivalProcess arrival =
-        new simkit.examples.ArrivalProcess(
-            simkit.random.RandomVariateFactory.getInstance(
-            "Exponential", new Object[] {new Double(1.7)}, 12345L));
-        
+
+        simkit.examples.ArrivalProcess arrival
+                = new simkit.examples.ArrivalProcess(
+                        simkit.random.RandomVariateFactory.getInstance(
+                                "Exponential", 1.7, 12345L));
+
         String filename = args.length > 0 ? args[0] : "simkit/xml/Run1.xml";
-        InputStream inStream = 
-            Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
+        InputStream inStream
+                = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse(inStream);
-        
+
         SimRunner runner = SimRunner.getSimRunner(document.getDocumentElement());
-        
+
         System.out.println(runner);
         runner.run();
     }

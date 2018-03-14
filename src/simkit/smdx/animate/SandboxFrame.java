@@ -25,8 +25,13 @@ public class SandboxFrame extends simkit.actions.MyFrame {
     private Inspector inspector;
     private PingPanel vcrControlPanel;
 
+    public SandboxFrame() {
+        this("Simple Sandbox");
+    }
+    
     /**
      * Creates a new instance of SandboxFrame
+     * @param title Given title
      */
     public SandboxFrame(String title) {
         super(title);
@@ -52,10 +57,6 @@ public class SandboxFrame extends simkit.actions.MyFrame {
         getContentPane().add(vcrControlPanel, BorderLayout.NORTH);
 
         setSize(600, 500);
-    }
-
-    public SandboxFrame() {
-        this("");
     }
 
     public void addSensor(Sensor sensor) {

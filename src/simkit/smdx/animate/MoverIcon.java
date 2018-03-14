@@ -12,10 +12,10 @@ import simkit.smdx.Mover;
 /**
  *
  * @version $Id$
- * @author  ahbuss
+ * @author ahbuss
  */
 public class MoverIcon extends JComponent {
-    
+
     private Icon icon;
     private Mover myMover;
     private DecimalFormat df;
@@ -23,13 +23,17 @@ public class MoverIcon extends JComponent {
     private Point2D origin;
     private Point2D screenLocation;
     private double scale;
-    
-    /** Creates new MoverImage */
-    
-    public MoverIcon(Mover m, Icon icon) {
-        this(m, icon, new Point2D.Double());
+
+    /**
+     * Creates new MoverImage
+     *
+     * @param mover Given Mover
+     * @param icon Given Icon
+     */
+    public MoverIcon(Mover mover, Icon icon) {
+        this(mover, icon, new Point2D.Double());
     }
-    
+
     public MoverIcon(Mover m, Icon icon, Point2D origin) {
         this.setIcon(icon);
         this.setMover(m);
@@ -41,23 +45,29 @@ public class MoverIcon extends JComponent {
         this.screenLocation = new Point2D.Double();
         this.setScale(1.0);
     }
-    
+
     public void setMover(Mover m) {
         myMover = m;
         this.setToolTipText(m.getName());
     }
-    
-    public void setIcon(Icon i) { icon = i; }
-    
-    public Icon getIcon() { return icon; }
-    
-    public Mover getMover() { return myMover; }
-    
+
+    public void setIcon(Icon i) {
+        icon = i;
+    }
+
+    public Icon getIcon() {
+        return icon;
+    }
+
+    public Mover getMover() {
+        return myMover;
+    }
+
     public Point getLocation() {
         location.setLocation(myMover.getLocation());
         return location;
     }
-    
+
     public void setOrigin(Point2D origin) {
         if (this.origin == null) {
             this.origin = new Point2D.Double(origin.getX(), origin.getY());
@@ -65,24 +75,24 @@ public class MoverIcon extends JComponent {
             this.origin.setLocation(origin);
         }
     }
-    
+
     public Point2D getScreenLocation() {
         screenLocation = myMover.getLocation();
         screenLocation.setLocation(
-            origin.getX() + scale * screenLocation.getX(),
-            origin.getY() - scale * screenLocation.getY());
+                origin.getX() + scale * screenLocation.getX(),
+                origin.getY() - scale * screenLocation.getY());
         return screenLocation;
     }
-    
+
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         Point2D loc = getScreenLocation();
-        setBounds((int) (loc.getX() - icon.getIconWidth() * 0.5), 
-                  (int) (loc.getY() - icon.getIconHeight() * 0.5), 
-                  icon.getIconWidth(), icon.getIconHeight());
+        setBounds((int) (loc.getX() - icon.getIconWidth() * 0.5),
+                (int) (loc.getY() - icon.getIconHeight() * 0.5),
+                icon.getIconWidth(), icon.getIconHeight());
         icon.paintIcon(this, g, 0, 0);
     }
-    
+
     public String toString() {
         return myMover.toString();
     }
@@ -102,5 +112,5 @@ public class MoverIcon extends JComponent {
     public Point2D getOrigin() {
         return origin;
     }
-    
+
 }

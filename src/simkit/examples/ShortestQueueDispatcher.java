@@ -39,17 +39,18 @@ public class ShortestQueueDispatcher extends SimEntityBase {
      * Creates a new dispatcher that will direct arrivals to the given Servers.
      * Each SimpleServer will have a corresponding
      * {@link PropertyChangeNamespace} that listens for its
-     * PropertyChangeEvents, prepends the property name with the server number
-     * and then re-fires the event. The dispatcher has a PropertyChangeNamespace
-     * that listens to all of the SimpleServer's PropertyChangeNamespaces and
-     * re-fires the events. Therefore, any PropertyChangeListener need only
-     * listen to this dispatcher's events to be informed of all property changes
-     * on Servers in the system.
-*
+ PropertyChangeEvents, prepends the property name with the servers number
+ and then re-fires the event. The dispatcher has a PropertyChangeNamespace
+ that listens to all of the SimpleServer's PropertyChangeNamespaces and
+ re-fires the events. Therefore, any PropertyChangeListener need only
+ listen to this dispatcher's events to be informed of all property changes
+ on Servers in the system.
+     *
+     * @param servers
      */
-    public ShortestQueueDispatcher(SimpleServer[] server) {
+    public ShortestQueueDispatcher(SimpleServer[] servers) {
         property = new PropertyChangeNamespace(this, "facility");
-        setServers(server);
+        setServers(servers);
     }
 
     /**

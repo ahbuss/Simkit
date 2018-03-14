@@ -8,13 +8,19 @@ import simkit.smdx.Mover;
 
 /**
  * @version $Id$
- * @author  Arnold Buss
+ * @author Arnold Buss
  */
 public class TargetIcon extends MoverIcon implements PropertyChangeListener {
-    
+
     protected Icon[] icons;
-    
-    /** Creates a new instance of TargetIcon */
+
+    /**
+     * Creates a new instance of TargetIcon
+     *
+     * @param mover Given Mover
+     * @param icons Given array of Icons
+     * @param origin Given origin for display
+     */
     public TargetIcon(Mover mover, Icon[] icons, Point2D origin) {
         super(mover, icons[0], origin);
         this.icons = (Icon[]) icons.clone();
@@ -22,15 +28,14 @@ public class TargetIcon extends MoverIcon implements PropertyChangeListener {
             throw new IllegalArgumentException("Need at least 3 icons: " + icons.length);
         }
     }
-    
+
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         switch (e.getPropertyName()) {
             case "glimpse":
                 if (e.getNewValue().equals(Boolean.FALSE)) {
-                    setIcon(icons[1]); 
-                }
-                else {
+                    setIcon(icons[1]);
+                } else {
                     setIcon(icons[2]);
                 }
                 break;
@@ -42,5 +47,5 @@ public class TargetIcon extends MoverIcon implements PropertyChangeListener {
                 break;
         }
     }
-    
+
 }
