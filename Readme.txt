@@ -3,21 +3,12 @@ Simkit Copyright (C) 1997-2018 Kirk Stork and Arnold Buss
 Installation Instructions
 ------------ ------------
 First install the Java Developer Kit version 1.8 (J2SE8) or greater.  
-For Windows 2000/Windows XP, you will need to
-edit the environment, located in the System icon of the Control Panel.
+Unzip this file and add simkit.jar to your classpath. If you wish to use
+Classfinder, copy the config directory and its contents to the root directory of
+your project
 
 Any questions regarding Simkit may be addressed by e-mail to
 abuss@nps.edu
-
-Uninstallation Instructions
--------------- ------------
-
-Open the Control Panel (e.g. click Start | Settings | Control Panel).
-Double-click "Add/Remove Programs" icon.  Scroll to "Simkit" and 
-click on it.  Click Add/Remove and follow the dialogs.
-
-When you uninstall Simkit the environment variables
-will not be removed; you should remove them manually.
 
 Compilation Instructions
 ----------- ------------

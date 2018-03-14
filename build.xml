@@ -129,7 +129,9 @@
                 <exclude name="**/*.class"/>
                 <exclude name ="lib/**.*" />
             </fileset>
-            
+            <fileset dir=".">
+                <include name="build.xml" />
+            </fileset>
         </jar>
     </target>
     
@@ -139,18 +141,18 @@
         <!--	    <mkdir dir="${dist.dir}/doc"/> -->
         <!--<mkdir dir="${dist.dir}/lib"/>-->
         <mkdir dir="${dist.dir}/gnu"/>
-<!--        <copy todir="${dist.dir}/lib">
+        <!--        <copy todir="${dist.dir}/lib">
             <fileset dir="${dir.build.lib}"/>
         </copy>-->
         <!--  -->              
-<!--        <copy todir="${dist.dir}/doc">
+        <!--        <copy todir="${dist.dir}/doc">
             <fileset dir="${dir.build.doc}"/>
         </copy>-->
         <!-- -->
         <jar jarfile="${dist.dir}/simkit-doc.zip">
             <fileset dir="${dist.dir}/doc" />
         </jar>
-<!--        <copy todir="${dist.dir}/lib">
+        <!--        <copy todir="${dist.dir}/lib">
             <fileset dir="${dir.lib}"/>
             <fileset dir="${dir.build.lib}" />
         </copy>-->
@@ -158,11 +160,23 @@
         <copy todir="${dist.dir}/gnu">
             <fileset dir="${dir.src}/../gnu"/>
         </copy>
-<!--        <copy todir="${dist.dir}">
+        <!--        <copy todir="${dist.dir}">
             <fileset dir="${dir.build}">
                 <include name="*.txt"/>
             </fileset>
         </copy>-->
+        <copy todir="${dist.dir}/config">
+            <fileset dir="config" >
+                <include name="**.*" />
+            </fileset>
+        </copy>
+        <delete file="${dist.dir}/README.TXT" />
+        <copy todir="${dist.dir}">
+            <fileset dir=".">
+                <include name="Readme.txt" />
+            </fileset>
+        </copy>
+
     </target>
     
     <target name="-post-compile">
@@ -170,13 +184,16 @@
         <echo message="Loaded version.txt; Version=${Version}" />
     </target>
     
-    <target name="package" depends="dist" description="Creates the distribution zip file">
-        <zip destfile="${dist.dir}/Simkit-${arch}-${Version}.zip" level ="9">
-            <fileset dir="${dist.dir}" includes="*.jar" />
+    <target name="package" depends="clean,dist" description="Creates the distribution zip file">
+
+        <zip destfile="${dist.dir}/Simkit-${arch}-${Version}.zip" level ="9" basedir="dist"
+             excludes="${dist.dir}/doc/**.*">
+            <!--            <fileset dir="${dist.dir}" includes="*.jar" />
             <fileset dir="${dist.dir}" includes="simkit-doc.zip" />
             <fileset dir="${dist.dir}" includes="simkit-src.zip" />
             <fileset dir="${dist.dir}/gnu/"/>
-            <fileset dir="${build.dir}/classes/simkit" includes="copyright.txt" />
+            <fileset dir="${dist.dir}/config" includes="*.properties" />
+            <fileset dir="${build.dir}/classes/simkit" includes="copyright.txt" />-->
         </zip>
     </target>
 

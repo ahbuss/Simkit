@@ -32,7 +32,6 @@ import simkit.actions.GenericAction;
  * Constructing a Version object will cause a dialog box to pop-up containing
  * information about the program.
  *
- * @version $Id$
  * @author ahbuss
  *
  */
