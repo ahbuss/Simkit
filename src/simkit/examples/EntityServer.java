@@ -46,7 +46,7 @@ public class EntityServer extends SimEntityBase {
      * time distribution.
      *
      * @param totalNumberServers total number of servers
-     * @param serviceTimeGenerator
+     * @param serviceTimeGenerator Generates service times
      */
     public EntityServer(int totalNumberServers, RandomVariate serviceTimeGenerator) {
         this();

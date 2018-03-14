@@ -9,7 +9,6 @@ import simkit.random.RandomVariate;
  * to go there. When the Mover arrives, another destination is
  * generated and it is directed to go there. Continue until
  *
- * @version $Id: RandomMoverManager.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
  */
 public class RandomMoverManager extends SimEntityBase {
@@ -56,7 +55,7 @@ public class RandomMoverManager extends SimEntityBase {
 
     /**
      * Empty - to be heard by Mover
-     * @param destination
+     * @param destination Given destination
      */
     public void doMoveTo(Point2D destination) {
     }
