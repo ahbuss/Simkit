@@ -78,17 +78,17 @@
     
     
     <target name="-pre-compile">
-        <exec executable="svn" output="build/svn.properties">
-            <arg value="info"/>
-        </exec>
-        <property prefix="svn" file="build/svn.properties"/>
-        <tstamp />
-        <tstamp prefix="start"/>
-        <echo message="Build ${svn.Revision} started"/>
-        <filter token="build" value="${svn.Revision}"/>
-        <filter token="dtg" value="${svn.Last}"/>
+        <!--TODO: figure out how to make this work
+        <exec executable="git" output="git.hash" >
+            <arg value="rev-parse" />
+        </exec>-->
+        <tstamp>
+            <format property="TODAY" pattern="MMMM dd, YYYY hh:mm aa" />
+            <format property="BUILD" pattern="YYYYMMdd" />
+        </tstamp>
+        <filter token="build" value="${BUILD}"/>
+        <filter token="dtg" value="${TODAY}"/>
         <filter token="dtg-local" value=" ${TODAY} ${TSTAMP}" />
-
         <copy file="${src.dir}/simkit/version.template" toFile="${build.classes.dir}/simkit/version.txt" filtering="on" overwrite="true"/>
 
     </target>
