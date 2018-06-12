@@ -10,13 +10,13 @@ import java.text.DecimalFormat;
  * value is returned until reset.
  *
  * @version $Id$
-*
+ *
  */
 public class TraceVariate extends RandomVariateBase {
 
     /**
      * The default value for the default is Double.NaN
-*
+     *
      */
     private static final double DEFAULT_DEFAULT_VALUE = Double.NaN;
 
@@ -24,34 +24,34 @@ public class TraceVariate extends RandomVariateBase {
 
     /**
      * An array of the values to be generated.
-*
+     *
      */
     private double[] traceValues;
 
     /**
      * The value to be generated after all of the trace values are used.
-*
+     *
      */
     private double defaultValue;
 
     /**
      * True if all of the trace values will be included in the result of
      * toString. If false, only a limited number of values will be output.
-*
+     *
      */
     private boolean allDataInToString;
 
     /**
      * The number of values to limit the output of toString to if
      * allDataInToString is false.
-*
+     *
      */
     private final int shortNumber = 5;
 
     /**
      * Constructs a new TraceVariate. The default RandomNumber will cause the
-     * values to be output in order. The default value is NaN. 
-*
+     * values to be output in order. The default value is NaN.
+     *
      */
     public TraceVariate() {
         rng = new Sequential();
@@ -60,7 +60,7 @@ public class TraceVariate extends RandomVariateBase {
     }
 
     /**
-     * 
+     *
      * @param traceValues the traceValues to be returned by generate().
      */
     public void setTraceValues(double[] traceValues) {
@@ -68,7 +68,7 @@ public class TraceVariate extends RandomVariateBase {
     }
 
     /**
-     * 
+     *
      * @return a copy of the value to be returned by generate.
      */
     public double[] getTraceValues() {
@@ -76,16 +76,16 @@ public class TraceVariate extends RandomVariateBase {
     }
 
     /**
-     * 
-     * @param defaultValue the defaultValue that will be generated after all of the trace values have
- been used.
+     *
+     * @param defaultValue the defaultValue that will be generated after all of
+     * the trace values have been used.
      */
     public void setDefaultValue(double defaultValue) {
         this.defaultValue = defaultValue;
     }
 
     /**
-     * 
+     *
      * @return the value that will be generated after all of the trace values
      * have been used.
      */
@@ -94,9 +94,10 @@ public class TraceVariate extends RandomVariateBase {
     }
 
     /**
-     * 
-     * @param allDataInToString True if all of the trace values will be included in the result of
-     * toString. If false, only a limited number of values will be output.
+     *
+     * @param allDataInToString True if all of the trace values will be included
+     * in the result of toString. If false, only a limited number of values will
+     * be output.
      */
     public void setAllDataInToString(boolean allDataInToString) {
         this.allDataInToString = allDataInToString;
@@ -112,7 +113,7 @@ public class TraceVariate extends RandomVariateBase {
      * @throws IllegalArgumentException If the array is not 1 or 2 elements, if
      * the first element is not an array of <code>doubles</code>, or if the 2nd
      * element (if present) is not a Number.
-*
+     *
      */
     @Override
     public void setParameters(Object... params) {
@@ -132,7 +133,9 @@ public class TraceVariate extends RandomVariateBase {
     /**
      * Returns a 1 or 2 element array containing the trace value array and the
      * default value (if not NaN).
-*
+     *
+     * @return a 1 or 2 element array containing the trace value array and the
+     * default value (if not NaN).
      */
     @Override
     public Object[] getParameters() {
@@ -143,6 +146,7 @@ public class TraceVariate extends RandomVariateBase {
         }
     }
 
+    @Override
     public double generate() {
         long theIndex = rng.getSeed();
         double value = getDefaultValue();
@@ -156,7 +160,8 @@ public class TraceVariate extends RandomVariateBase {
     /**
      * Returns a String containing the trace values. If the allDataInToString
      * flag is false only the first 5 and last 5 values will be included.
-*
+     *
+     * @returna String containing the trace values. 
      */
     @Override
     public String toString() {
@@ -189,11 +194,12 @@ public class TraceVariate extends RandomVariateBase {
     }
 
     /**
-     * This is a no-op because the TraceVariate must use a Sequantial instance
+     * This is a no-op because the TraceVariate must use a Sequential instance
      * to successively generate values
      *
      * @param rng The RandomNumber instance
      */
+    @Override
     public void setRandomNumber(RandomNumber rng) {
     }
 }
