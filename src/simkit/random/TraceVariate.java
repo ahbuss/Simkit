@@ -161,7 +161,7 @@ public class TraceVariate extends RandomVariateBase {
      * Returns a String containing the trace values. If the allDataInToString
      * flag is false only the first 5 and last 5 values will be included.
      *
-     * @returna String containing the trace values. 
+     * @return a String containing the trace values. 
      */
     @Override
     public String toString() {
