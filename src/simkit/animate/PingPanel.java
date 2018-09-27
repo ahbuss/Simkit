@@ -103,6 +103,7 @@ public class PingPanel extends JPanel implements SimEventListener {
     }
 
     public void rewind() {
+        vcrController.stop();
         Schedule.stopSimulation();
         Schedule.reset();
         this.simTimeLabel.setText(Schedule.getSimTimeStr());
