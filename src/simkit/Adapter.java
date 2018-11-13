@@ -28,6 +28,14 @@ public class Adapter extends BasicSimEntity {
         setHeardEvent(heard);
         setPassedEvent(passed);
     }
+    
+    /**
+     * Zero-argument constructor for beans-like instantiation. This sets the
+     * heardEvent and passedEvent each to ""
+     */
+    public Adapter() {
+        this("", "");
+    }
 
     /**
      * @param he Name of heard event
@@ -87,14 +95,42 @@ public class Adapter extends BasicSimEntity {
         }
     }
 
+    /**
+     * 
+     * @param source Given SimEventSource of heardEvent
+     * @param listener Given SimEventListsner for passedEvent
+     */
     public void connect(SimEventSource source, SimEventListener listener) {
         source.addSimEventListener(this);
         this.addSimEventListener(listener);
     }
 
+    /**
+     * 
+     * @param source Given SimEventSource to disconnect
+     * @param listener Given SimEventListener to disconnect
+     */
     public void disconnect(SimEventSource source, SimEventListener listener) {
         source.removeSimEventListener(this);
         this.removeSimEventListener(listener);
+    }
+    
+    /**
+     * Helper method to conform to "addXXX()" convention. Simple invokes connect()
+     * @param source Given SimEventSource of heardEvent
+     * @param listener Given SimEventListsner for passedEvent
+     */
+    public void addConnect(SimEventSource source, SimEventListener listener) {
+        this.connect(source, listener);
+    }
+    
+    /**
+     * Helper method to conform to "addXXX()" convention; simply invokes connect()
+     * @param source Given SimEventSource to disconnect
+     * @param listener Given SimEventListener to disconnect
+     */
+    public void addDisconnect(SimEventSource source, SimEventListener listener) {
+        this.disconnect(source, listener);
     }
 
 }
