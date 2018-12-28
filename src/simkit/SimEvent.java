@@ -410,7 +410,8 @@ public class SimEvent implements Comparable<SimEvent> {
     @Override
     public String toString() {
         StringBuilder buf = new StringBuilder();
-        buf.append(tsf.format(scheduledTime));
+//        buf.append(tsf.format(scheduledTime));
+        buf.append(String.format("%,.4f", scheduledTime));
         buf.append('\t');
         buf.append(paramString());
         buf.append('\t');

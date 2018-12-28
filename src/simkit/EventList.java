@@ -967,7 +967,8 @@ public class EventList implements BasicEventList {
         StringBuilder buf = new StringBuilder();
         if (currentSimEvent != null) {
             buf.append("Time: ");
-            buf.append(form.format(getSimTime()));
+//            buf.append(form.format(getSimTime()));
+            buf.append(String.format("%,.4f", getSimTime()));
             buf.append("\tCurrentEvent: ");
             buf.append(currentSimEvent.paramString());
             buf.append(' ');
