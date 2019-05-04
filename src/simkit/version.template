@@ -1,5 +1,8 @@
-Version: 1.4.11
-Simkit
+major: 1
+minor: 5
+patch: 0
+release: alpha
+name: Simkit
 Repository Revision: @build@
 Repository: @dtg@
 Local Build: @dtg-local@
