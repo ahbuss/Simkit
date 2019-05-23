@@ -21,8 +21,6 @@ public class SandboxFrame extends simkit.actions.MyFrame {
     private Sandbox sandbox;
     private Inspector inspector;
     private PingPanel vcrControlPanel;
-    private PingPainter pingPainter;
-    private PingThread pingThread;
 
     /**
      * Creates a new instance of SandboxFrame
@@ -44,9 +42,11 @@ public class SandboxFrame extends simkit.actions.MyFrame {
 
         inspector = new Inspector();
 
-        pingThread = new PingThread(0.075, 100);
+        PingThread pingThread = new PingThread(0.075, 100);
         vcrControlPanel = new PingPanel(pingThread);
         vcrControlPanel.addVerboseButton();
+        PingPainter painter = new PingPainter(sandbox);
+        pingThread.addSimEventListener(painter);
 
         getContentPane().add(vcrControlPanel, BorderLayout.NORTH);
 
@@ -94,43 +94,5 @@ public class SandboxFrame extends simkit.actions.MyFrame {
 
     public void setMillisPerSimtime(double millisPerSimTime) {
         this.getControlPanel().getVcrController().setMillisPerSimtime(millisPerSimTime);
-    }
-
-    /**
-     * @param sandbox the sandbox to set
-     */
-    public void setSandbox(Sandbox sandbox) {
-        this.sandbox = sandbox;
-        pingPainter = new PingPainter(sandbox);
-        pingThread.addSimEventListener(pingPainter);
-
-    }
-
-    /**
-     * @return the inspector
-     */
-    public Inspector getInspector() {
-        return inspector;
-    }
-
-    /**
-     * @param inspector the inspector to set
-     */
-    public void setInspector(Inspector inspector) {
-        this.inspector = inspector;
-    }
-
-    /**
-     * @return the vcrControlPanel
-     */
-    public PingPanel getVcrControlPanel() {
-        return vcrControlPanel;
-    }
-
-    /**
-     * @param vcrControlPanel the vcrControlPanel to set
-     */
-    public void setVcrControlPanel(PingPanel vcrControlPanel) {
-        this.vcrControlPanel = vcrControlPanel;
     }
 }
