@@ -49,6 +49,10 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      */
     private static int nextSerial;
 
+    public static final void resetNextSerial() {
+        nextSerial = 0;
+    }
+    
     static {
         nextSerial = 0;
     }

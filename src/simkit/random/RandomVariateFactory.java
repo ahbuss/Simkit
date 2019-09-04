@@ -90,7 +90,7 @@ public class RandomVariateFactory {
      * This regular expression should match any number, integer or floating point,
      * including scientific notation.
      */
-    private static final String NUMBER_REGEX = "[+-]?((\\d*)|(\\d*\\.\\d*))([Ee]\\d+)?";
+    private static final String NUMBER_REGEX = "[+-]?((\\d*)|(\\d*\\.\\d*))([Ee]-?\\d+)?";
 
     /**
      * This Pattern is used to match &amp; group the RandomVariate name in a String

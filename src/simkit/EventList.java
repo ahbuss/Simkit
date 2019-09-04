@@ -946,6 +946,7 @@ public class EventList implements BasicEventList {
         simTime = 0.0;
         SimEntityBase.coldReset();
         SimEntityBaseProtected.coldReset();
+        BasicSimEntity.resetNextSerial();
         ignoreOnDump.clear();
         setDumpEventSources(false);
         setUserDefinedStop();
