@@ -74,7 +74,7 @@ public class TimeTruncatedTallyStat extends SimpleStatsTally {
      * @param truncationTime the truncationTime to set
      * @throws IllegalArgumentException if truncationTime &le; 0.0
      */
-    public void setTruncationTime(double truncationTime) {
+    public final void setTruncationTime(double truncationTime) {
         if (truncationTime < 0.0) {
             throw new IllegalArgumentException(
                     "truncationTime must be \u2265 0.0: " + truncationTime);

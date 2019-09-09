@@ -20,7 +20,6 @@ import java.util.logging.Logger;
  *
  * @author Arnold Buss
  * @author K. A. Stork
- * @version $Id$
  *
  *
  */

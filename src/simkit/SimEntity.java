@@ -16,7 +16,6 @@ package simkit;
  * provide support for multiple replications and thread safety.
  * 
  * @author Arnold Buss
- * @version $Id$
  *
 **/
 public interface SimEntity extends SimEventSource,

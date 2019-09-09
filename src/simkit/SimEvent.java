@@ -10,7 +10,6 @@ import java.text.NumberFormat;
  * @author K. A. Stork
  * @author Arnold Buss
  * @since Simkit 1.0
- * @version $Id$
  *
  *
  */

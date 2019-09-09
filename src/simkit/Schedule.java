@@ -18,7 +18,6 @@ import java.util.Set;
  *
  * @author K. A. Stork
  * @author Arnold Buss
- * @version $Id$
  *
  *
  */

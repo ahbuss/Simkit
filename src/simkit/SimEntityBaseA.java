@@ -70,7 +70,6 @@ class B extends A {
  * package and setting logging levels to control such output.
  *
  * @author Kirk Stork. The MOVES Institute, NPS
- * @version $Id$
  */
 public class SimEntityBaseA extends BasicSimEntity {
 

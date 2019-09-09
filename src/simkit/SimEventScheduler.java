@@ -5,7 +5,6 @@ package simkit;
  * mechanisms in simkit.
  *
  * @author Kirk Stork (The MOVES Institute)
- * @version $Id$
  */
 public interface SimEventScheduler extends Named {
     public static final String DEFAULT_ENTITY_NAME = "SimEntity";

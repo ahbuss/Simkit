@@ -39,7 +39,6 @@ import java.util.regex.Pattern;
  * RandomVariate classes on the classpath.
  *
  * @author Arnold Buss
- * @version $Id$
  */
 public class RandomVariateFactory {
 
@@ -79,18 +78,18 @@ public class RandomVariateFactory {
     /**
      * Regular expression used to group name of RandomVariate when parsing a String
      */
-    private static final String NAME_REGEX = "([\\w ?]+)";
+    public static final String NAME_REGEX = "([\\w ?]+)";
 
     /**
      * The parameters portion of the String should split by these characters
      */
-    private static final String PARAM_SPLITTER = "[ (),=]+";
+    public static final String PARAM_SPLITTER = "[ (),=]+";
 
     /**
      * This regular expression should match any number, integer or floating point,
      * including scientific notation.
      */
-    private static final String NUMBER_REGEX = "[+-]?((\\d*)|(\\d*\\.\\d*))([Ee]-?\\d+)?";
+    public static final String NUMBER_REGEX = "[+-]?((\\d*)|(\\d*\\.\\d*))([Ee][+-]?\\d+)?";
 
     /**
      * This Pattern is used to match &amp; group the RandomVariate name in a String

@@ -632,6 +632,16 @@ public class EventList implements BasicEventList {
             }
             currentSimEvent = null;
         }
+        if (stopInstance == null) {
+            stopInstance = new Stop();
+            reRun.remove(stopInstance);
+        }
+        SimEvent postRepEvent = new SimEvent(stopInstance, "PostReplication", getSimTime());
+        for (ReRunnable rerunable: reRun) {
+            if (SimEntity.class.isAssignableFrom(rerunable.getClass())) {
+                ((SimEntity)rerunable).processSimEvent(postRepEvent);
+            }
+        }
         running = false;
         synchronized (entryCounterMutex) {
             entryCounter--;

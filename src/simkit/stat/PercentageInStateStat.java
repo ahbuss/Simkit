@@ -15,7 +15,6 @@ import simkit.Schedule;
  * and only one, of a number of discrete states at a time. The actual states are
  * determined on-the-fly, but an initial state is required to be given.
  *
- * @version $Id$
  * @author ahbuss
  */
 public class PercentageInStateStat implements PropertyChangeListener {
@@ -64,7 +63,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
      * Should be called after Schedule.reset(). Sets currentState to
      * initialState, total time to 0.0, and last time to simTime
      */
-    public void reset() {
+    public final void reset() {
         stateStats.clear();
         currentState = getInitialState();
         lastTime = Schedule.getSimTime();
@@ -113,7 +112,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
         return initialState;
     }
 
-    public void setInitialState(Object initialState) {
+    public final void setInitialState(Object initialState) {
         this.initialState = initialState;
     }
 
@@ -169,7 +168,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
         return propertyName;
     }
 
-    public void setPropertyName(String propertyName) {
+    public final void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
     }
 
@@ -201,7 +200,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
         return numberFormat;
     }
 
-    public void setNumberFormat(NumberFormat numberFormat) {
+    public final void setNumberFormat(NumberFormat numberFormat) {
         this.numberFormat = numberFormat;
     }
 

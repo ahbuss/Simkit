@@ -8,7 +8,6 @@ package simkit;
  *
  * <p>Care must be used if there are more than one EventLists in the JVM.
  *
- * @version $Id$
  * @author ahbuss
  */
 public class RunAndPause extends SimEntityBase {
