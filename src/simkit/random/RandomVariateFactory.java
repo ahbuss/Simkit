@@ -13,6 +13,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,15 +37,14 @@ import java.util.regex.Pattern;
  * The (current) <code>DEFAULT_RNG</code> is a Mersenne Twister, but may be
  * changed by a static call to <code>setDefaultRandomNumber(RandomNumber)</code>
  * prior to any <code>RandomVariate</code> "orders."
- * <p>TODO: replace the searchPackage construct with finding &amp; loading given
+ * <p>
+ * TODO: replace the searchPackage construct with finding &amp; loading given
  * RandomVariate classes on the classpath.
  *
  * @author Arnold Buss
  */
 public class RandomVariateFactory {
 
-    public static final String _VERSION_
-            = "$Id$";
     public static final Logger LOGGER = Logger.getLogger("simkit.random");
 
     public static final String RANDOM_VARIATE_CLASSNAME_KEY = "className";
@@ -53,7 +54,15 @@ public class RandomVariateFactory {
     public static final String RANDOM_NUMBER_STREAM_ID_KEY = "streamID";
     public static final String RANDOM_NUMBER_SUBSTREAM_ID_KEY = "subStreamID";
 
-    private static Map<String, Map<String, Object>> defaultsMap;
+    private static final String DISCRETE_INTEGER_REGEX = "(\\d+)\\s+(\\d\\.\\d+)\\s+(\\+?\\d?\\.\\d+)";
+
+    private static final String DISCRETE_VARIATE_REGEX = "(\\d+\\.\\d+)\\s+(\\d\\.\\d+)\\s+(\\+?\\d?\\.\\d+)";
+
+    private static final Pattern DISCRETE_INTEGER_PATTERN = Pattern.compile(DISCRETE_INTEGER_REGEX);
+
+    private static final Pattern DISCRETE_VARIATE_PATTERN = Pattern.compile(DISCRETE_VARIATE_REGEX);
+
+    private static Map<String, Map<String, Object>> DEFAULTS_MAP;
     /**
      * Holds a cache of the RandomVariate Classes that have already been found
      * indexed by their name.
@@ -63,7 +72,7 @@ public class RandomVariateFactory {
      * A list of packages to search for RandomVariates if the class name given
      * is not fully qualified.
      */
-    protected static final Set<String> searchPackages;
+    protected static final Set<String> SEARCH_PACKAGES;
     /**
      * If true, print out information while searching for RandomVariate Classes.
      */
@@ -76,7 +85,8 @@ public class RandomVariateFactory {
     protected static RandomNumber DEFAULT_RNG;
 
     /**
-     * Regular expression used to group name of RandomVariate when parsing a String
+     * Regular expression used to group name of RandomVariate when parsing a
+     * String
      */
     public static final String NAME_REGEX = "([\\w ?]+)";
 
@@ -86,13 +96,14 @@ public class RandomVariateFactory {
     public static final String PARAM_SPLITTER = "[ (),=]+";
 
     /**
-     * This regular expression should match any number, integer or floating point,
-     * including scientific notation.
+     * This regular expression should match any number, integer or floating
+     * point, including scientific notation.
      */
     public static final String NUMBER_REGEX = "[+-]?((\\d*)|(\\d*\\.\\d*))([Ee][+-]?\\d+)?";
 
     /**
-     * This Pattern is used to match &amp; group the RandomVariate name in a String
+     * This Pattern is used to match &amp; group the RandomVariate name in a
+     * String
      */
     private static final Pattern NAME_PATTERN;
 
@@ -143,8 +154,8 @@ public class RandomVariateFactory {
     }
 
     static {
-        searchPackages = new LinkedHashSet<>();
-        searchPackages.add("simkit.random");
+        SEARCH_PACKAGES = new LinkedHashSet<>();
+        SEARCH_PACKAGES.add("simkit.random");
         cache = new WeakHashMap<>();
         setDefaultRandomNumber(RandomNumberFactory.getInstance());
     }
@@ -257,42 +268,48 @@ public class RandomVariateFactory {
 
     /**
      * Parses and instantiates a RandomVariate based on a purely String
-     * representation. Examples include <code>"Normal (5.2, 1.5)</code>, 
+     * representation. Examples include <code>"Normal (5.2, 1.5)</code>,
      * <code>"Gamma(1.2, 3.4)"</code>, <code>"Constant (10.3)"</code>, which
      * will create Normal, Gamma, and Constant RandomVariate instances,
      * respectively.
-     * 
+     *
      * @param toString Given String that can be parsed to a RandomVariate
      * @return RandomVariate corresponding to given argument
      * @throws IllegalArgumentException if given argument cannot be parsed
      */
     public static RandomVariate getInstance(String toString) {
         RandomVariate newInstance = null;
-        Matcher matcher = NAME_PATTERN.matcher(toString);
-        matcher.find();
-        if (matcher.groupCount() == 0) {
-            String message = "No matching groups found for name: " + toString;
-            LOGGER.severe(message);
-            throw new IllegalArgumentException(message);
-        }
-        String name = matcher.group(0);
-        String paramString = toString.replace(name, "");
-        String adjustedParamString = paramString.replaceAll(PARAM_SPLITTER, " ");
-        String[] paramsArray = adjustedParamString.trim().split(" ");
-        String adjustedName = name.trim().replaceAll(PARAM_SPLITTER, "");
-        List<Double> paramsList = new ArrayList<>();
-        for (int i = 0; i < paramsArray.length; ++i) {
-            if (!paramsArray[i].equals("") && paramsArray[i].matches(NUMBER_REGEX)) {
-                paramsList.add(Double.valueOf(paramsArray[i]));
+        if (toString.startsWith("Discrete Integer")) {
+            newInstance = parseDiscreteIntegerVariate(toString);
+        } else if (toString.startsWith("Discrete Distribution")) {
+            newInstance = parseDiscreteVariate(toString);
+        } else {
+            Matcher matcher = NAME_PATTERN.matcher(toString);
+            matcher.find();
+            if (matcher.groupCount() == 0) {
+                String message = "No matching groups found for name: " + toString;
+                LOGGER.severe(message);
+                throw new IllegalArgumentException(message);
             }
-        }
-        Object[] params = paramsList.toArray();
-        try {
-            newInstance = getInstance(adjustedName, params);
-        } catch (IllegalArgumentException ex) {
-            LOGGER.severe(String.format("Cannot find RandomVariate: %s %s", adjustedName,
-                    Arrays.toString(params)));
-            throw ex;
+            String name = matcher.group(0);
+            String paramString = toString.replace(name, "");
+            String adjustedParamString = paramString.replaceAll(PARAM_SPLITTER, " ");
+            String[] paramsArray = adjustedParamString.trim().split(" ");
+            String adjustedName = name.trim().replaceAll(PARAM_SPLITTER, "");
+            List<Double> paramsList = new ArrayList<>();
+            for (int i = 0; i < paramsArray.length; ++i) {
+                if (!paramsArray[i].equals("") && paramsArray[i].matches(NUMBER_REGEX)) {
+                    paramsList.add(Double.valueOf(paramsArray[i]));
+                }
+            }
+            Object[] params = paramsList.toArray();
+            try {
+                newInstance = getInstance(adjustedName, params);
+            } catch (IllegalArgumentException ex) {
+                LOGGER.severe(String.format("Cannot find RandomVariate: %s %s", adjustedName,
+                        Arrays.toString(params)));
+                throw ex;
+            }
         }
         return newInstance;
     }
@@ -300,7 +317,8 @@ public class RandomVariateFactory {
     /**
      * Note: will strip any embedded, leading, or trailing spaces before
      * checking. Therefore "Log Normal" or " Gamma " will both return "true".
-     * @param toString Given name of RandomVariate - may or may not include 
+     *
+     * @param toString Given name of RandomVariate - may or may not include
      * "Variate" suffix
      * @return true if given String can be parsed to a RandomVariate
      */
@@ -309,12 +327,12 @@ public class RandomVariateFactory {
         try {
             instance = getInstance(toString);
         } catch (Throwable e) {
-            LOGGER.log(Level.INFO, 
+            LOGGER.log(Level.INFO,
                     "{0} not found as RandomVariate - Check spelling and/or parameters", toString);
         }
         return instance != null;
     }
-    
+
     /**
      * Adds the given fully qualified package name to the list of packages that
      * will be searched when attempting to find RandomVariates by name.
@@ -322,23 +340,24 @@ public class RandomVariateFactory {
      * @param newPackage given fully qualified package name
      */
     public static void addSearchPackage(String newPackage) {
-        searchPackages.add(newPackage);
+        SEARCH_PACKAGES.add(newPackage);
     }
 
     /**
-     * Remove the given package from searchPackages
+     * Remove the given package from SEARCH_PACKAGES
+     *
      * @param removedPackage Given package to remove
-     * @return true if given package was in the searchPackages
+     * @return true if given package was in the SEARCH_PACKAGES
      */
     public static boolean removeSearchPackage(String removedPackage) {
-        return searchPackages.remove(removedPackage);
+        return SEARCH_PACKAGES.remove(removedPackage);
     }
 
     /**
-     * @return Copy of searchPackages.
+     * @return Copy of SEARCH_PACKAGES.
      */
-    public static Set<String> getSearchPackages() {
-        return new LinkedHashSet<>(searchPackages);
+    public static Set<String> getSEARCH_PACKAGES() {
+        return new LinkedHashSet<>(SEARCH_PACKAGES);
     }
 
     /**
@@ -358,14 +377,14 @@ public class RandomVariateFactory {
         //        First see if name passed is "fully qualified"
         try {
             theClass
-                    = (Class<? extends RandomVariate>)Thread.currentThread().getContextClassLoader().
-                    loadClass(className);
+                    = (Class<? extends RandomVariate>) Thread.currentThread().getContextClassLoader().
+                            loadClass(className);
 
             return theClass;
         } //        If not, then try the search path
         catch (ClassNotFoundException e) {
         }
-        for (String searchPackage : searchPackages) {
+        for (String searchPackage : SEARCH_PACKAGES) {
             if (verbose) {
                 System.out.println("Checking " + searchPackage + "."
                         + className);
@@ -373,7 +392,7 @@ public class RandomVariateFactory {
             try {
                 theClass
                         = (Class<? extends RandomVariate>) Thread.currentThread().getContextClassLoader().
-                        loadClass(searchPackage + "." + className);
+                                loadClass(searchPackage + "." + className);
 
                 if (!simkit.random.RandomVariate.class.
                         isAssignableFrom(theClass)) {
@@ -410,12 +429,13 @@ public class RandomVariateFactory {
     }
 
     /**
-     * 
-     * @param className Name of RandomVariate class, which may or may not include "Variate"
+     *
+     * @param className Name of RandomVariate class, which may or may not
+     * include "Variate"
      * @param rng Given RandomNumber instance to use
      * @param params Given parameters for this RandomVariate
-     * @return A DiscreteRandomVariate instance with given parameters backed by given
-     * RandomNumber instance, or null if none found
+     * @return A DiscreteRandomVariate instance with given parameters backed by
+     * given RandomNumber instance, or null if none found
      */
     public static DiscreteRandomVariate getDiscreteRandomVariateInstance(
             String className, RandomNumber rng, Object... params) {
@@ -425,6 +445,19 @@ public class RandomVariateFactory {
         return instance;
     }
 
+    public static DiscreteRandomVariate getDiscreteRandomVariateInstance(String toString) {
+        DiscreteRandomVariate drv = null;
+        RandomVariate rv = getInstance(toString);
+        if (rv instanceof DiscreteRandomVariate) {
+            drv = (DiscreteRandomVariate) rv;
+        } else {
+            throw new IllegalArgumentException(String.format("Not an instance of DiscreteRandomVariate: %s",
+                    toString));
+        }
+        
+        return drv;
+    }
+    
     /**
      *
      * @param className Name of RandomVariate class
@@ -470,13 +503,13 @@ public class RandomVariateFactory {
     /**
      *
      * @param className Given name of RandomVariate
-     * @return a RandomVariate that has not had its parameters set 
+     * @return a RandomVariate that has not had its parameters set
      */
     protected static RandomVariate getUnconfiguredInstance(String className) {
         RandomVariate instance = null;
 
-        Class<? extends RandomVariate> randomVariateClass = 
-                (Class<? extends RandomVariate>) cache.get(className);
+        Class<? extends RandomVariate> randomVariateClass
+                = (Class<? extends RandomVariate>) cache.get(className);
         if (randomVariateClass == null) {
             randomVariateClass = findFullyQualifiedNameFor(className);
         }
@@ -496,5 +529,61 @@ public class RandomVariateFactory {
             throw new RuntimeException(e);
         }
         return instance;
+    }
+
+    public static DiscreteIntegerVariate parseDiscreteIntegerVariate(String string) {
+        DiscreteIntegerVariate variate;
+        SortedMap<Integer, Double> frequencies = new TreeMap<>();
+        String[] splits = string.split("\\n");
+        for (String split : splits) {
+            if (split.matches("(Discrete Integer|x\\s+f(x)\\s+F(x))")) {
+                continue;
+            }
+            Matcher matcher = DISCRETE_INTEGER_PATTERN.matcher(split);
+            if (matcher.matches()) {
+                int value = Integer.parseInt(matcher.group(1));
+                double frequency = Double.parseDouble(matcher.group(2));
+                frequencies.put(value, frequency);
+            }
+        }
+
+        int[] values = new int[frequencies.size()];
+        double[] freqs = new double[frequencies.size()];
+        int count = 0;
+        for (int val : frequencies.keySet()) {
+            values[count] = val;
+            freqs[count] = frequencies.get(val);
+            count += 1;
+        }
+        variate = (DiscreteIntegerVariate) RandomVariateFactory.getDiscreteRandomVariateInstance("DiscreteInteger", values, freqs);
+        return variate;
+    }
+
+    public static DiscreteVariate parseDiscreteVariate(String string) {
+        DiscreteVariate variate;
+        SortedMap<Double, Double> frequencies = new TreeMap<>();
+        String[] splits = string.split("\\n");
+        for (String split : splits) {
+            if (split.matches("(Discrete Integer|x\\s+f(x)\\s+F(x))")) {
+                continue;
+            }
+            Matcher matcher = DISCRETE_VARIATE_PATTERN.matcher(split);
+            if (matcher.matches()) {
+                double value = Double.parseDouble(matcher.group(1));
+                double frequency = Double.parseDouble(matcher.group(2));
+                frequencies.put(value, frequency);
+            }
+        }
+
+        double[] values = new double[frequencies.size()];
+        double[] freqs = new double[frequencies.size()];
+        int count = 0;
+        for (double val : frequencies.keySet()) {
+            values[count] = val;
+            freqs[count] = frequencies.get(val);
+            count += 1;
+        }
+        variate = (DiscreteVariate) RandomVariateFactory.getInstance("Discrete", values, freqs);
+        return variate;
     }
 }

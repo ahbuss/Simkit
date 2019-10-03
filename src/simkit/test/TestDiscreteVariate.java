@@ -46,6 +46,11 @@ public class TestDiscreteVariate {
         
         System.out.println(h);
         
+        Double[] values = new Double[] {2.0, 4.0, 6.0, 8.0 };
+        Double[] frequencies = new Double[] { 10.0, 20.0, 30.0, 40.0 };
+        rv = RandomVariateFactory.getInstance("Discrete", values, frequencies);
+        System.out.println(rv);
+        
     }
     
 }
