@@ -1,12 +1,7 @@
 Manifest-Version: 1.0
-X-COMMENT: Main-Class will be added automatically by build
-
-Name: simkit/
-Built-By: Arnold Buss
-Specification-Title: Simkit Classes
-Specification-Version: 1.4.8
-Specification-Vendor: Arnold Buss
+Ant-Version: Apache Ant 1.9.7
+Created-By: 1.8.0_111-b14 (Oracle Corporation)
 Implementation-Title: Simkit
-Implementation-Version: 1.4.8
+Implementation-Version: 1.5.0
 Implementation-Vendor: Arnold Buss
 

@@ -337,6 +337,32 @@ public class Schedule {
     }
 
     /**
+     * <p>
+     * Removes the EventList corresponding to the given id. If no such EventList
+     * has been created, then does nothing. The removed EventList has a
+     * coldReset() invoked to clear out any lingering SimEntities.
+     * <p>
+     * If the requested EventList is the current defaultEventList, then it is
+     * not removed.
+     *
+     * @param id Given EventList id
+     * @return true if EventList with given id is removed; false if that
+     * EvemtList doesn't exist or is the defaultEventList
+     */
+    public static boolean removeEventList(int id) {
+        boolean removed = false;
+        if (allEventLists.containsKey(id)) {
+            BasicEventList eventList = allEventLists.get(id);
+            if (eventList != defaultEventList) {
+                eventList.coldReset();
+                allEventLists.remove(id);
+                removed = true;
+            }
+        }
+        return removed;
+    }
+
+    /**
      * Create a new Event List of the given type and set it to be the default.
      *
      * @param clazz Class of the new Event List
