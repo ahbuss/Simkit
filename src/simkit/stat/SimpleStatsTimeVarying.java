@@ -73,7 +73,6 @@ public class SimpleStatsTimeVarying extends AbstractSimpleStats
         this.diff = original.diff;
         this.minObs = original.getMinObs();
         this.maxObs = original.getMaxObs();
-        this.numberFormat = original.numberFormat;
         this.name = original.getName();
         this.lastTime = original.lastTime;
         this.eventList = original.getEventList();

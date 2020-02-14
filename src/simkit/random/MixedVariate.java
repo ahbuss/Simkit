@@ -75,6 +75,7 @@ public class MixedVariate extends simkit.random.RandomVariateBase {
     /**
      * Generate a random variate having this class's distribution.
      */
+    @Override
     public double generate() {
         int index = (int) mixing.generate();
         return distributions[index].generate();
@@ -85,6 +86,7 @@ public class MixedVariate extends simkit.random.RandomVariateBase {
      * and a RandomVariate array containing the distributions to mix.
      * @return (double[], RandomVariate[]) - (mixing probabilities, distributions)
      */
+    @Override
     public Object[] getParameters() {
         return new Object[] {
             getMixingProbs(), getDistributions()

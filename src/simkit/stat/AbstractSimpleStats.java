@@ -13,7 +13,6 @@ import java.beans.PropertyChangeEvent;
  * </P>
  *
  * @author ahbuss
- * @version $Id$
  */
 public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable {
 
