@@ -14,7 +14,7 @@ import simkit.SimEntityBase;
 
 /**
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class TimeListener extends SimEntityBase implements PropertyChangeListener {
 

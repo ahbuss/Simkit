@@ -15,7 +15,7 @@ import javax.swing.JComponent;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestPathIterator extends JComponent {
 

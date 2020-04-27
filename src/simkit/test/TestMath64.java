@@ -5,7 +5,7 @@ import simkit.util.Math64;
 
 /**
  * This is the test that fails on 64-bit platforms when using Math.log.
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestMath64 {

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class RotatedBivariateNormalVectorTest extends TestCase {

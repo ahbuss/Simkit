@@ -128,7 +128,7 @@ public class TransferLine extends SimEntityBase {
      */
     public void doArrival() {
         firePropertyChange("numberArrivals", ++numberArrivals);
-        waitDelay("Arrival", 0.0, new Object[]{new Integer(0)});
+        waitDelay("Arrival", 0.0, 0);
         waitDelay("Arrival", interarrivalTimeGenerator.generate());
     }
 
@@ -143,7 +143,7 @@ public class TransferLine extends SimEntityBase {
         fireIndexedPropertyChange(station, "numberInQueue", numberInQueue[station],
                 ++numberInQueue[station]);
         if (numberAvailableServers[station] > 0) {
-            waitDelay("StartService", 0.0, new Object[]{new Integer(station)});
+            waitDelay("StartService", 0.0, station);
         }
     }
 
@@ -159,7 +159,7 @@ public class TransferLine extends SimEntityBase {
                 --numberInQueue[station]);
         fireIndexedPropertyChange(station, "numberAvailableServers", numberAvailableServers[station],
                 --numberAvailableServers[station]);
-        waitDelay("EndService", serviceTimeGenerator[station].generate(), new Object[]{new Integer(station)});
+        waitDelay("EndService", serviceTimeGenerator[station].generate(), station);
     }
 
     /**
@@ -176,11 +176,11 @@ public class TransferLine extends SimEntityBase {
                 ++numberAvailableServers[station]);
 
         if (numberInQueue[station] > 0) {
-            waitDelay("StartService", 0.0, Priority.HIGH, new Object[]{new Integer(station)});
+            waitDelay("StartService", 0.0, Priority.HIGH, station);
         }
 
         if (station < numberServersAtStation.length - 1) {
-            waitDelay("Arrival", 0.0, new Object[]{new Integer(station + 1)});
+            waitDelay("Arrival", 0.0, station + 1);
         } else {
             firePropertyChange("numberServed", ++numberServed);
         }

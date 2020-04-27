@@ -10,7 +10,7 @@ import java.awt.Component;
 import simkit.BasicSimEntity;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class PingPainter extends BasicSimEntity {

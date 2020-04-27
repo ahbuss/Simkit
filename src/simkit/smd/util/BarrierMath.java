@@ -14,7 +14,7 @@ import simkit.smdx.Math2D;
  * then the trajectory intersects the line segment; otherwise it misses. t is
  * the time it would take the Mover to reach the intersection point should
  * it move in that direction (possibly at unit speed). t &gt; 0 means that there will indeed be a collision. 
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class BarrierMath {

@@ -17,7 +17,7 @@ package simkit.random;
  * time proportional to n.</p>
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class BinomialVariate implements DiscreteRandomVariate {
 

@@ -6,7 +6,7 @@ import static java.lang.StrictMath.sqrt;
  * Generates random variates having a Poisson distribution.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class PoissonVariate extends RandomVariateBase implements DiscreteRandomVariate {
 

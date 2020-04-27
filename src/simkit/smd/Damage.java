@@ -6,7 +6,7 @@ package simkit.smd;
  * dependent as is how the Object affects the Target. The specific type is 
  * given by the parameter &lt;T&gt;
  * @author  Arnold Buss
- * @version $Id$
+ * 
  * @param <T> The class that Damage wraps
  */
 public interface Damage<T> {

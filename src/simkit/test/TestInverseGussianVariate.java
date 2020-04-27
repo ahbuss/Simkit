@@ -10,7 +10,7 @@ import simkit.random.RandomVariateFactory;
 import simkit.stat.SimpleStatsTally;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestInverseGussianVariate {

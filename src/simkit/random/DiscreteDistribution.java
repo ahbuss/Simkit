@@ -10,7 +10,7 @@ package simkit.random;
  * An interface for Classes that describe discrete random variables.
  * 
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public interface DiscreteDistribution extends Distribution {
     

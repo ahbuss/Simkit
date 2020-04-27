@@ -23,7 +23,7 @@ Normal (0.0, 3.0) (Truncated at 0.0) &lt;--&gt; TruncatedNormal (0.0, 3.0)
 0.0 &lt;--&gt; 0.0
 0.2427369353452125 &lt;--&gt; 0.2427369353452125
 </pre>
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestTruncatedRandomVariate {

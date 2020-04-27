@@ -9,7 +9,7 @@ package simkit.random;
  * getSeeds() from the other instance.  So setSeed(getSeed()) is not the
  * identity, but setSeeds(getSeeds()) is.
  *
- * @version $Id$
+ * 
  * @author  ahbuss
  */
 public class MersenneTwisterDC implements RandomNumber {

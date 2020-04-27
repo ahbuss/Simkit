@@ -5,7 +5,7 @@ package simkit.random;
  * Will always generate the value of its parameter.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class ConstantVariate extends RandomVariateBase {
 

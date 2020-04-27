@@ -17,7 +17,7 @@ import simkit.Schedule;
  * is done in the "sum-of-squares" manner, mostly because I havn't had a chance
  * to work out the Kalman Filter for the variance.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class LinearSimpleStatsTimeVarying extends SimpleStatsTimeVarying {

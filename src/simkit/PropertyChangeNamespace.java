@@ -22,8 +22,7 @@ import java.beans.PropertyChangeEvent;
  * statistics collector.
  *
  * @author Arnold Buss
- * @version $Id: PropertyChangeNamespace.java 1083 2008-06-11 20:41:21Z kastork
- * $
+ * 
  */
 public class PropertyChangeNamespace extends PropertyChangeDispatcher implements java.beans.PropertyChangeListener {
 

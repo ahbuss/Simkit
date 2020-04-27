@@ -20,7 +20,7 @@ import java.util.logging.*;
  * allow use of Java 1.4 JVM's.
  * 
 * @author John Ruck (Rolands and Associates Corporation)
- * @version $Id$
+ * 
 *
  */
 public class BattleDimension {

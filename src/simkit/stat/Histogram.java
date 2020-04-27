@@ -5,7 +5,7 @@ package simkit.stat;
  * This class does not draw the histogram, it simply calculates frequency and
  * proportion data.
  *
- * @version $Id$
+ * 
  *
  */
 public class Histogram extends SimpleStatsTally {

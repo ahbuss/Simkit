@@ -16,7 +16,7 @@ import simkit.stat.SimpleStatsTally;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestGeometricRV {
 

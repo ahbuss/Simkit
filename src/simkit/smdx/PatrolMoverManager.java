@@ -6,7 +6,7 @@ import java.util.*;
  * last one is reached, instead of stopping, the Mover is sent to the 
  * first waypoint and starts all over.
  *
- * @version $Id$
+ * 
  * @author  ahbuss
  */
 public class PatrolMoverManager extends PathMoverManager {

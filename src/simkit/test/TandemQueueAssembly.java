@@ -23,7 +23,7 @@ import simkit.stat.SimpleStatsTimeVarying;
  * is then heard by the following station.  All the listening must be established in 
  * hookupSimEventListeners().
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TandemQueueAssembly extends BasicAssembly {

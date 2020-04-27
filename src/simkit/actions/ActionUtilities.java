@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JToolBar;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class ActionUtilities {

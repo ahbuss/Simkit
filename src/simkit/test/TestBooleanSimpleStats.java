@@ -15,7 +15,7 @@ import simkit.stat.SimpleStatsTimeVarying;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestBooleanSimpleStats extends SimEntityBase {
 
@@ -31,7 +31,7 @@ public class TestBooleanSimpleStats extends SimEntityBase {
     
     public void doArrival() {
         boolean b = (rand.draw() < 0.2);
-        firePropertyChange("obs", new Boolean(b));
+        firePropertyChange("obs", b);
         waitDelay("Arrival", 1.0);
     }
     
@@ -48,7 +48,7 @@ public class TestBooleanSimpleStats extends SimEntityBase {
             double x = rng.draw();
             boolean b = (x < 0.2);
             x = (b ? 1.0 : 0.0);
-            Boolean bObj = new Boolean(b);
+            Boolean bObj = b;
             tally1.newObservation(x);
             tally2.newObservation(b);
             tally3.newObservation(bObj);

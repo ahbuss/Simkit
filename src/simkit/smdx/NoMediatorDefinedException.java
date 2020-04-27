@@ -12,7 +12,7 @@ package simkit.smdx;
  * how to handle an interaction.
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class NoMediatorDefinedException extends java.lang.RuntimeException {
     

@@ -21,7 +21,7 @@ import java.util.WeakHashMap;
  * corresponding property on the button. This uses JavaBeans Introspection, but
  * could have just as easily used "ordinary" reflection...
  *
- * @version $Id$
+ * 
  * @author ahbuss
 *
  */

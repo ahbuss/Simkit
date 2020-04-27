@@ -17,7 +17,7 @@ import simkit.StopType;
  * Runs a Simkit simulation as controled by an xml control file.
  *
  * @author ahbuss
- * @version $Id$
+ * 
  */
 public class SimRunner implements Runnable {
 
@@ -78,7 +78,7 @@ public class SimRunner implements Runnable {
                     Element signatureNode = (Element) stopEventNode.getElementsByTagName("signature").item(0);
                     if (signatureNode != null) {
                         NodeList args = signatureNode.getElementsByTagName("class");
-                        runner.stopEventSignature = new Class[args.getLength()];
+                        runner.stopEventSignature = new Class<?>[args.getLength()];
                         for (int i = 0; i < args.getLength(); ++i) {
                             try {
                                 runner.stopEventSignature[i] = Class.forName(args.item(i).getFirstChild().getNodeValue());
@@ -97,7 +97,7 @@ public class SimRunner implements Runnable {
                             }
                         }
                     } else {
-                        runner.stopEventSignature = new Class[0];
+                        runner.stopEventSignature = new Class<?>[0];
                     }
                 }
             }
@@ -111,7 +111,7 @@ public class SimRunner implements Runnable {
     protected boolean stopOnEvent;
     protected String stopEvent;
     protected int stopEventCount;
-    protected Class[] stopEventSignature;
+    protected Class<?>[] stopEventSignature;
     protected StopType stopType;
     protected int numberReplications;
 

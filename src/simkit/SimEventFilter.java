@@ -15,7 +15,6 @@ import java.util.Set;
  * on the list will be passed through. If <CODE>allButThese</CODE> is true, then
  * every event <I>except</I> the ones on the list is passed through.
  *
- * @version $Id$
  * @author ahbuss
  */
 public class SimEventFilter extends simkit.BasicSimEntity {

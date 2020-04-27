@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class CSVPropertyDataLogger implements PropertyChangeListener {

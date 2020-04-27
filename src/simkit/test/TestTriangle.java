@@ -4,7 +4,7 @@ import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestTriangle {

@@ -2,7 +2,7 @@ package simkit.random;
 
 /**
  * @since 1096
- * @version $Id$
+ * 
  * @author Kirk Stork (The MOVES Institute)
  */
 public interface RandomNumberStream extends RandomNumber {

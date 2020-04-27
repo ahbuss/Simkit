@@ -10,7 +10,7 @@ package simkit.smdx;
  * damaged.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public interface Target extends Mover {
 

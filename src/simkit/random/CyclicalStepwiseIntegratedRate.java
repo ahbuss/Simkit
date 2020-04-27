@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /**
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class CyclicalStepwiseIntegratedRate{

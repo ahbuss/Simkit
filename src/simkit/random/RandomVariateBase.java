@@ -8,7 +8,7 @@ package simkit.random;
  *
  *
  *  @author Arnold Buss
- *  @version $Id$ 
+ *   
  **/
 
 public abstract class RandomVariateBase implements RandomVariate {

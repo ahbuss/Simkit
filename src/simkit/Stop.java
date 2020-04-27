@@ -15,7 +15,7 @@ package simkit;
  * event stops the entire simulation. The second only cancels the events
  * scheduled by a particular SimEnity.
  *
- * @version $Id$
+ * 
  * @author Arnold Buss
  */
 public class Stop extends SimEntityBase {

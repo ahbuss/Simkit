@@ -11,7 +11,7 @@ import simkit.SimEntity;
  * effects of the interaction between 2 types of
  * Objects.
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public interface Mediator extends SimEntity {
 

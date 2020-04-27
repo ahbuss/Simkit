@@ -10,7 +10,7 @@ package simkit.random;
  * (0, otherwise)
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class GammaVariate extends RandomVariateBase {
 

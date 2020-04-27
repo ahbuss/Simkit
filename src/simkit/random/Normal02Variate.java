@@ -6,7 +6,7 @@ package simkit.random;
  * Note: Uses a random number of RandomNumbers per draw.</p>
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class Normal02Variate implements RandomVariate {
 

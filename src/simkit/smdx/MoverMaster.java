@@ -12,7 +12,7 @@ import simkit.Schedule;
  * Magic moves are only allowed at the start of the simulation.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class MoverMaster {
 

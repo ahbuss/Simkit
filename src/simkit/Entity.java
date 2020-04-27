@@ -1,7 +1,6 @@
 package simkit;
 
 import java.lang.reflect.Array;
-import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
 import static simkit.SimEventScheduler.NL;
 
@@ -24,9 +23,7 @@ import static simkit.SimEventScheduler.NL;
  * @author ahbuss
  */
 public class Entity implements Named, Comparable<Entity> {
-    
-    public static final DecimalFormat FORM = new DecimalFormat("0.0000");
-    
+        
     public static final String DEFAULT_NAME = "Entity";
     
     private static int NEXT_ID = 0;
@@ -41,13 +38,16 @@ public class Entity implements Named, Comparable<Entity> {
     
     private String name;
     
+    private BasicEventList eventList;
+    
     /**
      * Instantiate an Entity with the given name.
      * @param name The name of this Entity
      */
     public Entity(String name) {
         setName(name);
-        creationTime = Schedule.getSimTime();
+        this.setEventList(Schedule.getDefaultEventList());
+        creationTime = eventList.getSimTime();
         stampTime();
         id = ++NEXT_ID;
     }
@@ -63,21 +63,21 @@ public class Entity implements Named, Comparable<Entity> {
      * Set timeStamp to the current simTime
      */
     public void stampTime() {
-        timeStamp = Schedule.getSimTime();
+        timeStamp = eventList.getSimTime();
     }
 
     /**
      * @return the simTime since this Entity was instantiated
      */    
     public double getAge() {
-        return Schedule.getSimTime() - getCreationTime();
+        return eventList.getSimTime() - getCreationTime();
     }
     
     /**
      * @return the time since stampTime() was last invoked.
      */
     public double getElapsedTime() {
-        return Schedule.getSimTime() - getTimeStamp();
+        return eventList.getSimTime() - getTimeStamp();
     }
     
     /**
@@ -148,12 +148,31 @@ public class Entity implements Named, Comparable<Entity> {
     }
 
     /**
+     * @return the eventList
+     */
+    public BasicEventList getEventList() {
+        return eventList;
+    }
+
+    /**
+     * @param eventList the eventList to set
+     */
+    public void setEventList(BasicEventList eventList) {
+        this.eventList = eventList;
+    }
+
+    public void setEventListID(int eventListID) {
+        BasicEventList basicEventList = Schedule.getEventList(eventListID);
+        this.setEventList(eventList);
+    }
+    
+    /**
      * @return Name.id [&lt;creationTime&gt;, &lt;timeStamp&gt;]
      */
     @Override
     public String toString() {
-        return getName() + '.' + getID() + ' ' + '[' + FORM.format(getCreationTime()) + ',' +
-                FORM.format(getTimeStamp()) + ']';
+        return String.format("%s.%d [%,.4f,%,.4f]", 
+                getName(), getID(), getCreationTime(), getTimeStamp());
     }
     
     /**

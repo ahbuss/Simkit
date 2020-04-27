@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 *
 * Renamed and moved from JDAFS project at Id: simkit.smdx.Helper.java 1544
 * 
-* @version $Id$
+* 
 * @author John Ruck (Rolands and Associates Corporation 8-23-06)
 **/
 public class SimkitSmdxTestingHelper {

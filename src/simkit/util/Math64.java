@@ -5,7 +5,7 @@ package simkit.util;
  * TRAC-WSMR. This reliably gives the same results on 64-bit platforms,
  * unlike the ones shipped with the JDK. It is noticibly slower, however.
  *
- * @version $Id$
+ * 
  * @author Phillip Wright
  * @author ahbuss
  */

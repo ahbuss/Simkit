@@ -217,7 +217,7 @@ public interface BasicEventList {
      * @param eventName Name of stop event
      * @param signature Signature of stop event
      */
-    void stopOnEvent(int numberEvents, String eventName, Class... signature);
+    void stopOnEvent(int numberEvents, String eventName, Class<?>... signature);
 
     /**
      * If true, then contents of the event list are printed after each event is

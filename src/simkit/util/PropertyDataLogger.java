@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * written, they are not time stamped.
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class PropertyDataLogger implements PropertyChangeListener {
     

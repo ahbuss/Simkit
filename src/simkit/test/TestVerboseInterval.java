@@ -6,7 +6,7 @@ import simkit.examples.ArrivalProcess;
 import simkit.random.RandomVariateFactory;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestVerboseInterval {

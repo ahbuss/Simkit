@@ -8,7 +8,7 @@ package simkit.random;
  * Note: Needs to be tested.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class PearsonTypeVVariate implements RandomVariate  {
 

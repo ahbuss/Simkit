@@ -9,7 +9,7 @@ import simkit.random.RandomVariateFactory;
 import simkit.util.SimplePropertyDumper;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestSimEventRedispatcher1 {

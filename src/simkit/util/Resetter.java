@@ -11,7 +11,7 @@ import simkit.SimEvent;
 
 /**
  * 
- * @version $Id$
+ * 
  * @author  ahbuss
  */
 public class Resetter extends BasicSimEntity {
@@ -65,7 +65,7 @@ public class Resetter extends BasicSimEntity {
     public void addResetter(Object resetter, String resetMethodName) {
         try {
             Method resetMethod = resetter.getClass().getMethod(
-                resetMethodName, (Class[]) null
+                resetMethodName, (Class<?>[]) null
             );
             
             resetters.put(resetter, resetMethod);

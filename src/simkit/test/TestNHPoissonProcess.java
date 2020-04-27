@@ -18,7 +18,7 @@ import simkit.random.RandomVariateFactory;
  *
  *  TODO: Fix this
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestNHPoissonProcess {
     

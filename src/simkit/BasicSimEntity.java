@@ -129,7 +129,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
         serial = ++nextSerial;
         setName(name);
         setPriority(priority);
-        Class stopClass = (this instanceof SimEntityBase) ? SimEntityBase.class : BasicSimEntity.class;
+        Class<?> stopClass = (this instanceof SimEntityBase) ? SimEntityBase.class : BasicSimEntity.class;
         property = new PropertyChangeDispatcher(this, stopClass);
         setPersistant(true);                    //TODO add constructor with persistant
         eventList = Schedule.getEventList(eventListID);
@@ -174,7 +174,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     public boolean isReRunnable() {
         boolean reRunnable;
         try {
-            this.getClass().getMethod("doRun", (Class[]) null);
+            this.getClass().getMethod("doRun", (Class<?>[]) null);
             reRunnable = true;
         } catch (NoSuchMethodException e) {
             //  If we are here, it is ok, the class simply isn't,

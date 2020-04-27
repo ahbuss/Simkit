@@ -1,8 +1,5 @@
 package simkit;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 /**
  * Class for simulation events. We will now let the garbage collector do its job
  * - i.e. no more object pooling with the SimEventFactory.
@@ -18,15 +15,8 @@ public class SimEvent implements Comparable<SimEvent> {
     // static variables
     public static final double DEFAULT_PRIORITY = 0.0;
 
-    /**
-     * Holds the format for output of numbers. The format is 0.000.
-     *
-     */
-    private static NumberFormat tsf;
-
     // static initializer
     static {
-        tsf = new DecimalFormat("0.000");
         resetID();
     }
 
@@ -43,7 +33,7 @@ public class SimEvent implements Comparable<SimEvent> {
      * Caches the signature of the event method.
      *
      */
-    private Class[] signature;
+    private Class<?>[] signature;
 
     /**
      * Holds the parameters to be passed to the event method when called.
@@ -102,7 +92,7 @@ public class SimEvent implements Comparable<SimEvent> {
 
     /**
      * A unique identifier for this SimEntity - the # of times an event of this
-     * namehas occured.
+     * name has occured.
      *
      */
     private int serial;
@@ -192,7 +182,7 @@ public class SimEvent implements Comparable<SimEvent> {
     }
 
     /**
-     * 
+     *
      * @param serial Given serial number for this SimEvent
      */
     public void setSerial(int serial) {
@@ -420,8 +410,8 @@ public class SimEvent implements Comparable<SimEvent> {
 
     /**
      * If the state is WAITING, returns an empty String, otherwise returns the
-     * name of the waitState.
-     * TODO: find out why
+     * name of the waitState. TODO: find out why
+     *
      * @return the name of the waitState or "" if state is WAITING.
      */
     private String getWaitStateStr() {
@@ -434,7 +424,8 @@ public class SimEvent implements Comparable<SimEvent> {
      * parameters are the same.
      *
      * @param obj Given Object
-     * @return true if this SimEvent refers to the same event as the given Object.
+     * @return true if this SimEvent refers to the same event as the given
+     * Object.
      */
     public boolean eventEquals(Object obj) {
         if (!(obj instanceof SimEvent)) {
@@ -448,7 +439,7 @@ public class SimEvent implements Comparable<SimEvent> {
      * Determines if the given array of parameters match the parameters for this
      * event.
      *
-     * @param params given array of parameters 
+     * @param params given array of parameters
      * @return true if the parameters match, false otherwise.
      *
      */
@@ -482,6 +473,7 @@ public class SimEvent implements Comparable<SimEvent> {
     /**
      * Converts an event name to the correct method name. Prepends "do" to the
      * event name if it doesn't already start with "do".
+     *
      * @param name Given event name
      * @return Method name for given event name
      */

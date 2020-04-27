@@ -9,7 +9,7 @@ import java.awt.geom.QuadCurve2D;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestQuadratic {
 

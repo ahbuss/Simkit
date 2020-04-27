@@ -23,7 +23,7 @@ import simkit.smd.WayPoint;
 /**
  *
  * @author  ahbuss
- * @version $Id$
+ * 
  */
 public class TestNewMediator {
 

@@ -11,7 +11,7 @@ import simkit.stat.SimpleStatsTally;
 /**
  *
  * @author  ahbuss
- * @version $Id$
+ * 
  */
 public class TestBetaVariate {
 

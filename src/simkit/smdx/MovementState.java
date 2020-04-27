@@ -21,7 +21,7 @@ import java.util.Map;
  * </UL>
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class MovementState {
 

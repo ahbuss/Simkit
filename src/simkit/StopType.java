@@ -11,7 +11,7 @@ package simkit;
  * prior to this facility in Java (AB)
  *
  * @author ahbuss
- * @version $Id$
+ * 
  */
 public enum StopType {
 

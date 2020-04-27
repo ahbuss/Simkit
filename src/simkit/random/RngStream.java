@@ -15,7 +15,7 @@ import java.util.Arrays;
  * Modified slightly to conform to <code>RandomNumber</code> interface
  * for use in Simkit by Arnold Buss.
  * 
- * @version $Id$
+ * 
  * @author Pierre L'Ecuyer
  */
 public class RngStream implements RandomNumberStream {

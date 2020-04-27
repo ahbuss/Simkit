@@ -7,7 +7,7 @@ import simkit.util.Math64;
  * platforms.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class Exponential_64Variate extends RandomVariateBase implements RandomVariate {
     
@@ -50,7 +50,7 @@ public class Exponential_64Variate extends RandomVariateBase implements RandomVa
 /**
 * Returns the mean of this exponential variate in a single element array.
 **/
-    public Object[] getParameters() { return new Object[] { new Double(mean) }; }
+    public Object[] getParameters() { return new Object[] { mean }; }
     
     /**
      * Note that the value is the mean rather than the rate.

@@ -3,7 +3,7 @@ package simkit.test;
 import simkit.stat.NormalQuantile;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestInverseNormalCDF {

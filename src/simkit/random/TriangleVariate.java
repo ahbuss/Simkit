@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Generates Triangle random variates.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class TriangleVariate extends RandomVariateBase implements RandomVariate {
 

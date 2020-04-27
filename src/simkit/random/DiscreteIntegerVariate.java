@@ -16,7 +16,7 @@ import java.util.Map;
  which may or may not sum to 1, but which must at least be non-negative. These
  are normalized to be a cdf inside the class.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class DiscreteIntegerVariate extends RandomVariateBase

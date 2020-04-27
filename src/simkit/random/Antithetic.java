@@ -16,7 +16,7 @@ package simkit.random;
 * used (like accept/reject), then the synchronization will be lost causing the
 * negative correlation to be lost.</p>
 * 
-* @version $Id$
+* 
 **/
 
 public class Antithetic implements RandomNumber {

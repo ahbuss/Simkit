@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
  * aim point.
  *
  * @author ahbuss
- * @version $Id$
+ * 
  */
 public class CircularImpactMunition extends UniformLinearMover implements Munition {
 

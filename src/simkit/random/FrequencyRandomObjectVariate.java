@@ -3,7 +3,7 @@ package simkit.random;
 import java.text.DecimalFormat;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class FrequencyRandomObjectVariate implements RandomObjectVariate {

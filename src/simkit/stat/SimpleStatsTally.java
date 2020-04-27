@@ -15,7 +15,7 @@ package simkit.stat;
  * is of type <CODE>Number</CODE>
  *
  * @author ahbuss
- * @version $Id$
+ * 
  *
  */
 public class SimpleStatsTally extends AbstractSimpleStats {

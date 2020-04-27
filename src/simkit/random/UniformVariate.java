@@ -3,7 +3,7 @@ package simkit.random;
 /**
  * Generates continuous uniform random variates.
  * 
-* @version $Id$
+* 
 *
  */
 public class UniformVariate extends RandomVariateBase {

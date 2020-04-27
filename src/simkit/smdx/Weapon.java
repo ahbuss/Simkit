@@ -7,7 +7,7 @@ import simkit.SimEntity;
 /**
  * Represents a weapon system that can fire Munitions.
  *
- * @version $Id$
+ * 
  *
  */
 public interface Weapon extends Moveable, SimEntity {

@@ -6,7 +6,7 @@ import simkit.smd.Sensor;
 
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class Math2D {

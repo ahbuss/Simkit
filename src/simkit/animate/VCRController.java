@@ -4,7 +4,7 @@ import simkit.SimEventSource;
 
 /**
  * All VCRController instances must be able to respond to these actions
- * @version $Id$
+ * 
  * @author  Arnold Buss
  */
 public interface VCRController extends SimEventSource {

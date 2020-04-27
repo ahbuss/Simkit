@@ -32,7 +32,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
      * SimEntityBases. Keyed by Class and Method.
 *
      */
-    private static LinkedHashMap<Class, Map<String, Method>> allDoMethods;
+    private static LinkedHashMap<Class<?>, Map<String, Method>> allDoMethods;
 
     /**
      * A two dimensional Hash table used to hold the names and signatures of all

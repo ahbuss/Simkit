@@ -10,7 +10,7 @@ import simkit.SimEntityBase;
 /** Mediator for CookieCutter detection. The Sensor detects the Mover
  * as soon as the Mover enters the coverage volume.
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class CookieCutterMediator extends SimEntityBase
         implements SensorTargetMediator {

@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
  * A bare bones "closer" that either exits or "closes" a Window to which it is
  * listening. Additionally, an Action can be tied to the two public methods.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class AppCloser extends WindowAdapter {

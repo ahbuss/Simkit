@@ -7,7 +7,7 @@ import javax.swing.Icon;
 import simkit.smdx.Mover;
 
 /**
- * @version $Id$
+ * 
  * @author Arnold Buss
  */
 public class TargetIcon extends MoverIcon implements PropertyChangeListener {

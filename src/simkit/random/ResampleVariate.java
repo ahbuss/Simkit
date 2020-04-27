@@ -5,7 +5,7 @@ package simkit.random;
  * value is equally likely to be from any value in the data array.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class ResampleVariate extends RandomVariateBase {
 

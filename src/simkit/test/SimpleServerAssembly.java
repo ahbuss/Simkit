@@ -14,7 +14,7 @@ import simkit.stat.SimpleStatsTimeVarying;
  * and numberAvailableServers are kept as replicationStats. The designPointStats
  * just use the default in BasicAssembly.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class SimpleServerAssembly extends BasicAssembly {
@@ -36,14 +36,8 @@ public class SimpleServerAssembly extends BasicAssembly {
 
     protected void createSimEntities() {
         simEntity = new SimEntity[]{
-            new ArrivalProcess(
-            RandomVariateFactory.getInstance(
-            "Exponential", new Object[]{new Double(1.7)})
-            ),
-            new SimpleServer(
-            2,
-            RandomVariateFactory.getInstance(
-            "Gamma", new Object[]{new Double(2.5), new Double(1.2)}))
+            new ArrivalProcess(RandomVariateFactory.getInstance("Exponential", 1.7)),
+            new SimpleServer(2, RandomVariateFactory.getInstance("Gamma", 2.5, 1.2))
         };
         replicationStats = new SampleStatistics[]{
             new SimpleStatsTimeVarying("numberInQueue"),

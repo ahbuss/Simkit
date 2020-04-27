@@ -9,7 +9,7 @@ import simkit.util.Math64;
  * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class Normal03_64Variate extends Normal02_64Variate {
 

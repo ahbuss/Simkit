@@ -16,7 +16,7 @@ import simkit.SimEvent;
  * Technically, every time a time is added or removed from the
  * list, a PropertyChangeEvent should be fired.  This is not done, however.
  * 
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TimeBetweenEvents extends BasicSimEntity {

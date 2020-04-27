@@ -5,8 +5,11 @@
  */
 package simkit.smdx;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Holds SensorTargetMediators. The Mediators can either be constructed then
@@ -21,13 +24,13 @@ public class SensorTargetMediatorFactory implements
 
     /**
      * Holds the instance of SensorTargetMediatorFactory.
-*
+     *
      */
     protected static final SensorTargetMediatorFactory instance
             = new SensorTargetMediatorFactory();
 
     /**
-     * 
+     *
      * @return the instance of SensorTargetMediatorFactory
      */
     public static MediatorFactory<Sensor, Moveable, SensorTargetMediator> getInstance() {
@@ -43,7 +46,7 @@ public class SensorTargetMediatorFactory implements
      * @param mediatorClass The Class of the Mediator to add.
      * @throws IllegalArgumentException if the sensorClass is not a Sensor, the
      * targetClass is not a Moveable or the mediatorClass is not a Mediator
-*
+     *
      */
     public static void addMediator(Class<? extends Sensor> sensorClass, Class<? extends Moveable> targetClass,
             Class<? extends SensorTargetMediator> mediatorClass) {
@@ -73,13 +76,13 @@ public class SensorTargetMediatorFactory implements
     /**
      * Holds the Mediators that have been added to this factory, key by Sensor
      * and Moveable (target)
-*
+     *
      */
     private WeakHashMap<Class<? extends Sensor>, Map<Class<? extends Moveable>, SensorTargetMediator>> cache;
 
     /**
      * Creates new empty SensorTargetMediatorFactory
-*
+     *
      */
     protected SensorTargetMediatorFactory() {
         cache = new WeakHashMap<>();
@@ -94,25 +97,20 @@ public class SensorTargetMediatorFactory implements
      * @param mediatorClass The Class of the Mediator to add.
      * @throws IllegalArgumentException if the sensorClass is not a Sensor, the
      * targetClass is not a Moveable or the mediatorClass is not a Mediator
-*
+     *
      */
 //    @Override
     public void addMediatorFor(
             Class<? extends Sensor> sensorClass,
             Class<? extends Moveable> targetClass,
             Class<? extends SensorTargetMediator> mediatorClass) {
-        SensorTargetMediator mediatorInstance = null;
         try {
-            mediatorInstance = mediatorClass.newInstance();
-        } catch (InstantiationException e) {
-            System.err.println(e);
-            throw (new RuntimeException(e));
-        } catch (IllegalAccessException e) {
-            System.err.println(e);
-            throw (new RuntimeException(e));
+            SensorTargetMediator mediatorInstance = mediatorClass.getConstructor().newInstance();
+            addMediatorFor(sensorClass, targetClass, mediatorInstance);
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(SensorTargetMediatorFactory.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         }
-
-        addMediatorFor(sensorClass, targetClass, mediatorInstance);
     }
 
     public void addMediatorFor(Sensor sensor, Moveable target,
@@ -142,7 +140,7 @@ public class SensorTargetMediatorFactory implements
      * @throws IllegalArgumentException if there is no Mediator set for the
      * given Sensor-target pair, sensorClass is not a Sensor, or targetClass is
      * not a Moveable.
-*
+     *
      */
     public Mediator getMediatorFor(Class<? extends Sensor> sensorClass,
             Class<? extends Moveable> targetClass) {
@@ -186,7 +184,7 @@ public class SensorTargetMediatorFactory implements
      * @throws IllegalArgumentException if first is not the name of a Sensor,
      * second is not the name of a Moveable or mediator is not the name of a
      * Mediator (but all three are names of valid Classes)
-*
+     *
      */
     public void addMediatorFor(String first, String second, String mediator) throws ClassNotFoundException {
         Class<? extends Sensor> firstClass = Class.forName(first).asSubclass(Sensor.class);
@@ -203,7 +201,7 @@ public class SensorTargetMediatorFactory implements
      * @throws IllegalArgumentException if there is no Mediator set for the
      * given Sensor-target pair or if first is not a Sensor or second is not a
      * Moveable.
-*
+     *
      */
     public Mediator getMeditorFor(Sensor first, Moveable second) {
         return getMediatorFor(first.getClass(), second.getClass());
@@ -211,7 +209,7 @@ public class SensorTargetMediatorFactory implements
 
     /**
      * Removes all Mediators from this factory.
-*
+     *
      */
     public void clear() {
         cache.clear();

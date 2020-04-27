@@ -16,7 +16,7 @@ import simkit.stat.SimpleStatsTally;
  * as a PropertyChangeListener to a SimEntity that fire a PropertyChangeEvent
  * whenever the state variable of that name changes value).</p>
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestBetaVariate {
@@ -31,8 +31,8 @@ public class TestBetaVariate {
         double beta = 4.5;
 
         Object[] rvParams = new Object[2];
-        rvParams[0] = new Double(alpha);
-        rvParams[1] = new Double(beta);
+        rvParams[0] = alpha;
+        rvParams[1] = beta;
 
 //        Obtain the instance from RandomVariateFactory.  This will return
 //        null if a RandomVariate instance cannot be found in either the

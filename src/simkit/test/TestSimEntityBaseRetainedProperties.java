@@ -5,7 +5,7 @@ import simkit.SimEntityBase;
 import simkit.SimEntityBaseRetainedProperties;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestSimEntityBaseRetainedProperties extends SimEntityBaseRetainedProperties{

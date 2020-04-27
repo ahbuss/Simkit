@@ -15,7 +15,7 @@ import simkit.smd.WayPoint;
 import simkit.util.SimplePropertyDumper;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestMovers1 {

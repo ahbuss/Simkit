@@ -1,9 +1,12 @@
 package simkit.random;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  * Factory for creating <CODE>RandomVector</CODE> instances from "orders".
  * The "specifications" of each order are as generic as possible:
@@ -12,7 +15,7 @@ import java.util.WeakHashMap;
  * <P>The default supporting RandomNumber is determined by the implementation
  * of the RandomVector. In most cases it is <CODE>Congruential</CODE>.
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class RandomVectorFactory {
     
@@ -225,14 +228,15 @@ public class RandomVectorFactory {
         }
         RandomVector instance = null;
         try {
-            instance = (RandomVector) rvClass.newInstance();
+            try {
+                instance = (RandomVector) rvClass.getConstructor().newInstance();
+            } catch (NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
+                Logger.getLogger(RandomVectorFactory.class.getName()).log(Level.SEVERE, null, ex);
+                throw new RuntimeException(ex);
+            }
             instance.setParameters(params);
         }
-        catch (IllegalAccessException e) {
-            System.err.println(e);
-            throw(new RuntimeException(e));
-        }
-        catch (InstantiationException e) {
+        catch (IllegalAccessException | InstantiationException e) {
             System.err.println(e);
             throw(new RuntimeException(e));
         }

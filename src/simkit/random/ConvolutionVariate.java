@@ -9,7 +9,7 @@ import java.util.logging.Logger;
  * Each RandomVariate instance is passed the same RandomNumber instance, to
  * avoid seed management problems.
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class ConvolutionVariate extends RandomVariateBase {
     

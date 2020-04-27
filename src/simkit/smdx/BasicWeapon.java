@@ -13,7 +13,7 @@ import simkit.SimEntityBase;
 /**
  * @deprecated Not yet fully implemented.
  * @author  ahbuss
- * @version $Id$
+ * 
  */
 public class BasicWeapon extends SimEntityBase implements Weapon {
     

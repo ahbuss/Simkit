@@ -6,7 +6,7 @@ package simkit.random;
  * <p>Cycle length is 3 x 10<sup>47</sup> 
  * @author Paul Sanchez
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class Mother implements RandomNumber {
     

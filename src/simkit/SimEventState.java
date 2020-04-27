@@ -20,7 +20,7 @@ package simkit;
  * <LI>UNUSED: The event object is currently not is use.</LI>
  * </OL>
  *
- * @version $Id$
+ * 
  * @author Arnold Buss
  */
 public class SimEventState {

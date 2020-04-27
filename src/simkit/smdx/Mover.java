@@ -16,7 +16,7 @@ import simkit.SimEntity;
  * @see Sensor
  * @see MoverManager
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public interface Mover extends Moveable, SimEntity, PropertyChangeSource {
 

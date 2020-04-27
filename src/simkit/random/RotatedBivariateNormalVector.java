@@ -9,7 +9,7 @@ package simkit.random;
  * See comments in {@link #setParameters(java.lang.Object...)} for options in
  * setting parameters.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class RotatedBivariateNormalVector implements RandomVector {

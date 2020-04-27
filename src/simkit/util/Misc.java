@@ -2,6 +2,8 @@ package simkit.util;
 
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
+import java.util.List;
+import java.util.ArrayList;
 import simkit.PropertyChangeSource;
 import simkit.SimEventListener;
 import simkit.SimEventSource;
@@ -12,8 +14,8 @@ import simkit.SimEventSource;
  * Unit test JavaReflectionTest covers the reflection oriented methods in this
  * class.
  *
- * @version $Id$
-*
+ * 
+ *
  */
 public class Misc {
 
@@ -27,17 +29,18 @@ public class Misc {
      * argument array.
      *
      */
-    // covered indirectly by tests on getFullMethodName
-    public static Class[] getSignatureFromArguments(Object[] args) {
-        Class[] signature = new Class[args.length];
-        for (int i = 0; i < signature.length; i++) {
-            signature[i] = args[i].getClass();
+    @SuppressWarnings("unchecked")
+    public static Class<?>[] getSignatureFromArguments(Object[] args) {
+        List<Class<?>> classList = new ArrayList<>();
+        for (Object arg: args) {
+            classList.add(arg.getClass());
         }
+        Class<?>[] signature = classList.toArray(new Class<?>[0]);
         return signature;
     }
 
     /**
-     * 
+     *
      * @param methodName Given method name
      * @param arguments Given array of arguments
      * @return the method name with the class names of the arguments appended.
@@ -64,7 +67,6 @@ public class Misc {
      * @param name The name of the method.
      * @param args An array containing the arguments for the method.
      * @return The method name followed by the classes of the arguments.
-*
      */
     // covered by unit test JavaReflectionTest
     public static String getFullMethodName(Class<?> theClass, String name, Object[] args) {
@@ -83,7 +85,7 @@ public class Misc {
     /**
      * Removes all of the SimEventListners currently registers with the given
      * SimEventSource.
-     * 
+     *
      * @param source Given SimEventSource
      */
     // covered in test case simkit.BasicSimEventSourceTest
@@ -97,7 +99,7 @@ public class Misc {
     /**
      * Removes all of the PropertyChangeListners currently registers with the
      * given PropertChangeSource.
-     * 
+     *
      * @param source given PropertChangeSource
      */
     // covered in test case simkit.PropertyChangeDispatcherTest.

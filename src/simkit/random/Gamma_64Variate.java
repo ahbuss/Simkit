@@ -12,7 +12,7 @@ import simkit.util.Math64;
  * platforms.
 
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class Gamma_64Variate extends RandomVariateBase {
     

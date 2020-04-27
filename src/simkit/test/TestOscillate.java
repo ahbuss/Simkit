@@ -15,7 +15,7 @@ import simkit.util.PropertyDataLogger;
 /**
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestOscillate extends SimEntityBase {
 

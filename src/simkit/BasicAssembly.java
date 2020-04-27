@@ -71,7 +71,7 @@ import simkit.stat.SimpleStatsTally;
  */
 public abstract class BasicAssembly implements Runnable {
     
-    public static final Logger log = Logger.getLogger("simkit");
+    public static final Logger LOGGER = Logger.getLogger("simkit");
     
     protected LinkedHashMap<Integer, List<SampleStatistics>> replicationData;
     
@@ -102,7 +102,7 @@ public abstract class BasicAssembly implements Runnable {
     private boolean verbose;
     
     /**
-     * Default constructor sets paameters of BasicAssembly to their
+     * Default constructor sets parameters of BasicAssembly to their
      * default values.  These are:
      *<pre>
      * printReplicationReports = false
@@ -495,7 +495,7 @@ public abstract class BasicAssembly implements Runnable {
             scheduleWillReset();
             Schedule.reset();
             scheduleDidReset();
-            log.log(Level.INFO, "Starting replication {0}", replication);
+            LOGGER.log(Level.INFO, "Starting replication {0}", replication);
             Schedule.startSimulation();
             for (int i = 0; i < replicationStats.length; ++i) {
                 propertyChangeSupport.firePropertyChange(new IndexedPropertyChangeEvent(this, replicationStats[i].getName(), null, replicationStats[i], i));
@@ -513,7 +513,7 @@ public abstract class BasicAssembly implements Runnable {
             System.out.println(getSummaryReport());
         }
         double endTime = System.currentTimeMillis();
-        log.log(Level.INFO, "Execution time for {0} replications: {1}", 
+        LOGGER.log(Level.INFO, "Execution time for {0} replications: {1}", 
                 new Object[]{getNumberReplications(), (endTime - startTime) * 1.0E-3});
         simulationDidFinish();
     }

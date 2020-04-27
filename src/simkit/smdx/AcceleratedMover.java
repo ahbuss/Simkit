@@ -13,7 +13,7 @@ import simkit.SimEntityBase;
  * A Mover whose movement is controlled by specifying an acceleration vector.
  * @deprecated Not yet fully implemented.
  * @author  ahbuss
- * @version $Id$
+ * 
  */
 public class AcceleratedMover extends SimEntityBase implements Mover {
     

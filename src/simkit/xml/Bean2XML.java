@@ -7,6 +7,8 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
@@ -25,7 +27,7 @@ public class Bean2XML {
      * A single element array containing the String Class.
      *
      */
-    public static final Class[] stringClassArray = new Class[]{java.lang.String.class};
+    public static final Class<?>[] STRING_CLASS_ARRAY = new Class<?>[]{java.lang.String.class};
 
     private Document document;
 
@@ -90,28 +92,23 @@ public class Bean2XML {
      * @param element Given Element
      * @return Object created from given Element
      */
+    @SuppressWarnings("unchecked")
     public Object createBeanFromElement(Element element) {
         Object bean = null;
         Node classElement = element.getElementsByTagName("class").item(0);
         if (classElement != null) {
             try {
-                Class beanClass = Thread.currentThread().getContextClassLoader().loadClass(
+                Class<?> beanClass = (Class<?>)Thread.currentThread().getContextClassLoader().loadClass(
                         classElement.getNodeValue());
-                bean = beanClass.newInstance();
+                
+                bean = beanClass.getConstructor().newInstance();
                 BeanInfo bi = Introspector.getBeanInfo(beanClass, Object.class);
                 PropertyDescriptor[] pd = bi.getPropertyDescriptors();
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IntrospectionException e) {
                 System.err.println(e);
                 throw (new RuntimeException(e));
-            } catch (InstantiationException e) {
-                System.err.println(e);
-                throw (new RuntimeException(e));
-            } catch (IllegalAccessException e) {
-                System.err.println(e);
-                throw (new RuntimeException(e));
-            } catch (IntrospectionException e) {
-                System.err.println(e);
-                throw (new RuntimeException(e));
+            } catch (NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
+                Logger.getLogger(Bean2XML.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return bean;
@@ -124,7 +121,7 @@ public class Bean2XML {
             if (propertyClass.isPrimitive()) {
                 propertyClass = getObjectWrapperClassFor(propertyClass);
             }
-            Constructor constructor = propertyClass.getConstructor(stringClassArray);
+            Constructor constructor = propertyClass.getConstructor(STRING_CLASS_ARRAY);
             propertyValue = constructor.newInstance(new Object[]{value});
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             System.err.println(e);

@@ -5,7 +5,7 @@ import simkit.random.RandomNumberFactory;
  * Tests NSSrng. A similar test routine exists in the NSS CVS under the branch: RNG_TESTS
  * Generates doubles to stdout.
  * @author  John Ruck
- * @version $Id$
+ * 
  */
 public class NSSrngTest {
     

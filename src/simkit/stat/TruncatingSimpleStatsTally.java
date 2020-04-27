@@ -3,7 +3,7 @@ package simkit.stat;
 /**
  * A SimpleStatsTally that resets after a truncation point has been reached.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TruncatingSimpleStatsTally extends SimpleStatsTally {

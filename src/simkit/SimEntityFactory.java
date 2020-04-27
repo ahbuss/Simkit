@@ -62,9 +62,13 @@ public class SimEntityFactory {
         SimEntity copy = null;
         try {
             try {
-                Constructor<?> constructor = original.getClass().getConstructor();
+                Constructor<? extends SimEntity> constructor = original.getClass().getConstructor();
                 if (constructor != null) {
-                    copy = original.getClass().newInstance();
+                    try {
+                        copy = constructor.newInstance();
+                    } catch (IllegalArgumentException | InvocationTargetException ex) {
+                        Logger.getLogger(SimEntityFactory.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else {
                     return copy;
                 }

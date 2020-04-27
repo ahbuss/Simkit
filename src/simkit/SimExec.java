@@ -1,7 +1,7 @@
 package simkit;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class SimExec implements Runnable {

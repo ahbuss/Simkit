@@ -12,7 +12,7 @@ import simkit.util.Math64;
  * platforms.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class NormalVariate_64 extends RandomVariateBase {
     
@@ -54,7 +54,7 @@ public class NormalVariate_64 extends RandomVariateBase {
      * Returns an array containing the mean and standard deviation.
      * @return A 2 element array with the mean and standard deviation wrapped as Doubles.
      */    
-    public Object[] getParameters() { return new Object[] { new Double(mean), new Double(sigma) }; }
+    public Object[] getParameters() { return new Object[] { mean, sigma }; }
     
 /**
 * Generates the next normally distributed value.

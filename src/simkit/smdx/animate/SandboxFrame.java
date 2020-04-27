@@ -16,7 +16,7 @@ import simkit.smdx.Mover;
 import simkit.smdx.Sensor;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class SandboxFrame extends simkit.actions.MyFrame {

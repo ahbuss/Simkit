@@ -5,7 +5,7 @@ package simkit.random;
  * other RandomNumbers.
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public interface Pooled extends RandomNumber {
     

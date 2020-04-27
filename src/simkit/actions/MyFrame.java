@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 /**
  * Basic JFrame with some convenient additions. Not necessarily for prime time.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class MyFrame extends JFrame implements PropertyChangeListener {

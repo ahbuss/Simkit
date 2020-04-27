@@ -10,7 +10,7 @@ package simkit.smdx;
  *  of the actual target. This implementation of a Contact provides ground truth
  * location and movement information about the underlying Moveable.
  *  @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public interface Contact extends Moveable { //implements SensorContact {
     

@@ -4,7 +4,7 @@ import simkit.random.NormalVariate;
 
 /**
  * Generates Normal variates truncated at 0.0.
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TruncatedNormalVariate extends NormalVariate {

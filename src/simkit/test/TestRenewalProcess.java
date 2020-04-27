@@ -15,7 +15,7 @@ import simkit.random.RandomVariateFactory;
 /**
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestRenewalProcess extends SimEntityBase {
 
@@ -79,8 +79,8 @@ public class TestRenewalProcess extends SimEntityBase {
     public static void main(String args[]) {
         String dist = "Exponential";
         double meanIAT = 1.7;
-        Object[] params = new Object[]{new Double(meanIAT)};
-        RandomVariate exp = RandomVariateFactory.getInstance(dist, params);
+        Object[] params = new Object[]{meanIAT};
+        RandomVariate exp = RandomVariateFactory.getInstance(dist, meanIAT);
         dist = "RenewalProcess";
         params[0] = exp;
         RandomVariate pp = RandomVariateFactory.getInstance(dist, params);

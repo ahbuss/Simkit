@@ -3,7 +3,7 @@ import java.awt.geom.Point2D;
 /**
  * Generates a random Point2D as prescribed by a pair of RandomVariates.
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class RandomPointGenerator {
     
@@ -106,11 +106,8 @@ public class RandomPointGenerator {
                     corners.length);
         }
         RandomVariate[] rand = new RandomVariate[2];
-        rand[0] = RandomVariateFactory.getInstance("Uniform",
-            new Object[] { new Double(corners[0]), new Double(corners[2]) });
-        rand[1] = RandomVariateFactory.getInstance("Uniform",
-            new Object[] { new Double(corners[1]), new Double(corners[3]) },
-            rand[0].getRandomNumber());
+        rand[0] = RandomVariateFactory.getInstance("Uniform",corners[0], corners[2]);
+        rand[1] = RandomVariateFactory.getInstance("Uniform",rand[0].getRandomNumber(), corners[1], corners[3]);
         setRandomVariate(rand);
     }
     

@@ -20,7 +20,6 @@ package simkit;
  * Refactored out of the interface {@code SimEntity}
  *
  * @author Arnie Buss, The MOVES Insititute, NPS
- * @version $Id:$
  */
 
 public interface ReRunnable extends SimEventScheduler {

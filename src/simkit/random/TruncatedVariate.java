@@ -3,7 +3,7 @@ package simkit.random;
 /**
  * Generates the maximum of a RandomVariate and a truncation point.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TruncatedVariate extends RandomVariateBase {

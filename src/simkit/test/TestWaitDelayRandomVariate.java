@@ -9,7 +9,7 @@ import simkit.random.RandomVariateFactory;
 /**
  * Test of waitDelay(String, RandomVariate);
  * 
- * @version $Id$
+ * 
  * @author abuss
  */
 public class TestWaitDelayRandomVariate extends SimEntityBase {

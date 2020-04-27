@@ -9,8 +9,8 @@ import junit.framework.TestCase;
 public class VersionTest extends TestCase {
     
     private static final int MAJOR_VERSION = 1;
-    private static final int MINOR_VERSION = 4;
-    private static final int SUB_MINOR_VERSION = 6;
+    private static final int MINOR_VERSION = 5;
+    private static final int SUB_MINOR_VERSION = 1;
     
     public VersionTest(String testName) {
         super(testName);

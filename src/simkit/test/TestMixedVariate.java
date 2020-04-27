@@ -11,7 +11,7 @@ import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestMixedVariate extends Object {
 

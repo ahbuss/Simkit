@@ -9,7 +9,6 @@ import java.util.Map;
  * all the added properties, then call super.reset(), and finally
  * regurgitate the saved properties back.
  *
- * @version $Id$
  * @author ahbuss
  */
 public class SimEntityBaseRetainedProperties extends SimEntityBase {

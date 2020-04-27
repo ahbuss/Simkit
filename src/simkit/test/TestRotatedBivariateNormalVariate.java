@@ -11,7 +11,7 @@ import simkit.stat.BivariateSimpleStatsTally;
 import simkit.random.RotatedBivariateNormalVector;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestRotatedBivariateNormalVariate {

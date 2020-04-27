@@ -7,7 +7,7 @@ import simkit.Priority;
  * A Target that is only subject to being killed, not damaged.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class SimpleTarget extends BasicLinearMover implements Target {
 

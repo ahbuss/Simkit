@@ -22,7 +22,7 @@ import simkit.smdx.Mover;
 /**
  *
  * @author  ahbuss
- * @version $Id$
+ * 
  */
 public class Inspector implements MouseListener {
     

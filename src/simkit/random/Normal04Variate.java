@@ -7,7 +7,7 @@ import static simkit.stat.NormalQuantile.getQuantile;
  * 
  * @see simkit.stat.NormalQuantile
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class Normal04Variate extends Normal02Variate {
 

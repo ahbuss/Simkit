@@ -29,19 +29,20 @@ public class TestMoverManager {
     public static void main(String[] args) {
         RandomNumber rng = RandomNumberFactory.getInstance(12345L);
         RandomVariate[] location = new RandomVariate[2];
-        location[0] = RandomVariateFactory.getInstance("Uniform",
-        new Object[] { new Double(0.0), new Double(100.0) }, rng);
-        location[1] = RandomVariateFactory.getInstance("Uniform",
-        new Object[] { new Double(0.0), new Double(100.0) }, rng);
+        location[0] = RandomVariateFactory.getInstance("Uniform", 0.0, 100.0);
+        location[1] = RandomVariateFactory.getInstance("Uniform",  0.0, 100.0);
         
+        for (RandomVariate loc: location) {
+            loc.setRandomNumber(rng);
+        }
         Point2D start = new Point2D.Double(0.0, 0.0);
         Mover[] mover = new Mover[3];
         mover[0] = new UniformLinearMover("Fred", start, 20.0);
         mover[1] = new UniformLinearMover("Barney", start, 30.0);
         mover[2] = new UniformLinearMover("Wilma", start, 40.0);
         
-        RandomVariate speed = RandomVariateFactory.getInstance("Uniform",
-            new Object[] { new Double(0.0), new Double(mover[2].getMaxSpeed())}, 12345L);
+        RandomVariate speed = RandomVariateFactory.getInstance("Uniform", 0.0, mover[2].getMaxSpeed());
+        speed.getRandomNumber().setSeed(12345L);
         
         MoverManager[] manager = new MoverManager[mover.length];
         manager[0] = new RandomLocationMoverManager(mover[0], location);

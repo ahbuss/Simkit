@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  * Also, after all runs are complete, call <code>close()</code> to close and
  * write the output file.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class DOEDataLogger implements PropertyChangeListener {

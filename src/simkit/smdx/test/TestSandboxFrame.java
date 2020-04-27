@@ -15,7 +15,7 @@ import simkit.smdx.UniformLinearMover;
 import simkit.smdx.animate.SandboxFrame;
 
 /**
- * @version $Id$
+ * 
  * @author  ahbuss
  */
 public class TestSandboxFrame {
@@ -42,9 +42,9 @@ public class TestSandboxFrame {
         }
         
         RandomVariate[] rv = new RandomVariate[] {
-            RandomVariateFactory.getInstance("Uniform", new Object[] { new Double(0.0), new Double(500.0) }),
-            RandomVariateFactory.getInstance("Uniform", new Object[] { new Double(0.0), new Double(400.0) })
-        };
+            RandomVariateFactory.getInstance("Uniform", 0.0, 500.0),
+            RandomVariateFactory.getInstance("Uniform", 0.0, 400.0)};
+        
         rv[1].setRandomNumber(rv[0].getRandomNumber());
         
         RandomLocationMoverManager[] rmm = new RandomLocationMoverManager[mover.length];

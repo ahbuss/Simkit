@@ -3,7 +3,7 @@ package simkit.util;
 import java.beans.PropertyChangeEvent;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class PropertyChangeEventX extends PropertyChangeEvent {

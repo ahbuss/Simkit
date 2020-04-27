@@ -3,7 +3,7 @@ package simkit.random;
 /**
  * Based on Devroye (1986), pp. 488-9.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class NegativeBinomialVariate extends RandomVariateBase implements DiscreteRandomVariate {

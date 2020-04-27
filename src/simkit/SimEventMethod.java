@@ -13,7 +13,6 @@ import java.lang.annotation.Target;
  * associated with the method being annotated.
  * 
  * @author Kirk Stork, The MOVES Institute, NPS
- * @version $Id$
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

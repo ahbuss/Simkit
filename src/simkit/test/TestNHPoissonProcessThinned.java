@@ -1,7 +1,7 @@
 package simkit.test;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestNHPoissonProcessThinned {

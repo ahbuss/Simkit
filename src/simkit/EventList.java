@@ -504,7 +504,7 @@ public class EventList implements BasicEventList {
     }
 
     @Override
-    public void stopOnEvent(int numberEvents, String eventName, Class... signature) {
+    public void stopOnEvent(int numberEvents, String eventName, Class<?>... signature) {
         if (numberEvents > 0) {
             stopOnEvent = true;
             stopAtTime = false;
@@ -689,7 +689,7 @@ public class EventList implements BasicEventList {
 
     @Override
     public void dump(String reason) {
-        if (reason.equals("Starting Simulation") || !ignoreOnDump.contains(currentSimEvent.getEventName())) {
+        if (reason.equals("Starting Simulation") || reason.equals("") || !ignoreOnDump.contains(currentSimEvent.getEventName())) {
             outputStream.println(getEventListAsString(reason));
         }
     }

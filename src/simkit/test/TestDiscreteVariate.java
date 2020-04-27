@@ -15,7 +15,7 @@ import simkit.stat.Histogram;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestDiscreteVariate {
     
@@ -41,7 +41,7 @@ public class TestDiscreteVariate {
         }
         
         for (int i = 0; i < 10000; i++) {
-            pcs.firePropertyChange("discrete", null, new Double(rv.generate()));
+            pcs.firePropertyChange("discrete", null, rv.generate());
         }
         
         System.out.println(h);

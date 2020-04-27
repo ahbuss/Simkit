@@ -25,7 +25,7 @@ import java.util.Set;
  * Contains a library of useful calculations in 2-dimensional space.
  *
  * @author ahbuss
- * @version $Id$
+ * 
  */
 public class Math2D {
 

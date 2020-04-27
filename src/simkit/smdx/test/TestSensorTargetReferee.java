@@ -15,7 +15,7 @@ import simkit.Schedule;
 import simkit.smdx.*;
 
 /**
- * @version $Id$
+ * 
  * @author  Arnold Buss
  */
 public class TestSensorTargetReferee {

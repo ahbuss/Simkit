@@ -34,7 +34,7 @@ import simkit.test.MouseDisplay;
  * @see "simkit.smdx.Math2DTest in the tests"
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestSwissCheeseIntersection extends JPanel {
     

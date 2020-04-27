@@ -8,7 +8,7 @@ import java.util.Map;
 import simkit.SimEntityBase;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class MultipleEndingStateStatTally extends SimEntityBase implements 

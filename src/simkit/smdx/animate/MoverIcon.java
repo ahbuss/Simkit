@@ -11,7 +11,7 @@ import simkit.smdx.Mover;
 
 /**
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class MoverIcon extends JComponent {

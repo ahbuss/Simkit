@@ -10,7 +10,7 @@ package simkit.random;
  * Generates arrival times for a renewal process. The distribution of the 
  * interarrival times is determined by the instance of the supporting RandomVariate.
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class RenewalProcessVariate implements RandomVariate {
     

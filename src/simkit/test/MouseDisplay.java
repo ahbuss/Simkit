@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class MouseDisplay extends JTextArea implements MouseMotionListener {
 

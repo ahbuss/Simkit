@@ -3,7 +3,7 @@ package simkit.stat;
 /**
  * A lightweight, read-only SimpleStats that is meant for saving the
  * values of SimpleStats results.  Can contain any kind of SimpleStats.
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class SavedStats extends AbstractSimpleStats {

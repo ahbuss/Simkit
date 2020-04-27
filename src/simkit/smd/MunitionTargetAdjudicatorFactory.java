@@ -1,8 +1,11 @@
 package simkit.smd;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Stores Adjudicators indexed by the Munition and Target they should be used
@@ -57,11 +60,12 @@ public class MunitionTargetAdjudicatorFactory {
     public static void addAdjudicator(Class<? extends Munition> munitionClass,
             Class<? extends Target> targetClass,
             Class<? extends Adjudicator> adjudicatorClass) {
+        Adjudicator adjudicator;
         try {
-            addAdjudicator(munitionClass, targetClass, adjudicatorClass.newInstance());
-        } catch (IllegalAccessException | InstantiationException e) {
-            System.err.println(e);
-            throw (new RuntimeException(e));
+            adjudicator = adjudicatorClass.getConstructor().newInstance();
+            addAdjudicator(munitionClass, targetClass, adjudicator);
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(MunitionTargetAdjudicatorFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -5,7 +5,7 @@ import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 
 /**
- * @version $Id$
+ * 
  * @author abuss
  */
 public class TestRandomVariateFactory2 {

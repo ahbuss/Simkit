@@ -10,7 +10,7 @@ import simkit.util.ClassFinder;
  * Usage statements.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  *
  */
 public class ListExamples {

@@ -36,8 +36,7 @@ import java.util.Set;
  * set is needed per class. They are created on-the-fly as required and re-used
  * when an instance of a previous class is created.</p>
  *
- * @version $Id: PropertyChangeDispatcher.java 1341 2014-12-15 20:07:00Z ahbuss
- * $
+ * 
  *
  */
 public class PropertyChangeDispatcher extends PropertyChangeSupport implements PropertyChangeSource {
@@ -46,21 +45,21 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * Used internally to hold an instance of java.lang.Object.class.
      *
      */
-    private static final Class STOP_CLASS = java.lang.Object.class;
+    private static final Class<?> STOP_CLASS = java.lang.Object.class;
 
     /**
      * Holds references to setter methods keyed by property name, each setter
      * map keyed by a Class reference Signature of map is &lt;Class,
      * HashMap&lt;String, Method&gt;&gt;
      */
-    private static Map<Class, Map<String, Method>> allSetters;
+    private static Map<Class<?>, Map<String, Method>> allSetters;
 
     /**
      * Holds references to getter methods keyed by property name, each setter
      * map keyed by a Class reference Signature of map is &lt;Class,
      * HashMap&lt;String, Method&gt;&gt;
      */
-    private static Map<Class, Map<String, Method>> allGetters;
+    private static Map<Class<?>, Map<String, Method>> allGetters;
 
     static {
         allSetters = new LinkedHashMap<>();
@@ -107,7 +106,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * BasicSimEntity
      *
      */
-    public PropertyChangeDispatcher(Object bean, Class stopClass) {
+    public PropertyChangeDispatcher(Object bean, Class<?> stopClass) {
         super(bean);
         source = bean;
 
@@ -118,7 +117,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
             allSetters.put(bean.getClass(), setters);
             getters = new LinkedHashMap<>();
             allGetters.put(bean.getClass(), getters);
-            for (Class clazz = source.getClass(); clazz != stopClass; clazz = clazz.getSuperclass()) {
+            for (Class<?> clazz = source.getClass(); clazz != stopClass; clazz = clazz.getSuperclass()) {
                 Method[] method = clazz.getDeclaredMethods();
                 for (int i = 0; i < method.length; ++i) {
                     if (!Modifier.isPublic(method[i].getModifiers())) {
@@ -498,7 +497,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * @return true if the signature of the method is consistent with a getter
      */
     public static boolean isGetterSignature(Method method) {
-        Class[] signature = method.getParameterTypes();
+        Class<?>[] signature = method.getParameterTypes();
         return signature.length == 0;
     }
 
@@ -509,7 +508,7 @@ public class PropertyChangeDispatcher extends PropertyChangeSupport implements P
      * @return true if the signature of the method is consistent with a setter
      */
     public static boolean isSetterSignature(Method method) {
-        Class[] signature = method.getParameterTypes();
+        Class<?>[] signature = method.getParameterTypes();
         return signature.length == 1;
     }
 }

@@ -9,7 +9,7 @@ package simkit.random;
  * Removed saved value "feature" for better synchronization.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class NormalVariate extends RandomVariateBase {
 

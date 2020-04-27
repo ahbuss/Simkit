@@ -20,7 +20,7 @@ import simkit.util.Math64;
  * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class NHPoissonProcess_64Variate extends BasicSimEntity implements RandomVariate {
     
@@ -80,7 +80,7 @@ public class NHPoissonProcess_64Variate extends BasicSimEntity implements Random
      */
     public double generate() {
         lastUnitRatePoisson -= Math64.log(rng.draw());
-        arg[0] = new Double(getLastUnitRatePoisson());
+        arg[0] = getLastUnitRatePoisson();
         try {
             Number num = (Number) this.inverseIntegratedRate.invoke(rateInvoker, arg ); 
             double inter = num.doubleValue() - this.getLastGeneratedTime();

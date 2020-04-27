@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @version $Id$
+ * 
  * @author  ahbuss
  */
 public class Sandbox extends JPanel {

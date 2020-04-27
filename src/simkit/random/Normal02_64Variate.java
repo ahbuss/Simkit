@@ -8,7 +8,7 @@ import simkit.util.Math64;
  * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class Normal02_64Variate implements RandomVariate {
     
@@ -54,7 +54,7 @@ public class Normal02_64Variate implements RandomVariate {
      * Returns a 2 element array with the mean and the standard deviation.
      */
     public Object[] getParameters() {
-        return new Object[] {new Double(getMean()), new Double(getStandardDeviation())};
+        return new Object[] {getMean(), getStandardDeviation()};
     }
     
     /**

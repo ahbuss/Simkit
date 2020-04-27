@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
  * passing the Sensor a reference to the actual entity that was detected.
  * A SimpleContact reports ground truth information about the target.
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class SimpleContact implements Moveable {
 

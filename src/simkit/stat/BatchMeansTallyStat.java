@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Uses batch means method with initial transient to estimate the mean of a 
  * presumably steady-state (after the truncation point) measure.  
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class BatchMeansTallyStat extends SimpleStatsTally {

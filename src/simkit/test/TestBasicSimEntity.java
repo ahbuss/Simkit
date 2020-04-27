@@ -16,7 +16,7 @@ import simkit.util.PropertyChangeFrame;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestBasicSimEntity {
 
@@ -25,12 +25,10 @@ public class TestBasicSimEntity {
     */
     public static void main (String args[]) {
         String arrivalDist = "Exponential";
-        Object[] arrivalParam = new Object[] { new Double(1.5) };
         String serviceDist = "Exponential";
-        Object[] serviceParam = new Object[] { new Double(2.2) };
         RandomVariate[] rv = new RandomVariate[2];
-        rv[0] = RandomVariateFactory.getInstance(arrivalDist, arrivalParam);
-        rv[1] = RandomVariateFactory.getInstance(serviceDist, serviceParam);
+        rv[0] = RandomVariateFactory.getInstance(arrivalDist, 1.5);
+        rv[1] = RandomVariateFactory.getInstance(serviceDist, 2.2);
         BasicSimEntity arrival = new ArrivalProcess2(rv[0]);
 
         BasicSimEntity server = new SimpleServer(2, rv[1]);

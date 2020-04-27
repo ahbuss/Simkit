@@ -14,7 +14,7 @@ package simkit.random;
  * inverse, to transform a given mean and standard deviation for the normal into
  * the actual mean and standard deviation for the distribution.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class LogNormalVariate extends NormalVariate {

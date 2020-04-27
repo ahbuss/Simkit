@@ -17,7 +17,7 @@ import simkit.BasicSimEntity;
  * 3rd edition pp486-487.</p>
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class NHPoissonProcessVariate extends BasicSimEntity implements RandomVariate {
     

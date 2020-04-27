@@ -1,7 +1,7 @@
 package simkit.test;
 import simkit.*;
 /**
- * @version $Id$
+ * 
  * @author  ahbuss
  */
 public class TestAddedProperties extends SimEntityBase {
@@ -16,7 +16,7 @@ public class TestAddedProperties extends SimEntityBase {
         SimEntity taps = new TestAddedProperties();
         
         taps.setProperty("foo", "Bar");
-        taps.setProperty("one", new Integer(1));
+        taps.setProperty("one", 1);
         taps.setProperty("array", new double[] { 1, 2, 3.4 });
         
         System.out.println(taps);

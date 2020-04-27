@@ -8,7 +8,7 @@ package simkit.test;
 /**
  *
  * @author ahbuss
- * @version $Id$
+ * 
  */
 public class PlatformType {
 

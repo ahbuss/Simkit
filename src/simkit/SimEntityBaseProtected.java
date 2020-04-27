@@ -16,7 +16,6 @@ import java.util.logging.Logger;
  * @author Arnold Buss
  * @author K. A. Stork
  * @author John Ruck, R&amp;A
- * @version $Id$
  *
  *
  */
@@ -28,14 +27,14 @@ public abstract class SimEntityBaseProtected extends BasicSimEntity {
      * SimEntityBases. Keyed by Class and Method.
 *
      */
-    private static LinkedHashMap<Class, Map<String, Method>> allDoMethods;
+    private static LinkedHashMap<Class<?>, Map<String, Method>> allDoMethods;
 
     /**
      * A two dimensional Hash table used to hold the names and signatures of all
      * doMethods of all SimEntityBases. Keyed by Class and Method name.
 *
      */
-    private static LinkedHashMap<Class, Map<String, List<Class<?>[]>>> allNamesAndSignatures;
+    private static LinkedHashMap<Class<?>, Map<String, List<Class<?>[]>>> allNamesAndSignatures;
 
     /**
      * True if the entity has a doRun method.

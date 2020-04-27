@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
  * a String property called "Side"
  * 
  * @author Arnold Buss
- * @version $Id$
+ * 
  **/
 
 public class Side {

@@ -9,7 +9,7 @@ package simkit.random;
  * since a random variate can always be cast to one.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
 **/
 
 public interface RandomVector {

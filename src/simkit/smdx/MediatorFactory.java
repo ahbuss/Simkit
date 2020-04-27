@@ -12,7 +12,7 @@ import java.util.Map;
  * used for.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public interface MediatorFactory<T1, T2, T3> {
 

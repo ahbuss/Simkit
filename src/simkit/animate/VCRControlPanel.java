@@ -14,7 +14,7 @@ import simkit.SimEntityBase;
 import simkit.SimEventSource;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 

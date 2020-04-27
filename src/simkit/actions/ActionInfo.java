@@ -12,7 +12,7 @@ public interface ActionInfo {
     
     public Action getAction(Object instance, String actionName);
     
-    public Class getActionClass();
+    public Class<?> getActionClass();
     
     public boolean isActionMethod(String methodName);
     

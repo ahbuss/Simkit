@@ -19,9 +19,8 @@ public class DefaultToStringer {
      * @param obj The Object about which to get information.
      * @param stopClass Ignored.
      * @return all of the known properties of the given Object in a String.
-     * @deprecated Use getToString(Object) instead.
      */
-    public static String getToString(Object obj, Class stopClass) {
+    public static String getToString(Object obj) {
         StringBuilder buf = new StringBuilder();
         if (obj instanceof simkit.Named) {
             buf.append(((simkit.Named) obj).getName());
@@ -52,13 +51,4 @@ public class DefaultToStringer {
         return buf.toString();
     }
 
-    /**
-     * Returns all of the known properties of the given Object.
-     *
-     * @param obj The Object about which to get information.
-     * @return all of the known properties of the given Object. in a String
-     */
-    public static String getToString(Object obj) {
-        return getToString(obj, null);
-    }
 }

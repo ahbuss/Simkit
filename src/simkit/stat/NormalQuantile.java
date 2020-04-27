@@ -1,7 +1,7 @@
 package simkit.stat;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class NormalQuantile {

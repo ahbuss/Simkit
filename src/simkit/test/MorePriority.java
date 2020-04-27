@@ -3,7 +3,7 @@ package simkit.test;
 import simkit.Priority;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class MorePriority extends Priority {

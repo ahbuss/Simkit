@@ -4,7 +4,7 @@ package simkit.random;
  * Generates Exponential random variate using log transform.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class ExponentialVariate extends RandomVariateBase implements RandomVariate {
 

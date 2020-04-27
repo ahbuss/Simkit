@@ -23,7 +23,7 @@ import simkit.SimEntityBase;
  * signaling these state changes.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class CookieCutterSensor extends SimEntityBase implements Sensor {
     

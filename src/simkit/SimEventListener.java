@@ -19,7 +19,6 @@ package simkit;
   * @see SimEventSource
   *
   * @author Arnold Buss 
-  * @version $Id$
   *
 **/
 public interface SimEventListener {

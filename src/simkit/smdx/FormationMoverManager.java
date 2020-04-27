@@ -17,7 +17,7 @@ import simkit.SimEventListener;
  * point (ZZ).
  *
  * @author John Ruck (Rolands and Associates Corporation 6/7/06)
- * @version $Id$
+ * 
  *
  */
 public class FormationMoverManager extends SimEntityBase implements MoverManager {

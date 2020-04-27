@@ -5,7 +5,7 @@ package simkit.smd;
  * Munition.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public interface Adjudicator {
 

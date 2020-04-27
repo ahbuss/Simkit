@@ -10,7 +10,7 @@ package simkit.random;
  * Generates sequence of numbers starting with 0 and increasing by 1 
  * 
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class SequenceVariate implements DiscreteRandomVariate {
 

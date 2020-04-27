@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @see MoverManager
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class MoverManagerFactory {
 
@@ -34,13 +34,15 @@ public class MoverManagerFactory {
      * parameters
      * @return MoverManager with given class name and parameters
      */
+    @SuppressWarnings("unchecked")
     public static MoverManager getInstance(String className, Object[] parameters) {
         MoverManager manager = null;
         try {
-            Class managerClass = Thread.currentThread().getContextClassLoader().loadClass(className);
+            Class<? extends MoverManager>  managerClass = 
+                    (Class<? extends MoverManager> )Thread.currentThread().getContextClassLoader().loadClass(className);
             Constructor[] constructor = managerClass.getConstructors();
             for (int i = 0; i < constructor.length; i++) {
-                Class[] signature = constructor[i].getParameterTypes();
+                Class<?>[] signature = constructor[i].getParameterTypes();
                 if (signature.length == parameters.length) {
                     for (int j = 0; j < signature.length; j++) {
                         if (!Beans.isInstanceOf(parameters[j], signature[j])) {

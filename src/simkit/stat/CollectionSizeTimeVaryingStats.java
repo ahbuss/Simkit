@@ -9,7 +9,7 @@ import java.util.Collection;
  * end result is that the size of a Collection property
  * has time-varying statistics collected.
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class CollectionSizeTimeVaryingStats extends SimpleStatsTimeVarying {

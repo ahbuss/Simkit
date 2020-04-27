@@ -5,7 +5,7 @@ package simkit.smd;
  * damaged.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public interface Target extends Mover {
 

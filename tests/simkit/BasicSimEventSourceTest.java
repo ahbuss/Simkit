@@ -3,7 +3,7 @@ package simkit;
 import junit.framework.TestCase;
 
 /**
- * @version $Id$
+ * 
  * @author abuss
  */
 public class BasicSimEventSourceTest extends TestCase {

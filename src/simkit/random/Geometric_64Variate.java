@@ -9,7 +9,7 @@ import simkit.util.Math64;
  * platforms.
 
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class Geometric_64Variate implements DiscreteRandomVariate {
 
@@ -55,7 +55,7 @@ public class Geometric_64Variate implements DiscreteRandomVariate {
      * Returns a single element array containing <code>p</code>.
      */
     public Object[] getParameters() {
-        return new Object[] { new Double(p) };
+        return new Object[] { p };
     }
     
     /**

@@ -16,7 +16,7 @@ package simkit.random;
  * </li></ul>Note: (right-left)*height cannot be greater than one.
  *
  * @author ahbuss
- * @version $Id$
+ * 
  */
 public class RightWedgeVariate extends RandomVariateBase {
 

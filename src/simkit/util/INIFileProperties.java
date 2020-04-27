@@ -33,7 +33,7 @@ import java.util.logging.Logger;
  * the file format mimics Windows ini file format.
  *
  * @see Properties
- * @version $Id$
+ * 
 *
  */
 public class INIFileProperties extends LinkedHashMap<String, Map<String, String>> {

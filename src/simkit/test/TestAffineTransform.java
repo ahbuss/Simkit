@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestAffineTransform {
 

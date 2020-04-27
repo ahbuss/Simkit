@@ -10,7 +10,7 @@ package simkit.smdx;
  * An Exception that indicates that a "magic move" was
  * attempted on a Mover on which magic moves are not allowed.
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class MagicMoveException extends java.lang.Exception {
 

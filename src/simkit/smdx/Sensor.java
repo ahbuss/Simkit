@@ -21,7 +21,7 @@ import simkit.SimEntity;
  * Sensor as appropriate.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public interface Sensor extends Moveable, SimEntity, PropertyChangeListener {
 

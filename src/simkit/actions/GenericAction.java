@@ -30,7 +30,7 @@ public class GenericAction extends AbstractAction {
         super(methodName);
         model = theModel;
         try {
-            actionMethod = theModel.getClass().getMethod(methodName, (Class[]) null);
+            actionMethod = theModel.getClass().getMethod(methodName, (Class<?>[]) null);
         } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException(e.toString() + " " + methodName);
         }

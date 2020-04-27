@@ -9,7 +9,7 @@ package simkit.random;
   <br>The distribution of the random noiseGenerator is N(0, &sigma;<sup>2</sup>).
  *
  *  @author  Arnold Buss
- *  @version $Id$
+ *  
  */
 public class AR1Variate extends RandomVariateBase {
     

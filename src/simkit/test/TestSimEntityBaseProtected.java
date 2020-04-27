@@ -11,12 +11,12 @@ public class TestSimEntityBaseProtected extends SimEntityBaseProtected {
     }
     
     public void doRun() {
-        waitDelay("This", 0.5, new Integer(2));
+        waitDelay("This", 0.5, 2);
     }
     
     protected void doThis(int y) {
         System.out.println(y);
-        waitDelay("This", 0.6, new Integer(y + 1));
+        waitDelay("This", 0.6, y + 1);
     }
     
     protected void doThat(double[] arg) {

@@ -16,7 +16,7 @@ import simkit.actions.visual.ShapeIcon;
 import simkit.smdx.Sensor;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class SensorIcon extends MoverIcon {

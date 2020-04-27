@@ -10,7 +10,7 @@ package simkit.random;
  * An interface for Classes that describe a continuous random variable distribution.
  * 
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public interface ContinuousDistribution extends Distribution{
     

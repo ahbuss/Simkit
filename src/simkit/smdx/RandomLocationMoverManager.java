@@ -32,7 +32,7 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
     private RandomVariate[] location;
 
     /**
-     * The RandomVariate for the speed of movement.
+     * The RandomVariate for the speedGen of movement.
 *
      */
     private RandomVariate speed;
@@ -54,7 +54,7 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
      * @param mover The Mover that this MoverManager controls.
      * @param location A 2-dimensional array containing a RandomVariate for the
      * x coordinate and one for the y coordinate.
-     * @param speed The RandomVariate used to determine the speed of the moves.
+     * @param speed The RandomVariate used to determine the speedGen of the moves.
      */
     public RandomLocationMoverManager(Mover mover, RandomVariate[] location, RandomVariate speed) {
         this(mover, location);
@@ -63,7 +63,7 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
 
     /**
      * Creates a new instance of RandomLocationMoverManager that moves the Mover
-     * at its maximum speed.
+ at its maximum speedGen.
      *
      * @param mover The Mover that this MoverManager controls.
      * @param location A 2-dimensional array containing a RandomVariate for the
@@ -78,9 +78,9 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
         }
         if (null != mover) {
             setMover(mover);
-            RandomVariate speed = RandomVariateFactory.getInstance("simkit.random.ConstantVariate",
-                    new Object[]{new Double(mover.getMaxSpeed())});
-            setSpeedGenerator(speed);
+            RandomVariate speedGen = RandomVariateFactory.getInstance("simkit.random.ConstantVariate",
+                    mover.getMaxSpeed());
+            setSpeedGenerator(speedGen);
         }
     }
 
@@ -197,7 +197,7 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
     }
 
     /**
-     * Sets the RandomVariate used to pick the speed for the next leg.
+     * Sets the RandomVariate used to pick the speedGen for the next leg.
      * @param rv Given RandomVariate to generate speeds
      */
     public void setSpeedGenerator(RandomVariate rv) {
@@ -206,7 +206,7 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
 
     /**
      * 
-     * @return the RandomVariate used to pick the speed for the next leg.
+     * @return the RandomVariate used to pick the speedGen for the next leg.
      */
     public RandomVariate getSpeedGenerator() {
         return speed;
@@ -237,7 +237,7 @@ public class RandomLocationMoverManager extends SimEntityBase implements MoverMa
 
     /**
      * Returns a String containing the mover, the next position, and the transit
-     * speed.
+ speedGen.
 *
      */
     public String toString() {

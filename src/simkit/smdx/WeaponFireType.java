@@ -14,7 +14,7 @@ package simkit.smdx;
  * </UL>
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class WeaponFireType {
 

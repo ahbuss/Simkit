@@ -11,7 +11,7 @@ package simkit.smdx;
  * the <CODE>hit</CODE> method in the Target.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class HitPointDamage implements Damage {
 

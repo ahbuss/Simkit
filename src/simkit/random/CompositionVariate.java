@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * by the parameters, a list of names and of associated parameters for each
  * RandomVariate.
  * 
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class CompositionVariate extends RandomVariateBase {

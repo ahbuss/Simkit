@@ -10,7 +10,7 @@ package simkit.random;
  * A RandomVariate that can only take on discrete values.
  * 
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public interface DiscreteRandomVariate extends RandomVariate {
     

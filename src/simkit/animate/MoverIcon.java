@@ -4,21 +4,19 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import simkit.smd.Mover;
 
 /**
  *
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class MoverIcon extends JComponent {
 
     private Icon icon;
     private Mover myMover;
-    private DecimalFormat df;
     private Point location;
     private Point2D origin;
     private Point2D screenLocation;

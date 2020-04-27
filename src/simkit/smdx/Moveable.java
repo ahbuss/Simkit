@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * An Object that can move in 2 dimensions.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public interface Moveable {
 

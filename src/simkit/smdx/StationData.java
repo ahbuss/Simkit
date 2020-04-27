@@ -4,7 +4,7 @@ package simkit.smdx;
  * An interface for holding the data needed to define a movement location
  * relative to another MoverManager.
  *
- * @version $Id$
+ * 
  * @author John Ruck (Rolands and Associates Corporation - 6/6/06)
 *
  */

@@ -11,9 +11,7 @@ public class TestMultipleSimpleStatsTimeVarying {
     public static void main(String[] args) {
         ArrivalProcess ap
                 = new ArrivalProcess(
-                        RandomVariateFactory.getInstance(
-                                "Exponential", new Double(1.7)
-                        )
+                        RandomVariateFactory.getInstance("Exponential", 1.7)
                 );
 
         IndexRedispatcher ir = new IndexRedispatcher(ap, 1, 2, 10);

@@ -6,7 +6,7 @@ package simkit.random;
  * <ul> <li><code>minimum</code> = smallest possible value (integer).</li>
  * <li> <code>maximum</code> = largest possible value (integer).</li></ul>
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class DiscreteUniformVariate extends RandomVariateBase implements DiscreteRandomVariate {
 
@@ -59,7 +59,7 @@ public class DiscreteUniformVariate extends RandomVariateBase implements Discret
      * @return (minimum, maximum) wrapped as Doubles in Object[]
      */    
     public Object[] getParameters() {
-        return new Object[] { new Integer(minimum), new Integer(maximum) };
+        return new Object[] { minimum, maximum };
     }
 
     /**

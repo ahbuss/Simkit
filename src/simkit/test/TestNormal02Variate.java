@@ -15,7 +15,7 @@ import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestNormal02Variate {
 
@@ -30,8 +30,8 @@ public class TestNormal02Variate {
     public static void main (String args[]) throws FileNotFoundException  {
         String dist = "Normal03Variate";
         Object params[] = new Object[2];
-        params[0] = new Integer(0);
-        params[1] = new Integer(1);
+        params[0] = 0.0;
+        params[1] = 1.0;
         RandomVariate rv = 
             (RandomVariate) RandomVariateFactory.getInstance(dist, params);
         

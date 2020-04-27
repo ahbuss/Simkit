@@ -44,7 +44,7 @@ public class JavaReflectionTest extends TestCase {
     }
 
     public void testGetFullMethodName_Class_String_Array() {
-        Object[] arg = new Object[]{new Double(1.0), new Integer(3)};
+        Object[] arg = new Object[]{1.0, 3};
         Method[] method = SomethingToReflectUpon.class.getDeclaredMethods();
 //        for (int i = 0; i < method.length; i++) {
 //            System.out.println(method[i] + ": " + method[i].getName());

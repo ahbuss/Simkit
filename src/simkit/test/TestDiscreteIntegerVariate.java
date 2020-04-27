@@ -15,7 +15,7 @@ import simkit.random.RandomVariateFactory;
 import simkit.stat.Histogram;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestDiscreteIntegerVariate {

@@ -12,7 +12,7 @@ package simkit.smdx;
  * If the Target is inside the impact Shape, the probability of kill
  * if 1, if not the probability of kill is 0.
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class SureFireKillAdjudicator implements Adjudicator {
 

@@ -7,7 +7,7 @@ import simkit.util.Math64;
  *
  * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
- * @version $Id$
+ * 
  */
 public class Weibull_64Variate extends RandomVariateBase{
     private double alpha;
@@ -51,7 +51,7 @@ public class Weibull_64Variate extends RandomVariateBase{
 * Returns a 2 element array containing alpha and beta as Numbers.
 **/
     public Object[] getParameters() {
-        return new Object[] {new Double(alpha),  new Double(beta)};
+        return new Object[] {alpha,  beta};
     }
     
     /**

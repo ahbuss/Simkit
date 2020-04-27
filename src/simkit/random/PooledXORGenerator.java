@@ -3,7 +3,7 @@ package simkit.random;
 /** Pools two <code>RandomNumber</code> instances by XOR-ing
  * their generated long values.
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class PooledXORGenerator extends PooledGeneratorBase {
 

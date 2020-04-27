@@ -9,7 +9,7 @@ import java.util.Collection;
  * The size() value is passed to the super class.  The
  * end result is that the size of a Collection property
  * has time-varying statistics collected.
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class MultipleCollectionSizeTimeVarying extends MultipleSimpleStatsTimeVarying {

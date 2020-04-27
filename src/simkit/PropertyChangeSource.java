@@ -11,7 +11,6 @@ import java.beans.PropertyChangeListener;
  *  their propertyChanged(PropertyChangeEvent) method invoked (not enforced).
  *
  *  @author Arnold Buss
- *  @version $Id$
  **/
 
 public interface PropertyChangeSource {

@@ -10,16 +10,12 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import simkit.Named;
 import simkit.Schedule;
 import simkit.SimEvent;
-import simkit.SimEventSource;
 
 /**
  * A Simple event and state change listener that does nothing

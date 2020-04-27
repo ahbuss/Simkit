@@ -16,7 +16,7 @@ import simkit.SimEntity;
  * Time-Varying statistics. Typically, of course, only one will make any sense.
  *
  * @author ahbuss
- * @version $Id$
+ * 
  */
 public class MultiStat implements PropertyChangeListener {
 

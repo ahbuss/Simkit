@@ -3,7 +3,7 @@ package simkit.stat;
 import static java.lang.Double.NaN;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class StudentT {

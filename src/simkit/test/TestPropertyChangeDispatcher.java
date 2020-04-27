@@ -32,7 +32,7 @@ public class TestPropertyChangeDispatcher extends SimEntityBase {
         pcd.addPropertyChangeListener(dumper);
         test.addPropertyChangeListener(dumper);
         
-        pcd.setProperty("foo", new Integer(11));
+        pcd.setProperty("foo", 11);
         pcd.setProperty("foobar", new double[] { 3.14, 1.59 } );
         
         System.out.println(pcd);
@@ -45,7 +45,7 @@ public class TestPropertyChangeDispatcher extends SimEntityBase {
         pcd.clearAddedProperties();
         System.out.println(pcd);
         
-        test.setProperty("foo", new Integer(42));
+        test.setProperty("foo", 42);
         System.out.println(test);
         
     }

@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
  * point.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class WayPoint implements Cloneable {
 

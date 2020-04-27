@@ -14,7 +14,7 @@ import simkit.Named;
  * Note: changed to only print the new value if the old value is null.
  *
  * @see PropertyChangeFrame
- * @version $Id$
+ * 
  *
  */
 public class SimplePropertyDumper implements PropertyChangeListener {

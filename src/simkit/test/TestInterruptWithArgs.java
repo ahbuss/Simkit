@@ -4,7 +4,7 @@ import simkit.Schedule;
 import simkit.SimEntityBase;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestInterruptWithArgs extends SimEntityBase {

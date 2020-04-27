@@ -19,7 +19,7 @@ import simkit.SimEntityBase;
  * </P>
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class MunitionTargetReferee extends SimEntityBase {
 

@@ -133,7 +133,7 @@ public class RandomVariateFactory {
      *
      * @return shallow copy of cache
      */
-    public static Map<String, Class> getCache() {
+    public static Map<String, Class<? extends RandomVariate>> getCache() {
         return new WeakHashMap<>(cache);
     }
 
@@ -240,9 +240,9 @@ public class RandomVariateFactory {
             cache.put(className, randomVariateClass);
         }
         try {
-            instance = (RandomVariate) randomVariateClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            instance = (RandomVariate) randomVariateClass.getConstructor().newInstance();
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(RandomVariateFactory.class.getName()).log(Level.SEVERE, null, ex);
         }
         instance.setParameters(parameters);
         instance.setRandomNumber(rng);
@@ -454,10 +454,10 @@ public class RandomVariateFactory {
             throw new IllegalArgumentException(String.format("Not an instance of DiscreteRandomVariate: %s",
                     toString));
         }
-        
+
         return drv;
     }
-    
+
     /**
      *
      * @param className Name of RandomVariate class
@@ -524,9 +524,10 @@ public class RandomVariateFactory {
             cache.put(className, randomVariateClass);
         }
         try {
-            instance = (RandomVariate) randomVariateClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            instance = (RandomVariate) randomVariateClass.getConstructor().newInstance();
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(RandomVariateFactory.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         }
         return instance;
     }

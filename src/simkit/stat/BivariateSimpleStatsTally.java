@@ -17,7 +17,7 @@ import static simkit.SimEventScheduler.NL;
  * &Delta;Y<sub>n+1</sub> = Y<sub>n+1</sub> - <span style="text-decoration:
   overline">Y</span><sub>n</sub>
  * 
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class BivariateSimpleStatsTally implements PropertyChangeListener {

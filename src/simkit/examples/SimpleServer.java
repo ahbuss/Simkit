@@ -10,7 +10,7 @@ import simkit.random.RandomVariate;
  * arrival events (like {@link ArrivalProcess2}.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class SimpleServer extends SimEntityBase {
 

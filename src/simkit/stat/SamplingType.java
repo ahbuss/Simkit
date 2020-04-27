@@ -6,7 +6,7 @@ package simkit.stat;
  * yet implemented.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
 *
  */
 public enum SamplingType {

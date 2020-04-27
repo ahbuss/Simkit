@@ -16,7 +16,7 @@ import simkit.random.RandomVariateFactory;
  * is called back from Schedule (the handleSimEvent() method).</p>
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class SimpleServer2 extends BasicSimEntity {
 

@@ -11,7 +11,7 @@ import simkit.SimEntityBase;
  * (your mileage may vary).  Any listeners to Ping may do as they 
  * wish, such as updating the position of units drawn on a screen.
  *
- * @version $Id$
+ * 
  * @author abuss
  **/
 
@@ -155,8 +155,8 @@ public class PingThread extends SimEntityBase
             if (millisPerSimtime > 0) {
                 realTimeStep = System.currentTimeMillis() - startStep;
                 long offBy = (long) (realTimeStep - getDesiredPingTime());
-                firePropertyChange("realTimeStep", new Long(realTimeStep));
-                firePropertyChange("offby", new Long(offBy));
+                firePropertyChange("realTimeStep", realTimeStep);
+                firePropertyChange("offby", offBy);
                 startStep = System.currentTimeMillis();
                 
                 try {

@@ -11,7 +11,7 @@ import simkit.util.Math64;
  * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
  *
- * @version $Id$
+ * 
  **/
 public class Log_64Transform  implements RandomVariate {
     

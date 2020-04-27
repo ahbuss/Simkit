@@ -4,7 +4,7 @@ package simkit;
  * Allows verbose mode of the event lost to be active between the values
  * startVerboseTime (default = 0.0) and endVerboseTime (default = &infin;).
  * 
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class VerboseInterval extends SimEntityBase {

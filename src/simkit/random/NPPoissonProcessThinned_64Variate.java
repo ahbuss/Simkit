@@ -20,7 +20,7 @@ import simkit.util.Math64;
  *
  * <P>Uses simkit.util.Math64.log() function for replicability on 64-bit
  * platforms.
- * @version $Id$;
+ * ;
  * @author ahbuss
  */
 public class NPPoissonProcessThinned_64Variate extends BasicSimEntity implements RandomVariate {
@@ -81,7 +81,7 @@ public class NPPoissonProcessThinned_64Variate extends BasicSimEntity implements
             t = t - 1.0 / getLambda() * Math64.log(rng.draw());
             Number num = null;
             try {
-                num = (Number) rateMethod.invoke(rateInvoker, new Object[] { new Double(t) } );
+                num = (Number) rateMethod.invoke(rateInvoker, new Object[] { t } );
             }
             catch (IllegalAccessException e) { throw new RuntimeException(e);}
             catch (InvocationTargetException e) { throw new RuntimeException(e.getTargetException());}
@@ -99,7 +99,7 @@ public class NPPoissonProcessThinned_64Variate extends BasicSimEntity implements
      */
     public Object[] getParameters() {
         return new Object[] {
-            new Double(lambda),
+            lambda,
             rateInvoker,
             rateMethod
         };

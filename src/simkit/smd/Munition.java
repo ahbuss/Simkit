@@ -11,7 +11,7 @@ import simkit.SimEntity;
  * {@link Adjudicator}.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public interface Munition extends Mover, SimEntity {
 

@@ -15,7 +15,7 @@ import simkit.Schedule;
  * the number of times <CODE>newObservation</CODE> has been called.
  * </P>
  *
- * @version $Id$
+ * 
  */
 public class SimpleStatsTimeVarying extends AbstractSimpleStats
         implements EventListAware {

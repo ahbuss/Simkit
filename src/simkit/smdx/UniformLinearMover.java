@@ -32,7 +32,7 @@ import simkit.SimEntityBase;
  * design point.
  * 
  * @author  Arnold Buss
- * @version $Id$
+ * 
  */
 public class UniformLinearMover extends SimEntityBase implements Mover {
     

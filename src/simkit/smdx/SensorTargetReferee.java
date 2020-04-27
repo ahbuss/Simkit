@@ -53,7 +53,7 @@ import simkit.SimEntityBase;
  * area.</LI></UL>
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class SensorTargetReferee extends SimEntityBase implements PropertyChangeListener {
 

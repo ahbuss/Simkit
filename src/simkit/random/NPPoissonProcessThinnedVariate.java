@@ -16,7 +16,7 @@ import simkit.BasicSimEntity;
  * </ol>
  * Before the generate() method can be called, these three parameters must be set
  * using one of the methods provided.
- * @version $Id$;
+ * ;
  * @author ahbuss
  */
 public class NPPoissonProcessThinnedVariate extends BasicSimEntity implements RandomVariate {
@@ -77,7 +77,7 @@ public class NPPoissonProcessThinnedVariate extends BasicSimEntity implements Ra
             t = t - 1.0 / getLambda() * Math.log(rng.draw());  
             Number num = null;
             try {
-                num = (Number) rateMethod.invoke(rateInvoker, new Object[] { new Double(t) } );
+                num = (Number) rateMethod.invoke(rateInvoker, new Object[] { t } );
             }
             catch (IllegalAccessException e) { throw new RuntimeException(e);}
             catch (InvocationTargetException e) { throw new RuntimeException(e.getTargetException());}
@@ -95,7 +95,7 @@ public class NPPoissonProcessThinnedVariate extends BasicSimEntity implements Ra
      */
     public Object[] getParameters() {
         return new Object[] {
-            new Double(lambda),
+            lambda,
             rateInvoker,
             rateMethod
         };

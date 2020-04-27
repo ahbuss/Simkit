@@ -15,7 +15,7 @@ import simkit.stat.SimpleStatsTimeVarying;
  * {@link EntityServer}.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class TestCustomerServer {
 

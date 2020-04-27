@@ -4,7 +4,7 @@ package simkit.random;
  * implement the <code>drawLong()</code> method.
  * This base class supports pooling 2 RandomNumbers.
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public abstract class PooledGeneratorBase implements Pooled {
     

@@ -3,7 +3,7 @@ package simkit.test;
 import simkit.SimEntityBase;
 
 /**
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class SimEntityWithExtraData extends SimEntityBase {

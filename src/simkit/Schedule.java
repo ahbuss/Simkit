@@ -165,7 +165,7 @@ public class Schedule {
      * @param eventSignature Signature of stopping event
      */
     public static void stopOnEvent(int numberEvents, String eventName,
-            Class... eventSignature) {
+            Class<?>... eventSignature) {
         defaultEventList.stopOnEvent(numberEvents, eventName, eventSignature);
     }
 

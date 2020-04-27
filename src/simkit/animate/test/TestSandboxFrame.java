@@ -15,7 +15,7 @@ import simkit.smd.SensorMoverReferee;
 
 
 /**
- * @version $Id$
+ * 
  * @author  ahbuss
  */
 public class TestSandboxFrame {

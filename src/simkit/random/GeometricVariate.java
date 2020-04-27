@@ -5,7 +5,7 @@ package simkit.random;
  * failures before the first success of iid Berboulli trials.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class GeometricVariate implements DiscreteRandomVariate {
 

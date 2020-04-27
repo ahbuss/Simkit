@@ -4,7 +4,7 @@ package simkit.random;
  * Generates random variates having the Inverse Gaussian distribution.
  *
  * @author Arnold Buss
- * @version $Id$
+ * 
  */
 public class InverseGaussianVariate extends RandomVariateBase {
 

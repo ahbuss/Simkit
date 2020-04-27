@@ -6,7 +6,7 @@ import simkit.SimEntityBase;
 
 /**
  * Verifies Priority objects working.
- * @version $Id$
+ * 
  * @author ahbuss
  */
 public class TestPriority extends SimEntityBase {

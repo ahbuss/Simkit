@@ -12,7 +12,7 @@ import simkit.PropertyChangeSource;
 * for determining the correct symbol to display for the entity, but that
 * don't make sense for all entities.
 *
-* @version $Id$
+* 
 * @author John Ruck (Rolands and Associates Corporation 4/12/05)
 **/
 public interface Displayable extends Named, PropertyChangeSource, Moveable, Sided {

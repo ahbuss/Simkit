@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * want to be able to define types at runtime.
  * <p>
  *
- * @version $Id$
+ * 
  * @version Copied from NpsTracCommon at rev EnumBase.java 24 2007-12-04
  * 22:16:48Z.
  * @author John Ruck (Rolands and Associates Corporation)

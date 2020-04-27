@@ -12,7 +12,7 @@ import simkit.random.RandomVariateFactory;
 /**
  *
  * @author  ahbuss
- * @version $Id$
+ * 
  */
 public class TestAR1Variate {
     

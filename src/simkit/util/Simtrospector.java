@@ -1,28 +1,32 @@
 package simkit.util;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * A utility class to reduce the clutter in SimEntityBase and rationalize some
  * common methods involving introspection.
  *
- * @version $Id$
  * @author Arnold Buss
-*
+ *
  */
 public class Simtrospector {
 
     /**
      * The list of prefixes that indicate an event method in addition to
      * <code>prefix</code>
-*
+     *
      */
     private static Set<String> additionalPrefixes;
 
     /**
      * The primary prefix that indicates an event method (Default is "do").
-*
+     *
      */
     private static String prefix;
 
@@ -39,9 +43,9 @@ public class Simtrospector {
      *
      * @param c given class
      * @return Map of event methods keyed by the method name
-*
+     *
      */
-    public static Map<String, Method> getEventMethods(Class c) {
+    public static Map<String, Method> getEventMethods(Class<?> c) {
         Method[] allMethods = c.getMethods();
         List<Method> eventMethods = new ArrayList<>(allMethods.length);
         for (Method allMethod : allMethods) {
@@ -80,6 +84,7 @@ public class Simtrospector {
     /**
      * Removes the given prefix from the list of event method prefixes. If the
      * given prefix was not in the list, does nothing.
+     *
      * @param prefix Given prefix to remove
      */
     public static void removePrefix(String prefix) {
@@ -95,6 +100,7 @@ public class Simtrospector {
 
     /**
      * Sets the primary event method prefix. The default is "do"
+     *
      * @param p Given primary prefix
      */
     public static void setPrefix(String p) {
@@ -112,22 +118,23 @@ public class Simtrospector {
      * @param params Given parameters
      * @return an array containing the Classes of the given Objects.
      */
-    public static Class[] getSignature(Object[] params) {
-        if (params == null) {
-            return new Class[]{};
-        }
+    @SuppressWarnings("unchecked")
+    public static Class<?>[] getSignature(Object[] params) {
+        List<Class<?>> classList = new ArrayList<>();
 
-        Class<?>[] sig = new Class<?>[params.length];
-        for (int i = 0; i < sig.length; i++) {
-            sig[i] = params[i].getClass();
+        if (params != null) {
+            for (Object param : params) {
+                classList.add(param.getClass());
+            }
         }
-        return sig;
+        return (Class<?>[]) classList.toArray();
     }
 
     /**
      * Returns a String containing the names of the given Classes separated by
      * commas and enclosed in parenthesis.<br>
      * For example: (Class1, Class2,)
+     *
      * @param c Given array of classes
      * @return Stringified version of given class array
      */

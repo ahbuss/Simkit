@@ -26,7 +26,7 @@ package simkit.random;
  * <p>
  * Original C++ implementation by Metron, Incorporated.<br>
  * Translated to Java by John Ruck, Rolands and Associates Corporation.</p>
- * @version $Id$
+ * 
  */
 
 public class NSSrng implements RandomNumber {

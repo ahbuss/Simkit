@@ -6,7 +6,7 @@ package simkit.random;
  * and if a positive number returns the natural log of it, if negative or zero
  * it returns <code>Double.NaN</code>.
  *
- * @version $Id$
+ * 
  **/
 public class LogTransform  implements RandomVariate {
     

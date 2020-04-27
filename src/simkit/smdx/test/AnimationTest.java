@@ -155,10 +155,8 @@ public class AnimationTest extends JFrame implements SimEventListener {
             AnimationTest at = new AnimationTest("Animation Test");
             pt.addSimEventListener(at);
             RandomVariate[] rv = new RandomVariate[2];
-            rv[0] = RandomVariateFactory.getInstance("simkit.random.UniformVariate",
-                    new Object[]{new Double(0.0), new Double(500)});
-            rv[1] = RandomVariateFactory.getInstance("simkit.random.UniformVariate",
-                    new Object[]{new Double(0.0), new Double(500)});
+            rv[0] = RandomVariateFactory.getInstance("simkit.random.UniformVariate", 0.0, 500.0);
+            rv[1] = RandomVariateFactory.getInstance("simkit.random.UniformVariate", 0.0, 500.0);
 
             for (int j = 0; j < numberUnits; j++) {
                 Mover vm = new UniformLinearMover("Mover-" + j, new java.awt.geom.Point2D.Double(250, 250), 50);
