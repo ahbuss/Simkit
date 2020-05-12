@@ -17,7 +17,6 @@ public class DefaultToStringer {
      * Returns all of the known properties of the given Object.
      *
      * @param obj The Object about which to get information.
-     * @param stopClass Ignored.
      * @return all of the known properties of the given Object in a String.
      */
     public static String getToString(Object obj) {

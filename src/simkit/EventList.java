@@ -237,7 +237,9 @@ public class EventList implements BasicEventList {
      * @return the number of events on the event list.
      */
     public int getPendingEventCount() {
-        return eventList.size();
+        synchronized (eventList) {
+            return eventList.size();
+        }
     }
 
     @Override
@@ -341,7 +343,9 @@ public class EventList implements BasicEventList {
 
     @Override
     public boolean isFinished() {
-        return eventList.isEmpty();
+        synchronized (eventList) {
+            return eventList.isEmpty();
+        }
     }
 
     @Override
@@ -454,7 +458,9 @@ public class EventList implements BasicEventList {
      * Empties event list.
      */
     protected void clearEventList() {
-        eventList.clear();
+        synchronized (eventList) {
+            eventList.clear();
+        }
         eventCounts.clear();
         if (entityEventMap != null) {
             entityEventMap.clear();
@@ -543,10 +549,12 @@ public class EventList implements BasicEventList {
             throw new InvalidSchedulingException("Attempt to reverse time!: "
                     + event.getScheduledTime() + " < " + getSimTime());
         } else if (!Double.isNaN(event.getScheduledTime()) && !Double.isInfinite(event.getScheduledTime())) {
-            boolean success = eventList.add(event);
-            if (!success) {
-                throw new InvalidSchedulingException("Problem adding event to "
-                        + "Event List: " + event);
+            synchronized (eventList) {
+                boolean success = eventList.add(event);
+                if (!success) {
+                    throw new InvalidSchedulingException("Problem adding event to "
+                            + "Event List: " + event);
+                }
             }
             if (fastInterrupts) {
                 addToEntityEventMap(event);
@@ -637,9 +645,9 @@ public class EventList implements BasicEventList {
             reRun.remove(stopInstance);
         }
         SimEvent postRepEvent = new SimEvent(stopInstance, "PostReplication", getSimTime());
-        for (ReRunnable rerunable: reRun) {
+        for (ReRunnable rerunable : reRun) {
             if (SimEntity.class.isAssignableFrom(rerunable.getClass())) {
-                ((SimEntity)rerunable).processSimEvent(postRepEvent);
+                ((SimEntity) rerunable).processSimEvent(postRepEvent);
             }
         }
         running = false;
@@ -768,40 +776,40 @@ public class EventList implements BasicEventList {
     public void interrupt(SimEventScheduler simEntity, String eventName,
             Object... parameters) {
         Integer hash = null;
-        synchronized (eventList) {
-            clearDeadEvents();
-            Set<SimEvent> events;
-            if (fastInterrupts) {
-                hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
-                events = hashEventMap.get(hash);
-            } else {
-                events = eventList;
-            }
-            if (events == null) {
-                return;
-            }
-            for (Iterator<SimEvent> i = events.iterator(); i.hasNext();) {
-                SimEvent event = i.next();
-                if ((event.getSource() == simEntity)
-                        && (event.getEventName().equals(eventName))
-                        && (event.interruptParametersMatch(parameters))
-                        && (event.isPending())) {
-                    if (reallyVerbose) {
-                        log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), event});
-                    }
-                    i.remove();
-                    if (fastInterrupts) {
-                        eventList.remove(event);
-                        removeFromEntityEventMap(event);
-                        //removeFromHashEventMap(event);
-                    }
-                    break;
+//        synchronized (eventList) {
+        clearDeadEvents();
+        Set<SimEvent> events;
+        if (fastInterrupts) {
+            hash = SimEvent.calculateEventHash(simEntity, eventName, parameters);
+            events = hashEventMap.get(hash);
+        } else {
+            events = eventList;
+        }
+        if (events == null) {
+            return;
+        }
+        for (Iterator<SimEvent> i = events.iterator(); i.hasNext();) {
+            SimEvent event = i.next();
+            if ((event.getSource() == simEntity)
+                    && (event.getEventName().equals(eventName))
+                    && (event.interruptParametersMatch(parameters))
+                    && (event.isPending())) {
+                if (reallyVerbose) {
+                    log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), event});
                 }
-            }
-            if (fastInterrupts) {
-                cleanUpHashEventMap(hash);
+                i.remove();
+                if (fastInterrupts) {
+                    eventList.remove(event);
+                    removeFromEntityEventMap(event);
+                    //removeFromHashEventMap(event);
+                }
+                break;
             }
         }
+        if (fastInterrupts) {
+            cleanUpHashEventMap(hash);
+        }
+//        }
     }
 
     @Override
@@ -1204,17 +1212,19 @@ public class EventList implements BasicEventList {
 
     @Override
     public void interruptAllWithArg(SimEventScheduler simEntity, String eventName, Object parameter) {
-        for (Iterator<SimEvent> iterator = eventList.iterator();
-                iterator.hasNext();) {
-            SimEvent event = iterator.next();
-            if (event.getSource().equals(simEntity) && event.getEventName().equals(eventName)) {
-                for (Object param : event.getParameters()) {
-                    if (param == null) {
-                        continue;
-                    }
-                    if (param.equals(parameter)) {
-                        iterator.remove();
-                        break;
+        synchronized (eventList) {
+            for (Iterator<SimEvent> iterator = eventList.iterator();
+                    iterator.hasNext();) {
+                SimEvent event = iterator.next();
+                if (event.getSource().equals(simEntity) && event.getEventName().equals(eventName)) {
+                    for (Object param : event.getParameters()) {
+                        if (param == null) {
+                            continue;
+                        }
+                        if (param.equals(parameter)) {
+                            iterator.remove();
+                            break;
+                        }
                     }
                 }
             }
@@ -1223,17 +1233,19 @@ public class EventList implements BasicEventList {
 
     @Override
     public void interruptAllWithArg(SimEventScheduler simEntity, Object parameter) {
-        for (Iterator<SimEvent> iterator = eventList.iterator();
-                iterator.hasNext();) {
-            SimEvent event = iterator.next();
-            if (event.getSource().equals(simEntity)) {
-                for (Object param : event.getParameters()) {
-                    if (param == null) {
-                        continue;
-                    }
-                    if (param.equals(parameter)) {
-                        iterator.remove();
-                        break;
+        synchronized (eventList) {
+            for (Iterator<SimEvent> iterator = eventList.iterator();
+                    iterator.hasNext();) {
+                SimEvent event = iterator.next();
+                if (event.getSource().equals(simEntity)) {
+                    for (Object param : event.getParameters()) {
+                        if (param == null) {
+                            continue;
+                        }
+                        if (param.equals(parameter)) {
+                            iterator.remove();
+                            break;
+                        }
                     }
                 }
             }
@@ -1242,17 +1254,19 @@ public class EventList implements BasicEventList {
 
     @Override
     public void interruptAllWithArg(String eventName, Object parameter) {
-        for (Iterator<SimEvent> iterator = eventList.iterator();
-                iterator.hasNext();) {
-            SimEvent event = iterator.next();
-            if (event.getEventName().equals(eventName)) {
-                for (Object param : event.getParameters()) {
-                    if (param == null) {
-                        continue;
-                    }
-                    if (param.equals(parameter)) {
-                        iterator.remove();
-                        break;
+        synchronized (eventList) {
+            for (Iterator<SimEvent> iterator = eventList.iterator();
+                    iterator.hasNext();) {
+                SimEvent event = iterator.next();
+                if (event.getEventName().equals(eventName)) {
+                    for (Object param : event.getParameters()) {
+                        if (param == null) {
+                            continue;
+                        }
+                        if (param.equals(parameter)) {
+                            iterator.remove();
+                            break;
+                        }
                     }
                 }
             }
@@ -1261,16 +1275,18 @@ public class EventList implements BasicEventList {
 
     @Override
     public void interruptAllWithArg(Object parameter) {
-        for (Iterator<SimEvent> iterator = eventList.iterator();
-                iterator.hasNext();) {
-            SimEvent event = iterator.next();
-            for (Object param : event.getParameters()) {
-                if (param == null) {
-                    continue;
-                }
-                if (param.equals(parameter)) {
-                    iterator.remove();
-                    break;
+        synchronized (eventList) {
+            for (Iterator<SimEvent> iterator = eventList.iterator();
+                    iterator.hasNext();) {
+                SimEvent event = iterator.next();
+                for (Object param : event.getParameters()) {
+                    if (param == null) {
+                        continue;
+                    }
+                    if (param.equals(parameter)) {
+                        iterator.remove();
+                        break;
+                    }
                 }
             }
         }
