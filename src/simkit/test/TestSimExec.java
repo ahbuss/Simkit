@@ -1,5 +1,8 @@
 package simkit.test;
 
+import java.util.Set;
+
+import simkit.ReRunnable;
 import simkit.Schedule;
 import simkit.SimExec;
 import simkit.examples.ArrivalProcess;

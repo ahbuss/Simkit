@@ -252,7 +252,7 @@ public class Schedule {
      *
      * @return copy of reRuns for default event list
      */
-    public static Set getReruns() {
+    public static Set<ReRunnable> getReruns() {
         return defaultEventList.getRerun();
     }
 
