@@ -1,7 +1,10 @@
 package simkit.examples;
 
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
+import simkit.random.RandomVariate;
 import simkit.util.ClassFinder;
 
 /**
@@ -23,11 +26,19 @@ public class ListExamples {
      * @param args Given command-line arguments
      */
     public static void main(String[] args) {
-        Logger logger = Logger.getLogger(ClassFinder.class.getName());
+        Logger logger = Logger.getLogger(ListExamples.class.getName());
         for (Handler handler: logger.getHandlers()) {
             logger.removeHandler(handler);
         }
         System.out.println(listExamples());
+        
+        Map<String, Class<? extends RandomVariate>> randomVariates = classFinder.getRandomVariateClasses();
+        randomVariates = new TreeMap<>(randomVariates);
+        System.out.println("RandomVariate Classes:");
+        for (String name: randomVariates.keySet()) {
+            System.out.printf("%s => %s%n", name, randomVariates.get(name).getName());
+        }
+        
     }
 
     /**

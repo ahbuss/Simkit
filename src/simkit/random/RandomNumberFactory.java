@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import simkit.util.ClassFinder;
 
 /**
  * A factory for creating instances of <CODE>RandomNumber</CODE>. This factory
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
  * Class is initially set to <CODE>Congruential</CODE>.
  *
  * @author A. Buss
- * 
+ *
  *
  */
 public class RandomNumberFactory {
@@ -30,7 +31,7 @@ public class RandomNumberFactory {
      * user.
      *
      */
-    protected static Class defaultClass;
+    protected static Class<? extends RandomNumber> defaultClass;
 
     /**
      * A cache of RandomNumber Classes that have already been found.
@@ -80,8 +81,8 @@ public class RandomNumberFactory {
     }
 
     static {
-        cache = new WeakHashMap<>();
-        searchPackages = new ArrayList<String>();
+        cache = ClassFinder.getINSTANCE().getRandomNumberClasses();
+        searchPackages = new ArrayList<>();
         setDefaultClass(DEFAULT_CLASS);
         addSearchPackage("simkit.random");
     }
@@ -349,6 +350,12 @@ public class RandomNumberFactory {
                     theClass = null;
                 }
             } catch (ClassNotFoundException e) {
+            }
+        }
+        if (theClass == null) {
+            Class<?> clazz = ClassFinder.getINSTANCE().findClassByUnqualifiedName(className);
+            if (RandomNumber.class.isAssignableFrom(clazz)) {
+                theClass = (Class<? extends RandomNumber>) clazz;
             }
         }
         if (theClass == null) {

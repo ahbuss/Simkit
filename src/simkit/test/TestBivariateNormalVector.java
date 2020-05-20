@@ -19,7 +19,7 @@ public class TestBivariateNormalVector {
      */
     public static void main(String[] args) throws IOException {
 
-        RandomVectorFactory.addSearchPackage("simkit.ext.random");
+//        RandomVectorFactory.addSearchPackage("simkit.ext.random");
         double[] mean = {1.0, 2.0};
         double[] stdDev = {0.5, 0.75};
         double correlation = -0.3;

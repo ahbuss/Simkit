@@ -20,11 +20,13 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import simkit.random.RandomNumber;
+import simkit.random.RandomVariate;
 
 /**
  * <p>
- An INSTANCE of this class scans the classpath and creates a Map with keys the
- unqualified class name and values the corresponding Class object. The first
+ * An INSTANCE of this class scans the classpath and creates a Map with keys the
+ * unqualified class name and values the corresponding Class object. The first
  * found Class object is the one stored.</p>
  * <p>
  * Both jar files and directories on the classpath are scanned. If the user
@@ -33,7 +35,7 @@ import java.util.logging.Logger;
  * directory specified by the key <code>first</code>. This directory is expected
  * to contain jar files that are scanned before any others on the classpath.
  * This allows the user to add classes that will be found and instantiated by
- * the <code>ObjectMaker</code>.</p> 
+ * the <code>ObjectMaker</code>.</p>
  *
  * @author ahbuss
  */
@@ -42,9 +44,9 @@ public class ClassFinder {
     private static final Logger LOGGER = Logger.getLogger(ClassFinder.class.getName());
 
     private static final String DEFAULT_EXT_DIR = "ext";
-    
+
     private static final ClassFinder INSTANCE;
-        
+
     static {
         INSTANCE = new ClassFinder();
     }
@@ -57,6 +59,10 @@ public class ClassFinder {
     }
 
     private final Map<String, Class<?>> foundByQualifiedName;
+
+    private final Map<String, Class<? extends RandomVariate>> randomVariateClasses;
+
+    private final Map<String, Class<? extends RandomNumber>> randomNumberClasses;
 
     private final List<URL> jarFileURLs;
 
@@ -71,6 +77,8 @@ public class ClassFinder {
     protected ClassFinder() {
         this.firstDirectory = DEFAULT_EXT_DIR;
         foundByQualifiedName = new HashMap<>();
+        randomVariateClasses = new HashMap<>();
+        randomNumberClasses = new HashMap<>();
         jarFileURLs = new ArrayList<>();
         dirURLs = new ArrayList<>();
         skippedJars = new ArrayList<>();
@@ -79,7 +87,7 @@ public class ClassFinder {
         findJarFiles();
         loadClasses();
     }
-    
+
     /**
      * Load the skipped jar names from config/skippedJars.properties into
      * skippedJars List
@@ -99,7 +107,7 @@ public class ClassFinder {
                     }
                 }
             } else {
-                LOGGER.log(Level.WARNING, "No config file found: {0}", configFile.getAbsolutePath());
+                LOGGER.log(Level.FINE, "No config file found: {0}", configFile.getAbsolutePath());
             }
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -122,7 +130,7 @@ public class ClassFinder {
                 }
             }
         } else {
-            LOGGER.log(Level.WARNING, "No extension directory named {0} found", firstDirFile.getAbsolutePath());
+            LOGGER.log(Level.FINE, "No extension directory named {0} found", firstDirFile.getAbsolutePath());
         }
         String[] classPathElements
                 = System.getProperty("java.class.path").split(System.getProperty("path.separator"));
@@ -152,6 +160,7 @@ public class ClassFinder {
      * loaded from the ones in jarFileURLs and compiled class files from the
      * dirURLs Lists.
      */
+    @SuppressWarnings("unchecked")
     private void loadClasses() {
         for (URL url : jarFileURLs) {
             try {
@@ -169,8 +178,19 @@ public class ClassFinder {
                                 foundByQualifiedName.put(unqualifiedName, theClass);
                             }
                             foundByQualifiedName.put(theClass.getName(), theClass);
+                            if (RandomVariate.class.isAssignableFrom(theClass)) {
+                                randomVariateClasses.put(theClass.getName(), (Class<? extends RandomVariate>) theClass);
+                                randomVariateClasses.put(theClass.getName().replace("Variate", ""), (Class<? extends RandomVariate>) theClass);
+                                randomVariateClasses.put(theClass.getSimpleName().replace("Variate", ""), (Class<? extends RandomVariate>) theClass);
+                                randomVariateClasses.put(findUnqualifiedNameFor(theClass), (Class<? extends RandomVariate>) theClass);
+                            }
+                            if (RandomNumber.class.isAssignableFrom(theClass)) {
+                                randomNumberClasses.put(theClass.getName(), (Class<? extends RandomNumber>) theClass);
+                                randomNumberClasses.put(theClass.getSimpleName(), (Class<? extends RandomNumber>) theClass);
+                            }
+
                         } catch (ClassNotFoundException | NoClassDefFoundError ex) {
-                            LOGGER.log(Level.WARNING, "Jarfile {0} can''t load class {1}",
+                            LOGGER.log(Level.FINE, "Jarfile {0} can''t load class {1}",
                                     new Object[]{jarFile.getName(), nextEntry});
                         }
                     }
@@ -207,6 +227,7 @@ public class ClassFinder {
      * @param file directory or file; if file, attempt to load it if it is a
      * .class file
      */
+    @SuppressWarnings("unchecked")
     private void loadClassesFromDirectory(File dirFile, File file) {
         if (file.isFile()) {
             if (file.getName().endsWith(".class") && !file.getName().contains("$")) {
@@ -215,6 +236,16 @@ public class ClassFinder {
                     Class<?> theClass = urlClassLoader.loadClass(className);
                     foundByQualifiedName.put(findUnqualifiedNameFor(theClass), theClass);
                     foundByQualifiedName.put(theClass.getName(), theClass);
+                    if (RandomVariate.class.isAssignableFrom(theClass)) {
+                        randomVariateClasses.put(theClass.getName(), (Class<? extends RandomVariate>) theClass);
+                        randomVariateClasses.put(theClass.getName().replace("Variate", ""), (Class<? extends RandomVariate>) theClass);
+                        randomVariateClasses.put(theClass.getSimpleName().replace("Variate", ""), (Class<? extends RandomVariate>) theClass);
+                        randomVariateClasses.put(findUnqualifiedNameFor(theClass), (Class<? extends RandomVariate>) theClass);
+                    }
+                    if (RandomNumber.class.isAssignableFrom(theClass)) {
+                        randomNumberClasses.put(theClass.getName(), (Class<? extends RandomNumber>) theClass);
+                        randomNumberClasses.put(theClass.getSimpleName(), (Class<? extends RandomNumber>) theClass);
+                    }
                 } catch (ClassNotFoundException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 }
@@ -290,6 +321,20 @@ public class ClassFinder {
      */
     public Class<?> findClassByUnqualifiedName(String unqualifiedName) {
         return foundByQualifiedName.get(unqualifiedName);
+    }
+
+    /**
+     * @return the randomVariateClasses
+     */
+    public Map<String, Class<? extends RandomVariate>> getRandomVariateClasses() {
+        return new HashMap<>(randomVariateClasses);
+    }
+
+    /**
+     * @return the randomNumberClasses
+     */
+    public Map<String, Class<? extends RandomNumber>> getRandomNumberClasses() {
+        return randomNumberClasses;
     }
 
     /**

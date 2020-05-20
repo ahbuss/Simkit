@@ -10,7 +10,7 @@ public class VersionTest extends TestCase {
     
     private static final int MAJOR_VERSION = 1;
     private static final int MINOR_VERSION = 5;
-    private static final int SUB_MINOR_VERSION = 1;
+    private static final int SUB_MINOR_VERSION = 2;
     
     public VersionTest(String testName) {
         super(testName);
@@ -38,6 +38,7 @@ public class VersionTest extends TestCase {
         assertTrue(Version.isAtLeastVersion("1.3.5"));
         assertTrue(Version.isAtLeastVersion("1.3.8"));
         assertTrue(Version.isAtLeastVersion("1.4.0"));
+        assertTrue(Version.isAtLeastVersion("1.5.0"));
     }
 
 }

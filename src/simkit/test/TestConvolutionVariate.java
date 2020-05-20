@@ -22,7 +22,7 @@ public class TestConvolutionVariate {
         RandomNumber rand = RandomNumberFactory.getInstance(CongruentialSeeds.SEED [4]);  
         
         RandomVariate rv = RandomVariateFactory.getInstance("Convolution", rand, 
-             (Object[]) rvarray );
+             new Object[] {rvarray} );
         
         System.out.println(rv);
         
@@ -32,7 +32,7 @@ public class TestConvolutionVariate {
         rvarray[1] = RandomVariateFactory.getInstance("Constant", 2.0);
         rvarray[2] = RandomVariateFactory.getInstance("Constant", 3.2);
         
-        rv = RandomVariateFactory.getInstance("Convolution", (Object[]) rvarray );
+        rv = RandomVariateFactory.getInstance("Convolution", new Object[] {rvarray} );
         
         System.out.println(rv);
         

@@ -22,7 +22,7 @@ public class TestRandomNumberFactory {
         theClass = RandomNumberFactory.getClassFor("simkit.test.DummyGenerator");
         System.out.println(theClass);
         System.out.println(RandomNumberFactory.getCache());
-        RandomNumberFactory.addSearchPackage("simkit.test");
+//        RandomNumberFactory.addSearchPackage("simkit.test");
         theClass = RandomNumberFactory.getClassFor("DummyGenerator");
         System.out.println(theClass);
         System.out.println(RandomNumberFactory.getCache());

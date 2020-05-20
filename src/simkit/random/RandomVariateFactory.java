@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import simkit.util.ClassFinder;
 
 /**
  * Factory for creating <CODE>RandomVariate</CODE> instances from "orders". The
@@ -67,7 +68,7 @@ public class RandomVariateFactory {
      * Holds a cache of the RandomVariate Classes that have already been found
      * indexed by their name.
      */
-    protected static Map<String, Class<? extends RandomVariate>> cache;
+    protected static final Map<String, Class<? extends RandomVariate>> cache;
     /**
      * A list of packages to search for RandomVariates if the class name given
      * is not fully qualified.
@@ -106,10 +107,6 @@ public class RandomVariateFactory {
      * String
      */
     private static final Pattern NAME_PATTERN;
-
-    static {
-        NAME_PATTERN = Pattern.compile(NAME_REGEX);
-    }
 
     /**
      *
@@ -154,9 +151,10 @@ public class RandomVariateFactory {
     }
 
     static {
+        NAME_PATTERN = Pattern.compile(NAME_REGEX);
         SEARCH_PACKAGES = new LinkedHashSet<>();
         SEARCH_PACKAGES.add("simkit.random");
-        cache = new WeakHashMap<>();
+        cache = ClassFinder.getINSTANCE().getRandomVariateClasses();
         setDefaultRandomNumber(RandomNumberFactory.getInstance());
     }
 
@@ -186,8 +184,12 @@ public class RandomVariateFactory {
             throw new IllegalArgumentException("null class name");
         }
         // First check cache
-        Class<? extends RandomVariate> randomVariateClass = cache.get(className);
-        if (randomVariateClass == null) {
+        Class<? extends RandomVariate> randomVariateClass;
+        if (cache.containsKey(className)) {
+            randomVariateClass = cache.get(className);
+        } else if (cache.containsKey(className.concat("Variate"))) {
+            randomVariateClass = cache.get(className);
+        } else {
             randomVariateClass = findFullyQualifiedNameFor(className);
             if (randomVariateClass == null) {
                 // The name may be the distribution - try appending "Variate"
@@ -226,6 +228,11 @@ public class RandomVariateFactory {
         }
         RandomVariate instance = null;
         Class<? extends RandomVariate> randomVariateClass = cache.get(className);
+        if (cache.containsKey(className)) {
+            randomVariateClass = cache.get(className);
+        } else if (cache.containsKey(className.concat("Variate"))) {
+            randomVariateClass = cache.get(className);
+        }
         if (randomVariateClass == null) {
             randomVariateClass = findFullyQualifiedNameFor(className);
         }

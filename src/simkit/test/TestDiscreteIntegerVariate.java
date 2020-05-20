@@ -25,7 +25,7 @@ public class TestDiscreteIntegerVariate {
      */
     public static void main(String[] args) {
 
-        RandomVariateFactory.addSearchPackage("random");
+//        RandomVariateFactory.addSearchPackage("random");
         DiscreteRandomVariate rv
                 = RandomVariateFactory.getDiscreteRandomVariateInstance(
                         "DiscreteInteger", new int[]{0, 5},
