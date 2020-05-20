@@ -20,7 +20,7 @@ public class ConvolutionVariate extends RandomVariateBase {
 
     /**
      * The array of RandomVariates that are summed.
-*
+     *
      */
     private RandomVariate[] rv;
 
@@ -62,9 +62,11 @@ public class ConvolutionVariate extends RandomVariateBase {
      *
      * Sets the underlying RandomVariates.
      *
-     * @param params A single element array containing an array of RandomVariates.
+     * @param params A single element array containing an array of
+     * RandomVariates.
      * @throws IllegalArgumentException If obj is length 0
-     * @throws IllegalArgumentException if any elements of obj are not RandomVariates
+     * @throws IllegalArgumentException if any elements of obj are not
+     * RandomVariates
      */
     @Override
     public void setParameters(Object... params) {
@@ -78,10 +80,12 @@ public class ConvolutionVariate extends RandomVariateBase {
         ArrayList<Integer> badArgs = new ArrayList<>();
         RandomVariate[] variates = new RandomVariate[array.length];
         for (int i = 0; i < array.length; ++i) {
-            if (!(array[i] instanceof RandomVariate)) {
-                badArgs.add(i);
-            } else {
+            if (array[i] instanceof RandomVariate) {
                 variates[i] = (RandomVariate) array[i];
+            } else if (array[i] instanceof String) {
+                variates[i] = RandomVariateFactory.getInstance(array[i].toString());
+            } else {
+                badArgs.add(i);
             }
         }
 
