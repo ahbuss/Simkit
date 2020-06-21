@@ -30,6 +30,14 @@ public class TestObjectMultiStatTimeVarying {
         Schedule.startSimulation();
         
         System.out.println(stat);
+        
+        
+        Schedule.reset();
+        stat.reset();
+        Schedule.startSimulation();
+        
+        System.out.println("Second rep:");
+        System.out.println(stat);
     }
 
 }

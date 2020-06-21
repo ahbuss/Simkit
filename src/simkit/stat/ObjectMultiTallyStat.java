@@ -27,7 +27,11 @@ public class ObjectMultiTallyStat extends SimpleStatsTally implements ObjectInde
     @Override
     public void reset() {
         super.reset();
-        stats.clear();
+        if (stats != null) {
+            for (SampleStatistics stat : stats.values()) {
+                stat.reset();
+            }
+        }
     }
 
     @Override
@@ -173,9 +177,9 @@ public class ObjectMultiTallyStat extends SimpleStatsTally implements ObjectInde
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(getName()).append(' ').append('(').append(getSamplingType()).append(')');
-        for (Object source: stats.keySet()) {
+        for (Object source : stats.keySet()) {
             if (source instanceof SimEntity) {
-                builder.append(NL).append(((SimEntity)source).getName());
+                builder.append(NL).append(((SimEntity) source).getName());
                 builder.append(stats.get(source).getDataLine());
             }
         }

@@ -17,12 +17,21 @@ public class ObjectMultiTimeVaryingStat extends SimpleStatsTimeVarying implement
     private final Map<Object, SampleStatistics> allSampleStat;
 
     public ObjectMultiTimeVaryingStat() {
-        this.allSampleStat = new HashMap<>();        
+        this.allSampleStat = new HashMap<>();
     }
-    
+
     public ObjectMultiTimeVaryingStat(String property) {
         this();
         setName(property);
+    }
+
+    public void reset() {
+        super.reset();
+        if (allSampleStat != null) {
+            for (SampleStatistics stat : allSampleStat.values()) {
+                stat.reset();
+            }
+        }
     }
 
     @Override
