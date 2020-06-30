@@ -1,5 +1,6 @@
 package simkit.stat;
 
+import simkit.BasicEventList;
 import simkit.SimEntityBase;
 
 /**
@@ -104,7 +105,13 @@ public class TruncatingSimpleStatsTimeVarying extends SimpleStatsTimeVarying {
         }
         this.truncationPoint = truncationPoint;
     }
-
+    
+    public void setEventList(BasicEventList eventList) {
+        super.setEventList(eventList);
+        truncate.setEventList(eventList);
+        setEventListID(eventList.getID());
+    }
+    
     /**
      * This class is responsible for scheduling truncation at exactly the
      * correct time.

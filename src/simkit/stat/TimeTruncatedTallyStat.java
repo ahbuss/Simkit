@@ -1,5 +1,6 @@
 package simkit.stat;
 
+import simkit.BasicEventList;
 import simkit.Priority;
 import simkit.SimEntityBase;
 
@@ -94,6 +95,10 @@ public class TimeTruncatedTallyStat extends SimpleStatsTally {
         return super.toString() + " " + isTruncated();
     }
 
+    public void setEventList(BasicEventList eventList) {
+        truncator.setEventList(eventList);
+    }
+    
     /**
      * This class schedules a Truncate event at time given by truncationTime
      */
