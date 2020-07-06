@@ -36,7 +36,7 @@ import java.util.logging.Level;
  */
 public class EventList implements BasicEventList {
 
-    public static final Logger log = Logger.getLogger("simkit");
+    public static final Logger LOGGER = Logger.getLogger(EventList.class.getName());
 
     /**
      * The default setting for fastInterrupts (TRUE).
@@ -390,7 +390,7 @@ public class EventList implements BasicEventList {
             entryCounter++;
         }
         if (isReallyVerbose()) {
-            log.log(Level.INFO, "{0}: reset() called", getSimTime());
+            LOGGER.log(Level.INFO, "{0}: reset() called", getSimTime());
         }
         clearEventList();
         running = false;
@@ -401,7 +401,7 @@ public class EventList implements BasicEventList {
             for (Iterator i = reRun.iterator(); i.hasNext();) {
                 ReRunnable simEntity = (ReRunnable) i.next();
                 if (isReallyVerbose()) {
-                    log.log(Level.INFO, "{0}: Checking rerun {1} [rerunnable?] {2}",
+                    LOGGER.log(Level.INFO, "{0}: Checking rerun {1} [rerunnable?] {2}",
                             new Object[]{getSimTime(), simEntity, simEntity.isReRunnable()});
                 }
                 if (simEntity.isPersistant()) {
@@ -561,7 +561,7 @@ public class EventList implements BasicEventList {
             }
         }
         if (isReallyVerbose()) {
-            log.log(Level.INFO, "\n{0}: Event {1} Scheduled by {2}", new Object[]{getSimTime(), event, event.getSource()});
+            LOGGER.log(Level.INFO, "\n{0}: Event {1} Scheduled by {2}", new Object[]{getSimTime(), event, event.getSource()});
             //dump();
         }
     }
@@ -609,7 +609,7 @@ public class EventList implements BasicEventList {
             }
             simTime = currentSimEvent.getScheduledTime();
             if (reallyVerbose) {
-                log.log(Level.INFO, "{0}: Processing {1}  source={2}",
+                LOGGER.log(Level.INFO, "{0}: Processing {1}  source={2}",
                         new Object[]{simTime, currentSimEvent, currentSimEvent.getSource()});
             }
 
@@ -747,7 +747,7 @@ public class EventList implements BasicEventList {
             }
         }
         if (isVerbose()) {
-            log.info("Simulation is paused");
+            LOGGER.info("Simulation is paused");
         }
     }
 
@@ -794,7 +794,7 @@ public class EventList implements BasicEventList {
                     && (event.interruptParametersMatch(parameters))
                     && (event.isPending())) {
                 if (reallyVerbose) {
-                    log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), event});
+                    LOGGER.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), event});
                 }
                 i.remove();
                 if (fastInterrupts) {
@@ -830,7 +830,7 @@ public class EventList implements BasicEventList {
                     SimEvent simEvent = i.next();
                     if (simEvent.getSource() == simEntity) {
                         if (reallyVerbose) {
-                            log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), simEvent});
+                            LOGGER.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), simEvent});
                         }
                         i.remove();
                     }
@@ -857,7 +857,7 @@ public class EventList implements BasicEventList {
                 if ((simEvent.getSource() == simEntity)
                         && (simEvent.getEventName().equals(eventName))) {
                     if (reallyVerbose) {
-                        log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), simEvent});
+                        LOGGER.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), simEvent});
                     }
                     i.remove();
                     if (fastInterrupts) {
@@ -892,7 +892,7 @@ public class EventList implements BasicEventList {
                         && (simEvent.getEventName().equals(eventName))
                         && (simEvent.interruptParametersMatch(parameters))) {
                     if (reallyVerbose) {
-                        log.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), simEvent});
+                        LOGGER.log(Level.INFO, "\n{0}: Cancelling {1}", new Object[]{getSimTime(), simEvent});
                     }
                     i.remove();
                     if (fastInterrupts) {
@@ -1106,7 +1106,7 @@ public class EventList implements BasicEventList {
         }
         boolean temp = events.add(event);
         if (!temp) {
-            log.log(Level.WARNING, "{0}: The following SimEvent was already in the entity hash {1}", new Object[]{getSimTime(), event});
+            LOGGER.log(Level.WARNING, "{0}: The following SimEvent was already in the entity hash {1}", new Object[]{getSimTime(), event});
         }
         return temp;
     }
@@ -1125,13 +1125,13 @@ public class EventList implements BasicEventList {
         SimEventScheduler source = event.getSource();
         SortedSet<SimEvent> events = entityEventMap.get(source);
         if (events == null) {
-            log.log(Level.WARNING, "{0}"
+            LOGGER.log(Level.WARNING, "{0}"
                     + ": There are no events for the owner of the SimEvent " + " in the entity hash. The event was {1}", new Object[]{getSimTime(), event});
             return false;
         }
         boolean temp = events.remove(event);
         if (!temp) {
-            log.log(Level.WARNING, "{0}: The following SimEvent was not found in the entity hash {1}", new Object[]{getSimTime(), event});
+            LOGGER.log(Level.WARNING, "{0}: The following SimEvent was not found in the entity hash {1}", new Object[]{getSimTime(), event});
         }
         return temp;
     }
@@ -1155,7 +1155,7 @@ public class EventList implements BasicEventList {
         }
         boolean temp = events.add(event);
         if (!temp) {
-            log.log(Level.WARNING, "{0}: The following SimEvent was already in the Integer hash {1}", new Object[]{getSimTime(), event});
+            LOGGER.log(Level.WARNING, "{0}: The following SimEvent was already in the Integer hash {1}", new Object[]{getSimTime(), event});
         }
         return temp;
     }
@@ -1181,7 +1181,7 @@ public class EventList implements BasicEventList {
             }
         }
         if (!temp) {
-            log.log(Level.WARNING, "{0}"
+            LOGGER.log(Level.WARNING, "{0}"
                     + ": The following SimEvent was not found in the " + " hash event Map.{1}", new Object[]{getSimTime(), event});
         }
         return temp;

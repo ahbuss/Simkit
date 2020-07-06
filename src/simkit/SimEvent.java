@@ -8,19 +8,13 @@ package simkit;
  * @author Arnold Buss
  * @since Simkit 1.0
  *
- *
  */
 public class SimEvent implements Comparable<SimEvent> {
 
     // static variables
     public static final double DEFAULT_PRIORITY = 0.0;
 
-    // static initializer
-    static {
-        resetID();
-    }
-
-    protected static int nextID;
+    protected static int nextID = 0;
 
     // instance variables
     /**
@@ -508,10 +502,6 @@ public class SimEvent implements Comparable<SimEvent> {
         }
         buf.append(')');
         return buf.toString();
-    }
-
-    public static void resetID() {
-        nextID = 0;
     }
 
     /**
