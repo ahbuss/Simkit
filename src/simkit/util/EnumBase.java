@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +15,7 @@ import java.util.logging.Logger;
  * want to be able to define types at runtime.
  * <p>
  *
- * 
+ *
  * @version Copied from NpsTracCommon at rev EnumBase.java 24 2007-12-04
  * 22:16:48Z.
  * @author John Ruck (Rolands and Associates Corporation)
@@ -22,8 +23,7 @@ import java.util.logging.Logger;
  */
 public abstract class EnumBase implements Comparable<EnumBase> {
 
-    public static final String _VERSION_ = "$Id$";
-    public static final Logger LOGGER = Logger.getLogger("simkit.util");
+    public static final Logger LOGGER = Logger.getLogger(EnumBase.class.getName());
     /**
      * The name that this enum is identified by.
      *
@@ -31,7 +31,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
     protected String name;
     /**
      * The order in which this enum was created. (zero based) The serial will be
-     * unique across all enums. 
+     * unique across all enums.
      *
      */
     protected int serial;
@@ -39,9 +39,9 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      * The serial of the next enum to be created.
      *
      */
-    protected static int nextSerial = 0;
+    protected static final AtomicInteger NEXT_ID = new AtomicInteger();
     /**
-     * Holds the list of different types of enums 
+     * Holds the list of different types of enums
      *
      */
     protected static Map<Class<?>, Map<String, EnumBase>> types = new LinkedHashMap<>();
@@ -56,8 +56,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      */
     public EnumBase(String theName) {
         this.name = theName;
-        this.serial = nextSerial;
-        nextSerial++;
+        this.serial = NEXT_ID.getAndIncrement();
         put(this);
     }
 
@@ -75,16 +74,6 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      */
     public int getSerial() {
         return serial;
-    }
-
-    /**
-     * Returns the next serial.
-     *
-     * @return the nextSerial
-     *
-     */
-    public static int getNextSerial() {
-        return nextSerial;
     }
 
     /**
@@ -223,7 +212,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      *
      */
     public static void clear() {
-        nextSerial = 0;
+        NEXT_ID.set(0);
         types.clear();
     }
 
