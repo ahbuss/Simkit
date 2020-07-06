@@ -1,5 +1,7 @@
 package simkit;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Class for simulation events. We will now let the garbage collector do its job
  * - i.e. no more object pooling with the SimEventFactory.
@@ -14,7 +16,7 @@ public class SimEvent implements Comparable<SimEvent> {
     // static variables
     public static final double DEFAULT_PRIORITY = 0.0;
 
-    protected static int nextID = 0;
+    private static final AtomicInteger NEXT_ID = new AtomicInteger();
 
     // instance variables
     /**
@@ -149,8 +151,8 @@ public class SimEvent implements Comparable<SimEvent> {
         fmn.append(')');
         fullMethodName = fmn.toString();
         setWaitState(SimEventState.WAITING);
-        id = ++nextID;
-    }       // SimEvent constructor
+        this.id = NEXT_ID.incrementAndGet();
+    }
 
     public SimEvent(SimEventScheduler source, String name, double delay) {
         this(source, name, null, delay, Priority.DEFAULT);

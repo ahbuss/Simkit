@@ -7,10 +7,9 @@ import simkit.Schedule;
 import simkit.SimEntityBase;
 
 /**
- * Implements the simplest movement logic. Each maneuver is at a
- * constant velocity at no greater than the maximum possible speed.
+ * Implements the simplest movement logic. Each maneuver is at a constant
+ * velocity at no greater than the maximum possible speed.
  *
- * @version $Id: BasicLinearMover.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
  */
 public class BasicLinearMover extends SimEntityBase implements Mover {
@@ -18,8 +17,8 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     /**
      * For formatting numbers to enhance readability when debugging
      */
-    public static final DecimalFormat FORM =
-            new DecimalFormat("0.0000;-0.0000");
+    public static final DecimalFormat FORM
+            = new DecimalFormat("0.0000;-0.0000");
 
     /**
      * "Not a Point"
@@ -29,7 +28,7 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
 
 //    Parameters
     private Point2D initialLocation;
-    
+
     private double maxSpeed;
 
 //    State variables
@@ -42,18 +41,19 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     protected Point2D destination;
 
     protected double currentSpeed;
-    
+
     /**
-     * Zero-parameter constructor for Javabeans support and for building
-     * from input data by instantiating, then setting parameters.
+     * Zero-parameter constructor for Javabeans support and for building from
+     * input data by instantiating, then setting parameters.
      */
-    public BasicLinearMover() { 
+    public BasicLinearMover() {
         velocity = new Point2D.Double(0.0, 0.0);
     }
 
     /**
-     * Instantiate a BasicLinearMover with the given name, initialLocation,
-     * and maxSpeed.BasicLinearMover
+     * Instantiate a BasicLinearMover with the given name, initialLocation, and
+     * maxSpeed.BasicLinearMover
+     *
      * @param name Name for identification purposes
      * @param initialLocation initial location of Mover
      * @param maxSpeed maximum possible speed
@@ -64,8 +64,8 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     }
 
     /**
-     * Instantiate a BasicLinearMover with the given initialLocation
-     *  maxSpeed. Uses the default name of SimEntityBase.
+     * Instantiate a BasicLinearMover with the given initialLocation maxSpeed.
+     * Uses the default name of SimEntityBase.
      *
      * @param initialLocation initial location of Mover
      * @param maxSpeed maximum possible speed
@@ -103,9 +103,10 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     }
 
     /**
-     * Start moving at desiredSpeed to destination indicated.
-     * Set destination to first parameter and currentSpeed to second.
-     * Schedule StartMove(this) with 0.0 delay.
+     * Start moving at desiredSpeed to destination indicated. Set destination to
+     * first parameter and currentSpeed to second. Schedule StartMove(this) with
+     * 0.0 delay.
+     *
      * @param dest destination
      * @param desiredSpeed speed to move
      */
@@ -122,9 +123,9 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     }
 
     /**
-     * Start moving at maximum speed to destination.
-     * Set destination to parameter.
-     * Schedule StartMove(this) with 0.0 delay.
+     * Start moving at maximum speed to destination. Set destination to
+     * parameter. Schedule StartMove(this) with 0.0 delay.
+     *
      * @param dest destination
      */
     public void doMoveTo(Point2D dest) {
@@ -140,9 +141,10 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     }
 
     /**
-     * Set startMoveTime to simTime, set velocity to match current speed
-     * and destination. Compute moveTime and Schedule EndMove(this) with
-     * delay of moveTime.
+     * Set startMoveTime to simTime, set velocity to match current speed and
+     * destination. Compute moveTime and Schedule EndMove(this) with delay of
+     * moveTime.
+     *
      * @param me Reference to this Mover for listener purposes
      */
     @Override
@@ -155,17 +157,17 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
         double moveTime = distance / getCurrentSpeed();
         velocity = moveTime > 0.0 ? new Point2D.Double(
                 (destination.getX() - lastStopLocation.getX()) / moveTime,
-                (destination.getY() - lastStopLocation.getY())/moveTime) :
-                new Point2D.Double(0.0, 0.0) ;
+                (destination.getY() - lastStopLocation.getY()) / moveTime)
+                : new Point2D.Double(0.0, 0.0);
         firePropertyChange("velocity", oldVelocity, getVelocity());
 
         waitDelay("EndMove", moveTime, this);
     }
 
     /**
-     * After this event, the Mover may immediately be ordered to move
-     * again. Set velocity and speed to 0.
-     * Set lastStopLocation to destination.
+     * After this event, the Mover may immediately be ordered to move again. Set
+     * velocity and speed to 0. Set lastStopLocation to destination.
+     *
      * @param me Reference to this Mover for listener purposes
      */
     public void doEndMove(Mover me) {
@@ -183,13 +185,13 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
         Point2D oldLastStopLocation = getLastStopLocation();
         lastStopLocation = destination;
         firePropertyChange("lastStopLocation", oldLastStopLocation,
-                getLastStopLocation() );
+                getLastStopLocation());
     }
 
     /**
-     * Event scheduled by another component that orders this Mover to
-     * actually stop.
-     * Schedule Stop(this).
+     * Event scheduled by another component that orders this Mover to actually
+     * stop. Schedule Stop(this).
+     *
      * @param mover This Mover
      */
     public void doOrderStop(Mover mover) {
@@ -198,6 +200,7 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
 
     /**
      * Full stop. If actually moving, interrupt EndMove(this).
+     *
      * @param mover This Mover.
      */
     @Override
@@ -208,7 +211,7 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
         Point2D oldLastStopLocation = getLastStopLocation();
         lastStopLocation = getCurrentLocation();
         firePropertyChange("lastStopLocation", oldLastStopLocation,
-                getLastStopLocation() );
+                getLastStopLocation());
 
         startMoveTime = getEventList().getSimTime();
         firePropertyChange("startMoveTime", getStartMoveTime());
@@ -227,8 +230,9 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     }
 
     /**
-     * Derived state from initial conditions of equation of motion:
-     * x(t) = x0 + (t - t0) v
+     * Derived state from initial conditions of equation of motion: x(t) = x0 +
+     * (t - t0) v
+     *
      * @return Current location
      */
     @Override
@@ -239,7 +243,7 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
             double timeMoving = Schedule.getSimTime() - getStartMoveTime();
             return new Point2D.Double(
                     lastStopLocation.getX() + timeMoving * velocity.getX(),
-                    lastStopLocation.getY() + timeMoving * velocity.getY() );
+                    lastStopLocation.getY() + timeMoving * velocity.getY());
         }
     }
 
@@ -283,9 +287,9 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
      * @return the lastStopLocation or NaP if not initialized
      */
     public Point2D getLastStopLocation() {
-        return lastStopLocation != null? 
-                new Point2D.Double(lastStopLocation.getX(), lastStopLocation.getY()) :
-                NaP;
+        return lastStopLocation != null
+                ? new Point2D.Double(lastStopLocation.getX(), lastStopLocation.getY())
+                : NaP;
     }
 
     /**
@@ -311,9 +315,9 @@ public class BasicLinearMover extends SimEntityBase implements Mover {
     public String toString() {
         Point2D currentLocation = getCurrentLocation();
         Point2D vel = getVelocity();
-        return getName() + " [" + FORM.format(currentLocation.getX()) +
-                ", " + FORM.format(currentLocation.getY()) + "] [" +
-                FORM.format(vel.getX()) + ", " + FORM.format(vel.getY()) + "]";
+        return getName() + " [" + FORM.format(currentLocation.getX())
+                + ", " + FORM.format(currentLocation.getY()) + "] ["
+                + FORM.format(vel.getX()) + ", " + FORM.format(vel.getY()) + "]";
     }
 
     public String paramString() {

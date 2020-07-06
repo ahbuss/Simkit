@@ -1,6 +1,7 @@
 package simkit.random;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Title:          RngStream.java<br>
@@ -71,7 +72,7 @@ public class RngStream implements RandomNumberStream {
         {32183930.0, 1464411153.0, 1022607788.0},
         {2824425944.0, 32183930.0, 2093834863.0}};
     
-    private static int NEXT_ID = 0;
+    private static AtomicInteger NEXT_ID = new AtomicInteger();
     
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // Private variables (fields) for each stream.
@@ -294,7 +295,7 @@ public class RngStream implements RandomNumberStream {
         for (int i = 0; i < 3; ++i) {
             nextSeed[i + 3] = temp[i];
         }
-        id = ++NEXT_ID;
+        id = NEXT_ID.incrementAndGet();
         streamID=0;
         substreamID=0;
         descriptor = "Stream[" + streamID + ":" + substreamID + "]";

@@ -14,8 +14,6 @@
 # tests in simkit.random.RandomNumberFactoryTest to ensure the tests cover
 # the changed or added entries.
 #
-# Version: $Id$
-# Author: $Author$
 
 Exponential:
     className: simkit.random.ExponentialVariate

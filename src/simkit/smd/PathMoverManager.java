@@ -11,7 +11,6 @@ import simkit.SimEntityBase;
  * When started, directs Mover to move to each WayPoint in succession, and when
  * last WayPoint is reached, stop.
  *
- * @version $Id: PathMoverManager.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
  */
 public class PathMoverManager extends SimEntityBase {

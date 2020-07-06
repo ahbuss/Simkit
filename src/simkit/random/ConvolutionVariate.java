@@ -14,8 +14,6 @@ import java.util.logging.Logger;
  */
 public class ConvolutionVariate extends RandomVariateBase {
 
-    public static final String _VERSION_ = "$Id$";
-
     public static final Logger log = Logger.getLogger("simkit.random");
 
     /**

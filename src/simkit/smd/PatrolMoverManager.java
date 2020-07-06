@@ -7,13 +7,13 @@ import java.util.List;
  * Identical functionality to PathMoverManager, except at last WayPoint, start
  * over from the beginning.
  *
- * @version $Id: PatrolMoverManager.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
  */
 public class PatrolMoverManager extends PathMoverManager {
 
-    public PatrolMoverManager() { }
-    
+    public PatrolMoverManager() {
+    }
+
     /**
      * Instantiate a PatrolMoverManager with the indicated Mover instance, list
      * of WayPoints, and whether to start immediately.

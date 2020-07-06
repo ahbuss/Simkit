@@ -1,18 +1,18 @@
 package simkit.smd;
 
 /**
- * Simplest sensor type. This simply relies on the functionality
- * of BasicSensor.
- * @version $Id: CookieCutterSensor.java 81 2009-11-16 22:28:39Z ahbuss $
+ * Simplest sensor type. This simply relies on the functionality of BasicSensor.
+ *
  * @author ahbuss
  */
 public class CookieCutterSensor extends BasicSensor {
 
-    public CookieCutterSensor() { }
-    
+    public CookieCutterSensor() {
+    }
+
     /**
-     * Instantiate a CookieCutterSensor on the Mover with the
-     * given maxRange.
+     * Instantiate a CookieCutterSensor on the Mover with the given maxRange.
+     *
      * @param mover The Mover this Sensor is on.
      * @param maxRange Maximum range.
      */
@@ -22,6 +22,7 @@ public class CookieCutterSensor extends BasicSensor {
 
     /**
      * Replace "BasicSensor" with "CookieCutterSensor"
+     *
      * @return String description
      */
     @Override

@@ -41,7 +41,7 @@ public class EventList implements BasicEventList {
     /**
      * The default setting for fastInterrupts (TRUE).
      */
-    boolean DEFAULT_FAST_INTERRUPTS = true;
+    protected boolean DEFAULT_FAST_INTERRUPTS = true;
 
     /**
      * Holds the pending events.
@@ -218,12 +218,11 @@ public class EventList implements BasicEventList {
      * @param id The id number for this <CODE>EventGraph</CODE> instance
      */
     public EventList(int id) {
-        eventList = Collections.synchronizedSortedSet(
-                new TreeSet<SimEvent>());
+        eventList = Collections.synchronizedSortedSet(new TreeSet<>());
         simTime = 0.0;
         running = false;
         eventCounts = new LinkedHashMap<>();
-        reRun = Collections.synchronizedSortedSet(new TreeSet<ReRunnable>());
+        reRun = Collections.synchronizedSortedSet(new TreeSet<>());
         ignoreOnDump = new LinkedHashSet<>();
         this.id = id;
         setFormat("0.0000");

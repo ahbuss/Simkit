@@ -73,8 +73,6 @@ class B extends A {
  */
 public class SimEntityBaseA extends BasicSimEntity {
 
-    public static final String _VERSION_ =
-            "$Id$";
     private static final Logger LOGGER = Logger.getLogger(SimEntityBaseA.class.getName());
     private boolean eventNamesProcessed = false;
     //  Slightly deep dictionary to look up methods

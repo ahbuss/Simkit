@@ -15,17 +15,16 @@ import simkit.SimEntityBase;
  * Enter/ExitRange events as dictated by the solutions to the quadratic
  * equation.
  *
- * @version $Id: SensorMoverReferee.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
  */
 public class SensorMoverReferee extends SimEntityBase {
 
     public static final double EPSILON = 1.0E-10;
     public static final Point2D ZERO = new Point2D.Double(0.0, 0.0);
-    
+
     protected Set<Mover> movers;
     protected Set<Sensor> sensors;
-    
+
     private SensorMoverMediator defaultMediator;
     private HashMap<Class<? extends Sensor>, HashMap<Class<? extends Mover>, SensorMoverMediator>> mediators;
 

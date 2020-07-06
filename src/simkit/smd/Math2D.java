@@ -25,7 +25,6 @@ import java.util.Set;
  * Contains a library of useful calculations in 2-dimensional space.
  *
  * @author ahbuss
- * @version $Id: Math2D.java 1202 2009-09-01 21:53:10Z kastork $
  */
 public class Math2D {
 
@@ -46,7 +45,7 @@ public class Math2D {
     public static final AffineTransform IDENTITY_TRANSFORM = new AffineTransform();
 
     /**
-     * 
+     *
      * @return copy of ZERO Point
      */
     public static Point2D getZero() {
@@ -68,7 +67,7 @@ public class Math2D {
     /**
      * Computes the vector total of all of the points in the given array.
      *
-     * 
+     *
      * @param points Given array of Point2Ds
      * @return the vector total of all of the points in the given array.
      */
@@ -109,7 +108,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param first Given first Point2D
      * @param second Given second Point2D
      * @return the vector difference between the two points. (first - second)
@@ -120,7 +119,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param value Given scalar value
      * @param point Given Point2D
      * @return the scalar multiplication of the point by the given value.
@@ -131,7 +130,7 @@ public class Math2D {
 
     /**
      * Computes a unit vector in the direction of the argument.
-     * 
+     *
      * @param vector Given Point2D
      * @return a unit vector in the direction of vector, treated as a vector.
      */
@@ -141,7 +140,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param first Point2D
      * @param second Point2D
      * @return the inner product of the two points.
@@ -162,7 +161,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param point given point
      * @return the norm (distance from the origin) of the given point.
      */
@@ -190,7 +189,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param start Given starting Point2D
      * @param velocity Given direction from the starting point
      * @param line Given Line2D to find intersection of
@@ -232,7 +231,7 @@ public class Math2D {
     }
 
     /**
-     *  
+     *
      * @param p1 first Point2D
      * @param p2 second Point2D
      * @return an AffineTransform from the two given points, whose coordinates
@@ -243,7 +242,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param shape given rectangle
      * @return the center of the given rectangle.
      */
@@ -252,7 +251,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param start Starting location
      * @param velocity velocity vector
      * @param curve Given QuadCurve2D to find intersections of
@@ -296,19 +295,19 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param start Starting location
      * @param velocity velocity
      * @param shape Given shape
-     * @return array of Point2Ds that represent the intersections of the 
-     * line formed by the location and velocity and the given shape
+     * @return array of Point2Ds that represent the intersections of the line
+     * formed by the location and velocity and the given shape
      */
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, Shape shape) {
         return findIntersection(start, velocity, shape, IDENTITY_TRANSFORM);
     }
 
     /**
-     * 
+     *
      * @param start Starting point
      * @param velocity Given velocity
      * @param shape Give shape
@@ -340,14 +339,13 @@ public class Math2D {
             }
         }
 
-
         Set<Point2D> uniques = eliminateDuplicates(intersections, 1.0E-12);
 
         return uniques.toArray(new Point2D[uniques.size()]);
     }
 
     /**
-     * 
+     *
      * @param intersections Given List of Point2Ds with possible duplicates
      * @param tolerance Given tolerance - Point2Ds within this distance are
      * considered identical
@@ -368,12 +366,12 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param start Starting location
      * @param velocity Given velocity
      * @param ellipse Given Ellipse2D
-     * @return array of Point2Ds that are the intersections, if any, of the
-     * line formed by the starting location and velocity and the given Ellipse2D
+     * @return array of Point2Ds that are the intersections, if any, of the line
+     * formed by the starting location and velocity and the given Ellipse2D
      */
     public static Point2D[] findIntersection(Point2D start, Point2D velocity, Ellipse2D ellipse) {
         Point2D adjustedStart = subtract(start, getCenter(ellipse));
@@ -412,8 +410,8 @@ public class Math2D {
     }
 
     /**
-     * 
-     * @param start Given starting point of 
+     *
+     * @param start Given starting point of
      * @param velocity Given velocity vector
      * @param curve Given CubicCurve2D
      * @return Point at which there is an intersection
@@ -469,7 +467,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param curve Given QuadCurve2D
      * @param lambda Given factor
      * @return Point on given cure indicated by lambda
@@ -558,9 +556,10 @@ public class Math2D {
      * Returns the smallest positive value of the first num members of the given
      * array, where any number less than the tolerance is considered to be
      * non-positive.
-     * 
+     *
      * @param data Given data
-     * @param num Given number of data points to consider (must be &lt; data.length)
+     * @param num Given number of data points to consider (must be &lt;
+     * data.length)
      * @param tolerance Given tolerance
      * @return the smallest positive value of the first num members of the given
      * array, where any number less than the tolerance is considered to be
@@ -583,7 +582,7 @@ public class Math2D {
      * where any number less than the tolerance is considered to be
      * non-positive.
      *
-     * 
+     *
      * @param data Given array
      * @param tolerance Given tolerance
      * @return the smallest positive value of the members of the given array,
@@ -595,7 +594,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param data given array
      * @return the smallest positive value of the members of the given array.
      */
@@ -604,7 +603,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param data given array
      * @return the index of the member of the given array with the largest
      * value.
@@ -622,7 +621,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param line Given Line2d
      * @return Array of endpoints for given Line2D
      */
@@ -634,7 +633,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param quadCurve Given QuadCurve2D
      * @return (TODO: remember this!)
      */
@@ -647,7 +646,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param cubicCurve Given CubicCurve2D
      * @return (TODO: remember this!)
      */
@@ -661,7 +660,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param point Given Point2D
      * @param scale Given scale - if negative, reverses direction of Point
      * @return a Point2D whose vector length is equal to scale.
@@ -671,13 +670,13 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param startingLocation Starting location of pursuer
      * @param speed Given speed of pursuer
      * @param targetLocation target location
      * @param targetVelocity target velocity
-     * @return Point at which pursuer intercepts target at the given speed,
-     * or null if not possible
+     * @return Point at which pursuer intercepts target at the given speed, or
+     * null if not possible
      */
     public static Point2D getIntercept(Point2D startingLocation, double speed,
             Point2D targetLocation, Point2D targetVelocity) {
@@ -752,7 +751,7 @@ public class Math2D {
     /**
      * Computes the Point2D at which the pursuer will intersect the target when
      * the pursuer moves at the given speed. (Assumes Linear Mover).
-     * 
+     *
      * @param pursuer Given pursuer
      * @param speed Given speed of pursuer
      * @param target Given target
@@ -769,10 +768,10 @@ public class Math2D {
 
     /**
      * Computes the intersection point when the pursuer goes at maximum speed.
-     * 
+     *
      * @param pursuer Given pursuer
      * @param target Given target
-     * @return Intercept point when pursuer goes at max speed, or null if 
+     * @return Intercept point when pursuer goes at max speed, or null if
      * intercept is not possible
      */
     public static Point2D getIntercept(Mover pursuer, Mover target) {
@@ -780,11 +779,12 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param pursuer Given pursuer
      * @param speed Given speed of pursuer
      * @param target Given target
-     * @return Velocity vector of pursuer to intercept target, or null if impossible
+     * @return Velocity vector of pursuer to intercept target, or null if
+     * impossible
      */
     public static Point2D getInterceptVelocity(Mover pursuer, double speed, Mover target) {
         Point2D intercept = getIntercept(pursuer, speed, target);
@@ -796,7 +796,7 @@ public class Math2D {
     }
 
     /**
-     * 
+     *
      * @param startingLocation Pursuer starting location
      * @param speed Pursuer speed
      * @param targetLocation Target starting location
@@ -819,6 +819,7 @@ public class Math2D {
 
     /**
      * Pursuer moves at its max speed
+     *
      * @param pursuer Given Mover in pursuit
      * @param target Given Mover target
      * @return Intercept point or null, if interception is impossible
@@ -832,8 +833,8 @@ public class Math2D {
      * target. If the pursuer is already within range, the pursuer's current
      * position is returned.
      *
-     * 
-     * @param pursuer Given Mover in pursuit 
+     *
+     * @param pursuer Given Mover in pursuit
      * @param speed Given speed for the pursuer in pursuit
      * @param range When pursuer is within this range, pause
      * @param target Given Mover target

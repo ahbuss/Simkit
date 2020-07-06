@@ -7,11 +7,10 @@ import simkit.Priority;
 import simkit.SimEntityBase;
 
 /**
- * Abstract base class with much of the common functionality. Location
- * and velocity are delegated to the Mover instance. Certain heard events
- * from the Mover are rescheduled with the Sensor as argument.
+ * Abstract base class with much of the common functionality. Location and
+ * velocity are delegated to the Mover instance. Certain heard events from the
+ * Mover are rescheduled with the Sensor as argument.
  *
- * @version $Id: BasicSensor.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
  */
 public abstract class BasicSensor extends SimEntityBase implements Sensor {
@@ -22,14 +21,13 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
 
     protected Set<Mover> contacts;
 
-    
     /**
      * Instantiate the contacts set.
      */
     public BasicSensor() {
         contacts = new HashSet<>();
     }
-    
+
     /**
      *
      * @param mover The Mover instance this sensor is "on"
@@ -61,6 +59,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
 
     /**
      * Add parameter to list of contacts
+     *
      * @param contact The Mover that has been detected, or its surrogate
      */
     public void doDetection(Mover contact) {
@@ -72,8 +71,8 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
     }
 
     /**
-     * If a surrogate is used, care must be taken by the appropriate
-     * Mediator 
+     * If a surrogate is used, care must be taken by the appropriate Mediator
+     *
      * @param contact The Mover that has been undetected, or its surrogate.
      */
     public void doUndetection(Mover contact) {
@@ -86,6 +85,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
 
     /**
      * Delegated to Mover
+     *
      * @param mover This Sensor's Mover instance
      */
     public void doStartMove(Mover mover) {
@@ -98,6 +98,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
 
     /**
      * Reschedule EndMove for this Sensor
+     *
      * @param mover This Sensor's Mover instance
      */
     public void doEndMove(Mover mover) {
@@ -106,6 +107,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
 
     /**
      * Reschedule Stop for this Sensor
+     *
      * @param mover This Sensor's Mover instance
      */
     public void doStop(Mover mover) {
@@ -115,7 +117,7 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
     @Override
     public void doStop(Sensor sensor) {
     }
-    
+
     @Override
     public Point2D getCurrentLocation() {
         return mover.getCurrentLocation();
@@ -172,6 +174,6 @@ public abstract class BasicSensor extends SimEntityBase implements Sensor {
 
     @Override
     public String toString() {
-        return "BasicSensor " + getMaxRange() + " " +  mover.toString();
+        return "BasicSensor " + getMaxRange() + " " + mover.toString();
     }
 }

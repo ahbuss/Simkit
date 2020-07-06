@@ -1,7 +1,6 @@
 package simkit.smd;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -15,8 +14,6 @@ import java.util.logging.Logger;
  * Adjudicator.
  *
  * @author Arnold Buss
- * @version $Id: MunitionTargetAdjudicatorFactory.java 1083 2008-06-11 20:41:21Z
- * kastork $
  */
 public class MunitionTargetAdjudicatorFactory {
 

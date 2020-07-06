@@ -17,7 +17,6 @@ import simkit.smd.Mover;
 /**
  *
  * @author  ahbuss
- * @version $Id: Inspector.java 81 2009-11-16 22:28:39Z ahbuss $
  */
 public class Inspector implements MouseListener {
     

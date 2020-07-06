@@ -20,9 +20,7 @@ import simkit.SimEntityBase;
  * listens for PropertyChangeEvents, prepends a namespace to the property name,
  * and re-fires the event.
  *
- * @author Arnold Buss
- * @version $Id: ShortestQueueDispatcher.java 1083 2008-06-11 20:41:21Z kastork
- * $
+ * @author Arnold Buss 
  */
 public class ShortestQueueDispatcher extends SimEntityBase {
 
@@ -39,12 +37,12 @@ public class ShortestQueueDispatcher extends SimEntityBase {
      * Creates a new dispatcher that will direct arrivals to the given Servers.
      * Each SimpleServer will have a corresponding
      * {@link PropertyChangeNamespace} that listens for its
- PropertyChangeEvents, prepends the property name with the servers number
- and then re-fires the event. The dispatcher has a PropertyChangeNamespace
- that listens to all of the SimpleServer's PropertyChangeNamespaces and
- re-fires the events. Therefore, any PropertyChangeListener need only
- listen to this dispatcher's events to be informed of all property changes
- on Servers in the system.
+     * PropertyChangeEvents, prepends the property name with the servers number
+     * and then re-fires the event. The dispatcher has a PropertyChangeNamespace
+     * that listens to all of the SimpleServer's PropertyChangeNamespaces and
+     * re-fires the events. Therefore, any PropertyChangeListener need only
+     * listen to this dispatcher's events to be informed of all property changes
+     * on Servers in the system.
      *
      * @param servers Given array of SimpleServers
      */

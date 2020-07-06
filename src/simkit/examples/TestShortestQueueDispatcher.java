@@ -9,8 +9,6 @@ import simkit.util.SimplePropertyDumper;
  * Tests the ShortestQueueDispatcher.
  *
  * @author Arnold Buss
- * @version $Id: TestShortestQueueDispatcher.java 1083 2008-06-11 20:41:21Z
- * kastork $
  */
 public class TestShortestQueueDispatcher {
 

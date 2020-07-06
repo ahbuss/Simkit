@@ -16,7 +16,6 @@ import simkit.actions.visual.ShapeIcon;
 import simkit.smd.Sensor;
 
 /**
- * @version $Id: SensorIcon.java 81 2009-11-16 22:28:39Z ahbuss $
  * @author ahbuss
  */
 public class SensorIcon extends MoverIcon {
@@ -25,6 +24,7 @@ public class SensorIcon extends MoverIcon {
 
     /**
      * Creates a new instance of SensorIcon
+     *
      * @param sensor Given Sensor
      */
     public SensorIcon(Sensor sensor) {

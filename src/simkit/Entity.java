@@ -2,6 +2,7 @@ package simkit;
 
 import java.lang.reflect.Array;
 import java.util.LinkedHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import static simkit.SimEventScheduler.NL;
 
 /**
@@ -29,7 +30,7 @@ public class Entity implements Named, Comparable<Entity> {
 
     public static final String DEFAULT_NAME = "Entity";
 
-    private static int NEXT_ID = 0;
+    private static final AtomicInteger NEXT_ID = new AtomicInteger();
 
     private int id;
 
@@ -53,7 +54,7 @@ public class Entity implements Named, Comparable<Entity> {
         this.setEventList(Schedule.getDefaultEventList());
         creationTime = eventList.getSimTime();
         stampTime();
-        id = ++NEXT_ID;
+        id = NEXT_ID.incrementAndGet();
     }
 
     /**
