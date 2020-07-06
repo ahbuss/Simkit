@@ -17,6 +17,6 @@ public class RunAndPause extends SimEntityBase {
     }
     
     public void doPause() {
-        Schedule.pause();
+        getEventList().pause();
     }
 }

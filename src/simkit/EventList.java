@@ -397,7 +397,6 @@ public class EventList implements BasicEventList {
         currentSimEvent = null;
         stoppingSimulation = false;
         simTime = 0.0;
-        SimEvent.resetID();
         synchronized (reRun) {
             for (Iterator i = reRun.iterator(); i.hasNext();) {
                 ReRunnable simEntity = (ReRunnable) i.next();

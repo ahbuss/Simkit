@@ -1,21 +1,11 @@
 package simkit;
-/////////////////////////// Copyright Notice //////////////////////////
-//                                                                   //
-// This simkit package or sub-package and this file is Copyright (c) //
-// 1997, 1998, 1999 by Kirk A. Stork and Arnold H. Buss under the    //
-// GNU public license.                                               //
-//                                                                   //
-// Please forward any changes, comments or suggestions to:           //
-//   abuss@nps.navy.mil                                              //
-//                                                                   //
-///////////////////////////////////////////////////////////////////////
 
 /**
  * This class provides two ways to "Stop" a simulation. The first, the Stop
  * event stops the entire simulation. The second only cancels the events
  * scheduled by a particular SimEnity.
  *
- * 
+ *
  * @author Arnold Buss
  */
 public class Stop extends SimEntityBase {
@@ -68,6 +58,7 @@ public class Stop extends SimEntityBase {
 
     /**
      * Schedule the simulation to stop at the given time.
+     *
      * @param time given time
      */
     @Override
@@ -77,6 +68,7 @@ public class Stop extends SimEntityBase {
 
     /**
      * Schedule the given SimEntity to be stopped at the given time.
+     *
      * @param entity given SimEntity
      * @param time given time
      */
@@ -86,6 +78,7 @@ public class Stop extends SimEntityBase {
 
     /**
      * Schedule the given SimEntity to be stopped and reset at the given time.
+     *
      * @param entity given SimEntity
      * @param time given time
      */

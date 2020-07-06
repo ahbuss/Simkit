@@ -52,7 +52,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     public static final void resetNextSerial() {
         nextSerial = 0;
     }
-    
+
     static {
         nextSerial = 0;
     }
@@ -517,7 +517,10 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      * Notify registered PropertChangeListeners that the given Object property
      * has changed.
      *
-     * <p>Note: uses <code>PropertyChangeEventX</code> rather than <code>PropertyChangeEvent</code>
+     * <p>
+     * Note: uses <code>PropertyChangeEventX</code> rather than
+     * <code>PropertyChangeEvent</code>
+     *
      * @see PropertyChangeEventX
      * @param propertyName The property that changed.
      * @param oldValue The value of the property prior to this change.
@@ -542,7 +545,8 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     /**
      * Notify registered PropertyChangeListeners that an element of an indexed
      * property has changed.
-     * <p>Note: instantiates <code>IndexedPropertyChangeEventX</code> instead of
+     * <p>
+     * Note: instantiates <code>IndexedPropertyChangeEventX</code> instead of
      * <code>IndexedPropertyChangeEvent</code>
      *
      * @see IndexedPropertyChangeEventX

@@ -62,12 +62,12 @@ public class SimEventRedispatcher extends BasicSimEntity {
     }
 
     /**
-     * If source had previously been set, remove this as a SimEventListener
-     * and remove all the source's as SimEventListener to this instance.
-     * <p>Then add this as a listener to the new source and the new source's
-     * SimEventListeners as SimEventListsners to this.
-     * the listeners of the new source that are also
-     * SimEventSources
+     * If source had previously been set, remove this as a SimEventListener and
+     * remove all the source's as SimEventListener to this instance.
+     * <p>
+     * Then add this as a listener to the new source and the new source's
+     * SimEventListeners as SimEventListsners to this. the listeners of the new
+     * source that are also SimEventSources
      *
      * @param source the source to set
      */
@@ -75,7 +75,7 @@ public class SimEventRedispatcher extends BasicSimEntity {
         if (this.source != null) {
             this.source.removeSimEventListener(this);
             SimEventListener[] listeners = this.getSimEventListeners();
-            for (SimEventListener listener: listeners) {
+            for (SimEventListener listener : listeners) {
                 this.removeSimEventListener(listener);
             }
         }

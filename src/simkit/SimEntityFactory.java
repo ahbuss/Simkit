@@ -14,15 +14,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * <p>Contains static methods that support making exact copies of SimEntity instances.
- * Each copy should have parameters that are identical to the ones in the original.
- * It is up to each SimEntity to ensure that appropriate copies are made by the
- * respective setter methods, if needed.
- * <p>It is crucial that a SimEntity to be copied in this way adhere to the
- * Simkit conventions (which are essentially Javabeans). Specifically, it should
+ * <p>
+ * Contains static methods that support making exact copies of SimEntity
+ * instances. Each copy should have parameters that are identical to the ones in
+ * the original. It is up to each SimEntity to ensure that appropriate copies
+ * are made by the respective setter methods, if needed.
+ * <p>
+ * It is crucial that a SimEntity to be copied in this way adhere to the Simkit
+ * conventions (which are essentially Javabeans). Specifically, it should
  * <ol><li>Have a zero-argument constructor.
  * <li>Have setter/getter pairs for each parameter
  * </ol>
+ *
  * @author ahbuss
  */
 public class SimEntityFactory {
@@ -33,6 +36,7 @@ public class SimEntityFactory {
 
     /**
      * Creates multiple copies in a List.
+     *
      * @param original Given SimEntity to make copies
      * @param quantity Number of copies to create
      * @return List of copies
@@ -55,6 +59,7 @@ public class SimEntityFactory {
      * Creates a copy of the given SimEntity object.As noted, it should conform
      * to Simkit's conventions (zero-argument constructor, setter/getter pairs
      * for each parameter, but not for state variables)
+     *
      * @param original Given SimEntity
      * @return Copy of SimEntity - a new object with identical parameters
      */
@@ -104,10 +109,10 @@ public class SimEntityFactory {
     }
 
     /**
-     * 
+     *
      * @param propertyDescriptor Given PropertyDescriptor
-     * @return true if given PropertyDescriptor is for a "property" - i.e. 
-     * has both a setter and a getter method
+     * @return true if given PropertyDescriptor is for a "property" - i.e. has
+     * both a setter and a getter method
      */
     public static boolean isProperty(PropertyDescriptor propertyDescriptor) {
         if (propertyDescriptor == null) {
@@ -117,7 +122,7 @@ public class SimEntityFactory {
     }
 
     /**
-     * 
+     *
      * @param simEntity Given SimEntity
      * @return Map of parameters with (name, parameterValue)
      */

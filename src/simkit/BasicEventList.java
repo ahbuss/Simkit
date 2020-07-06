@@ -41,8 +41,7 @@ public interface BasicEventList {
     String getStopEventName();
 
     /**
-     * @return Time simulation will end, if
-     * <CODE>stopAtTime</CODE> is set
+     * @return Time simulation will end, if <CODE>stopAtTime</CODE> is set
      */
     double getStopTime();
 
@@ -103,7 +102,7 @@ public interface BasicEventList {
     void interruptAllWithArg(SimEventScheduler simEntity, String eventName, Object parameter);
 
     /**
-     * Interrupt all events scheduled by this simEntity containing at least one 
+     * Interrupt all events scheduled by this simEntity containing at least one
      * of the given parameter in its arguments.
      *
      * @param simEntity Scheduling SimEntity
@@ -112,9 +111,9 @@ public interface BasicEventList {
     void interruptAllWithArg(SimEventScheduler simEntity, Object parameter);
 
     /**
-     * Interrupt all events of the given eventName and having an instance of
-     * the parameter in its arguments regardless of who scheduled it.
-     * 
+     * Interrupt all events of the given eventName and having an instance of the
+     * parameter in its arguments regardless of who scheduled it.
+     *
      * @param eventName Name of events to be canceled
      * @param parameter argument to be matched
      */
@@ -123,7 +122,7 @@ public interface BasicEventList {
     /**
      * Interrupt all events having this parameter in its argument list,
      * regardless of event name and who scheduled it.
-     * 
+     *
      * @param parameter argument to be matched
      */
     void interruptAllWithArg(Object parameter);
@@ -140,18 +139,20 @@ public interface BasicEventList {
 
     /**
      * Cause pending event processing to stop after completing processing of the
-     * current event. <p> It is legal to subsequently call {@code step} or {@code startSimulation}.
+     * current event.
+     * <p>
+     * It is legal to subsequently call {@code step} or {@code startSimulation}.
      * {@code isRunning} will return false after this is called.
      */
     void pause();
 
     /**
-     * Stop processing pending events. <p> Unlike {@code pause} resumption of
-     * the simulation is not supported. After this call there is no guarantee
-     * that previously pending events or any other external references will
-     * remain accessable. It is not legal to subsequently call {@code startSimulation}
-     * or
-     * {@code step}
+     * Stop processing pending events.
+     * <p>
+     * Unlike {@code pause} resumption of the simulation is not supported. After
+     * this call there is no guarantee that previously pending events or any
+     * other external references will remain accessable. It is not legal to
+     * subsequently call {@code startSimulation} or {@code step}
      *
      */
     void stopSimulation();
@@ -175,33 +176,40 @@ public interface BasicEventList {
     /**
      * Starts event list algorithm. While the event list is not empty, advance
      * time to next event and handle that event. An event is "handled" by making
-     * a callback to its
-     * <CODE>handleSimEvent</CODE> method. Then have the owner of the event
-     * notify its listeners of the event.
+     * a callback to its <CODE>handleSimEvent</CODE> method. Then have the owner
+     * of the event notify its listeners of the event.
      */
     void startSimulation();
 
     /**
-     * Process one event <p> Advance time to next event time and handle it. <p>
+     * Process one event
+     * <p>
+     * Advance time to next event time and handle it.
+     * <p>
      * An event is "handled" by making a callback to the scheduler of the event,
-     * invoking its
-     * <CODE>handleSimEvent</CODE> method. <p> Then have the owner of the event
-     * notify its listeners of the event. <p>
-     * {@code isRunning()} should return true after this is called. <p> Note:
-     * Initiating event notifications from this method is a legacy implementation
-     * detail. Newer implementations of this interface will likely not include
-     * this action since it should be the responsibility of the listened-to
-     * object to notify its listeners. That is, an object should not have to be
-     * a SimEventListener in order to schedule and respond to its own events.
-     * Conversely, a {@link SimEventListener} should not have to be a {@link SimEventScheduler}.
+     * invoking its <CODE>handleSimEvent</CODE> method.
+     * <p>
+     * Then have the owner of the event notify its listeners of the event.
+     * <p>
+     * {@code isRunning()} should return true after this is called.
+     * <p>
+     * Note: Initiating event notifications from this method is a legacy
+     * implementation detail. Newer implementations of this interface will
+     * likely not include this action since it should be the responsibility of
+     * the listened-to object to notify its listeners. That is, an object should
+     * not have to be a SimEventListener in order to schedule and respond to its
+     * own events. Conversely, a {@link SimEventListener} should not have to be
+     * a {@link SimEventScheduler}.
      */
     void step();
 
     /**
      * Cause the schedule to stop processing pending events when simulation time
-     * reaches the given value. <p> Calling this method should cause any other
-     * stop method previously called to be ineffective. That is, the last
-     * stop_xxx method invoked should be the definitive one.
+     * reaches the given value.
+     * <p>
+     * Calling this method should cause any other stop method previously called
+     * to be ineffective. That is, the last stop_xxx method invoked should be
+     * the definitive one.
      *
      * @param time Time to stop simulation
      */
@@ -209,9 +217,11 @@ public interface BasicEventList {
 
     /**
      * Cause event processing to stop when the given number of events with this
-     * signature have occurred. <p> Calling this method should cause any other
-     * stop method previously called to be ineffective. That is, the last
-     * stop_xxx method invoked should be the definitive one.
+     * signature have occurred.
+     * <p>
+     * Calling this method should cause any other stop method previously called
+     * to be ineffective. That is, the last stop_xxx method invoked should be
+     * the definitive one.
      *
      * @param numberEvents Number of events to occur
      * @param eventName Name of stop event
@@ -256,11 +266,10 @@ public interface BasicEventList {
     public boolean isPrintEventSources();
 
     /**
-     * Add the SimEntity to the reRun list. On
-     * <CODE>Schedule.reset</CODE> the SimEntity's
-     * <CODE>reset()</CODE> method is invoked and its Run event (if it has one)
-     * is scheduled at time 0.0. This happens only if the SimEntity is
-     * persistant.
+     * Add the SimEntity to the reRun list. On <CODE>BasicEventList.reset</CODE>
+     * the SimEntity's <CODE>reset()</CODE> method is invoked and its Run event
+     * (if it has one) is scheduled at time 0.0. This happens only if the
+     * SimEntity is persistant.
      *
      * @param simEntity SimEntity to be added as a reRun
      */
@@ -317,8 +326,7 @@ public interface BasicEventList {
 
     /**
      * If true, then simulation will pause after each event and resume only on
-     * another call to
-     * {@code startSimulation()}
+     * another call to {@code startSimulation()}
      *
      * @param b Whether this mode is on
      */
@@ -329,8 +337,7 @@ public interface BasicEventList {
     /**
      * Resets instance to pristine condition, as if it were freshly
      * instantiated. All containers are emptied, and various booleans are set to
-     * their default values (typically
-     * <CODE>false</CODE>).
+     * their default values (typically <CODE>false</CODE>).
      */
     public void coldReset();
 
@@ -339,14 +346,12 @@ public interface BasicEventList {
     public PrintStream getOutputStream();
 
     /**
-     * Dumps current event list to the stream set by
-     * {@code setOutputStream()}.
+     * Dumps current event list to the stream set by {@code setOutputStream()}.
      */
     public void dump();
 
     /**
-     * Dumps current event list to the stream set by
-     * {@code setOutputStream()}.
+     * Dumps current event list to the stream set by {@code setOutputStream()}.
      *
      * @param reason Short message to add to dump
      */
@@ -386,7 +391,6 @@ public interface BasicEventList {
      * @param format String for {@code DecimalFormat} of time strings
      */
     public void setFormat(String format);
-
 
     /**
      * @return Number of events before simulation ends

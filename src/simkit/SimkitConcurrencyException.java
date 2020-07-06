@@ -7,13 +7,9 @@ package simkit;
  * simulation is running.
  *
  * @author John Ruck (Rolands and Associates Corporation)
- * @version $Id: SimkitConcurrencyException.java 1083 2008-06-11 20:41:21Z
- * kastork $
-*
+ *
  */
 public class SimkitConcurrencyException extends RuntimeException {
-
-    public static final String _VERSION_ = "$Id$";
 
     public static final String DEFAULT_MESSAGE = "Only one call to "
             + "either startSimulation, reset, or coldReset allowed at a time.";
@@ -28,6 +24,7 @@ public class SimkitConcurrencyException extends RuntimeException {
     /**
      * Constructs a new exception with the given message appended to the default
      * message.
+     *
      * @param message given message
      */
     public SimkitConcurrencyException(String message) {
@@ -37,6 +34,7 @@ public class SimkitConcurrencyException extends RuntimeException {
     /**
      * Constructs a new exception with the given message appended to the default
      * message and the given cause.
+     *
      * @param message Given message
      * @param cause Given Exception
      */
@@ -46,6 +44,7 @@ public class SimkitConcurrencyException extends RuntimeException {
 
     /**
      * Constructs a new exception with the default message and the given cause.
+     *
      * @param cause Given Exception
      */
     public SimkitConcurrencyException(Throwable cause) {

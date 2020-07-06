@@ -1,7 +1,7 @@
 package simkit;
 
 /**
- * 
+ *
  * @author ahbuss
  */
 public class SimExec implements Runnable {
@@ -10,8 +10,15 @@ public class SimExec implements Runnable {
     private boolean singleStep;
     private double stopTime;
     private int numberRuns;
+    
+    private BasicEventList eventList;
 
     public SimExec() {
+        this(Schedule.getDefaultEventList());
+    }
+    
+    public SimExec(BasicEventList eventList) {
+        this.eventList = eventList;
         setVerbose(false);
         setSingleStep(false);
         setStopTime(100.0);
@@ -20,12 +27,12 @@ public class SimExec implements Runnable {
 
     @Override
     public void run() {
-        Schedule.stopAtTime(getStopTime());
-        Schedule.setSingleStep(isSingleStep());
-        Schedule.setVerbose(isVerbose());
+        this.eventList.stopAtTime(getStopTime());
+        this.eventList.setSingleStep(isSingleStep());
+        this.eventList.setVerbose(isVerbose());
         for (int i = 0; i < getNumberRuns(); ++i) {
-            Schedule.reset();
-            Schedule.startSimulation();
+            this.eventList.reset();
+            this.eventList.startSimulation();
         }
     }
 

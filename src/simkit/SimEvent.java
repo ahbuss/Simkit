@@ -92,7 +92,7 @@ public class SimEvent implements Comparable<SimEvent> {
 
     /**
      * A unique identifier for this SimEntity - the # of times an event of this
-     * name has occured.
+     * name has occurred.
      *
      */
     private int serial;
@@ -130,7 +130,7 @@ public class SimEvent implements Comparable<SimEvent> {
         this.source = source;
         this.eventName = name;
         setScheduledTime(delay);
-        creationTime = Schedule.getSimTime();
+        creationTime = source.getEventList().getSimTime();
         parameters = (params != null) ? (Object[]) params.clone() : new Object[]{};
         if (priority == null) {
             throw new NullPointerException("Null Priority: "
