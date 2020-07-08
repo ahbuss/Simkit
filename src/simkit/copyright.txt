@@ -1,3 +1,4 @@
-Copyright (c) 1997-2018 by Arnold Buss and Kirk Stork, with contributions by John Ruck.
+Copyright (c) 1997-2020 by Arnold Buss and Kirk Stork, with contributions by 
+John Ruck.
 
 Simkit is copyright under the GNU Lesser General Public License.
