@@ -5,6 +5,7 @@
  */
 
 package simkit.test;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import simkit.BasicSimEntity;
 import simkit.Schedule;
 import simkit.examples.ArrivalProcess2;
@@ -37,10 +38,11 @@ public class TestBasicSimEntity {
         server.addSimEventListener(server2);
         
         PropertyChangeFrame pcf = new PropertyChangeFrame();
+        pcf.setDefaultCloseOperation(EXIT_ON_CLOSE);
         server2.addPropertyChangeListener(pcf);
         pcf.setVisible(true);
 
-        
+        System.out.println(arrival);
         Schedule.setVerbose(true);
 //        Schedule.stopOnEvent("Arrival", 10);
         

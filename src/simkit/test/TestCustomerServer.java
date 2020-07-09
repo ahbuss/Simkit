@@ -1,11 +1,14 @@
-package simkit.examples;
+package simkit.test;
 
 import java.text.DecimalFormat;
 
 import simkit.Schedule;
+import simkit.examples.ArrivalProcess;
+import simkit.examples.EntityCreator;
+import simkit.examples.EntityServer;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
-import simkit.stat.PercentageInStateStat;
+import simkit.stat.CollectionSizeTimeVaryingStats;
 import simkit.stat.SimpleStatsTally;
 import simkit.stat.SimpleStatsTimeVarying;
 
@@ -14,12 +17,10 @@ import simkit.stat.SimpleStatsTimeVarying;
  * Customers. Uses an {@link ArrivalProcess}, a {@link EntityCreator}, and a
  * {@link EntityServer}.
  *
- * @deprecated Covered by unit test ListenerPatterns_IntegrationTest since rev
- * 1082 2008-06-11
  * @author Arnold Buss
  * 
  */
-public class TestStateStats {
+public class TestCustomerServer {
 
     public static void main(String[] args) {
         RandomVariate[] rv = new RandomVariate[2];
@@ -33,24 +34,17 @@ public class TestStateStats {
         arrival.addSimEventListener(creator);
         creator.addSimEventListener(server);
 
-        PercentageInStateStat percentageInStateStat
-                = new PercentageInStateStat(
-                        "numberAvailableServers", numberServers);
-        server.addPropertyChangeListener(percentageInStateStat);
+        CollectionSizeTimeVaryingStats niqStat
+                = new CollectionSizeTimeVaryingStats("queue");
+        SimpleStatsTimeVarying nasStat = new SimpleStatsTimeVarying("numberAvailableServers");
+        SimpleStatsTally diqStat = new SimpleStatsTally("delayInQueue");
+        SimpleStatsTally tisStat = new SimpleStatsTally("timeInSystem");
 
-        SimpleStatsTimeVarying niqStat = new SimpleStatsTimeVarying(
-                "numberInQueue");
-        SimpleStatsTimeVarying nasStat = new SimpleStatsTimeVarying(
-                "numberAvailableServers");
-        SimpleStatsTally diqStat = new SimpleStatsTally(
-                "delayInQueue");
-        SimpleStatsTally tisStat = new SimpleStatsTally(
-                "timeInSystem");
-
-        int eventListID = 0;
+        int eventListID = 15;
         arrival.setEventListID(eventListID);
         creator.setEventListID(eventListID);
         server.setEventListID(eventListID);
+        Schedule.setDefaultEventList(Schedule.getEventList(eventListID));
 
         niqStat.setEventListID(eventListID);
         nasStat.setEventListID(eventListID);
@@ -85,8 +79,6 @@ public class TestStateStats {
 
         System.out.println("Avg Utilization:\t" + form.format(1.0
                 - nasStat.getMean() / server.getTotalNumberServers()));
-
-        System.out.println(percentageInStateStat.stateString());
 
     }
 

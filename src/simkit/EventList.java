@@ -695,8 +695,10 @@ public class EventList implements BasicEventList {
 
     @Override
     public void dump(String reason) {
-        if (reason.equals("Starting Simulation") || reason.equals("") || !ignoreOnDump.contains(currentSimEvent.getEventName())) {
-            outputStream.println(getEventListAsString(reason));
+        if (reason.equals("Starting Simulation") || reason.equals("")) {
+            if (currentSimEvent != null && !ignoreOnDump.contains(currentSimEvent.getEventName())) {
+                outputStream.println(getEventListAsString(reason));
+            }
         }
     }
 

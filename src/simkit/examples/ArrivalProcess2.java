@@ -48,7 +48,7 @@ public class ArrivalProcess2 extends BasicSimEntity {
      * @return the RandomVariate used for generating the interarrival times.
      */
     public RandomVariate getInterarrivalTimeGenerator() {
-        return interarrivalTimeGenerator;
+        return this.interarrivalTimeGenerator;
     }
 
     /**
@@ -56,7 +56,7 @@ public class ArrivalProcess2 extends BasicSimEntity {
      * @param interarrivalTimeGenerator the RandomVariate used for generating the interarrival times.
      */
     public void setInterarrivalTimeGenerator(RandomVariate interarrivalTimeGenerator) {
-        interarrivalTimeGenerator = interarrivalTimeGenerator;
+        this.interarrivalTimeGenerator = interarrivalTimeGenerator;
     }
 
     /**

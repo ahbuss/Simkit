@@ -1,6 +1,9 @@
-package simkit.examples;
+package simkit.test;
 
 import simkit.Schedule;
+import simkit.examples.ArrivalProcess;
+import simkit.examples.ShortestQueueDispatcher;
+import simkit.examples.SimpleServer;
 import simkit.random.RandomVariate;
 import simkit.random.RandomVariateFactory;
 import simkit.util.SimplePropertyDumper;

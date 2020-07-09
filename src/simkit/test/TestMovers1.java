@@ -1,4 +1,4 @@
-package simkit.examples;
+package simkit.test;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
