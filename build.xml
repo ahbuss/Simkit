@@ -82,6 +82,7 @@
         <exec executable="git" output="git.hash" >
             <arg value="rev-parse" />
         </exec>-->
+        <echo message="Java version ${ant.java.version}" />
         <tstamp>
             <format property="TODAY" pattern="MMMM dd, YYYY hh:mm aa" />
             <format property="BUILD" pattern="YYYYMMdd" />

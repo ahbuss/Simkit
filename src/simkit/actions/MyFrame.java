@@ -24,7 +24,7 @@ public class MyFrame extends JFrame implements PropertyChangeListener {
 
     private JLabel status;
     private JComponent statusArea;
-    private WindowListener closer;
+    private AppCloser closer;
 
     private static Point DEFAULT_WINDOW_LOCATION;
     private static Dimension DEFAULT_WINDOW_DIMENSION;
@@ -34,7 +34,7 @@ public class MyFrame extends JFrame implements PropertyChangeListener {
         DEFAULT_WINDOW_DIMENSION = new Dimension(300, 350);
     }
 
-    public MyFrame(String title, WindowListener closer,
+    public MyFrame(String title, AppCloser closer,
             int x, int y, int w, int h) {
         this(title, x, y, w, h);
         this.closer = closer;
@@ -55,7 +55,7 @@ public class MyFrame extends JFrame implements PropertyChangeListener {
         setBounds(x, y, w, h);
     }
 
-    public MyFrame(String title, WindowListener closer, Rectangle r) {
+    public MyFrame(String title, AppCloser closer, Rectangle r) {
         this(title, closer, r.x, r.y, r.width, r.height);
     }
 
@@ -113,14 +113,14 @@ public class MyFrame extends JFrame implements PropertyChangeListener {
     /**
      * @return current AppCloser
      */
-    public WindowListener getAppCloser() {
+    public AppCloser getAppCloser() {
         return closer;
     }
 
     /**
      * @param closer new "closer"
      */
-    public void setAppCloser(WindowListener closer) {
+    public void setAppCloser(AppCloser closer) {
         this.closer = closer;
         this.addWindowListener(closer);
     }

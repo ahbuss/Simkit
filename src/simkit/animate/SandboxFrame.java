@@ -7,16 +7,18 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.Icon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import simkit.actions.ActionUtilities;
+import simkit.actions.MyFrame;
 import simkit.actions.visual.ShapeIcon;
 import simkit.smd.Mover;
 import simkit.smd.Sensor;
 
 /**
- * 
+ *
  * @author ahbuss
  */
-public class SandboxFrame extends simkit.actions.MyFrame {
+public class SandboxFrame extends MyFrame {
 
     private Sandbox sandbox;
     private Inspector inspector;
@@ -29,16 +31,12 @@ public class SandboxFrame extends simkit.actions.MyFrame {
      */
     public SandboxFrame(String title) {
         super(title);
+
+        initialize();
         sandbox = new Sandbox();
-//        sandbox.setBackground(Color.white);
-        sandbox.setOpaque(false);
+        sandbox.setBackground(Color.white);
+        sandbox.setOpaque(true);
         getContentPane().add(sandbox, BorderLayout.CENTER);
-
-        JMenuBar menuBar = new JMenuBar();
-
-        JMenu menu = ActionUtilities.createMenu("File", this.getAppCloser(), new String[]{"close"});
-        menuBar.add(menu);
-        setJMenuBar(menuBar);
 
         inspector = new Inspector();
 
@@ -55,6 +53,19 @@ public class SandboxFrame extends simkit.actions.MyFrame {
 
     public SandboxFrame() {
         this("");
+    }
+
+    protected void initialize() {
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+
+        JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(getAppCloser());
+        fileMenu.add(exitItem);
+
     }
 
     public void addSensor(Sensor sensor) {

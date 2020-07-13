@@ -1,6 +1,8 @@
 package simkit.actions;
 
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
@@ -9,10 +11,10 @@ import javax.swing.JOptionPane;
  * A bare bones "closer" that either exits or "closes" a Window to which it is
  * listening. Additionally, an Action can be tied to the two public methods.
  *
- * 
+ *
  * @author ahbuss
  */
-public class AppCloser extends WindowAdapter {
+public class AppCloser extends WindowAdapter implements ActionListener {
 
     private boolean notifyOnClose;
     private boolean exitOnClose;
@@ -82,6 +84,14 @@ public class AppCloser extends WindowAdapter {
      */
     public void exit() {
         System.exit(0);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equalsIgnoreCase("exit")
+                || e.getActionCommand().equalsIgnoreCase("close")) {
+            close();
+        }
     }
 
 }
