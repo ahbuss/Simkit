@@ -6,6 +6,8 @@
 
 package simkit.random;
 
+import java.util.logging.Logger;
+
 /**
  * A representation of the Bernoulli Distribution. A random event with two possible
  * outcomes. A value of 0 represents failure, a value of 1 represents success. Has
@@ -14,6 +16,8 @@ package simkit.random;
  * 
  */
 public class BernoulliDistribution implements DiscreteDistribution {
+    
+    private static final Logger LOGGER = Logger.getLogger(BernoulliDistribution.class.getName());
     
     private double probabilityOfSuccess;
 
@@ -70,6 +74,9 @@ public class BernoulliDistribution implements DiscreteDistribution {
                 break;
             case 1:
                 value = probabilityOfSuccess;
+                break;
+            default:
+                value = 0.0;
                 break;
         }
         return value;

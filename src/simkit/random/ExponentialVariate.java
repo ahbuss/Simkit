@@ -6,7 +6,7 @@ package simkit.random;
  * @author Arnold Buss
  * 
  */
-public class ExponentialVariate extends RandomVariateBase implements RandomVariate {
+public class ExponentialVariate extends RandomVariateBase {
 
     /**
      * The mean of this Exponential Variate.

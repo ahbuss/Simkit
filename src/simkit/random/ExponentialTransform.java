@@ -1,5 +1,8 @@
 package simkit.random;
 
+import static java.lang.Double.NaN;
+import java.util.logging.Logger;
+
 /**
 * Generates a random variate that is the exponential transform of another
 * random variate. The generate method simple generates the underlying
@@ -8,6 +11,8 @@ package simkit.random;
 * 
 **/
 public class ExponentialTransform implements RandomVariate {
+    
+    private static final Logger LOGGER = Logger.getLogger(ExponentialTransform.class.getName());
 
 /**
 * An instance of the underlying RandomVariate.
@@ -24,6 +29,10 @@ public class ExponentialTransform implements RandomVariate {
 * Generates the next exponentially transformed value.
 **/
     public double generate() {
+        if (rv == null) {
+            LOGGER.severe("RandomVariate not set - will generate NaN");
+            return NaN;
+        }
         return Math.exp(rv.generate());
     }
     

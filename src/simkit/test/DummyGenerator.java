@@ -31,7 +31,7 @@ public class DummyGenerator implements RandomNumber, Cloneable {
     /** @return  The current array of random number seed s
      */
     public long[] getSeeds() {
-        return null;
+        return new long[0];
     }
     
     /**  Resets seed to last setSeed() value

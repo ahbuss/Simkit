@@ -14,6 +14,10 @@ public class CompositionVariate extends RandomVariateBase {
 
     private RandomVariate[] theRandomVariates;
         
+    public CompositionVariate() {
+        this.theRandomVariates = new RandomVariate[0];
+    }
+    
     @Override
     public double generate() {
         double value = 0.0;

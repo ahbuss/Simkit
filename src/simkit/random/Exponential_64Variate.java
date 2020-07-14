@@ -9,7 +9,7 @@ import simkit.util.Math64;
  * @author Arnold Buss
  * 
  */
-public class Exponential_64Variate extends RandomVariateBase implements RandomVariate {
+public class Exponential_64Variate extends RandomVariateBase {
     
 /**
 * The mean of this Exponential Variate.

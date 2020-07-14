@@ -12,7 +12,7 @@ import static simkit.SimEventScheduler.NL;
  *
  * @author ahbuss
  */
-public class ObjectMultiTimeVaryingStat extends SimpleStatsTimeVarying implements ObjectIndexedStatistics, PropertyChangeListener {
+public class ObjectMultiTimeVaryingStat extends SimpleStatsTimeVarying implements ObjectIndexedStatistics {
 
     private final Map<Object, SampleStatistics> allSampleStat;
 

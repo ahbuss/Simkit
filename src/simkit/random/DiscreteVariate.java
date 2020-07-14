@@ -32,6 +32,9 @@ public class DiscreteVariate extends RandomVariateBase {
      *
      */
     public DiscreteVariate() {
+        this.cdf = new double[0];
+        this.values = new double[0];
+        this.frequencies = new double[0];
     }
 
     /**

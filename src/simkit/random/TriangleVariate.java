@@ -13,7 +13,7 @@ import java.util.Arrays;
  * @author Arnold Buss
  * 
  */
-public class TriangleVariate extends RandomVariateBase implements RandomVariate {
+public class TriangleVariate extends RandomVariateBase {
 
     /**
      * The left most or smallest value. (a)
