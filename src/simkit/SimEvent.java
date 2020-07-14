@@ -306,9 +306,8 @@ public class SimEvent implements Comparable<SimEvent> {
      * signature.
      *
      */
-    public Class[] getSignature() {
+    public Class<?>[] getSignature() {
         if (signature == null) {
-
             if (parameters.length > 0) {
                 signature = new Class[parameters.length];
                 for (int i = 0; i < signature.length; i++) {
@@ -322,10 +321,10 @@ public class SimEvent implements Comparable<SimEvent> {
                 } // for
             } // if
             else {
-                signature = new Class[]{};
+                signature = new Class<?>[]{};
             } // else
         }
-        return signature;
+        return signature.clone();
     }
 
     /**

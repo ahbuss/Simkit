@@ -173,20 +173,20 @@ public class DiscreteIntegerVariate extends RandomVariateBase
 
     protected void setValues(Object[] values) {
         boolean paramsOK = true;
-        String message = "";
+        StringBuilder builder = new StringBuilder();
         this.values = new int[values.length];
         for (int i = 0; i < this.values.length; ++i) {
             if (values[i] instanceof Number) {
                 this.values[i] = ((Number) values[i]).intValue();
             } else {
                 paramsOK = false;
-                message += String.format("index %,d not a number: %s; ", i, values[i]);
+                builder.append(String.format("index %,d not a number: %s; ", i, values[i]));
             }
         }
         if (!paramsOK) {
             this.setValues(this.values);
         } else {
-            throw new IllegalArgumentException(message);
+            throw new IllegalArgumentException(builder.toString());
         }
     }
 
@@ -233,20 +233,20 @@ public class DiscreteIntegerVariate extends RandomVariateBase
 
     protected void setFrequencies(Object[] frequencies) {
         boolean paramsOK = true;
-        String message = "";
+        StringBuilder builder = new StringBuilder();
         this.frequencies = new double[values.length];
         for (int i = 0; i < this.values.length; ++i) {
             if (frequencies[i] instanceof Number) {
                 this.frequencies[i] = ((Number) values[i]).doubleValue();
             } else {
                 paramsOK = false;
-                message += String.format("index %,d not a Number: %s; ", i, values[i]);
+                builder.append(String.format("index %,d not a Number: %s; ", i, values[i]));
             }
         }
         if (!paramsOK) {
             this.setFrequencies(this.frequencies);
         } else {
-            throw new IllegalArgumentException(message);
+            throw new IllegalArgumentException(builder.toString());
         }
     }
 

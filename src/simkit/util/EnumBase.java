@@ -44,7 +44,7 @@ public abstract class EnumBase implements Comparable<EnumBase> {
      * Holds the list of different types of enums
      *
      */
-    protected static Map<Class<?>, Map<String, EnumBase>> types = new LinkedHashMap<>();
+    protected static final Map<Class<?>, Map<String, EnumBase>> types = new LinkedHashMap<>();
 
     /**
      * Constructs a new enum and adds it to the members list.

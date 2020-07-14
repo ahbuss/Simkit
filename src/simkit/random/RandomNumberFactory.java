@@ -23,7 +23,7 @@ public class RandomNumberFactory {
      * "simkit.random.Congruential"
      *
      */
-    protected static final String DEFAULT_CLASS
+    static final String DEFAULT_CLASS_NAME
             = "simkit.random.MersenneTwister";
 
     /**
@@ -31,7 +31,7 @@ public class RandomNumberFactory {
      * user.
      *
      */
-    protected static Class<? extends RandomNumber> defaultClass;
+     static Class<? extends RandomNumber> DEFAULT_CLASS;
 
     /**
      * A cache of RandomNumber Classes that have already been found.
@@ -44,7 +44,7 @@ public class RandomNumberFactory {
      * Initially set to "simkit.random"
      *
      */
-    protected static List<String> searchPackages;
+    protected static final List<String> searchPackages;
 
     /**
      * If true, print debug/trace information (not yet implemented)
@@ -83,7 +83,7 @@ public class RandomNumberFactory {
     static {
         cache = ClassFinder.getINSTANCE().getRandomNumberClasses();
         searchPackages = new ArrayList<>();
-        setDefaultClass(DEFAULT_CLASS);
+        setDefaultClass(DEFAULT_CLASS_NAME);
         addSearchPackage("simkit.random");
     }
 
@@ -96,7 +96,7 @@ public class RandomNumberFactory {
     public static void setDefaultClass(String className) {
         Class<? extends RandomNumber> theClass = (Class<? extends RandomNumber>) getClassFor(className);
         if (theClass != null) {
-            defaultClass = theClass;
+            DEFAULT_CLASS = theClass;
         } else {
             throw new IllegalArgumentException("Not found: " + className);
         }
@@ -118,7 +118,7 @@ public class RandomNumberFactory {
     public static RandomNumber getInstance() {
         RandomNumber instance = null;
         try {
-            instance = (RandomNumber) defaultClass.getConstructor().newInstance();
+            instance = (RandomNumber) DEFAULT_CLASS.getConstructor().newInstance();
         } catch (IllegalAccessException | InstantiationException e) {
             System.err.println(e);
             throw (new RuntimeException(e));

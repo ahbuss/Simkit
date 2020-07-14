@@ -46,7 +46,7 @@ public class TraceVariate extends RandomVariateBase {
      * allDataInToString is false.
      *
      */
-    private final int shortNumber = 5;
+    private static final int shortNumber = 5;
 
     /**
      * Constructs a new TraceVariate. The default RandomNumber will cause the

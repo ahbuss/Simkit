@@ -160,7 +160,7 @@ public class RotatedBivariateNormalVector implements RandomVector {
      * @return the mean
      */
     public double[] getMean() {
-        return mean;
+        return mean.clone();
     }
 
     /**

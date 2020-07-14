@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * 
+ *
  * @author ahbuss
  */
 public class CSVPropertyDataLogger implements PropertyChangeListener {
@@ -29,6 +29,7 @@ public class CSVPropertyDataLogger implements PropertyChangeListener {
     /**
      * Instantiate a CSVPropertyDataLogger with given output file. Any contents
      * of the given outputFile will be overwritten without notification.
+     *
      * @param outputFile Given output file
      */
     public CSVPropertyDataLogger(File outputFile) {
@@ -36,7 +37,7 @@ public class CSVPropertyDataLogger implements PropertyChangeListener {
         this.temporaryDataWriters = new LinkedHashMap<>();
         this.outputFile = outputFile;
     }
-    
+
     /**
      * Clear all internal data
      */
@@ -46,10 +47,11 @@ public class CSVPropertyDataLogger implements PropertyChangeListener {
     }
 
     /**
-     * If hearing a property for the first time, create a temporary file
-     * and store in temporaryDataFiles keyed by the property name. If the property
-     * has been heard before, append the new value to the temporary file
-     * for that property.
+     * If hearing a property for the first time, create a temporary file and
+     * store in temporaryDataFiles keyed by the property name. If the property
+     * has been heard before, append the new value to the temporary file for
+     * that property.
+     *
      * @param evt Given PropertyChangeEvent
      */
     @Override
@@ -79,12 +81,12 @@ public class CSVPropertyDataLogger implements PropertyChangeListener {
 
     /**
      * Write the output file in comma separate value (CSV) format. The first
-     * line consists of the property names and each column consists of the 
+     * line consists of the property names and each column consists of the
      * values for that property that have been "heard." Note that the columns
      * will, in general, be of different sizes.
      */
     public void writeOutputFile() {
-        BufferedWriter writer;
+        BufferedWriter writer = null;
         try {
 //            Builds the header row and saves a Scanner for each property
             Map<String, Scanner> scanners = new LinkedHashMap<>();
@@ -127,13 +129,19 @@ public class CSVPropertyDataLogger implements PropertyChangeListener {
                     }
                 }
             } while (moreData);
-//            close the output writer and all the Scanners
-            writer.close();
             for (String property : scanners.keySet()) {
                 scanners.get(property).close();
             }
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 

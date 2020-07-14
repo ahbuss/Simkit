@@ -20,7 +20,7 @@ public abstract class AbstractSimpleStats implements SampleStatistics, Cloneable
      * The default name for SampleStatistics. "%unnamed%"
 *
      */
-    protected static String DEFAULT_NAME = "%unnamed%";
+    protected static final String DEFAULT_NAME = "%unnamed%";
 
     /**
      */

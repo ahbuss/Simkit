@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
@@ -31,7 +32,7 @@ import simkit.random.RandomVariate;
  * <p>
  * Both jar files and directories on the classpath are scanned. If the user
  * wishes to skip certain jar files, they are listed in the
- * <code>config/skippedJars.properties</code> file. Also in that file is a
+ * <code>config/ClassFinder.properties</code> file. Also in that file is a
  * directory specified by the key <code>first</code>. This directory is expected
  * to contain jar files that are scanned before any others on the classpath.
  * This allows the user to add classes that will be found and instantiated by
@@ -46,6 +47,8 @@ public class ClassFinder {
     private static final String DEFAULT_EXT_DIR = "ext";
 
     private static final ClassFinder INSTANCE;
+    
+    private Locale locale;
 
     static {
         INSTANCE = new ClassFinder();
@@ -75,6 +78,7 @@ public class ClassFinder {
     private String firstDirectory;
 
     protected ClassFinder() {
+        locale = Locale.getDefault();
         this.firstDirectory = DEFAULT_EXT_DIR;
         foundByQualifiedName = new HashMap<>();
         randomVariateClasses = new HashMap<>();
@@ -93,15 +97,17 @@ public class ClassFinder {
      * skippedJars List
      */
     private void loadConfigFile() {
+        FileInputStream fileInputStream = null;
         try {
             File configFile = new File("config/ClassFinder.properties");
             if (configFile.exists()) {
                 Properties properties = new Properties();
-                properties.load(new FileInputStream(configFile));
+                fileInputStream = new FileInputStream(configFile);
+                properties.load(fileInputStream);
                 for (Object obj : properties.keySet()) {
                     if (obj.equals("first")) {
                         firstDirectory = properties.get(obj).toString();
-                    } else if (obj.toString().toLowerCase().endsWith(".jar")
+                    } else if (obj.toString().toLowerCase(locale).endsWith(".jar")
                             && properties.getProperty(obj.toString()).trim().equals("skip")) {
                         skippedJars.add(obj.toString());
                     }
@@ -111,6 +117,14 @@ public class ClassFinder {
             }
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
+        } finally {
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 
@@ -139,7 +153,7 @@ public class ClassFinder {
             try {
                 if (!classPathFile.getName().equalsIgnoreCase(firstDirectory)
                         && !skippedJars.contains(classPathFile.getName())) {
-                    if (classPathFile.isFile() && classPathFile.getName().toLowerCase().endsWith(".jar")) {
+                    if (classPathFile.isFile() && classPathFile.getName().toLowerCase(locale).endsWith(".jar")) {
                         jarFileURLs.add(classPathFile.toURI().toURL());
                     } else if (classPathFile.isDirectory()) {
                         dirURLs.add(classPathFile.toURI().toURL()); // TODO: process directories with class files
@@ -163,9 +177,10 @@ public class ClassFinder {
     @SuppressWarnings("unchecked")
     private void loadClasses() {
         for (URL url : jarFileURLs) {
+            JarFile jarFile = null;
             try {
                 String decodedFileName = URLDecoder.decode(url.getFile(), "UTF-8");
-                JarFile jarFile = new JarFile(decodedFileName);
+                 jarFile = new JarFile(decodedFileName);
                 for (Enumeration<JarEntry> entryEnum = jarFile.entries();
                         entryEnum.hasMoreElements();) {
                     JarEntry nextEntry = entryEnum.nextElement();
@@ -197,6 +212,14 @@ public class ClassFinder {
                 }
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
+            } finally {
+                if (jarFile != null) {
+                    try {
+                        jarFile.close();
+                    } catch (IOException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
+                    }
+                }
             }
         }
 
@@ -344,7 +367,7 @@ public class ClassFinder {
 
         @Override
         public boolean accept(File dir, String name) {
-            return name.toLowerCase().endsWith(".jar");
+            return name.toLowerCase(locale).endsWith(".jar");
         }
 
     }

@@ -1,10 +1,12 @@
 package simkit.test;
 
+import simkit.random.RandomNumber;
+
 /**
  *
  * @author  Arnold Buss
  */
-public class DummyGenerator implements simkit.random.RandomNumber {
+public class DummyGenerator implements RandomNumber, Cloneable {
     
     /** Creates a new instance of DummyGenerator */
     public DummyGenerator() {

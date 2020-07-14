@@ -23,9 +23,9 @@ public class RandomNumberFactoryTest extends TestCase {
         assertEquals(simkit.random.MRG32k3a.class, r.getClass());
         
         //put it back
-        RandomNumberFactory.setDefaultClass(RandomNumberFactory.DEFAULT_CLASS);
+        RandomNumberFactory.setDefaultClass(RandomNumberFactory.DEFAULT_CLASS_NAME);
         r = RandomNumberFactory.getInstance();
-        assertEquals(RandomNumberFactory.DEFAULT_CLASS, r.getClass().getName());
+        assertEquals(RandomNumberFactory.DEFAULT_CLASS.getName(), r.getClass().getName());
     }
 
     public void testGetInstance_0args() {

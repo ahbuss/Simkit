@@ -488,17 +488,15 @@ public class RandomVariateFactory {
         } catch (IntrospectionException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
-        if (instance != null) {
-            for (String property : params.keySet()) {
-                Object value = params.get(property);
-                if (value != null) {
-                    Method setter = writeMethods.get(property);
-                    if (setter != null) {
-                        try {
-                            setter.invoke(instance, value);
-                        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                            LOGGER.log(Level.SEVERE, null, ex);
-                        }
+        for (String property : params.keySet()) {
+            Object value = params.get(property);
+            if (value != null) {
+                Method setter = writeMethods.get(property);
+                if (setter != null) {
+                    try {
+                        setter.invoke(instance, value);
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                        LOGGER.log(Level.SEVERE, null, ex);
                     }
                 }
             }

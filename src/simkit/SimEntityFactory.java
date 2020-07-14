@@ -32,7 +32,7 @@ public class SimEntityFactory {
 
     private static final Logger LOGGER = Logger.getLogger(SimEntityFactory.class.getName());
 
-    protected static Map<Class<?>, BeanInfo> cache = new HashMap<>();
+    protected static final Map<Class<?>, BeanInfo> cache = new HashMap<>();
 
     /**
      * Creates multiple copies in a List.

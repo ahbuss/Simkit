@@ -50,6 +50,7 @@ public class PercentageInStateStat implements PropertyChangeListener {
     /**
      * Does not set the initial state. It is the responsibility of the source
      * component to fire a property change with the initial state at time 0.0
+     *
      * @param propertyName Name of the property to be listened for
      */
     public PercentageInStateStat(String propertyName) {
@@ -121,39 +122,37 @@ public class PercentageInStateStat implements PropertyChangeListener {
      */
     public String stateString() {
         newObservation(getCurrentState());
-        String tabs = "\t";
+        StringBuilder builder = new StringBuilder("State");
         for (int i = 0; i < getStateNameLength() / 8; ++i) {
-            tabs += "\t";
+            builder.append('\t');
         }
-        StringBuilder StringBuilder = new StringBuilder("State");
-        StringBuilder.append(tabs);
-        StringBuilder.append("% In State");
-        StringBuilder.append(System.getProperty("line.separator"));
+        builder.append("% In State");
+        builder.append(System.getProperty("line.separator"));
         double sum = 0.0;
 
         for (Iterator i = stateStats.keySet().iterator(); i.hasNext();) {
             Object state = i.next();
-            StringBuilder.append(state);
+            builder.append(state);
             int extra = getStateNameLength() - state.toString().length();
             int extraTabs = (int) Math.ceil(extra / 8.0);
-            StringBuilder.append('\t');
+            builder.append('\t');
             for (int j = 0; j < extraTabs; ++j) {
-                StringBuilder.append('\t');
+                builder.append('\t');
             }
             double mean = getPercentageFor(state);
-            StringBuilder.append(numberFormat.format(mean));
-            StringBuilder.append(System.getProperty("line.separator"));
+            builder.append(numberFormat.format(mean));
+            builder.append(System.getProperty("line.separator"));
             sum += mean;
         }
-        StringBuilder.append("Total");
+        builder.append("Total");
         int extra = getStateNameLength() - 5;
         int extraTabs = (int) Math.ceil(extra / 8.0);
-        StringBuilder.append('\t');
+        builder.append('\t');
         for (int j = 0; j < extraTabs; ++j) {
-            StringBuilder.append('\t');
+            builder.append('\t');
         }
-        StringBuilder.append(numberFormat.format(sum));
-        return StringBuilder.toString();
+        builder.append(numberFormat.format(sum));
+        return builder.toString();
     }
 
     public Map<Object, Double> getStateStats() {

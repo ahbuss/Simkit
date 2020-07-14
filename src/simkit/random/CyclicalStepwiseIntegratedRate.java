@@ -94,7 +94,7 @@ public class CyclicalStepwiseIntegratedRate{
      * @return the rates
      */
     public double[] getRates() {
-        return rates;
+        return rates.clone();
     }
 
     /**
@@ -102,7 +102,7 @@ public class CyclicalStepwiseIntegratedRate{
      * @return the times
      */
     public double[] getTimes() {
-        return times;
+        return times.clone();
     }
 
     /**
@@ -110,7 +110,7 @@ public class CyclicalStepwiseIntegratedRate{
      * @return the cumIntRates
      */
     public double[] getCumIntRates() {
-        return cumIntRates;
+        return cumIntRates.clone();
     }
 
     public String paramString() {

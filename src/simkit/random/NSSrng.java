@@ -262,8 +262,8 @@ public class NSSrng implements RandomNumber {
 * Returns a String containing information about NSSrng, including the starting seed.
 **/
     public String toString() {
-        return new String("NSSrng with initial seed of " + originalSeed + 
-         " and current seeds of (" + S1 + ", " + S2 + ", " + S3 + ")");
+        return String.format("NSSrng with initial seed of %d and current seeds of ("
+                + "%d, %d, %d)", originalSeed, S1, S2, S3);
     }
 }
 

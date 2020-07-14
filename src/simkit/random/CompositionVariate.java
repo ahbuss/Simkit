@@ -54,8 +54,8 @@ public class CompositionVariate extends RandomVariateBase {
 
     @Override
     public Object[] getParameters() {
-        ArrayList<String> names = new ArrayList<String>();
-        ArrayList<Object[]> param = new ArrayList<Object[]>();
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<Object[]> param = new ArrayList<>();
         for (RandomVariate rv : theRandomVariates) {
             String name = rv.getClass().getName();
             names.add(name.substring(name.lastIndexOf(".")));
@@ -71,18 +71,16 @@ public class CompositionVariate extends RandomVariateBase {
      * @return the theRandomVariates
      */
     public RandomVariate[] getTheRandomVariates() {
-        return theRandomVariates;
+        return theRandomVariates.clone();
     }
     
     @Override
     public String toString() {
-        String toString = "Composition " ;
-        for (RandomVariate rv : theRandomVariates) {
-            toString += System.getProperty("line.separator");
-            toString += "\t";
-            toString += rv.toString();
+        StringBuilder builder = new StringBuilder("Composition");
+        for (RandomVariate rv: theRandomVariates) {
+            builder.append('\n').append('\t').append(rv.toString());
         }
-        return toString;
+        return builder.toString();
     }
     
 }

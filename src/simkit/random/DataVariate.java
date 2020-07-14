@@ -34,7 +34,7 @@ public class DataVariate extends RandomVariateBase {
     public void reset() {
         try {
             close();
-            this.scanner = new Scanner(inputFile);
+            this.scanner = new Scanner(inputFile, "UTF-8");
         } catch (FileNotFoundException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }

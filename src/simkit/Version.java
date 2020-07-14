@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
@@ -93,36 +94,44 @@ public class Version {
      */
     static {
         InputStream is = null;
+        BufferedReader bufferedReader = null;
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    Version.class.getResourceAsStream("version.txt")));
+            bufferedReader = new BufferedReader(new InputStreamReader(
+                    Version.class.getResourceAsStream("version.txt"), "UTF-8"));
 
-            String versonLine = br.readLine().trim();
+            String versonLine = bufferedReader.readLine().trim();
             String[] split = versonLine.split(":");
             SIMKIT_VERSION = split[1].trim();
-            br.close();
+            bufferedReader.close();
 
-            br = new BufferedReader(new InputStreamReader(
+            bufferedReader = new BufferedReader(new InputStreamReader(
                     Version.class.getResourceAsStream("copyright.txt")));
             StringBuilder buf = new StringBuilder();
-            for (String nextLine = br.readLine(); nextLine != null; nextLine = br.readLine()) {
+            for (String nextLine = bufferedReader.readLine(); nextLine != null; nextLine = bufferedReader.readLine()) {
                 buf.append(nextLine);
                 buf.append(BR);
             }
             SIMKIT_COPYRIGHT = buf.toString();
-            br.close();
+            bufferedReader.close();
 
-            br = new BufferedReader(new InputStreamReader(
+            bufferedReader = new BufferedReader(new InputStreamReader(
                     Version.class.getResourceAsStream("gnu.txt")));
             buf = new StringBuilder();
-            for (String nextLine = br.readLine(); nextLine != null; nextLine = br.readLine()) {
+            for (String nextLine = bufferedReader.readLine(); nextLine != null; nextLine = bufferedReader.readLine()) {
                 buf.append(nextLine);
                 buf.append(BR);
             }
             SIMKIT_MESSAGE = buf.toString();
-            br.close();
         } catch (IOException e) {
             throw (new RuntimeException(e));
+        } finally {
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException ex) {
+                    LOGGER.log(Level.SEVERE, null, ex);
+                }
+            }
         }
         String[] ver = getVersion().split("[[a-zA-Z]\\.]");
         if (ver.length < 3) {
@@ -250,7 +259,7 @@ public class Version {
         new Version();
     }
 
-    private class BrowseTo implements HyperlinkListener {
+    private static class BrowseTo implements HyperlinkListener {
 
         @Override
         public void hyperlinkUpdate(HyperlinkEvent e) {

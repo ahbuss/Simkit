@@ -2,6 +2,7 @@ package simkit;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import simkit.random.RandomVariate;
 import simkit.util.IndexedPropertyChangeEventX;
@@ -46,15 +47,15 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     /**
      * The unique number to be assigned to the next BasicSimEntity created.
      *
-     */
-    private static int nextSerial;
+     */    
+    private static final AtomicInteger atomicInteger;
 
     public static final void resetNextSerial() {
-        nextSerial = 0;
+        atomicInteger.set(0);
     }
 
     static {
-        nextSerial = 0;
+        atomicInteger = new AtomicInteger();
     }
 
     /**
@@ -126,7 +127,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
      */
     public BasicSimEntity(String name, Priority priority, int eventListID) {
         super();
-        serial = ++nextSerial;
+        serial = atomicInteger.incrementAndGet();
         setName(name);
         setPriority(priority);
         Class<?> stopClass = (this instanceof SimEntityBase) ? SimEntityBase.class : BasicSimEntity.class;
@@ -396,7 +397,7 @@ public abstract class BasicSimEntity extends BasicSimEventSource
     public static boolean parametersMatch(Object[] fromEvent, Object[] fromInterrupt) {
         boolean match = true;
         if ((fromEvent == null && fromInterrupt != null)
-                || (fromEvent == null && fromInterrupt != null)) {
+                || (fromEvent != null && fromInterrupt == null)) {
             match = false;
         } else if ((fromEvent == null) && (fromInterrupt == null)) {
             match = true;
