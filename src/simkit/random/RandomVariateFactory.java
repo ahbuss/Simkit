@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -20,7 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import simkit.util.ClassFinder;
 
 /**
  * Factory for creating <CODE>RandomVariate</CODE> instances from "orders". The
@@ -107,6 +107,8 @@ public class RandomVariateFactory {
      * String
      */
     private static final Pattern NAME_PATTERN;
+    
+    private static boolean loadAllClasses;
 
     /**
      *
@@ -124,6 +126,20 @@ public class RandomVariateFactory {
      */
     public static boolean isVerbose() {
         return verbose;
+    }
+
+    /**
+     * @return the loadAllClasses
+     */
+    public static boolean isLoadAllClasses() {
+        return loadAllClasses;
+    }
+
+    /**
+     * @param aLoadAllClasses the loadAllClasses to set
+     */
+    public static void setLoadAllClasses(boolean aLoadAllClasses) {
+        loadAllClasses = aLoadAllClasses;
     }
 
     /**
@@ -154,8 +170,10 @@ public class RandomVariateFactory {
         NAME_PATTERN = Pattern.compile(NAME_REGEX);
         SEARCH_PACKAGES = new LinkedHashSet<>();
         SEARCH_PACKAGES.add("simkit.random");
-        cache = ClassFinder.getINSTANCE().getRandomVariateClasses();
+//        cache = ClassFinder.getINSTANCE().getRandomVariateClasses();
+        cache = new HashMap<>();
         setDefaultRandomNumber(RandomNumberFactory.getInstance());
+        setLoadAllClasses(false);
     }
 
     /**
