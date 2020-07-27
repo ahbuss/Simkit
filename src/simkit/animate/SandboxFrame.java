@@ -8,7 +8,6 @@ import javax.swing.Icon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import simkit.actions.ActionUtilities;
 import simkit.actions.MyFrame;
 import simkit.actions.visual.ShapeIcon;
 import simkit.smd.Mover;
@@ -23,6 +22,8 @@ public class SandboxFrame extends MyFrame {
     private Sandbox sandbox;
     private Inspector inspector;
     private PingPanel vcrControlPanel;
+    private PingPainter painter;
+    private PingThread pingThread;
 
     /**
      * Creates a new instance of SandboxFrame
@@ -40,10 +41,10 @@ public class SandboxFrame extends MyFrame {
 
         inspector = new Inspector();
 
-        PingThread pingThread = new PingThread(0.075, 100);
+        pingThread = new PingThread(0.075, 100);
         vcrControlPanel = new PingPanel(pingThread);
         vcrControlPanel.addVerboseButton();
-        PingPainter painter = new PingPainter(sandbox);
+        painter = new PingPainter(sandbox);
         pingThread.addSimEventListener(painter);
 
         getContentPane().add(vcrControlPanel, BorderLayout.NORTH);
@@ -95,8 +96,29 @@ public class SandboxFrame extends MyFrame {
         return sandbox;
     }
 
+    /**
+     * @param sandbox the sandbox to set
+     */
+    public void setSandbox(Sandbox sandbox) {
+        this.sandbox = sandbox;
+        sandbox.setBackground(Color.white);
+        sandbox.setOpaque(true);
+        getContentPane().add(sandbox, BorderLayout.CENTER);
+        
+        pingThread.removeSimEventListener(painter);
+        painter = new PingPainter(sandbox);
+        pingThread.addSimEventListener(painter);
+    }
+
     public PingPanel getControlPanel() {
         return vcrControlPanel;
+    }
+
+    /**
+     * @return the inspector
+     */
+    public Inspector getInspector() {
+        return inspector;
     }
 
     public void setDeltaT(double deltaT) {
