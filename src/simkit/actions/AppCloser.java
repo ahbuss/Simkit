@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.Icon;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,6 +20,7 @@ public class AppCloser extends WindowAdapter implements ActionListener {
     private boolean notifyOnClose;
     private boolean exitOnClose;
     private Window window;
+    private Icon icon;
 
     public AppCloser(boolean noc, boolean eoc) {
         notifyOnClose = noc;
@@ -49,7 +51,9 @@ public class AppCloser extends WindowAdapter implements ActionListener {
                 int result = JOptionPane.showConfirmDialog(window,
                         "Exit the program? ",
                         "Exit?",
-                        JOptionPane.OK_CANCEL_OPTION);
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        icon);
                 if (result == JOptionPane.YES_OPTION) {
                     exit();
                 } else if (result == JOptionPane.NO_OPTION && window != null) {
@@ -92,6 +96,20 @@ public class AppCloser extends WindowAdapter implements ActionListener {
                 || e.getActionCommand().equalsIgnoreCase("close")) {
             close();
         }
+    }
+
+    /**
+     * @return the icon
+     */
+    public Icon getIcon() {
+        return icon;
+    }
+
+    /**
+     * @param icon the icon to set
+     */
+    public void setIcon(Icon icon) {
+        this.icon = icon;
     }
 
 }

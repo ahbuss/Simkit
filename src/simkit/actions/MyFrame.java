@@ -4,11 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -121,10 +124,20 @@ public class MyFrame extends JFrame implements PropertyChangeListener {
      * @param closer new "closer"
      */
     public void setAppCloser(AppCloser closer) {
+        for (WindowListener windowListener: getWindowListeners()) {
+            if (windowListener instanceof AppCloser) {
+                removeWindowListener(windowListener);
+            }
+        }
         this.closer = closer;
         this.addWindowListener(closer);
     }
 
+    public void setIconImage(Image image) {
+        super.setIconImage(image);
+        Icon icon = new ImageIcon(image);
+        closer.setIcon(icon);
+    }
     /**
      * If a property called "status" is heard, set the status bar to the new
      * value.
