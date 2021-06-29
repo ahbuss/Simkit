@@ -46,7 +46,7 @@ public class TraceVariate extends RandomVariateBase {
      * allDataInToString is false.
      *
      */
-    private static final int shortNumber = 5;
+    public static final int SHORT_NUMBER = 5;
 
     /**
      * Constructs a new TraceVariate. The default RandomNumber will cause the
@@ -167,7 +167,7 @@ public class TraceVariate extends RandomVariateBase {
     public String toString() {
 
         StringBuilder buf = new StringBuilder("Trace: [");
-        if (allDataInToString || traceValues.length <= 2 * shortNumber) {
+        if (allDataInToString || traceValues.length <= 2 * SHORT_NUMBER) {
             for (int i = 0; i < traceValues.length; i++) {
                 buf.append(DF.format(traceValues[i]));
                 if (i < traceValues.length - 1) {
@@ -175,12 +175,12 @@ public class TraceVariate extends RandomVariateBase {
                 }
             }
         } else {
-            for (int i = 0; i < shortNumber; i++) {
+            for (int i = 0; i < SHORT_NUMBER; i++) {
                 buf.append(DF.format(traceValues[i]));
                 buf.append(',');
             }
             buf.append("...,");
-            for (int i = traceValues.length - shortNumber; i < traceValues.length; i++) {
+            for (int i = traceValues.length - SHORT_NUMBER; i < traceValues.length; i++) {
                 buf.append(DF.format(traceValues[i]));
                 if (i < traceValues.length - 1) {
                     buf.append(',');
