@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package simkit.random;
 
 import junit.framework.TestCase;
+import org.junit.Assert;
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
@@ -64,11 +61,10 @@ public class IntegerTraceVariateTest extends TestCase {
             fail = false;
         }
         assertFalse(fail);
-        
+
         params = new Object[]{new int[100]};
         instance.setParameters(params);
         System.out.println(instance);
-        
 
     }
 
@@ -102,6 +98,22 @@ public class IntegerTraceVariateTest extends TestCase {
         result = instance.generateInt();
         assertEquals(expResult, result);
 
+        Integer[] values2 = new Integer[]{2, 4, 5, 6, 7};
+        int[] expResult2 = new int[]{2, 4, 5, 6, 7};
+        instance.setParameters(new Object[] {values2});
+        int[] result2 = instance.getTraceValues();
+        assertArrayEquals(result2, expResult2);
+    }
+
+    /**
+     * Test of convert method, of class IntegerTraceVariate.
+     */
+    public void testConvert() {
+        System.out.println("convert");
+        Integer[] values = new Integer[]{3, 5, 7, 9};
+        int[] expResult = new int[]{3, 5, 7, 9};
+        int[] result = IntegerTraceVariate.convert(values);
+        assertArrayEquals(expResult, result);
     }
 
 }

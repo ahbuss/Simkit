@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
  * the array in order. After all values of the array have been used, the default
  * value is returned until reset.
  *
- * 
+ * @author ahbuss
  *
  */
 public class TraceVariate extends RandomVariateBase {
@@ -117,16 +117,35 @@ public class TraceVariate extends RandomVariateBase {
      */
     @Override
     public void setParameters(Object... params) {
-        if (params.length != 2) {
-            throw new IllegalArgumentException("Need parameters length 2: " + params.length);
+        boolean badDefault = false;
+        boolean badTraceValues = false;
+        switch (params.length) {
+            case 2:
+                if (params[1] instanceof Number) {
+                    setDefaultValue(((Number) params[1]).doubleValue());
+                } else {
+                    badDefault = true;
+                }
+            case 1:
+                if (params[0] instanceof double[]) {
+                    setTraceValues(((double[]) params[0]));
+                } else {
+                    badTraceValues = true;
+                }
+                break;
+            default:
+                throw new IllegalArgumentException(
+                        "TraceVariate requires 1 or 2 arguments: " + params.length);
         }
-        if (params[0] instanceof double[]) {
-            setTraceValues((double[]) params[0]);
-        } else {
-            throw new IllegalArgumentException("Need type double[]: " + params[0].getClass().getName());
-        }
-        if (params[1] instanceof Number) {
-            setDefaultValue(((Number) params[1]).doubleValue());
+        if (badDefault || badTraceValues) {
+            StringBuilder builder = new StringBuilder();
+            if (badTraceValues) {
+                builder.append("Trace values must be double[]: ").append(params[0].getClass().getSimpleName());
+            }
+            if (badDefault) {
+                builder.append(System.lineSeparator()).append("Default value must be a Number: ").append(params[1].getClass().getSimpleName());
+            }
+            throw new IllegalArgumentException(builder.toString());
         }
     }
 
@@ -161,7 +180,7 @@ public class TraceVariate extends RandomVariateBase {
      * Returns a String containing the trace values. If the allDataInToString
      * flag is false only the first 5 and last 5 values will be included.
      *
-     * @return a String containing the trace values. 
+     * @return a String containing the trace values.
      */
     @Override
     public String toString() {

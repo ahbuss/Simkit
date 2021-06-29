@@ -7,7 +7,7 @@ package simkit.random;
 public class IntegerTraceVariate extends RandomVariateBase implements DiscreteRandomVariate {
 
     private static final int DEFAULT_DEFAULT_VALUE = Integer.MIN_VALUE;
-    
+
     public static final int SHORT_NUMBER = 10;
 
     private int[] traceValues;
@@ -45,6 +45,8 @@ public class IntegerTraceVariate extends RandomVariateBase implements DiscreteRa
             case 1:
                 if (params[0] instanceof int[]) {
                     setTraceValues((int[]) params[0]);
+                } else if (params[0] instanceof Integer[]) {
+                    setTraceValues(convert((Integer[])params[0]));
                 } else {
                     badTraceValues = true;
                 }
@@ -128,7 +130,7 @@ public class IntegerTraceVariate extends RandomVariateBase implements DiscreteRa
     public void setAllDataInToString(boolean allDataInToString) {
         this.allDataInToString = allDataInToString;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("IntegerTrace: [");
@@ -151,10 +153,18 @@ public class IntegerTraceVariate extends RandomVariateBase implements DiscreteRa
                 }
             }
         }
-        
+
         builder.append(']').append(' ').append('(');
         builder.append(traceValues.length).append(" values)");
         return builder.toString();
+    }
+
+    public static int[] convert(Integer[] values) {
+        int[] convert = new int[values.length];
+        for (int i = 0; i < values.length; ++i) {
+            convert[i] = values[i];
+        }
+        return convert;
     }
 
 }
