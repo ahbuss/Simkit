@@ -29,7 +29,7 @@ public class ArrivalProcess2 extends BasicSimEntity {
     /**
      * The RandomVariate that generates the interarrivalTimes.
      */
-    protected RandomVariate interarrivalTimeGenerator;
+    private RandomVariate interarrivalTimeGenerator;
 
     public ArrivalProcess2() {
     }

@@ -77,8 +77,8 @@ public class Version {
             + "See the documentation "
             + "or the simkit.examples for examples of this.  "
             + P
-            + "Simkit's web site is: <a href=\"http://eos.nps.edu/Simkit\">"
-            + "http://eos.nps.edu/Simkit</a>. "
+            + "Simkit's web site is: <a href=\"https://github.com/ahbuss/Simkit\">"
+            + "https://github.com/ahbuss/Simkit</a>. "
             + P
             + "Contact: <a href=\"mailto:abuss@nps.edu\">abuss@nps.edu</a>";
 
