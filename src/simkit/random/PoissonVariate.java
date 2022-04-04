@@ -55,7 +55,7 @@ public class PoissonVariate extends RandomVariateBase implements DiscreteRandomV
         if (params == null) {
             throw new NullPointerException();
         } else if (params.length != 1) {
-            throw new IllegalArgumentException("PoissonVariate needs exatly 1 parameter: " + params.length);
+            throw new IllegalArgumentException("PoissonVariate needs exactly 1 parameter: " + params.length);
         }
         if (params[0] instanceof Number) {
             setMean(((Number) params[0]).doubleValue());

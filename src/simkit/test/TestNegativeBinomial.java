@@ -1,5 +1,6 @@
 package simkit.test;
 
+import static java.lang.Math.ceil;
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
 import static java.lang.Math.sqrt;
@@ -18,11 +19,14 @@ public class TestNegativeBinomial {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        double mean = 7;
-        double stdDev = 4.56;
-
+        double mean = 0.495;
+        double stdDev = 3.176;
+        
+        mean = 2.565;
+        stdDev = 11.12;
+        
         double p = 1.0 - mean / pow(stdDev, 2);
-        int r = (int) round((pow(mean, 2) / (pow(stdDev, 2) - mean)));
+        double r = (pow(mean, 2) / (pow(stdDev, 2) - mean));
 
         double mean2 = r * p / (1.0 - p);
         double var2 = r * p / (Math.pow(1.0 - p, 2));
@@ -53,6 +57,9 @@ public class TestNegativeBinomial {
         rv.setParameters(r, p);
 
         System.out.println("With integer r and 'fixed' p:");
+        r = ceil(r);
+        p = mean / (1.0 + mean);
+        rv.setParameters(r, p);
         System.out.println(rv);
 
         stats.reset();

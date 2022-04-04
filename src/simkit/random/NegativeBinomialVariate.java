@@ -15,7 +15,7 @@ public class NegativeBinomialVariate extends RandomVariateBase implements Discre
 
     public NegativeBinomialVariate() {
         super();
-        poissonVariate = (PoissonVariate) RandomVariateFactory.getDiscreteRandomVariateInstance("Poisson", 1.0);
+        poissonVariate = (PoissonVariate) RandomVariateFactory.getDiscreteRandomVariateInstance("Poisson2", 1.0);
         gammaVariate = (GammaVariate) RandomVariateFactory.getInstance("Gamma", 1.0, 1.0);
         this.p = 0.5;
         this.r = 1;
