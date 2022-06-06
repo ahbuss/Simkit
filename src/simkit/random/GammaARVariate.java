@@ -186,7 +186,7 @@ public class GammaARVariate extends RandomVariateBase {
 
     /**
      * @param k the k to set
-     * @throws IllegalArgumentException if k < 1
+     * @throws IllegalArgumentException if k &lt; 1
      */
     public void setK(int k) {
         if (k < 1) {
@@ -202,7 +202,7 @@ public class GammaARVariate extends RandomVariateBase {
      * @param n Given "n"
      * @param k Given "choose k"
      * @return Binomial coefficient C(n,k)
-     * @throws IllegalArgumentException if n < 0 or k < 0
+     * @throws IllegalArgumentException if n &lt; 0 or k &lt; 0
      */
     public static int binomialCoefficient(int n, int k) {
         if (k < 0 || n < 0) {
