@@ -21,11 +21,29 @@ package simkit;
  */
 public interface ReRunnable extends SimEventScheduler {
 
+    /**
+     *
+     * @return true if given ReRunnable persists from one Schedule.reset() to
+     * the next; false otherwise
+     */
     boolean isPersistant();
 
+    /**
+     *
+     * @return true if given ReRunnable should have its Run event scheduled at
+     * the start of the simulation
+     */
     boolean isReRunnable();
 
+    /**
+     * 
+     * @param persist Given new value of persistent 
+     */
     void setPersistant(boolean persist);
 
+    /**
+     * Implementing classes with state variables should initialize them in 
+     * their overridden reset() method.
+     */
     void reset();
 }
