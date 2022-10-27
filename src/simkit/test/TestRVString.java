@@ -20,7 +20,7 @@ public class TestRVString {
              " ConstantVariate (4.1) ", "Log Normal (10.0, 0.5)", "LogNormal (3.0, 2.0)",
              "Gamma(1.2, 3.4)", "Normal(0.0, 1.0)",
                   "BetaVariate(1.4,2.5", "Weibull (3, 1)",
-                  "G a m m a (1.0 2.0)", "Constant"
+                  "G a m m a (1.0 2.0)", "Constant", "Constant (3)"
          };
          
          for (String test: tests) {

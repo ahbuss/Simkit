@@ -12,16 +12,19 @@ package simkit.random;
  * Parameters:
  * <ul><li><code>alpha</code>: &alpha; in pdf</li>
  * <li><code>beta</code>: &beta; in pdf</li></ul>
- * Note: This RandomVariate should be instantiated with 
+ * Note: This RandomVariate should be instantiated with
  * <code>RandomVariateFactory.getInstance(...)</code>
  *
  * @author Arnold Buss
- * 
+ *
  */
 public class BetaVariate extends RandomVariateBase {
 
     private double alpha;
     private double beta;
+
+    protected double min;
+    protected double max;
 
     private RandomVariate gammaVariate1;
     private RandomVariate gammaVariate2;
@@ -43,7 +46,7 @@ public class BetaVariate extends RandomVariateBase {
     public double generate() {
         double u1 = gammaVariate1.generate();
         double u2 = gammaVariate2.generate();
-        return u1 / (u1 + u2);
+        return min + (max - min) * u1 / (u1 + u2);
     }
 
     /**
@@ -57,15 +60,52 @@ public class BetaVariate extends RandomVariateBase {
      */
     @Override
     public void setParameters(Object... params) {
-        if (params.length != 2) {
-            throw new IllegalArgumentException(this.getClass().getName() + " must have two arguments: " + params.length
-                    + " passed");
-        } else if (params[0] instanceof Number && params[1] instanceof Number) {
-            this.setAlpha(((Number) params[0]).doubleValue());
-            this.setBeta(((Number) params[1]).doubleValue());
-        } else {
-            throw new IllegalArgumentException("Parameters both must be of type Number");
+        setMin(0.0);
+        setMax(1.0);
+
+        switch (params.length) {
+            case 3:
+                if (params[2] instanceof Number) {
+                    if (((Number) params[2]).doubleValue() < getMin()) {
+                        throw new IllegalArgumentException("min must be < max: " + min
+                                + " " + max);
+                    }
+                    setMax(((Number) params[2]).doubleValue());
+                    if (params[0] instanceof Number && params[1] instanceof Number) {
+                        this.setAlpha(((Number) params[0]).doubleValue());
+                        this.setBeta(((Number) params[1]).doubleValue());
+                    } else {
+                        throw new IllegalArgumentException("All Parameters must be of type Number");
+                    }
+                } else {
+                    throw new IllegalArgumentException("All Parameters must be of type Number");
+                }
+                break;
+            case 4:
+                if (params[2] instanceof Number && params[3] instanceof Number) {
+                    if (((Number) params[2]).doubleValue() >= ((Number) params[3]).doubleValue()) {
+                        throw new IllegalArgumentException("min must be < max: "
+                                + params[2] + " >= " + params[3]);
+                    }
+                    setMin(((Number) params[2]).doubleValue());
+                    setMax(((Number) params[3]).doubleValue());
+                } else {
+                    throw new IllegalArgumentException("All Parameters must be of type Number");
+                }
+            case 2:
+                if (params[0] instanceof Number && params[1] instanceof Number) {
+                    this.setAlpha(((Number) params[0]).doubleValue());
+                    this.setBeta(((Number) params[1]).doubleValue());
+                } else {
+                    throw new IllegalArgumentException("All Parameters must be of type Number");
+                }
+                break;
+            default:
+                throw new IllegalArgumentException(this.getClass().getName()
+                        + " must have two, three, or four arguments: " + params.length
+                        + " passed");
         }
+
     }
 
     /**
@@ -75,14 +115,14 @@ public class BetaVariate extends RandomVariateBase {
      */
     @Override
     public Object[] getParameters() {
-        return new Object[]{alpha, beta};
+        return new Object[]{alpha, beta, min, max};
     }
 
     /**
      * Creates the two instances of GammaVariate used to generate this
      * BetaVariate.
-     *     
-*
+     *
+     *
      */
     private void setGammas() {
         gammaVariate1 = RandomVariateFactory.getInstance("simkit.random.GammaVariate", getAlpha(), 1.0);
@@ -104,7 +144,7 @@ public class BetaVariate extends RandomVariateBase {
     }
 
     /**
-     * 
+     *
      * @param alpha &alpha; parameter
      * @throws IllegalArgumentException If alpha is not greater than 0.0.
      */
@@ -118,7 +158,7 @@ public class BetaVariate extends RandomVariateBase {
     }
 
     /**
-     * 
+     *
      * @param beta &beta; parameter
      * @throws IllegalArgumentException If beta is not greater than 0.0.
      */
@@ -132,13 +172,37 @@ public class BetaVariate extends RandomVariateBase {
     }
 
     @Override
-    public void setRandomNumber(RandomNumber rng) {
-        super.setRandomNumber(rng);
+    public String toString() {
+        return String.format("Beta (%.3f, %.3f, %.3f, %.3f)", getAlpha(), getBeta(),
+                getMin(), getMax());
     }
 
-    @Override
-    public String toString() {
-        return String.format("Beta (%.3f, %.3f)", getAlpha(),getBeta());
+    /**
+     * @return the min
+     */
+    public double getMin() {
+        return min;
+    }
+
+    /**
+     * @param min the min to set
+     */
+    public void setMin(double min) {
+        this.min = min;
+    }
+
+    /**
+     * @return the max
+     */
+    public double getMax() {
+        return max;
+    }
+
+    /**
+     * @param max the max to set
+     */
+    public void setMax(double max) {
+        this.max = max;
     }
 
 }

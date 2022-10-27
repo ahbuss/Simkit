@@ -200,10 +200,9 @@ public class SensorMoverReferee extends SimEntityBase {
                     waitDelay("ExitRange", times[1], mover, sensor);
                 }
             }
-
-            if (iter.hasNext()) {
-                waitDelay("CheckSensor", 0.0, Priority.HIGHER, sensor, iter);
-            }
+        }
+        if (iter.hasNext()) {
+            waitDelay("CheckSensor", 0.0, Priority.HIGHER, sensor, iter);
         }
     }
 
@@ -243,9 +242,9 @@ public class SensorMoverReferee extends SimEntityBase {
                 }
             }
 
-            if (iter.hasNext()) {
-                waitDelay("CheckMover", 0.0, Priority.HIGHER, mover, iter);
-            }
+        }
+        if (iter.hasNext()) {
+            waitDelay("CheckMover", 0.0, Priority.HIGHER, mover, iter);
         }
     }
 
