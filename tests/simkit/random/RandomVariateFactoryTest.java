@@ -34,14 +34,14 @@ public class RandomVariateFactoryTest extends TestCase {
         // fully qualified
         rand = RandomVariateFactory.getInstance(
                 "simkit.random.ExponentialVariate",
-                new Object[]{new Double(1.0)});
+                new Object[]{1.0});
         assertSame(rand.getClass(), simkit.random.ExponentialVariate.class);
         assertEquals(rand.getParameters()[0], 1.0);
 
         // unqualified
         rand = RandomVariateFactory.getInstance(
                 "GammaVariate",
-                new Object[]{new Double(1.0), new Double(2.0)});
+                new Object[]{1.0, 2.0});
         assertSame(rand.getClass(), simkit.random.GammaVariate.class);
         assertEquals(rand.getParameters()[0], 1.0);
         assertEquals(rand.getParameters()[1], 2.0);
@@ -50,7 +50,7 @@ public class RandomVariateFactoryTest extends TestCase {
         try {
             rand = RandomVariateFactory.getInstance(
                     "simkit.random.NonexistantVariate",
-                    new Object[]{new Double(1.0), new Double(2.0)});
+                    new Object[]{1.0, 2.0});
             fail("Failed to throw exception for non-existant variate class");
         } catch (IllegalArgumentException e) {
             assertTrue(e.getMessage().contains("RandomVariate class not found for simkit.random.NonexistantVariate"));
@@ -62,7 +62,7 @@ public class RandomVariateFactoryTest extends TestCase {
         try {
             rand = RandomVariateFactory.getInstance(
                     "NonexistantVariate",
-                    new Object[]{new Double(1.0), new Double(2.0)});
+                    new Object[]{1.0, 2.0});
             fail("Failed to throw exception for non-existant variate class");
         } catch (IllegalArgumentException e) {
             assertTrue(e.getMessage().contains("RandomVariate class not found for NonexistantVariate"));
@@ -109,7 +109,7 @@ public class RandomVariateFactoryTest extends TestCase {
     public void testGetInstance_Cloner() {
         RandomVariate rand = new simkit.random.ExponentialVariate();
         RandomNumber rng = new Tausworthe();
-        rand.setParameters(new Object[]{new Double(42.0)});
+        rand.setParameters(new Object[]{42.0});
 
         RandomVariate randClone = RandomVariateFactory.getInstance(rand);
 
@@ -148,7 +148,7 @@ public class RandomVariateFactoryTest extends TestCase {
         System.out.println("getInstance");
         String className = "Beta";
         RandomNumber rng = new Mother();
-        Object[] parameters = new Object[]{4.1, 2.3};
+        Object[] parameters = new Object[]{4.1, 2.3, 1.0, 3.5};
         RandomVariate expResult = new BetaVariate();
         expResult.setParameters(parameters);
         expResult.setRandomNumber(rng);

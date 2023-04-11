@@ -39,7 +39,8 @@ public class TraceVariateTest extends TestCase {
 
         int expectedDefault = 3;
         instance.setParameters(values, expectedDefault);
-        assertEquals(expectedDefault, instance.getDefaultValue(), EPSILON);
+        double defaultValueResult = instance.getDefaultValue();
+        assertEquals(expectedDefault, defaultValueResult, EPSILON);
 
         params = new Object[]{"Hi Mom!"};
         try {
