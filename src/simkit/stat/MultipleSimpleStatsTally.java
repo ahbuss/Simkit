@@ -3,8 +3,6 @@ package simkit.stat;
 import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A class to collect Tally statistics for an array of properties.

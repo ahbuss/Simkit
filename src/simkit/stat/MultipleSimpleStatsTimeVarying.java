@@ -4,8 +4,6 @@ import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A class to collect time varying statistics for an array of properties. The
@@ -222,7 +220,7 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
                         ((IndexedPropertyChangeEvent) e).getIndex());
             } else if (e.getNewValue() instanceof Boolean) {
                 this.newObservation(
-                        (((Boolean) e.getNewValue()).booleanValue() ? 1 : 0),
+                        (((Boolean) e.getNewValue()) ? 1 : 0),
                         ((IndexedPropertyChangeEvent) e).getIndex());
             }
         }
