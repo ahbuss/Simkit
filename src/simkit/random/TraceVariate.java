@@ -131,7 +131,11 @@ public class TraceVariate extends RandomVariateBase {
                 if (params[0] instanceof double[]) {
                     setTraceValues(((double[]) params[0]));
                     setDefaultValue(DEFAULT_DEFAULT_VALUE);
-                } else {
+                } else if (params[0] instanceof Double[]) {
+                    
+                }
+                
+                else {
                     badTraceValues = true;
                 }
                 break;
