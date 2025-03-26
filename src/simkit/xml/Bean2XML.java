@@ -192,9 +192,9 @@ public class Bean2XML {
         b2x.createElementFromBean(test);
         System.out.println(b2x.getDocument().getDocumentElement());
 
-        simkit.smd.Mover mover = new simkit.smd.BasicLinearMover("Fred",
-                new java.awt.geom.Point2D.Double(20.0, 30.0), 40.0);
-        b2x.createElementFromBean(mover);
-        System.out.println(b2x.getDocument().getDocumentElement());
+//        simkit.smd.Mover mover = new simkit.smd.BasicLinearMover("Fred",
+//                new java.awt.geom.Point2D.Double(20.0, 30.0), 40.0);
+//        b2x.createElementFromBean(mover);
+//        System.out.println(b2x.getDocument().getDocumentElement());
     }
 }
