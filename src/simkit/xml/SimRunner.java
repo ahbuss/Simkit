@@ -11,7 +11,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import simkit.Schedule;
+import simkit.SimEntityBase;
 import simkit.StopType;
+import simkit.random.RandomVariate;
 
 /**
  * Runs a Simkit simulation as controled by an xml control file.
@@ -182,10 +184,10 @@ public class SimRunner implements Runnable {
      */
     public static void main(String[] args) throws Throwable {
 
-        simkit.examples.ArrivalProcess arrival
-                = new simkit.examples.ArrivalProcess(
+        ArrivalProcess arrival
+                = new ArrivalProcess(
                         simkit.random.RandomVariateFactory.getInstance(
-                                "Exponential", 1.7, 12345L));
+                                "Exponential", 1.7));
 
         String filename = args.length > 0 ? args[0] : "simkit/xml/Run1.xml";
         InputStream inStream
@@ -199,5 +201,57 @@ public class SimRunner implements Runnable {
 
         System.out.println(runner);
         runner.run();
+    }
+    
+    public static class ArrivalProcess extends SimEntityBase {
+        
+        private RandomVariate interarrivalTimeGenerator;
+        
+        protected int numberArrivals;
+        
+        public ArrivalProcess(RandomVariate interarrivalTimeGenerator) {
+            setInterarrivalTimeGenerator(interarrivalTimeGenerator);
+        }
+
+        @Override
+        public void reset() {
+            super.reset();
+            numberArrivals = 0;
+        }
+        
+        public void doRun() {
+            firePropertyChange("numberArrivals", getNumberArrivals());
+            
+            waitDelay("Arrival", interarrivalTimeGenerator);
+        }
+        
+        public void doArrival() {
+            int oldNumberArrivals = getNumberArrivals();
+            numberArrivals += 1;
+            firePropertyChange("numberArrivals", oldNumberArrivals, getNumberArrivals());
+            
+            waitDelay("Arrival", interarrivalTimeGenerator);
+        }
+        
+        /**
+         * @return the interarrivalTimeGenerator
+         */
+        public RandomVariate getInterarrivalTimeGenerator() {
+            return interarrivalTimeGenerator;
+        }
+
+        /**
+         * @param interarrivalTimeGenerator the interarrivalTimeGenerator to set
+         */
+        public void setInterarrivalTimeGenerator(RandomVariate interarrivalTimeGenerator) {
+            this.interarrivalTimeGenerator = interarrivalTimeGenerator;
+        }
+
+        /**
+         * @return the numberArrivals
+         */
+        public int getNumberArrivals() {
+            return numberArrivals;
+        }
     }
 }
