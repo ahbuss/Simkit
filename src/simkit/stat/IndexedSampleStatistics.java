@@ -126,4 +126,10 @@ public interface IndexedSampleStatistics extends SampleStatistics {
      * @return An array containing the SampleStatistics.
      */
     public SampleStatistics[] getAllSampleStat();
+    
+    /**
+     * 
+     * @return the number of distinct indices.
+     */
+    public int getIndexCount();
 }

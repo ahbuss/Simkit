@@ -20,7 +20,7 @@ import java.util.TreeMap;
  *
  * @version $Id: TruncatingMultipleSimpleStatsTimeVarying.java 1329 2014-07-12
  * 00:21:53Z ahbuss $
-*
+ *
  */
 public class TruncatingMultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying implements IndexedSampleStatistics {
 
@@ -34,6 +34,7 @@ public class TruncatingMultipleSimpleStatsTimeVarying extends SimpleStatsTimeVar
     /**
      * Creates a new instance with the default name. The name can be changed
      * later by calling <CODE>setName</CODE>
+     *
      * @param truncationPoint given truncation point
      */
     public TruncatingMultipleSimpleStatsTimeVarying(double truncationPoint) {
@@ -158,8 +159,8 @@ public class TruncatingMultipleSimpleStatsTimeVarying extends SimpleStatsTimeVar
             allStats = new SampleStatistics[length];
             for (int i = 0; i < allStats.length; i++) {
                 temp = indexedStats.get(i);
-                    allStats[i] = temp != null ? (SampleStatistics) temp.clone()
-                            : new SimpleStatsTimeVarying(this.getName());
+                allStats[i] = temp != null ? (SampleStatistics) temp.clone()
+                        : new SimpleStatsTimeVarying(this.getName());
             }
         }
         return allStats;
@@ -213,7 +214,7 @@ public class TruncatingMultipleSimpleStatsTimeVarying extends SimpleStatsTimeVar
      * <P>
      * Note: <CODE>MultipleSimpleStatsTimeVarying</CODE> cannot be reset by an
      * event like <CODE>AbstractSimpleStats</CODE>.</P>
-*
+     *
      */
     public void propertyChange(PropertyChangeEvent e) {
         if (this.getName().equals(e.getPropertyName())
@@ -247,10 +248,14 @@ public class TruncatingMultipleSimpleStatsTimeVarying extends SimpleStatsTimeVar
         indexedStats.clear();
     }
 
+    @Override
+    public int getIndexCount() {
+        return indexedStats.size();
+    }
+
     /**
      * Produces a String containing the name, SamplingType, and DataLines for
      * all of the properties.
-*
      */
     public String toString() {
         StringBuilder buf = new StringBuilder();

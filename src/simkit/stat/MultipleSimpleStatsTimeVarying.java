@@ -244,6 +244,11 @@ public class MultipleSimpleStatsTimeVarying extends SimpleStatsTimeVarying imple
         indexedStats.clear();
     }
 
+    @Override
+    public int getIndexCount() {
+        return indexedStats.size();
+    }
+
     /**
      * Produces a String containing the name, SamplingType, and DataLines for
      * all of the properties.

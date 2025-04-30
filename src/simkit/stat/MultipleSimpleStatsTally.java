@@ -223,6 +223,11 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
         }
     }
 
+    @Override
+    public int getIndexCount() {
+        return indexedStats.size();
+    }
+
     /**
      * Produces a String containing the name, SamplingType, and DataLines for
      * all of the properties.
@@ -251,4 +256,5 @@ public class MultipleSimpleStatsTally extends SimpleStatsTally implements Indexe
 
         return buf.toString();
     }
+
 }

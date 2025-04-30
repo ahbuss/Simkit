@@ -1,4 +1,4 @@
-Simkit Copyright (C) 1997-2018 Kirk Stork and Arnold Buss
+Simkit Copyright (C) 1997-2025 Arnold Buss and Kirk Stork
 
 Installation Instructions
 ------------ ------------

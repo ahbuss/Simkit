@@ -3,8 +3,6 @@ package simkit.stat;
 import java.beans.IndexedPropertyChangeEvent;
 import java.beans.PropertyChangeEvent;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A class to collect Tally statistics for an array of properties.
@@ -14,7 +12,7 @@ import java.util.logging.Logger;
  *
  * @version $Id: TruncatingMultipleSimpleStatsTally.java 1329 2014-07-12
  * 00:21:53Z ahbuss $
-*
+ *
  */
 public class TruncatingMultipleSimpleStatsTally extends SimpleStatsTally implements IndexedSampleStatistics {
 
@@ -153,8 +151,8 @@ public class TruncatingMultipleSimpleStatsTally extends SimpleStatsTally impleme
             allStats = new SampleStatistics[length];
             for (int i = 0; i < allStats.length; i++) {
                 temp = (SimpleStatsTally) indexedStats.get(i);
-                    allStats[i] = temp != null ? (SampleStatistics) temp.clone()
-                            : new SimpleStatsTally(this.getName());
+                allStats[i] = temp != null ? (SampleStatistics) temp.clone()
+                        : new SimpleStatsTally(this.getName());
             }
         }
         return allStats;
@@ -230,6 +228,11 @@ public class TruncatingMultipleSimpleStatsTally extends SimpleStatsTally impleme
         for (SimpleStatsTally stats : indexedStats.values()) {
             stats.reset();
         }
+    }
+
+    @Override
+    public int getIndexCount() {
+        return indexedStats.size();
     }
 
     /**
