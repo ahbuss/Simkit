@@ -2,7 +2,7 @@ Simkit Copyright (C) 1997-2025 Arnold Buss and Kirk Stork
 
 Installation Instructions
 ------------ ------------
-First install the Java Developer Kit version 1.8 (J2SE8) or greater.  
+First install the Java Developer Kit version 1.17 or greater.  
 Unzip this file and add simkit.jar to your classpath. If you wish to use
 Classfinder, copy the config directory and its contents to the root directory of
 your project

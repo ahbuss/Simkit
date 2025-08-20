@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Level;
+import simkit.util.SimplePropertyDumper;
 
 /**
  * <P>
@@ -178,6 +179,7 @@ public class EventList implements BasicEventList {
 //even though the default is true, this needs to be set to false to 
 //force setFastInterrupts to initialize correctly.
 
+    private final SimplePropertyDumper simplePropertyDumper;
     /**
      * A Map a SimEntity to a SortedSet of its pending SimEvents.
      *
@@ -229,6 +231,7 @@ public class EventList implements BasicEventList {
         this.precision = 0.0;
         setFastInterrupts(true);
         setOutputStream(System.out);
+        simplePropertyDumper = new SimplePropertyDumper(true);
     }
 
     /**
@@ -254,6 +257,19 @@ public class EventList implements BasicEventList {
     @Override
     public void setVerbose(boolean b) {
         verbose = b;
+        if (verbose) {
+            for (ReRunnable rerunable : reRun) {
+                if (rerunable instanceof SimEntity) {
+                    ((SimEntity) rerunable).addPropertyChangeListener(simplePropertyDumper);
+                }
+            }
+        } else {
+            for (ReRunnable rerunable : reRun) {
+                if (rerunable instanceof SimEntity) {
+                    ((SimEntity) rerunable).removePropertyChangeListener(simplePropertyDumper);
+                }
+            }
+        }
     }
 
     @Override

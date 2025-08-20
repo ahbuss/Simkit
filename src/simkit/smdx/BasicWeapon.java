@@ -15,6 +15,7 @@ import simkit.SimEntityBase;
  * @author  ahbuss
  * 
  */
+@Deprecated
 public class BasicWeapon extends SimEntityBase implements Weapon {
     
     private Moveable mover;

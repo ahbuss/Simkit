@@ -15,6 +15,7 @@ import simkit.SimEntityBase;
  * @author  ahbuss
  * 
  */
+@Deprecated
 public class AcceleratedMover extends SimEntityBase implements Mover {
     
     protected static final Point2D ORIGIN = new Point2D.Double(0.0, 0.0);

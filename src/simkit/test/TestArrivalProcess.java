@@ -25,6 +25,14 @@ public class TestArrivalProcess {
         
         Schedule.reset();
         Schedule.startSimulation();
+        
+        Schedule.setVerbose(false);
+        
+        System.out.println("Restarting silently...");
+        Schedule.reset();
+        Schedule.startSimulation();
+        
+        
     }
     
 }

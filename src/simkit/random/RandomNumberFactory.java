@@ -388,6 +388,7 @@ public class RandomNumberFactory {
      * @param substream given desired substream
      * @return RandomNumberStream with given stream and substream
      */
+    @Deprecated
     public static RandomNumberStream getRngStream(String className,
             int stream, int substream) {
 

@@ -22,6 +22,7 @@ import simkit.stat.SimpleStatsTimeVarying;
  * @author Arnold Buss
  * 
  */
+@Deprecated
 public class TestStateStats {
 
     public static void main(String[] args) {

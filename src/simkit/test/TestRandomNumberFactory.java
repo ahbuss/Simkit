@@ -12,6 +12,7 @@ public class TestRandomNumberFactory {
      * @deprecated now in unit test suite
      * @param args the command line arguments
      */
+    @Deprecated
     public static void main(String[] args) {
         Class theClass = RandomNumberFactory.getClassFor("Congruential");
         System.out.println(theClass);        

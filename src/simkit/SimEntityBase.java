@@ -452,6 +452,7 @@ public abstract class SimEntityBase extends BasicSimEntity {
      * are interrupted.
      *
      */
+    @Deprecated
     public void stopOnTime(double endingTime) {
         this.stopAtTime(endingTime);
     }

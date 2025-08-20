@@ -119,6 +119,7 @@ public class RandomVectorFactory {
      * a class with that name cannot be found.
      * @deprecated Use getInstance(RandomNumber, String, Object...) instead
      */
+    @Deprecated
     public static RandomVector getInstance(String className, Object[] parameters, long seed) {
         RandomVector instance = getInstance(className, parameters);
         instance.getRandomNumber().setSeed(seed);
@@ -185,6 +186,7 @@ public class RandomVectorFactory {
      * @return a new RandomVector using the default supporting RandomNumber.
      * @deprecated use getInstance(RandomNumber, Class&lt;?&gt;, Object...) instead
      **/
+    @Deprecated
     public static RandomVector getInstance(Class<?> rvClass, Object[] params, long seed) {
         RandomVector instance = getInstance(rvClass, params);
         instance.getRandomNumber().setSeed(seed);
@@ -202,6 +204,7 @@ public class RandomVectorFactory {
      * @return a new RandomVector using the default supporting RandomNumber.
      * @deprecated Used getInstance(RandomNumber, Class&lt;?&gt;, Object...) instead
      **/
+    @Deprecated
     public static RandomVector getInstance(Class<?> rvClass, Object[] params, long[] seed) {
         RandomVector instance = getInstance(rvClass, params);
         instance.getRandomNumber().setSeeds(seed);
