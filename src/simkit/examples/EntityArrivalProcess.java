@@ -29,7 +29,9 @@ public class EntityArrivalProcess extends ArrivalProcess {
     @Override
     public void doArrival() {
         super.doArrival();
-        waitDelay("Arrival", 0.0, new Entity());
+        Entity arrivingEntity = new Entity();
+        arrivingEntity.setEventList(getEventList());
+        waitDelay("Arrival", 0.0, arrivingEntity);
     }
 
 }

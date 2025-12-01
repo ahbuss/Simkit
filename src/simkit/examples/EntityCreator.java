@@ -18,7 +18,9 @@ public class EntityCreator extends SimEntityBase {
      * current simulation time.
      */
     public void doArrival() {
-        waitDelay("Arrival", 0.0, new Entity("Customer"));
+        Entity customer = new Entity();
+        customer.setEventList(getEventList());
+        waitDelay("Arrival", 0.0, customer);
     }
 
 }
