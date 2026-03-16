@@ -169,7 +169,7 @@
     
     <target name="package" depends="clean,dist" description="Creates the distribution zip file">
 
-        <zip destfile="${dist.dir}/Simkit-${arch}-${Version}.zip" level ="9" basedir="dist"
+        <zip destfile="${dist.dir}/Simkit-${Version}.zip" level ="9" basedir="dist"
              excludes="${dist.dir}/doc/**.*">
         </zip>
     </target>
