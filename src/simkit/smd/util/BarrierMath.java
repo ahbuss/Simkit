@@ -6,7 +6,6 @@ import static simkit.smd.Math2D.subtract;
 import static simkit.smd.Math2D.innerProduct;
 import static simkit.smd.Math2D.orthogonal;
 import simkit.smd.Mover;
-import simkit.smdx.Math2D;
 
 /**
  * Computations associated with avoiding barriers. Here &lambda; is the

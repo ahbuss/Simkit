@@ -17,7 +17,7 @@ import simkit.StopType;
  * Runs a Simkit simulation as controled by an xml control file.
  *
  * @author ahbuss
- * 
+ *
  */
 public class SimRunner implements Runnable {
 
@@ -174,30 +174,4 @@ public class SimRunner implements Runnable {
         return buf.toString();
     }
 
-    /**
-     * A test method.
-     *
-     * @param args command line arguments
-     * @throws java.lang.Throwable if problem with files
-     */
-    public static void main(String[] args) throws Throwable {
-
-        simkit.examples.ArrivalProcess arrival
-                = new simkit.examples.ArrivalProcess(
-                        simkit.random.RandomVariateFactory.getInstance(
-                                "Exponential", 1.7, 12345L));
-
-        String filename = args.length > 0 ? args[0] : "simkit/xml/Run1.xml";
-        InputStream inStream
-                = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(inStream);
-
-        SimRunner runner = SimRunner.getSimRunner(document.getDocumentElement());
-
-        System.out.println(runner);
-        runner.run();
-    }
 }

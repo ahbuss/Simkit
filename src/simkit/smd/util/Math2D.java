@@ -63,7 +63,7 @@ public class Math2D {
      * @param point Point2D to have norm<sup>2</sup> computed
      * @return norm of point
      */
-    public double norm(Point2D point) {
+    public static double norm(Point2D point) {
         return Math.sqrt(normSquared(point));
     }    
 
@@ -103,6 +103,13 @@ public class Math2D {
         return findIntersectionTimes(subtract(mover.getCurrentLocation(),
                 sensor.getCurrentLocation()), subtract(mover.getVelocity(), sensor.getVelocity()),
                 sensor.getMaxRange());
+    }
+    
+    public static Point2D unitVector(Point2D vector) {
+        Point2D unitVector;
+        double norm = norm(vector);
+        unitVector = scalarMultiply(1.0 / norm, vector);
+        return unitVector;
     }
     
 }
