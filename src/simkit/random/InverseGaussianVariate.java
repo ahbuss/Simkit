@@ -4,33 +4,33 @@ package simkit.random;
  * Generates random variates having the Inverse Gaussian distribution.
  *
  * @author Arnold Buss
- * 
+ *
  */
 public class InverseGaussianVariate extends RandomVariateBase {
 
     /**
      * The scale factor.
-*
+     *
      */
     private double lambda;
 
     /**
      * The mean.
-*
+     *
      */
     private double mu;
 
     /**
      * The instance of the NormalVariate that is used to generate Inverse
      * Gaussian.
-*
+     *
      */
     private final NormalVariate normal;
 
     /**
      * Creates a new InverseGaussian without setting the parameters. The
      * parameters must be set prior to generating.
-*
+     *
      */
     public InverseGaussianVariate() {
         normal = new NormalVariate();
@@ -40,6 +40,7 @@ public class InverseGaussianVariate extends RandomVariateBase {
     /**
      * Generate a random variate having an Inverse Gaussian distribution
      */
+    @Override
     public double generate() {
         double n = normal.generate();
         double x1 = mu + mu * mu * n * n * 0.5 / lambda
@@ -88,7 +89,7 @@ public class InverseGaussianVariate extends RandomVariateBase {
     }
 
     /**
-     * 
+     *
      * @param mu the mean (&mu;).
      */
     public void setMu(double mu) {
@@ -103,7 +104,7 @@ public class InverseGaussianVariate extends RandomVariateBase {
     }
 
     /**
-     * 
+     *
      * @param lambda the scale ( &lambda;)
      * @throws IllegalArgumentException If lambda &le; 0.0.
      */
@@ -125,10 +126,10 @@ public class InverseGaussianVariate extends RandomVariateBase {
     /**
      * Returns a String containing the name of this distribution and its
      * parameters.
-*
+     *
      */
     @Override
     public String toString() {
-        return String.format("Inverse Gaussian (%.3f, %.3f)", getMu(), getLambda() );
+        return String.format("Inverse Gaussian (%.3f, %.3f)", getMu(), getLambda());
     }
 }

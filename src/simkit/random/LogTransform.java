@@ -25,6 +25,7 @@ public class LogTransform  implements RandomVariate {
      * Generates the next LogTransform variate. If the underlying RandomVariate
      * generates zero or a negative number, returns <code>Double.NaN</code>.
      **/
+    @Override
     public double generate() {
         double original = rv.generate();
         if (original > 0) {
@@ -38,6 +39,7 @@ public class LogTransform  implements RandomVariate {
     /**
      * Returns an array containing the parameters of the underlying RandomVariate.
      **/
+    @Override
     public Object[] getParameters() {
         return new Object[] { getRandomVariate() };
     }
@@ -45,6 +47,7 @@ public class LogTransform  implements RandomVariate {
     /**
      * Sets the parameters of the underlying RandomVariate.
      **/
+    @Override
     public void setParameters(Object... params) {
         if (params.length != 1) {
             throw new IllegalArgumentException("Need 1 parameter: " + params.length);
