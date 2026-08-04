@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Ant-Version: Apache Ant 1.10.14
-Created-By: 25.0.1+8-LTS (Eclipse Adoptium)
+Created-By: 23.0.2+7 (Eclipse Adoptium)
 Implementation-Title: Simkit
 Implementation-Version: 1.7.0
 Implementation-Vendor: Arnold Buss
